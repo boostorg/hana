@@ -70,13 +70,14 @@ var group__group_datatypes =
     [ "Type", "structboost_1_1hana_1_1Type.html", [
       [ "type", "structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0", null ],
       [ "decltype_", "structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a", null ],
-      [ "sizeof_", "structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c", null ]
+      [ "make< Type >", "structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a", null ],
+      [ "sizeof_", "structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c", null ],
+      [ "alignof_", "structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736", null ]
     ] ],
     [ "Metafunction", "structboost_1_1hana_1_1Metafunction.html", [
       [ "template_", "structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2", null ],
       [ "metafunction", "structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085", null ],
       [ "metafunction_class", "structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a", null ],
-      [ "trait", "structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd", null ],
-      [ "trait_", "structboost_1_1hana_1_1Metafunction.html#ad9fc467ecfaeb2c167c748d37be96846", null ]
+      [ "trait", "structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd", null ]
     ] ]
 ];

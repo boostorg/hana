@@ -1,9 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"index.html#tutorial-extending-creating_concepts":[0,11,1],
-"index.html#tutorial-extending-tag_dispatching":[0,11,0],
-"index.html#tutorial-header_organization":[0,12],
-"index.html#tutorial-hetero":[0,9],
 "index.html#tutorial-introduction":[0,1],
 "index.html#tutorial-preface":[0,0],
 "index.html#tutorial-quickstart":[0,2],
@@ -186,7 +182,6 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2":[1,1,11,0],
 "structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a":[1,1,11,2],
 "structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd":[1,1,11,3],
-"structboost_1_1hana_1_1Metafunction.html#ad9fc467ecfaeb2c167c748d37be96846":[1,1,11,4],
 "structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085":[1,1,11,1],
 "structboost_1_1hana_1_1Monad.html":[1,0,11],
 "structboost_1_1hana_1_1Monad.html#a17ea859a2702ea45ea4999a8a0d2cc63":[1,0,11,4],
@@ -195,14 +190,16 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Monad.html#ab745f6bdedf122ce589f336ff1ff3323":[1,0,11,2],
 "structboost_1_1hana_1_1Monad.html#abfc7efb0044a87a21f663b1a151dac56":[1,0,11,3],
 "structboost_1_1hana_1_1MonadPlus.html":[1,0,12],
+"structboost_1_1hana_1_1MonadPlus.html#a08e2f3034ed81a7bfff513a5b5f82031":[1,0,12,7],
 "structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47":[1,0,12,5],
 "structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4":[1,0,12,0],
 "structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129":[1,0,12,2],
-"structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008":[1,0,12,7],
+"structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008":[1,0,12,9],
 "structboost_1_1hana_1_1MonadPlus.html#a91ad3cf817440c20f200f91d4fa4e789":[1,0,12,1],
 "structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb":[1,0,12,4],
-"structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080":[1,0,12,8],
-"structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9":[1,0,12,6],
+"structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080":[1,0,12,10],
+"structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9":[1,0,12,8],
+"structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff":[1,0,12,6],
 "structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4":[1,0,12,3],
 "structboost_1_1hana_1_1Monoid.html":[1,0,13],
 "structboost_1_1hana_1_1Monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988":[1,0,13,1],
@@ -249,5 +246,8 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3":[1,0,19,17],
 "structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293":[1,0,19,9],
 "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,19,19],
-"structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,19,15]
+"structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,19,15],
+"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,13],
+"structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,19,8],
+"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,7]
 };

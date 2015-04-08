@@ -8,6 +8,5 @@ var dir_ddae5fa75328580ba99012fa17e84e7e =
     [ "make.hpp", "core_2make_8hpp.html", null ],
     [ "models.hpp", "core_2models_8hpp.html", null ],
     [ "operators.hpp", "core_2operators_8hpp.html", null ],
-    [ "when.hpp", "core_2when_8hpp.html", null ],
-    [ "wrong.hpp", "core_2wrong_8hpp.html", null ]
+    [ "when.hpp", "core_2when_8hpp.html", null ]
 ];

@@ -89,6 +89,8 @@ var group__group_concepts =
       [ "append", "structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4", null ],
       [ "filter", "structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb", null ],
       [ "cycle", "structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47", null ],
+      [ "remove_if", "structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff", null ],
+      [ "remove", "structboost_1_1hana_1_1MonadPlus.html#a08e2f3034ed81a7bfff513a5b5f82031", null ],
       [ "repeat", "structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9", null ],
       [ "prefix", "structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008", null ],
       [ "suffix", "structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080", null ]

@@ -421,14 +421,44 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>demux(f)(g...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g...)(x...) == f(g(x...)...)</div>
 </div><!-- fragment --><p>Each <code>g</code> is called with all the arguments, and then <code>f</code> is called with the result of each <code>g</code>. Hence, the arity of <code>f</code> must match the number of <code>g</code>s.</p>
 <p>This is called <code>demux</code> because of a vague similarity between this device and a demultiplexer in signal processing. <code>demux</code> takes what can be seen as a continuation (<code>f</code>), a bunch of functions to split a signal (<code>g...</code>) and zero or more arguments representing the signal (<code>x...</code>). Then, it calls the continuation with the result of splitting the signal with whatever functions where given.</p>
-<dl class="section note"><dt>Note</dt><dd>When used with two functions only, <code>demux</code> is associative. In other words, <code>demux(f)(demux(g)(h))</code> is equivalent to <code>demux(demux(f)(g))(h)</code>.</dd></dl>
-<h3>Proof of associativity in the binary case</h3>
-<div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h))(x...) == f(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h)(x...))</div>
+<dl class="section note"><dt>Note</dt><dd>When used with two functions only, <code>demux</code> is associative. In other words (and noting <code>demux(f, g) = demux(f)(g)</code> to ease the notation), it is true that <code>demux(demux(f, g), h) == demux(f, demux(g, h))</code>.</dd></dl>
+<h2>Signature </h2>
+<p>The signature of <code>demux</code> is </p><p class="formulaDsp">
+\[ \mathrm{demux} : (B_1 \times \dotsb \times B_n \to C) \to ((A_1 \times \dotsb \times A_n \to B_1) \times \dotsb \times (A_1 \times \dotsb \times A_n \to B_n)) \to (A_1 \times \dotsb \times A_n \to C) \]
+</p>
+<p>This can be rewritten more tersely as </p><p class="formulaDsp">
+\[ \mathrm{demux} : \left(\prod_{i=1}^n B_i \to C \right) \to \prod_{j=1}^n \left(\prod_{i=1}^n A_i \to B_j \right) \to \left(\prod_{i=1}^n A_i \to C \right) \]
+</p>
+<h2>Link with normal composition </h2>
+<p>The signature of <code>compose</code> is </p><p class="formulaDsp">
+\[ \mathrm{compose} : (B \to C) \times (A \to B) \to (A \to C) \]
+</p>
+<p>A valid observation is that this coincides exactly with the type of <code>demux</code> when used with a single unary function. Actually, both functions are equivalent: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g)(x) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(x)</div>
+</div><!-- fragment --><p>However, let's now consider the curried version of <code>compose</code>, <code>curry&lt;2&gt;(compose)</code>: </p><p class="formulaDsp">
+\[ \mathrm{curry_2(compose)} : (B \to C) \to ((A \to B) \to (A \to C)) \]
+</p>
+<p>For the rest of this explanation, we'll just consider the curried version of <code>compose</code> and so we'll use <code>compose</code> instead of <code>curry&lt;2&gt;(compose)</code> to lighten the notation. With currying, we can now consider <code>compose</code> applied to itself: </p><p class="formulaDsp">
+\[ \mathrm{compose(compose, compose)} : (B \to C) \to (A_1 \to A_2 \to B) \to (A_1 \to A_2 \to C) \]
+</p>
+<p>If we uncurry deeply the above expression, we obtain </p><p class="formulaDsp">
+\[ \mathrm{compose(compose, compose)} : (B \to C) \times (A_1 \times A_2 \to B) \to (A_1 \times A_2 \to C) \]
+</p>
+<p>This signature is exactly the same as that of <code>demux</code> when given a single binary function, and indeed they are equivalent definitions. We can also generalize this further by considering <code>compose(compose(compose, compose), compose)</code>: </p><p class="formulaDsp">
+\[ \mathrm{compose(compose(compose, compose), compose)} : (B \to C) \to (A_1 \to A_2 \to A_3 \to B) \to (A_1 \to A_2 \to A_3 \to C) \]
+</p>
+<p>which uncurries to </p><p class="formulaDsp">
+\[ \mathrm{compose(compose(compose, compose), compose)} : (B \to C) \times (A_1 \times A_2 \times A_3 \to B) \to (A_1 \times A_2 \times A_3 \to C) \]
+</p>
+<p>This signature is exactly the same as that of <code>demux</code> when given a single ternary function. Hence, for a single n-ary function <code>g</code>, <code>demux(f)(g)</code> is equivalent to the n-times composition of <code>compose</code> with itself, applied to <code>g</code> and <code>f</code>: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g) == fold.left([<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>, ..., <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>], <span class="keywordtype">id</span>, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>)(g, f)</div>
+<div class="line">                      <span class="comment">//  ^^^^^^^^^^^^^^^^^^^^^ n times</span></div>
+</div><!-- fragment --><p>More information on this insight can be seen <a href="http://stackoverflow.com/q/5821089/627587">here</a>. Also, I'm not sure how this insight could be generalized to more than one function <code>g</code>, or if that is even possible.</p>
+<h2>Proof of associativity in the binary case </h2>
+<p>As explained above, <code>demux</code> is associative when it is used with two functions only. Indeed, given functions <code>f</code>, <code>g</code> and <code>h</code> with suitable signatures, we have </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h))(x...) == f(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(g)(h)(x...))</div>
 <div class="line">                            == f(g(h(x...)))</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g))(h)(x...) == <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g)(h(x...))</div>
+</div><!-- fragment --><p>On the other hand, we have </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(<a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g))(h)(x...) == <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g)(h(x...))</div>
 <div class="line">                            == f(g(h(x...)))</div>
-</div><!-- fragment --> <h3>Example</h3>
+</div><!-- fragment --><p>and hence <code>demux</code> is associative in the binary case.</p>
+<h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(make&lt;Tuple&gt;)(</div>
 <div class="line">    <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
 <div class="line">    _ - <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
@@ -444,8 +474,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        10 / 4</div>
 <div class="line">    )</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>I think this is equivalent to <code>transform . transform</code>. See <a href="http://stackoverflow.com/q/5821089/627587">http://stackoverflow.com/q/5821089/627587</a> </dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ga1393f40da2e8da6e0c12fce953e56a6c"></a>
@@ -667,7 +696,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus)(to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
 
 </div>
 </div>
@@ -693,15 +722,15 @@ template&lt;std::size_t n&gt; </div>
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
 </div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> sorted = sort.by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
-<div class="line">    pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
-<div class="line">    pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">    pair(int_&lt;2&gt;, 9876)</div>
+<div class="line">    make_pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
+<div class="line">    make_pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
+<div class="line">    make_pair(int_&lt;2&gt;, 9876)</div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line">static_assert(sorted == make&lt;Tuple&gt;(</div>
-<div class="line">    pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">    pair(int_&lt;2&gt;, 9876),</div>
-<div class="line">    pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
+<div class="line">    make_pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
+<div class="line">    make_pair(int_&lt;2&gt;, 9876),</div>
+<div class="line">    make_pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>on</code> is associative, i.e. <code>on(f, on(g, h))</code> is equivalent to <code>on(on(f, g), h)</code>.</dd></dl>
 <h3>Proof of associativity</h3>

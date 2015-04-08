@@ -13,7 +13,6 @@ var group__group_core =
     [ "of", "structboost_1_1hana_1_1operators_1_1of.html", null ],
     [ "has_operator", "structboost_1_1hana_1_1has__operator.html", null ],
     [ "when", "structboost_1_1hana_1_1when.html", null ],
-    [ "wrong", "structboost_1_1hana_1_1wrong.html", null ],
     [ "common_t", "group__group-core.html#ga4da46c97755c0f430b063711b66ca05b", null ],
     [ "datatype_t", "group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321", null ],
     [ "when_valid", "group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc", null ],

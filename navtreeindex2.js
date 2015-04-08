@@ -1,8 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,13],
-"structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,19,8],
-"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,7],
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,4],
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,11],
 "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,14],
@@ -32,8 +29,10 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Tuple.html#aaa14e68d483c13fcc034639a75ab48a8":[1,1,9,2],
 "structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6":[1,1,9,1],
 "structboost_1_1hana_1_1Type.html":[1,1,10],
-"structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c":[1,1,10,2],
+"structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c":[1,1,10,3],
+"structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a":[1,1,10,2],
 "structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0":[1,1,10,0],
+"structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736":[1,1,10,4],
 "structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a":[1,1,10,1],
 "structboost_1_1hana_1_1common.html":[1,3,1],
 "structboost_1_1hana_1_1constant__detail_1_1which.html":[2,1,0,0,0,0],
@@ -42,6 +41,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html":[1,7,1],
 "structboost_1_1hana_1_1detail_1_1array.html":[1,7,0],
 "structboost_1_1hana_1_1detail_1_1create.html":[1,7,2],
+"structboost_1_1hana_1_1detail_1_1wrong.html":[2,1,0,0,1,3],
 "structboost_1_1hana_1_1embedding.html":[1,3,4],
 "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html":[1,4,0],
 "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1Vector.html":[1,4,1],
@@ -54,7 +54,6 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1operators_1_1of.html":[1,3,10],
 "structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html":[2,1,0,0,4,0],
 "structboost_1_1hana_1_1when.html":[1,3,12],
-"structboost_1_1hana_1_1wrong.html":[1,3,13],
 "take_8hpp.html":[2,2,0,0,1,1,10],
 "todo.html":[3],
 "traversable_8hpp.html":[2,2,0,0,40],
@@ -68,5 +67,6 @@ var NAVTREEINDEX2 =
 "usergroup0.html":[2],
 "utility_8hpp.html":[2,2,0,0,2,1,7],
 "void__t_8hpp.html":[2,2,0,0,1,0,21],
-"wrap_8hpp.html":[2,2,0,0,1,16]
+"wrap_8hpp.html":[2,2,0,0,1,16],
+"wrong_8hpp.html":[2,2,0,0,1,17]
 };

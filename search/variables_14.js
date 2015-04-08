@@ -10,7 +10,6 @@ var searchData=
   ['then',['then',['../structboost_1_1hana_1_1Monad.html#abfc7efb0044a87a21f663b1a151dac56',1,'boost::hana::Monad']]],
   ['to',['to',['../group__group-core.html#gadc70755c1d059139297814fb3bfeb91e',1,'boost::hana']]],
   ['trait',['trait',['../structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd',1,'boost::hana::Metafunction']]],
-  ['trait_5f',['trait_',['../structboost_1_1hana_1_1Metafunction.html#ad9fc467ecfaeb2c167c748d37be96846',1,'boost::hana::Metafunction']]],
   ['transform',['transform',['../structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c',1,'boost::hana::Functor']]],
   ['traverse',['traverse',['../structboost_1_1hana_1_1Traversable.html#a15f448955bcfe5b536c94a76b0c007fb',1,'boost::hana::Traversable']]],
   ['true_5f',['true_',['../structboost_1_1hana_1_1IntegralConstant.html#ae6096d56dd1b76bb9d37e4121eb5b33c',1,'boost::hana::IntegralConstant']]],

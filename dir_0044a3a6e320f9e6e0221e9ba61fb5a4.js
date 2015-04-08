@@ -23,7 +23,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "monad_plus.hpp", "fwd_2monad__plus_8hpp.html", null ],
     [ "monoid.hpp", "fwd_2monoid_8hpp.html", null ],
     [ "orderable.hpp", "fwd_2orderable_8hpp.html", null ],
-    [ "pair.hpp", "fwd_2pair_8hpp.html", "fwd_2pair_8hpp" ],
+    [ "pair.hpp", "fwd_2pair_8hpp.html", null ],
     [ "product.hpp", "fwd_2product_8hpp.html", null ],
     [ "range.hpp", "fwd_2range_8hpp.html", "fwd_2range_8hpp" ],
     [ "record.hpp", "fwd_2record_8hpp.html", null ],
@@ -33,6 +33,6 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "set.hpp", "fwd_2set_8hpp.html", null ],
     [ "string.hpp", "fwd_2string_8hpp.html", "fwd_2string_8hpp" ],
     [ "traversable.hpp", "fwd_2traversable_8hpp.html", null ],
-    [ "tuple.hpp", "fwd_2tuple_8hpp.html", "fwd_2tuple_8hpp" ],
+    [ "tuple.hpp", "fwd_2tuple_8hpp.html", null ],
     [ "type.hpp", "fwd_2type_8hpp.html", null ]
 ];

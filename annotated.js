@@ -8,7 +8,8 @@ var annotated =
         [ "detail", null, [
           [ "array", "structboost_1_1hana_1_1detail_1_1array.html", null ],
           [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
-          [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ]
+          [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
+          [ "wrong", "structboost_1_1hana_1_1detail_1_1wrong.html", null ]
         ] ],
         [ "ext", null, [
           [ "boost", null, [
@@ -64,8 +65,7 @@ var annotated =
         [ "Traversable", "structboost_1_1hana_1_1Traversable.html", "structboost_1_1hana_1_1Traversable" ],
         [ "Tuple", "structboost_1_1hana_1_1Tuple.html", "structboost_1_1hana_1_1Tuple" ],
         [ "Type", "structboost_1_1hana_1_1Type.html", "structboost_1_1hana_1_1Type" ],
-        [ "when", "structboost_1_1hana_1_1when.html", null ],
-        [ "wrong", "structboost_1_1hana_1_1wrong.html", null ]
+        [ "when", "structboost_1_1hana_1_1when.html", null ]
       ] ]
     ] ]
 ];

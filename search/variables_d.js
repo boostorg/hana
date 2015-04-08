@@ -6,6 +6,7 @@ var searchData=
   ['make_3c_20range_20_3e',['make&lt; Range &gt;',['../structboost_1_1hana_1_1Range.html#a2e1347688d03d7298cf90f3cadf0a002',1,'boost::hana::Range']]],
   ['make_3c_20set_20_3e',['make&lt; Set &gt;',['../structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe',1,'boost::hana::Set']]],
   ['make_3c_20tuple_20_3e',['make&lt; Tuple &gt;',['../structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb',1,'boost::hana::Tuple']]],
+  ['make_3c_20type_20_3e',['make&lt; Type &gt;',['../structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a',1,'boost::hana::Type']]],
   ['make_5fmap',['make_map',['../structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04',1,'boost::hana::Map']]],
   ['make_5fpair',['make_pair',['../structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045',1,'boost::hana::Pair']]],
   ['make_5frange',['make_range',['../structboost_1_1hana_1_1Range.html#aba8dd69deb1d810ef65ec289127bf0ab',1,'boost::hana::Range']]],

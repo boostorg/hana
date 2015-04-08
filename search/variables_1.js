@@ -2,6 +2,7 @@ var searchData=
 [
   ['adjust',['adjust',['../structboost_1_1hana_1_1Functor.html#ac27a1807b60b8fa59e6c618cb8ca749f',1,'boost::hana::Functor']]],
   ['adjust_5fif',['adjust_if',['../structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480',1,'boost::hana::Functor']]],
+  ['alignof_5f',['alignof_',['../structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736',1,'boost::hana::Type']]],
   ['all',['all',['../structboost_1_1hana_1_1Searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2',1,'boost::hana::Searchable']]],
   ['all_5fof',['all_of',['../structboost_1_1hana_1_1Searchable.html#adadd57241c497cbe1a2ce5ac57549080',1,'boost::hana::Searchable']]],
   ['always',['always',['../group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b',1,'boost::hana']]],

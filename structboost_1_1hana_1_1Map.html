@@ -111,20 +111,20 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Map.html','');}
 Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
-<div class="line">        pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
-<div class="line">        pair(type&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
+<div class="line">        make_pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
+<div class="line">        make_pair(type&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
 <div class="line">    )</div>
 <div class="line">    ==</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
-<div class="line">        pair(type&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
-<div class="line">        pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s)</div>
+<div class="line">        make_pair(type&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
+<div class="line">        make_pair(char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s)</div>
 <div class="line">    )</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
-<div class="line">    pair(type&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
-<div class="line">    pair(type&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
+<div class="line">    make_pair(type&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
+<div class="line">    make_pair(type&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(find(m, type&lt;int&gt;) == just(<span class="charliteral">&#39;i&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(find(m, type&lt;float&gt;) == just(<span class="charliteral">&#39;f&#39;</span>));</div>
@@ -137,7 +137,7 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <li>From any <code><a class="el" href="structboost_1_1hana_1_1Record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code><br />
 Converting a <code><a class="el" href="structboost_1_1hana_1_1Record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> <code>R</code> to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> is equivalent to converting its <code>members&lt;R&gt;()</code> to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>, except the values are replaced by the actual members of the object instead of accessors.</li>
 <li>From any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
-Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>. Note that the foldable structure must not contain duplicate keys. <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>We should allow duplicate keys, with a documented policy (e.g. we keep the last one).</dd></dl>
+Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>. Note that the foldable structure must not contain duplicate keys. <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>We should allow duplicate keys, with a documented policy (e.g. we keep the last one).</dd></dl>
 </li>
 <li>To any <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code><br />
 A <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> can be converted to a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> of Products. </li>

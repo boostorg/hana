@@ -236,6 +236,10 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code>filter(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Remove all the elements that do not satisfy a predicate. The predicate must return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
 <tr>
+<td align="left"><code>remove_if(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Remove all the elements that satisfy a predicate. The predicate must return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
+<tr>
+<td align="left"><code>remove(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> </td><td align="left">Remove all the elements that are equal to a given value. </td></tr>
+<tr>
 <td align="left"><code>{any,none,all}_of(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/none/all of the elements of the sequence satisfy some predicate. </td></tr>
 <tr>
 <td align="left"><code>{any,none,all}(sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether any/non/all of the elements of a sequence are true-valued. </td></tr>
@@ -490,7 +494,7 @@ Type computations</h1>
 </div><!-- fragment --><p>That's it for the introduction to type computations with Hana, but there are a couple of interesting examples scattered in the documentation if you want more. There's also a minimal reimplementation of the MPL using Hana under the hood in <code>example/misc/mini_mpl.cpp</code>.</p>
 <h2><a class="anchor" id="tutorial-type-perf"></a>
 Performance considerations</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000047">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000040">Todo:</a></b></dt><dd><ul>
 <li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
 <li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
@@ -574,7 +578,7 @@ Heterogeneity and generalized types</h1>
 <p>Just like C++ templates are families of types that are parameterized by some other type, it makes sense to speak of parameterized generalized types. A parameterized <em>gtype</em> is simply a <em>gtype</em> which depends on other generalized types. You might have seen it coming, but this is actually the case for <code>_tuple</code>, whose <em>gtype</em> can be seen as depending on the <em>gtype</em> of the objects it contains. However, take good note that <b>parameterized generalized types in Hana only live at the documentation level</b>. While enforcing proper parametricity would make the library more mathematically correct, I fear it would also make it less usable given the lack of language support. Given a parametric <em>gtype</em> <code>F</code>, we use <code>F(T)</code> to denote the "application" of <code>F</code> to another <em>gtype</em> <code>T</code>. While this is analogous to "applying" a C++ template to a type, we purposefully do not use the <code>F&lt;T&gt;</code> notation because parametric gtypes are not necessarily templates in Hana and that would be more confusing than helpful.</p>
 <p>As an example, <code>_tuple&lt;int, int&gt;</code> conceptually has a gtype of <code>Tuple(int)</code>, but its actual gtype (outside of the documentation) is just <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. What about <code>_tuple&lt;int, long&gt;</code>? Well, <code>int</code> and <code>long</code> are embedded in the same mathematical universe, so we could say that it's a <code>Tuple(Number)</code>, where <code>Number</code> is some generalized type containing all the numeric types. What about <code>_tuple&lt;int, void&gt;</code>? First, that won't compile. But why would you create a sequence of objects that have nothing in common? What can you do with that?</p>
 <p>These generalized types are useful for several purposes, for example creating a tuple with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> and documenting pseudo-signatures for the functions provided in this library. Another important role is to customize algorithms; see the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a> for more information. Finally, you can also consult the reference of the <a class="el" href="structboost_1_1hana_1_1datatype.html">datatype</a> metafunction for details on how to specify the generalized type of a family of types.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000048">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
@@ -656,8 +660,6 @@ Header organization</h1>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(head(xs) == 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code>boost/hana/sandbox/</code><br />
- This directory contains experimental code on which no guarantee whatsoever is made. It might not even compile and it will definitely not be stable.</li>
 <li><code>boost/hana/detail/</code><br />
  This directory contains utilities required internally. Nothing in <code>detail/</code> is guaranteed to be stable, so you should not use it.</li>
 </ul>
