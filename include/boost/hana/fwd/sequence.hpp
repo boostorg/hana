@@ -21,12 +21,12 @@ namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Sequence` concept represents generic index-based sequences.
     //!
-    //! The Sequence concept is very specific. It represents generic
-    //! index-based sequences. The reason why such a specific concept
-    //! is provided is because there are a lot of models that behave
-    //! exactly the same while being implemented in wildly different
-    //! ways. It is useful to regroup all those data types under the
-    //! same umbrella for the purpose of generic programming.
+    //! Compared to other abstract concepts, the Sequence concept is very
+    //! specific. It represents generic index-based sequences. The reason
+    //! why such a specific concept is provided is because there are a lot
+    //! of models that behave exactly the same while being implemented in
+    //! wildly different ways. It is useful to regroup all those data types
+    //! under the same umbrella for the purpose of generic programming.
     //!
     //! In fact, models of this concept are not only _similar_. They are
     //! actually _isomorphic_, in a sense that we define below, which is
@@ -36,20 +36,48 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! @todo
+    //! For any Sequence data type `S`, the `to<Tuple>` conversion from `S`
+    //! (as a Foldable, see below) must be a natural isomorphism. Furthermore,
+    //! it must be the unique (up to implementation) natural MonadPlus and
+    //! Iterable isomorphism between `Tuple` and `S`. Intuitively, this means
+    //! that all Sequences act exactly like `Tuple`s, but their implementation
+    //! may differ. This is ensured by stating that conversion to and from
+    //! a `Tuple` preserves both information quantity and organization.
+    //!
+    //! First, information quantity is preserved by requiring `to<Tuple>`
+    //! to be an isomorphism, which is in particular a bijection. Hence,
+    //! the `S` and `Tuple` data types contain the same amount of objects,
+    //! and information quantity is preserved.
+    //!
+    //! Then, information organization is preserved by requiring `to<Tuple>`
+    //! to be the unique natural MonadPlus isomorphism between `Tuple` and
+    //! `S`. Since everything in Sequence is implemented in terms of MonadPlus,
+    //! Iterable and other superclasses, this effectively gives us laws that
+    //! must be respected for the methods of Sequence. The result is that for
+    //! any Sequence `xs` of data type `S` and any n-ary function `f` (suppose
+    //! without loss of generality that `f` takes its Sequence argument in the
+    //! first parameter),
+    //! @code
+    //!     to<Tuple>(f(xs, -, ..., -)) == f(to<Tuple>(xs), -, ..., -)
+    //! @endcode
+    //!
+    //! If `f` does not return a Sequence, then simply change the above for
+    //! @code
+    //!     f(xs, -, ..., -) == f(to<Tuple>(xs), -, ..., -)
+    //! @endcode
     //!
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `Iterable`, `empty`, `prepend`, and explicitly specialize `models`
+    //! 1. `Iterable`, `empty`, `prepend`, `models`\n
     //! The Sequence concept does not provide basic methods that could be used
-    //! as a minimal complete definition; it instead borrows methods from
+    //! as a minimal complete definition; instead, it borrows methods from
     //! other concepts and add laws to them. For this reason, it is necessary
     //! to specialize the `models` metafunction in the `boost::hana` namespace
-    //! in addition to defining the above methods. Defining the `models`
-    //! metafunction can be seen like a seal saying "this data type satisfies
-    //! the additional laws of a Sequence", even though they can't be checked
-    //! syntactically.
+    //! in addition to defining the above methods. Explicitly specializing the
+    //! `models` metafunction can be seen like a seal saying "this data type
+    //! satisfies the additional laws of a Sequence", since those can't be
+    //! checked by Hana automatically.
     //!
     //!
     //! Superclasses
@@ -137,18 +165,27 @@ namespace boost { namespace hana {
     //! @snippet example/sequence.cpp traversable
     //!
     //!
-    //! @todo
-    //! Implement these methods:
-    //! `intercalate`, `transpose`, `subsequences`, `split_at`, `break`,
-    //! `inits`, `tails`, `iterate`
+    //! Provided `make`
+    //! ---------------
+    //! For any Sequence `S`, the `make<S>` method is defined automatically as
+    //! @code
+    //!     make<S>(x1, ..., xn) == fold.right(make<Tuple>(x1, ..., xn), prepend, empty<S>())
+    //!                          == [x1, ..., xn] // of data type S
+    //! @endcode
     //!
-    //! And perhaps also these:
-    //! `nub_by`, `nub`, `delete_by`, `insert`, `set_difference_by`,
-    //! `set_union_by`, `set_intersection_by`
+    //! While this definition is correct, it can be compile-time inefficient.
+    //! Hence, implementers of new sequences are encouraged to override this
+    //! default definition.
     //!
-    //! @todo
-    //! Document the Foldable -> Sequence conversion, and also the
-    //! `make` function.
+    //!
+    //! Provided conversions
+    //! --------------------
+    //! 1. from any Foldable\n
+    //! Given a Foldable `xs` with a linearization of `x1, ..., xn` and a
+    //! data type `S` which is a Sequence, `to<S>(xs)` creates a sequence
+    //! equivalent to `make<S>(x1, ..., xn)`. This way, Sequences can be
+    //! created from other Sequences, from Maybes and so on.
+    //! @snippet example/sequence.cpp conversion
     struct Sequence {
         template <typename T, typename U> struct equal_impl;
         template <typename T, typename U> struct less_impl;
