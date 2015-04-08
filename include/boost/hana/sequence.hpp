@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/variadic/foldr.hpp>
+#include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/curry.hpp>
@@ -1035,8 +1035,8 @@ namespace boost { namespace hana {
     struct make_impl<S, when<_models<Sequence, S>{}>> {
         template <typename ...X>
         static constexpr decltype(auto) apply(X&& ...x) {
-            return detail::variadic::foldr(prepend, empty<S>(),
-                    static_cast<X&&>(x)...
+            return detail::variadic::foldr1(
+                prepend, static_cast<X&&>(x)..., empty<S>()
             );
         }
     };

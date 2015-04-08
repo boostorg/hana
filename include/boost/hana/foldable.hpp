@@ -24,9 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
-#include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
-#include <boost/hana/detail/variadic/foldr.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
@@ -54,7 +52,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return hana::unpack(static_cast<Xs&&>(xs),
                 hana::partial(
-                    detail::variadic::foldl,
+                    detail::variadic::foldl1,
                     static_cast<F&&>(f),
                     static_cast<S&&>(s)
                 )

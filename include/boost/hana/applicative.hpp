@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/std/forward.hpp>
-#include <boost/hana/detail/variadic/foldl.hpp>
+#include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functor.hpp>
 
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         static_assert(sizeof...(xs) >= 1,
         "hana::ap must be called with at least two arguments");
 
-        return detail::variadic::foldl(
+        return detail::variadic::foldl1(
             *this,
             hana::transform(static_cast<F&&>(f), curry<sizeof...(xs)>),
             static_cast<Xs&&>(xs)...

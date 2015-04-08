@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
-#include <boost/hana/detail/variadic/foldl.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -148,7 +147,7 @@ namespace boost { namespace hana {
 
     template <typename X, typename ...Y>
     constexpr decltype(auto) _and::operator()(X&& x, Y&& ...y) const {
-        return detail::variadic::foldl(
+        return detail::variadic::foldl1(
             *this,
             static_cast<X&&>(x),
             static_cast<Y&&>(y)...
@@ -182,7 +181,7 @@ namespace boost { namespace hana {
 
     template <typename X, typename ...Y>
     constexpr decltype(auto) _or::operator()(X&& x, Y&& ...y) const {
-        return detail::variadic::foldl(
+        return detail::variadic::foldl1(
             *this,
             static_cast<X&&>(x),
             static_cast<Y&&>(y)...

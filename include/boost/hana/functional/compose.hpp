@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/variadic/foldl.hpp>
+#include <boost/hana/detail/variadic/foldl1.hpp>
 
 
 namespace boost { namespace hana {
@@ -92,7 +92,7 @@ namespace boost { namespace hana {
     struct _make_compose {
         template <typename F, typename G, typename ...H>
         constexpr decltype(auto) operator()(F&& f, G&& g, H&& ...h) const {
-            return detail::variadic::foldl(detail::create<_compose>{},
+            return detail::variadic::foldl1(detail::create<_compose>{},
                 static_cast<F&&>(f),
                 static_cast<G&&>(g),
                 static_cast<H&&>(h)...
