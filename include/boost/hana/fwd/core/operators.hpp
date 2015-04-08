@@ -158,7 +158,22 @@ namespace boost { namespace hana {
         //! This trait only controls which operators are enabled when they
         //! are found by name lookup. To make the operators findable by name
         //! lookup, one should use `operators::adl` or import the operators
-        //! from the operators` namespace explicitly.
+        //! from the `operators` namespace explicitly.
+        //!
+        //! @warning
+        //! If a data type enables the operator for a method or a concept
+        //! that is not implemented or modeled by that data type, the
+        //! behavior is undefined. In particular, one will probably end
+        //! up with a ugly and hard to understand compiler error. The reason
+        //! for that is that some methods like `equal` are defined for objects
+        //! that are `EqualityComparable`, i.e. that can be compared using
+        //! `==`. To do this, `equal` has to test whether the `x == y`
+        //! expression is valid. If a data type enables the `==` operator
+        //! provided by Comparable but does not define the `equal` method,
+        //! and if the `==` operator is accessible through ADL for objects
+        //! of that data type, then `equal` will get caught in the loop when
+        //! trying to check whether `x == y` is a valid expression.
+        //! Bottom line: don't do this.
         //!
         //!
         //! Example
