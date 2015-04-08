@@ -387,21 +387,21 @@ namespace boost { namespace hana {
 
         struct inc {
             template <typename N, typename Ignore>
-            constexpr decltype(auto) operator()(N&& n, Ignore const&) const
+            constexpr auto operator()(N&& n, Ignore const&) const
             { return hana::succ(static_cast<N&&>(n)); }
         };
 
         template <typename T, bool = is_default<unpack_impl<T>>{}>
         struct length_helper {
             template <typename Xs>
-            static constexpr decltype(auto) apply(Xs const& xs)
+            static constexpr auto apply(Xs const& xs)
             { return hana::unpack(xs, argn{}); }
         };
 
         template <typename T>
         struct length_helper<T, true> {
             template <typename Xs>
-            static constexpr decltype(auto) apply(Xs&& xs) {
+            static constexpr auto apply(Xs&& xs) {
                 return hana::fold.left(static_cast<Xs&&>(xs), size_t<0>, inc{});
             }
         };
@@ -422,7 +422,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
                 decltype(auto) r = pred(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<X&&>(x),
                     static_cast<Y&&>(y)
                 );
@@ -430,7 +430,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) & {
                 decltype(auto) r = pred(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<X&&>(x),
                     static_cast<Y&&>(y)
                 );
@@ -438,7 +438,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
                 decltype(auto) r = detail::std::move(pred)(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<X&&>(x),
                     static_cast<Y&&>(y)
                 );
@@ -499,7 +499,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) const& {
                 decltype(auto) r = pred(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<Y&&>(y),
                     static_cast<X&&>(x)
                 );
@@ -507,7 +507,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) & {
                 decltype(auto) r = pred(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<Y&&>(y),
                     static_cast<X&&>(x)
                 );
@@ -515,7 +515,7 @@ namespace boost { namespace hana {
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
                 decltype(auto) r = detail::std::move(pred)(x, y);
-                return hana::if_(detail::std::forward<decltype(r)>(r),
+                return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<Y&&>(y),
                     static_cast<X&&>(x)
                 );

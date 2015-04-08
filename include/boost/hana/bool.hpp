@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
+#include <boost/hana/lazy.hpp>
 
 // provided models; the rest is included in <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
@@ -173,6 +174,53 @@ namespace boost { namespace hana {
             constexpr T v = hana::value<X>();
             return integral_constant<T, v>;
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Optimizations
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct eval_if_impl<IntegralConstant<T>> {
+        template <typename Cond, typename Then, typename Else>
+        static constexpr decltype(auto)
+        apply(Cond const&, Then&& t, Else&& e) {
+            return eval_if_impl::apply(bool_<static_cast<bool>(Cond::value)>,
+                    static_cast<Then&&>(t), static_cast<Else&&>(e));
+        }
+
+        template <typename Then, typename Else>
+        static constexpr decltype(auto)
+        apply(decltype(true_) const&, Then&& t, Else&&)
+        { return hana::eval(static_cast<Then&&>(t)); }
+
+        template <typename Then, typename Else>
+        static constexpr decltype(auto)
+        apply(decltype(false_) const&, Then&&, Else&& e)
+        { return hana::eval(static_cast<Else&&>(e)); }
+    };
+
+    template <typename T>
+    struct if_impl<IntegralConstant<T>> {
+        template <typename Cond, typename Then, typename Else>
+        static constexpr decltype(auto)
+        apply(Cond const&, Then&& t, Else&& e) {
+            return if_impl::apply(bool_<static_cast<bool>(Cond::value)>,
+                    static_cast<Then&&>(t), static_cast<Else&&>(e));
+        }
+
+        //! @todo We could return `Then` instead of `auto` to sometimes save
+        //! a copy, but that would break some code that would return a
+        //! reference to a Type object. I think the code that would be broken
+        //! should be changed, but more thought needs to be given.
+        template <typename Then, typename Else>
+        static constexpr auto
+        apply(decltype(true_) const&, Then&& t, Else&&)
+        { return static_cast<Then&&>(t); }
+
+        template <typename Then, typename Else>
+        static constexpr auto
+        apply(decltype(false_) const&, Then&&, Else&& e)
+        { return static_cast<Else&&>(e); }
     };
 }} // end namespace boost::hana
 
