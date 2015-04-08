@@ -813,9 +813,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp slice
-    //!
-    //! @todo
-    //! Should this be `slice(xs, from, length)` instead?
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto slice = [](auto&& xs, auto&& from, auto&& to) -> decltype(auto) {
         return tag-dispatched;
