@@ -27,9 +27,7 @@ namespace boost { namespace hana {
         struct cnumeric_type {
             static constexpr T value = v;
             struct hana { using datatype = CNumeric<T>; };
-
-            //! @todo Find a way to make this explicit.
-            constexpr operator bool() const { return value; }
+            constexpr operator T() const { return value; }
         };
 
         template <typename T, T v>

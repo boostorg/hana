@@ -27,8 +27,7 @@ namespace boost { namespace hana {
         struct numeric_type : operators::adl {
             constexpr explicit numeric_type(int v) : value(v) { }
             int value;
-            //! @todo Find a way to make this explicit.
-            constexpr operator bool() const { return value; }
+            constexpr operator int() const { return value; }
         };
 
         using Numeric = datatype_t<numeric_type>;
