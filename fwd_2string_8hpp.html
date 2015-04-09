@@ -96,8 +96,7 @@ $(document).ready(function(){initNavTree('fwd_2string_8hpp.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">string.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -111,40 +110,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1String.html">boost::hana::String</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a compile-time string.  <a href="structboost_1_1hana_1_1String.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a7f15faa77e126e1c2b08a2224ceefb84"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(s)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:a7f15faa77e126e1c2b08a2224ceefb84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a compile-time string from a string literal <code>s</code>.  <a href="#a7f15faa77e126e1c2b08a2224ceefb84">More...</a><br /></td></tr>
-<tr class="separator:a7f15faa77e126e1c2b08a2224ceefb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Forward declares <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">boost::hana::String</a></code>. </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a7f15faa77e126e1c2b08a2224ceefb84"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_STRING</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">s</td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a compile-time string from a string literal <code>s</code>. </p>
-<p>This macro is a more convenient alternative to <code>string</code> for creating compile-time strings. However, since this macro uses a lambda internally, it can't be used in an unevaluated context.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> str = <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>);</div>
-<div class="line">static_assert(std::is_same&lt;<a class="code" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">datatype_t</a>&lt;decltype(str)&gt;, String&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

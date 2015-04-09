@@ -264,8 +264,8 @@ template&lt;&gt; </div>
 <h3>Example</h3>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>

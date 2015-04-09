@@ -242,20 +242,20 @@ template&lt;typename R &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; r, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Elevate a ring element to its <code>n</code>th power. </p>
-<p>Specifically, <code>power(r, n)</code>, is equivalent to multiplying <code>r</code> with itself <code>n</code> times using the <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> multiplication. If the power is equal to <code>zero</code>, the <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> identity (<code>one</code>) is returned.</p>
+<p>Specifically, <code>power(x, n)</code>, is equivalent to multiplying <code>x</code> with itself <code>n</code> times using the <a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a>'s multiplication. If the power is equal to <code>zero</code>, the <a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a>'s identity (<code>one</code>) is returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>A <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> element that is elevated to its <code>n</code>th power.</td></tr>
-    <tr><td class="paramname">n</td><td>An integral <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> representing the power to which <code>r</code> is elevated.</td></tr>
+    <tr><td class="paramname">x</td><td>A <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> element that is elevated to its <code>n</code>th power.</td></tr>
+    <tr><td class="paramname">n</td><td>A <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the power to which <code>x</code> is elevated.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Only the data type of <code>r</code> is used for tag-dispatching.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only the data type of <code>x</code> is used for tag-dispatching.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Ring.html#af31c2ce5c41696358e7ee10a8b57340e">power</a>(int_&lt;3&gt;, int_&lt;2&gt;) == int_&lt;3 * 3&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Ring.html#af31c2ce5c41696358e7ee10a8b57340e">power</a>(2, int_&lt;4&gt;) == 16);</div>

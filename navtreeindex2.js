@@ -1,8 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,4],
-"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,11],
-"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,14],
 "structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,19,5],
 "structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26":[1,0,19,1],
 "structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816":[1,0,19,3],
@@ -19,6 +16,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe":[1,1,7,0],
 "structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43":[1,1,7,1],
 "structboost_1_1hana_1_1String.html":[1,1,8],
+"structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84":[1,1,8,1],
 "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9":[1,1,8,0],
 "structboost_1_1hana_1_1Traversable.html":[1,0,20],
 "structboost_1_1hana_1_1Traversable.html#a15f448955bcfe5b536c94a76b0c007fb":[1,0,20,1],
@@ -54,7 +52,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1operators_1_1of.html":[1,3,10],
 "structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html":[2,1,0,0,4,0],
 "structboost_1_1hana_1_1when.html":[1,3,12],
-"take_8hpp.html":[2,2,0,0,1,1,10],
+"take_8hpp.html":[2,2,0,0,1,1,8],
 "todo.html":[3],
 "traversable_8hpp.html":[2,2,0,0,40],
 "tuple_8hpp.html":[2,2,0,0,41],

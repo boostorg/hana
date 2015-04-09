@@ -31,7 +31,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "searchable.hpp", "fwd_2searchable_8hpp.html", null ],
     [ "sequence.hpp", "fwd_2sequence_8hpp.html", null ],
     [ "set.hpp", "fwd_2set_8hpp.html", null ],
-    [ "string.hpp", "fwd_2string_8hpp.html", "fwd_2string_8hpp" ],
+    [ "string.hpp", "fwd_2string_8hpp.html", null ],
     [ "traversable.hpp", "fwd_2traversable_8hpp.html", null ],
     [ "tuple.hpp", "fwd_2tuple_8hpp.html", null ],
     [ "type.hpp", "fwd_2type_8hpp.html", null ]
