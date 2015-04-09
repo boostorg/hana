@@ -38,16 +38,18 @@ namespace boost { namespace hana {
     //! ----
     //! For any Sequence data type `S`, the `to<Tuple>` conversion from `S`
     //! (as a Foldable, see below) must be a natural isomorphism. Furthermore,
-    //! it must be the unique (up to implementation) natural MonadPlus and
-    //! Iterable isomorphism between `Tuple` and `S`. Intuitively, this means
-    //! that all Sequences act exactly like `Tuple`s, but their implementation
-    //! may differ. This is ensured by stating that conversion to and from
-    //! a `Tuple` preserves both information quantity and organization.
+    //! it must be the unique (up to implementation) bijective natural
+    //! MonadPlus and Iterable isomorphism between `Tuple` and `S`.
+    //! Intuitively, this means that all Sequences act exactly like `Tuple`s,
+    //! but their implementation may differ. This is ensured by stating that
+    //! conversion to and from a `Tuple` preserves both information quantity
+    //! and organization.
     //!
     //! First, information quantity is preserved by requiring `to<Tuple>`
-    //! to be an isomorphism, which is in particular a bijection. Hence,
-    //! the `S` and `Tuple` data types contain the same amount of objects,
-    //! and information quantity is preserved.
+    //! to be bijective. Hence, the `S` and `Tuple` data types contain the
+    //! same amount of objects, and information quantity is preserved. Note
+    //! that we explicitly require the isomorphism to be bijective because
+    //! [not all isomorphisms are bijective][1].
     //!
     //! Then, information organization is preserved by requiring `to<Tuple>`
     //! to be the unique natural MonadPlus isomorphism between `Tuple` and
@@ -65,6 +67,12 @@ namespace boost { namespace hana {
     //! @code
     //!     f(xs, -, ..., -) == f(to<Tuple>(xs), -, ..., -)
     //! @endcode
+    //!
+    //! Here, the notation `f(xs, -, ..., -)` denotes the partial application
+    //! of the function `f` to its `xs` argument, with all the other arguments
+    //! left unbound. Hence, these comparisons are comparisons between
+    //! functions, and they express the fact that any Sequence is just
+    //! as good as a `Tuple` for an external observer (the function `f`).
     //!
     //!
     //! Minimal complete definition
@@ -186,6 +194,8 @@ namespace boost { namespace hana {
     //! equivalent to `make<S>(x1, ..., xn)`. This way, Sequences can be
     //! created from other Sequences, from Maybes and so on.
     //! @snippet example/sequence.cpp conversion
+    //!
+    //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
     struct Sequence {
         template <typename T, typename U> struct equal_impl;
         template <typename T, typename U> struct less_impl;
