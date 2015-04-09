@@ -156,8 +156,8 @@ int main() {
         static_assert(value(integral_constant<int, 1>) == 1, "");
 
         // laws
-        test::TestConstant<IntegralConstant<int>>{ints};
-        test::TestConstant<IntegralConstant<bool>>{bools};
+        test::TestConstant<IntegralConstant<int>>{ints, tuple_t<int, long, long long>};
+        test::TestConstant<IntegralConstant<bool>>{bools, tuple_t<bool>};
     }
 
 #elif BOOST_HANA_TEST_PART == 3

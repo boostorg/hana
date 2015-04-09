@@ -122,7 +122,15 @@ namespace boost { namespace hana {
     //! Minimal complete definition
     //! ---------------------------
     //! 1. `eval_if`, `not_` and `while_`\n
-    //! @todo
+    //! The minimal complete definition for being a Logical is `eval_if`,
+    //! `not_` and `while_`. All the other methods can be defined in those
+    //! terms:
+    //! @code
+    //!     if_(cond, x, y) = eval_if(cond, lazy(x), lazy(y))
+    //!     and_(x, y) = if_(x, y, x)
+    //!     or_(x, y) = if_(x, x, y)
+    //!     etc...
+    //! @endcode
     //!
     //!
     //! Provided models

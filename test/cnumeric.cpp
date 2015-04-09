@@ -48,7 +48,7 @@ int main() {
         static_assert(value(test::cnumeric<int, 1>) == 1, "");
 
         // laws
-        test::TestConstant<test::CNumeric<int>>{ints};
+        test::TestConstant<test::CNumeric<int>>{ints, tuple_t<int, long, long long>};
     }
 
     //////////////////////////////////////////////////////////////////////////

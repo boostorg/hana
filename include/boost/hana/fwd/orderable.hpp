@@ -196,15 +196,6 @@ namespace boost { namespace hana {
     //! @snippet example/orderable.cpp less.than
     //!
     //!
-    //! @todo
-    //! Consider allowing another minimal complete definition using
-    //! `less_equal`.
-    //!
-    //! @todo
-    //! Make sure no circularity issue with our provided operators can arise
-    //! when checking for the LessThanComparable concept.
-    //!
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Total_order
     //! [2]: http://en.cppreference.com/w/cpp/concept/LessThanComparable
     //! [3]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf

@@ -76,21 +76,70 @@ namespace boost { namespace hana {
     //! convertible to `T`, a `Constant` holding a `U` is convertible to
     //! a `Constant` holding a `T`, if such a `Constant` can be created.
     //!
+    //! Finally, the data type `C` must provide a nested `value_type` alias
+    //! to `T`, which allows us to query the data type of the inner value held
+    //! by objects of data type `C`. In other words, the following must be
+    //! true for any object `c` of data type `C`:
+    //! @code
+    //!     std::is_same<
+    //!         C::value_type,
+    //!         datatype_t<decltype(hana::value(c))>
+    //!     >::value
+    //! @endcode
+    //!
     //!
     //! Minimal complete definition
     //! ---------------------------
     //! `value`, satisfying the laws above.
     //!
     //!
-    //! Provided conversions
-    //! --------------------
-    //! 1. To the data type of the underlying value\n
+    //! Provided conversion to the data type of the underlying value
+    //! ------------------------------------------------------------
     //! Any `Constant` `c` holding an underlying value of data type `T` is
     //! convertible to any data type `U` such that `T` is convertible to `U`.
     //! Specifically, the conversion is equivalent to
     //! @code
     //!     to<U>(c) == to<U>(value<decltype(c)>())
     //! @endcode
+    //!
+    //! Also, those conversions are marked as an embedding whenever the
+    //! conversion of underlying types is an embedding. This is to allow
+    //! Constants to inter-operate with `constexpr` objects easily:
+    //! @code
+    //!     plus(int_<1>, 1) == 2
+    //! @endcode
+    //!
+    //! Strictly speaking, __this is sometimes a violation__ of what it means
+    //! to be an embedding. Indeed, while there exists an embedding from any
+    //! Constant to a `constexpr` object (since Constant is just the canonical
+    //! inclusion), there is no embedding from a Constant to a runtime
+    //! object since we would lose the ability to define the `value` method
+    //! (the `constexpr`ness of the object would have been lost). Since there
+    //! is no way to distinguish `constexpr` and non-`constexpr` objects based
+    //! on their type, Hana has no way to know whether the conversion is to a
+    //! `constexpr` object of not. In other words, the `to` method has no way
+    //! to differentiate between
+    //! @code
+    //!     constexpr int i = hana::to<int>(int_<1>);
+    //! @endcode
+    //! which is an embedding, and
+    //! @code
+    //!     int i = hana::to<int>(int_<1>);
+    //! @endcode
+    //!
+    //! which isn't. To be on the safer side, we could mark the conversion
+    //! as not-an-embedding. However, if e.g. the conversion from
+    //! `IntegralConstant<int>` to `int` was not marked as an embedding,
+    //! we would have to write `plus(to<int>(int_<1>), 1)` instead of just
+    //! `plus(int_<1>, 1)`, which is cumbersome. Hence, the conversion is
+    //! marked as an embedding, but this also means that code like
+    //! @code
+    //!     int i = 1;
+    //!     plus(int_<1>, i);
+    //! @endcode
+    //! will be considered valid, which implicitly loses the fact that
+    //! `int_<1>` is a Constant, and hence does not follow the usual rules
+    //! for cross-type operations in Hana.
     //!
     //!
     //! Provided common data type
@@ -103,24 +152,41 @@ namespace boost { namespace hana {
     //! A specialization of the `common` metafunction is provided for
     //! `Constant`s to reflect this.
     //!
+    //! In the same vein, a common data type is also provided from any
+    //! constant `A` to a type `T` such that `A::value_type` and `T` share
+    //! a common type. The common type between `A` and `T` is obviously the
+    //! common type between `A::value_type` and `T`. As explained above in
+    //! the section on conversions, this is sometimes a violation of the
+    //! definition of a common type, because there must be an embedding
+    //! to the common type, which is not always the case. For the same
+    //! reasons as explained above, this common type is still provided.
     //!
-    //! @todo
-    //! - Document the nested value_type.
-    //! - Document the provided models, but that should be done in each concept.
-    //! - The fact that `common_t<IntegralConstant<int>, IntegralConstant<long>>`
-    //! is `CanonicalConstant<long>` is unsatisfactory. We use a super ugly
-    //! hack right now to avoid it; get rid of it.
-    //! -  Are the conversions required to be embeddings? It seems like this
-    //! should always be the case?
-    //! - Right now, the provided conversion to non-constants T is marked as an
-    //! embedding whenever conversion from the underlying type to T is an
-    //! embedding, regardless of the fact that we actually lose the Constant's
-    //! structure. This is a real bummer, but without this expressions like
-    //! `plus(int_<1>, 1)` would fail. What should be done? In the same vein,
-    //! we currently provide a common type with non-constants for which our
-    //! underlying type has a common type. Does this respect the requirements
-    //! of a common type? Add tests for that in the Constant automatic tests
-    //! once this is settled.
+    //!
+    //! Provided models
+    //! ---------------
+    //! In certain cases, a Constant can automatically be made a model of
+    //! other concepts. In particular, if a Constant `C` is holding an object
+    //! of type `T`, and if `T` models a concept `X`, then `C` may in most
+    //! cases model `X` by simply performing whatever operation is required
+    //! on its underlying value, and then wrapping the result back in a `C`.
+    //! Currently, automatic models are provided for Constants whose
+    //! underlying value (`C::value_type`) is a model of the following
+    //! concepts: Comparable, Orderable, Enumerable, Logical and Monoid
+    //! up to IntegralDomain. While it would be possible in theory to
+    //! provide models for concepts like Foldable too, in practice only
+    //! a couple of concepts are useful because it allows things like
+    //! `std::integral_constant` to model a bunch of other concepts by
+    //! just defining the Constant concept.
+    //!
+    //!
+    //! @note
+    //! An interesting observation is that `Constant` is actually the
+    //! canonical embedding of the subcategory of `constexpr` things
+    //! into the Hana category, which contains everything in this library.
+    //! Hence, whatever is true in that subcategory is also true here, via
+    //! this functor. This is why we can provide models of any concept that
+    //! works on `constexpr` things for Constants, by simply passing them
+    //! through that embedding.
     //!
     //!
     //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType

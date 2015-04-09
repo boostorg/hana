@@ -41,8 +41,8 @@ int main() {
     // Constant
     //////////////////////////////////////////////////////////////////////////
 #if BOOST_HANA_TEST_PART == 1
-    test::TestConstant<detail::CanonicalConstant<int>>{ints};
-    test::TestConstant<detail::CanonicalConstant<bool>>{bools};
+    test::TestConstant<detail::CanonicalConstant<int>>{ints, tuple_t<int, long, long long>};
+    test::TestConstant<detail::CanonicalConstant<bool>>{bools, tuple_t<bool>};
 #endif
 
     //////////////////////////////////////////////////////////////////////////

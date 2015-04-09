@@ -98,7 +98,7 @@ int main() {
         static_assert(value(mpl::integral_c<int, 3>{}) == 3, "");
 
         // laws
-        test::TestConstant<ext::boost::mpl::IntegralC<int>>{ints};
+        test::TestConstant<ext::boost::mpl::IntegralC<int>>{ints, tuple_t<int, long, long long>};
     }
 
 #elif BOOST_HANA_TEST_PART == 2

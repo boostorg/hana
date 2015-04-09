@@ -156,14 +156,6 @@ namespace boost { namespace hana {
     //! most likely programming errors.
     //!
     //!
-    //! @todo
-    //! - Make sure no circularity issue with our provided operators can
-    //! arise when checking for the EqualityComparable concept.
-    //! - We could do some data type checks at the interface level,
-    //! but those checks would be a bit hairy because of the cross-type
-    //! methods. How should we handle that?
-    //!
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Equivalence_relation#Definition
     //! [2]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf
     //! [3]: http://en.cppreference.com/w/cpp/concept/EqualityComparable

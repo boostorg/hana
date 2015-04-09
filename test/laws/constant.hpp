@@ -12,8 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
+#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/logical.hpp>
 
 #include <laws/base.hpp>
@@ -36,13 +37,13 @@ namespace boost { namespace hana { namespace test {
         template <typename X>
         struct wrap_arbitrary_constant {
             static constexpr T get()
-            { return boost::hana::value(X{}); }
+            { return boost::hana::value<X>(); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
 
-        template <typename Xs>
-        TestConstant(Xs xs) {
-            foreach(xs, [](auto c) {
+        template <typename Xs, typename Convertibles>
+        TestConstant(Xs xs, Convertibles types) {
+            hana::for_each(xs, hana::capture(types)([](auto types, auto c) {
 
                 // constexpr-ness of hana::value(c)
                 constexpr auto must_be_constexpr1 = hana::value(c);
@@ -56,32 +57,38 @@ namespace boost { namespace hana { namespace test {
                     datatype_t<decltype(hana::value(c))>
                 >{}, "");
 
-                // conversion to the underlying data type
-                BOOST_HANA_CHECK(equal(
-                    to<T>(c),
-                    make<T>(hana::value(c))
-                ));
-
                 // conversion from an arbitrary Constant
                 (void)to<C>(wrap_arbitrary_constant<decltype(c)>{});
                 static_assert(is_embedded<detail::CanonicalConstant<T>, C>{}, "");
 
-            });
+                hana::for_each(types, hana::capture(c)([](auto c, auto u) {
+                    using U = typename decltype(u)::type;
 
-            // provided common data type
-            {
-                static_assert(detail::std::is_same<common_t<C, C>, C>{}, "");
+                    // conversion to something to which the underlying data
+                    // type can be converted.
+                    BOOST_HANA_CHECK(equal(
+                        to<U>(c),
+                        make<U>(hana::value(c))
+                    ));
+                    static_assert(is_embedded<C, U>{}() ^iff^ is_embedded<T, U>{}(), "");
 
-                static_assert(detail::std::is_same<
-                    common_t<C, detail::CanonicalConstant<T>>,
-                    detail::CanonicalConstant<T>
-                >{}, "");
+                    // common data type
+                    static_assert(detail::std::is_same<
+                        common_t<C, detail::CanonicalConstant<U>>,
+                        detail::CanonicalConstant<common_t<T, U>>
+                    >{}, "");
 
-                static_assert(detail::std::is_same<
-                    common_t<detail::CanonicalConstant<T>, C>,
-                    detail::CanonicalConstant<T>
-                >{}, "");
-            }
+                    static_assert(detail::std::is_same<
+                        common_t<detail::CanonicalConstant<U>, C>,
+                        detail::CanonicalConstant<common_t<T, U>>
+                    >{}, "");
+
+                    static_assert(detail::std::is_same<
+                        common_t<C, U>,
+                        common_t<typename C::value_type, U>
+                    >{}, "");
+                }));
+            }));
         }
     };
 }}} // end namespace boost::hana::test
