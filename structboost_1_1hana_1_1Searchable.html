@@ -134,7 +134,7 @@ According to the above laws, it is possible to implement all the methods pertain
 Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find_if</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find_if</code> method is fairly useless. For similar reasons, the <code>find</code> method is also fairly useless.</li>
 </ol>
 <dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find_if(xs, pred))</code>, and then reduce the minimal complete definition to <code>find_if</code>. However, this is not done because that implementation requires the predicate of <code>any_of</code> to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is more restrictive than what we have right now.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>We should provide a member <code>operator[]</code> equivalent to <code>find</code>. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>We should provide a member <code>operator[]</code> equivalent to <code>find</code>. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -633,7 +633,7 @@ Synopsis of methods</h2></td></tr>
 <div class="image">
 <img src="benchmark/searchable/subset.ctime.png" alt="subset.ctime.png"/>
 </div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching. </dd></dl>
 
 </div>
 </div>

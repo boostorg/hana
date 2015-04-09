@@ -106,7 +106,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Iterable.html',
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> concept represents data structures supporting external iteration. </p>
 <p>Intuitively, an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> can be seen as a kind of container whose elements can be pulled out one at a time. An <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> also provides a way to know when the <em>container</em> is empty, i.e. when there are no more elements to pull out.</p>
 <p>Iterables are also <a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a>; whereas <a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> represents data structures supporting internal iteration with the ability to accumulate a result, the <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> concept allows inverting the control of the iteration. This is more flexible than <a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> since it allows e.g. infinite structures to be iterated only in part, while trying to fold such a structure would never finish.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>There's a problem; <a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> is more general than <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, but there are some infinite Iterables that can't be folded properly. So both concepts actually just overlap and there is no superclass relation?</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>There's a problem; <a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> is more general than <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, but there are some infinite Iterables that can't be folded properly. So both concepts actually just overlap and there is no superclass relation?</dd></dl>
 <h2>Minimal complete definition </h2>
 <p><code>head</code>, <code>tail</code> and <code>is_empty</code></p>
 <h2>Laws </h2>
@@ -150,7 +150,7 @@ An <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable
 <h2>Operators </h2>
 <p>For convenience, the following operator is provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">xs[n]  -&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(n, xs)</div>
 </div><!-- fragment --><p> To take advantage of this operator for a type <code>T</code>, <code>T</code> must inherit <code>hana::operators::Iterable_ops&lt;T&gt;</code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><ul>
 <li>Add perfect forwarding in the methods.</li>
 <li>Use perfect forwarding in <code>Iterable::find_impl</code> once Clang bug #20619 is fixed. </li>
 </ul>
@@ -424,7 +424,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="image">
 <img src="benchmark/iterable/drop.ctime.png" alt="drop.ctime.png"/>
 </div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Provide two variants; <code>drop.at_most</code> and <code>drop.exactly</code>. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Provide two variants; <code>drop.at_most</code> and <code>drop.exactly</code>. </dd></dl>
 
 </div>
 </div>
