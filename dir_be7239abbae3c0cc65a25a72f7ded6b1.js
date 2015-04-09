@@ -41,6 +41,6 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "set.hpp", "set_8hpp.html", null ],
     [ "string.hpp", "string_8hpp.html", null ],
     [ "traversable.hpp", "traversable_8hpp.html", null ],
-    [ "tuple.hpp", "tuple_8hpp.html", "tuple_8hpp" ],
+    [ "tuple.hpp", "tuple_8hpp.html", null ],
     [ "type.hpp", "type_8hpp.html", null ]
 ];

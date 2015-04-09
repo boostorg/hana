@@ -54,7 +54,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-quickstart-cheatsheet",
-"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b"
+"structboost_1_1hana_1_1_sequence.html#a65295edabe2029007e7ecf640ae7bb0b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

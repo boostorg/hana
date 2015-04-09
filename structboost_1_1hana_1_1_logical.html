@@ -147,8 +147,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <h2>Minimal complete definition </h2>
 <ol type="1">
 <li><code>eval_if</code>, <code>not_</code> and <code>while_</code><br />
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd></dd></dl>
-</li>
+The minimal complete definition for being a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> is <code>eval_if</code>, <code>not_</code> and <code>while_</code>. All the other methods can be defined in those terms: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(cond, x, y) = <a class="code" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, lazy(x), lazy(y))</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, y, x)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, x, y)</div>
+<div class="line">etc...</div>
+</div><!-- fragment --></li>
 </ol>
 <h2>Provided models </h2>
 <ol type="1">

@@ -8,6 +8,5 @@ var dir_5cd48345e613e9c2bb7d6a9fbaa80f49 =
     [ "make.hpp", "fwd_2core_2make_8hpp.html", "fwd_2core_2make_8hpp" ],
     [ "models.hpp", "fwd_2core_2models_8hpp.html", "fwd_2core_2models_8hpp" ],
     [ "operators.hpp", "fwd_2core_2operators_8hpp.html", null ],
-    [ "when.hpp", "fwd_2core_2when_8hpp.html", "fwd_2core_2when_8hpp" ],
-    [ "wrong.hpp", "fwd_2core_2wrong_8hpp.html", null ]
+    [ "when.hpp", "fwd_2core_2when_8hpp.html", "fwd_2core_2when_8hpp" ]
 ];

@@ -107,7 +107,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_comparable.htm
 <p>Intuitively, <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> objects must define a binary predicate named <code>equal</code> that returns whether both objects represent the same abstract value. In other words, <code>equal</code> must check for deep equality. Since "representing the same abstract value" is difficult to express formally, the exact meaning of equality is partially left to interpretation by the programmer with the following guidelines:<br />
 </p><ol type="1">
 <li>Equality should be compatible with copy construction; copy constructing a value yields an <code>equal</code> value.</li>
-<li>Equality should be independent of representation; an object representing the fraction <code>0/2</code> should be <code>equal</code> to an object representing <code>0/4</code>, because they both represent the mathematical object <code>0</code>.</li>
+<li>Equality should be independent of representation; an object representing a fraction as <code>4/8</code> should be <code>equal</code> to an object representing a fraction as <code>2/4</code>, because they both represent the mathematical object <code>1/2</code>.</li>
 </ol>
 <p>Moreover, <code>equal</code> must exhibit properties that make it intuitive to use for determining the equivalence of objects, which is formalized by the following laws.</p>
 <h2>Laws </h2>
@@ -144,12 +144,7 @@ Two data types <code>T</code> and <code>U</code> that model the cross-type Equal
 <p>The method definitions for data types satisfying the above properties are </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)     = <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 </div><!-- fragment --><h2>Important note: special behavior of <code>equal</code> </h2>
-<p>In the context of programming with heterogeneous values, it is useful to have unrelated objects compare <code>false</code> instead of triggering an error. For this reason, <code>equal</code> adopts a special behavior for unrelated objects of data types <code>T</code> and <code>U</code> that do not satisfy the above requirements for the cross-type overloads. Specifically, when <code>T</code> and <code>U</code> are unrelated (i.e. <code>T</code> can't be converted to <code>U</code> and vice-versa), comparing objects of those data types yields a compile-time false value. This has the effect that unrelated objects like <code>float</code> and <code>std::string</code> will compare false, while comparing related objects that can not be safely embedded into the same super structure (like <code>long long</code> and <code>float</code> because of the precision loss) will trigger a compile-time assertion. Also note that for any data type <code>T</code> for which the minimial complete definition of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> is not provided, a compile-time assertion will also be triggered because <code>T</code> and <code>T</code> trivially share the common data type <code>T</code>, which is the expected behavior. This design choice aims to provide more flexibility for comparing objects, while still rejecting usage patterns that are most likely programming errors.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd><ul>
-<li>Make sure no circularity issue with our provided operators can arise when checking for the EqualityComparable concept.</li>
-<li>We could do some data type checks at the interface level, but those checks would be a bit hairy because of the cross-type methods. How should we handle that?</li>
-</ul>
-</dd></dl>
+<p>In the context of programming with heterogeneous values, it is useful to have unrelated objects compare <code>false</code> instead of triggering an error. For this reason, <code>equal</code> adopts a special behavior for unrelated objects of data types <code>T</code> and <code>U</code> that do not satisfy the above requirements for the cross-type overloads. Specifically, when <code>T</code> and <code>U</code> are unrelated (i.e. <code>T</code> can't be converted to <code>U</code> and vice-versa), comparing objects of those data types yields a compile-time false value. This has the effect that unrelated objects like <code>float</code> and <code>std::string</code> will compare false, while comparing related objects that can not be safely embedded into the same super structure (like <code>long long</code> and <code>float</code> because of the precision loss) will trigger a compile-time assertion. Also note that for any data type <code>T</code> for which the minimial complete definition of <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> is not provided, a compile-time assertion will also be triggered because <code>T</code> and <code>T</code> trivially share the common data type <code>T</code>, which is the expected behavior. This design choice aims to provide more flexibility for comparing objects, while still rejecting usage patterns that are most likely programming errors. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -198,11 +193,11 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(1, 2)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(1, 2)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(any_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)));</div>
+<div class="line">static_assert(any_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><blockquote class="doxtable">
 <h4>Rationale for the arity of <code>equal</code></h4>
 <p>It is a valid question whether <code>equal</code> should accept more than 2 arguments and have semantics matching those of Python's <code>==</code>. This is not supported right now for the following reasons:</p><ul>
@@ -247,11 +242,11 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)));</div>
+<div class="line">static_assert(all_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -286,7 +281,7 @@ Synopsis of methods</h2></td></tr>
 <h2>Signature </h2>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> <code>B</code>, the signature is \( \mathrm{comparing} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> grouped = group_by(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(length), make&lt;Tuple&gt;(</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> grouped = group.by(<a class="code" href="structboost_1_1hana_1_1_comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(length), make&lt;Tuple&gt;(</div>
 <div class="line">    make&lt;Tuple&gt;(1, 2, 3),</div>
 <div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>),</div>
 <div class="line">    range_c&lt;long, 0, 1&gt;,</div>
@@ -295,7 +290,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    make&lt;Tuple&gt;(123.4, <span class="keyword">nullptr</span>)</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(grouped == make&lt;Tuple&gt;(</div>
+<div class="line">static_assert(grouped == make&lt;Tuple&gt;(</div>
 <div class="line">    make&lt;Tuple&gt;(</div>
 <div class="line">        make&lt;Tuple&gt;(1, 2, 3),</div>
 <div class="line">        make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)</div>
@@ -308,7 +303,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">        range_c&lt;int, 0, 2&gt;,</div>
 <div class="line">        make&lt;Tuple&gt;(123.4, <span class="keyword">nullptr</span>)</div>
 <div class="line">    )</div>
-<div class="line">));</div>
+<div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_type.html','')
 </div><!-- fragment --><p>Also, this makes any function returning a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code> easily usable as a classic metafunction, by simply using decltype. For example, let's consider the following function, which finds the largest type in a sequence of types:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Types&gt;</div>
 <div class="line">constexpr <span class="keyword">auto</span> largest(Types ...types) {</div>
-<div class="line">    <span class="keywordflow">return</span> maximum_by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ <a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>, make&lt;Tuple&gt;(types...));</div>
+<div class="line">    <span class="keywordflow">return</span> maximum.by(ordering(<a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>), make&lt;Tuple&gt;(types...));</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> size&gt;</div>
@@ -146,7 +146,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_type.html','')
 <div class="fragment"><div class="line"><span class="comment">// Note: tuple_t&lt;T...&gt; is equivalent to make&lt;Tuple&gt;(type&lt;T&gt;...)</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
 <div class="line"><span class="keyword">struct </span>largest</div>
-<div class="line">    : decltype(maximum_by(less ^on^ sizeof_, tuple_t&lt;T...&gt;))</div>
+<div class="line">    : decltype(maximum.by(ordering(sizeof_), tuple_t&lt;T...&gt;))</div>
 <div class="line">{ };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> size&gt;</div>
@@ -175,11 +175,6 @@ Two <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represen
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(type&lt;T&gt; != type&lt;U&gt;);</div>
 </div><!-- fragment --></li>
 </ol>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000041">Todo:</a></b></dt><dd><ul>
-<li>Completely figure out and document the category theoretical foundation of this data type.</li>
-<li>Consider instantiating <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> if that's possible. </li>
-</ul>
-</dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -187,12 +182,19 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a4b171ee57f23017113921071f72639d0"><td class="memTemplItemLeft" align="right" valign="top">constexpr unspecified type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0">type</a> {}</td></tr>
 <tr class="memdesc:a4b171ee57f23017113921071f72639d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an object representing the C++ type <code>T</code>.  <a href="#a4b171ee57f23017113921071f72639d0">More...</a><br /></td></tr>
 <tr class="separator:a4b171ee57f23017113921071f72639d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d68ff2275cbb295556d83598f04e39a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a></td></tr>
-<tr class="memdesc:a7d68ff2275cbb295556d83598f04e39a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>.  <a href="#a7d68ff2275cbb295556d83598f04e39a">More...</a><br /></td></tr>
+<tr class="memitem:a7d68ff2275cbb295556d83598f04e39a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a> = see documentation</td></tr>
+<tr class="memdesc:a7d68ff2275cbb295556d83598f04e39a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>decltype</code> keyword, lifted to Hana.  <a href="#a7d68ff2275cbb295556d83598f04e39a">More...</a><br /></td></tr>
 <tr class="separator:a7d68ff2275cbb295556d83598f04e39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c8833c714e03f37d7e593915a407e6a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a3c8833c714e03f37d7e593915a407e6a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt; Type &gt;</a> = <a class="el" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a></td></tr>
+<tr class="memdesc:a3c8833c714e03f37d7e593915a407e6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>decltype_</code>, provided for convenience.  <a href="#a3c8833c714e03f37d7e593915a407e6a">More...</a><br /></td></tr>
+<tr class="separator:a3c8833c714e03f37d7e593915a407e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b702b280ca02f118affaaca9112a8c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a></td></tr>
-<tr class="memdesc:a26b702b280ca02f118affaaca9112a8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>.  <a href="#a26b702b280ca02f118affaaca9112a8c">More...</a><br /></td></tr>
+<tr class="memdesc:a26b702b280ca02f118affaaca9112a8c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>sizeof</code> keyword, lifted to Hana.  <a href="#a26b702b280ca02f118affaaca9112a8c">More...</a><br /></td></tr>
 <tr class="separator:a26b702b280ca02f118affaaca9112a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fd9ac456f4b5574dcb16384dbb85736"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a></td></tr>
+<tr class="memdesc:a6fd9ac456f4b5574dcb16384dbb85736"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>alignof</code> keyword, lifted to Hana.  <a href="#a6fd9ac456f4b5574dcb16384dbb85736">More...</a><br /></td></tr>
+<tr class="separator:a6fd9ac456f4b5574dcb16384dbb85736"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
 <a class="anchor" id="a4b171ee57f23017113921071f72639d0"></a>
@@ -227,7 +229,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto decltype_</td>
+          <td class="memname">constexpr auto decltype_ = see documentation</td>
         </tr>
       </table>
   </td>
@@ -236,15 +238,52 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> type&lt;decltype(x)&gt;;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns the type of an object as a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>. </p>
-<h3>Example</h3>
+
+<p><code>decltype</code> keyword, lifted to Hana. </p>
+<p><code>decltype_</code> is somewhat equivalent to <code>decltype</code> in that it returns the type of an object, except it returns it as a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> object which is a first-class citizen of Hana instead of a raw C++ type. Specifically, given an object <code>x</code>, <code>decltype_</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(x) == type&lt;decltype(x) with references stripped&gt;</div>
+</div><!-- fragment --><p>As you can see, <code>decltype_</code> will strip any reference from the object's actual type. The reason for doing so is explained below. However, any <code>cv</code>-qualifiers will be retained. Also, when given a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> object, <code>decltype_</code> is just the identity function. Hence, for any C++ type <code>T</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;T&gt;) == type&lt;T&gt;</div>
+</div><!-- fragment --><p>In conjunction with the way <code>metafunction</code> &amp; al. are specified, this behavior makes it easier to interact with both types and values at the same time. However, it does make it impossible to create a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> containing a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> with <code>decltype_</code>. In other words, it is not possible to create a <code>type&lt;decltype(type&lt;T&gt;)&gt;</code> with this utility, because <code>decltype_(type&lt;T&gt;)</code> would be just <code>type&lt;T&gt;</code> instead of <code>type&lt;decltype(type&lt;T&gt;)&gt;</code>. This use case is assumed to be rare and a hand-coded function can be used if this is needed.</p>
+<h3>Rationale for stripping the references</h3>
+<p>The rules for template argument deduction are such that a perfect solution that always matches <code>decltype</code> is impossible. Hence, we have to settle on a solution that's good and and consistent enough for our needs. One case where matching <code>decltype</code>'s behavior is impossible is when the argument is a plain, unparenthesized variable or function parameter. In that case, <code>decltype_</code>'s argument will be deduced as a reference to that variable, but <code>decltype</code> would have given us the actual type of that variable, without references. Also, given the current definition of <code>metafunction</code> &amp; al., it would be mostly useless if <code>decltype_</code> could return a reference, because it is unlikely that <code>F</code> expects a reference in its simplest use case: </p><div class="fragment"><div class="line"><span class="keywordtype">int</span> i = 0;</div>
+<div class="line"><span class="keyword">auto</span> result = metafunction&lt;F&gt;(i);</div>
+</div><!-- fragment --><p>Hence, always discarding references seems to be the least painful solution.</p>
+<h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(type&lt;X&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(X{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(type&lt;int&gt; == <a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(X{}) == type&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;X&gt;) == type&lt;X&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(1) == type&lt;int&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> <span class="keyword">const</span>&amp; i = 1;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(i) == type&lt;int const&gt;);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a3c8833c714e03f37d7e593915a407e6a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1_type.html">Type</a> &gt; = <a class="el" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>decltype_</code>, provided for convenience. </p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt;Type&gt;</a>(X{}) == <a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(X{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt;Type&gt;</a>(type&lt;X&gt;) == <a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;X&gt;));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -265,17 +304,57 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
+<div class="line">        <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(x))::<a class="code" href="structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
 <div class="line">        <span class="keywordflow">return</span> size_t&lt;sizeof(T)&gt;;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the size of the C++ type represented by a <code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>. </p>
-<h3>Example</h3>
+<p><code>sizeof</code> keyword, lifted to Hana. </p>
+<p><code>sizeof_</code> is somewhat equivalent to <code>sizeof</code> in that it returns the size of an expression or type, but it takes an arbitrary expression or a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> object and returns its size as an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. Specifically, given an expression <code>expr</code>, <code>sizeof_</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(expr) == size_t&lt;sizeof(decltype(expr) with references stripped)&gt;</div>
+</div><!-- fragment --><p>However, given a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> object, <code>sizeof_</code> will simply fetch the size of the C++ type represented by that object. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;T&gt;) == size_t&lt;sizeof(T)&gt;</div>
+</div><!-- fragment --><p>The behavior of <code>sizeof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>sizeof_</code>.</p>
+<h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;X&gt;) == <span class="keyword">sizeof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(1) == <span class="keyword">sizeof</span>(1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;int&gt;) == <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000042">Todo:</a></b></dt><dd>Should we also support non-<code><a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a></code>s? That could definitely be useful. </dd></dl>
-
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a6fd9ac456f4b5574dcb16384dbb85736"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto alignof_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
+<div class="line">        <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(<a class="code" href="structboost_1_1hana_1_1_type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(x))::<a class="code" href="structboost_1_1hana_1_1_type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
+<div class="line">        <span class="keywordflow">return</span> size_t&lt;alignof(T)&gt;;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p><code>alignof</code> keyword, lifted to Hana. </p>
+<p><code>alignof_</code> is somewhat equivalent to <code>alignof</code> in that it returns the alignment required by any instance of a type, but it takes a <a class="el" href="structboost_1_1hana_1_1_type.html" title="Represents a C++ type. ">Type</a> object and returns its alignment as an <a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. Like <code>sizeof</code> which works for expressions and type-ids, <code>alignof_</code> can also be called on an arbitrary expression. Specifically, given an expression <code>expr</code> and a C++ type <code>T</code>, <code>alignof_</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(expr) == size_t&lt;alignof(decltype(expr) with references stripped)&gt;</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;T&gt;) == size_t&lt;alignof(T)&gt;</div>
+</div><!-- fragment --><p>The behavior of <code>alignof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>alignof_</code>.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;X&gt;) == <span class="keyword">alignof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(1) == <span class="keyword">alignof</span>(decltype(1)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;int&gt;) == <span class="keyword">alignof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

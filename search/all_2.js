@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['bind',['bind',['../structboost_1_1hana_1_1Monad.html#a4df7d83b8aeb3bcf99e5675f69af4090',1,'boost::hana::Monad']]],
+  ['bind',['bind',['../structboost_1_1hana_1_1_monad.html#a4df7d83b8aeb3bcf99e5675f69af4090',1,'boost::hana::Monad']]],
   ['bool_2ehpp',['bool.hpp',['../bool_8hpp.html',1,'']]],
   ['bool_2ehpp',['bool.hpp',['../fwd_2bool_8hpp.html',1,'']]],
-  ['bool_5f',['bool_',['../structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87',1,'boost::hana::IntegralConstant']]],
+  ['bool_5f',['bool_',['../structboost_1_1hana_1_1_integral_constant.html#ade6e1698f22d8a126992e55676496a87',1,'boost::hana::IntegralConstant']]],
   ['boost_2ehpp',['boost.hpp',['../boost_8hpp.html',1,'']]],
   ['boost_5fhana_5fassert',['BOOST_HANA_ASSERT',['../group__group-assertions.html#ga3aef20746c9e8ad15ad10179f9b01397',1,'assert.hpp']]],
   ['boost_5fhana_5fcheck',['BOOST_HANA_CHECK',['../group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139',1,'assert.hpp']]],
@@ -15,10 +15,10 @@ var searchData=
   ['boost_5fhana_5fconstant_5fcheck',['BOOST_HANA_CONSTANT_CHECK',['../group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fassert',['BOOST_HANA_CONSTEXPR_ASSERT',['../group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fcheck',['BOOST_HANA_CONSTEXPR_CHECK',['../group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a',1,'assert.hpp']]],
-  ['boost_5fhana_5fdefine_5frecord',['BOOST_HANA_DEFINE_RECORD',['../structboost_1_1hana_1_1Record.html#a8b4b7796bad58bc18683d99ca90a0034',1,'boost::hana::Record']]],
-  ['boost_5fhana_5fdefine_5frecord_5fintrusive',['BOOST_HANA_DEFINE_RECORD_INTRUSIVE',['../structboost_1_1hana_1_1Record.html#ac0c49e26841cde4895d867e2e479e085',1,'boost::hana::Record']]],
+  ['boost_5fhana_5fdefine_5frecord',['BOOST_HANA_DEFINE_RECORD',['../structboost_1_1hana_1_1_record.html#a8b4b7796bad58bc18683d99ca90a0034',1,'boost::hana::Record']]],
+  ['boost_5fhana_5fdefine_5frecord_5fintrusive',['BOOST_HANA_DEFINE_RECORD_INTRUSIVE',['../structboost_1_1hana_1_1_record.html#ac0c49e26841cde4895d867e2e479e085',1,'boost::hana::Record']]],
   ['boost_5fhana_5fruntime_5fassert',['BOOST_HANA_RUNTIME_ASSERT',['../group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2',1,'assert.hpp']]],
   ['boost_5fhana_5fruntime_5fcheck',['BOOST_HANA_RUNTIME_CHECK',['../group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101',1,'assert.hpp']]],
-  ['boost_5fhana_5fstring',['BOOST_HANA_STRING',['../structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84',1,'boost::hana::String']]],
+  ['boost_5fhana_5fstring',['BOOST_HANA_STRING',['../structboost_1_1hana_1_1_string.html#a7f15faa77e126e1c2b08a2224ceefb84',1,'boost::hana::String']]],
   ['operators',['operators',['../namespaceboost_1_1hana_1_1operators.html',1,'boost::hana']]]
 ];

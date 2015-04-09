@@ -1,6 +1,5 @@
 var structboost_1_1hana_1_1_sequence =
 [
-    [ "group_by", "structboost_1_1hana_1_1_sequence.html#ad855f1d86e9bf0d31d67c191412a9082", null ],
     [ "group", "structboost_1_1hana_1_1_sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
     [ "init", "structboost_1_1hana_1_1_sequence.html#a733fdb2e8686033466beea8323e53a26", null ],
     [ "intersperse", "structboost_1_1hana_1_1_sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec", null ],
@@ -9,13 +8,9 @@ var structboost_1_1hana_1_1_sequence =
     [ "remove_at", "structboost_1_1hana_1_1_sequence.html#a65295edabe2029007e7ecf640ae7bb0b", null ],
     [ "remove_at_c", "structboost_1_1hana_1_1_sequence.html#aa597b243b348503860e1179065c508ec", null ],
     [ "reverse", "structboost_1_1hana_1_1_sequence.html#a4471413ccc3835db5e48658683b8aba0", null ],
-    [ "scanl", "structboost_1_1hana_1_1_sequence.html#adfb039a3d46931ef17fef56c77d8256c", null ],
-    [ "scanl1", "structboost_1_1hana_1_1_sequence.html#a62411eb57e86f3cb7394f22fd3651355", null ],
-    [ "scanr", "structboost_1_1hana_1_1_sequence.html#abb725e66aedc0c19c38b38a00302abf4", null ],
-    [ "scanr1", "structboost_1_1hana_1_1_sequence.html#a5948df39fe904d509f1bb073d53e3965", null ],
+    [ "scan", "structboost_1_1hana_1_1_sequence.html#a37751569a9f7188ab64a2c288168b404", null ],
     [ "slice", "structboost_1_1hana_1_1_sequence.html#a18968c488a8b0cdc2697296024da9293", null ],
     [ "slice_c", "structboost_1_1hana_1_1_sequence.html#afa204f71aac9f461d8574653295c67ba", null ],
-    [ "sort_by", "structboost_1_1hana_1_1_sequence.html#a6ed2907b48fcba3dd1059b4b0bfde624", null ],
     [ "sort", "structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db", null ],
     [ "span", "structboost_1_1hana_1_1_sequence.html#ab663fc84c23656a41d4dfcb586f0085c", null ],
     [ "take", "structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1", null ],

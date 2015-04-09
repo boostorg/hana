@@ -141,6 +141,12 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a15cd26f8259bdd4306cd0907ef578b47"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a></td></tr>
 <tr class="memdesc:a15cd26f8259bdd4306cd0907ef578b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine a monadic structure with itself <code>n</code> times.  <a href="#a15cd26f8259bdd4306cd0907ef578b47">More...</a><br /></td></tr>
 <tr class="separator:a15cd26f8259bdd4306cd0907ef578b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad993eca017378409ad0b3a2e6b6807ff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a></td></tr>
+<tr class="memdesc:ad993eca017378409ad0b3a2e6b6807ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all the elements of a monadic structure that satisfy some predicate.  <a href="#ad993eca017378409ad0b3a2e6b6807ff">More...</a><br /></td></tr>
+<tr class="separator:ad993eca017378409ad0b3a2e6b6807ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08e2f3034ed81a7bfff513a5b5f82031"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html#a08e2f3034ed81a7bfff513a5b5f82031">remove</a></td></tr>
+<tr class="memdesc:a08e2f3034ed81a7bfff513a5b5f82031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all the elements of a monadic structure that are equal to some value.  <a href="#a08e2f3034ed81a7bfff513a5b5f82031">More...</a><br /></td></tr>
+<tr class="separator:a08e2f3034ed81a7bfff513a5b5f82031"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
 <tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_monad_plus.html#acbf4797cf95bb19dfe33a16cf86fe3c9">repeat</a></td></tr>
 <tr class="memdesc:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a monadic structure by combining a lifted value with itself <code>n</code> times.  <a href="#acbf4797cf95bb19dfe33a16cf86fe3c9">More...</a><br /></td></tr>
@@ -177,7 +183,7 @@ Synopsis of methods</h2></td></tr>
 <p>Combine two monadic structures together. </p>
 <p>Given two monadic structures, <code>concat</code> combines them together and returns a new monadic structure. The exact definition of <code>concat</code> will depend on the exact model of <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> at hand, but for sequences it corresponds intuitively to simple concatenation.</p>
 <p>Also note that combination is not required to be commutative. In other words, there is no requirement that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, ys) == <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(ys, xs)</div>
-</div><!-- fragment --><p> , and it does not hold in general.</p>
+</div><!-- fragment --><p> and indeed it does not hold in general.</p>
 <h2>Signature </h2>
 <p>Given <code>M</code> a <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, the signature is \( \mathrm{concat} : M(T) \times M(T) \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -366,17 +372,9 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(make&lt;Tuple&gt;(1, 2.0, 3, 4.0), trait_&lt;std::is_integral&gt;) == make&lt;Tuple&gt;(1, 3)</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3), trait_&lt;std::is_integral&gt;) == just(3)</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3.0), trait_&lt;std::is_integral&gt;) == nothing</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(make&lt;Tuple&gt;(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make&lt;Tuple&gt;(1, 3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3), trait&lt;std::is_integral&gt;) == just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3.0), trait&lt;std::is_integral&gt;) == nothing);</div>
 </div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="image">
 <img src="benchmark/monad_plus/filter.ctime.png" alt="filter.ctime.png"/>
@@ -421,9 +419,85 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(size_t&lt;2&gt;, make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(size_t&lt;2&gt;, make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ad993eca017378409ad0b3a2e6b6807ff"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto remove_if</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; predicate) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Remove all the elements of a monadic structure that satisfy some predicate. </p>
+<p>Given a monadic structure <code>xs</code> and a unary predicate, <code>remove_if</code> returns a new monadic structure equal to <code>xs</code> without all its elements that satisfy the predicate. This is equivalent to <code>filter</code> with a negated predicate, i.e. </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(xs, predicate) == <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(xs, negated predicated)</div>
+</div><!-- fragment --><h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code> and a predicate of type \( T \to Bool \) for some compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code>, the signature is \( \mathrm{remove\_if} : M(T) \times (T \to Bool) \to M(T) \)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>A monadic structure to remove some elements from.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A unary predicate called as <code>predicate(x)</code>, where <code>x</code> is an element of the structure, and returning whether <code>x</code> should be removed from the structure. In the current version of the library, <code>predicate</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(make&lt;Tuple&gt;(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make&lt;Tuple&gt;(2.0, 4.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3.0), trait&lt;std::is_integral&gt;) == just(3.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3), trait&lt;std::is_integral&gt;) == nothing);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a08e2f3034ed81a7bfff513a5b5f82031"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto remove</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; value) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Remove all the elements of a monadic structure that are equal to some value. </p>
+<p>Given a monadic structure <code>xs</code> and a <code>value</code>, <code>remove</code> returns a new monadic structure equal to <code>xs</code> without all its elements that are equal to the given <code>value</code>. <code>remove</code> is equivalent to <code>remove_if</code> with the <code>equal.to(value)</code> predicate, i.e. </p><div class="fragment"><div class="line"><span class="keyword">remove</span>(xs, value) == <a class="code" href="structboost_1_1hana_1_1_monad_plus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(xs, equal.to(value))</div>
+</div><!-- fragment --><h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code> and a value of type <code>T</code>, the signature is \( \mathrm{remove} : M(T) \times T \to M(T) \)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>A monadic structure to remove some elements from.</td></tr>
+    <tr><td class="paramname">value</td><td>A value that is compared to every element <code>x</code> of the structure. Elements of the structure that are equal to that value are removed from the structure. This requires every element to be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> with <code>value</code>. Furthermore, in the current version of the library, comparing <code>value</code> with any element of the structure must yield a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(tuple_t&lt;int, char, float&gt;, type&lt;char&gt;) == tuple_t&lt;int, float&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(just(type&lt;int&gt;), type&lt;char&gt;) == just(type&lt;int&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(just(type&lt;int&gt;), type&lt;int&gt;) == nothing);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -471,7 +545,7 @@ template&lt;typename M &gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(repeat&lt;Tuple&gt;(size_t&lt;2&gt;, <span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>));</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Of course, because Maybe can hold at most one element.</span></div>
+<div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in a Maybe.</span></div>
 <div class="line">static_assert(repeat&lt;Maybe&gt;(size_t&lt;2&gt;, <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>

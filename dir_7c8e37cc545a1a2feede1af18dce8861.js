@@ -14,5 +14,10 @@ var dir_7c8e37cc545a1a2feede1af18dce8861 =
     [ "less_than_comparable.hpp", "less__than__comparable_8hpp.html", null ],
     [ "reverse_partial.hpp", "reverse__partial_8hpp.html", "reverse__partial_8hpp" ],
     [ "tuple_cartesian_product.hpp", "tuple__cartesian__product_8hpp.html", null ],
-    [ "wrap.hpp", "wrap_8hpp.html", null ]
+    [ "type_foldl1.hpp", "type__foldl1_8hpp.html", null ],
+    [ "type_foldr1.hpp", "type__foldr1_8hpp.html", null ],
+    [ "wrap.hpp", "wrap_8hpp.html", null ],
+    [ "wrong.hpp", "wrong_8hpp.html", [
+      [ "wrong", "structboost_1_1hana_1_1detail_1_1wrong.html", null ]
+    ] ]
 ];

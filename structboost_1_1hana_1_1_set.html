@@ -118,7 +118,7 @@ Two sets are equal iff they contain the same elements, regardless of the order. 
 Folding a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield unspecified behavior. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line">static_assert(minimum(xs) == int_&lt;0&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(maximum(xs) == int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(sum(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(sum&lt;&gt;(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// folding is not really meaningful since the order of the</span></div>
 <div class="line"><span class="comment">// elements is unspecified.</span></div>
@@ -177,7 +177,7 @@ template&lt;&gt; </div>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1_set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> containing the given elements. </p>
 <dl class="section note"><dt>Note</dt><dd>There must not be duplicate elements.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000034">Todo:</a></b></dt><dd>Consider allowing duplicates elements in this constructor.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>Consider allowing duplicates elements in this constructor.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1_set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt;Set&gt;</a>(int_&lt;1&gt;, type&lt;void&gt;);</div>
 </div><!-- fragment -->
@@ -264,8 +264,8 @@ template&lt;&gt; </div>
 <h3>Example</h3>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, <a class="code" href="fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1_set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
