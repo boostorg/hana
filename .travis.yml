@@ -80,19 +80,19 @@ install:
   # Install Boost headers
   - if [ "${BOOST_VERSION}" == "1.57.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
   - if [ "${BOOST_VERSION}" == "1.58.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0.beta.1/boost_1_58_0_b1.tar.gz"; fi
-  - if [ "${BOOST_VERSION}" != "trunk" ]; then travis_retry wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
+  - if [ "${BOOST_VERSION}" != "trunk" ]; then travis_wait travis_retry wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
   - if [ "${BOOST_VERSION}" != "trunk" ]; then mkdir boost && tar --strip-components=1 -C boost -xzf boost.tar.gz; fi
-  - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_retry git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
+  - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_wait travis_retry git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
   - if [ "${BOOST_VERSION}" == "trunk" ]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
 
   # Install a recent CMake
-  - travis_retry wget --quiet -O cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
+  - travis_wait travis_retry wget --quiet -O cmake.tar.gz http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
   - mkdir cmake && tar --strip-components=1 -C cmake -xzf cmake.tar.gz
   - export PATH=${PWD}/cmake/bin:${PATH}
 
   # Install libc++ with libstdc++ (see http://libcxx.llvm.org)
   - echo | g++ -Wp,-v -x c++ - -fsyntax-only
-  - travis_retry svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
+  - travis_wait travis_retry svn --quiet co http://llvm.org/svn/llvm-project/libcxx/trunk libcxx
   - mkdir libcxx/build
   - (cd libcxx/build && cmake .. -DLIBCXX_CXX_ABI=libstdc++ -DLIBCXX_CXX_ABI_INCLUDE_PATHS="/usr/include/c++/4.6;/usr/include/c++/4.6/x86_64-linux-gnu")
   - make -C libcxx/build cxx -j2
