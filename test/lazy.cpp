@@ -207,7 +207,7 @@ int main() {
         }
 
         // laws
-        test::TestApplicative<Lazy>{};
+        test::TestApplicative<Lazy>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////

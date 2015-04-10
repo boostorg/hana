@@ -363,7 +363,7 @@ int main() {
         }
 
         // laws
-        test::TestApplicative<Maybe>{};
+        test::TestApplicative<Maybe>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////

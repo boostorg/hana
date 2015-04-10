@@ -38,5 +38,5 @@ int main() {
     // Functor and Applicative
     //////////////////////////////////////////////////////////////////////////
     test::TestFunctor<ext::boost::fusion::Tuple>{eq_tuples, eq_values};
-    test::TestApplicative<ext::boost::fusion::Tuple>{};
+    test::TestApplicative<ext::boost::fusion::Tuple>{eq_tuples};
 }

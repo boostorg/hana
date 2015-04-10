@@ -127,7 +127,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestFunctor<ext::std::Tuple>{big_eq_tuples, eq_values};
-        test::TestApplicative<ext::std::Tuple>{};
+        test::TestApplicative<ext::std::Tuple>{small_eq_tuples};
         test::TestMonad<ext::std::Tuple>{big_eq_tuples, nested_tuples};
     }
 

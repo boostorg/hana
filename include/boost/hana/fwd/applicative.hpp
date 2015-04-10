@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     //! @f$ fs : F(B \to C) @f$,
     //! @f$ gs : F(A \to B) @f$,
     //! @code
-    //!     ap(lift<F>(compose), fs, gs, xs) == ap(fs, ap(gs, xs))
+    //!     ap(ap(lift<F>(compose), fs, gs), xs) == ap(fs, ap(gs, xs))
     //! @endcode
     //!
     //! 3. Homomorphism\n
@@ -59,8 +59,10 @@ namespace boost { namespace hana {
     //! For all objects `x` of data type `A` and functions-in-an-applicative
     //! @f$ fs : F(A \to B) @f$,
     //! @code
-    //!     ap(fs, lift<F>(x)) == ap(lift<F>([](f){ f(x) }), fs)
+    //!     ap(fs, lift<F>(x)) == ap(lift<F>(apply(-, x)), fs)
     //! @endcode
+    //! where `apply(-, x)` denotes the partial application of the `apply`
+    //! function from the @ref Functional module to the `x` argument.
     //!
     //! As a consequence of these laws, the model of `Functor` for `F` will
     //! satisfy the following for all objects `xs` of data type `F(A)` and

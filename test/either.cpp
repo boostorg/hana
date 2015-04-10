@@ -321,7 +321,7 @@ int main() {
         }
 
         // laws
-        test::TestApplicative<Either>{};
+        test::TestApplicative<Either>{eqs};
     }
 
 #elif BOOST_HANA_TEST_PART == 5

@@ -52,6 +52,6 @@ int main() {
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     test::TestFunctor<ext::boost::fusion::List>{eq_lists, eq_values};
-    test::TestApplicative<ext::boost::fusion::List>{};
+    test::TestApplicative<ext::boost::fusion::List>{eq_lists};
     test::TestMonad<ext::boost::fusion::List>{eq_lists, eq_lists_lists};
 }

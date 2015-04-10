@@ -50,6 +50,6 @@ int main() {
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     test::TestFunctor<ext::boost::Tuple>{eq_tuples, eq_values};
-    test::TestApplicative<ext::boost::Tuple>{};
+    test::TestApplicative<ext::boost::Tuple>{eq_tuples};
     test::TestMonad<ext::boost::Tuple>{eq_tuples, eq_tuples_tuples};
 }

@@ -53,6 +53,6 @@ int main() {
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     test::TestFunctor<ext::boost::fusion::Vector>{eq_vectors, eq_values};
-    test::TestApplicative<ext::boost::fusion::Vector>{};
+    test::TestApplicative<ext::boost::fusion::Vector>{eq_vectors};
     test::TestMonad<ext::boost::fusion::Vector>{eq_vectors, eq_vectors_vectors};
 }

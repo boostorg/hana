@@ -52,6 +52,6 @@ int main() {
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     test::TestFunctor<ext::boost::fusion::Deque>{eq_deques, eq_values};
-    test::TestApplicative<ext::boost::fusion::Deque>{};
+    test::TestApplicative<ext::boost::fusion::Deque>{eq_deques};
     test::TestMonad<ext::boost::fusion::Deque>{eq_deques, eq_deques_deques};
 }

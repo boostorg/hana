@@ -535,7 +535,7 @@ int main() {
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestApplicative<Tuple>{};
+        test::TestApplicative<Tuple>{eq_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 8
