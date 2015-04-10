@@ -4,11 +4,34 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/wrap.hpp>
 #include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
 
+
+namespace wrap_detail {
+    template <typename Datatype, typename X>
+    struct wrapper {
+        X unwrap;
+        struct hana { using datatype = Datatype; };
+    };
+
+    template <typename Datatype>
+    struct wrap_impl {
+        template <typename X>
+        constexpr auto operator()(X x) const {
+            return wrapper<Datatype, X>{x};
+        }
+    };
+}
+
+template <typename Datatype>
+constexpr wrap_detail::wrap_impl<Datatype> wrap{};
+
+BOOST_HANA_CONSTEXPR_LAMBDA auto unwrap = [](auto x) {
+    return x.unwrap;
+};
 
 //////////////////////////////////////////////////////////////////////////////
 // core
@@ -71,12 +94,12 @@ struct Function;
 
 template <typename Domain, typename Codomain>
 auto function = [](auto f) {
-    return hana::detail::wrap<Function<Domain, Codomain>>(f);
+    return wrap<Function<Domain, Codomain>>(f);
 };
 
 template <typename X, typename Y>
 auto apply_impl<Function<X, Y>, X> = [](auto f, auto x) {
-    return hana::detail::unwrap(f)(x);
+    return unwrap(f)(x);
 };
 
 
@@ -88,14 +111,14 @@ struct List;
 
 template <typename T>
 auto list = [](auto ...xs) {
-    return hana::detail::wrap<List<T>>(
+    return wrap<List<T>>(
         [=](auto f) { return f(xs...); }
     );
 };
 
 template <typename X, typename Y>
 auto fmap_impl<List<X>, Function<X, Y>> = [](auto xs, auto f) {
-    return hana::detail::unwrap(xs)([=](auto ...xs) {
+    return unwrap(xs)([=](auto ...xs) {
         return list<Y>(apply(f, xs)...);
     });
 };
@@ -107,10 +130,12 @@ auto lift_impl<List<X>> = [](auto x) {
 
 template <typename X, typename Y>
 auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
-    auto hana_fs = hana::detail::unwrap(fs)([](auto ...fs) {
-        return hana::make<hana::Tuple>([fs](auto x) { return apply(fs, x); }...);
+    auto hana_fs = unwrap(fs)([](auto ...fs) {
+        return hana::make<hana::Tuple>([fs](auto x) {
+            return apply(fs, x);
+        }...);
     });
-    auto hana_xs = hana::detail::unwrap(xs)(hana::make<hana::Tuple>);
+    auto hana_xs = unwrap(xs)(hana::make<hana::Tuple>);
     auto hana_result = hana::ap(hana_fs, hana_xs);
 
     return hana::unpack(hana_result, list<Y>);
@@ -123,7 +148,7 @@ auto ap_impl<List<Function<X, Y>>, List<X>> = [](auto fs, auto xs) {
 struct Any;
 
 auto any = [](auto x) {
-    return hana::detail::wrap<Any>(x);
+    return wrap<Any>(x);
 };
 
 
