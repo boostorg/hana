@@ -94,14 +94,14 @@ namespace boost { namespace hana {
     //! `lift` and `ap` satisfying the above laws
     //!
     //!
+    //! @anchor applicative-transformation
     //! Structure-preserving functions
     //! ------------------------------
-    //! An _applicative transformation_ is a function @f$ t : F(a) \to G(a) @f$
-    //! from an `Applicative F` to an `Applicative G`, where `a` can be any
-    //! data type, and which preserves the operations of an `Applicative`.
-    //! In other words, for all objects `x` of data type `A`,
-    //! functions-in-an-applicative @f$ fs : F(A \to B) @f$ and
-    //! objects `xs` of data type `F(A)`,
+    //! An _applicative transformation_ is a function @f$ t : F(X) \to G(X) @f$
+    //! between two Applicatives `F` and `G`, where `X` can be any data type,
+    //! and which preserves the operations of an Applicative. In other words,
+    //! for all objects `x` of data type `X`, functions-in-an-applicative
+    //! @f$ fs : F(X \to Y) @f$ and objects `xs` of data type `F(X)`,
     //! @code
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
