@@ -21,8 +21,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/concepts.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
-#include <boost/hana/detail/equality_comparable.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct equal_impl<T, U, when<
         detail::has_nontrivial_common_embedding<Comparable, T, U>{} &&
-        !detail::concept::EqualityComparable<T, U>{}
+        !detail::EqualityComparable<T, U>{}
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -155,7 +155,7 @@ namespace boost { namespace hana {
     // Model for EqualityComparable data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<detail::concept::EqualityComparable<T, U>{}>> {
+    struct equal_impl<T, U, when<detail::EqualityComparable<T, U>{}>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) == static_cast<Y&&>(y); }

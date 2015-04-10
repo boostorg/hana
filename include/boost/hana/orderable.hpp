@@ -21,8 +21,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/concepts.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/less_than_comparable.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
@@ -78,8 +78,8 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct less_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Orderable, T, U>{} &&
-        !detail::concept::LessThanComparable<T, U>{}
+        detail::has_nontrivial_common_embedding<Orderable, T, U>{}() &&
+        !detail::LessThanComparable<T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct less_equal_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Orderable, T, U>{}
+        detail::has_nontrivial_common_embedding<Orderable, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct greater_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Orderable, T, U>{}
+        detail::has_nontrivial_common_embedding<Orderable, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -181,7 +181,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct greater_equal_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Orderable, T, U>{}
+        detail::has_nontrivial_common_embedding<Orderable, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -255,7 +255,7 @@ namespace boost { namespace hana {
     template <typename Ord>
     struct models_impl<Orderable, Ord>
         : _integral_constant<bool,
-            !is_default<less_impl<Ord, Ord>>{}
+            !is_default<less_impl<Ord, Ord>>{}()
         >
     { };
 
@@ -263,7 +263,7 @@ namespace boost { namespace hana {
     // Model for LessThanComparable data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct less_impl<T, U, when<detail::concept::LessThanComparable<T, U>{}>> {
+    struct less_impl<T, U, when<detail::LessThanComparable<T, U>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) < static_cast<Y&&>(y); }
@@ -274,7 +274,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct less_impl<C, C, when<
-        _models<Constant, C>{} && _models<Orderable, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Orderable, typename C::value_type>{}()
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {
