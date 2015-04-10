@@ -214,10 +214,11 @@ namespace boost { namespace hana {
     template <typename It, bool condition>
     struct drop_while_impl<It, when<condition>> : default_ {
         template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs xs, Pred pred) {
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
             return hana::eval_if(hana::is_empty(xs),
                 hana::lazy(xs),
-                hana::lazy(iterable_detail::drop_while_helper{})(xs, pred)
+                hana::lazy(iterable_detail::drop_while_helper{})(
+                                            xs, static_cast<Pred&&>(pred))
             );
         }
     };

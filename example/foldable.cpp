@@ -24,6 +24,15 @@ int main() {
 
 {
 
+//! [conversion]
+static_assert(to<Tuple>(just(1)) == make<Tuple>(1), "");
+BOOST_HANA_CONSTANT_CHECK(to<Tuple>(nothing) == make<Tuple>());
+
+BOOST_HANA_CONSTANT_CHECK(to<Tuple>(make_range(int_<3>, int_<6>)) == tuple_c<int, 3, 4, 5>);
+//! [conversion]
+
+}{
+
 //! [fold.left]
 auto to_string = [](auto x) {
     std::ostringstream ss;

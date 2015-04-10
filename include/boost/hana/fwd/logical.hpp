@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //! them may end up being used), which creates the additional requirement
     //! that both branches must evaluate to the same type.
     //!
-    //! Specifically, `Logical` (almost) represents a [boolean algebra][1],
+    //! More specifically, `Logical` (almost) represents a [boolean algebra][1],
     //! which is a mathematical structure encoding the usual properties that
     //! allow us to reason with `bool`. The exact properties that must be
     //! satisfied by any model of `Logical` are rigorously stated in the laws

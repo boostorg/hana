@@ -185,16 +185,6 @@ namespace boost { namespace hana {
     //! Hence, implementers of new sequences are encouraged to override this
     //! default definition.
     //!
-    //!
-    //! Provided conversions
-    //! --------------------
-    //! 1. from any Foldable\n
-    //! Given a Foldable `xs` with a linearization of `x1, ..., xn` and a
-    //! data type `S` which is a Sequence, `to<S>(xs)` creates a sequence
-    //! equivalent to `make<S>(x1, ..., xn)`. This way, Sequences can be
-    //! created from other Sequences, from Maybes and so on.
-    //! @snippet example/sequence.cpp conversion
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
     struct Sequence {
         template <typename T, typename U> struct equal_impl;

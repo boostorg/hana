@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
 #include <test/identity.hpp>
@@ -43,17 +42,6 @@ namespace boost { namespace hana { namespace test {
             hana::for_each(foldables, [](auto xs) {
                 _injection<0> f{};
                 ct_eq<999> s{};
-
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::fold.left(xs, s, f),
-                    hana::fold.left(hana::to<Tuple>(xs), s, f)
-                ));
-
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::fold.right(xs, s, f),
-                    hana::fold.right(hana::to<Tuple>(xs), s, f)
-                ));
-
 
                 // equivalence of size(xs) and length(xs)
                 BOOST_HANA_CHECK(hana::equal(

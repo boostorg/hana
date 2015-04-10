@@ -22,16 +22,16 @@ namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Searchable` concept represents structures that can be searched.
     //!
-    //! Intuitively, a Searchable is any structure, finite or infinite,
+    //! Intuitively, a `Searchable` is any structure, finite or infinite,
     //! containing elements that can be searched using a predicate. Sometimes,
-    //! Searchables will associate keys to values; one can search for a key
+    //! `Searchable`s will associate keys to values; one can search for a key
     //! with a predicate, and the value associated to it is returned. This
     //! gives rise to map-like data structures. Other times, the elements of
     //! the structure that are searched (i.e. those to which the predicate is
     //! applied) are the same that are returned, which gives rise to set-like
     //! data structures. In general, we will refer to the _keys_ of a
-    //! Searchable structure as those elements that are used for searching,
-    //! and to the _values_ of a Searchable as those elements that are
+    //! `Searchable` structure as those elements that are used for searching,
+    //! and to the _values_ of a `Searchable` as those elements that are
     //! returned when a search is successful. As was explained, there is no
     //! requirement that both notions differ, and it is often useful to have
     //! keys and values coincide (think about `std::set`).
@@ -49,31 +49,31 @@ namespace boost { namespace hana {
     //! with an equivalent predicate.
     //!
     //! > #### Insight
-    //! > In a lazy evaluation context, any Foldable can also become a model
-    //! > of Searchable because we can search lazily through the structure
-    //! > with `foldr`. However, in the context of C++, some Searchables
+    //! > In a lazy evaluation context, any `Foldable` can also become a model
+    //! > of `Searchable` because we can search lazily through the structure
+    //! > with `foldr`. However, in the context of C++, some `Searchable`s
     //! > can not be folded; think for example of an infinite set.
     //!
     //!
     //! Laws
     //! ----
     //! In order for the semantics of the methods to be consistent, some
-    //! properties must be satisfied by any model of the Searchable concept.
-    //! Rigorously, for any `Searchable xs, ys` and predicate `p`, the
-    //! following laws should be satisfied:
+    //! properties must be satisfied by any model of the `Searchable` concept.
+    //! Rigorously, for any `Searchable`s  `xs` and `ys` and any predicate `p`,
+    //! the following laws should be satisfied:
     //! @code
     //!     any_of(xs, p) <=> !all_of(xs, negated p)
     //!                   <=> !none_of(xs, p)
     //!
-    //!     elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
+    //!     elem(xs, x) <=> any_of(xs, equal.to(x))
     //!
-    //!     find(xs, x) == find_if(xs, [](auto y) { return y == x; })
+    //!     find(xs, x) == find_if(xs, equal.to(x))
     //!     find_if(xs, always(false_)) == nothing
     //!
     //!     subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
     //! @endcode
     //!
-    //! Additionally, if all the keys of the Searchable are `Logical`s,
+    //! Additionally, if all the keys of the `Searchable` are `Logical`s,
     //! the following laws should be satisfied:
     //! @code
     //!     any(xs)  <=> any_of(xs, id)
@@ -84,22 +84,11 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `find_if` and `any_of`\n
+    //! `find_if` and `any_of`\n
     //! According to the above laws, it is possible to implement all the
     //! methods pertaining to this concept using only `find_if` and `any_of`.
     //! When `find_if` and `any_of` are provided, the other methods are
     //! implemented according to the laws above.
-    //!
-    //!
-    //! Provided models
-    //! ---------------
-    //! 1. For builtin arrays\n
-    //! Builtin arrays whose size is known can be searched as-if they were
-    //! homogeneous tuples. However, since arrays can only hold objects of
-    //! a single type and the predicate to `find_if` must return a compile-time
-    //! Logical, the `find_if` method is fairly useless. For similar reasons,
-    //! the `find` method is also fairly useless.
-    //!
     //!
     //! @note
     //! We could implement `any_of(xs, pred)` as `is_just(find_if(xs, pred))`,
@@ -107,6 +96,15 @@ namespace boost { namespace hana {
     //! this is not done because that implementation requires the predicate
     //! of `any_of` to return a compile-time `Logical`, which is more
     //! restrictive than what we have right now.
+    //!
+    //!
+    //! Provided model for builtin arrays
+    //! ---------------------------------
+    //! Builtin arrays whose size is known can be searched as-if they were
+    //! homogeneous tuples. However, since arrays can only hold objects of
+    //! a single type and the predicate to `find_if` must return a compile-time
+    //! `Logical`, the `find_if` method is fairly useless. For similar reasons,
+    //! the `find` method is also fairly useless.
     //!
     //!
     //! @todo

@@ -28,22 +28,58 @@ namespace boost { namespace hana {
     //! The `Iterable` concept represents data structures supporting external
     //! iteration.
     //!
-    //! Intuitively, an Iterable can be seen as a kind of container whose
-    //! elements can be pulled out one at a time. An Iterable also provides
+    //! Intuitively, an `Iterable` can be seen as a kind of container whose
+    //! elements can be pulled out one at a time. An `Iterable` also provides
     //! a way to know when the _container_ is empty, i.e. when there are no
     //! more elements to pull out.
     //!
-    //! Iterables are also Foldable; whereas Foldable represents data
-    //! structures supporting internal iteration with the ability to
-    //! accumulate a result, the Iterable concept allows inverting the
-    //! control of the iteration. This is more flexible than Foldable
-    //! since it allows e.g. infinite structures to be iterated only in
-    //! part, while trying to fold such a structure would never finish.
+    //! Whereas `Foldable` represents data structures supporting internal
+    //! iteration with the ability to accumulate a result, the `Iterable`
+    //! concept allows inverting the control of the iteration. This is more
+    //! flexible than `Foldable`, since it allows iterating over only some
+    //! part of the structure. This, in turn, allows `Iterable` to work on
+    //! infinite structures, while trying to fold such a structure would
+    //! never finish.
     //!
-    //! @todo
-    //! There's a problem; Foldable is more general than Iterable, but there
-    //! are some infinite Iterables that can't be folded properly. So both
-    //! concepts actually just overlap and there is no superclass relation?
+    //!
+    //! @anchor Iterable-lin
+    //! The linearization of an `Iterable`
+    //! ----------------------------------
+    //! Intuitively, for an `Iterable` structure `xs`, the _linearization_ of
+    //! `xs` is the sequence of all the elements in `xs` as if they had been
+    //! put in a (possibly infinite) list:
+    //! @code
+    //!     linearization(xs) = [x1, x2, x3, ...]
+    //! @endcode
+    //!
+    //! This notion is precisely the extension of the [linearization]
+    //! (@ref Foldable-lin) notion of `Foldable`s to the infinite case.
+    //! This notion is useful for expressing various properties of
+    //! `Iterable`s, and is used for that throughout the documentation.
+    //!
+    //!
+    //! Compile-time Iterables
+    //! ----------------------
+    //! A _compile-time_ `Iterable` is an `Iterable` for which `is_empty`
+    //! returns a compile-time `Logical`. These structures allow iteration
+    //! to be done at compile-time, in the sense that the "loop" doing the
+    //! iteration can be unrolled because the total length of the structure
+    //! is kown at compile-time.
+    //!
+    //! In particular, note that being a compile-time `Iterable` has nothing
+    //! to do with being finite or infinite. For example, it would be possible
+    //! to create a sequence representing the Pythagorean triples as
+    //! `IntegralConstant`s. Such a sequence would be infinite, but iteration
+    //! on the sequence would still be done at compile-time. However, if one
+    //! tried to iterate over _all_ the elements of the sequence, the compiler
+    //! would loop indefinitely, in contrast to your program looping
+    //! indefinitely if the sequence was a runtime one.
+    //!
+    //! __In the current version of the library, only compile-time `Iterable`s
+    //! are supported.__ While it would be possible in theory to support
+    //! runtime `Iterable`s, doing it efficiently is the subject of some
+    //! research. In particular, follow [this issue][1] for the current
+    //! status of runtime `Iterable`s.
     //!
     //!
     //! Minimal complete definition
@@ -51,57 +87,77 @@ namespace boost { namespace hana {
     //! `head`, `tail` and `is_empty`
     //!
     //!
+    //! Superclass: `Searchable`
+    //! ------------------------
+    //! Any `Iterable` gives rise to a model of `Searchable`, where the keys
+    //! and the values are both the elements in the structure. Searching for
+    //! a key is just doing a linear search through the elements of the
+    //! structure.
+    //! @snippet example/iterable.cpp Searchable
+    //!
+    //!
     //! Laws
     //! ----
-    //! The laws that must be respected by models of the Iterable concept
-    //! essentially make sure that external iteration and internal iteration
-    //! over a data structure are well-behaved. Hence, we request that the
-    //! models for Iterable and Foldable are consistent. First, let's define
-    //! the notion of a _linearization_. For a Foldable data structure `xs`,
-    //! the linearization of `xs` is the sequence of all the elements in the
-    //! structure, as-if they had been put in a list:
+    //! Since every `Iterable` is also a `Searchable`, we require the models
+    //! of `Iterable` and `Searchable` to be consistent. This is made precise
+    //! by the following laws. For any `Iterable` `xs` with a linearization of
+    //! `[x1, x2, x3, ...]`,
     //! @code
-    //!     linearization(xs) = [x1, x2, ..., xn]
+    //!     any_of(xs, equal.to(z)) <=> xi == z
+    //! @endcode
+    //! for some finite index `i`.
+    //!
+    //! Furthermore,
+    //! @code
+    //!     find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)
+    //! @endcode
+    //! or `nothing` if no such `xi` exists.
+    //!
+    //!
+    //! Provided model of `Foldable` for finite `Iterable`s
+    //! ---------------------------------------------------
+    //! Every finite `Iterable` gives rise to a model of  `Foldable`. Hence,
+    //! finite `Iterable`s must satisfy additional laws to make sure that
+    //! external iteration in `Iterable` and internal iteration in `Foldable`
+    //! are consistent. These laws are expressed in terms of the `Foldable`'s
+    //! [linearization](@ref Foldable-lin). For any finite `Iterable` `xs`
+    //! with linearization `[x1, ..., xn]`, the following must be satisfied:
+    //! @code
+    //!     at(i, xs) == xi
+    //!     is_empty(xs) <=> n == 0
     //! @endcode
     //!
-    //! Note that it is always possible to produce such a linearization for a
-    //! finite Foldable by setting
+    //! An equivalent way of writing this is
     //! @code
-    //!     linearization(xs) = fold.left(xs, [], prepend)
-    //! @endcode
-    //! for an appropriate type of Sequence (heterogeneous or not).
+    //!     head(xs) == head(linearization(xs))
+    //!              == x1
     //!
-    //! We can now express the laws of Iterable in terms of the linearization.
-    //! For any finite Iterable `xs` with linearization `[x1, ..., xn]`, the
-    //! following laws must be satisfied:
-    //! @code
-    //!     head(it) == x1
-    //!
-    //!     linearization(tail(it)) == tail(linearization(it))
+    //!     linearization(tail(xs)) == tail(linearization(xs))
     //!                             == [x2, ..., xn]
     //!
-    //!     is_empty(it)  <=>  is_empty(linearization(it))
+    //!     is_empty(xs)  <=>  is_empty(linearization(xs))
     //!                   <=>  n == 0
     //! @endcode
     //!
-    //! This says that linearizing an Iterable and then iterating through it
-    //! should be equivalent to iterating through it in the first place. With
-    //! the definition of linearization given above, this forces the models of
-    //! Foldable and Iterable to be consistent.
+    //! This says that linearizing an `Iterable` and then iterating through
+    //! it should be equivalent to just iterating through it.
     //!
+    //! @note
+    //! As explained above, `Iterable`s are also `Searchable`s and their
+    //! models have to be consistent. By the laws presented here, it also
+    //! means that the `Foldable` model for finite `Iterable`s has to be
+    //! consistent with the `Searchable` model.
     //!
-    //! Superclasses
-    //! ------------
-    //! 1. `Foldable` (model provided)\n
-    //! Every finite Iterable gives rise to a Foldable, and a model of
-    //! Foldable is provided for Iterables via the `Iterable::fold_right_impl`
-    //! and `Iterable::fold_left_impl` methods.
+    //! For convenience, a default minimal complete definition for `Foldable`
+    //! is provided for finite `Iterable`s via the `Iterable::fold_right_impl`
+    //! and `Iterable::fold_left_impl` methods. The provided model is simple
+    //! and intuitive; here is how it works:
     //!
-    //! Let `xs` be an Iterable and let `xi` denote the `i`-th element in its
-    //! linearization. In other words, `xs` can be linearized as
-    //! `[x1, ..., xN]`, where `N` is the number of elements in `xs`. Then,
-    //! right-folding `xs` with a binary operation `*` (in infix notation for
-    //! legibility) is equivalent to
+    //! Let `xs` be an `Iterable` and let `xi` denote the `i`-th element in
+    //! its linearization. In other words, `xs` can be linearized as
+    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in `xs`.
+    //! Then, right-folding `xs` with a binary operation `*` (in infix
+    //! notation for legibility) is equivalent to
     //! @code
     //!     x1 * (x2 * ( ... * (xN-1 * xN)))
     //! @endcode
@@ -118,15 +174,10 @@ namespace boost { namespace hana {
     //! @code
     //!     (a * b) * c = a * (b * c)
     //! @endcode
+    //!
     //! this makes no difference. Also note that folds with an initial state
     //! are implemented in an analogous way, and they are provided as
     //! `Iterable::fold_{left,right}_nostate_impl`.
-    //!
-    //! 2. `Searchable` (model provided)\n
-    //! An Iterable can be searched by doing a linear search through the
-    //! elements, with the keys and values both being the elements in the
-    //! iterable.
-    //! @snippet example/iterable.cpp Searchable
     //!
     //!
     //! Operators
@@ -139,11 +190,7 @@ namespace boost { namespace hana {
     //! To take advantage of this operator for a type `T`, `T` must inherit
     //! `hana::operators::Iterable_ops<T>`.
     //!
-    //!
-    //! @todo
-    //! - Add perfect forwarding in the methods.
-    //! - Use perfect forwarding in `Iterable::find_impl` once Clang
-    //!   bug #20619 is fixed.
+    //! [1]: https://github.com/ldionne/hana/issues/40
     struct Iterable {
         template <typename It> struct fold_left_impl;
         template <typename It> struct fold_right_impl;
@@ -170,19 +217,21 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #else
-    template <typename Xs, typename = void>
+    template <typename It, typename = void>
     struct head_impl;
 
     struct _head {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
+            using It = typename datatype<Xs>::type;
+            using Head = head_impl<It>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Iterable, It>{},
             "hana::head(xs) requires xs to be an Iterable");
-#endif
-            return head_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+        #endif
+
+            return Head::apply(static_cast<Xs&&>(xs));
         }
     };
 

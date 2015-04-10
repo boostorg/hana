@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     //!     ap(fs, lift<F>(x)) == ap(lift<F>(apply(-, x)), fs)
     //! @endcode
     //! where `apply(-, x)` denotes the partial application of the `apply`
-    //! function from the @ref Functional module to the `x` argument.
+    //! function from the @ref group-functional module to the `x` argument.
     //!
     //! As a consequence of these laws, the model of `Functor` for `F` will
     //! satisfy the following for all objects `xs` of data type `F(A)` and
