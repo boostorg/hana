@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -98,20 +99,16 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct less_impl<String, String> {
-        static constexpr bool less_helper(char const* s1, char const* s2) {
-            while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
-                ++s1, ++s2;
-
-            return (*s1 == '\0' && *s2 != '\0') || // s1 is shorter than s2
-                   (*s1 != '\0' && *s2 != '\0' && *s1 < *s2); // s1[0] < s2[0]
-        }
-
         template <char ...s1, char ...s2>
         static constexpr auto
         apply(_string<s1...> const&, _string<s2...> const&) {
+            // We put a '\0' at the end only to avoid empty arrays.
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
-            return bool_<less_helper(c_str1, c_str2)>;
+            return bool_<detail::constexpr_::lexicographical_compare(
+                c_str1, c_str1 + sizeof...(s1),
+                c_str2, c_str2 + sizeof...(s2)
+            )>;
         }
     };
 
@@ -158,11 +155,12 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<String> {
-        template <typename I, char ...s>
-        static constexpr auto apply(I index, _string<s...> const&) {
-            constexpr char characters[] = {s...};
-            constexpr auto i = hana::value(index);
-            return char_<characters[i]>;
+        template <typename N, char ...s>
+        static constexpr auto apply(N const&, _string<s...> const&) {
+            // We put a '\0' at the end to avoid an empty array.
+            constexpr char characters[] = {s..., '\0'};
+            constexpr auto n = hana::value<N>();
+            return char_<characters[n]>;
         }
     };
 
@@ -176,34 +174,30 @@ namespace boost { namespace hana {
 
     template <>
     struct elem_impl<String> {
-        static constexpr bool str_elem(char const* s, char c) {
-            while (*s != '\0')
-                if (*s++ == c)
-                    return true;
-            return false;
-        }
-
-        template <char ...s, typename Char>
+        template <char ...s, typename C>
         static constexpr auto
-        helper(_string<s...>, Char c, decltype(true_)) {
-            constexpr char c_str[] = {s..., '\0'};
-            return bool_<str_elem(c_str, hana::value(c))>;
+        helper(_string<s...> const&, C const&, decltype(true_)) {
+            constexpr char const characters[] = {s..., '\0'};
+            constexpr char c = hana::value<C>();
+            return bool_<
+                detail::constexpr_::find(characters, characters + sizeof...(s), c)
+                    != characters + sizeof...(s)
+            >;
         }
 
-        template <typename S, typename Char>
-        static constexpr auto helper(S, Char, decltype(false_))
+        template <typename S, typename C>
+        static constexpr auto helper(S const&, C const&, decltype(false_))
         { return false_; }
 
-        template <typename S, typename Char>
-        static constexpr decltype(auto) apply(S s, Char c) {
-            return helper(s, c, models<Constant, Char>);
-        }
+        template <typename S, typename C>
+        static constexpr auto apply(S const& s, C const& c)
+        { return helper(s, c, _models<Constant, C>{}); }
     };
 
     template <>
     struct find_impl<String> {
         template <char ...s, typename Char>
-        static constexpr auto apply(_string<s...> str, Char c) {
+        static constexpr auto apply(_string<s...> const& str, Char const& c) {
             return hana::if_(hana::elem(str, c),
                 hana::just(c),
                 nothing

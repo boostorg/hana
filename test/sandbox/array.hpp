@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_ARRAY_HPP
 #define BOOST_HANA_SANDBOX_ARRAY_HPP
 
-#include "algorithm.hpp"
+#include <boost/hana/detail/constexpr/algorithm.hpp>
 
 #include <cstddef>      // for std::size_t and std::ptrdiff_t
 #include <functional>   // for std::less and std::equal_to
@@ -127,7 +127,9 @@ namespace boost { namespace hana { namespace sandbox {
     //////////////////////////////////////////////////////////////////////
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
     constexpr bool operator==(array<T, SizeT> const& x, array<U, SizeU> const& y) {
-        return std_equal(x.cbegin(), x.cend(), y.cbegin(), y.cend(), std::equal_to<>{});
+        return detail::constexpr_::equal(x.cbegin(), x.cend(),
+                                         y.cbegin(), y.cend(),
+                                         std::equal_to<>{});
     }
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
@@ -136,7 +138,9 @@ namespace boost { namespace hana { namespace sandbox {
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>
     constexpr bool operator<(array<T, SizeT> const& x, array<U, SizeU> const& y) {
-        return std_lexicographical_compare(x.cbegin(), x.cend(), y.cbegin(), y.cend(), std::less<>{});
+        return detail::constexpr_::lexicographical_compare(x.cbegin(), x.cend(),
+                                                           y.cbegin(), y.cend(),
+                                                           std::less<>{});
     }
 
     template <typename T, std::size_t SizeT, typename U, std::size_t SizeU>

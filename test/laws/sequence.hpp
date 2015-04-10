@@ -713,35 +713,63 @@ namespace boost { namespace hana { namespace test {
             // permutations
             //////////////////////////////////////////////////////////////////
             {
-            auto permute = [=](auto xs) {
-                return hana::capture(xs)([=](auto xs, auto ...expected_) {
-                    auto actual = hana::permutations(xs);
-                    auto expected = list(expected_...);
-                    BOOST_HANA_CONSTANT_CHECK(hana::and_(
-                        hana::equal(hana::length(expected), hana::length(actual)),
-                        hana::all_of(actual, hana::in ^ expected)
-                    ));
-                });
-            };
+                auto permute = [=](auto xs) {
+                    return hana::capture(xs)([=](auto xs, auto ...expected_) {
+                        auto actual = hana::permutations(xs);
+                        auto expected = list(expected_...);
+                        BOOST_HANA_CONSTANT_CHECK(hana::and_(
+                            hana::equal(hana::length(expected), hana::length(actual)),
+                            hana::all_of(actual, hana::in ^ expected)
+                        ));
+                    });
+                };
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                permutations(list()),
-                list(list())
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    permutations(list()),
+                    list(list())
+                ));
 
-            permute(list(eq<0>{}))(list(eq<0>{}));
-            permute(list(eq<0>{}, eq<1>{}))(
-                list(eq<0>{}, eq<1>{}),
-                list(eq<1>{}, eq<0>{})
-            );
-            permute(list(eq<0>{}, eq<1>{}, eq<2>{}))(
-                list(eq<0>{}, eq<1>{}, eq<2>{}),
-                list(eq<0>{}, eq<2>{}, eq<1>{}),
-                list(eq<1>{}, eq<0>{}, eq<2>{}),
-                list(eq<1>{}, eq<2>{}, eq<0>{}),
-                list(eq<2>{}, eq<0>{}, eq<1>{}),
-                list(eq<2>{}, eq<1>{}, eq<0>{})
-            );
+                permute(list(eq<0>{}))(list(eq<0>{}));
+
+                permute(list(eq<0>{}, eq<1>{}))(
+                    list(eq<0>{}, eq<1>{}),
+                    list(eq<1>{}, eq<0>{})
+                );
+                permute(list(eq<0>{}, eq<1>{}, eq<2>{}))(
+                    list(eq<0>{}, eq<1>{}, eq<2>{}),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}),
+                    list(eq<1>{}, eq<0>{}, eq<2>{}),
+                    list(eq<1>{}, eq<2>{}, eq<0>{}),
+                    list(eq<2>{}, eq<0>{}, eq<1>{}),
+                    list(eq<2>{}, eq<1>{}, eq<0>{})
+                );
+
+                permute(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}))(
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
+                    list(eq<0>{}, eq<1>{}, eq<3>{}, eq<2>{}),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<3>{}),
+                    list(eq<0>{}, eq<2>{}, eq<3>{}, eq<1>{}),
+                    list(eq<0>{}, eq<3>{}, eq<1>{}, eq<2>{}),
+                    list(eq<0>{}, eq<3>{}, eq<2>{}, eq<1>{}),
+                    list(eq<1>{}, eq<0>{}, eq<2>{}, eq<3>{}),
+                    list(eq<1>{}, eq<0>{}, eq<3>{}, eq<2>{}),
+                    list(eq<1>{}, eq<2>{}, eq<0>{}, eq<3>{}),
+                    list(eq<1>{}, eq<2>{}, eq<3>{}, eq<0>{}),
+                    list(eq<1>{}, eq<3>{}, eq<0>{}, eq<2>{}),
+                    list(eq<1>{}, eq<3>{}, eq<2>{}, eq<0>{}),
+                    list(eq<2>{}, eq<0>{}, eq<1>{}, eq<3>{}),
+                    list(eq<2>{}, eq<0>{}, eq<3>{}, eq<1>{}),
+                    list(eq<2>{}, eq<1>{}, eq<0>{}, eq<3>{}),
+                    list(eq<2>{}, eq<1>{}, eq<3>{}, eq<0>{}),
+                    list(eq<2>{}, eq<3>{}, eq<0>{}, eq<1>{}),
+                    list(eq<2>{}, eq<3>{}, eq<1>{}, eq<0>{}),
+                    list(eq<3>{}, eq<0>{}, eq<1>{}, eq<2>{}),
+                    list(eq<3>{}, eq<0>{}, eq<2>{}, eq<1>{}),
+                    list(eq<3>{}, eq<1>{}, eq<0>{}, eq<2>{}),
+                    list(eq<3>{}, eq<1>{}, eq<2>{}, eq<0>{}),
+                    list(eq<3>{}, eq<2>{}, eq<0>{}, eq<1>{}),
+                    list(eq<3>{}, eq<2>{}, eq<1>{}, eq<0>{})
+                );
             }
 
             //////////////////////////////////////////////////////////////////

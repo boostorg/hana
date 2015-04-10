@@ -477,12 +477,6 @@ namespace boost { namespace hana {
     //! Benchmarks
     //! ----------
     //! @image html benchmark/sequence/permutations.ctime.png
-    //!
-    //!
-    //! @todo
-    //! When the size of the sequence is known at compile-time, we can
-    //! generate the indices `constexpr` and then simply use `at_c`.
-    //! This could vastly improve the compilation time.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto permutations = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;

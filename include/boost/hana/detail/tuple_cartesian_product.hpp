@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_TUPLE_CARTESIAN_PRODUCT_HPP
 #define BOOST_HANA_DETAIL_TUPLE_CARTESIAN_PRODUCT_HPP
 
-#include <boost/hana/detail/array.hpp>
+#include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>

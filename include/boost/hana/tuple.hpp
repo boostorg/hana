@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
@@ -768,6 +769,45 @@ namespace boost { namespace hana {
         }
     };
 
+    namespace tuple_detail {
+        template <detail::std::size_t N>
+        constexpr auto permutation_indices =
+            detail::constexpr_::array<detail::std::size_t, N>{}.iota(0)
+                                                               .permutations();
+    }
+
+    template <>
+    struct permutations_impl<Tuple> {
+        using Size = detail::std::size_t;
+
+        template <Size n, typename Xs, Size ...i>
+        static constexpr auto
+        nth_permutation(Xs const& xs, detail::std::index_sequence<i...>) {
+            return hana::make<Tuple>(
+                detail::get<tuple_detail::permutation_indices<Xs::size>[n][i]>(xs)...
+            );
+        }
+
+        template <typename Xs, Size ...n>
+        static constexpr auto
+        permutations_helper(Xs const& xs, detail::std::index_sequence<n...>) {
+            return hana::make<Tuple>(
+                nth_permutation<n>(
+                    xs, detail::std::make_index_sequence<Xs::size>{}
+                )...
+            );
+        }
+
+        template <typename Xs>
+        static constexpr auto apply(Xs const& xs) {
+            constexpr Size total_permutations =
+                detail::constexpr_::factorial(Xs::size);
+            return permutations_helper(xs,
+                detail::std::make_index_sequence<total_permutations>{}
+            );
+        }
+    };
+
     template <>
     struct remove_at_impl<Tuple> {
         using Size = detail::std::size_t;
@@ -834,30 +874,14 @@ namespace boost { namespace hana {
 
     template <>
     struct sort_impl<Tuple> {
-        template <typename T, detail::std::size_t N>
-        struct array { T values[N]; };
-
-        template <typename T, detail::std::size_t N>
-        static constexpr auto insertion_sort(array<T, N> a) {
-            for (detail::std::size_t i = 1; i < N; ++i) {
-                detail::std::size_t j = i;
-                while (j > 0 && a.values[j-1] > a.values[j]) {
-                    auto tmp = a.values[j];
-                    a.values[j] = a.values[j-1];
-                    a.values[j-1] = tmp;
-
-                    --j;
-                }
-            }
-            return a;
-        }
-
         template <typename T, T ...v, detail::std::size_t ...i>
         static constexpr auto
-        sort_helper(_tuple_c<T, v...> xs, detail::std::index_sequence<i...>) {
-            constexpr array<T, sizeof...(v)> a{{v...}};
-            constexpr auto result = insertion_sort(a);
-            return tuple_c<T, result.values[i]...>;
+        sort_helper(_tuple_c<T, v...> const& xs,
+                    detail::std::index_sequence<i...>)
+        {
+            constexpr detail::constexpr_::array<T, sizeof...(v)> a{{v...}};
+            constexpr auto result = a.sort();
+            return tuple_c<T, result[i]...>;
         }
 
         template <typename ...T>
