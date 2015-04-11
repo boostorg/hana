@@ -131,21 +131,41 @@ static_assert(std::is_same<
 //! [metafunction]
 }
 
+namespace ns66 {
+//! [metafunction_class]
+struct f { template <typename ...> struct apply { struct type; }; };
+struct x;
+struct y;
+
+BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>() == type<f::apply<>::type>);
+BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(type<x>) == type<f::apply<x>::type>);
+BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(type<x>, type<y>) == type<f::apply<x, y>::type>);
+
+// calling `metafunction_class` on non-Types
+BOOST_HANA_CONSTANT_CHECK(metafunction_class<f>(1) == type<f::apply<int>::type>);
+
+static_assert(std::is_same<
+    decltype(metafunction_class<f>)::apply<x, y>::type,
+    f::apply<x, y>::type
+>::value, "");
+//! [metafunction_class]
+}
+
 namespace ns7 {
-//! [liftable_trait]
-BOOST_HANA_CONSTANT_CHECK(trait<std::is_integral>(type<int>));
-BOOST_HANA_CONSTANT_CHECK(not_(trait<std::is_integral>(type<float>)));
-//! [liftable_trait]
+//! [integral]
+BOOST_HANA_CONSTANT_CHECK(integral(metafunction<std::is_integral>)(type<int>));
+BOOST_HANA_CONSTANT_CHECK(not_(integral(metafunction<std::is_integral>)(type<float>)));
+//! [integral]
 }
 
 namespace ns8 {
-//! [non_liftable_trait]
+//! [non_liftable_metafunction]
 BOOST_HANA_CONSTEXPR_LAMBDA auto extent = [](auto t, auto n) {
     return std::extent<typename decltype(t)::type, value(n)>{};
 };
 BOOST_HANA_CONSTANT_CHECK(extent(type<char>, int_<1>) == size_t<0>);
 BOOST_HANA_CONSTANT_CHECK(extent(type<char[1][2]>, int_<1>) == size_t<2>);
-//! [non_liftable_trait]
+//! [non_liftable_metafunction]
 }
 
 namespace ns9 {
@@ -154,6 +174,13 @@ struct X { };
 BOOST_HANA_CONSTANT_CHECK(make<Type>(X{}) == decltype_(X{}));
 BOOST_HANA_CONSTANT_CHECK(make<Type>(type<X>) == decltype_(type<X>));
 //! [make<Type>]
+}
+
+namespace ns10 {
+//! [trait]
+BOOST_HANA_CONSTANT_CHECK(trait<std::is_integral>(type<int>));
+BOOST_HANA_CONSTANT_CHECK(not_(trait<std::is_integral>(type<float>)));
+//! [trait]
 }
 
 int main() { }

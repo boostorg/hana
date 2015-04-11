@@ -32,32 +32,30 @@ namespace mpl = boost::mpl;
 //////////////////////////////////////////////////////////////////////////////
 
 
-namespace hpl
-{
+namespace hpl {
 
 //////////////////////////////////////////////////////////////////////////////
 // Utilities
 // Most of this should be abstracted and then lifted into Hana.
 //////////////////////////////////////////////////////////////////////////////
 
-// Equivalent to `trait` for metafunction classes.
-template <typename F>
-struct _boolean_metafunction_class {
-    template <typename ...T>
-    constexpr decltype(auto) operator()(T ...t) const {
-        using L = typename mpl::lambda<F>::type;
-        return typename L::template apply<typename T::type...>::type{};
-    }
-};
-
-template <typename F>
-constexpr _boolean_metafunction_class<F> boolean_metafunction_class{};
-
 // unique{_by} should be implemented in Hana. Also note that this can
 // certainly be made more efficient.
 template <typename Predicate, typename Sequence>
 constexpr decltype(auto) unique_by(Predicate predicate, Sequence sequence) {
     return hana::transform(hana::group(sequence, predicate), hana::head);
+}
+
+namespace detail {
+    template <typename Pred>
+    constexpr auto mpl_predicate = hana::integral(hana::metafunction_class<
+        typename mpl::lambda<Pred>::type
+    >);
+
+    template <typename F>
+    constexpr auto mpl_metafunction = hana::metafunction_class<
+        typename mpl::lambda<F>::type
+    >;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -214,18 +212,14 @@ struct size
 template <typename Sequence, typename State, typename F>
 struct fold
     : decltype(hana::fold.left(
-        Sequence{}, hana::type<State>, hana::metafunction_class<
-            typename mpl::lambda<F>::type
-        >
+        Sequence{}, hana::type<State>, detail::mpl_metafunction<F>
     ))
 { };
 
 template <typename Sequence, typename State, typename F>
 struct reverse_fold
     : decltype(hana::fold.right(
-        Sequence{}, hana::type<State>, hana::flip(hana::metafunction_class<
-            typename mpl::lambda<F>::type
-        >)
+        Sequence{}, hana::type<State>, hana::flip(detail::mpl_metafunction<F>)
     ))
 { };
 
@@ -249,9 +243,7 @@ using accumulate = fold<Sequence, State, F>;
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename Pred>
 struct find_if
-    : decltype(hana::find_if(
-        Sequence{}, boolean_metafunction_class<Pred>
-    ))
+    : decltype(hana::find_if(Sequence{}, detail::mpl_predicate<Pred>))
 { };
 
 template <typename Sequence, typename T>
@@ -271,24 +263,24 @@ struct count
 
 template <typename Sequence, typename Pred>
 struct count_if
-    : decltype(hana::count_if(Sequence{}, boolean_metafunction_class<Pred>))
+    : decltype(hana::count_if(Sequence{}, detail::mpl_predicate<Pred>))
 { };
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct min_element
-    : decltype(hana::minimum(Sequence{}, boolean_metafunction_class<Pred>))
+    : decltype(hana::minimum(Sequence{}, detail::mpl_predicate<Pred>))
 { };
 
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct max_element
-    : decltype(hana::maximum(Sequence{}, boolean_metafunction_class<Pred>))
+    : decltype(hana::maximum(Sequence{}, detail::mpl_predicate<Pred>))
 { };
 
 template <typename S1, typename S2, typename Pred = mpl::quote2<std::is_same>>
 struct equal
     : decltype( // inefficient but whatever
         hana::length(S1{}) == hana::length(S2{}) &&
-        hana::all(hana::zip.with(boolean_metafunction_class<Pred>,
+        hana::all(hana::zip.with(detail::mpl_predicate<Pred>,
                 hana::to<hana::Tuple>(S1{}),
                 hana::to<hana::Tuple>(S2{})))
     )
@@ -311,7 +303,8 @@ struct copy {
 template <typename Sequence, typename Pred>
 struct copy_if {
     using type = decltype(hana::filter(
-        hana::to<hana::Tuple>(Sequence{}), boolean_metafunction_class<Pred>
+        hana::to<hana::Tuple>(Sequence{}),
+        detail::mpl_predicate<Pred>
     ));
 };
 
@@ -321,15 +314,14 @@ struct transform;
 template <typename Sequence, typename Op>
 struct transform<Sequence, Op> {
     using type = decltype(hana::transform(
-        hana::to<hana::Tuple>(Sequence{}),
-        hana::metafunction_class<typename mpl::lambda<Op>::type>
+        hana::to<hana::Tuple>(Sequence{}), detail::mpl_metafunction<Op>
     ));
 };
 
 template <typename S1, typename S2, typename Op>
 struct transform {
     using type = decltype(hana::zip.with(
-        hana::metafunction_class<typename mpl::lambda<Op>::type>,
+        detail::mpl_metafunction<Op>,
         hana::to<hana::Tuple>(S1{}),
         hana::to<hana::Tuple>(S2{})
     ));
@@ -348,7 +340,7 @@ template <typename Sequence, typename Pred, typename NewType>
 struct replace_if {
     using type = decltype(hana::replace_if(
         hana::to<hana::Tuple>(Sequence{}),
-        boolean_metafunction_class<Pred>,
+        detail::mpl_predicate<Pred>,
         hana::type<NewType>
     ));
 };
@@ -365,14 +357,15 @@ template <typename Sequence, typename Pred>
 struct remove_if {
     using type = decltype(hana::filter(
         hana::to<hana::Tuple>(Sequence{}),
-        hana::compose(hana::not_, boolean_metafunction_class<Pred>)
+        hana::compose(hana::not_, detail::mpl_predicate<Pred>)
     ));
 };
 
 template <typename Sequence, typename Pred>
 struct unique {
     using type = decltype(unique_by(
-        boolean_metafunction_class<Pred>, hana::to<hana::Tuple>(Sequence{})
+        detail::mpl_predicate<Pred>,
+        hana::to<hana::Tuple>(Sequence{})
     ));
 };
 
@@ -380,7 +373,7 @@ template <typename Sequence, typename Pred>
 struct partition {
     using hana_pair = decltype(hana::partition(
         hana::to<hana::Tuple>(Sequence{}),
-        boolean_metafunction_class<Pred>
+        detail::mpl_predicate<Pred>
     ));
     using type = pair<
         decltype(hana::first(hana_pair{})),
@@ -391,7 +384,7 @@ struct partition {
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct sort {
     using type = decltype(hana::sort(
-        hana::to<hana::Tuple>(Sequence{}), boolean_metafunction_class<Pred>
+        hana::to<hana::Tuple>(Sequence{}), detail::mpl_predicate<Pred>
     ));
 };
 

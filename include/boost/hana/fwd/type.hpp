@@ -333,38 +333,84 @@ namespace boost { namespace hana {
     //! A `Metafunction` is a function that takes `Type`s as inputs and
     //! gives a `Type` as output.
     //!
-    //! In addition to being Callable, Metafunctions provide a nested `apply`
+    //! Hana provides adapters for representing several different kinds of
+    //! metafunctions in a unified way, as normal C++ functions. The general
+    //! process is always essentially the same. For example, given a MPL
+    //! metafunction, we can create a normal C++ function that takes `Type`
+    //! objects and returns a `Type` object containing the result of that
+    //! metafunction:
+    //! @code
+    //!     template <template <typename ...> class F>
+    //!     struct _metafunction {
+    //!         template <typename ...T>
+    //!         constexpr auto operator()(_type<T> const& ...) const {
+    //!             return hana::type<typename F<T...>::type>;
+    //!         }
+    //!     };
+    //!
+    //!     template <template <typename ...> class F>
+    //!     constexpr _metafunction<F> metafunction{};
+    //! @endcode
+    //!
+    //! The variable template is just for convenience, so we can write
+    //! `metafunction<F>` instead of `_metafunction<F>{}`, but they are
+    //! otherwise equivalent. With the above construct, it becomes possible
+    //! to perform type computations with the usual function call syntax, by
+    //! simply wrapping our classic metafunctions into a `metafunction` object:
+    //! @code
+    //!     constexpr auto add_pointer = metafunction<std::add_pointer>;
+    //!     static_assert(add_pointer(type<int>) == type<int*>, "");
+    //! @endcode
+    //!
+    //! While this covers only classical MPL-style metafunctions, Hana
+    //! provides wrappers for several constructs that are commonly used
+    //! to embed type computations: template aliases and MPL-style
+    //! metafunction classes. A type computation wrapped into such a
+    //! construct is what Hana calls a `Metafunction`. However, note that
+    //! not all metafunctions can be lifted this way. For example,
+    //! `std::aligned_storage` can't be lifted because it requires non-type
+    //! template parameters. Since there is no uniform way of dealing with
+    //! non-type template parameters, one must resort to using e.g. an
+    //! inline lambda to "lift" those metafunctions. In practice, however,
+    //! this should not be a problem.
+    //!
+    //! __Example of a non-liftable metafunction__
+    //! @snippet example/type.cpp non_liftable_metafunction
+    //!
+    //!
+    //! In addition to being Callable, `Metafunction`s provide a nested `apply`
     //! template which allows performing the same type-level computation as
     //! is done by the call operator. In Boost.MPL parlance, a `Metafunction`
     //! `F` is also a Boost.MPL MetafunctionClass in addition to being a
-    //! function on `Type`s. In other words again, a Metafunction `f` will
+    //! function on `Type`s. In other words again, a `Metafunction` `f` will
     //! satisfy:
     //! @code
-    //!     f(type<T1>, ..., type<Tn>) == type<decltype(f)::apply<T1, ..., Tn>::type>
+    //!     f(type<T>...) == type<decltype(f)::apply<T...>::type>
     //! @endcode
     //!
     //! But that is not all. To ease the inter-operation of values and types,
-    //! Metafunctions also allow being called with arguments that are not
-    //! Types. In that case, the result is equivalent to calling the
+    //! `Metafunction`s also allow being called with arguments that are not
+    //! `Type`s. In that case, the result is equivalent to calling the
     //! metafunction on the result of `decltype_`ing the arguments.
-    //! Specifically, given a Metafunction `f` and arbitrary (Type or
-    //! non-Type) objects `x1, ..., xn`,
+    //! Specifically, given a `Metafunction` `f` and arbitrary (`Type` or
+    //! non-`Type`) objects `x...`,
     //! @code
-    //!     f(x1, ..., xn) == f(decltype_(x1), ..., decltype_(xn))
+    //!     f(x...) == f(decltype_(x)...)
     //! @endcode
     //!
     //! So `f` is called with the type of its arguments, but since `decltype_`
-    //! is just the identity for Types, only non-Types are lifted to the
-    //! Type level.
+    //! is just the identity for `Type`s, only non-`Type`s are lifted to the
+    //! `Type` level.
     struct Metafunction { };
 
     //! Lift a template to a Metafunction.
     //! @relates Metafunction
     //!
-    //! Specifically, `template_<f>` is a `Metafunction` satisfying
+    //! Given a template class or template alias `f`, `template_<f>` is a
+    //! `Metafunction` satisfying
     //! @code
-    //!     template_<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>>
-    //!     decltype(template_<f>)::apply<x1, ..., xN>::type == f<x1, ..., xN>
+    //!     template_<f>(type<x>...) == type<f<x...>>
+    //!     decltype(template_<f>)::apply<x...>::type == f<x...>
     //! @endcode
     //!
     //! @note
@@ -393,13 +439,16 @@ namespace boost { namespace hana {
     //! Lift a MPL-style metafunction to a function on `Type`s.
     //! @relates Metafunction
     //!
-    //! Specifically, `metafunction<f>` is a `Metafunction` satisfying
+    //! Given a MPL-style metafunction, `metafunction<f>` is a `Metafunction`
+    //! satisfying
     //! @code
-    //!     metafunction<f>(type<x1>, ..., type<xN>) == type<f<x1, ..., xN>::type>
-    //!     decltype(metafunction<f>)::apply<x1, ..., xN>::type == f<x1, ..., xN>::type
+    //!     metafunction<f>(type<x>...) == type<f<x...>::type>
+    //!     decltype(metafunction<f>)::apply<x...>::type == f<x...>::type
     //! @endcode
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/type.cpp metafunction
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
@@ -417,11 +466,17 @@ namespace boost { namespace hana {
     //! Lift a MPL-style metafunction class to a function on `Type`s.
     //! @relates Metafunction
     //!
-    //! Specifically, `metafunction_class<f>` is a `Metafunction` satisfying
+    //! Given a MPL-style metafunction class, `metafunction_class<f>` is a
+    //! `Metafunction` satisfying
     //! @code
-    //!     metafunction_class<f>(type<x1>, ..., type<xN>) == type<f::apply<x1, ..., xN>::type>
-    //!     decltype(metafunction_class<f>)::apply<x1, ..., xN>::type == f::apply<x1, ..., xN>::type
+    //!     metafunction_class<f>(type<x>...) == type<f::apply<x...>::type>
+    //!     decltype(metafunction_class<f>)::apply<x...>::type == f::apply<x...>::type
     //! @endcode
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/type.cpp metafunction_class
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename F>
     constexpr auto metafunction_class = [](_type<T>-or-T ...) {
@@ -437,54 +492,64 @@ namespace boost { namespace hana {
     constexpr _metafunction_class<F> metafunction_class{};
 #endif
 
-    //! Lift a MPL-style metafunction to a function taking `Type`s and
-    //! returning a default-constructed object.
+    //! Turn a `Metafunction` into a function taking `Type`s and returning a
+    //! default-constructed object.
     //! @relates Metafunction
     //!
-    //! Specifically, `trait<f>(t...)` is equivalent to `template_<f>(t...)`,
-    //! except it default constructs the type represented by `template_<f>(t...)`.
-    //! The principal use case for `trait` is to transform metafunctions
-    //! inheriting from a meaningful base like `std::integral_constant`
-    //! into functions returning e.g. an `IntegralConstant`.
+    //! Given a `Metafunction` `f`, `integral` returns a new `Metafunction`
+    //! that default-constructs an object of the type returned by `f`. More
+    //! specifically, the following holds:
+    //! @code
+    //!     integral(f)(t...) == decltype(f(t...))::type{}
+    //! @endcode
     //!
-    //! The word `trait` is used because a name was needed and the principal
-    //! use case involves metafunctions from the standard that we also call
-    //! type traits.
-    //!
-    //! @note
-    //! This is not a `Metafunction` because it does not return a `Type`.
-    //! In particular, it would not make sense to make `decltype(trait<f>)`
-    //! a MPL metafunction class.
-    //!
-    //! ### Example
-    //! @snippet example/type.cpp liftable_trait
-    //!
-    //! Note that not all metafunctions of the standard library can be lifted
-    //! this way. For example, `std::aligned_storage` can't be lifted because
-    //! it requires non-type template parameters. Since there is no uniform
-    //! way of dealing with non-type template parameters, one must resort to
-    //! using e.g. an inline lambda to "lift" those metafunctions. In practice,
-    //! however, this should not be a problem.
-    //!
-    //! ### Example of a non-liftable metafunction
-    //! @snippet example/type.cpp non_liftable_trait
+    //! The principal use case for `integral` is to transform `Metafunction`s
+    //! returning a type that inherits from a meaningful base like
+    //! `std::integral_constant` into functions returning e.g. an
+    //! `IntegralConstant`.
     //!
     //! @note
-    //! When using `trait` with metafunctions returning `std::integral_constant`s,
-    //! don't forget to include the boost/hana/ext/std/integral_constant.hpp
-    //! header!
+    //! - This is not a `Metafunction` because it does not return a `Type`.
+    //!   As such, it would not make sense to make `decltype(integral(f))`
+    //!   a MPL metafunction class like the usual `Metafunction`s are.
+    //!
+    //! - When using `integral` with metafunctions returning
+    //!   `std::integral_constant`s, don't forget to include the
+    //!   boost/hana/ext/std/integral_constant.hpp header to ensure
+    //!   Hana can interoperate with the result.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/type.cpp integral
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <template <typename ...> class F>
-    constexpr auto trait = [](_type<T>-or-T ...) {
-        return F<T...>{};
+    constexpr auto integral = [](auto f) {
+        return [](_type<T>-or-T ...) {
+            return decltype(f)::apply<T...>::type{};
+        };
     };
 #else
-    template <template <typename ...> class F>
-    struct _trait;
+    template <typename F>
+    struct _integral;
 
-    template <template <typename ...> class F>
-    constexpr _trait<F> trait{};
+    struct _make_integral {
+        template <typename F>
+        constexpr _integral<F> operator()(F const&) const
+        { return {}; }
+    };
+
+    constexpr _make_integral integral{};
 #endif
+
+    //! Alias to `integral(metafunction<F>)`, provided for convenience.
+    //! @relates Metafunction
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/type.cpp trait
+    template <template <typename ...> class F>
+    constexpr auto trait = integral(metafunction<F>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TYPE_HPP

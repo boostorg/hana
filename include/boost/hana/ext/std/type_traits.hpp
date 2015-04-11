@@ -13,10 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/std/integral_constant.hpp>
 
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 
+#include <cstddef>
 #include <type_traits>
 
 
@@ -103,17 +103,17 @@ namespace boost { namespace hana { namespace traits {
     constexpr auto rank = trait<std::rank>;
     constexpr struct _extent {
         template <typename T, typename N>
-        constexpr auto operator()(T, N n) const {
-            constexpr unsigned n_ = hana::value(n);
-            return integral_constant<
-                decltype(std::extent<typename T::type, n_>::value),
-                std::extent<typename T::type, n_>::value
-            >;
+        constexpr auto operator()(T&&, N const&) const {
+            constexpr unsigned n = hana::value<N>();
+            constexpr auto result = std::extent<
+                typename detail::_decltype<T>::type, n
+            >::value;
+            return integral_constant<decltype(result), result>;
         }
 
         template <typename T>
-        constexpr auto operator()(T t) const
-        { return (*this)(t, uint<0>); }
+        constexpr auto operator()(T&& t) const
+        { return (*this)(static_cast<T&&>(t), hana::uint<0>); }
     } extent{};
 
     // Type relationships
@@ -153,24 +153,29 @@ namespace boost { namespace hana { namespace traits {
     // Miscellaneous transformations
     constexpr struct _aligned_storage {
         template <typename Len, typename Align>
-        constexpr auto operator()(Len len, Align align) const {
-            constexpr detail::std::size_t len_ = hana::value(len);
-            constexpr detail::std::size_t align_ = hana::value(align);
-            return type<std::aligned_storage_t<len_, align_>>;
+        constexpr auto operator()(Len const&, Align const&) const {
+            constexpr std::size_t len = hana::value<Len>();
+            constexpr std::size_t align = hana::value<Align>();
+            using Result = typename std::aligned_storage<len, align>::type;
+            return hana::type<Result>;
         }
 
         template <typename Len>
-        constexpr auto operator()(Len len) const {
-            constexpr detail::std::size_t len_ = hana::value(len);
-            return type<std::aligned_storage_t<len_>>;
+        constexpr auto operator()(Len const&) const {
+            constexpr std::size_t len = hana::value<Len>();
+            using Result = typename std::aligned_storage<len>::type;
+            return type<Result>;
         }
     } aligned_storage{};
 
     constexpr struct _aligned_union {
         template <typename Len, typename ...T>
-        constexpr auto operator()(Len len, T...) const {
-            constexpr detail::std::size_t len_ = hana::value(len);
-            return type<std::aligned_union_t<len_, typename T::type...>>;
+        constexpr auto operator()(Len const&, T&&...) const {
+            constexpr std::size_t len = hana::value<Len>();
+            using Result = typename std::aligned_union<
+                len, typename detail::_decltype<T>::type...
+            >::type;
+            return type<Result>;
         }
     } aligned_union{};
 

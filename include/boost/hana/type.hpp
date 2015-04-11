@@ -123,13 +123,17 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // trait
+    // integral
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename ...> class F>
-    struct _trait {
-       template <typename ...T>
-       constexpr auto operator()(T&& ...t) const
-       { return F<typename detail::_decltype<T>::type...>{}; }
+    template <typename F>
+    struct _integral {
+        template <typename ...T>
+        constexpr auto operator()(T&& ...) const {
+            using Result = typename F::template apply<
+                typename detail::_decltype<T>::type...
+            >::type;
+            return Result{};
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

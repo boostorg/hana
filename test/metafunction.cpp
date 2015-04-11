@@ -254,25 +254,61 @@ namespace tc3 {
     constexpr auto r = template_<f>(t);
 }
 
-// trait
+// integral
 namespace tc4 {
-    template <typename ...> struct f { };
+    template <typename ...> struct mf { struct type { }; };
+    struct mfc { template <typename ...> struct apply { struct type { }; }; };
+    template <typename ...> struct tpl { };
 
-    // make sure `trait<f>(...)` returns the right type
-    static_assert(std::is_same<decltype(trait<f>()), f<>>{}, "");
-    static_assert(std::is_same<decltype(trait<f>(type<x1>)), f<x1>>{}, "");
-    static_assert(std::is_same<decltype(trait<f>(type<x1>, type<x2>)), f<x1, x2>>{}, "");
-    static_assert(std::is_same<decltype(trait<f>(type<x1>, type<x2>, type<x3>)), f<x1, x2, x3>>{}, "");
+    // make sure `integral(f)(...)` returns the right type
+    static_assert(std::is_same<
+        decltype(integral(metafunction<mf>)()),
+        mf<>::type
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(metafunction<mf>)(type<x1>)),
+        mf<x1>::type
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(metafunction<mf>)(type<x1>, type<x2>)),
+        mf<x1, x2>::type
+    >{}, "");
+
+    static_assert(std::is_same<
+        decltype(integral(template_<tpl>)()),
+        tpl<>
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(template_<tpl>)(type<x1>)),
+        tpl<x1>
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(template_<tpl>)(type<x1>, type<x2>)),
+        tpl<x1, x2>
+    >{}, "");
+
+    static_assert(std::is_same<
+        decltype(integral(metafunction_class<mfc>)()),
+        mfc::apply<>::type
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(metafunction_class<mfc>)(type<x1>)),
+        mfc::apply<x1>::type
+    >{}, "");
+    static_assert(std::is_same<
+        decltype(integral(metafunction_class<mfc>)(type<x1>, type<x2>)),
+        mfc::apply<x1, x2>::type
+    >{}, "");
 
     // make sure we can perform the call; we already made sure the return type was correct
-    constexpr auto a = trait<f>();
-    constexpr auto b = trait<f>(type<x1>);
-    constexpr auto c = trait<f>(type<x1>, type<x2>);
-    constexpr auto d = trait<f>(type<x1>, type<x2>, type<x3>);
+    constexpr auto a = integral(metafunction<mf>)();
+    constexpr auto b = integral(metafunction<mf>)(type<x1>);
+    constexpr auto c = integral(metafunction<mf>)(type<x1>, type<x2>);
+    constexpr auto d = integral(metafunction<mf>)(type<x1>, type<x2>, type<x3>);
 
     // Make sure we don't read from a non-constexpr variable
     auto t = type<x1>;
-    constexpr auto r = trait<f>(t);
+    constexpr auto r = integral(metafunction<mf>)(t);
 }
 
 int main() {
