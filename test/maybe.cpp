@@ -514,6 +514,11 @@ int main() {
 
         // laws
         test::TestSearchable<Maybe>{eqs, eq_values};
+
+        test::TestSearchable<Maybe>{
+            make<Tuple>(just(true_), just(false_), nothing),
+            make<Tuple>(true_, false_)
+        };
     }
 
 #elif BOOST_HANA_TEST_PART == 6

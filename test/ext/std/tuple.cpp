@@ -98,6 +98,16 @@ int main() {
     {
         auto eq_tuple_keys = make<Tuple>(eq<3>{}, eq<5>{}, eq<7>{});
         test::TestSearchable<ext::std::Tuple>{small_eq_tuples, eq_tuple_keys};
+
+        auto bools = make<Tuple>(
+              std::make_tuple(true_)
+            , std::make_tuple(false_)
+            , std::make_tuple(true_, true_)
+            , std::make_tuple(true_, false_)
+            , std::make_tuple(false_, true_)
+            , std::make_tuple(false_, false_)
+        );
+        test::TestSearchable<ext::std::Tuple>{bools, make<Tuple>(true_, false_)};
     }
 
 #elif BOOST_HANA_TEST_PART == 2

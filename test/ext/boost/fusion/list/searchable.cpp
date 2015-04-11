@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion/list.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -40,5 +41,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestSearchable<ext::boost::fusion::List>{eq_lists, eq_list_keys};
+
+        auto bools = make<Tuple>(
+              fusion::make_list(true_)
+            , fusion::make_list(false_)
+            , fusion::make_list(true_, true_)
+            , fusion::make_list(true_, false_)
+            , fusion::make_list(false_, true_)
+            , fusion::make_list(false_, false_)
+        );
+        test::TestSearchable<ext::boost::fusion::List>{bools, make<Tuple>(true_, false_)};
     }
 }

@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define FUSION_MAX_VECTOR_SIZE 20
 #include <boost/hana/ext/boost/fusion/tuple.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -40,5 +41,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestSearchable<ext::boost::fusion::Tuple>{eq_tuples, eq_tuple_keys};
+
+        auto bools = make<Tuple>(
+              fusion::make_tuple(true_)
+            , fusion::make_tuple(false_)
+            , fusion::make_tuple(true_, true_)
+            , fusion::make_tuple(true_, false_)
+            , fusion::make_tuple(false_, true_)
+            , fusion::make_tuple(false_, false_)
+        );
+        test::TestSearchable<ext::boost::fusion::Tuple>{bools, make<Tuple>(true_, false_)};
     }
 }

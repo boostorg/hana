@@ -154,7 +154,19 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_SEARCHABLE
-    test::TestSearchable<test::Seq>{eqs, eq_keys};
+    {
+        test::TestSearchable<test::Seq>{eqs, eq_keys};
+
+        auto bools = make<Tuple>(
+              test::seq(true_)
+            , test::seq(false_)
+            , test::seq(true_, true_)
+            , test::seq(true_, false_)
+            , test::seq(false_, true_)
+            , test::seq(false_, false_)
+        );
+        test::TestSearchable<test::Seq>{bools, make<Tuple>(true_, false_)};
+    }
 #endif
 
     //////////////////////////////////////////////////////////////////////////

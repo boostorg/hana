@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/tuple.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -38,5 +39,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestSearchable<ext::boost::Tuple>{eq_tuples, eq_tuple_keys};
+
+        auto bools = make<Tuple>(
+              ::boost::make_tuple(true_)
+            , ::boost::make_tuple(false_)
+            , ::boost::make_tuple(true_, true_)
+            , ::boost::make_tuple(true_, false_)
+            , ::boost::make_tuple(false_, true_)
+            , ::boost::make_tuple(false_, false_)
+        );
+        test::TestSearchable<ext::boost::Tuple>{bools, make<Tuple>(true_, false_)};
     }
 }

@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion/deque.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -40,5 +41,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestSearchable<ext::boost::fusion::Deque>{eq_deques, eq_deque_keys};
+
+        auto bools = make<Tuple>(
+              fusion::make_deque(true_)
+            , fusion::make_deque(false_)
+            , fusion::make_deque(true_, true_)
+            , fusion::make_deque(true_, false_)
+            , fusion::make_deque(false_, true_)
+            , fusion::make_deque(false_, false_)
+        );
+        test::TestSearchable<ext::boost::fusion::Deque>{bools, make<Tuple>(true_, false_)};
     }
 }

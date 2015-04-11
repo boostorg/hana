@@ -455,9 +455,17 @@ int main() {
             , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
             , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
         );
+        test::TestSearchable<Tuple>{eq_tuples, make<Tuple>(eq<3>{}, eq<5>{})};
 
-        auto eq_tuple_keys = make<Tuple>(eq<3>{}, eq<5>{});
-        test::TestSearchable<Tuple>{eq_tuples, eq_tuple_keys};
+        auto bool_tuples = make<Tuple>(
+              make<Tuple>(true_)
+            , make<Tuple>(false_)
+            , make<Tuple>(true_, true_)
+            , make<Tuple>(true_, false_)
+            , make<Tuple>(false_, true_)
+            , make<Tuple>(false_, false_)
+        );
+        test::TestSearchable<Tuple>{bool_tuples, make<Tuple>(true_, false_)};
     }
 
 #elif BOOST_HANA_TEST_PART == 6
