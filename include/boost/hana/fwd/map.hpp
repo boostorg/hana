@@ -27,30 +27,34 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (operators provided)\n
     //! Two maps are equal iff all their keys are equal and are associated
     //! to equal values.
-    //! @snippet example/map.cpp comparable
+    //! @snippet example/map.cpp Comparable
     //!
     //! 2. `Searchable`\n
     //! A map can be searched by its keys with a predicate yielding a
     //! compile-time `Logical`.
-    //! @snippet example/map.cpp searchable
+    //! @snippet example/map.cpp Searchable
+    //!
+    //! 3. `Foldable`\n
+    //! Folding a map is equivalent to folding a list of the key/value pairs
+    //! it contains. In particular, since that list is not guaranteed to be
+    //! in any specific order, folding a map with an operation that is not
+    //! both commutative and associative will yield non-deterministic behavior.
+    //! @snippet example/map.cpp Foldable
     //!
     //!
     //! Provided conversions
     //! --------------------
     //! 1. From any `Record`\n
-    //! Converting a `Record` `R` to a `Map` is equivalent to converting its
-    //! `members<R>()` to a `Map`, except the values are replaced by the actual
-    //! members of the object instead of accessors.
+    //! Converting a `Record` to a `Map` creates a map where the keys are
+    //! the keys associated to each member of the `Record`, and the values
+    //! are the members associated to those keys.
+    //! @snippet example/map.from_record.cpp main
     //!
     //! 2. From any `Foldable`\n
-    //! Converts a `Foldable` of `Product`s to a `Map`.
-    //! Note that the foldable structure must not contain duplicate keys.
-    //! @todo
-    //! We should allow duplicate keys, with a documented policy (e.g. we
-    //! keep the last one).
-    //!
-    //! 3. To any `Sequence`\n
-    //! A `Map` can be converted to a Sequence of Products.
+    //! Converts a `Foldable` of `Product`s to a `Map`. If the structure
+    //! contains duplicate keys, only the value associated to the first
+    //! occurence of each key is kept.
+    //! @snippet example/map.cpp from_Foldable
     struct Map { };
 
     template <typename ...Pairs>
@@ -85,6 +89,11 @@ namespace boost { namespace hana {
 
     //! Returns a Sequence of the keys of the map, in unspecified order.
     //! @relates Map
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp keys
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& map) -> decltype(auto) {
         return unspecified-type;
@@ -100,6 +109,11 @@ namespace boost { namespace hana {
 
     //! Returns a Sequence of the values of the map, in unspecified order.
     //! @relates Map
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp values
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto values = [](auto&& map) -> decltype(auto) {
         return unspecified-type;
@@ -111,6 +125,31 @@ namespace boost { namespace hana {
     };
 
     constexpr _values values{};
+#endif
+
+    //! Inserts a new key/value pair in a `Map`.
+    //! @relates Map
+    //!
+    //! Given a `(key, value)` pair, `insert` inserts this new pair into a
+    //! map. If the map already contains this key, nothing is done and the
+    //! map is returned as-is.
+    //!
+    //!
+    //! @param map
+    //! The map in which to insert a `(key,value)` pair.
+    //!
+    //! @param pair
+    //! An arbitrary `Product` representing a `(key, value)` pair to insert
+    //! in the map.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp insert
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto insert = [](auto&& map, auto&& pair) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #endif
 }} // end namespace boost::hana
 

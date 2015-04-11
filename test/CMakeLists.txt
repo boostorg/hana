@@ -59,6 +59,7 @@ file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
     "ext/std/ratio.cpp"
     "ext/std/tuple.cpp"
     "integral_constant.cpp"
+    "map.cpp"
     "maybe.cpp"
     "minimal_record.cpp"
     "set.cpp"

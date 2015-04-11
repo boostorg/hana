@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! Folding a `Set` is equivalent to folding the sequence of its values.
     //! However, note that the values are not required to be in any specific
     //! order, so using the folds provided here with an operation that is not
-    //! both commutative and associative will yield unspecified behavior.
+    //! both commutative and associative will yield non-deterministic behavior.
     //! @snippet example/set.cpp foldable
     //!
     //! 3. Searchable\n

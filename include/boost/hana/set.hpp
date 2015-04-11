@@ -139,11 +139,9 @@ namespace boost { namespace hana {
             template <typename S, typename X>
             constexpr decltype(auto) operator()(S&& s, X&& x) const {
                 return hana::unpack(
-                    hana::prepend(
-                        static_cast<X&&>(x),
-                        static_cast<S&&>(s).storage
-                    ),
-                    hana::set
+                    hana::append(static_cast<S&&>(s).storage,
+                                 static_cast<X&&>(x)),
+                    hana::make<Set>
                 );
             }
         };

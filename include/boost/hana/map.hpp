@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
@@ -27,11 +28,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/record.hpp>
 #include <boost/hana/searchable.hpp>
-#include <boost/hana/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -76,16 +77,42 @@ namespace boost { namespace hana {
     constexpr decltype(auto) _keys::operator()(Map&& map) const {
         return hana::transform(static_cast<Map&&>(map).storage, first);
     }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // values
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename Map>
     constexpr decltype(auto) _values::operator()(Map&& map) const {
         return hana::transform(static_cast<Map&&>(map).storage, second);
     }
-
     //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // insert
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct insert_impl<Map> {
+        struct insert_helper {
+            template <typename M, typename P>
+            constexpr decltype(auto) operator()(M&& map, P&& pair) const {
+                return hana::unpack(
+                    hana::append(static_cast<M&&>(map).storage,
+                                 static_cast<P&&>(pair)),
+                    hana::make<Map>
+                );
+            }
+        };
+
+        template <typename M, typename P>
+        static constexpr decltype(auto) apply(M&& map, P&& pair) {
+            return hana::eval_if(hana::elem(map, hana::first(pair)),
+                hana::lazy(map),
+                hana::lazy(insert_helper{})(map, pair)
+            );
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
@@ -135,6 +162,18 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct unpack_impl<Map> {
+        template <typename M, typename F>
+        static constexpr decltype(auto) apply(M&& map, F&& f) {
+            return hana::unpack(static_cast<M&&>(map).storage,
+                                static_cast<F&&>(f));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     namespace map_detail {
@@ -153,7 +192,7 @@ namespace boost { namespace hana {
     }
 
     template <typename R>
-    struct to_impl<Map, R, when<_models<Record, R>{}>> {
+    struct to_impl<Map, R, when<_models<Record, R>{}()>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x) {
             return hana::to<Map>(
@@ -164,17 +203,15 @@ namespace boost { namespace hana {
     };
 
     template <typename F>
-    struct to_impl<Map, F, when<_models<Foldable, F>{} && !_models<Record, F>{}>> {
+    struct to_impl<Map, F, when<_models<Foldable, F>{}() &&
+                                !_models<Record, F>{}()>>
+    {
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::unpack(static_cast<Xs&&>(xs), make<Map>); }
-    };
-
-    template <typename S>
-    struct to_impl<S, Map, when<_models<Sequence, S>{}>> {
-        template <typename M>
-        static constexpr decltype(auto) apply(M&& m)
-        { return hana::to<S>(static_cast<M&&>(m).storage); }
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return hana::fold.left(
+                static_cast<Xs&&>(xs), hana::make<Map>(), hana::insert
+            );
+        }
     };
 }} // end namespace boost::hana
 
