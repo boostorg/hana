@@ -22,13 +22,16 @@ using test::ct_eq;
 
 int main() {
     auto eqs = make<Tuple>(
-        set(),
-        set(ct_eq<0>{}),
-        set(ct_eq<0>{}, ct_eq<1>{}),
-        set(ct_eq<1>{}, ct_eq<0>{}),
-        set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        make<Set>(),
+        make<Set>(ct_eq<0>{}),
+        make<Set>(ct_eq<0>{}, ct_eq<1>{}),
+        make<Set>(ct_eq<1>{}, ct_eq<0>{}),
+        make<Set>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
     );
     (void)eqs;
+
+    auto keys = make<Tuple>(ct_eq<2>{}, ct_eq<3>{});
+    (void)keys;
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
@@ -108,7 +111,7 @@ int main() {
         auto foldable = test::seq;
         using L = test::Seq;
 
-        // Set -> Sequence (now provided by Sequence, but we keep the test)
+        // Set -> Sequence
         {
             auto check = [=](auto ...xs) {
                 BOOST_HANA_CONSTANT_CHECK(
@@ -248,13 +251,6 @@ int main() {
         }
 
         // laws
-        auto eqs = make<Tuple>(
-            set(),
-            set(ct_eq<0>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
-        );
-        auto keys = make<Tuple>(ct_eq<2>{}, ct_eq<3>{});
         test::TestSearchable<Set>{eqs, keys};
     }
 

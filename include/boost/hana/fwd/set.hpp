@@ -22,35 +22,45 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (operators provided)\n
     //! Two sets are equal iff they contain the same elements, regardless of
     //! the order.
-    //! @snippet example/set.cpp comparable
+    //! @snippet example/set.cpp Comparable
     //!
     //! 2. Foldable\n
     //! Folding a `Set` is equivalent to folding the sequence of its values.
     //! However, note that the values are not required to be in any specific
     //! order, so using the folds provided here with an operation that is not
     //! both commutative and associative will yield non-deterministic behavior.
-    //! @snippet example/set.cpp foldable
+    //! @snippet example/set.cpp Foldable
     //!
     //! 3. Searchable\n
-    //! The keys and the values of a `Set` are its elements; the `Searchable` 
-    //! model follows naturally from that.
-    //! @snippet example/set.cpp searchable
+    //! The elements in a `Set` act as both its keys and its values. Since the
+    //! elements of a set are unique, searching for an element will return
+    //! either the only element which is equal to the searched value, or
+    //! `nothing`.
+    //! @snippet example/set.cpp Searchable
     //!
     //!
-    //! Provided conversions
-    //! --------------------
-    //! 1. From any `Foldable`\n
-    //! If the foldable structure contains duplicates, the last one will
-    //! be the one appearing in the resulting set.
+    //! Conversion from any `Foldable`
+    //! ------------------------------
+    //! Any `Foldable` structure can be converted into a `Set` by using
+    //! `to<Set>`. The elements of the structure must all be compile-time
+    //! `Comparable`. If the structure contains duplicate elements, only
+    //! the first occurence will appear in the resulting set. More
+    //! specifically, conversion from a `Foldable` is equivalent to
+    //! @code
+    //!     to<Set>(xs) == fold.left(xs, make<Set>(), insert)
+    //! @endcode
+    //!
+    //! __Example__
+    //! @snippet example/set.cpp from_Foldable
     struct Set { };
 
     //! Creates a `Set` containing the given elements.
     //! @relates Set
     //!
-    //! @note
-    //! There must not be duplicate elements.
-    //!
-    //! @todo Consider allowing duplicates elements in this constructor.
+    //! Given zero or more values, `make<Set>` returns a `Set` containing
+    //! those values. The values must all be compile-time `Comparable`, and
+    //! no duplicate values must be provided. To create a `Set` from a
+    //! sequence with possible duplicates, use `to<Set>` instead.
     //!
     //!
     //! Example
@@ -58,8 +68,8 @@ namespace boost { namespace hana {
     //! @snippet example/set.cpp make<Set>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Set> = [](auto&& ...xs) {
-        return unspecified-type{forwarded(xs)...};
+    constexpr auto make<Set> = [](auto&& ...elements) {
+        return unspecified-type{forwarded(elements)...};
     };
 #endif
 
@@ -89,14 +99,15 @@ namespace boost { namespace hana {
     //! @param set
     //! The set in which to insert a value.
     //!
-    //! @param x
-    //! The value to insert.
+    //! @param element
+    //! The value to insert. It must be compile-time `Comparable`.
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/set.cpp insert
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto insert = [](auto&& set, auto&& x) -> decltype(auto) {
+    constexpr auto insert = [](auto&& set, auto&& element) -> decltype(auto) {
         return tag-dispatched;
     };
 #endif
