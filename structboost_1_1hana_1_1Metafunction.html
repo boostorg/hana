@@ -104,9 +104,27 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Metafunction.ht
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>A <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> is a function that takes <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s as inputs and gives a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> as output. </p>
-<p>In addition to being Callable, Metafunctions provide a nested <code>apply</code> template which allows performing the same type-level computation as is done by the call operator. In Boost.MPL parlance, a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> <code>F</code> is also a Boost.MPL MetafunctionClass in addition to being a function on <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. In other words again, a <a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a> <code>f</code> will satisfy: </p><div class="fragment"><div class="line">f(type&lt;T1&gt;, ..., type&lt;Tn&gt;) == type&lt;decltype(f)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;T1, ..., Tn&gt;::type&gt;</div>
-</div><!-- fragment --><p>But that is not all. To ease the inter-operation of values and types, Metafunctions also allow being called with arguments that are not Types. In that case, the result is equivalent to calling the metafunction on the result of <code>decltype_</code>ing the arguments. Specifically, given a <a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a> <code>f</code> and arbitrary (<a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> or non-Type) objects <code>x1, ..., xn</code>, </p><div class="fragment"><div class="line">f(x1, ..., xn) == f(decltype_(x1), ..., decltype_(xn))</div>
-</div><!-- fragment --><p>So <code>f</code> is called with the type of its arguments, but since <code>decltype_</code> is just the identity for Types, only non-Types are lifted to the <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> level. </p>
+<p>Hana provides adapters for representing several different kinds of metafunctions in a unified way, as normal C++ functions. The general process is always essentially the same. For example, given a MPL metafunction, we can create a normal C++ function that takes <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> objects and returns a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> object containing the result of that metafunction: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F&gt;</div>
+<div class="line"><span class="keyword">struct </span>_metafunction {</div>
+<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
+<div class="line">    constexpr <span class="keyword">auto</span> operator()(_type&lt;T&gt; <span class="keyword">const</span>&amp; ...)<span class="keyword"> const </span>{</div>
+<div class="line">        <span class="keywordflow">return</span> hana::type&lt;<span class="keyword">typename</span> F&lt;T...&gt;::type&gt;;</div>
+<div class="line">    }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F&gt;</div>
+<div class="line">constexpr _metafunction&lt;F&gt; <a class="code" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>{};</div>
+</div><!-- fragment --><p>The variable template is just for convenience, so we can write <code>metafunction&lt;F&gt;</code> instead of <code>_metafunction&lt;F&gt;{}</code>, but they are otherwise equivalent. With the above construct, it becomes possible to perform type computations with the usual function call syntax, by simply wrapping our classic metafunctions into a <code>metafunction</code> object: </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> add_pointer = metafunction&lt;std::add_pointer&gt;;</div>
+<div class="line">static_assert(add_pointer(type&lt;int&gt;) == type&lt;int*&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p>While this covers only classical MPL-style metafunctions, Hana provides wrappers for several constructs that are commonly used to embed type computations: template aliases and MPL-style metafunction classes. A type computation wrapped into such a construct is what Hana calls a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code>. However, note that not all metafunctions can be lifted this way. For example, <code>std::aligned_storage</code> can't be lifted because it requires non-type template parameters. Since there is no uniform way of dealing with non-type template parameters, one must resort to using e.g. an inline lambda to "lift" those metafunctions. In practice, however, this should not be a problem.</p>
+<p><b>Example of a non-liftable metafunction</b> </p><div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> extent = [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> n) {</div>
+<div class="line">    <span class="keywordflow">return</span> std::extent&lt;typename decltype(t)::type, value(n)&gt;{};</div>
+<div class="line">};</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(type&lt;char&gt;, int_&lt;1&gt;) == size_t&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(type&lt;<span class="keywordtype">char</span>[1][2]&gt;, int_&lt;1&gt;) == size_t&lt;2&gt;);</div>
+</div><!-- fragment --><p>In addition to being Callable, <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code>s provide a nested <code>apply</code> template which allows performing the same type-level computation as is done by the call operator. In Boost.MPL parlance, a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> <code>F</code> is also a Boost.MPL MetafunctionClass in addition to being a function on <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. In other words again, a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> <code>f</code> will satisfy: </p><div class="fragment"><div class="line">f(type&lt;T&gt;...) == type&lt;decltype(f)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;T...&gt;::type&gt;</div>
+</div><!-- fragment --><p>But that is not all. To ease the inter-operation of values and types, <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code>s also allow being called with arguments that are not <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. In that case, the result is equivalent to calling the metafunction on the result of <code>decltype_</code>ing the arguments. Specifically, given a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> <code>f</code> and arbitrary (<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> or non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>) objects <code>x...</code>, </p><div class="fragment"><div class="line">f(x...) == f(decltype_(x)...)</div>
+</div><!-- fragment --><p>So <code>f</code> is called with the type of its arguments, but since <code>decltype_</code> is just the identity for <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s, only non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s are lifted to the <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> level. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -122,9 +140,12 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a4cd45afebd60d6e315560532a3bcea1a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a">metafunction_class</a></td></tr>
 <tr class="memdesc:a4cd45afebd60d6e315560532a3bcea1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a MPL-style metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s.  <a href="#a4cd45afebd60d6e315560532a3bcea1a">More...</a><br /></td></tr>
 <tr class="separator:a4cd45afebd60d6e315560532a3bcea1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa47f4f55c497fae1542947d5862bdab5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a></td></tr>
+<tr class="memdesc:aa47f4f55c497fae1542947d5862bdab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> into a function taking <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s and returning a default-constructed object.  <a href="#aa47f4f55c497fae1542947d5862bdab5">More...</a><br /></td></tr>
+<tr class="separator:aa47f4f55c497fae1542947d5862bdab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename...&gt; class F&gt; </td></tr>
-<tr class="memitem:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd">trait</a></td></tr>
-<tr class="memdesc:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lift a MPL-style metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s and returning a default-constructed object.  <a href="#a5ed3cf82ea662dcfaff23e0e3f710ebd">More...</a><br /></td></tr>
+<tr class="memitem:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd">trait</a> = <a class="el" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a>(<a class="el" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>&lt;F&gt;)</td></tr>
+<tr class="memdesc:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>integral(metafunction&lt;F&gt;)</code>, provided for convenience.  <a href="#a5ed3cf82ea662dcfaff23e0e3f710ebd">More...</a><br /></td></tr>
 <tr class="separator:a5ed3cf82ea662dcfaff23e0e3f710ebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
@@ -152,8 +173,8 @@ template&lt;template&lt; typename...&gt; class F&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Lift a template to a <a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a>. </p>
-<p>Specifically, <code>template_&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">template_&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == type&lt;f&lt;x1, ..., xN&gt;&gt;</div>
-<div class="line">decltype(template_&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::type == f&lt;x1, ..., xN&gt;</div>
+<p>Given a template class or template alias <code>f</code>, <code>template_&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">template_&lt;f&gt;(type&lt;x&gt;...) == type&lt;f&lt;x...&gt;&gt;</div>
+<div class="line">decltype(template_&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x...&gt;::type == f&lt;x...&gt;</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><code>template_</code> can't be SFINAE-friendly right now because of <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430">Core issue 1430</a>.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>f;</div>
@@ -198,9 +219,9 @@ template&lt;template&lt; typename...&gt; class F&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Lift a MPL-style metafunction to a function on <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. </p>
-<p>Specifically, <code>metafunction&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">metafunction&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == type&lt;f&lt;x1, ..., xN&gt;::type&gt;</div>
-<div class="line">decltype(metafunction&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::type == f&lt;x1, ..., xN&gt;::type</div>
-</div><!-- fragment --><h3>Example</h3>
+<p>Given a MPL-style metafunction, <code>metafunction&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">metafunction&lt;f&gt;(type&lt;x&gt;...) == type&lt;f&lt;x...&gt;::type&gt;</div>
+<div class="line">decltype(metafunction&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x...&gt;::type == f&lt;x...&gt;::type</div>
+</div><!-- fragment --><h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>f { <span class="keyword">struct </span>type; };</div>
 <div class="line"><span class="keyword">struct </span>x;</div>
 <div class="line"><span class="keyword">struct </span>y;</div>
@@ -243,9 +264,62 @@ template&lt;typename F &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Lift a MPL-style metafunction class to a function on <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. </p>
-<p>Specifically, <code>metafunction_class&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">metafunction_class&lt;f&gt;(type&lt;x1&gt;, ..., type&lt;xN&gt;) == type&lt;f::apply&lt;x1, ..., xN&gt;::type&gt;</div>
-<div class="line">decltype(metafunction_class&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::type == f::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x1, ..., xN&gt;::type</div>
-</div><!-- fragment --> 
+<p>Given a MPL-style metafunction class, <code>metafunction_class&lt;f&gt;</code> is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> satisfying </p><div class="fragment"><div class="line">metafunction_class&lt;f&gt;(type&lt;x&gt;...) == type&lt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">f::apply</a>&lt;x...&gt;::type&gt;</div>
+<div class="line">decltype(metafunction_class&lt;f&gt;)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x...&gt;::type == f::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;x...&gt;::type</div>
+</div><!-- fragment --><h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>f { <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span><a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a> { <span class="keyword">struct </span>type; }; };</div>
+<div class="line"><span class="keyword">struct </span>x;</div>
+<div class="line"><span class="keyword">struct </span>y;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction_class&lt;f&gt;() == type&lt;f::apply&lt;&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction_class&lt;f&gt;(type&lt;x&gt;) == type&lt;f::apply&lt;x&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction_class&lt;f&gt;(type&lt;x&gt;, type&lt;y&gt;) == type&lt;f::apply&lt;x, y&gt;::type&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// calling `metafunction_class` on non-Types</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction_class&lt;f&gt;(1) == type&lt;f::apply&lt;int&gt;::type&gt;);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(metafunction_class&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
+<div class="line">    f::apply&lt;x, y&gt;::type</div>
+<div class="line">&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="aa47f4f55c497fae1542947d5862bdab5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto integral</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [](_type&lt;T&gt;-or-T ...) {</div>
+<div class="line">            <span class="keywordflow">return</span> decltype(f)::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>&lt;T...&gt;::type{};</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Turn a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> into a function taking <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s and returning a default-constructed object. </p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> <code>f</code>, <code>integral</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> that default-constructs an object of the type returned by <code>f</code>. More specifically, the following holds: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a>(f)(t...) == decltype(f(t...))::type{}</div>
+</div><!-- fragment --><p>The principal use case for <code>integral</code> is to transform <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code>s returning a type that inherits from a meaningful base like <code>std::integral_constant</code> into functions returning e.g. an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>.</p>
+<dl class="section note"><dt>Note</dt><dd><ul>
+<li>This is not a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> because it does not return a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>. As such, it would not make sense to make <code>decltype(integral(f))</code> a MPL metafunction class like the usual <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code>s are.</li>
+<li>When using <code>integral</code> with metafunctions returning <code>std::integral_constant</code>s, don't forget to include the <a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a> header to ensure Hana can interoperate with the result.</li>
+</ul>
+</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a>(metafunction&lt;std::is_integral&gt;)(type&lt;int&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(not_(<a class="code" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a>(metafunction&lt;std::is_integral&gt;)(type&lt;float&gt;)));</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a5ed3cf82ea662dcfaff23e0e3f710ebd"></a>
@@ -258,7 +332,7 @@ template&lt;template&lt; typename...&gt; class F&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto trait</td>
+          <td class="memname">constexpr auto trait = <a class="el" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">integral</a>(<a class="el" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>&lt;F&gt;)</td>
         </tr>
       </table>
   </td>
@@ -267,26 +341,12 @@ template&lt;template&lt; typename...&gt; class F&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](_type&lt;T&gt;-or-T ...) {</div>
-<div class="line">        <span class="keywordflow">return</span> F&lt;T...&gt;{};</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Lift a MPL-style metafunction to a function taking <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s and returning a default-constructed object. </p>
-<p>Specifically, <code>trait&lt;f&gt;(t...)</code> is equivalent to <code>template_&lt;f&gt;(t...)</code>, except it default constructs the type represented by <code>template_&lt;f&gt;(t...)</code>. The principal use case for <code>trait</code> is to transform metafunctions inheriting from a meaningful base like <code>std::integral_constant</code> into functions returning e.g. an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>.</p>
-<p>The word <code>trait</code> is used because a name was needed and the principal use case involves metafunctions from the standard that we also call type traits.</p>
-<dl class="section note"><dt>Note</dt><dd>This is not a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> because it does not return a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>. In particular, it would not make sense to make <code>decltype(trait&lt;f&gt;)</code> a MPL metafunction class.</dd></dl>
-<h3>Example</h3>
+
+<p>Alias to <code>integral(metafunction&lt;F&gt;)</code>, provided for convenience. </p>
+<h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(trait&lt;std::is_integral&gt;(type&lt;int&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(not_(trait&lt;std::is_integral&gt;(type&lt;float&gt;)));</div>
-</div><!-- fragment --><p> Note that not all metafunctions of the standard library can be lifted this way. For example, <code>std::aligned_storage</code> can't be lifted because it requires non-type template parameters. Since there is no uniform way of dealing with non-type template parameters, one must resort to using e.g. an inline lambda to "lift" those metafunctions. In practice, however, this should not be a problem.</p>
-<h3>Example of a non-liftable metafunction</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> extent = [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> n) {</div>
-<div class="line">    <span class="keywordflow">return</span> std::extent&lt;typename decltype(t)::type, value(n)&gt;{};</div>
-<div class="line">};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(type&lt;char&gt;, int_&lt;1&gt;) == size_t&lt;0&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(type&lt;<span class="keywordtype">char</span>[1][2]&gt;, int_&lt;1&gt;) == size_t&lt;2&gt;);</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>When using <code>trait</code> with metafunctions returning <code>std::integral_constant</code>s, don't forget to include the <a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a> header! </dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

@@ -30,7 +30,8 @@ var group__group_datatypes =
       [ "make< Map >", "structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019", null ],
       [ "make_map", "structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04", null ],
       [ "keys", "structboost_1_1hana_1_1Map.html#a0f32260f859b2510dd16235b7bc011ac", null ],
-      [ "values", "structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ]
+      [ "values", "structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ],
+      [ "insert", "structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ]
     ] ],
     [ "Maybe", "structboost_1_1hana_1_1Maybe.html", [
       [ "just", "structboost_1_1hana_1_1Maybe.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
@@ -79,6 +80,7 @@ var group__group_datatypes =
       [ "template_", "structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2", null ],
       [ "metafunction", "structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085", null ],
       [ "metafunction_class", "structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a", null ],
+      [ "integral", "structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5", null ],
       [ "trait", "structboost_1_1hana_1_1Metafunction.html#a5ed3cf82ea662dcfaff23e0e3f710ebd", null ]
     ] ]
 ];
