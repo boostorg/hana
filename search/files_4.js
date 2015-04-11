@@ -4,6 +4,5 @@ var searchData=
   ['either_2ehpp',['either.hpp',['../fwd_2either_8hpp.html',1,'']]],
   ['enable_5fif_2ehpp',['enable_if.hpp',['../enable__if_8hpp.html',1,'']]],
   ['enumerable_2ehpp',['enumerable.hpp',['../fwd_2enumerable_8hpp.html',1,'']]],
-  ['enumerable_2ehpp',['enumerable.hpp',['../enumerable_8hpp.html',1,'']]],
-  ['equality_5fcomparable_2ehpp',['equality_comparable.hpp',['../equality__comparable_8hpp.html',1,'']]]
+  ['enumerable_2ehpp',['enumerable.hpp',['../enumerable_8hpp.html',1,'']]]
 ];
