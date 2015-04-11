@@ -31,9 +31,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/sequence.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
+#include <boost/hana/monad_plus.hpp>
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/ring.hpp>
@@ -705,6 +707,19 @@ namespace boost { namespace hana {
                 detail::std::make_index_sequence<N>{}
             );
         }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Automatic Foldable -> Sequence conversion
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename F>
+    struct to_impl<S, F, when<_models<Sequence, S>{}() &&
+                              _models<Foldable, F>{}()>>
+        : embedding<_models<Sequence, F>{}()>
+    {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), prepend); }
     };
 }} // end namespace boost::hana
 

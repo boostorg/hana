@@ -1283,18 +1283,6 @@ namespace boost { namespace hana {
     struct traverse_impl<S, when<_models<Sequence, S>{}>>
         : Sequence::traverse_impl<S>
     { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Automatic Foldable -> Sequence conversion
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename F>
-    struct to_impl<S, F, when<_models<Sequence, S>{}() && _models<Foldable, F>{}()>>
-        : embedding<_models<Sequence, F>{}>
-    {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), prepend); }
-    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SEQUENCE_HPP
