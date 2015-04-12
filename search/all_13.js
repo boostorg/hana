@@ -29,6 +29,7 @@ var searchData=
   ['string',['string',['../structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9',1,'boost::hana::String']]],
   ['string_2ehpp',['string.hpp',['../string_8hpp.html',1,'']]],
   ['string_2ehpp',['string.hpp',['../fwd_2string_8hpp.html',1,'']]],
+  ['subsequence',['subsequence',['../structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7',1,'boost::hana::Sequence']]],
   ['subset',['subset',['../structboost_1_1hana_1_1Searchable.html#aa713b34e28603ea39c8873609fd24801',1,'boost::hana::Searchable']]],
   ['succ',['succ',['../structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0',1,'boost::hana::Enumerable']]],
   ['suffix',['suffix',['../structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080',1,'boost::hana::MonadPlus']]],

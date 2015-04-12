@@ -406,27 +406,36 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Drops the first <code>n</code> elements of an iterable and returns the rest. </p>
-<p>Given an (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type and an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>drop(n, xs)</code> is an iterable of the same data type whose linearization is <code>[xn+1, ..., xN]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
+<p>Given an (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type and an iterable <code>xs</code> with a linearization of <code>[x1, x2, ...]</code>, <code>drop(n, xs)</code> is an iterable of the same data type whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
+<p>There are two different ways of calling <code>drop</code>, which correspond to different policies in case the length of the iterable is less than <code>n</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(n, xs)         = <a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(n, xs)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(n, xs) = see below</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(n, xs) = see below</div>
+</div><!-- fragment --><p>In case <code>length(xs) &lt; n</code>, the <code>drop.at_most</code> variant will simply drop the whole iterable, without failing. In contrast, the <code>drop.exactly</code> variant assumes that <code>length(xs) &gt;= n</code>, which makes it possible to perform some optimizations.</p>
+<p>Both variants are tag-dispatched methods that can be overriden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most  -&gt;  drop_at_most_impl</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly  -&gt;  drop_exactly_impl</div>
+</div><!-- fragment --><p> <code>drop</code> is not tag dispatched, because it is just an alias to <code>drop.at_most</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to be dropped from the iterable. If <code>n</code> is greater than the number of elements in the iterable, the returned iterable is empty.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to be dropped from the iterable.</td></tr>
     <tr><td class="paramname">iterable</td><td>The iterable from which elements are dropped.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// drop (equivalent to drop.at_most)</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;0&gt;, xs) == xs);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;1&gt;, xs) == make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 2.0));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;2&gt;, xs) == make&lt;Tuple&gt;(2.0));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;3&gt;, xs) == make&lt;Tuple&gt;());</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;4&gt;, xs) == make&lt;Tuple&gt;());</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/iterable/drop.ctime.png" alt="drop.ctime.png"/>
-</div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Provide two variants; <code>drop.at_most</code> and <code>drop.exactly</code>. </dd></dl>
-
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(int_&lt;4&gt;, xs) == make&lt;Tuple&gt;());</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// drop.exactly</span></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(int_&lt;2&gt;, xs) == make&lt;Tuple&gt;(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(int_&lt;3&gt;, xs) == make&lt;Tuple&gt;());</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a102d3b758946ac60cec3004d70920cab"></a>

@@ -149,6 +149,7 @@ var group__group_concepts =
       [ "slice_c", "structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba", null ],
       [ "sort", "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db", null ],
       [ "span", "structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c", null ],
+      [ "subsequence", "structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7", null ],
       [ "take", "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1", null ],
       [ "take_c", "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b", null ],
       [ "take_until", "structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
