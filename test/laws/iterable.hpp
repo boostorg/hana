@@ -125,7 +125,7 @@ namespace boost { namespace hana { namespace test {
     template <typename S>
     struct TestIterable<S, when<_models<Sequence, S>{}>> : TestIterable<S, laws> {
         template <int i>
-        using x = _constant<i>;
+        using x = ct_eq<i>;
 
         template <int i = 0>
         struct invalid { };
@@ -272,45 +272,91 @@ namespace boost { namespace hana { namespace test {
 
 
             //////////////////////////////////////////////////////////////////
-            // drop
+            // drop.at_most
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<0>, list()),
+                drop.at_most(size_t<0>, list()),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<1>, list()),
+                drop.at_most(size_t<1>, list()),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<2>, list()),
+                drop.at_most(size_t<2>, list()),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<0>, list(x<0>{})),
+                drop.at_most(size_t<0>, list(x<0>{})),
                 list(x<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<1>, list(x<0>{})),
+                drop.at_most(size_t<1>, list(x<0>{})),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<2>, list(x<0>{})),
+                drop.at_most(size_t<2>, list(x<0>{})),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<0>, list(x<0>{}, x<1>{})),
+                drop.at_most(size_t<0>, list(x<0>{}, x<1>{})),
                 list(x<0>{}, x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<1>, list(x<0>{}, x<1>{})),
+                drop.at_most(size_t<1>, list(x<0>{}, x<1>{})),
                 list(x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(size_t<2>, list(x<0>{}, x<1>{})),
+                drop.at_most(size_t<2>, list(x<0>{}, x<1>{})),
                 list()
+            ));
+
+            // drop == drop.at_most
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop(size_t<1>, list(x<0>{}, x<1>{})),
+                drop.at_most(size_t<1>, list(x<0>{}, x<1>{}))
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop(size_t<3>, list(x<0>{}, x<1>{})),
+                drop.at_most(size_t<3>, list(x<0>{}, x<1>{}))
+            ));
+
+            //////////////////////////////////////////////////////////////////
+            // drop.exactly
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<0>, list()),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<0>, list(x<0>{})),
+                list(x<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<1>, list(x<0>{})),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<0>, list(x<0>{}, x<1>{})),
+                list(x<0>{}, x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<1>, list(x<0>{}, x<1>{})),
+                list(x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<2>, list(x<0>{}, x<1>{})),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop.exactly(size_t<4>, list(x<0>{}, x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}, x<6>{}, x<7>{})),
+                list(x<4>{}, x<5>{}, x<6>{}, x<7>{})
             ));
 
             //////////////////////////////////////////////////////////////////

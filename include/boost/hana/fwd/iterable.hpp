@@ -437,16 +437,36 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given an (non-negative) `Constant` `n` of an unsigned integral type
-    //! and an iterable `xs` with a linearization of `[x1, ..., xN]`,
+    //! and an iterable `xs` with a linearization of `[x1, x2, ...]`,
     //! `drop(n, xs)` is an iterable of the same data type whose
-    //! linearization is `[xn+1, ..., xN]`. In particular, note that
+    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that
     //! this method does not mutate the original iterable in any way.
+    //!
+    //! There are two different ways of calling `drop`, which correspond to
+    //! different policies in case the length of the iterable is less than `n`:
+    //! @code
+    //!     drop(n, xs)         = drop.at_most(n, xs)
+    //!     drop.at_most(n, xs) = see below
+    //!     drop.exactly(n, xs) = see below
+    //! @endcode
+    //!
+    //! In case `length(xs) < n`, the `drop.at_most` variant will simply drop
+    //! the whole iterable, without failing. In contrast, the `drop.exactly`
+    //! variant assumes that `length(xs) >= n`, which makes it possible to
+    //! perform some optimizations.
+    //!
+    //! Both variants are tag-dispatched methods that can be overriden. Here
+    //! is how each variant is tag-dispatched:
+    //! @code
+    //!     drop.at_most  ->  drop_at_most_impl
+    //!     drop.exactly  ->  drop_exactly_impl
+    //! @endcode
+    //! `drop` is not tag dispatched, because it is just an alias to
+    //! `drop.at_most`.
     //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
-    //! the number of elements to be dropped from the iterable. If `n` is
-    //! greater than the number of elements in the iterable, the returned
-    //! iterable is empty.
+    //! the number of elements to be dropped from the iterable.
     //!
     //! @param iterable
     //! The iterable from which elements are dropped.
@@ -455,35 +475,53 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/iterable.cpp drop
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/iterable/drop.ctime.png
-    //!
-    //! @todo
-    //! Provide two variants; `drop.at_most` and `drop.exactly`.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename Xs, typename = void>
-    struct drop_impl;
+    template <typename It, typename = void>
+    struct drop_exactly_impl;
 
-    struct _drop {
+    template <typename It, typename = void>
+    struct drop_at_most_impl;
+
+    struct _drop_exactly {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::drop(n, xs) requires xs to be an Iterable");
-#endif
-            return drop_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
-            );
+            using It = typename datatype<Xs>::type;
+            using DropExactly = drop_exactly_impl<It>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Iterable, It>{},
+            "hana::drop.exactly(n, xs) requires xs to be an Iterable");
+        #endif
+
+            return DropExactly::apply(static_cast<N&&>(n), static_cast<Xs&&>(xs));
         }
     };
 
+    struct _drop_at_most {
+        template <typename N, typename Xs>
+        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            using It = typename datatype<Xs>::type;
+            using DropAtMost = drop_at_most_impl<It>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Iterable, It>{},
+            "hana::drop.at_most(n, xs) requires xs to be an Iterable");
+        #endif
+
+            return DropAtMost::apply(static_cast<N&&>(n), static_cast<Xs&&>(xs));
+        }
+    };
+
+    struct _drop : _drop_at_most {
+        static constexpr _drop_exactly exactly{};
+        static constexpr _drop_at_most at_most{};
+    };
+    constexpr _drop_exactly _drop::exactly;
+    constexpr _drop_at_most _drop::at_most;
     constexpr _drop drop{};
 #endif
 

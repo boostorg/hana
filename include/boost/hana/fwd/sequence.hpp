@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/foldable.hpp>
 
 
 namespace boost { namespace hana {

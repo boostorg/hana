@@ -444,7 +444,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_impl<Tuple> {
+    struct drop_at_most_impl<Tuple> {
         using Size = detail::std::size_t;
 
         template <Size n, typename Xs, Size ...i>

@@ -158,7 +158,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_impl<sandbox::LambdaTuple> {
+    struct drop_at_most_impl<sandbox::LambdaTuple> {
         template <typename Index, typename Xs>
         static constexpr decltype(auto) apply(Index n, Xs&& xs) {
             auto m = min(n, length(xs));

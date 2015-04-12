@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/functional/lockstep.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -155,21 +156,36 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // drop
+    // drop.at_most
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct drop_impl : drop_impl<It, when<true>> { };
+    struct drop_at_most_impl : drop_at_most_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_impl<It, when<condition>> : default_ {
+    struct drop_at_most_impl<It, when<condition>> : default_ {
         template <typename N, typename Xs>
         static constexpr auto apply(N n, Xs xs) {
             using I = typename datatype<N>::type;
             return hana::eval_if(
                 hana::or_(hana::equal(n, zero<I>()), hana::is_empty(xs)),
                 hana::always(xs),
-                hana::lazy(hana::lockstep(drop)(pred, tail))(n, xs)
+                hana::lazy(hana::lockstep(drop.at_most)(pred, tail))(n, xs)
             );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // drop.exactly
+    //////////////////////////////////////////////////////////////////////////
+    template <typename It, typename>
+    struct drop_exactly_impl : drop_exactly_impl<It, when<true>> { };
+
+    template <typename It, bool condition>
+    struct drop_exactly_impl<It, when<condition>> : default_ {
+        template <typename N, typename Xs>
+        static constexpr auto apply(N const&, Xs&& xs) {
+            constexpr auto n = hana::value<N>();
+            return hana::iterate<n>(hana::tail)(static_cast<Xs&&>(xs));
         }
     };
 

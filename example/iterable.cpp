@@ -20,13 +20,33 @@ using namespace boost::hana;
 
 int main() {
 
+//////////////////////////////////////////////////////////////////////////////
+// Models
+//////////////////////////////////////////////////////////////////////////////
 {
 
-//! [head]
-BOOST_HANA_CONSTEXPR_CHECK(head(make<Tuple>(1, '2', 3.3, nullptr)) == 1);
-//! [head]
+//! [Searchable]
+BOOST_HANA_CONSTEXPR_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
+);
 
-}{
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<void>) == just(type<void>)
+);
+BOOST_HANA_CONSTANT_CHECK(
+    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<int>) == nothing
+);
+//! [Searchable]
+
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Methods
+//////////////////////////////////////////////////////////////////////////////
+{
 
 //! [at]
 BOOST_HANA_CONSTEXPR_CHECK(at(int_<0>, make<Tuple>(0, '1', 2.0)) == 0);
@@ -46,11 +66,18 @@ BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make<Tuple>(0, '1', 2.0)) == 2.0);
 
 //! [drop]
 constexpr auto xs = make<Tuple>(0, '1', 2.0);
+
+// drop (equivalent to drop.at_most)
 BOOST_HANA_CONSTEXPR_CHECK(drop(int_<0>, xs) == xs);
 BOOST_HANA_CONSTEXPR_CHECK(drop(int_<1>, xs) == make<Tuple>('1', 2.0));
 BOOST_HANA_CONSTEXPR_CHECK(drop(int_<2>, xs) == make<Tuple>(2.0));
 BOOST_HANA_CONSTANT_CHECK(drop(int_<3>, xs) == make<Tuple>());
 BOOST_HANA_CONSTANT_CHECK(drop(int_<4>, xs) == make<Tuple>());
+BOOST_HANA_CONSTANT_CHECK(drop.at_most(int_<4>, xs) == make<Tuple>());
+
+// drop.exactly
+static_assert(drop.exactly(int_<2>, xs) == make<Tuple>(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop.exactly(int_<3>, xs) == make<Tuple>());
 //! [drop]
 
 }{
@@ -95,6 +122,12 @@ BOOST_HANA_CONSTANT_CHECK(
 
 }{
 
+//! [head]
+BOOST_HANA_CONSTEXPR_CHECK(head(make<Tuple>(1, '2', 3.3, nullptr)) == 1);
+//! [head]
+
+}{
+
 //! [is_empty]
 BOOST_HANA_CONSTANT_CHECK(!is_empty(make<Tuple>(1, '2')));
 BOOST_HANA_CONSTANT_CHECK( is_empty(make<Tuple>()));
@@ -113,24 +146,6 @@ BOOST_HANA_CONSTEXPR_CHECK(
     tail(make<Tuple>(1, '2', 3.3, nullptr)) == make<Tuple>('2', 3.3, nullptr)
 );
 //! [tail]
-
-}{
-
-//! [Searchable]
-BOOST_HANA_CONSTEXPR_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
-);
-BOOST_HANA_CONSTANT_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
-);
-
-BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<void>) == just(type<void>)
-);
-BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<int>) == nothing
-);
-//! [Searchable]
 
 }
 
