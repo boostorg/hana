@@ -666,6 +666,38 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // subsequence
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct subsequence_impl : subsequence_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct subsequence_impl<S, when<condition>> : default_ {
+        //! @todo
+        //! Since we have the right to specify the same index more than once,
+        //! we can't move from the element at that index because that would
+        //! cause a double move. However, it should be fairly compile-time
+        //! efficient to check at which indices we can move because all the
+        //! indices are Constants anyway.
+        template <typename Xs, typename ...N>
+        static constexpr auto
+        subsequence_helper(Xs&& xs, _tuple<N...> const&)
+        { return hana::make<S>(hana::at_c<hana::value<N>()>(xs)...); }
+
+        template <typename Xs, typename Indices>
+        static constexpr decltype(auto) apply(Xs&& xs, Indices const& indices) {
+            return subsequence_impl::subsequence_helper(
+                static_cast<Xs&&>(xs),
+                hana::to<Tuple>(indices)
+            );
+        }
+
+        template <typename Xs, typename T, T ...v>
+        static constexpr decltype(auto) apply(Xs&& xs, _tuple_c<T, v...> const&)
+        { return hana::make<S>(hana::at_c<v>(xs)...); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // take.exactly
     //////////////////////////////////////////////////////////////////////////
     namespace sequence_detail {

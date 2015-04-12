@@ -78,13 +78,13 @@ namespace boost { namespace hana {
     //! Minimal complete definition
     //! ---------------------------
     //! 1. `Iterable`, `empty`, `prepend`, `models`\n
-    //! The Sequence concept does not provide basic methods that could be used
-    //! as a minimal complete definition; instead, it borrows methods from
+    //! The `Sequence` concept does not provide basic methods that could be
+    //! used as a minimal complete definition; instead, it borrows methods from
     //! other concepts and add laws to them. For this reason, it is necessary
     //! to specialize the `models` metafunction in the `boost::hana` namespace
     //! in addition to defining the above methods. Explicitly specializing the
     //! `models` metafunction can be seen like a seal saying "this data type
-    //! satisfies the additional laws of a Sequence", since those can't be
+    //! satisfies the additional laws of a `Sequence`", since those can't be
     //! checked by Hana automatically.
     //!
     //!
@@ -93,22 +93,22 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (definition provided automatically)\n
     //! Two `Sequence`s are equal if and only if they contain the same number
     //! of elements and their elements at any given index are equal.
-    //! @snippet example/sequence.cpp comparable
+    //! @snippet example/sequence.cpp Comparable
     //!
     //! 2. `Orderable` (definition provided automatically)\n
-    //! Sequences are ordered using the traditional lexicographical ordering.
-    //! @snippet example/sequence.cpp orderable
+    //! `Sequence`s are ordered using the traditional lexicographical ordering.
+    //! @snippet example/sequence.cpp Orderable
     //!
     //! 3. `Functor` (definition provided automatically)\n
-    //! Sequences implement `transform` as the mapping of a function over
+    //! `Sequence`s implement `transform` as the mapping of a function over
     //! each element of the sequence. This is somewhat equivalent to what
     //! `std::transform` does to ranges of iterators. Also note that mapping
     //! a function over an empty sequence returns an empty sequence and never
     //! applies the function, as would be expected.
-    //! @snippet example/sequence.cpp functor
+    //! @snippet example/sequence.cpp Functor
     //!
     //! 4. `Applicative` (definition provided automatically)\n
-    //! First, `lift`ing a value into a Sequence is the same as creating a
+    //! First, `lift`ing a value into a `Sequence` is the same as creating a
     //! singleton sequence containing that value. Second, applying a sequence
     //! of functions to a sequence of values will apply each function to
     //! all the values in the sequence, and then return a list of all the
@@ -121,61 +121,62 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //! Example:
-    //! @snippet example/sequence.cpp applicative
+    //! @snippet example/sequence.cpp Applicative
     //!
     //! 5. `Monad` (definition provided automatically)\n
-    //! First, `flaten`ning a Sequence takes a sequence of sequences and
+    //! First, `flaten`ning a `Sequence` takes a sequence of sequences and
     //! concatenates them to get a larger sequence. In other words,
     //! @code
     //!     flatten([[a1, ..., aN], ..., [z1, ..., zM]]) == [
     //!         a1, ..., aN, ..., z1, ..., zM
     //!     ]
     //! @endcode
-    //! Also note that the model of Monad for Sequences can be seen as
+    //! Also note that the model of `Monad` for `Sequence`s can be seen as
     //! modeling nondeterminism. A nondeterministic computation can be
     //! modeled as a function which returns a sequence of possible results.
     //! In this line of thought, `bind`ing such a function to a sequence
     //! of values will return a sequence of all the possible output values,
     //! i.e. a sequence of all the values applied to all the functions in
     //! the sequences.
-    //! @snippet example/sequence.cpp monad
+    //! @snippet example/sequence.cpp Monad
     //!
     //! 6. `MonadPlus` (minimal complete definition modified)\n
-    //! Sequences are models of the MonadPlus concept by considering the
+    //! `Sequence`s are models of the `MonadPlus` concept by considering the
     //! empty sequence as the unit of `concat`, and sequence concatenation
     //! as the combining operation. Note that the minimal complete definition
-    //! of Sequence includes the `prepend` and the `empty` methods, which are
-    //! part of the MonadPlus concept. When those methods are provided, the
-    //! `concat` method is automatically defined and hence it is not strictly
-    //! required to implement it in order to model MonadPlus.
-    //! @snippet example/sequence.cpp monad_plus
+    //! of `Sequence` includes the `prepend` and the `empty` methods, which
+    //! are part of the `MonadPlus` concept. When those methods are provided,
+    //! the `concat` method is automatically defined and hence it is not
+    //! strictly required to implement it in order to model `MonadPlus`.
+    //! @snippet example/sequence.cpp MonadPlus
     //!
     //! 7. `Foldable` (definition provided automatically)\n
-    //! The model of Foldable for Sequences is uniquely determined by the
-    //! model of Iterable. The automatically provided model is the one
-    //! provided by the Iterable concept.
-    //! @snippet example/sequence.cpp foldable
+    //! The model of `Foldable` for `Sequence`s is uniquely determined by the
+    //! model of `Iterable`. The automatically provided model is the one
+    //! provided by the `Iterable` concept.
+    //! @snippet example/sequence.cpp Foldable
     //!
     //! 8. `Iterable`\n
-    //! The model of Iterable for Sequences corresponds to iteration over each
-    //! element of the sequence, in order.
-    //! @snippet example/sequence.cpp iterable
+    //! The model of `Iterable` for `Sequence`s corresponds to iteration over
+    //! each element of the sequence, in order.
+    //! @snippet example/sequence.cpp Iterable
     //!
     //! 9. `Searchable` (definition provided automatically)\n
-    //! Searching through a Sequence is equivalent to just searching through
+    //! Searching through a `Sequence` is equivalent to just searching through
     //! a list of the values it contains. The keys and the values on which
     //! the search is performed are both the elements of the sequence.
-    //! @snippet example/sequence.cpp searchable
+    //! @snippet example/sequence.cpp Searchable
     //!
     //! 10. `Traversable` (definition provided automatically)\n
-    //! The model of Traversable for Sequences allows turning a sequence of
-    //! Applicatives into an Applicative containing a sequence.
-    //! @snippet example/sequence.cpp traversable
+    //! The model of `Traversable` for `Sequence`s allows turning a sequence
+    //! of `Applicative`s into an `Applicative` containing a sequence.
+    //! @snippet example/sequence.cpp Traversable
     //!
     //!
     //! Provided `make`
     //! ---------------
-    //! For any Sequence `S`, the `make<S>` method is defined automatically as
+    //! For any `Sequence` `S`, the `make<S>` method is defined
+    //! automatically as
     //! @code
     //!     make<S>(x1, ..., xn) == fold.right(make<Tuple>(x1, ..., xn), prepend, empty<S>())
     //!                          == [x1, ..., xn] // of data type S
@@ -1070,6 +1071,63 @@ namespace boost { namespace hana {
     };
 
     constexpr _span span{};
+#endif
+
+    //! Returns the elements at the given indices of a sequence.
+    //! @relates Sequence
+    //!
+    //! Given a (finite) and compile-time `Foldable` containing indices,
+    //! `subsequence` returns a new `Sequence` of the elements of the
+    //! original sequence that appear at those indices. The indices must
+    //! be `Constant`s of an unsigned integral type. In other words,
+    //! @code
+    //!     subsequence([x1, ..., xn], [i1, ..., ik]) == [xi1, ..., xik]
+    //! @endcode
+    //!
+    //! In particular, note that indices do not have to be ordered or
+    //! sequential in any particular way, and they may contain duplicates.
+    //!
+    //!
+    //! @param xs
+    //! The sequence from which a subsequence is extracted.
+    //!
+    //! @param indices
+    //! A compile-time `Foldable` holding `Constant`s of an unsigned integral
+    //! type, and whose linearization represents the indices of the elements
+    //! in the returned sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp subsequence
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto subsequence = [](auto&& xs, auto&& indices) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct subsequence_impl;
+
+    struct _subsequence {
+        template <typename Xs, typename Indices>
+        constexpr decltype(auto) operator()(Xs&& xs, Indices&& indices) const {
+            using S = typename datatype<Xs>::type;
+            using Subsequence = subsequence_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, S>{},
+            "hana::subsequence(xs, indices) requires xs to be a Sequence");
+
+            static_assert(_models<Foldable, typename datatype<Indices>::type>{},
+            "hana::subsequence(xs, indices) requires indices to be Foldable");
+        #endif
+
+            return Subsequence::apply(static_cast<Xs&&>(xs),
+                                      static_cast<Indices&&>(indices));
+        }
+    };
+
+    static constexpr _subsequence subsequence{};
 #endif
 
     //! Returns the first `n` elements of a sequence.

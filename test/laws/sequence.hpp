@@ -16,7 +16,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
+#include <boost/hana/range.hpp>
 #include <boost/hana/sequence.hpp>
+#include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
 
@@ -80,6 +82,7 @@ namespace boost { namespace hana { namespace test {
 
         TestSequence() {
             constexpr auto list = make<S>;
+            constexpr auto foldable = seq; (void)foldable;
 
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
             //////////////////////////////////////////////////////////////////
@@ -96,28 +99,26 @@ namespace boost { namespace hana { namespace test {
             // Foldable -> Sequence conversion
             //////////////////////////////////////////////////////////////////
             {
-            auto foldable = seq;
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<S>(foldable()),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<S>(foldable(eq<0>{})),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<S>(foldable(eq<0>{}, eq<1>{})),
-                list(eq<0>{}, eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<S>(foldable(eq<0>{}, eq<1>{}, eq<2>{})),
-                list(eq<0>{}, eq<1>{}, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<S>(foldable(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
-                list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    to<S>(foldable()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    to<S>(foldable(eq<0>{})),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    to<S>(foldable(eq<0>{}, eq<1>{})),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    to<S>(foldable(eq<0>{}, eq<1>{}, eq<2>{})),
+                    list(eq<0>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    to<S>(foldable(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
@@ -606,107 +607,192 @@ namespace boost { namespace hana { namespace test {
             }
 
 #elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 2
+            //////////////////////////////////////////////////////////////////
+            // subsequence
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(), foldable()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(undefined{}), foldable()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(undefined{}, undefined{}), foldable()),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}), foldable(size_t<0>)),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, undefined{}), foldable(size_t<0>)),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(undefined{}, eq<1>{}), foldable(size_t<1>)),
+                    list(eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_t<0>, size_t<1>)),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_t<1>, size_t<0>)),
+                    list(eq<1>{}, eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_t<0>, size_t<0>)),
+                    list(eq<0>{}, eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_t<1>, size_t<1>)),
+                    list(eq<1>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                                foldable(size_t<0>, size_t<1>, size_t<2>)),
+                    list(eq<0>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                                foldable(size_t<0>, size_t<2>, size_t<1>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                                foldable(size_t<0>, size_t<2>, size_t<1>, size_t<0>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                                foldable(size_t<0>, size_t<2>, size_t<1>,
+                                         size_t<0>, size_t<1>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{}, eq<1>{})
+                ));
+
+                // Try with a Range
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
+                                make<Range>(size_t<1>, size_t<3>)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+
+                // Try with a tuple_c
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
+                                tuple_c<unsigned, 1, 3, 2>),
+                    list(eq<1>{}, eq<3>{}, eq<2>{})
+                ));
+            }
 
             //////////////////////////////////////////////////////////////////
             // take_while
             //////////////////////////////////////////////////////////////////
             {
-            auto z = eq<999>{};
+                auto z = eq<999>{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(), not_equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(), not_equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}), not_equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(z), not_equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}), not_equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(z), not_equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}, eq<2>{}), not_equal.to(z)),
-                list(eq<1>{}, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}, z), not_equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(z, eq<2>{}), not_equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}, eq<2>{}), not_equal.to(z)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}, z), not_equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(z, eq<2>{}), not_equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}, eq<2>{}, eq<3>{}), not_equal.to(z)),
-                list(eq<1>{}, eq<2>{}, eq<3>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}, eq<2>{}, z), not_equal.to(z)),
-                list(eq<1>{}, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(eq<1>{}, z, eq<3>{}), not_equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_while(list(z, eq<2>{}, eq<3>{}), not_equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}, eq<2>{}, eq<3>{}), not_equal.to(z)),
+                    list(eq<1>{}, eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}, eq<2>{}, z), not_equal.to(z)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(eq<1>{}, z, eq<3>{}), not_equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_while(list(z, eq<2>{}, eq<3>{}), not_equal.to(z)),
+                    list()
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
             // take_until
             //////////////////////////////////////////////////////////////////
             {
-            auto z = eq<999>{};
+                auto z = eq<999>{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(), equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(), equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}), equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(z), equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}), equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(z), equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}, eq<2>{}), equal.to(z)),
-                list(eq<1>{}, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}, z), equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(z, eq<2>{}), equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}, eq<2>{}), equal.to(z)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}, z), equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(z, eq<2>{}), equal.to(z)),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}, eq<2>{}, eq<3>{}), equal.to(z)),
-                list(eq<1>{}, eq<2>{}, eq<3>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}, eq<2>{}, z), equal.to(z)),
-                list(eq<1>{}, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(eq<1>{}, z, eq<3>{}), equal.to(z)),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take_until(list(z, eq<2>{}, eq<3>{}), equal.to(z)),
-                list()
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}, eq<2>{}, eq<3>{}), equal.to(z)),
+                    list(eq<1>{}, eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}, eq<2>{}, z), equal.to(z)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(eq<1>{}, z, eq<3>{}), equal.to(z)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_until(list(z, eq<2>{}, eq<3>{}), equal.to(z)),
+                    list()
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
