@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#define FUSION_MAX_VECTOR_SIZE 50
 #include <boost/fusion/include/fold.hpp>
 #include <boost/fusion/include/make_vector.hpp>
 
