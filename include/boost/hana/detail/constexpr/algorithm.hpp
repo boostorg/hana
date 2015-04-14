@@ -128,7 +128,7 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
     template <typename InputIter, typename UnaryPred>
     constexpr InputIter find_if(InputIter first, InputIter last, UnaryPred pred) {
         for (; first != last; ++first)
-            if (p(*first))
+            if (pred(*first))
                 return first;
         return last;
     }
