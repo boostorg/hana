@@ -330,17 +330,17 @@ namespace boost { namespace hana {
         struct for_each_fun {
             F f;
             template <typename X>
-            constexpr int operator()(int ignore, X&& x) const& {
+            constexpr int operator()(int /*ignore*/, X&& x) const& {
                 f(static_cast<X&&>(x));
                 return 0;
             }
             template <typename X>
-            constexpr int operator()(int ignore, X&& x) & {
+            constexpr int operator()(int /*ignore*/, X&& x) & {
                 f(static_cast<X&&>(x));
                 return 0;
             }
             template <typename X>
-            constexpr int operator()(int ignore, X&& x) && {
+            constexpr int operator()(int /*ignore*/, X&& x) && {
                 detail::std::move(f)(static_cast<X&&>(x));
                 return 0;
             }

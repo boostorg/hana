@@ -201,7 +201,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys, typename = detail::std::enable_if_t<
             Xs::size != Ys::size || Xs::size == 0
         >>
-        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys, ...)
+        static constexpr decltype(auto) apply(Xs const& /*xs*/, Ys const& /*ys*/, ...)
         { return bool_<Xs::size == 0 && Ys::size == 0>; }
     };
 
@@ -876,7 +876,7 @@ namespace boost { namespace hana {
     struct sort_impl<Tuple> {
         template <typename T, T ...v, detail::std::size_t ...i>
         static constexpr auto
-        sort_helper(_tuple_c<T, v...> const& xs,
+        sort_helper(_tuple_c<T, v...> const& /*xs*/,
                     detail::std::index_sequence<i...>)
         {
             constexpr detail::constexpr_::array<T, sizeof...(v)> a{{v...}};

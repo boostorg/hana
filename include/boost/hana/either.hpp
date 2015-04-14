@@ -224,13 +224,13 @@ namespace boost { namespace hana {
     template <>
     struct traverse_impl<Either> {
         template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T> const& e, F&& f)
+        static constexpr decltype(auto) apply(_left<T> const& e, F&& /*f*/)
         { return lift<A>(e); }
         template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T>& e, F&& f)
+        static constexpr decltype(auto) apply(_left<T>& e, F&& /*f*/)
         { return lift<A>(e); }
         template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T>&& e, F&& f)
+        static constexpr decltype(auto) apply(_left<T>&& e, F&& /*f*/)
         { return lift<A>(detail::std::move(e)); }
 
         template <typename A, typename T, typename F>

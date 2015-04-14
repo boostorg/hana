@@ -304,7 +304,7 @@ namespace boost { namespace hana {
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State
-        while_helper(decltype(false_), Pred&& pred, State&& state, F&& f) {
+        while_helper(decltype(false_), Pred&& /*pred*/, State&& state, F&& /*f*/) {
             return static_cast<State&&>(state);
         }
 
