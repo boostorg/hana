@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto singleton = [](auto x) {
-        return searchable_set([=](auto p) { return x; });
+        return searchable_set([=](auto /*p*/) { return x; });
     };
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto doubleton = [](auto x, auto y) {

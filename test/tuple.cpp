@@ -150,7 +150,7 @@ int main() {
     {
         struct Car { std::string name; };
         auto stuff = make<Tuple>(Car{}, Car{}, Car{});
-        any_of(stuff, [](auto&& x) { return true; });
+        any_of(stuff, [](auto&&) { return true; });
     }
 
     //////////////////////////////////////////////////////////////////////////

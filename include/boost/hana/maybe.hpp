@@ -297,7 +297,7 @@ namespace boost { namespace hana {
     template <>
     struct traverse_impl<Maybe> {
         template <typename A, typename F>
-        static constexpr decltype(auto) apply(_nothing const&, F&& f)
+        static constexpr decltype(auto) apply(_nothing const&, F&& /*f*/)
         { return lift<A>(nothing); }
 
         template <typename A, typename T, typename F>

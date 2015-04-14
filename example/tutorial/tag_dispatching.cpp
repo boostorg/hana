@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 template <typename Datatype>
 struct print_impl {
     template <typename X>
-    static void apply(std::ostream& os, X x) {
+    static void apply(std::ostream& /*os*/, X /*x*/) {
         /* possibly some default implementation */
     }
 };
@@ -31,7 +31,7 @@ struct UserDefinedDatatype { };
 template <>
 struct print_impl<UserDefinedDatatype> {
     template <typename X>
-    static void apply(std::ostream& os, X x) {
+    static void apply(std::ostream& /*os*/, X /*x*/) {
         /* a custom implementation for some data type */
     }
 };

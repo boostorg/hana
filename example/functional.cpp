@@ -233,7 +233,7 @@ BOOST_HANA_CHECK(f("abcdef") == std::string{"abcdef"});
 auto f = overload_linearly(
     [](int i) { return i + 1; },
     [](std::string s) { return s + "d"; },
-    [](double d) { throw "never called"; }
+    [](double) { throw "never called"; }
 );
 
 BOOST_HANA_RUNTIME_ASSERT(f(1) == 2);

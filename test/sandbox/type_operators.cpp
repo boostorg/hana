@@ -27,7 +27,7 @@ constexpr auto has_datatype = bool_<
     template <typename T, typename = std::enable_if_t<                      \
         has_datatype<Type, T>()                                             \
     >>                                                                      \
-    constexpr auto operator OP (T t) {                                      \
+    constexpr auto operator OP (T) {                                        \
         return type<decltype(                                               \
             OP std::declval<typename T::type>()                             \
         )>;                                                                 \
@@ -38,7 +38,7 @@ constexpr auto has_datatype = bool_<
     template <typename T, typename = std::enable_if_t<                      \
         has_datatype<Type, T>()                                             \
     >>                                                                      \
-    constexpr auto operator OP (T t, int) {                                 \
+    constexpr auto operator OP (T, int) {                                   \
         return type<decltype(                                               \
             std::declval<typename T::type>() OP                             \
         )>;                                                                 \
@@ -49,7 +49,7 @@ constexpr auto has_datatype = bool_<
     template <typename T, typename U, typename = std::enable_if_t<          \
         has_datatype<Type, T>() && has_datatype<Type, U>()                  \
     >>                                                                      \
-    constexpr auto operator OP (T t, U u) {                                 \
+    constexpr auto operator OP (T, U) {                                     \
         return type<decltype(                                               \
             std::declval<typename T::type>()                                \
             OP                                                              \

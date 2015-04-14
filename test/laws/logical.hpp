@@ -35,7 +35,7 @@ namespace boost { namespace hana { namespace test {
             hana::for_each(xs, [&pred, &f](auto x) {
                 hana::eval_if(pred(x),
                     hana::lazy(f)(x),
-                    [](auto _) { }
+                    [](auto) { }
                 );
             });
         }

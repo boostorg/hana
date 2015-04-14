@@ -42,8 +42,8 @@ namespace boost { namespace hana { namespace test {
 
             hana::for_each(searchables, hana::capture(searchables, keys, predicates)(
             [](auto searchables, auto keys, auto predicates, auto xs) {
-                hana::for_each(predicates, hana::capture(searchables, keys, xs)(
-                [](auto searchables, auto keys, auto xs, auto p) {
+                hana::for_each(predicates, hana::capture(xs)(
+                [](auto xs, auto p) {
                     // any_of(xs, p) <=> !all_of(xs, negated p)
                     //               <=> !none_of(xs, p)
                     BOOST_HANA_CHECK(

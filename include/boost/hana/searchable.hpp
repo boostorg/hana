@@ -196,7 +196,7 @@ namespace boost { namespace hana {
         // then only need to evaluate the predicate on the first element.
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_of_helper(decltype(true_), Xs&& xs, Pred&&)
+        any_of_helper(decltype(true_), Xs&& /*xs*/, Pred&&)
         { return true_; }
 
         template <typename Xs, typename Pred>

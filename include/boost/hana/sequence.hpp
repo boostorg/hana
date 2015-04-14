@@ -806,7 +806,7 @@ namespace boost { namespace hana {
 
             template <typename Pred, typename Xs>
             static constexpr decltype(auto)
-            helper(Pred&& pred, Xs&& xs, detail::std::true_type)
+            helper(Pred&& /*pred*/, Xs&& /*xs*/, detail::std::true_type)
             { return false_; }
 
             template <typename Pred, typename Xs>

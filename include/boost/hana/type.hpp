@@ -101,7 +101,7 @@ namespace boost { namespace hana {
         };
 
         template <typename ...T>
-        constexpr auto operator()(T&& ...t) const
+        constexpr auto operator()(T&& .../*t*/) const
         { return type<F<typename detail::_decltype<T>::type...>>; }
     };
 

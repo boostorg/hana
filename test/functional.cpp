@@ -194,8 +194,8 @@ int main() {
             f(g(h(ct_eq<0>{})), ct_eq<1>{}, ct_eq<2>{})
         ));
 
-        auto h = [capture = move_only{}](int dummy) { return 1; };
-        auto i = [](int dummy) { return 1; };
+        auto h = [capture = move_only{}](int) { return 1; };
+        auto i = [](int) { return 1; };
         compose(std::move(h), i)(1);
 
         {

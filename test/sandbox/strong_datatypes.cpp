@@ -160,7 +160,7 @@ int main() {
     lift<List>(2);
     ap(list<Function<int, int>>(f, f), list<int>(1, 2));
 
-    auto g = function<Any, int>([](auto x) {
+    auto g = function<Any, int>([](auto /*x*/) {
         // We can't do anything with an Any, so there's not much choice here.
         return 1;
     });

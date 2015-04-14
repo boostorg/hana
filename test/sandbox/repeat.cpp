@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<LazyList> {
         template <typename Xs>
-        static constexpr auto apply(Xs lcons)
+        static constexpr auto apply(Xs)
         { return false_; }
 
         static constexpr auto apply(lazy_nil_type)
