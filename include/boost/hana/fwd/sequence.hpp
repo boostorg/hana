@@ -132,14 +132,21 @@ namespace boost { namespace hana {
     //!         a1, ..., aN, ..., z1, ..., zM
     //!     ]
     //! @endcode
+    //! This acts like a `std::tuple_cat` function, except it receives a
+    //! sequence of sequences instead of a variadic pack of sequences to
+    //! flatten.\n
+    //! __Example__:
+    //! @snippet example/sequence.cpp Monad.ints
+    //!
     //! Also note that the model of `Monad` for `Sequence`s can be seen as
     //! modeling nondeterminism. A nondeterministic computation can be
     //! modeled as a function which returns a sequence of possible results.
     //! In this line of thought, `bind`ing such a function to a sequence
     //! of values will return a sequence of all the possible output values,
     //! i.e. a sequence of all the values applied to all the functions in
-    //! the sequences.
-    //! @snippet example/sequence.cpp Monad
+    //! the sequences.\n
+    //! __Example__:
+    //! @snippet example/sequence.cpp Monad.types
     //!
     //! 6. `MonadPlus` (minimal complete definition modified)\n
     //! `Sequence`s are models of the `MonadPlus` concept by considering the

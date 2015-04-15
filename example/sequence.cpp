@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
+#include <boost/hana/ext/std/type_traits.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
@@ -19,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <sstream>
 #include <string>
 #include <type_traits>
+#include <utility>
 using namespace boost::hana;
 
 
@@ -97,19 +99,66 @@ BOOST_HANA_CONSTANT_CHECK(is_empty(make<Tuple>()));
 
 }{
 
-//! [Monad]
-BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return make<Tuple>(x, -x);
+//! [Monad.ints]
+BOOST_HANA_CONSTEXPR_CHECK(
+    flatten(make<Tuple>(
+        make<Tuple>(1, 2),
+        make<Tuple>(3, 4),
+        make<Tuple>(make<Tuple>(5, 6))
+    ))
+    == make<Tuple>(1, 2, 3, 4, make<Tuple>(5, 6))
+);
+//! [Monad.ints]
+
+}{
+
+//! [Monad.types]
+// Using the Tuple Monad, we generate all the possible combinations of
+// cv-qualifiers and reference qualifiers. Then, we use the Maybe Monad
+// to make sure that our generic function can be called with arguments
+// of any of those types.
+
+// cv_qualifiers : Type -> Tuple(Type)
+auto cv_qualifiers = [](auto t) {
+    return make_tuple(
+        t,
+        traits::add_const(t),
+        traits::add_volatile(t),
+        traits::add_volatile(traits::add_const(t))
+    );
 };
 
-BOOST_HANA_CONSTEXPR_CHECK((make<Tuple>(1, 2, 3) | f) == make<Tuple>(1, -1, 2, -2, 3, -3));
+// ref_qualifiers : Type -> Tuple(Type)
+auto ref_qualifiers = [](auto t) {
+    return make_tuple(
+        traits::add_lvalue_reference(t),
+        traits::add_rvalue_reference(t)
+    );
+};
 
-BOOST_HANA_CONSTEXPR_CHECK(
-    flatten(make<Tuple>(make<Tuple>(1, 2), make<Tuple>(3, 4), make<Tuple>(make<Tuple>(5, 6))))
-    ==
-    make<Tuple>(1, 2, 3, 4, make<Tuple>(5, 6))
+auto possible_args = cv_qualifiers(type<int>) | ref_qualifiers;
+
+BOOST_HANA_CONSTANT_CHECK(
+    possible_args == make<Tuple>(
+                        type<int&>,
+                        type<int&&>,
+                        type<int const&>,
+                        type<int const&&>,
+                        type<int volatile&>,
+                        type<int volatile&&>,
+                        type<int const volatile&>,
+                        type<int const volatile&&>
+                    )
 );
-//! [Monad]
+
+auto my_generic_function = [](auto&&) { return 1; };
+
+for_each(possible_args, [=](auto t) {
+    using T = typename decltype(t)::type;
+    static_assert(decltype(is_just(sfinae(my_generic_function)(std::declval<T>()))){},
+    "my_generic_function should be callable with any type of argument");
+});
+//! [Monad.types]
 
 }{
 
