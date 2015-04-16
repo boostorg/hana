@@ -162,17 +162,61 @@ First, <code>lift</code>ing a value into a <code><a class="el" href="structboost
 First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> takes a sequence of sequences and concatenates them to get a larger sequence. In other words, <div class="fragment"><div class="line">flatten([[a1, ..., aN], ..., [z1, ..., zM]]) == [</div>
 <div class="line">    a1, ..., aN, ..., z1, ..., zM</div>
 <div class="line">]</div>
-</div><!-- fragment --> Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences. <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x);</div>
+</div><!-- fragment --> This acts like a <code>std::tuple_cat</code> function, except it receives a sequence of sequences instead of a variadic pack of sequences to flatten.<br />
+<b>Example</b>: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    flatten(make&lt;Tuple&gt;(</div>
+<div class="line">        make&lt;Tuple&gt;(1, 2),</div>
+<div class="line">        make&lt;Tuple&gt;(3, 4),</div>
+<div class="line">        make&lt;Tuple&gt;(make&lt;Tuple&gt;(5, 6))</div>
+<div class="line">    ))</div>
+<div class="line">    == make&lt;Tuple&gt;(1, 2, 3, 4, make&lt;Tuple&gt;(5, 6))</div>
+<div class="line">);</div>
+</div><!-- fragment --> Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>bind</code>ing such a function to a sequence of values will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences.<br />
+<b>Example</b>: <div class="fragment"><div class="line"><span class="comment">// Using the Tuple Monad, we generate all the possible combinations of</span></div>
+<div class="line"><span class="comment">// cv-qualifiers and reference qualifiers. Then, we use the Maybe Monad</span></div>
+<div class="line"><span class="comment">// to make sure that our generic function can be called with arguments</span></div>
+<div class="line"><span class="comment">// of any of those types.</span></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// cv_qualifiers : Type -&gt; Tuple(Type)</span></div>
+<div class="line"><span class="keyword">auto</span> cv_qualifiers = [](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keywordflow">return</span> make_tuple(</div>
+<div class="line">        t,</div>
+<div class="line">        traits::add_const(t),</div>
+<div class="line">        traits::add_volatile(t),</div>
+<div class="line">        traits::add_volatile(traits::add_const(t))</div>
+<div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((make&lt;Tuple&gt;(1, 2, 3) | f) == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
+<div class="line"><span class="comment">// ref_qualifiers : Type -&gt; Tuple(Type)</span></div>
+<div class="line"><span class="keyword">auto</span> ref_qualifiers = [](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keywordflow">return</span> make_tuple(</div>
+<div class="line">        traits::add_lvalue_reference(t),</div>
+<div class="line">        traits::add_rvalue_reference(t)</div>
+<div class="line">    );</div>
+<div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    flatten(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3, 4), make&lt;Tuple&gt;(make&lt;Tuple&gt;(5, 6))))</div>
-<div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(1, 2, 3, 4, make&lt;Tuple&gt;(5, 6))</div>
+<div class="line"><span class="keyword">auto</span> possible_args = cv_qualifiers(type&lt;int&gt;) | ref_qualifiers;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    possible_args == make&lt;Tuple&gt;(</div>
+<div class="line">                        type&lt;int&amp;&gt;,</div>
+<div class="line">                        type&lt;int&amp;&amp;&gt;,</div>
+<div class="line">                        type&lt;int const&amp;&gt;,</div>
+<div class="line">                        type&lt;int const&amp;&amp;&gt;,</div>
+<div class="line">                        type&lt;int volatile&amp;&gt;,</div>
+<div class="line">                        type&lt;int volatile&amp;&amp;&gt;,</div>
+<div class="line">                        type&lt;int const volatile&amp;&gt;,</div>
+<div class="line">                        type&lt;int const volatile&amp;&amp;&gt;</div>
+<div class="line">                    )</div>
 <div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> my_generic_function = [](<span class="keyword">auto</span>&amp;&amp;) { <span class="keywordflow">return</span> 1; };</div>
+<div class="line"></div>
+<div class="line">for_each(possible_args, [=](<span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(t)::type;</div>
+<div class="line">    static_assert(decltype(is_just(sfinae(my_generic_function)(std::declval&lt;T&gt;()))){},</div>
+<div class="line">    <span class="stringliteral">&quot;my_generic_function should be callable with any type of argument&quot;</span>);</div>
+<div class="line">});</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> (minimal complete definition modified)<br />
 <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s are models of the <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept by considering the empty sequence as the unit of <code>concat</code>, and sequence concatenation as the combining operation. Note that the minimal complete definition of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> includes the <code>prepend</code> and the <code>empty</code> methods, which are part of the <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept. When those methods are provided, the <code>concat</code> method is automatically defined and hence it is not strictly required to implement it in order to model <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code>. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
