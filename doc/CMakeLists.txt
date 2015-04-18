@@ -47,15 +47,9 @@ add_custom_target(gh-pages.copy
     VERBATIM
 )
 
-execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
-    OUTPUT_VARIABLE BOOST_HANA_GIT_SHORT_SHA
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
 add_custom_target(gh-pages.update
     COMMAND ${GIT_EXECUTABLE} add --all .
-    COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Update to ${BOOST_HANA_GIT_SHORT_SHA}"
+    COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Update to ${BOOST_HANA_CURRENT_COMMIT}"
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
     COMMENT "Updating the gh-pages clone with freshly built documentation"
     DEPENDS gh-pages.copy

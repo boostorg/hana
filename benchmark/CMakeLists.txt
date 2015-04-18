@@ -59,8 +59,9 @@ add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
 add_custom_target(benchmarks COMMENT "Generate all the benchmarks.")
 
 file(GLOB BOOST_HANA_BENCHMARKS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.erb.json)
+string(REPLACE ".erb.json" "" BOOST_HANA_BENCHMARKS "${BOOST_HANA_BENCHMARKS}")
+
 foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
-    string(REPLACE ".erb.json" "" benchmark "${benchmark}")
     set(template_file "${CMAKE_CURRENT_SOURCE_DIR}/${benchmark}.erb.json")
     set(output_file   "${CMAKE_CURRENT_BINARY_DIR}/${benchmark}.json")
     add_custom_command(OUTPUT "${output_file}"
@@ -69,7 +70,113 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
             -e "File.open('${output_file}', 'w') { |f| f.write(json) }"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         DEPENDS "${template_file}"
-        VERBATIM)
+        VERBATIM
+    )
     add_custom_target(${benchmark} DEPENDS "${output_file}")
     add_dependencies(benchmarks ${benchmark})
 endforeach()
+
+
+##############################################################################
+# Setup targets to automatically upload the benchmarks.
+#
+# We have a branch named 'datasets'. This branch contains nothing, except
+# directories and JSON files with the following layout:
+#   compiler1/
+#       benchmark1.json
+#       ...
+#       benchmarkN.json
+#   ...
+#   compilerN/
+#       benchmark1.json
+#       ...
+#       benchmarkN.json
+#
+# The compiler subdirectories are what we call the COMPILER_SLUG below.
+# The benchmarkN.json files are just the generated 'benchmark.xxx.erb.json'
+# present in this directory. For example, the branch could look like:
+#   clang-3.6.0/
+#       benchmark.at.json
+#       benchmark.count_if.json
+#       benchmark.fold_left.json
+#   clang-3.7.0/
+#       benchmark.at.json
+#       benchmark.count_if.json
+#       benchmark.fold_left.json
+#
+# This would mean that we have the above benchmarks, available on Clang 3.6
+# and Clang 3.7. The 'datasets.clone' target we define below allows cloning
+# the 'dataset' branch to the 'benchmark/dataset' subdirectory of the project,
+# or pulling the latest revisions if the clone already exists. This directory
+# is ignored by git to avoid polluting the index. Then, the 'datasets.clean'
+# target allows removing the subdirectory associated to the current compiler
+# slug (e.g. 'benchmark/datasets/clang-3.6.0'), and the 'datasets.copy' target
+# allows populating that subdirectory with the newly built benchmarks. Finally,
+# the 'datasets.commit' target allows committing the newly built benchmarks to
+# the 'datasets' branch, and the 'datasets.push' target allows pushing those
+# changes to the official repository. Of course, write access is needed to
+# push the changes.
+#
+# Most of this is only used by our continuous integration scripts, but it is
+# also possible to do it manually.
+##############################################################################
+if (NOT GIT_FOUND)
+    message(WARNING "Git was not found; the various 'datasets.*' targets will be unavailable.")
+    return()
+endif()
+
+set(DATASETS_DIR "${CMAKE_SOURCE_DIR}/benchmark/datasets")
+string(TOLOWER "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}" COMPILER_SLUG)
+message(STATUS "${COMPILER_SLUG}")
+
+add_custom_target(datasets.clone
+    COMMAND ${RUBY_EXECUTABLE}
+    -e "if File.directory?('${DATASETS_DIR}')                                                   "
+    -e "  Dir.chdir('${DATASETS_DIR}')                                                          "
+    -e "  `${GIT_EXECUTABLE} pull`                                                              "
+    -e "else                                                                                    "
+    -e "  `${GIT_EXECUTABLE} clone ${BOOST_HANA_ORIGIN_URL} --branch=datasets ${DATASETS_DIR}`  "
+    -e "end                                                                                     "
+    COMMENT "Cloning the 'datasets' branch into the 'benchmark/datasets' directory"
+    VERBATIM
+)
+
+add_custom_target(datasets.clean
+    COMMAND ${CMAKE_COMMAND} -E remove_directory ${DATASETS_DIR}/${COMPILER_SLUG}
+    COMMENT "Removing ${DATASETS_DIR}/${COMPILER_SLUG}"
+    DEPENDS datasets.clone
+    VERBATIM
+)
+
+add_custom_target(datasets.copy
+    COMMENT "Copying the generated benchmarks from ${CMAKE_CURRENT_BINARY_DIR} to benchmark/datasets"
+    DEPENDS datasets.clean
+)
+foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
+    add_custom_target(${benchmark}.copy
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${DATASETS_DIR}/${COMPILER_SLUG}
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${benchmark}.json ${DATASETS_DIR}/${COMPILER_SLUG}
+        DEPENDS ${benchmark} datasets.clean
+        VERBATIM
+    )
+    add_dependencies(datasets.copy ${benchmark}.copy)
+endforeach()
+
+add_custom_target(datasets.commit
+    COMMAND ${GIT_EXECUTABLE} add --all .
+    COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Update benchmarks to ${BOOST_HANA_CURRENT_COMMIT} for ${COMPILER_SLUG}"
+    WORKING_DIRECTORY ${DATASETS_DIR}
+    COMMENT "Updating the datasets clone with the newest benchmarks"
+    DEPENDS datasets.copy
+    VERBATIM
+)
+
+# It is important to push quietly to make sure we don't leak the GitHub
+# token on Travis.
+add_custom_target(datasets.push
+    COMMAND ${GIT_EXECUTABLE} push --quiet origin datasets
+    WORKING_DIRECTORY ${DATASETS_DIR}
+    COMMENT "Pushing the datasets branch to GitHub"
+    DEPENDS datasets.commit
+    VERBATIM
+)

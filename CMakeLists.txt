@@ -72,6 +72,14 @@ else()
         "on Boost won't be available.")
 endif()
 
+if (GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+        OUTPUT_VARIABLE BOOST_HANA_CURRENT_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+endif()
+
 
 ##############################################################################
 # Setup the URL to the official repository on GitHub.

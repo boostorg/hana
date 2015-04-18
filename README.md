@@ -159,7 +159,7 @@ The project is organized in a couple of subdirectories.
   benchmarks to make sure the library is as fast as advertised. The benchmark
   code is written mostly in the form of [eRuby][] templates. The templates
   are used to generate C++ files which are then compiled while gathering
-  compilation statistics.
+  compilation and execution statistics.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation. The `doc/gh-pages` subdirectory is automatically ignored
   by git; you can conveniently store a local copy of the documentation by
@@ -175,11 +175,11 @@ The project is organized in a couple of subdirectories.
 Want to contribute? Great!
 
 1. Fork it.
-2. Create a branch (`git checkout -b feature_X`)
+2. Create a branch (`git checkout -b feature/xxx`)
 3. Do your modifications on that branch
 4. Make sure you did not break anything (`make tests examples`)
-5. Commit your changes (`git commit -am "Added feature X"`)
-6. Push to the branch (`git push origin feature_X`)
+5. Commit your changes (`git commit -am "Added feature xxx"`)
+6. Push to the branch (`git push origin feature/xxx`)
 7. Open a pull request
 
 
