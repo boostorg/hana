@@ -1,6 +1,8 @@
 <% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
 <% fusion = (1..50).step(2).to_a %>
 <% mpl = (1..20).step(2).to_a %>
+<% mpl11 = (1..50).step(2).to_a + (50..500).step(25).to_a %>
+<% cexpr = (1..50).step(2).to_a + (50..200).step(25).to_a %>
 
 
 {
@@ -17,7 +19,10 @@
     }, {
       "name": "hana::tuple_t with a hana::Metafunction",
       "data": <%= time_compilation('fold_left/compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
-    }, {
+    }
+
+    <% if has_boost %>
+    , {
       "name": "Heterogeneous fusion::vector",
       "data": <%= time_compilation('fold_left/compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
     }, {
@@ -26,6 +31,22 @@
     }, {
       "name": "mpl::vector with a MPL metafunction class",
       "data": <%= time_compilation('fold_left/compile.mpl.vector.erb.cpp', mpl) %>
+    }
+    <% end %>
+
+    <% if has_mpl11 %>
+    , {
+      "name": "mpl11::list",
+      "data": <%= time_compilation('fold_left/compile.mpl11.list.erb.cpp', mpl11) %>
+    }
+    <% end %>
+
+    , {
+      "name": "cexpr::list (recursive)",
+      "data": <%= time_compilation('fold_left/compile.cexpr.recursive.erb.cpp', cexpr) %>
+    }, {
+      "name": "cexpr::list (unrolled)",
+      "data": <%= time_compilation('fold_left/compile.cexpr.unrolled.erb.cpp', cexpr) %>
     }
   ]
 }

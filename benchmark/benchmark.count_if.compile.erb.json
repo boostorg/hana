@@ -13,7 +13,10 @@
     }, {
       "name": "Homogeneous hana::tuple",
       "data": <%= time_compilation('count_if/compile.hana.tuple.homogeneous.erb.cpp', hana) %>
-    }, {
+    }
+
+    <% if has_boost %>
+    , {
       "name": "Homogeneous fusion::vector",
       "data": <%= time_compilation('count_if/compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
     }, {
@@ -23,5 +26,6 @@
       "name": "mpl::vector",
       "data": <%= time_compilation('count_if/compile.mpl.vector.erb.cpp', mpl) %>
     }
+    <% end %>
   ]
 }

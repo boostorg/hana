@@ -1,0 +1,63 @@
+<%
+  def avg(xs)
+    xs.inject(0, :+) / xs.length
+  end
+
+  def amortize(file)
+    # We remove the first one to mitigate cache effects
+    times = time_compilation(file, 6.times)
+    times.shift
+    avg(times.map { |_, t| t })
+  end
+%>
+
+{
+  "chart": {
+    "type": "column"
+  },
+  "legend": {
+    "enabled": false
+  },
+  "xAxis": {
+    "type": "category"
+  },
+  "title": {
+    "text": "Including various metaprogramming libraries"
+  },
+  "plotOptions": {
+    "series": {
+      "borderWidth": 0,
+      "dataLabels": {
+        "enabled": true,
+        "format": "{point.y:.5f}s"
+      }
+    }
+  },
+  "series": [{
+    "name": "Libraries",
+    "colorByPoint": true,
+    "data": [
+      {
+        "name": "Hana",
+        "y": <%= amortize('including/hana.erb.cpp') %>
+      }
+
+      <% if has_boost %>
+      , {
+        "name": "Boost.MPL",
+        "y": <%= amortize('including/mpl.erb.cpp') %>
+      }, {
+        "name": "Boost.Fusion",
+        "y": <%= amortize('including/fusion.erb.cpp') %>
+      }
+      <% end %>
+
+      <% if has_mpl11 %>
+      , {
+        "name": "MPL11",
+        "y": <%= amortize('including/mpl11.erb.cpp') %>
+      }
+      <% end %>
+    ]
+  }]
+}

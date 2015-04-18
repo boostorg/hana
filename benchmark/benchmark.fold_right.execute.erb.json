@@ -8,9 +8,13 @@
     {
       "name": "Homogeneous hana::tuple",
       "data": <%= time_execution('fold_right/execute.hana.tuple.erb.cpp', exec) %>
-    }, {
+    }
+
+    <% if has_boost %>
+    , {
       "name": "Homogeneous fusion::vector",
       "data": <%= time_execution('fold_right/execute.fusion.vector.erb.cpp', exec) %>
     }
+    <% end %>
   ]
 }

@@ -22,6 +22,14 @@ if(${__BOOST_HANA_MISSING_GEMS})
     return()
 endif()
 
+# For the benchmarks, it is possible to define MPL11_ROOT to the root of an
+# installation of the MPL11, in which case additional benchmarks are available.
+if (DEFINED MPL11_ROOT)
+    set(MPL11_FOUND true)
+    include_directories(${MPL11_ROOT}/include)
+else()
+    set(MPL11_FOUND false)
+endif()
 
 ##############################################################################
 # Configure the measure.rb script
@@ -66,8 +74,9 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     set(output_file   "${CMAKE_CURRENT_BINARY_DIR}/${benchmark}.json")
     add_custom_command(OUTPUT "${output_file}"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "json = Tilt::ERBTemplate.new('${template_file}').render"
-            -e "File.open('${output_file}', 'w') { |f| f.write(json) }"
+            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}}        "
+            -e "json = Tilt::ERBTemplate.new('${template_file}').render(nil, **env) "
+            -e "File.open('${output_file}', 'w') { |f| f.write(json) }              "
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         DEPENDS "${template_file}"
         VERBATIM

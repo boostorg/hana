@@ -16,7 +16,10 @@
     }, {
       "name": "hana::tuple_t with a hana::Metafunction",
       "data": <%= time_compilation('fold_right/compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
-    }, {
+    }
+
+    <% if has_boost %>
+    , {
       "name": "Heterogeneous fusion::vector",
       "data": <%= time_compilation('fold_right/compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
     }, {
@@ -26,5 +29,6 @@
       "name": "mpl::vector with a MPL metafunction class",
       "data": <%= time_compilation('fold_right/compile.mpl.vector.erb.cpp', mpl) %>
     }
+    <% end %>
   ]
 }
