@@ -171,10 +171,8 @@ add_custom_target(datasets.commit
     VERBATIM
 )
 
-# It is important to push quietly to make sure we don't leak the GitHub
-# token on Travis.
 add_custom_target(datasets.push
-    COMMAND ${GIT_EXECUTABLE} push --quiet origin datasets
+    COMMAND ${GIT_EXECUTABLE} push origin datasets
     WORKING_DIRECTORY ${DATASETS_DIR}
     COMMENT "Pushing the datasets branch to GitHub"
     DEPENDS datasets.commit

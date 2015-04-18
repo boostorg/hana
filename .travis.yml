@@ -10,7 +10,7 @@ matrix:
 
   include:
     # clang 3.5
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang35
         apt:
           packages: clang-3.5
@@ -18,14 +18,14 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.5
 
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang35
 
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=trunk BUILD_DOCS=false
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang35
 
     # clang 3.6
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang36
         apt:
           packages: clang-3.6
@@ -33,14 +33,14 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang36
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=trunk BUILD_DOCS=false
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang36
 
     # clang 3.7
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang37
         apt:
           packages: clang-3.7
@@ -48,10 +48,20 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise # latest
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 BUILD_DOCS=false
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang37
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=trunk BUILD_DOCS=false
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+      addons: *clang37
+
+    # benchmarks
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true
+      addons: *clang35
+
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true
+      addons: *clang36
+
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true
       addons: *clang37
 
 
@@ -60,13 +70,13 @@ env:
     # GitHub token for pushing the documentation, logging in with the
     # Travis command line utility and so on. The token is stored in the
     # ${GITHUB_TOKEN} environment variable.
-    - secure: Jt+++hJ/wCBT1s1vuph4xs9J2mOp+ljLbTPEPrR0UFjcieAYjoPTFI0jmoV0yt2j+3plqLee5JQvZBMXdnLKtxaHyqAD95A0BsXknqYfyXmqvT/x1XQ3EifdWvhPrpJMNhHOQboTXjRaiwP4xlglmkQGX9ScNWzlnZQ4U/Wq9m4=
+    - secure: "gikHKTxWGN9FnJ9m+F53Y5j7jWGAOKlL2ylcFM2o0KoXOkoNAK9bJpilNppRwWhgwpC3yTJDN0k7xh9I6Ec8L0G46Q2QZdtJ/NFvWbafpzQcrAg6+872yKlP8h3GHexwEDdAdxCv8g2HeavFrDcqynssI8IoIHyZmsR6Dwym+eo="
 
   # We define the documentation job here instead of in matrix.include, because
   # otherwise we end up with a job that has no environment variables at all in
   # the matrix.
   matrix:
-    - BUILD_DOCS=true CLANG_VERSION=3.7 BOOST_VERSION=1.58.0
+    - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 DOCUMENTATION=true
 
 # Those addons are just for the documentation job.
 addons: *clang37
@@ -82,7 +92,7 @@ install:
   - if [ "${BOOST_VERSION}" == "1.58.0" ]; then BOOST_TARBALL_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz"; fi
   - if [ "${BOOST_VERSION}" != "trunk" ]; then travis_wait travis_retry wget --quiet -O boost.tar.gz ${BOOST_TARBALL_URL}; fi
   - if [ "${BOOST_VERSION}" != "trunk" ]; then mkdir boost && tar --strip-components=1 -C boost -xzf boost.tar.gz; fi
-  - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_wait travis_retry git clone --recursive --quiet http://github.com/boostorg/boost.git; fi
+  - if [ "${BOOST_VERSION}" == "trunk" ]; then travis_wait travis_retry git clone --depth 1 --recursive --quiet http://github.com/boostorg/boost.git; fi
   - if [ "${BOOST_VERSION}" == "trunk" ]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
 
   # Install a recent CMake
@@ -98,18 +108,21 @@ install:
   - make -C libcxx/build cxx -j2
 
   # Install a more recent Doxygen via Linuxbrew
-  - if [ "${BUILD_DOCS}" == "true" ]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
-  - if [ "${BUILD_DOCS}" == "true" ]; then export PATH=$HOME/.linuxbrew/bin:$PATH; fi
-  - if [ "${BUILD_DOCS}" == "true" ]; then brew install doxygen; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then export PATH=${HOME}/.linuxbrew/bin:${PATH}; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then brew install doxygen; fi
+
+  - if [[ "${BENCHMARKS}" == "true" ]]; then rvm use 2.1 --install --binary --fuzzy; fi
+  - if [[ "${BENCHMARKS}" == "true" ]]; then gem install ruby-progressbar tilt; fi
 
 
 before_script:
   # Go back to the root of the project.
   - cd ${TRAVIS_BUILD_DIR}
 
-  # Set the git identity to myself (for pushing the documentation)
+  # Set the git identity (for pushing the documentation)
   - git config --global user.email "ldionne.2@gmail.com"
-  - git config --global user.name "Louis Dionne"
+  - git config --global user.name "Travis bot"
 
   # Check baseline memory usage; useful to know when OOMs occur
   - free
@@ -123,13 +136,25 @@ before_script:
 
 
 script:
-  # Only push the documentation when we're on master, otherwise just check it.
-  - if [[ "${BUILD_DOCS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc.check; fi
-  - if [[ "${BUILD_DOCS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push; fi
+  # Only push the documentation when we're on master, otherwise just make sure it builds properly.
+  # When we push, we disable the output to avoid leaking the GitHub token.
+  - if [[ "${DOCUMENTATION}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc; fi
+  - if [[ "${DOCUMENTATION}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push &>/dev/null; fi
 
-  - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.headers compile.examples -k -j2 >/dev/null; fi
-  - if [[ "${BUILD_DOCS}" == "false" ]]; then make compile.all -k; fi
-  - if [[ "${BUILD_DOCS}" == "false" ]]; then make run.all; fi
+  # Similarly, only push the benchmarks if we're on master and not in a pull request,
+  # otherwise just run them.
+  #
+  # We pre-clone, so the next datasets.clone will just pull, which is pretty quick.
+  # This reduces the risk of push conflicts when these jobs all run at the same time.
+  # When we push, we use travis_retry to try again if we encounter a push conflict,
+  # and we disable the output to avoid leaking the GitHub token.
+  - if [[ "${BENCHMARKS}" == "true" ]]; then make benchmarks -k; fi
+  - if [[ "${BENCHMARKS}" == "true" ]]; then make datasets.clone; fi
+  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
+
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.headers compile.examples -k -j2 &>/dev/null; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.all -k; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make run.all; fi
 
 
 notifications:

@@ -56,10 +56,8 @@ add_custom_target(gh-pages.update
     VERBATIM
 )
 
-# It is important to push quietly to make sure we don't leak the GitHub
-# token on Travis.
 add_custom_target(gh-pages.push
-    COMMAND ${GIT_EXECUTABLE} push --quiet origin gh-pages
+    COMMAND ${GIT_EXECUTABLE} push origin gh-pages
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages
     COMMENT "Pushing the gh-pages branch to GitHub"
     DEPENDS gh-pages.update
