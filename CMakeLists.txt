@@ -63,6 +63,7 @@ endif()
 find_package(Boost)
 find_package(Doxygen)
 find_package(Git)
+find_package(Ruby 2.1)
 
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
@@ -70,6 +71,24 @@ else()
     message(WARNING
         "The Boost library headers were not found; targets depending "
         "on Boost won't be available.")
+endif()
+
+
+##############################################################################
+# Setup the URL to the official repository on GitHub.
+#
+# If there is a GITHUB_TOKEN environment variable, we assume this token allows
+# us to push to the GitHub repository and we use that in the URL. This token
+# will give us push access for updating the 'gh-pages' branch and doing other
+# useful things e.g. from Travis. Otherwise, if there's no such environment
+# variable, the URL just refers to the GitHub repository without authentication.
+# In this case, we'll be asked for our username and password when/if we try to
+# push to the repository.
+##############################################################################
+if (DEFINED ENV{GITHUB_TOKEN})
+    set(BOOST_HANA_ORIGIN_URL "https://ldionne:$ENV{GITHUB_TOKEN}@github.com/ldionne/hana")
+else()
+    set(BOOST_HANA_ORIGIN_URL "https://github.com/ldionne/hana")
 endif()
 
 

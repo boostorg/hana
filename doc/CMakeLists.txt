@@ -6,49 +6,21 @@
 # Setup the documentation
 ##############################################################################
 if (NOT DOXYGEN_FOUND)
-    message(WARNING
-        "Doxygen not found; the 'doc' and 'gh-pages.{clean,copy,update}' "
-        "targets will be unavailable.")
+    message(WARNING "Doxygen was not found; the 'doc' and the various "
+                    "'gh-pages.*' targets will be unavailable.")
     return()
 endif()
 
 configure_file(Doxyfile.in Doxyfile @ONLY)
-add_custom_target(doc.check
-    COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep "warning" | grep -v -e "recursive" -e "image file"
-    COMMENT "Running Doxygen to validate the documentation"
-    VERBATIM
-)
-
-if (NOT DEFINED ENV{TRAVIS} AND NOT TARGET benchmarks)
-    message(WARNING
-        "The 'benchmarks' target is not available; the 'doc' and the various "
-        "'gh-pages.*' targets will be unavailable. The 'doc.check' target can "
-        "still be used to generate the documentation to check for errors/warnings.")
-    return()
-endif()
-
 add_custom_target(doc
     COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep "warning" | grep -v -e "recursive" -e "image file"
     COMMENT "Generating API documentation with Doxygen"
-    # DEPENDS benchmarks
     VERBATIM
 )
 
 if (NOT GIT_FOUND)
-    message(WARNING
-        "Git was not found; the various 'gh-pages.*' targets will be unavailable.")
+    message(WARNING "Git was not found; the various 'gh-pages.*' targets will be unavailable.")
     return()
-endif()
-
-# If there is a GITHUB_TOKEN environment variable, we assume this token allows
-# us to push to the GitHub repository and we use that when cloning. We'll need
-# push access for updating the gh-pages branch below. Otherwise, if there's no
-# such environment variable, we just clone normally and we'll be asked for our
-# username and password when/if we try to push to gh-pages.
-if (DEFINED ENV{GITHUB_TOKEN})
-    set(BOOST_HANA_ORIGIN_URL "https://ldionne:$ENV{GITHUB_TOKEN}@github.com/ldionne/hana")
-else()
-    set(BOOST_HANA_ORIGIN_URL "https://github.com/ldionne/hana")
 endif()
 
 add_custom_target(gh-pages.clone
@@ -90,6 +62,8 @@ add_custom_target(gh-pages.update
     VERBATIM
 )
 
+# It is important to push quietly to make sure we don't leak the GitHub
+# token on Travis.
 add_custom_target(gh-pages.push
     COMMAND ${GIT_EXECUTABLE} push --quiet origin gh-pages
     WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/gh-pages

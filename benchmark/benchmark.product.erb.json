@@ -1,0 +1,31 @@
+<% hana = (1..50).step(2).to_a + (50..500).step(25).to_a %>
+<% exec = (1..50).step(2).to_a %>
+
+{
+  "compile": [
+    {
+      "__comment": "
+        `unsigned long long` generally overflows around factorial(20).
+        The product of a range [1, n) is exactly factorial(n-1), so we
+        make sure not to overflow.
+      ",
+      "name": "hana::range",
+      "data": <%= time_compilation('product/compile.hana.range.erb.cpp', 1..21) %>
+    }, {
+      "name": "Heterogeneous hana::tuple",
+      "data": <%= time_compilation('product/compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
+    }, {
+      "name": "Homogeneous hana::tuple",
+      "data": <%= time_compilation('product/compile.hana.tuple.homogeneous.erb.cpp', hana) %>
+    }, {
+      "name": "hana::tuple_c",
+      "data": <%= time_compilation('product/compile.hana.tuple_c.erb.cpp', hana) %>
+    }
+  ],
+  "execute": [
+    {
+      "name": "Homogeneous hana::tuple",
+      "data": <%= time_execution('product/execute.hana.tuple.homogeneous.erb.cpp', exec) %>
+    }
+  ]
+}
