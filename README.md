@@ -159,11 +159,7 @@ The project is organized in a couple of subdirectories.
   benchmarks to make sure the library is as fast as advertised. The benchmark
   code is written mostly in the form of [eRuby][] templates. The templates
   are used to generate C++ files which are then compiled while gathering
-  compilation statistics. The benchmarks are driven by CMake files. Note that
-  currently the benchmarks will only work with Clang because of the
-  [gem used][Benchcc] to drive the compiler and gather the statistics.
-- The [cmake](cmake) directory contains additional CMake modules used by the
-  build system.
+  compilation statistics.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation. The `doc/gh-pages` subdirectory is automatically ignored
   by git; you can conveniently store a local copy of the documentation by
@@ -199,7 +195,6 @@ Please see [LICENSE.md](LICENSE.md).
 
 
 <!-- Links -->
-[Benchcc]: http://github.com/ldionne/benchcc
 [C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
