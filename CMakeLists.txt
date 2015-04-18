@@ -108,6 +108,11 @@ add_custom_target(compile.all
 add_custom_target(run.all ALL
     COMMENT "Build and then run all the unit tests and examples.")
 
+if (DEFINED VALGRIND_COMMAND)
+    add_custom_target(memcheck.all ALL
+        COMMENT "Build and then run all the unit tests and examples under the memory checker.")
+endif()
+
 #   boost_hana_target_name_for(<output variable> <source file>)
 #
 # Return the target name associated to a source file. If the path of the
@@ -126,15 +131,30 @@ endif()
 
 #   boost_hana_add_executable(<name> ...)
 #
-# Calls `add_executable` with exactly the same arguments that were received,
-# but also links the executable with the custom libc++ installation
-# specified by `LIBCXX_ROOT`, if any.
+# Creates an executable called `compile.name` with exactly the same arguments
+# that were received, but also links the executable with the custom libc++
+# installation specified by `LIBCXX_ROOT`, if any.
+#
+# A target named `run.name` which builds and then runs the executable is
+# also created. Finally, if `VALGRIND_COMMAND` is defined, a target named
+# `memcheck.name` building and running the executable under Valgrind is
+# created too.
 function(boost_hana_add_executable name)
-    add_executable(${ARGV})
+    add_executable(compile.${ARGV})
+    add_custom_target(run.${name} COMMAND compile.${name})
+
     if (DEFINED LIBCXX_ROOT)
-        target_link_libraries(${name} ${libcxx})
-        set_property(TARGET ${name} APPEND PROPERTY
+        target_link_libraries(compile.${name} ${libcxx})
+        set_property(TARGET compile.${name} APPEND PROPERTY
             INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
+    endif()
+
+    if (DEFINED VALGRIND_COMMAND)
+        add_custom_target(memcheck.${name}
+            COMMAND ${VALGRIND_COMMAND} --leak-check=full
+                                        --error-exitcode=1
+                                        ${CMAKE_CURRENT_BINARY_DIR}/compile.${name}
+            DEPENDS compile.${name})
     endif()
 endfunction()
 

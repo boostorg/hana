@@ -55,10 +55,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/measure.in.rb #input
 # file to perform their benchmarking, and launching the benchmarks will wipe
 # anything from the `measure.cpp` file.
 ##############################################################################
-boost_hana_add_executable(compile.benchmark.measure EXCLUDE_FROM_ALL measure.cpp)
+boost_hana_add_executable(benchmark.measure EXCLUDE_FROM_ALL measure.cpp)
 set_target_properties(compile.benchmark.measure
     PROPERTIES RULE_LAUNCH_COMPILE "${CMAKE_CURRENT_BINARY_DIR}/measure.rb")
-add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
 
 
 ##############################################################################
@@ -136,7 +135,6 @@ endif()
 
 set(DATASETS_DIR "${CMAKE_SOURCE_DIR}/benchmark/datasets")
 string(TOLOWER "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}" COMPILER_SLUG)
-message(STATUS "${COMPILER_SLUG}")
 
 add_custom_target(datasets.clone
     COMMAND ${RUBY_EXECUTABLE}

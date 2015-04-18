@@ -6,8 +6,7 @@
 # Setup examples
 ##############################################################################
 
-add_custom_target(compile.examples
-    COMMENT "Build all the examples.")
+add_custom_target(compile.examples COMMENT "Build all the examples.")
 add_dependencies(compile.all compile.examples)
 
 add_custom_target(run.examples
@@ -15,6 +14,12 @@ add_custom_target(run.examples
     DEPENDS compile.examples
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+")
 add_dependencies(run.all run.examples)
+
+if (DEFINED VALGRIND_COMMAND)
+    add_custom_target(memcheck.examples
+        COMMENT "Build and then run all the examples under the memory checker.")
+    add_dependencies(memcheck.all memcheck.examples)
+endif()
 
 # A list of all the example files
 file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
@@ -33,9 +38,10 @@ endif()
 # Add all the examples
 foreach(file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    boost_hana_add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
+    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
     add_dependencies(compile.examples compile.${_target})
-    add_custom_target(run.${_target} COMMAND compile.${_target})
-
     add_test(NAME ${_target} COMMAND compile.${_target})
+    if (DEFINED VALGRIND_COMMAND)
+        add_dependencies(memcheck.examples memcheck.${_target})
+    endif()
 endforeach()

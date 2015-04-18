@@ -25,6 +25,12 @@ add_custom_target(compile.headers
     COMMENT "Build all the header-inclusion unit tests.")
 add_dependencies(compile.tests compile.headers)
 
+if (DEFINED VALGRIND_COMMAND)
+    add_custom_target(memcheck.tests
+        COMMENT "Build and then run all the tests under the memory checker.")
+    add_dependencies(memcheck.all memcheck.tests)
+endif()
+
 # A list of all the test files
 # Source files that are not available due to caveats are removed from this
 # list below.
@@ -158,7 +164,7 @@ foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
             int main() { }
         ")
     endif()
-    boost_hana_add_executable(compile.header.${header_name} EXCLUDE_FROM_ALL
+    boost_hana_add_executable(header.${header_name} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
     add_dependencies(compile.headers compile.header.${header_name})
 
@@ -185,16 +191,22 @@ foreach(_file IN LISTS BOOST_HANA_SPLIT_TEST_SOURCES)
         add_custom_target(compile.${_target})
         add_dependencies(compile.tests compile.${_target})
         add_custom_target(run.${_target})
+        if (DEFINED VALGRIND_COMMAND)
+            add_custom_target(memcheck.${_target})
+            add_dependencies(memcheck.tests memcheck.${_target})
+        endif()
 
         foreach(_part IN LISTS _parts)
             set(_ptarget "${_target}.part${_part}")
-            boost_hana_add_executable(compile.${_ptarget} EXCLUDE_FROM_ALL "${_file}")
+            boost_hana_add_executable(${_ptarget} EXCLUDE_FROM_ALL "${_file}")
             set_target_properties(compile.${_ptarget}
                 PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${_part}")
             add_dependencies(compile.${_target} compile.${_ptarget})
-
-            add_custom_target(run.${_ptarget} COMMAND compile.${_ptarget})
             add_dependencies(run.${_target} run.${_ptarget})
+
+            if (DEFINED VALGRIND_COMMAND)
+                add_dependencies(memcheck.${_target} memcheck.${_ptarget})
+            endif()
 
             add_test(NAME ${_ptarget} COMMAND compile.${_ptarget})
         endforeach()
@@ -211,9 +223,10 @@ list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${BOOST_HANA_SPLIT_TEST_SOURCES})
 ##############################################################################
 foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
     boost_hana_target_name_for(_target "${file}")
-    boost_hana_add_executable(compile.${_target} EXCLUDE_FROM_ALL "${file}")
+    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
     add_dependencies(compile.tests compile.${_target})
-    add_custom_target(run.${_target} COMMAND compile.${_target})
-
     add_test(NAME ${_target} COMMAND compile.${_target})
+    if (DEFINED VALGRIND_COMMAND)
+        add_dependencies(memcheck.tests memcheck.${_target})
+    endif()
 endforeach()
