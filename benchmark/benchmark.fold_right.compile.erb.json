@@ -1,10 +1,12 @@
 <% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
 <% fusion = (1..50).step(2).to_a %>
 <% mpl = (1..20).step(2).to_a %>
-<% exec = (1..50).step(2).to_a %>
 
 {
-  "compile": [
+  "title": {
+    "text": "Compile-time behavior of fold.right"
+  },
+  "series": [
     {
       "name": "Heterogeneous hana::tuple",
       "data": <%= time_compilation('fold_right/compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
@@ -23,15 +25,6 @@
     }, {
       "name": "mpl::vector with a MPL metafunction class",
       "data": <%= time_compilation('fold_right/compile.mpl.vector.erb.cpp', mpl) %>
-    }
-  ],
-  "execute": [
-    {
-      "name": "Homogeneous hana::tuple",
-      "data": <%= time_execution('fold_right/execute.hana.tuple.erb.cpp', exec) %>
-    }, {
-      "name": "Homogeneous fusion::vector",
-      "data": <%= time_execution('fold_right/execute.fusion.vector.erb.cpp', exec) %>
     }
   ]
 }

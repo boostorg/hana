@@ -1,10 +1,12 @@
 <% hana = (0..50).step(2).to_a + (50..400).step(25).to_a %>
 <% fusion = (0..50).step(2).to_a %>
 <% mpl = (0..20).step(2).to_a %>
-<% exec = (0..50).step(2).to_a %>
 
 {
-  "compile": [
+  "title": {
+    "text": "Compile-time behavior of count_if"
+  },
+  "series": [
     {
       "name": "Heterogeneous hana::tuple",
       "data": <%= time_compilation('count_if/compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
@@ -20,15 +22,6 @@
     }, {
       "name": "mpl::vector",
       "data": <%= time_compilation('count_if/compile.mpl.vector.erb.cpp', mpl) %>
-    }
-  ],
-  "execute": [
-    {
-      "name": "Homogeneous hana::tuple",
-      "data": <%= time_execution('count_if/execute.hana.tuple.erb.cpp', exec) %>
-    }, {
-      "name": "Homogeneous fusion::vector",
-      "data": <%= time_execution('count_if/execute.fusion.vector.erb.cpp', exec) %>
     }
   ]
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/modules/data.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  <script src="chart.js"></script>
+
+  <script type="text/javascript">
+    var setDataset = function(dataset) {
+      $.getJSON(dataset, function(options) {
+        if ($("#container").highcharts())
+          $("#container").highcharts().destroy();
+
+        Hana.initChart($("#container"), options);
+        $("#container").highcharts().redraw();
+      });
+    };
+  </script>
+</head>
+
+<body>
+  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  <input type="text" size=100 name="dataset" class="enter" value="" onchange="setDataset(this.value)" />
+</body>
+
+</html>
