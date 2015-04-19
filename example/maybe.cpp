@@ -60,8 +60,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto inc = [](auto x) {
     return just(x + 1);
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(bind(just(1), inc) == just(2));
-BOOST_HANA_CONSTANT_CHECK(bind(nothing, inc) == nothing);
+BOOST_HANA_CONSTEXPR_CHECK(chain(just(1), inc) == just(2));
+BOOST_HANA_CONSTANT_CHECK(chain(nothing, inc) == nothing);
 
 BOOST_HANA_CONSTEXPR_CHECK(flatten(just(just(2))) == just(2));
 //! [monad]

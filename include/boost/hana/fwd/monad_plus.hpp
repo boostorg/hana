@@ -67,11 +67,11 @@ namespace boost { namespace hana {
     //!
     //! Second, a MonadPlus is also required to obey the following laws,
     //! which represent the fact that `empty<M(T)>()` must be some kind of
-    //! absorbing element for the `bind` operation. For all objects `a` of
+    //! absorbing element for the `chain` operation. For all objects `a` of
     //! data type `M(T)` and functions @f$ f : T \to M(U) @f$,
     //! @code
-    //!     bind(empty<M(T)>(), f)         == empty<M(U)>()
-    //!     bind(a, always(empty<M(T)>())) == empty<M(U)>()
+    //!     chain(empty<M(T)>(), f)         == empty<M(U)>()
+    //!     chain(a, always(empty<M(T)>())) == empty<M(U)>()
     //! @endcode
     struct MonadPlus { };
 

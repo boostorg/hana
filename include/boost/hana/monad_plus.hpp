@@ -102,7 +102,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::bind(static_cast<Xs&&>(xs),
+            return hana::chain(static_cast<Xs&&>(xs),
                 hana::partial(go{}, static_cast<Pred&&>(pred))
             );
         }
@@ -143,9 +143,9 @@ namespace boost { namespace hana {
     template <typename M, bool condition>
     struct cycle_impl<M, when<condition>> : default_ {
         template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs const& xs) {
-            constexpr detail::std::size_t n_ = hana::value(n);
-            return mdetail::cycle_helper<M, n_>::apply(xs);
+        static constexpr decltype(auto) apply(N const&, Xs const& xs) {
+            constexpr detail::std::size_t n = hana::value<N>();
+            return mdetail::cycle_helper<M, n>::apply(xs);
         }
     };
 
@@ -204,8 +204,8 @@ namespace boost { namespace hana {
     struct prefix_impl<M, when<condition>> : default_ {
         template <typename Z, typename Xs>
         static constexpr decltype(auto) apply(Z&& z, Xs&& xs) {
-            return hana::bind(static_cast<Xs&&>(xs),
-                hana::partial(append, lift<M>(static_cast<Z&&>(z))));
+            return hana::chain(static_cast<Xs&&>(xs),
+                hana::partial(append, hana::lift<M>(static_cast<Z&&>(z))));
         }
     };
 
@@ -219,9 +219,9 @@ namespace boost { namespace hana {
     struct suffix_impl<M, when<condition>> : default_ {
         template <typename Z, typename Xs>
         static constexpr decltype(auto) apply(Z&& z, Xs&& xs) {
-            return hana::bind(static_cast<Xs&&>(xs),
+            return hana::chain(static_cast<Xs&&>(xs),
                 hana::partial(hana::flip(prepend),
-                              lift<M>(static_cast<Z&&>(z))));
+                              hana::lift<M>(static_cast<Z&&>(z))));
         }
     };
 

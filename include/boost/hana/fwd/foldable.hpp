@@ -336,7 +336,7 @@ namespace boost { namespace hana {
     //! The `monadic_fold` method is used for left or right folding a
     //! structure with a monadic binary operation and an optional initial
     //! state. Basically, a monadic fold is a fold in which subsequent calls
-    //! to the binary function are chained with the monadic `bind` operator
+    //! to the binary function are chained with the monadic `chain` operator
     //! of the corresponding Monad. This allows a structure to be folded in
     //! a custom monadic context. For example, performing a monadic fold with
     //! the Maybe monad would require the binary function to return the result
@@ -383,7 +383,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! where `f(-, xk)` denotes the partial application of `f` to `xk`, and
-    //! `|` is just the operator version of the monadic `bind`.
+    //! `|` is just the operator version of the monadic `chain`.
     //!
     //! ### Signature
     //! Given a Monad of data type `M`, a Foldable of data type `F(T)`,
@@ -436,7 +436,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! where `f(xk, -)` denotes the partial application of `f` to `xk`,
-    //! and `|` is just the operator version of the monadic `bind`.
+    //! and `|` is just the operator version of the monadic `chain`.
     //! It is worth noting that the order in which the binary function should
     //! expect its arguments is reversed from `monadic_fold<M>.left`.
     //!

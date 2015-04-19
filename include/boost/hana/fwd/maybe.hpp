@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     //! 5. `Monad` (operators provided)\n
     //! The `Maybe` `Monad` makes it easy to compose actions that might fail.
     //! One can feed an optional value if there is one into a function with
-    //! `bind`, which will return `nothing` if there is no value. Finally,
+    //! `chain`, which will return `nothing` if there is no value. Finally,
     //! optional-optional values can have their redundant level of
     //! `Maybe`ness removed with `flatten`.
     //! Example:

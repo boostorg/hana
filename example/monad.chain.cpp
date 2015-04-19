@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [bind]
+//! [chain]
 BOOST_HANA_CONSTEXPR_LAMBDA auto deref = [](auto x) -> decltype(*x) {
     return *x;
 };
@@ -20,7 +20,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto age = [](auto x) -> decltype(x.age) {
 };
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto f = [](auto x) {
-    return bind(sfinae(deref)(x), sfinae(age));
+    return chain(sfinae(deref)(x), sfinae(age));
 };
 
 struct Person {
@@ -40,4 +40,4 @@ int main() {
     // All is good.
     BOOST_HANA_CONSTEXPR_CHECK(f(&john) == just(30u));
 }
-//! [bind]
+//! [chain]

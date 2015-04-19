@@ -124,10 +124,10 @@ int main() {
         auto f = compose(monad, test::_injection<0>{});
         auto g = compose(monad, test::_injection<1>{});
 
-        // bind
+        // chain
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(monad(ct_eq<1>{}), f),
+                chain(monad(ct_eq<1>{}), f),
                 f(ct_eq<1>{})
             ));
         }
@@ -137,7 +137,7 @@ int main() {
             bool executed = false;
             auto exec = [&](auto) { executed = true; };
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(monad(ct_eq<0>{}), tap<M>(exec)),
+                chain(monad(ct_eq<0>{}), tap<M>(exec)),
                 monad(ct_eq<0>{})
             ));
             BOOST_HANA_RUNTIME_CHECK(executed);
@@ -158,12 +158,12 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(ct_eq<1>{}) | f,
-                bind(monad(ct_eq<1>{}), f)
+                chain(monad(ct_eq<1>{}), f)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(ct_eq<1>{}) | f | g,
-                bind(bind(monad(ct_eq<1>{}), f), g)
+                chain(chain(monad(ct_eq<1>{}), f), g)
             ));
         }
     }

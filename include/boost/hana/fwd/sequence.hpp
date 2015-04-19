@@ -141,8 +141,8 @@ namespace boost { namespace hana {
     //! Also note that the model of `Monad` for `Sequence`s can be seen as
     //! modeling nondeterminism. A nondeterministic computation can be
     //! modeled as a function which returns a sequence of possible results.
-    //! In this line of thought, `bind`ing such a function to a sequence
-    //! of values will return a sequence of all the possible output values,
+    //! In this line of thought, `chain`ing a sequence of values into such
+    //! a function will return a sequence of all the possible output values,
     //! i.e. a sequence of all the values applied to all the functions in
     //! the sequences.\n
     //! __Example__:

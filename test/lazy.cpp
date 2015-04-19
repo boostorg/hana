@@ -216,14 +216,14 @@ int main() {
     {
         auto f_ = compose(lazy, f);
 
-        // bind
+        // chain
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(lazy(ct_eq<0>{}), f_),
+                chain(lazy(ct_eq<0>{}), f_),
                 f_(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                bind(lazy(ct_eq<1>{}), f_),
+                chain(lazy(ct_eq<1>{}), f_),
                 f_(ct_eq<1>{})
             ));
         }

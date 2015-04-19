@@ -8,11 +8,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_MONAD_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/id.hpp>
 #include <boost/hana/monad.hpp>
 
 #include <laws/base.hpp>
@@ -38,62 +40,76 @@ namespace boost { namespace hana { namespace test {
                 auto h = hana::compose(lift<M>, test::_injection<2>{});
                 auto x = test::ct_eq<0>{};
 
-                // Laws formulated with mcompose:
+                //////////////////////////////////////////////////////////////
+                // Laws formulated with `monadic_compose`
+                //////////////////////////////////////////////////////////////
+                // associativity
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::monadic_compose(h, hana::monadic_compose(g, f))(x),
+                    hana::monadic_compose(hana::monadic_compose(h, g), f)(x)
+                ));
+
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::mcompose<M>(lift<M>, f)(x),
+                    hana::monadic_compose(lift<M>, f)(x),
                     f(x)
                 ));
 
                 // right identity
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::mcompose<M>(f, lift<M>)(x),
+                    hana::monadic_compose(f, lift<M>)(x),
                     f(x)
                 ));
 
-                // associativity
+                //////////////////////////////////////////////////////////////
+                // Laws formulated with `chain`
+                //
+                // This just provides us with some additional cross-checking,
+                // but the documentation does not mention those.
+                //////////////////////////////////////////////////////////////
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::mcompose<M>(hana::mcompose<M>(f, g), h)(x),
-                    hana::mcompose<M>(f, hana::mcompose<M>(g, h))(x)
-                ));
-
-
-                // Laws formulated with bind:
-                BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(hana::lift<M>(x), f),
+                    hana::chain(hana::lift<M>(x), f),
                     f(x)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(m, lift<M>),
+                    hana::chain(m, lift<M>),
                     m
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(m, [f, g](auto x) {
-                        return hana::bind(f(x), g);
+                    hana::chain(m, [f, g](auto x) {
+                        return hana::chain(f(x), g);
                     }),
-                    hana::bind(hana::bind(m, f), g)
+                    hana::chain(hana::chain(m, f), g)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::transform(m, f),
-                    hana::bind(m, hana::compose(lift<M>, f))
+                    hana::chain(m, hana::compose(lift<M>, f))
                 ));
 
-
-                // Consistency of the method definitions
+                //////////////////////////////////////////////////////////////
+                // Consistency of method definitions
+                //////////////////////////////////////////////////////////////
+                // consistency of `chain`
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(m, f),
+                    hana::chain(m, f),
                     hana::flatten(hana::transform(m, f))
                 ));
 
+                // consistency of `monadic_compose`
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::monadic_compose(f, g)(x),
+                    hana::chain(g(x), f)
+                ));
             });
 
+            // consistency of `flatten`
             hana::for_each(xxs, [](auto mm) {
                 BOOST_HANA_CHECK(hana::equal(
                     hana::flatten(mm),
-                    hana::bind(mm, id)
+                    hana::chain(mm, hana::id)
                 ));
             });
         }
@@ -142,35 +158,52 @@ namespace boost { namespace hana { namespace test {
             flatten(list(list(Tracked{1}, Tracked{2})));
 
             //////////////////////////////////////////////////////////////////
-            // bind
+            // chain
             //////////////////////////////////////////////////////////////////
             {
                 test::_injection<0> f{};
-                auto g = [=](auto x) { return list(f(x)); };
+                auto g = hana::compose(list, f);
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::bind(list(), g),
+                    hana::chain(list(), g),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::bind(list(ct_eq<1>{}), g),
+                    hana::chain(list(ct_eq<1>{}), g),
                     list(f(ct_eq<1>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}), g),
+                    hana::chain(list(ct_eq<1>{}, ct_eq<2>{}), g),
                     list(f(ct_eq<1>{}), f(ct_eq<2>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), g),
+                    hana::chain(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), g),
                     list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::bind(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), g),
+                    hana::chain(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), g),
                     list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}), f(ct_eq<4>{}))
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // monadic_compose
+            //////////////////////////////////////////////////////////////////
+            {
+                test::_injection<0> f{};
+                test::_injection<1> g{};
+
+                auto mf = [=](auto x) { return list(f(x), f(f(x))); };
+                auto mg = [=](auto x) { return list(g(x), g(g(x))); };
+
+                auto x = test::ct_eq<0>{};
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::monadic_compose(mf, mg)(x),
+                    list(f(g(x)), f(f(g(x))), f(g(g(x))), f(f(g(g(x)))))
                 ));
             }
         }

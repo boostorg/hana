@@ -335,7 +335,7 @@ namespace boost { namespace hana {
         struct permutations_helper {
             template <typename Xs>
             constexpr decltype(auto) operator()(Xs&& xs) const {
-                return hana::bind(
+                return hana::chain(
                     permutations_impl::apply(hana::tail(xs)),
                     hana::partial(insertions{}, hana::head(xs))
                 );

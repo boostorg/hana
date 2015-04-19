@@ -184,7 +184,7 @@ namespace boost { namespace hana {
         struct foldlM_helper {
             template <typename F, typename X, typename K, typename Z>
             constexpr decltype(auto) operator()(F&& f, X&& x, K&& k, Z&& z) const {
-                return hana::bind(
+                return hana::chain(
                     static_cast<F&&>(f)(
                         static_cast<Z&&>(z),
                         static_cast<X&&>(x)
@@ -262,7 +262,7 @@ namespace boost { namespace hana {
         struct foldrM_helper {
             template <typename F, typename K, typename X, typename Z>
             constexpr decltype(auto) operator()(F&& f, K&& k, X&& x, Z&& z) const {
-                return hana::bind(
+                return hana::chain(
                     static_cast<F&&>(f)(
                         static_cast<X&&>(x),
                         static_cast<Z&&>(z)

@@ -123,7 +123,7 @@ namespace boost { namespace hana {
     //
     // Define either one to select which MCD is used:
     //  BOOST_HANA_TEST_MONAD_FLATTEN_MCD
-    //  BOOST_HANA_TEST_MONAD_BIND_MCD
+    //  BOOST_HANA_TEST_MONAD_CHAIN_MCD
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ namespace boost { namespace hana {
     };
 #else
     template <>
-    struct bind_impl<test::Identity> {
+    struct chain_impl<test::Identity> {
         template <typename X, typename F>
         static constexpr auto apply(X x, F f)
         { return f(x.value); }

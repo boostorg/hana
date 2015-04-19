@@ -268,22 +268,22 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}), s, f),
-                    bind(f(s, x<1>{}), fp(x<2>{}))
+                    chain(f(s, x<1>{}), fp(x<2>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}), s, f),
-                    bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{}))
+                    chain(chain(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), s, f),
-                    bind(bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{}))
+                    chain(chain(chain(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), s, f),
-                    bind(bind(bind(bind(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
+                    chain(chain(chain(chain(f(s, x<1>{}), fp(x<2>{})), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
                 ));
             }
 
@@ -307,17 +307,17 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}), f),
-                    bind(f(x<1>{}, x<2>{}), fp(x<3>{}))
+                    chain(f(x<1>{}, x<2>{}), fp(x<3>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), f),
-                    bind(bind(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{}))
+                    chain(chain(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), f),
-                    bind(bind(bind(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
+                    chain(chain(chain(f(x<1>{}, x<2>{}), fp(x<3>{})), fp(x<4>{})), fp(x<5>{}))
                 ));
             }
 
@@ -329,8 +329,8 @@ namespace boost { namespace hana { namespace test {
                 auto f = hana::demux(test::identity)(test::_injection<0>{});
                 auto s = x<999>{};
                 auto fp = hana::curry<2>(f);
-                // flipping bind makes the right associativity easier to see
-                auto bind = hana::flip(hana::bind);
+                // flipping `chain` makes the right associativity easier to see
+                auto chain = hana::flip(hana::chain);
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(), s, undefined{}),
@@ -344,22 +344,22 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}), s, f),
-                    bind(fp(x<1>{}), f(x<2>{}, s))
+                    chain(fp(x<1>{}), f(x<2>{}, s))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}), s, f),
-                    bind(fp(x<1>{}), bind(fp(x<2>{}), f(x<3>{}, s)))
+                    chain(fp(x<1>{}), chain(fp(x<2>{}), f(x<3>{}, s)))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), s, f),
-                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), f(x<4>{}, s))))
+                    chain(fp(x<1>{}), chain(fp(x<2>{}), chain(fp(x<3>{}), f(x<4>{}, s))))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), s, f),
-                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), bind(fp(x<4>{}), f(x<5>{}, s)))))
+                    chain(fp(x<1>{}), chain(fp(x<2>{}), chain(fp(x<3>{}), chain(fp(x<4>{}), f(x<5>{}, s)))))
                 ));
             }
 
@@ -370,8 +370,8 @@ namespace boost { namespace hana { namespace test {
                 using M = test::Identity;
                 auto f = hana::demux(test::identity)(test::_injection<0>{});
                 auto fp = hana::curry<2>(f);
-                // flipping bind makes the right associativity easier to see
-                auto bind = hana::flip(hana::bind);
+                // flipping `chain` makes the right associativity easier to see
+                auto chain = hana::flip(hana::chain);
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}), undefined{}),
@@ -385,17 +385,17 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}), f),
-                    bind(fp(x<1>{}), f(x<2>{}, x<3>{}))
+                    chain(fp(x<1>{}), f(x<2>{}, x<3>{}))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), f),
-                    bind(fp(x<1>{}), bind(fp(x<2>{}), f(x<3>{}, x<4>{})))
+                    chain(fp(x<1>{}), chain(fp(x<2>{}), f(x<3>{}, x<4>{})))
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     monadic_fold<M>.right(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}, x<5>{}), f),
-                    bind(fp(x<1>{}), bind(fp(x<2>{}), bind(fp(x<3>{}), f(x<4>{}, x<5>{}))))
+                    chain(fp(x<1>{}), chain(fp(x<2>{}), chain(fp(x<3>{}), f(x<4>{}, x<5>{}))))
                 ));
             }
 

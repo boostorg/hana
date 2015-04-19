@@ -223,7 +223,7 @@ int main() {
                 incr(undefined{}), nothing
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                bind(just(1), incr), just(2)
+                chain(just(1), incr), just(2)
             ));
 
             // using `sfinae` with a non-pod argument used to fail

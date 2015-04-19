@@ -48,12 +48,12 @@ namespace boost { namespace hana { namespace test {
                 // absorption
                 auto f = hana::compose(lift<M>, test::_injection<0>{});
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(empty<M>(), f),
+                    hana::chain(empty<M>(), f),
                     empty<M>()
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::bind(a, hana::always(empty<M>())),
+                    hana::chain(a, hana::always(empty<M>())),
                     empty<M>()
                 ));
 

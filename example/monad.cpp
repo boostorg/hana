@@ -33,7 +33,7 @@ BOOST_HANA_CONSTANT_CHECK(flatten(just(nothing)) == nothing);
 
 }{
 
-//! [mcompose]
+//! [monadic_compose]
 BOOST_HANA_CONSTEXPR_LAMBDA auto block = [](auto ...types) {
     return [=](auto x) {
         return if_(elem(make<Tuple>(types...), decltype_(x)),
@@ -45,11 +45,11 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto block = [](auto ...types) {
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto f = block(type<double>);
 BOOST_HANA_CONSTEXPR_LAMBDA auto g = block(type<int>);
-BOOST_HANA_CONSTEXPR_LAMBDA auto h = mcompose<Maybe>(f, g);
-BOOST_HANA_CONSTANT_CHECK(h(1)    == nothing);   // fails inside g; 1 has type int
+BOOST_HANA_CONSTEXPR_LAMBDA auto h = monadic_compose(g, f);
+BOOST_HANA_CONSTANT_CHECK(h(1)    == nothing); // fails inside g; 1 has type int
 BOOST_HANA_CONSTANT_CHECK(h(1.2)  == nothing); // fails inside f; 1.2 has type double
 BOOST_HANA_CONSTEXPR_CHECK(h('x') == just('x')); // ok; 'x' has type char
-//! [mcompose]
+//! [monadic_compose]
 
 }{
 

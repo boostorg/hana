@@ -21,28 +21,31 @@ namespace boost { namespace hana {
     //! The `Comonad` concept represents context-sensitive computations and
     //! data.
     //!
-    //! Formally, the Comonad concept is dual to the Monad concept. But unless
-    //! you're a mathematician, you don't care about that and it's fine.
-    //! So intuitively, a Comonad represents context sensitive values and
-    //! computations. First, Comonads make it possible to extract
+    //! Formally, the Comonad concept is dual to the Monad concept.
+    //! But unless you're a mathematician, you don't care about that and it's
+    //! fine. So intuitively, a Comonad represents context sensitive values
+    //! and computations. First, Comonads make it possible to extract
     //! context-sensitive values from their context with `extract`.
     //! In contrast, Monads make it possible to wrap raw values into
-    //! a given context with `lift` (from Applicative). Second, Comonads
-    //! make it possible to apply context-sensitive values to functions
-    //! accepting those, and to return the result as a context-sensitive
-    //! value using `extend`. In contrast, Monads make it possible to apply
-    //! a monadic value to a function accepting a normal value and returning
-    //! a monadic value, and to return the result as a monadic value (with
-    //! `bind`). Finally, Comonads make it possible to wrap a context-sensitive
-    //! value into an extra layer of context using `duplicate`, while Monads
-    //! make it possible to take a value with an extra layer of context and
-    //! to strip it with `flatten`.
+    //! a given context with `lift` (from Applicative).
     //!
-    //! Whereas `lift`, `bind` and `flatten` from Applicative and Monad have
+    //! Second, Comonads make it possible to apply context-sensitive values
+    //! to functions accepting those, and to return the result as a
+    //! context-sensitive value using `extend`. In contrast, Monads make
+    //! it possible to apply a monadic value to a function accepting a normal
+    //! value and returning a monadic value, and to return the result as a
+    //! monadic value (with `chain`).
+    //!
+    //! Finally, Comonads make it possible to wrap a context-sensitive value
+    //! into an extra layer of context using `duplicate`, while Monads make
+    //! it possible to take a value with an extra layer of context and to
+    //! strip it with `flatten`.
+    //!
+    //! Whereas `lift`, `chain` and `flatten` from Applicative and Monad have
     //! types
     //! \f{align*}{
     //!     \mathrm{lift}_M &: T \to M(T) \\
-    //!     \mathrm{bind} &: M(T) \times (T \to M(U)) \to M(U) \\
+    //!     \mathrm{chain} &: M(T) \times (T \to M(U)) \to M(U) \\
     //!     \mathrm{flatten} &: M(M(T)) \to M(T)
     //! \f}
     //!
