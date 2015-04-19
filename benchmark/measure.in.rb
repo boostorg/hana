@@ -22,6 +22,7 @@ require 'ruby-progressbar'
 require 'tilt'
 
 
+# aspect must be one of :compilation_time, :bloat, :execution_time
 def time(template_relative, range, aspect)
   measure_file = Pathname.new("@CMAKE_CURRENT_SOURCE_DIR@/measure.cpp")
   template = Pathname.new(template_relative).expand_path("@CMAKE_CURRENT_SOURCE_DIR@")
@@ -47,14 +48,17 @@ def time(template_relative, range, aspect)
     # the `compile.benchmark.measure` CMake target is setup.
     stdout, stderr, status = make["compile.benchmark.measure"]
     raise "compilation error: #{stderr}\n\n#{code}" if not status.success?
-    match = stdout.match(/\[compilation time: (.+)\]/i)
+    ctime = stdout.match(/\[compilation time: (.+)\]/i)
+    # Size of the generated executable in KB
+    size = File.size("@CMAKE_CURRENT_BINARY_DIR@/compile.benchmark.measure").to_f / 1000
 
     # If we didn't match anything, that's because we went too fast, CMake
     # did not have the time to see the changes to the measure file and
     # the target was not rebuilt. So we sleep for a bit and then retry
     # this iteration.
-    (sleep 0.2; redo) if match.nil?
-    stat = match.captures[0].to_f if aspect == :compilation_time
+    (sleep 0.2; redo) if ctime.nil?
+    stat = ctime.captures[0].to_f if aspect == :compilation_time
+    stat = size if aspect == :bloat
 
     # Run the resulting program and get timing statistics. The statistics
     # should be written to stdout by the `measure` function of the
