@@ -15,7 +15,6 @@ var searchData=
   ['max',['max',['../structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e',1,'boost::hana::Orderable']]],
   ['maximum',['maximum',['../structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1',1,'boost::hana::Foldable']]],
   ['maybe',['maybe',['../structboost_1_1hana_1_1Maybe.html#a6529e11cb228e99a05e81071752807d5',1,'boost::hana::Maybe']]],
-  ['mcompose',['mcompose',['../structboost_1_1hana_1_1Monad.html#ab745f6bdedf122ce589f336ff1ff3323',1,'boost::hana::Monad']]],
   ['members',['members',['../structboost_1_1hana_1_1Record.html#a5ae5ec12bb6524e05cc4750b203c194e',1,'boost::hana::Record']]],
   ['metafunction',['metafunction',['../structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085',1,'boost::hana::Metafunction']]],
   ['metafunction_5fclass',['metafunction_class',['../structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a',1,'boost::hana::Metafunction']]],
@@ -23,6 +22,7 @@ var searchData=
   ['minimum',['minimum',['../structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4',1,'boost::hana::Foldable']]],
   ['minus',['minus',['../structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]],
   ['models',['models',['../group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946',1,'boost::hana']]],
+  ['monadic_5fcompose',['monadic_compose',['../structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce',1,'boost::hana::Monad']]],
   ['monadic_5ffold',['monadic_fold',['../structboost_1_1hana_1_1Foldable.html#a9d423c33a801e7cf2058faa19423d991',1,'boost::hana::Foldable']]],
   ['mult',['mult',['../structboost_1_1hana_1_1Ring.html#aca4df2fde91ca9c046282c6ec0f9bc3d',1,'boost::hana::Ring']]]
 ];
