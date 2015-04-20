@@ -60,14 +60,28 @@ matrix:
     - env: CLANG_VERSION=3.7 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang37
 
-    # benchmarks
+    # Release benchmarks
+    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+      addons: *clang35
+
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+      addons: *clang36
+
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+      addons: *clang37
+
+    # Debug benchmarks
+    #
+    # Note: We do _not_ run the Debug benchmarks on Clang 3.5, because it does not
+    # have support for debug information for `auto`, and it produces compilation
+    # errors. So we use the default build type instead for Clang 3.5.
     - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true
       addons: *clang35
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang36
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true
+    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang37
 
 
@@ -137,7 +151,7 @@ before_script:
   # Setup the build directory
   - mkdir build
   - cd build
-  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build -DVALGRIND_COMMAND=valgrind
+  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build -DVALGRIND_COMMAND=valgrind -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
 
 
 script:
@@ -146,16 +160,19 @@ script:
   - if [[ "${DOCUMENTATION}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc; fi
   - if [[ "${DOCUMENTATION}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push &>/dev/null; fi
 
-  # Similarly, only push the benchmarks if we're on master and not in a pull request,
-  # otherwise just run them.
+  # We only run the benchmarks on `master` when we're not in a pull request, because
+  # otherwise it takes too much Travis resources. Note that we don't exit earlier in the
+  # script because we still want to make sure our dependencies can be installed when we
+  # push on develop. This is just to minimize the chances of breaking the build on master.
   #
-  # We pre-clone, so the next datasets.clone will just pull, which is pretty quick.
-  # This reduces the risk of push conflicts when these jobs all run at the same time.
-  # When we push, we use travis_retry to try again if we encounter a push conflict,
-  # and we disable the output to avoid leaking the GitHub token.
+  # When we run the benchmarks, we pre-clone the datasets branch, so the next datasets.clone
+  # will just pull, which is pretty quick. This reduces the risk of push conflicts when these
+  # jobs all run at the same time. When we push, we use travis_retry to try again if we encounter
+  # a push conflict, and we disable the output to avoid leaking the GitHub token.
+  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then exit; fi
   - if [[ "${BENCHMARKS}" == "true" ]]; then make benchmarks -k; fi
   - if [[ "${BENCHMARKS}" == "true" ]]; then make datasets.clone; fi
-  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
+  - if [[ "${BENCHMARKS}" == "true" ]]; then travis_retry make datasets.push &>/dev/null; fi
 
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.headers compile.examples -k -j2 &>/dev/null; fi
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.all -k; fi

@@ -24,7 +24,7 @@ if (NOT GIT_FOUND)
 endif()
 
 add_custom_target(gh-pages.clone
-    COMMAND [ -e ${CMAKE_SOURCE_DIR}/doc/gh-pages ] || ${GIT_EXECUTABLE} clone ${BOOST_HANA_ORIGIN_URL} --branch=gh-pages doc/gh-pages
+    COMMAND [ -e ${CMAKE_SOURCE_DIR}/doc/gh-pages ] || ${GIT_EXECUTABLE} clone ${BOOST_HANA_ORIGIN_URL} --depth 1 --branch=gh-pages doc/gh-pages
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
     COMMENT "Cloning the gh-pages branch into the doc/gh-pages directory"
     VERBATIM

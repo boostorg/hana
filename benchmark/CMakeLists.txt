@@ -135,22 +135,27 @@ endif()
 
 set(DATASETS_DIR "${CMAKE_SOURCE_DIR}/benchmark/datasets")
 string(TOLOWER "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}" COMPILER_SLUG)
+if (CMAKE_BUILD_TYPE)
+    string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE_SLUG)
+else()
+    set(BUILD_TYPE_SLUG "default")
+endif()
 
 add_custom_target(datasets.clone
     COMMAND ${RUBY_EXECUTABLE}
-    -e "if File.directory?('${DATASETS_DIR}')                                                   "
-    -e "  Dir.chdir('${DATASETS_DIR}')                                                          "
-    -e "  `${GIT_EXECUTABLE} pull`                                                              "
-    -e "else                                                                                    "
-    -e "  `${GIT_EXECUTABLE} clone ${BOOST_HANA_ORIGIN_URL} --branch=datasets ${DATASETS_DIR}`  "
-    -e "end                                                                                     "
+    -e "if File.directory?('${DATASETS_DIR}')                                                             "
+    -e "  Dir.chdir('${DATASETS_DIR}')                                                                    "
+    -e "  `${GIT_EXECUTABLE} pull`                                                                        "
+    -e "else                                                                                              "
+    -e "  `${GIT_EXECUTABLE} clone ${BOOST_HANA_ORIGIN_URL} --depth 1 --branch=datasets ${DATASETS_DIR}`  "
+    -e "end                                                                                               "
     COMMENT "Cloning the 'datasets' branch into the 'benchmark/datasets' directory"
     VERBATIM
 )
 
 add_custom_target(datasets.clean
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${DATASETS_DIR}/${COMPILER_SLUG}
-    COMMENT "Removing ${DATASETS_DIR}/${COMPILER_SLUG}"
+    COMMENT "Removing ${DATASETS_DIR}/${BUILD_TYPE_SLUG}/${COMPILER_SLUG}"
     DEPENDS datasets.clone
     VERBATIM
 )
@@ -161,8 +166,8 @@ add_custom_target(datasets.copy
 )
 foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     add_custom_target(${benchmark}.copy
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${DATASETS_DIR}/${COMPILER_SLUG}
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${benchmark}.json ${DATASETS_DIR}/${COMPILER_SLUG}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${DATASETS_DIR}/${BUILD_TYPE_SLUG}/${COMPILER_SLUG}
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${benchmark}.json ${DATASETS_DIR}/${BUILD_TYPE_SLUG}/${COMPILER_SLUG}
         DEPENDS ${benchmark} datasets.clean
         VERBATIM
     )
@@ -171,7 +176,7 @@ endforeach()
 
 add_custom_target(datasets.commit
     COMMAND ${GIT_EXECUTABLE} add --all .
-    COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Update benchmarks to ${BOOST_HANA_CURRENT_COMMIT} for ${COMPILER_SLUG}"
+    COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Update benchmarks to ${BOOST_HANA_CURRENT_COMMIT} for build type '${BUILD_TYPE_SLUG}' and compiler '${COMPILER_SLUG}'"
     WORKING_DIRECTORY ${DATASETS_DIR}
     COMMENT "Updating the datasets clone with the newest benchmarks"
     DEPENDS datasets.copy
