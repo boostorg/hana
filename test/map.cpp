@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/foldable.hpp>
 #include <laws/searchable.hpp>
 #include <test/minimal_product.hpp>
-#include <test/minimal_record.hpp>
 #include <test/seq.hpp>
 using namespace boost::hana;
 
@@ -35,7 +34,6 @@ struct undefined { };
 int main() {
     auto list = test::seq; (void)list;
     auto foldable = test::seq; (void)foldable;
-    auto record = test::minimal_record; (void)record;
     using L = test::Seq;
 
     auto eq_maps = make<Tuple>(
@@ -160,17 +158,6 @@ int main() {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     {
-        // Record -> Map
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Map>(record(test::ct_eq<1>{}, test::ct_eq<2>{})),
-                make<Map>(
-                    make<Pair>(test::member1, test::ct_eq<1>{}),
-                    make<Pair>(test::member2, test::ct_eq<2>{})
-                )
-            ));
-        }
-
         // Foldable -> Map
         {
             BOOST_HANA_CONSTANT_CHECK(equal(

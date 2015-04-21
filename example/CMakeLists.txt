@@ -28,10 +28,12 @@ file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
 if (NOT Boost_FOUND)
     file(GLOB_RECURSE _examples_that_require_Boost
         "ext/boost/*.cpp"
-        "record.macros.cpp"
-        "tutorial/type.cpp"
+        "misc/mini_mpl.cpp"
+        "struct.cpp"
+        "struct.macros.cpp"
         "tutorial/mpl_cheatsheet.cpp"
-        "misc/mini_mpl.cpp")
+        "tutorial/type.cpp"
+    )
     list(REMOVE_ITEM BOOST_HANA_EXAMPLE_SOURCES ${_examples_that_require_Boost})
 endif()
 

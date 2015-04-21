@@ -28,10 +28,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/product.hpp>
-#include <boost/hana/record.hpp>
 #include <boost/hana/ring.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/sequence.hpp>
+#include <boost/hana/struct.hpp>
 #include <boost/hana/traversable.hpp>
 
 // Data types

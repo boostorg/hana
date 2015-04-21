@@ -67,9 +67,9 @@ file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
     "integral_constant.cpp"
     "map.cpp"
     "maybe.cpp"
-    "minimal_record.cpp"
     "set.cpp"
     "string.cpp"
+    "struct.cpp"
     "tuple.cpp"
 )
 
@@ -83,8 +83,7 @@ file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
 if (NOT Boost_FOUND)
     file(GLOB_RECURSE _tests_that_require_Boost
         "ext/boost/*.cpp"
-        "record.macros.cpp"
-        "record.fold_move_only.cpp")
+        "struct_macros.*.cpp")
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_tests_that_require_Boost})
 
     file(GLOB_RECURSE _headers_that_require_boost
@@ -93,17 +92,15 @@ if (NOT Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost/*.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/record_macros.hpp")
+        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/struct_macros.hpp")
     list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_headers_that_require_boost})
 endif()
 
 if (Boost_FOUND)
     if (${Boost_VERSION} LESS 105800)
-        message(WARNING
-            "The Boost version was detected to be < 1.58.0; "
-            "the fusion::deque and fusion::list adapters are "
-            "not being tested because of bugs in Boost.Fusion.")
-
+        # If the version of Boost is < 1.58.0, the fusion::deque and
+        # fusion::list adapters are not being tested because of bugs
+        # in Boost.Fusion.
         list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
             "boost/hana/ext/boost/fusion/deque.hpp"
             "boost/hana/fwd/ext/boost/fusion/deque.hpp"
@@ -116,24 +113,21 @@ if (Boost_FOUND)
         list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
     endif()
 
-    message(WARNING
-        "Tests for fusion::deque's model of MonadPlus and Sequence are "
-        "disabled because of bugs in Boost.Fusion.")
+    # Currently, the tests for fusion::deque's models of MonadPlus and Sequence
+    # are disabled due to bugs in Fusion.
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/monad_plus.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/sequence.cpp")
 
-    message(WARNING
-        "Tests for fusion::list's model of Monad, MonadPlus and "
-        "Sequence are disabled because of bugs in Boost.Fusion.")
+    # Currently, the tests for fusion::list's models of Monad, MonadPlus and
+    # Sequence are disabled due to bugs in Fusion.
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad_plus.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/sequence.cpp")
 
-    message(WARNING
-        "Tests for fusion::tuple's model of Monad are disabled because "
-        "of a bug in Boost.Fusion.")
+    # Currently, the test for fusion::tuple's model of Monad is disabled
+    # because of a bug in Fusion.
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp")
 endif()

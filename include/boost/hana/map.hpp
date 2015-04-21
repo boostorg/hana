@@ -31,7 +31,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
-#include <boost/hana/record.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -174,38 +173,10 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Conversions
+    // Construction from a Foldable
     //////////////////////////////////////////////////////////////////////////
-    namespace map_detail {
-        struct extract {
-            template <typename X, typename Member>
-            constexpr decltype(auto) operator()(X&& x, Member&& member) const {
-                using P = typename datatype<Member>::type;
-                return hana::make<P>(
-                    hana::first(static_cast<Member&&>(member)),
-                    hana::second(static_cast<Member&&>(member))(
-                        static_cast<X&&>(x)
-                    )
-                );
-            }
-        };
-    }
-
-    template <typename R>
-    struct to_impl<Map, R, when<_models<Record, R>{}()>> {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x) {
-            return hana::to<Map>(
-                hana::transform(members<R>(),
-                    hana::partial(map_detail::extract{},
-                                  static_cast<X&&>(x))));
-        }
-    };
-
     template <typename F>
-    struct to_impl<Map, F, when<_models<Foldable, F>{}() &&
-                                !_models<Record, F>{}()>>
-    {
+    struct to_impl<Map, F, when<_models<Foldable, F>{}()>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold.left(

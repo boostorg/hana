@@ -7,41 +7,44 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
-#include <boost/hana/record.hpp>
+#include <boost/hana/string.hpp>
+#include <boost/hana/struct.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
 
 #include <string>
 #include <utility>
 using namespace boost::hana;
 
 
+//! [main]
 struct Person {
     std::string name;
     int age;
 };
 
 // The keys can be anything as long as they are compile-time comparable.
-constexpr auto name = decltype_(&Person::name);
-constexpr auto age = decltype_(&Person::age);
+constexpr auto name = integral_constant<std::string Person::*, &Person::name>;
+constexpr auto age = string<'a', 'g', 'e'>;
 
 namespace boost { namespace hana {
     template <>
-    struct members_impl<Person> {
+    struct accessors_impl<Person> {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
-            return make<Tuple>(
-                make<Pair>(name, [](auto&& p) -> decltype(auto) {
+            return make_tuple(
+                make_pair(name, [](auto&& p) -> decltype(auto) {
                     return id(std::forward<decltype(p)>(p).name);
                 }),
-                make<Pair>(age, [](auto&& p) -> decltype(auto) {
+                make_pair(age, [](auto&& p) -> decltype(auto) {
                     return id(std::forward<decltype(p)>(p).age);
                 })
             );
         }
     };
 }}
+//! [main]
 
 int main() {
     Person john{"John", 30}, bob{"Bob", 40};
@@ -52,7 +55,11 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(find(john, age) == just(30));
     BOOST_HANA_CONSTANT_CHECK(find(john, "clearly not a member") == nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>("John", 30));
+    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>(
+        make<Pair>(name, "John"),
+        make<Pair>(age, 30)
+    ));
+
     BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make<Map>(
         make<Pair>(name, "John"),
         make<Pair>(age, 30)

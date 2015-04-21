@@ -42,15 +42,9 @@ namespace boost { namespace hana {
     //! @snippet example/map.cpp Foldable
     //!
     //!
-    //! Provided conversions
-    //! --------------------
-    //! 1. From any `Record`\n
-    //! Converting a `Record` to a `Map` creates a map where the keys are
-    //! the keys associated to each member of the `Record`, and the values
-    //! are the members associated to those keys.
-    //! @snippet example/map.from_record.cpp main
-    //!
-    //! 2. From any `Foldable`\n
+    //! Provided constructions
+    //! ----------------------
+    //! 1. From any `Foldable`\n
     //! Converts a `Foldable` of `Product`s to a `Map`. If the structure
     //! contains duplicate keys, only the value associated to the first
     //! occurence of each key is kept.
