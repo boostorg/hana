@@ -126,8 +126,7 @@ before_script:
   # Go back to the root of the project.
   - cd ${TRAVIS_BUILD_DIR}
 
-  # Set the git identity (for pushing the documentation)
-  - git config --global user.email "ldionne.2@gmail.com"
+  # Set the git identity (for pushing the documentation and the benchmarks)
   - git config --global user.name "Travis bot"
 
   # Check baseline memory usage; useful to know when OOMs occur
