@@ -57,14 +57,14 @@ namespace boost { namespace hana { namespace test {
                 );
 
                 // operators
-                only_when_(bool_<has_operator<T, decltype(equal)>{}>,
+                only_when_(has_operator<T, decltype(equal)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::equal(a, b) ^iff^ (a == b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<T, decltype(not_equal)>{}>,
+                only_when_(has_operator<T, decltype(not_equal)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::not_equal(a, b) ^iff^ (a != b)
@@ -89,7 +89,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestComparable<C, when<_models<Constant, C>{}>>
+    struct TestComparable<C, when<_models<Constant, C>{}()>>
         : TestComparable<C, laws>
     {
         template <typename Xs>
@@ -106,7 +106,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestComparable<P, when<_models<Product, P>{}>> : TestComparable<P, laws> {
+    struct TestComparable<P, when<_models<Product, P>{}>>
+        : TestComparable<P, laws>
+    {
         template <typename Products>
         TestComparable(Products products) : TestComparable<P, laws>{products} {
             foreach2(products, [](auto x, auto y) {
@@ -122,7 +124,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestComparable<S, when<_models<Sequence, S>{}>> : TestComparable<S, laws> {
+    struct TestComparable<S, when<_models<Sequence, S>{}>>
+        : TestComparable<S, laws>
+    {
         template <int i>
         using x = _constant<i>;
 

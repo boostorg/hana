@@ -58,11 +58,11 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    static_assert(has_operator<Person, decltype(equal)>{}, "");
-    static_assert(has_operator<Person, decltype(not_equal)>{}, "");
+    static_assert(has_operator<Person, decltype(equal)>, "");
+    static_assert(has_operator<Person, decltype(not_equal)>, "");
 
-    static_assert(has_operator<Employee, decltype(equal)>{}, "");
-    static_assert(has_operator<Employee, decltype(not_equal)>{}, "");
+    static_assert(has_operator<Employee, decltype(equal)>, "");
+    static_assert(has_operator<Employee, decltype(not_equal)>, "");
 
     Person john{"John"}, bill{"Bill"};
     BOOST_HANA_RUNTIME_CHECK(john == john && john != bill);

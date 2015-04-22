@@ -231,7 +231,7 @@ int main() {
         }
 
         // operators
-        static_assert(has_operator<Range, decltype(at)>{}, "");
+        static_assert(has_operator<Range, decltype(at)>, "");
 
         // laws
         test::TestIterable<Range>{ranges};

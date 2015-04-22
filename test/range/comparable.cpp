@@ -80,8 +80,8 @@ int main() {
         }
 
         // operators
-        static_assert(has_operator<Range, decltype(equal)>{}, "");
-        static_assert(has_operator<Range, decltype(not_equal)>{}, "");
+        static_assert(has_operator<Range, decltype(equal)>, "");
+        static_assert(has_operator<Range, decltype(not_equal)>, "");
 
         // laws
         test::TestComparable<Range>{ranges};

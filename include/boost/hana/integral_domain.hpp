@@ -33,15 +33,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(rem)>::value ||
-            has_operator<datatype_t<Y>, decltype(rem)>::value
+            _has_operator<datatype_t<X>, decltype(rem)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(rem)>{}()
         >>
         constexpr decltype(auto) operator%(X&& x, Y&& y)
         { return hana::rem(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(quot)>::value ||
-            has_operator<datatype_t<Y>, decltype(quot)>::value
+            _has_operator<datatype_t<X>, decltype(quot)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(quot)>{}()
         >>
         constexpr decltype(auto) operator/(X&& x, Y&& y)
         { return hana::quot(static_cast<X&&>(x), static_cast<Y&&>(y)); }
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct quot_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}
+        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -85,7 +85,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct rem_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}
+        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -101,8 +101,8 @@ namespace boost { namespace hana {
     template <typename D>
     struct models_impl<IntegralDomain, D>
         : _integral_constant<bool,
-            !is_default<rem_impl<D, D>>{} &&
-            !is_default<quot_impl<D, D>>{}
+            !is_default<rem_impl<D, D>>{}() &&
+            !is_default<quot_impl<D, D>>{}()
         >
     { };
 
@@ -110,14 +110,14 @@ namespace boost { namespace hana {
     // Model for integral data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct quot_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
+    struct quot_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) / static_cast<Y&&>(y); }
     };
 
     template <typename T>
-    struct rem_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}>> {
+    struct rem_impl<T, T, when<detail::std::is_non_boolean_integral<T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) % static_cast<Y&&>(y); }
@@ -128,7 +128,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct quot_impl<C, C, when<
-        _models<Constant, C>{} && _models<IntegralDomain, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<IntegralDomain, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -148,7 +149,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct rem_impl<C, C, when<
-        _models<Constant, C>{} && _models<IntegralDomain, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<IntegralDomain, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>

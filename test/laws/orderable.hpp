@@ -63,28 +63,28 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(greater_equal.than(a)(b) ^iff^ hana::greater_equal(b, a));
 
                 // operators
-                only_when_(bool_<has_operator<T, decltype(less)>{}>,
+                only_when_(has_operator<T, decltype(less)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::less(a, b) ^iff^ (a < b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<T, decltype(less_equal)>{}>,
+                only_when_(has_operator<T, decltype(less_equal)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::less_equal(a, b) ^iff^ (a <= b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<T, decltype(greater_equal)>{}>,
+                only_when_(has_operator<T, decltype(greater_equal)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::greater_equal(a, b) ^iff^ (a >= b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<T, decltype(greater)>{}>,
+                only_when_(has_operator<T, decltype(greater)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::greater(a, b) ^iff^ (a > b)
@@ -109,7 +109,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestOrderable<C, when<_models<Constant, C>{}>>
+    struct TestOrderable<C, when<_models<Constant, C>{}()>>
         : TestOrderable<C, laws>
     {
         template <typename Xs>
@@ -126,9 +126,13 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestOrderable<P, when<_models<Product, P>{}>> : TestOrderable<P, laws> {
+    struct TestOrderable<P, when<_models<Product, P>{}()>>
+        : TestOrderable<P, laws>
+    {
         template <typename Products>
-        TestOrderable(Products products) : TestOrderable<P, laws>{products} {
+        TestOrderable(Products products)
+            : TestOrderable<P, laws>{products}
+        {
             foreach2(products, [](auto x, auto y) {
                 BOOST_HANA_CHECK(
                     hana::less(x, y) ^iff^
@@ -145,7 +149,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestOrderable<S, when<_models<Sequence, S>{}>> : TestOrderable<S, laws> {
+    struct TestOrderable<S, when<_models<Sequence, S>{}>>
+        : TestOrderable<S, laws>
+    {
         struct invalid { };
 
         template <typename Xs>

@@ -103,21 +103,21 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(false_valued(hana::and_(a, hana::not_(a))));
 
                 // operators
-                only_when_(bool_<has_operator<L, decltype(or_)>{}>,
+                only_when_(has_operator<L, decltype(or_)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::or_(a, b) ^iff^ (a || b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<L, decltype(and_)>{}>,
+                only_when_(has_operator<L, decltype(and_)>,
                 hana::lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(
                         hana::and_(a, b) ^iff^ (a && b)
                     );
                 })(a, b));
 
-                only_when_(bool_<has_operator<L, decltype(not_)>{}>,
+                only_when_(has_operator<L, decltype(not_)>,
                 hana::lazy([](auto a) {
                     BOOST_HANA_CHECK(
                         hana::not_(a) ^iff^ !a
@@ -129,7 +129,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestLogical<C, when<_models<Constant, C>{}>>
+    struct TestLogical<C, when<_models<Constant, C>{}()>>
         : TestLogical<C, laws>
     {
         template <typename Xs>

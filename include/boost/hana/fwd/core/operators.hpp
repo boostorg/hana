@@ -18,10 +18,9 @@ namespace boost { namespace hana {
     //! operators, which are sometimes more expressive. Those operators
     //! are contained in the namespace `boost::hana::operators`. In all
     //! cases, the operators must be explicitly asked for in order to be
-    //! enabled for objects of a data type. This works by specializing the
-    //! `has_operator` metafunction, or by doing anything equivalent as
-    //! documented by `has_operator`. However, unary and binary operators are
-    //! handled a bit differently, as is explained next.
+    //! enabled for objects of a data type. Exactly how to do this is
+    //! documented by `operators::of`. However, unary and binary operators
+    //! are handled a bit differently, as is explained next.
     //!
     //! For a unary operator `@` aliasing a method `m` and an argument
     //! of a data type `T`, the operator is enabled only when
@@ -68,7 +67,7 @@ namespace boost { namespace hana {
         //!
         //! While `operators::adl` makes the operators visible to lookup for
         //! the objects of a type, it is still required to enable them
-        //! explicitly with `has_operator`.
+        //! explicitly with `operators::of`.
         //!
         //!
         //! Example
@@ -81,10 +80,10 @@ namespace boost { namespace hana {
         //!
         //! Given a data type `T`, `operators::of<T>` should inherit from all
         //! the methods whose operator aliases are enabled for objects of data
-        //! type `T`. The methods inherited by this trait are checked by the
-        //! `has_operator` metafunction; if `operators::of<T>` inherits from
-        //! `decltype(m)` for some method `m`, then
-        //! `has_operator<T, decltype(m)>` will return true.
+        //! type `T`. The methods inherited by this trait are checked by
+        //! `has_operator`; if `operators::of<T>` inherits from `decltype(m)`
+        //! for some method `m`, then `has_operator<T, decltype(m)>` will
+        //! be true.
         //!
         //! However, while explicit specialization of `operators::of` is
         //! possible, another way of customizing this trait is provided.
@@ -203,10 +202,13 @@ namespace boost { namespace hana {
     //! @include example/core/operators.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Datatype, typename Method>
-    struct has_operator;
+    constexpr auto has_operator = see-documentation;
 #else
     template <typename Datatype, typename Method, typename = void>
-    struct has_operator;
+    struct _has_operator;
+
+    template <typename Datatype, typename Method>
+    constexpr _has_operator<Datatype, Method> has_operator{};
 #endif
 }} // end namespace boost::hana
 

@@ -36,14 +36,14 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(minus)>::value ||
-            has_operator<datatype_t<Y>, decltype(minus)>::value
+            _has_operator<datatype_t<X>, decltype(minus)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(minus)>{}()
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y)
         { return hana::minus(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(negate)>::value
+            _has_operator<datatype_t<X>, decltype(negate)>{}()
         >>
         constexpr decltype(auto) operator-(X&& x)
         { return hana::negate(static_cast<X&&>(x)); }
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct minus_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Group, T, U>{}
+        detail::has_nontrivial_common_embedding<Group, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -101,8 +101,8 @@ namespace boost { namespace hana {
     template <typename G>
     struct models_impl<Group, G>
         : _integral_constant<bool,
-            !is_default<negate_impl<G>>{} ||
-            !is_default<minus_impl<G, G>>{}
+            !is_default<negate_impl<G>>{}() ||
+            !is_default<minus_impl<G, G>>{}()
         >
     { };
 
@@ -110,14 +110,14 @@ namespace boost { namespace hana {
     // Model for arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+    struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) - static_cast<Y&&>(y); }
     };
 
     template <typename T>
-    struct negate_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+    struct negate_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
         { return -static_cast<X&&>(x); }
@@ -128,7 +128,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct minus_impl<C, C, when<
-        _models<Constant, C>{} && _models<Group, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Group, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>

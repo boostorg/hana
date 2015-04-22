@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(plus)>::value ||
-            has_operator<datatype_t<Y>, decltype(plus)>::value
+            _has_operator<datatype_t<X>, decltype(plus)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(plus)>{}()
         >>
         constexpr decltype(auto) operator+(X&& x, Y&& y)
         { return hana::plus(static_cast<X&&>(x), static_cast<Y&&>(y)); }
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct plus_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Monoid, T, U>{}
+        detail::has_nontrivial_common_embedding<Monoid, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -82,8 +82,8 @@ namespace boost { namespace hana {
     template <typename M>
     struct models_impl<Monoid, M>
         : _integral_constant<bool,
-            !is_default<zero_impl<M>>{} &&
-            !is_default<plus_impl<M, M>>{}
+            !is_default<zero_impl<M>>{}() &&
+            !is_default<plus_impl<M, M>>{}()
         >
     { };
 
@@ -92,7 +92,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct plus_impl<T, T, when<
-        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
+        detail::std::is_arithmetic<T>{}() &&
+        !detail::std::is_same<T, bool>{}()
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
@@ -101,7 +102,8 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct zero_impl<T, when<
-        detail::std::is_arithmetic<T>{} && !detail::std::is_same<T, bool>{}
+        detail::std::is_arithmetic<T>{}() &&
+        !detail::std::is_same<T, bool>{}()
     >> {
         static constexpr T apply()
         { return static_cast<T>(0); }
@@ -112,7 +114,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct plus_impl<C, C, when<
-        _models<Constant, C>{} && _models<Monoid, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Monoid, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -132,7 +135,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct zero_impl<C, when<
-        _models<Constant, C>{} && _models<Monoid, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Monoid, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         struct _constant {

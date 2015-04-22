@@ -83,8 +83,8 @@ int main() {
         ));
 
         // operators
-        static_assert(has_operator<String, decltype(equal)>{}, "");
-        static_assert(has_operator<String, decltype(not_equal)>{}, "");
+        static_assert(has_operator<String, decltype(equal)>, "");
+        static_assert(has_operator<String, decltype(not_equal)>, "");
 
         // laws
         auto strings = make<Tuple>(
@@ -250,7 +250,7 @@ int main() {
         }
 
         // operators
-        static_assert(has_operator<String, decltype(at)>{}, "");
+        static_assert(has_operator<String, decltype(at)>, "");
 
         // laws
         test::TestIterable<String>{strings};
@@ -298,10 +298,10 @@ int main() {
         ));
 
         // operators
-        static_assert(has_operator<String, decltype(less)>{}, "");
-        static_assert(has_operator<String, decltype(less_equal)>{}, "");
-        static_assert(has_operator<String, decltype(greater)>{}, "");
-        static_assert(has_operator<String, decltype(greater_equal)>{}, "");
+        static_assert(has_operator<String, decltype(less)>, "");
+        static_assert(has_operator<String, decltype(less_equal)>, "");
+        static_assert(has_operator<String, decltype(greater)>, "");
+        static_assert(has_operator<String, decltype(greater_equal)>, "");
 
         // laws
         auto strings = make<Tuple>(

@@ -35,15 +35,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(equal)>::value ||
-            has_operator<datatype_t<Y>, decltype(equal)>::value
+            _has_operator<datatype_t<X>, decltype(equal)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(equal)>{}()
         >>
         constexpr decltype(auto) operator==(X&& x, Y&& y)
         { return hana::equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(not_equal)>::value ||
-            has_operator<datatype_t<Y>, decltype(not_equal)>::value
+            _has_operator<datatype_t<X>, decltype(not_equal)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(not_equal)>{}()
         >>
         constexpr decltype(auto) operator!=(X&& x, Y&& y)
         { return hana::not_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
@@ -74,8 +74,8 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct equal_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Comparable, T, U>{} &&
-        !detail::EqualityComparable<T, U>{}
+        detail::has_nontrivial_common_embedding<Comparable, T, U>{}() &&
+        !detail::EqualityComparable<T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct not_equal_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Comparable, T, U>{}
+        detail::has_nontrivial_common_embedding<Comparable, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Comparable, T>
         : _integral_constant<bool,
-            !is_default<equal_impl<T, T>>{}
+            !is_default<equal_impl<T, T>>{}()
         >
     { };
 
@@ -155,7 +155,7 @@ namespace boost { namespace hana {
     // Model for EqualityComparable data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<detail::EqualityComparable<T, U>{}>> {
+    struct equal_impl<T, U, when<detail::EqualityComparable<T, U>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) == static_cast<Y&&>(y); }
@@ -166,7 +166,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct equal_impl<C, C, when<
-        _models<Constant, C>{} && _models<Comparable, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Comparable, typename C::value_type>{}()
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {

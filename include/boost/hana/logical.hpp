@@ -37,30 +37,25 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = typename detail::std::enable_if<
-            has_operator<datatype_t<X>, decltype(and_)>::value ||
-            has_operator<datatype_t<Y>, decltype(and_)>::value
-        >::type>
-        constexpr decltype(auto) operator&&(X&& x, Y&& y) {
-            return hana::and_(static_cast<X&&>(x),
-                              static_cast<Y&&>(y));
-        }
+        template <typename X, typename Y, typename = detail::std::enable_if_t<
+            _has_operator<datatype_t<X>, decltype(and_)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(and_)>{}()
+        >>
+        constexpr decltype(auto) operator&&(X&& x, Y&& y)
+        { return hana::and_(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename Y, typename = typename detail::std::enable_if<
-            has_operator<datatype_t<X>, decltype(or_)>::value ||
-            has_operator<datatype_t<Y>, decltype(or_)>::value
-        >::type>
-        constexpr decltype(auto) operator||(X&& x, Y&& y) {
-            return hana::or_(static_cast<X&&>(x),
-                             static_cast<Y&&>(y));
-        }
+        template <typename X, typename Y, typename = detail::std::enable_if_t<
+            _has_operator<datatype_t<X>, decltype(or_)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(or_)>{}()
+        >>
+        constexpr decltype(auto) operator||(X&& x, Y&& y)
+        { return hana::or_(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename = typename detail::std::enable_if<
-            has_operator<datatype_t<X>, decltype(not_)>::value
-        >::type>
-        constexpr decltype(auto) operator!(X&& x) {
-            return hana::not_(static_cast<X&&>(x));
-        }
+        template <typename X, typename = detail::std::enable_if_t<
+            _has_operator<datatype_t<X>, decltype(not_)>{}()
+        >>
+        constexpr decltype(auto) operator!(X&& x)
+        { return hana::not_(static_cast<X&&>(x)); }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -209,9 +204,9 @@ namespace boost { namespace hana {
     template <typename L>
     struct models_impl<Logical, L>
         : _integral_constant<bool,
-            !is_default<eval_if_impl<L>>{} &&
-            !is_default<not_impl<L>>{} &&
-            !is_default<while_impl<L>>{}
+            !is_default<eval_if_impl<L>>{}() &&
+            !is_default<not_impl<L>>{}() &&
+            !is_default<while_impl<L>>{}()
         >
     { };
 
@@ -219,7 +214,7 @@ namespace boost { namespace hana {
     // Model for arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename L>
-    struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}>> {
+    struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
         template <typename Cond, typename T, typename E>
         static constexpr auto apply(Cond const& cond, T&& t, E&& e) {
             return cond ? hana::eval(static_cast<T&&>(t))
@@ -228,14 +223,14 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct not_impl<L, when<detail::std::is_arithmetic<L>{}>> {
+    struct not_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
         template <typename Cond>
         static constexpr Cond apply(Cond const& cond)
         { return static_cast<Cond>(cond ? false : true); }
     };
 
     template <typename L>
-    struct while_impl<L, when<detail::std::is_arithmetic<L>{}>> {
+    struct while_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
         template <typename Pred, typename State, typename F>
         static auto apply(Pred&& pred, State&& state, F&& f)
             -> decltype(
@@ -260,7 +255,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct eval_if_impl<C, when<
-        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
+        _models<Constant, C>{}() &&
+        _models<Logical, typename C::value_type>{}()
     >> {
         template <typename Then, typename Else>
         static constexpr decltype(auto)
@@ -284,7 +280,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct not_impl<C, when<
-        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
+        _models<Constant, C>{}() &&
+        _models<Logical, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename Cond>
@@ -300,7 +297,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct while_impl<C, when<
-        _models<Constant, C>{}() && _models<Logical, typename C::value_type>{}()
+        _models<Constant, C>{}() &&
+        _models<Logical, typename C::value_type>{}()
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State

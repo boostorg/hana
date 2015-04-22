@@ -36,29 +36,29 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(less)>::value ||
-            has_operator<datatype_t<Y>, decltype(less)>::value
+            _has_operator<datatype_t<X>, decltype(less)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(less)>{}()
         >>
         constexpr decltype(auto) operator<(X&& x, Y&& y)
         { return hana::less(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(less_equal)>::value ||
-            has_operator<datatype_t<Y>, decltype(less_equal)>::value
+            _has_operator<datatype_t<X>, decltype(less_equal)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(less_equal)>{}()
         >>
         constexpr decltype(auto) operator<=(X&& x, Y&& y)
         { return hana::less_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(greater)>::value ||
-            has_operator<datatype_t<Y>, decltype(greater)>::value
+            _has_operator<datatype_t<X>, decltype(greater)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(greater)>{}()
         >>
         constexpr decltype(auto) operator>(X&& x, Y&& y)
         { return hana::greater(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(greater_equal)>::value ||
-            has_operator<datatype_t<Y>, decltype(greater_equal)>::value
+            _has_operator<datatype_t<X>, decltype(greater_equal)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(greater_equal)>{}()
         >>
         constexpr decltype(auto) operator>=(X&& x, Y&& y)
         { return hana::greater_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }

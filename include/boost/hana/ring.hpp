@@ -36,8 +36,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename X, typename Y, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<X>, decltype(mult)>::value ||
-            has_operator<datatype_t<Y>, decltype(mult)>::value
+            _has_operator<datatype_t<X>, decltype(mult)>{}() ||
+            _has_operator<datatype_t<Y>, decltype(mult)>{}()
         >>
         constexpr decltype(auto) operator*(X&& x, Y&& y)
         { return hana::mult(static_cast<X&&>(x), static_cast<Y&&>(y)); }
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct mult_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Ring, T, U>{}
+        detail::has_nontrivial_common_embedding<Ring, T, U>{}()
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -102,8 +102,8 @@ namespace boost { namespace hana {
     template <typename R>
     struct models_impl<Ring, R>
         : _integral_constant<bool,
-            !is_default<one_impl<R>>{} &&
-            !is_default<mult_impl<R, R>>{}
+            !is_default<one_impl<R>>{}() &&
+            !is_default<mult_impl<R, R>>{}()
         >
     { };
 
@@ -111,14 +111,14 @@ namespace boost { namespace hana {
     // Model for non-boolean arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+    struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) * static_cast<Y&&>(y); }
     };
 
     template <typename T>
-    struct one_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}>> {
+    struct one_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
         static constexpr T apply()
         { return static_cast<T>(1); }
     };
@@ -128,7 +128,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct mult_impl<C, C, when<
-        _models<Constant, C>{} && _models<Ring, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Ring, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X, typename Y>
@@ -148,7 +149,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct one_impl<C, when<
-        _models<Constant, C>{} && _models<Ring, typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        _models<Ring, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         struct _constant {

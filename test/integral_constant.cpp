@@ -166,9 +166,9 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(plus)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(minus)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(negate)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(plus)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(minus)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(negate)>, "");
 
         // laws
         test::TestEnumerable<IntegralConstant<int>>{ints};
@@ -182,9 +182,9 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(mult)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(quot)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(rem)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(mult)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(quot)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(rem)>, "");
 
         // laws
         test::TestRing<IntegralConstant<int>>{ints};
@@ -219,9 +219,9 @@ int main() {
         }
 
         // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(not_)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(and_)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(or_)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(not_)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(and_)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(or_)>, "");
 
         // laws
         auto ints = make<Tuple>(int_<-2>, int_<0>, int_<1>, int_<3>);
@@ -235,8 +235,8 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(equal)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(not_equal)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(equal)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(not_equal)>, "");
 
         // laws
         test::TestComparable<IntegralConstant<int>>{ints};
@@ -248,10 +248,10 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(less)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(less_equal)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(greater)>{}, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(greater_equal)>{}, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(less)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(less_equal)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(greater)>, "");
+        static_assert(has_operator<IntegralConstant<int>, decltype(greater_equal)>, "");
 
         // laws
         test::TestOrderable<IntegralConstant<int>>{ints};

@@ -81,7 +81,7 @@ namespace boost { namespace hana { namespace test {
                 }));
 
                 // operators
-                only_when_(bool_<has_operator<It, decltype(at)>{}>, hana::lazy([](auto xs) {
+                only_when_(has_operator<It, decltype(at)>, hana::lazy([](auto xs) {
                     hana::for_each(hana::make_range(size_t<0>, hana::length(xs)),
                     hana::capture(xs)([](auto xs, auto n) {
                         BOOST_HANA_CHECK(hana::equal(

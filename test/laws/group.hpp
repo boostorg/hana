@@ -63,7 +63,7 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 // operators
-                only_when_(bool_<has_operator<G, decltype(minus)>{}>,
+                only_when_(has_operator<G, decltype(minus)>,
                 hana::lazy([](auto x, auto y) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::minus(x, y),
@@ -71,7 +71,7 @@ namespace boost { namespace hana { namespace test {
                     ));
                 })(x, y));
 
-                only_when_(bool_<has_operator<G, decltype(negate)>{}>,
+                only_when_(has_operator<G, decltype(negate)>,
                 hana::lazy([](auto x) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::negate(x),

@@ -25,6 +25,6 @@ struct Nested {
     };
 };
 
-static_assert(boost::hana::has_operator<Nested, decltype(method)>{}, "");
+static_assert(boost::hana::has_operator<Nested, decltype(method)>, "");
 
 int main() { }

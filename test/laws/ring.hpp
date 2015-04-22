@@ -49,7 +49,7 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     // operators
-                    only_when_(bool_<has_operator<R, decltype(mult)>{}>,
+                    only_when_(has_operator<R, decltype(mult)>,
                     hana::lazy([](auto x, auto y) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::mult(x, y),
@@ -104,7 +104,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestRing<C, when<_models<Constant, C>{}>>
+    struct TestRing<C, when<_models<Constant, C>{}()>>
         : TestRing<C, laws>
     {
         template <typename Xs>

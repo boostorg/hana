@@ -55,7 +55,7 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     // operators
-                    only_when_(bool_<has_operator<D, decltype(rem)>{}>,
+                    only_when_(has_operator<D, decltype(rem)>,
                     hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::rem(a, b),
@@ -63,7 +63,7 @@ namespace boost { namespace hana { namespace test {
                         ));
                     })(a, b));
 
-                    only_when_(bool_<has_operator<D, decltype(quot)>{}>,
+                    only_when_(has_operator<D, decltype(quot)>,
                     hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::quot(a, b),

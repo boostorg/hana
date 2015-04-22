@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <typename Xs, typename F, typename = detail::std::enable_if_t<
-            has_operator<datatype_t<Xs>, decltype(chain)>::value
+            _has_operator<datatype_t<Xs>, decltype(chain)>{}()
         >>
         constexpr decltype(auto) operator|(Xs&& xs, F&& f)
         { return hana::chain(static_cast<Xs&&>(xs), static_cast<F&&>(f)); }
@@ -142,8 +142,8 @@ namespace boost { namespace hana {
     template <typename M>
     struct models_impl<Monad, M>
         : _integral_constant<bool,
-            !is_default<flatten_impl<M>>{} ||
-            !is_default<chain_impl<M>>{}
+            !is_default<flatten_impl<M>>{}() ||
+            !is_default<chain_impl<M>>{}()
         >
     { };
 

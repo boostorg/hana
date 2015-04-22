@@ -46,8 +46,10 @@ namespace boost { namespace hana { namespace test {
                     a
                 ));
 
-                hana::for_each(xs, hana::capture(xs, a)([](auto xs, auto a, auto b) {
-                    hana::for_each(xs, hana::capture(a, b)([](auto a, auto b, auto c) {
+                hana::for_each(xs,
+                hana::capture(xs, a)([](auto xs, auto a, auto b) {
+                    hana::for_each(xs,
+                    hana::capture(a, b)([](auto a, auto b, auto c) {
                         // associativity
                         BOOST_HANA_CHECK(equal(
                             hana::plus(a, hana::plus(b, c)),
@@ -56,7 +58,7 @@ namespace boost { namespace hana { namespace test {
                     }));
 
                     // operators
-                    only_when_(bool_<has_operator<M, decltype(plus)>{}>,
+                    only_when_(has_operator<M, decltype(plus)>,
                     hana::lazy([](auto a, auto b) {
                         BOOST_HANA_CHECK(hana::equal(
                             hana::plus(a, b),
@@ -71,7 +73,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestMonoid<C, when<_models<Constant, C>{}>>
+    struct TestMonoid<C, when<_models<Constant, C>{}()>>
         : TestMonoid<C, laws>
     {
         template <typename Xs>

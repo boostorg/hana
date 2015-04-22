@@ -106,7 +106,7 @@ namespace boost { namespace hana { namespace test {
                 }));
 
                 // operators
-                only_when_(bool_<has_operator<S, decltype(find)>{}()>,
+                only_when_(has_operator<S, decltype(find)>,
                 hana::lazy(hana::capture(keys)([](auto keys, auto xs) {
                     hana::for_each(keys, hana::capture(xs)([](auto xs, auto key) {
                         BOOST_HANA_CHECK(hana::equal(
@@ -120,7 +120,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestSearchable<S, when<_models<Sequence, S>{}>>
+    struct TestSearchable<S, when<_models<Sequence, S>{}()>>
         : TestSearchable<S, laws>
     {
         template <int i>
@@ -130,7 +130,9 @@ namespace boost { namespace hana { namespace test {
         struct invalid { };
 
         template <typename Xs, typename Keys>
-        TestSearchable(Xs xs, Keys keys) : TestSearchable<S, laws>{xs, keys} {
+        TestSearchable(Xs xs, Keys keys)
+            : TestSearchable<S, laws>{xs, keys}
+        {
             constexpr auto list = make<S>;
 
             BOOST_HANA_CONSTEXPR_LAMBDA auto is_even = [](auto x) {
