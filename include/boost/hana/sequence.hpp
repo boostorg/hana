@@ -1064,7 +1064,7 @@ namespace boost { namespace hana {
     // make
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct make_impl<S, when<_models<Sequence, S>{}>> {
+    struct make_impl<S, when<_models<Sequence, S>{}()>> {
         template <typename ...X>
         static constexpr decltype(auto) apply(X&& ...x) {
             return detail::variadic::foldr1(
@@ -1080,16 +1080,16 @@ namespace boost { namespace hana {
     struct Sequence::equal_impl {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto)
-        equal_helper(Xs const& xs, Ys const& ys, detail::std::true_type) {
+        equal_helper(Xs const& xs, Ys const& ys, decltype(true_)) {
             return hana::and_(hana::is_empty(xs), hana::is_empty(ys));
         }
 
         template <typename Xs, typename Ys>
         static constexpr decltype(auto)
-        equal_helper(Xs const& xs, Ys const& ys, detail::std::false_type) {
+        equal_helper(Xs const& xs, Ys const& ys, decltype(false_)) {
             return hana::and_(
                 hana::equal(hana::head(xs), hana::head(ys)),
-                apply(hana::tail(xs), hana::tail(ys))
+                equal_impl::apply(hana::tail(xs), hana::tail(ys))
             );
         }
 
@@ -1100,21 +1100,19 @@ namespace boost { namespace hana {
                 ? hana::and_(hana::is_empty(xs), hana::is_empty(ys))
                 : hana::and_(
                     hana::equal(hana::head(xs), hana::head(ys)),
-                    apply(hana::tail(xs), hana::tail(ys))
+                    equal_impl::apply(hana::tail(xs), hana::tail(ys))
                   );
         }
 
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
             auto done = hana::or_(hana::is_empty(xs), hana::is_empty(ys));
-            return equal_helper(xs, ys, hana::if_(done,
-                                            detail::std::true_type{},
-                                            detail::std::false_type{}));
+            return equal_helper(xs, ys, hana::if_(done, true_, false_));
         }
     };
 
     template <typename T, typename U>
-    struct equal_impl<T, U, when<_models<Sequence, T>{} && _models<Sequence, U>{}>>
+    struct equal_impl<T, U, when<_models<Sequence, T>{}() && _models<Sequence, U>{}()>>
         : Sequence::equal_impl<T, U>
     { };
 
@@ -1123,28 +1121,29 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
     struct Sequence::less_impl {
-        using yes = detail::std::true_type;
-        using no = detail::std::false_type;
-
         template <typename Xs, typename Ys>
-        static constexpr auto less_helper(Xs const&, Ys const&, yes, yes)
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(true_), decltype(true_))
         { return false_; }
 
         template <typename Xs, typename Ys>
-        static constexpr auto less_helper(Xs const&, Ys const&, yes, no)
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(true_), decltype(false_))
         { return true_; }
 
         template <typename Xs, typename Ys>
-        static constexpr auto less_helper(Xs const&, Ys const&, no, yes)
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(false_), decltype(true_))
         { return false_; }
 
         template <typename Xs, typename Ys>
-        static constexpr auto less_helper(Xs const& xs, Ys const& ys, no, no) {
+        static constexpr auto
+        less_helper(Xs const& xs, Ys const& ys, decltype(false_), decltype(false_)) {
             return hana::or_(
                 hana::less(hana::head(xs), hana::head(ys)),
                 hana::and_(
                     hana::equal(hana::head(xs), hana::head(ys)),
-                    apply(hana::tail(xs), hana::tail(ys))
+                    less_impl::apply(hana::tail(xs), hana::tail(ys))
                 )
             );
         }
@@ -1160,7 +1159,7 @@ namespace boost { namespace hana {
                 hana::less(hana::head(xs), hana::head(ys)),
                 hana::and_(
                     hana::equal(hana::head(xs), hana::head(ys)),
-                    apply(hana::tail(xs), hana::tail(ys))
+                    less_impl::apply(hana::tail(xs), hana::tail(ys))
                 )
             );
         }
@@ -1168,13 +1167,13 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
             return less_helper(xs, ys,
-                hana::if_(hana::is_empty(xs), yes{}, no{}),
-                hana::if_(hana::is_empty(ys), yes{}, no{}));
+                hana::if_(hana::is_empty(xs), true_, false_),
+                hana::if_(hana::is_empty(ys), true_, false_));
         }
     };
 
     template <typename T, typename U>
-    struct less_impl<T, U, when<_models<Sequence, T>{} && _models<Sequence, U>{}>>
+    struct less_impl<T, U, when<_models<Sequence, T>{}() && _models<Sequence, U>{}()>>
         : Sequence::less_impl<T, U>
     { };
 
@@ -1191,7 +1190,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct transform_impl<S, when<_models<Sequence, S>{}>>
+    struct transform_impl<S, when<_models<Sequence, S>{}()>>
         : Sequence::transform_impl<S>
     { };
 
@@ -1206,12 +1205,12 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct ap_impl<S, when<_models<Sequence, S>{}>>
+    struct ap_impl<S, when<_models<Sequence, S>{}()>>
         : Monad::ap_impl<S>
     { };
 
     template <typename S>
-    struct lift_impl<S, when<_models<Sequence, S>{}>>
+    struct lift_impl<S, when<_models<Sequence, S>{}()>>
         : Sequence::lift_impl<S>
     { };
 
@@ -1226,7 +1225,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct flatten_impl<S, when<_models<Sequence, S>{}>>
+    struct flatten_impl<S, when<_models<Sequence, S>{}()>>
         : Sequence::flatten_impl<S>
     { };
 
@@ -1243,7 +1242,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct concat_impl<S, when<_models<Sequence, S>{}>>
+    struct concat_impl<S, when<_models<Sequence, S>{}()>>
         : Sequence::concat_impl<S>
     { };
 
@@ -1251,22 +1250,22 @@ namespace boost { namespace hana {
     // Automatic model of Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct fold_left_impl<S, when<_models<Sequence, S>{}>>
+    struct fold_left_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::fold_left_impl<S>
     { };
 
     template <typename S>
-    struct fold_right_impl<S, when<_models<Sequence, S>{}>>
+    struct fold_right_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::fold_right_impl<S>
     { };
 
     template <typename S>
-    struct fold_left_nostate_impl<S, when<_models<Sequence, S>{}>>
+    struct fold_left_nostate_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::fold_left_nostate_impl<S>
     { };
 
     template <typename S>
-    struct fold_right_nostate_impl<S, when<_models<Sequence, S>{}>>
+    struct fold_right_nostate_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::fold_right_nostate_impl<S>
     { };
 
@@ -1274,12 +1273,12 @@ namespace boost { namespace hana {
     // Automatic model of Searchable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct find_if_impl<S, when<_models<Sequence, S>{}>>
+    struct find_if_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::find_if_impl<S>
     { };
 
     template <typename S>
-    struct any_of_impl<S, when<_models<Sequence, S>{}>>
+    struct any_of_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::any_of_impl<S>
     { };
 
@@ -1293,7 +1292,7 @@ namespace boost { namespace hana {
                 return hana::ap(
                     hana::transform(
                         static_cast<F&&>(f)(static_cast<X&&>(x)),
-                        curry<2>(prepend)
+                        hana::curry<2>(prepend)
                     ),
                     static_cast<Ys&&>(ys)
                 );
@@ -1305,14 +1304,16 @@ namespace boost { namespace hana {
     struct Sequence::traverse_impl {
         template <typename A, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::fold.right(static_cast<Xs&&>(xs), lift<A>(empty<S>()),
+            return hana::fold.right(
+                static_cast<Xs&&>(xs),
+                hana::lift<A>(empty<S>()),
                 hana::partial(sequence_detail::traverse_helper{},
                               static_cast<F&&>(f)));
         }
     };
 
     template <typename S>
-    struct traverse_impl<S, when<_models<Sequence, S>{}>>
+    struct traverse_impl<S, when<_models<Sequence, S>{}()>>
         : Sequence::traverse_impl<S>
     { };
 }} // end namespace boost::hana
