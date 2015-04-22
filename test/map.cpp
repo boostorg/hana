@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/map.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
@@ -342,89 +343,90 @@ int main() {
         }
 
         // laws
+        static_assert(has_operator<Map, decltype(find)>, "");
         test::TestSearchable<Map>{eq_maps, eq_keys};
     }
 
-#elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
+#elif BOOST_HANA_TEST_PART == 5
+    // fold.left
     {
-        // fold.left
-        {
-            test::_injection<0> f{};
-            test::ct_eq<999> state{};
+        test::_injection<0> f{};
+        test::ct_eq<999> state{};
 
-            auto check = [=](auto ...pairs) {
-                BOOST_HANA_CONSTANT_CHECK(
-                    fold.left(make<Map>(pairs...), state, f)
-                        ^in^
-                    transform(permutations(list(pairs...)), [=](auto xs) {
-                        return fold.left(xs, state, f);
-                    })
-                );
-            };
+        auto check = [=](auto ...pairs) {
+            BOOST_HANA_CONSTANT_CHECK(
+                fold.left(make<Map>(pairs...), state, f)
+                    ^in^
+                transform(permutations(list(pairs...)), [=](auto xs) {
+                    return fold.left(xs, state, f);
+                })
+            );
+        };
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(make<Map>(), state, undefined{}),
-                state
-            ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            fold.left(make<Map>(), state, undefined{}),
+            state
+        ));
 
-            check(p<1, 1>);
-            check(p<1, 1>, p<2, 2>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
-        }
-
-        // fold.right
-        {
-            test::_injection<0> f{};
-            test::ct_eq<999> state{};
-
-            auto check = [=](auto ...pairs) {
-                BOOST_HANA_CONSTANT_CHECK(
-                    fold.right(make<Map>(pairs...), state, f)
-                        ^in^
-                    transform(permutations(list(pairs...)), [=](auto xs) {
-                        return fold.right(xs, state, f);
-                    })
-                );
-            };
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(make<Map>(), state, undefined{}),
-                state
-            ));
-
-            check(p<1, 1>);
-            check(p<1, 1>, p<2, 2>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
-        }
-
-        // unpack
-        {
-            test::_injection<0> f{};
-
-            auto check = [=](auto ...pairs) {
-                BOOST_HANA_CONSTANT_CHECK(
-                    unpack(make<Map>(pairs...), f)
-                        ^in^
-                    transform(permutations(list(pairs...)), [=](auto xs) {
-                        return unpack(xs, f);
-                    })
-                );
-            };
-
-            check();
-            check(p<1, 1>);
-            check(p<1, 1>, p<2, 2>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>);
-            check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
-        }
-
-        // laws
-        test::TestFoldable<Map>{eq_maps};
+        check(p<1, 1>);
+        check(p<1, 1>, p<2, 2>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
     }
+
+#elif BOOST_HANA_TEST_PART == 6
+    // fold.right
+    {
+        test::_injection<0> f{};
+        test::ct_eq<999> state{};
+
+        auto check = [=](auto ...pairs) {
+            BOOST_HANA_CONSTANT_CHECK(
+                fold.right(make<Map>(pairs...), state, f)
+                    ^in^
+                transform(permutations(list(pairs...)), [=](auto xs) {
+                    return fold.right(xs, state, f);
+                })
+            );
+        };
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            fold.right(make<Map>(), state, undefined{}),
+            state
+        ));
+
+        check(p<1, 1>);
+        check(p<1, 1>, p<2, 2>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
+    }
+
+#elif BOOST_HANA_TEST_PART == 7
+    // unpack
+    {
+        test::_injection<0> f{};
+
+        auto check = [=](auto ...pairs) {
+            BOOST_HANA_CONSTANT_CHECK(
+                unpack(make<Map>(pairs...), f)
+                    ^in^
+                transform(permutations(list(pairs...)), [=](auto xs) {
+                    return unpack(xs, f);
+                })
+            );
+        };
+
+        check();
+        check(p<1, 1>);
+        check(p<1, 1>, p<2, 2>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>);
+        check(p<1, 1>, p<2, 2>, p<3, 3>, p<4, 4>);
+    }
+
+    // laws
+    test::TestFoldable<Map>{eq_maps};
 #endif
 }

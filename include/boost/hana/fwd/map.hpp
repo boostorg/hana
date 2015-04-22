@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! to equal values.
     //! @snippet example/map.cpp Comparable
     //!
-    //! 2. `Searchable`\n
+    //! 2. `Searchable` (operators provided)\n
     //! A map can be searched by its keys with a predicate yielding a
     //! compile-time `Logical`.
     //! @snippet example/map.cpp Searchable

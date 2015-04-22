@@ -191,16 +191,6 @@ namespace boost { namespace hana {
     //! `Iterable::fold_{left,right}_nostate_impl`.
     //!
     //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operator is provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     xs[n]  ->  at(n, xs)
-    //! @endcode
-    //! To take advantage of this operator for a type `T`, `T` must inherit
-    //! `hana::operators::Iterable_ops<T>`.
-    //!
     //! [1]: https://github.com/ldionne/hana/issues/40
     struct Iterable {
         template <typename It> struct fold_left_impl;
@@ -341,14 +331,27 @@ namespace boost { namespace hana {
     //! contain at least `n + 1` elements.
     //!
     //!
+    //! Operator-form
+    //! -------------
+    //! For convenience, the `at` method can be applied to `Iterable`s
+    //! that support it by using the `[]` operator. Hence, if `xs`
+    //! supports the operator,
+    //! @code
+    //!     xs[n] == at(n, xs)
+    //! @endcode
+    //!
+    //! To take advantage of this operator for a type `T`, `T` must inherit
+    //! `hana::operators::Iterable_ops<T>`.
+    //!
+    //! @note
+    //! The same operator is provided for the `find` method of the `Searchable`
+    //! concept. When a data type is a model of both `Iterable` and
+    //! `Searchable`, which operator is used should be documented properly.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/iterable.cpp at
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/iterable/at.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;

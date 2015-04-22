@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! both commutative and associative will yield non-deterministic behavior.
     //! @snippet example/set.cpp Foldable
     //!
-    //! 3. Searchable\n
+    //! 3. Searchable (operators provided)\n
     //! The elements in a `Set` act as both its keys and its values. Since the
     //! elements of a set are unique, searching for an element will return
     //! either the only element which is equal to the searched value, or

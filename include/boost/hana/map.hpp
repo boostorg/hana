@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     // _map
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Pairs>
-    struct _map : operators::adl {
+    struct _map : operators::adl, operators::Searchable_ops<_map<Pairs...>> {
         _tuple<Pairs...> storage;
         using hana = _map;
         using datatype = Map;
@@ -54,6 +54,11 @@ namespace boost { namespace hana {
             : storage{static_cast<Ys&&>(ys)...}
         { }
     };
+
+    template <>
+    struct operators::of<Map>
+        : operators::of<Searchable, Comparable>
+    { };
 
     //////////////////////////////////////////////////////////////////////////
     // make<Map>
@@ -112,14 +117,6 @@ namespace boost { namespace hana {
             );
         }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Operators
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<Map>
-        : operators::of<Comparable>
-    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

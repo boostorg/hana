@@ -13,8 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/capture.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/searchable.hpp>
 
 #include <laws/base.hpp>
@@ -102,12 +104,25 @@ namespace boost { namespace hana { namespace test {
                         hana::any_of(xs, equal.to(key))
                     );
                 }));
+
+                // operators
+                only_when_(bool_<has_operator<S, decltype(find)>{}()>,
+                hana::lazy(hana::capture(keys)([](auto keys, auto xs) {
+                    hana::for_each(keys, hana::capture(xs)([](auto xs, auto key) {
+                        BOOST_HANA_CHECK(hana::equal(
+                            xs[key],
+                            hana::find(xs, key)
+                        ));
+                    }));
+                }))(xs));
             }));
         }
     };
 
     template <typename S>
-    struct TestSearchable<S, when<_models<Sequence, S>{}>> : TestSearchable<S, laws> {
+    struct TestSearchable<S, when<_models<Sequence, S>{}>>
+        : TestSearchable<S, laws>
+    {
         template <int i>
         using x = _constant<i>;
 

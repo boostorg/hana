@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/forward.hpp>
@@ -31,6 +32,38 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    namespace operators {
+        template <typename Derived>
+        struct Searchable_ops {
+            template <typename Key>
+            constexpr decltype(auto) operator[](Key&& key) const& {
+                return hana::find(
+                    static_cast<Derived const&>(*this),
+                    static_cast<Key&&>(key)
+                );
+            }
+
+            template <typename Key>
+            constexpr decltype(auto) operator[](Key&& key) & {
+                return hana::find(
+                    static_cast<Derived&>(*this),
+                    static_cast<Key&&>(key)
+                );
+            }
+
+            template <typename Key>
+            constexpr decltype(auto) operator[](Key&& key) && {
+                return hana::find(
+                    static_cast<Derived&&>(*this),
+                    static_cast<Key&&>(key)
+                );
+            }
+        };
+    }
+
     //////////////////////////////////////////////////////////////////////////
     // any_of
     //////////////////////////////////////////////////////////////////////////

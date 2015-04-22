@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/set.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/operators.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -251,6 +252,7 @@ int main() {
         }
 
         // laws
+        static_assert(has_operator<Set, decltype(find)>, "");
         test::TestSearchable<Set>{eqs, keys};
     }
 

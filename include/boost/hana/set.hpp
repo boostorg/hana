@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     // _set
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Xs>
-    struct _set : operators::adl {
+    struct _set : operators::adl, operators::Searchable_ops<_set<Xs...>> {
         _tuple<Xs...> storage;
         using hana = _set;
         using datatype = Set;
@@ -50,6 +50,11 @@ namespace boost { namespace hana {
         { }
     };
 
+    template <>
+    struct operators::of<Set>
+        : operators::of<Comparable, Searchable>
+    { };
+
     //////////////////////////////////////////////////////////////////////////
     // make<Set>
     //////////////////////////////////////////////////////////////////////////
@@ -62,14 +67,6 @@ namespace boost { namespace hana {
             };
         }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Operators
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct operators::of<Set>
-        : operators::of<Comparable>
-    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

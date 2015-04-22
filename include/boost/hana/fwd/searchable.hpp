@@ -16,9 +16,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/infix.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
+    namespace operators {
+        template <typename Derived>
+        struct Searchable_ops;
+    }
+
     //! @ingroup group-concepts
     //! The `Searchable` concept represents structures that can be searched.
     //!
@@ -133,9 +139,6 @@ namespace boost { namespace hana {
     //! As usual, such a structure-preserving transformation is said to
     //! be an embedding if it is also injective, i.e. if it is a lossless
     //! transformation.
-    //!
-    //! @todo
-    //! We should provide a member `operator[]` equivalent to `find`.
     struct Searchable { };
 
     //! Returns whether any key of the structure satisfies the `predicate`.
@@ -523,6 +526,24 @@ namespace boost { namespace hana {
     //! of the structure must return a compile-time `Logical`.
     //!
     //!
+    //! Operator-form
+    //! -------------
+    //! For convenience, the `find` method can be applied to `Searchable`s
+    //! that support it by using the `[]` operator. Hence, if `xs` supports
+    //! the operator,
+    //! @code
+    //!     xs[a] == find(xs, a)
+    //! @endcode
+    //!
+    //! To take advantage of this operator for a type `T`, `T` must inherit
+    //! `hana::operators::Searchable_ops<T>`.
+    //!
+    //! @note
+    //! The same operator is provided for the `at` method of the `Iterable`
+    //! concept. When a data type is a model of both `Searchable` and
+    //! `Iterable`, which operator is used should be documented properly.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/searchable.cpp find
@@ -628,6 +649,11 @@ namespace boost { namespace hana {
 
     constexpr _subset subset{};
 #endif
+
+    template <>
+    struct operators::of<Searchable>
+        : decltype(find)
+    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SEARCHABLE_HPP

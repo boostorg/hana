@@ -16,6 +16,46 @@ using namespace boost::hana;
 
 int main() {
 
+//////////////////////////////////////////////////////////////////////////////
+// Models
+//////////////////////////////////////////////////////////////////////////////
+{
+
+//! [Comparable]
+BOOST_HANA_CONSTANT_CHECK(
+    set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
+);
+
+BOOST_HANA_CONSTEXPR_CHECK(set(1, '2', 3.3) == set('2', 1, 3.3));
+BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
+//! [Comparable]
+
+}{
+
+//! [Searchable]
+constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
+BOOST_HANA_CONSTANT_CHECK(find(xs, int_<0>) == just(int_<0>));
+BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
+
+// operator[] is equivalent to find
+BOOST_HANA_CONSTANT_CHECK(xs[int_<2>] == just(int_<2>));
+BOOST_HANA_CONSTANT_CHECK(xs[type<char>] == nothing);
+//! [Searchable]
+
+}{
+
+//! [Foldable]
+constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
+static_assert(minimum(xs) == int_<0>, "");
+static_assert(maximum(xs) == int_<2>, "");
+static_assert(sum<>(xs) == int_<3>, "");
+//! [Foldable]
+
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Methods
+//////////////////////////////////////////////////////////////////////////////
 {
 
 //! [make<Set>]
@@ -39,34 +79,6 @@ BOOST_HANA_CONSTANT_CHECK(
         == make<Set>(int_<1>, int_<3>, type<int>)
 );
 //! [from_Foldable]
-
-}{
-
-//! [Comparable]
-BOOST_HANA_CONSTANT_CHECK(
-    set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
-);
-
-BOOST_HANA_CONSTEXPR_CHECK(set(1, '2', 3.3) == set('2', 1, 3.3));
-BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
-//! [Comparable]
-
-}{
-
-//! [Searchable]
-constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
-BOOST_HANA_CONSTANT_CHECK(find(xs, int_<0>) == just(int_<0>));
-BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
-//! [Searchable]
-
-}{
-
-//! [Foldable]
-constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
-static_assert(minimum(xs) == int_<0>, "");
-static_assert(maximum(xs) == int_<2>, "");
-static_assert(sum<>(xs) == int_<3>, "");
-//! [Foldable]
 
 }{
 
