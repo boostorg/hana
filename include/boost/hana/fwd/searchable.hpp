@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //! Similarly, using `elem` will likely be much faster than `any_of`
     //! with an equivalent predicate.
     //!
-    //! > #### Insight
+    //! > __Insight__\n
     //! > In a lazy evaluation context, any `Foldable` can also become a model
     //! > of `Searchable` because we can search lazily through the structure
     //! > with `foldr`. However, in the context of C++, some `Searchable`s
@@ -104,8 +104,35 @@ namespace boost { namespace hana {
     //! homogeneous tuples. However, since arrays can only hold objects of
     //! a single type and the predicate to `find_if` must return a compile-time
     //! `Logical`, the `find_if` method is fairly useless. For similar reasons,
-    //! the `find` method is also fairly useless.
+    //! the `find` method is also fairly useless. This model is provided mainly
+    //! because of the `any_of` method & friends, which are both useful and
+    //! compile-time efficient.
     //!
+    //!
+    //! Structure preserving functions
+    //! ------------------------------
+    //! Given two `Searchables` `S1` and `S2`, a function
+    //! @f$ f : S_1(X) \to S_2(X) @f$ is said to preserve the `Searchable`
+    //! structure if for all `xs` of data type `S1(X)` and predicates
+    //! @f$ pred : X \to Bool @f$ (for a `Logical` `Bool`),
+    //! @code
+    //!     any_of(xs, pred)  if and only if  any_of(f(xs), pred)
+    //!     find_if(xs, pred) == find_if(f(xs), pred)
+    //! @endcode
+    //!
+    //! This is really just a generalization of the following, more intuitive
+    //! requirements. For all `xs` of data type `S1(X)` and `x` of data type
+    //! `X`,
+    //! @code
+    //!     x ^in^ xs  if and only if  x ^in^ f(xs)
+    //!     find(xs, x) == find(f(xs), x)
+    //! @endcode
+    //!
+    //! These requirements can be understood as saying that `f` does not
+    //! change the content of `xs`, although it may reorder elements.
+    //! As usual, such a structure-preserving transformation is said to
+    //! be an embedding if it is also injective, i.e. if it is a lossless
+    //! transformation.
     //!
     //! @todo
     //! We should provide a member `operator[]` equivalent to `find`.
@@ -399,14 +426,15 @@ namespace boost { namespace hana {
     struct _elem {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using Elem = elem_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{}(),
             "hana::elem(xs, key) requires xs to be a Searchable");
-#endif
-            return elem_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Key&&>(key)
-            );
+        #endif
+
+            return Elem::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
         }
     };
 
@@ -462,14 +490,15 @@ namespace boost { namespace hana {
     struct _find_if {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using FindIf = find_if_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{}(),
             "hana::find_if(xs, pred) requires xs to be a Searchable");
-#endif
-            return find_if_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
-            );
+        #endif
+
+            return FindIf::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
         }
     };
 
@@ -512,14 +541,15 @@ namespace boost { namespace hana {
     struct _find {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using Find = find_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{}(),
             "hana::find(xs, key) requires xs to be a Searchable");
-#endif
-            return find_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Key&&>(key)
-            );
+        #endif
+
+            return Find::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
         }
     };
 
@@ -530,14 +560,29 @@ namespace boost { namespace hana {
     //! another structure.
     //! @relates Searchable
     //!
-    //! Specifically, `subset(xs, ys)` is a `Logical` representing whether all
-    //! of the keys of `xs` are also keys of `ys`. In particular, this method
-    //! does _not_ check whether `xs` is a strict subset of `ys`, i.e. a
-    //! subset that is not equal.
+    //! Given two `Searchable`s `xs` and `ys`, `subset` returns a `Logical`
+    //! representing whether `xs` is a subset of `ys`. In other words, it
+    //! returns whether all the keys of `xs` are also present in `ys`. This
+    //! method does not return whether `xs` is a _strict_ subset of `ys`; if
+    //! `xs` and `ys` are equal, all the keys of `xs` are also present in
+    //! `ys`, and `subset` returns true.
+    //!
+    //!
+    //! Cross-type version of the method
+    //! --------------------------------
+    //! This method is tag-dispatched using the data type of both arguments.
+    //! It can be called with any two `Searchable`s sharing a common
+    //! `Searchable` embedding, as defined in the main documentation
+    //! of the `Searchable` concept. When `Searchable`s of two different
+    //! data types but sharing a common embedding are sent to `subset`,
+    //! they are first converted to this common `Searchable` and the
+    //! `subset` method of the common embedding is then used. Of course,
+    //! the method can be overriden for custom `Searchable`s for efficieny.
     //!
     //! @note
-    //! This method is tag-dispatched using the data type of the first
-    //! argument only.
+    //! While cross-type dispatching for `subset` is supported, it is
+    //! not currently used by the library because there are no models
+    //! of `Searchable` with a common embedding.
     //!
     //!
     //! @param xs
@@ -550,35 +595,34 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/searchable.cpp subset
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/subset.ctime.png
-    //!
-    //! @todo
-    //! Consider using the data type of both arguments for tag-dispatching.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename S, typename = void>
+    template <typename S1, typename S2, typename = void>
     struct subset_impl;
 
     struct _subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
-            "hana::subset(xs, ys) requires xs to be a Searchable");
+            using S1 = typename datatype<Xs>::type;
+            using S2 = typename datatype<Ys>::type;
+            using Subset = subset_impl<S1, S2>;
 
-            static_assert(_models<Searchable, typename datatype<Ys>::type>{},
-            "hana::subset(xs, ys) requires ys to be a Searchable");
-#endif
-            return subset_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Ys&&>(ys)
-            );
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S1>{}(),
+            "hana::subset(xs, ys) requires xs to be Searchable");
+
+            static_assert(_models<Searchable, S2>{}(),
+            "hana::subset(xs, ys) requires ys to be Searchable");
+
+            static_assert(!is_default<subset_impl<S1, S2>>{}(),
+            "hana::subset(xs, ys) requires xs and ys to be embeddable "
+            "in a common Searchable");
+        #endif
+
+            return Subset::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
         }
     };
 

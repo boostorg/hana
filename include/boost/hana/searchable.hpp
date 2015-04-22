@@ -14,10 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -153,15 +155,33 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // subset
     //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct subset_impl : subset_impl<S, when<true>> { };
+    template <typename S1, typename S2, typename>
+    struct subset_impl : subset_impl<S1, S2, when<true>> { };
+
+    template <typename S1, typename S2, bool condition>
+    struct subset_impl<S1, S2, when<condition>> : default_ {
+        static void apply(...);
+    };
 
     template <typename S, bool condition>
-    struct subset_impl<S, when<condition>> : default_ {
+    struct subset_impl<S, S, when<condition>> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return hana::all_of(static_cast<Xs&&>(xs),
                     hana::partial(elem, static_cast<Ys&&>(ys)));
+        }
+    };
+
+    // Cross-type overload
+    template <typename S1, typename S2>
+    struct subset_impl<S1, S2, when<
+        detail::has_nontrivial_common_embedding<Searchable, S1, S2>{}()
+    >> {
+        using C = typename common<S1, S2>::type;
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::subset(hana::to<C>(static_cast<Xs&&>(xs)),
+                                hana::to<C>(static_cast<Ys&&>(ys)));
         }
     };
 
@@ -171,8 +191,8 @@ namespace boost { namespace hana {
     template <typename S>
     struct models_impl<Searchable, S>
         : _integral_constant<bool,
-            !is_default<any_of_impl<S>>{} &&
-            !is_default<find_if_impl<S>>{}
+            !is_default<any_of_impl<S>>{}() &&
+            !is_default<find_if_impl<S>>{}()
         >
     { };
 
