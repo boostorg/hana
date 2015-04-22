@@ -112,11 +112,6 @@ var group__group_concepts =
       [ "first", "structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9", null ],
       [ "second", "structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae", null ]
     ] ],
-    [ "Record", "structboost_1_1hana_1_1Record.html", [
-      [ "members", "structboost_1_1hana_1_1Record.html#a5ae5ec12bb6524e05cc4750b203c194e", null ],
-      [ "BOOST_HANA_DEFINE_RECORD_INTRUSIVE", "structboost_1_1hana_1_1Record.html#ac0c49e26841cde4895d867e2e479e085", null ],
-      [ "BOOST_HANA_DEFINE_RECORD", "structboost_1_1hana_1_1Record.html#a8b4b7796bad58bc18683d99ca90a0034", null ]
-    ] ],
     [ "Ring", "structboost_1_1hana_1_1Ring.html", [
       [ "mult", "structboost_1_1hana_1_1Ring.html#aca4df2fde91ca9c046282c6ec0f9bc3d", null ],
       [ "one", "structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1", null ],
@@ -157,6 +152,12 @@ var group__group_concepts =
       [ "unfold", "structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3", null ],
       [ "unzip", "structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a", null ],
       [ "zip", "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ]
+    ] ],
+    [ "Struct", "structboost_1_1hana_1_1Struct.html", [
+      [ "accessors", "structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739", null ],
+      [ "members", "structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e", null ],
+      [ "BOOST_HANA_DEFINE_STRUCT", "structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672", null ],
+      [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a93de92bddd52b3286e83877f12b8edd6", null ]
     ] ],
     [ "Traversable", "structboost_1_1hana_1_1Traversable.html", [
       [ "sequence", "structboost_1_1hana_1_1Traversable.html#ad2bcf2a65d198953b1690b02f9425419", null ],

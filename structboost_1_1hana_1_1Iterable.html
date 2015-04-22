@@ -152,10 +152,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Iterable.html',
 <p>Let <code>xs</code> be an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and let <code>xi</code> denote the <code>i</code>-th element in its linearization. In other words, <code>xs</code> can be linearized as <code>[x1, ..., xN]</code>, where <code>N</code> is the (finite) number of elements in <code>xs</code>. Then, right-folding <code>xs</code> with a binary operation <code>*</code> (in infix notation for legibility) is equivalent to </p><div class="fragment"><div class="line">x1 * (x2 * ( ... * (xN-1 * xN)))</div>
 </div><!-- fragment --><p>Similarly, left-folding <code>xs</code> is equivalent to </p><div class="fragment"><div class="line">(((x1 * x2) * x3) * ...) * xN</div>
 </div><!-- fragment --><p>In both cases, notice the side of the parentheses. Left-folding applies <code>*</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations such that for all <code>a</code>, <code>b</code> and <code>c</code>, </p><div class="fragment"><div class="line">(a * b) * c = a * (b * c)</div>
-</div><!-- fragment --><p>this makes no difference. Also note that folds with an initial state are implemented in an analogous way, and they are provided as <code>Iterable::fold_{left,right}_nostate_impl</code>.</p>
-<h2>Operators </h2>
-<p>For convenience, the following operator is provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">xs[n]  -&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(n, xs)</div>
-</div><!-- fragment --><p> To take advantage of this operator for a type <code>T</code>, <code>T</code> must inherit <code>hana::operators::Iterable_ops&lt;T&gt;</code>. </p>
+</div><!-- fragment --><p>this makes no difference. Also note that folds with an initial state are implemented in an analogous way, and they are provided as <code>Iterable::fold_{left,right}_nostate_impl</code>. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -310,15 +307,15 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
+<h2>Operator-form </h2>
+<p>For convenience, the <code>at</code> method can be applied to <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s that support it by using the <code>[]</code> operator. Hence, if <code>xs</code> supports the operator, </p><div class="fragment"><div class="line">xs[n] == <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(n, xs)</div>
+</div><!-- fragment --><p>To take advantage of this operator for a type <code>T</code>, <code>T</code> must inherit <code>hana::operators::Iterable_ops&lt;T&gt;</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The same operator is provided for the <code>find</code> method of the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept. When a data type is a model of both <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, which operator is used should be documented properly.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;0&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;1&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;2&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/iterable/at.ctime.png" alt="at.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a1005463b688fed01eb1d292398ce8202"></a>

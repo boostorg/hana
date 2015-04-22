@@ -145,9 +145,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of&lt; documentation &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controls the operator aliases that are enabled for a data type.  <a href="structboost_1_1hana_1_1operators_1_1of.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1has__operator.html">boost::hana::has_operator&lt; Datatype, Method, typename &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the operator associated to a given method is enabled for the given data type.  <a href="structboost_1_1hana_1_1has__operator.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1when.html">boost::hana::when&lt; condition &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a partial specialization only if a boolean condition is true.  <a href="structboost_1_1hana_1_1when.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -190,6 +187,10 @@ template&lt;typename DataType , typename... T&gt; </td></tr>
 <tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">boost::hana::models</a> = see-documentation</td></tr>
 <tr class="memdesc:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the data type of an object is a model of the given concept.  <a href="#ga91ecb6ee4fe2f7d156e5026e37df8946">More...</a><br /></td></tr>
 <tr class="separator:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7d2efbdd45154b3a1547fce93cf19a4"><td class="memTemplParams" colspan="2">template&lt;typename Datatype , typename Method &gt; </td></tr>
+<tr class="memitem:gaa7d2efbdd45154b3a1547fce93cf19a4"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4">boost::hana::has_operator</a> = see-documentation</td></tr>
+<tr class="memdesc:gaa7d2efbdd45154b3a1547fce93cf19a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the operator associated to a given method is enabled for the given data type.  <a href="#gaa7d2efbdd45154b3a1547fce93cf19a4">More...</a><br /></td></tr>
+<tr class="separator:gaa7d2efbdd45154b3a1547fce93cf19a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga4da46c97755c0f430b063711b66ca05b"></a>
@@ -461,6 +462,98 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    print(std::cout, Person{<span class="stringliteral">&quot;Louis&quot;</span>});</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="gaa7d2efbdd45154b3a1547fce93cf19a4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Datatype , typename Method &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::has_operator = see-documentation</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="fwd_2core_2operators_8hpp.html">boost/hana/fwd/core/operators.hpp</a>&gt;</code></p>
+
+<p>Returns whether the operator associated to a given method is enabled for the given data type. </p>
+<p>Given a data type <code>T</code> and the type <code>decltype(m)</code> of a method <code>m</code>, <code>has_operator</code> returns whether <code>m</code> has an operator associated to it and whether that operator is enabled for objects of data type <code>T</code>, as documented by <code><a class="el" href="structboost_1_1hana_1_1operators_1_1of.html" title="Controls the operator aliases that are enabled for a data type. ">operators::of</a></code>.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="comparable_8hpp.html">boost/hana/comparable.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2operators_8hpp.html">boost/hana/core/operators.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// The operators are made findable to ADL by making `operators::adl` a</span></div>
+<div class="line"><span class="comment">// template parameter.</span></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> = operators::adl&gt;</div>
+<div class="line"><span class="keyword">struct </span>Person_ { std::string name; };</div>
+<div class="line"><span class="keyword">using</span> Person = Person_&lt;&gt;;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Once the operators can be found by name lookup, we still need to</span></div>
+<div class="line"><span class="comment">// specialize the `operators::of` trait to enable them, or we could</span></div>
+<div class="line"><span class="comment">// have used a nested `hana::operators` type too.</span></div>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of</a>&lt;Person&gt;</div>
+<div class="line">    : <a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of</a>&lt;Comparable&gt;</div>
+<div class="line">{ };</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Here, the operators are made findable by ADL by using `operators::adl` as</span></div>
+<div class="line"><span class="comment">// a base class. Unfortunately, we lose PODness even though `operators::adl`</span></div>
+<div class="line"><span class="comment">// is empty, which is why it might sometimes be useful to use `operators::adl`</span></div>
+<div class="line"><span class="comment">// as a template parameter instead.</span></div>
+<div class="line"><span class="keyword">struct </span>Employee : <a class="code" href="structboost_1_1hana_1_1operators_1_1adl.html">operators::adl</a> {</div>
+<div class="line">    <span class="keyword">explicit</span> Employee(std::string n) : name{n} { }</div>
+<div class="line">    std::string name;</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// This time, we use the nested `hana::operators` type to enable the</span></div>
+<div class="line">    <span class="comment">// operators for Comparable.</span></div>
+<div class="line">    <span class="keyword">struct </span>hana {</div>
+<div class="line">        <span class="keyword">struct </span>operators</div>
+<div class="line">            : <a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of</a>&lt;Comparable&gt;</div>
+<div class="line">        { };</div>
+<div class="line">    };</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>equal_impl&lt;Person, Person&gt; {</div>
+<div class="line">        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Person x, Person y)</div>
+<div class="line">        { <span class="keywordflow">return</span> x.name == y.name; }</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>equal_impl&lt;Employee, Employee&gt; {</div>
+<div class="line">        <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Employee x, Employee y)</div>
+<div class="line">        { <span class="keywordflow">return</span> x.name == y.name; }</div>
+<div class="line">    };</div>
+<div class="line">}}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    static_assert(<a class="code" href="group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4">has_operator</a>&lt;Person, decltype(equal)&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(<a class="code" href="group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4">has_operator</a>&lt;Person, decltype(not_equal)&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">    static_assert(<a class="code" href="group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4">has_operator</a>&lt;Employee, decltype(equal)&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(<a class="code" href="group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4">has_operator</a>&lt;Employee, decltype(not_equal)&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>}, bill{<span class="stringliteral">&quot;Bill&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(john == john &amp;&amp; john != bill);</div>
+<div class="line"></div>
+<div class="line">    Employee bob{<span class="stringliteral">&quot;Bob&quot;</span>}, alice{<span class="stringliteral">&quot;Alice&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(bob != alice);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

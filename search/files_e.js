@@ -10,5 +10,8 @@ var searchData=
   ['split_5fat_2ehpp',['split_at.hpp',['../split__at_8hpp.html',1,'']]],
   ['std_2ehpp',['std.hpp',['../std_8hpp.html',1,'']]],
   ['string_2ehpp',['string.hpp',['../string_8hpp.html',1,'']]],
-  ['string_2ehpp',['string.hpp',['../fwd_2string_8hpp.html',1,'']]]
+  ['string_2ehpp',['string.hpp',['../fwd_2string_8hpp.html',1,'']]],
+  ['struct_2ehpp',['struct.hpp',['../fwd_2struct_8hpp.html',1,'']]],
+  ['struct_2ehpp',['struct.hpp',['../struct_8hpp.html',1,'']]],
+  ['struct_5fmacros_2ehpp',['struct_macros.hpp',['../struct__macros_8hpp.html',1,'']]]
 ];

@@ -122,7 +122,7 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line">    )</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (operators provided)<br />
 A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
 <div class="line">    make_pair(type&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
 <div class="line">    make_pair(type&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
@@ -131,6 +131,10 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line">static_assert(find(m, type&lt;float&gt;) == just(<span class="charliteral">&#39;f&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(m, type&lt;void&gt;) == nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(m, int_&lt;3&gt;) == nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// operator[] is equivalent to find</span></div>
+<div class="line">static_assert(m[type&lt;int&gt;] == just(<span class="charliteral">&#39;i&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(m[type&lt;void&gt;] == nothing);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a map is equivalent to folding a list of the key/value pairs it contains. In particular, since that list is not guaranteed to be in any specific order, folding a map with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
@@ -158,35 +162,8 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line">);</div>
 </div><!-- fragment --></li>
 </ol>
-<h2>Provided conversions </h2>
+<h2>Provided constructions </h2>
 <ol type="1">
-<li>From any <code><a class="el" href="structboost_1_1hana_1_1Record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code><br />
-Converting a <code><a class="el" href="structboost_1_1hana_1_1Record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code> to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> creates a map where the keys are the keys associated to each member of the <code><a class="el" href="structboost_1_1hana_1_1Record.html" title="The Record concept represents record-like user-defined types. ">Record</a></code>, and the values are the members associated to those keys. <div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
-<div class="line">    std::string name;</div>
-<div class="line">    <span class="keywordtype">int</span> age;</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">struct </span>hana { <span class="keyword">struct </span>members_impl {</div>
-<div class="line">        <span class="keyword">static</span> BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
-<div class="line">            <span class="keywordflow">return</span> make&lt;Tuple&gt;(</div>
-<div class="line">                make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), [](<span class="keyword">auto</span>&amp;&amp; p) {</div>
-<div class="line">                    <span class="keywordflow">return</span> p.name;</div>
-<div class="line">                }),</div>
-<div class="line">                make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), [](<span class="keyword">auto</span>&amp;&amp; p) {</div>
-<div class="line">                    <span class="keywordflow">return</span> p.age;</div>
-<div class="line">                })</div>
-<div class="line">            );</div>
-<div class="line">        }</div>
-<div class="line">    };};</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>, 35};</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(to&lt;Map&gt;(john) == <a class="code" href="structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019">make&lt;Map&gt;</a>(</div>
-<div class="line">        make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
-<div class="line">        make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 35)</div>
-<div class="line">    ));</div>
-<div class="line">}</div>
-</div><!-- fragment --></li>
 <li>From any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>. If the structure contains duplicate keys, only the value associated to the first occurence of each key is kept. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
 <div class="line"></div>

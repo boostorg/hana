@@ -15,7 +15,7 @@ var searchData=
   ['max',['max',['../structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e',1,'boost::hana::Orderable']]],
   ['maximum',['maximum',['../structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1',1,'boost::hana::Foldable']]],
   ['maybe',['maybe',['../structboost_1_1hana_1_1Maybe.html#a6529e11cb228e99a05e81071752807d5',1,'boost::hana::Maybe']]],
-  ['members',['members',['../structboost_1_1hana_1_1Record.html#a5ae5ec12bb6524e05cc4750b203c194e',1,'boost::hana::Record']]],
+  ['members',['members',['../structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e',1,'boost::hana::Struct']]],
   ['metafunction',['metafunction',['../structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085',1,'boost::hana::Metafunction']]],
   ['metafunction_5fclass',['metafunction_class',['../structboost_1_1hana_1_1Metafunction.html#a4cd45afebd60d6e315560532a3bcea1a',1,'boost::hana::Metafunction']]],
   ['min',['min',['../structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa',1,'boost::hana::Orderable']]],

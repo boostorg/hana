@@ -120,10 +120,14 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A ba
 <div class="line">static_assert(maximum(xs) == int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(sum&lt;&gt;(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
-<li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
+<li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> (operators provided)<br />
 The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;0&gt;) == just(int_&lt;0&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;3&gt;) == nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// operator[] is equivalent to find</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[int_&lt;2&gt;] == just(int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[type&lt;char&gt;] == nothing);</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>

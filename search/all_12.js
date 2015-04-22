@@ -5,10 +5,6 @@ var searchData=
   ['range_2ehpp',['range.hpp',['../range_8hpp.html',1,'']]],
   ['range_5fc',['range_c',['../structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f',1,'boost::hana::Range']]],
   ['ratio_2ehpp',['ratio.hpp',['../ratio_8hpp.html',1,'']]],
-  ['record',['Record',['../structboost_1_1hana_1_1Record.html',1,'boost::hana']]],
-  ['record_2ehpp',['record.hpp',['../fwd_2record_8hpp.html',1,'']]],
-  ['record_2ehpp',['record.hpp',['../record_8hpp.html',1,'']]],
-  ['record_5fmacros_2ehpp',['record_macros.hpp',['../record__macros_8hpp.html',1,'']]],
   ['rem',['rem',['../structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9',1,'boost::hana::IntegralDomain']]],
   ['remove',['remove',['../structboost_1_1hana_1_1MonadPlus.html#a08e2f3034ed81a7bfff513a5b5f82031',1,'boost::hana::MonadPlus']]],
   ['remove_5fat',['remove_at',['../structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b',1,'boost::hana::Sequence']]],
@@ -26,6 +22,6 @@ var searchData=
   ['reverse_5fpartial_2ehpp',['reverse_partial.hpp',['../reverse__partial_8hpp.html',1,'']]],
   ['right',['right',['../structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]],
   ['ring',['Ring',['../structboost_1_1hana_1_1Ring.html',1,'boost::hana']]],
-  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]],
-  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]]
+  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]]
 ];
