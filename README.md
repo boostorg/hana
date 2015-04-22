@@ -1,4 +1,4 @@
-# Boost.Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][Travis.master]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][Gitter.badge]</a>
+# Boost.Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][Travis.badge]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][Gitter.badge]</a> <a href="http://semver.org" target="_blank">![Version][semver.badge]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -204,4 +204,5 @@ Please see [LICENSE.md](LICENSE.md).
 [Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
 [MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11
-[Travis.master]: https://travis-ci.org/ldionne/hana.svg?branch=master
+[semver.badge]: https://img.shields.io/badge/semver-0.2.0-brightgreen.svg
+[Travis.badge]: https://travis-ci.org/ldionne/hana.svg?branch=master
