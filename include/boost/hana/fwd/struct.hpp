@@ -79,6 +79,7 @@ namespace boost { namespace hana {
     //! to use them.
     //!
     //!
+    //! @anchor move-independence
     //! Move-independence
     //! -----------------
     //! The notion of move-independence presented here defines rigorously

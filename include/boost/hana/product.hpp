@@ -53,8 +53,8 @@ namespace boost { namespace hana {
     template <typename P>
     struct models_impl<Product, P>
         : _integral_constant<bool,
-            !is_default<first_impl<P>>{} &&
-            !is_default<second_impl<P>>{}
+            !is_default<first_impl<P>>{}() &&
+            !is_default<second_impl<P>>{}()
         >
     { };
 
@@ -62,7 +62,9 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<_models<Product, T>{} && _models<Product, U>{}>> {
+    struct equal_impl<T, U, when<
+        _models<Product, T>{}() && _models<Product, U>{}()
+    >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::and_(
@@ -76,7 +78,9 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct less_impl<T, U, when<_models<Product, T>{} && _models<Product, U>{}>> {
+    struct less_impl<T, U, when<
+        _models<Product, T>{}() && _models<Product, U>{}()
+    >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::or_(
@@ -93,7 +97,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct unpack_impl<T, when<_models<Product, T>{}>> {
+    struct unpack_impl<T, when<_models<Product, T>{}()>> {
         template <typename P, typename F>
         static constexpr decltype(auto) apply(P&& p, F&& f) {
             return static_cast<F&&>(f)(

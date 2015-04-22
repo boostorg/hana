@@ -20,36 +20,58 @@ namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! Represents types that are generic containers of two elements.
     //!
-    //! Specifically, the `Product` concept represents types that are
-    //! [category theoretical products][1].
+    //! This concept basically represents types that are like `std::pair`.
+    //! The motivation for making such a precise concept is similar to the
+    //! motivation behind the `Sequence` concept; there are many different
+    //! implementations of `std::pair` in different libraries, and we would
+    //! like to manipulate any of them generically.
+    //!
+    //! Since a `Product` is basically a pair, it is unsurprising that the
+    //! operations provided by this concept are getting the first and second
+    //! element of a pair, creating a pair from two elements and other
+    //! simmilar operations.
+    //!
+    //! @note
+    //! Mathematically, this concept represents types that are category
+    //! theoretical [products][1]. This is also where the name comes
+    //! from.
     //!
     //!
     //! Laws
     //! ----
-    //! For a model `P` of `Product`, the following laws must be satisfied,
-    //! which is equivalent to satisfying the universal property exposed in
-    //! the article linked above. For every data types `X`, `P1`, `P2` and
-    //! functions `f : X -> P1`, `g : X -> P2`, there exists a unique function
-    //! `make : X -> P` such that for all object `x` of data type `X`,
+    //! For a model `P` of `Product`, the following laws must be satisfied.
+    //! For every data types `X` and `Y`, there must be a unique function
+    //! @f$ make : X \times Y \to P @f$ such that for every `x`, `y`,
     //! @code
-    //!     f(x) == first(make(x))
-    //!     g(x) == second(make(x))
+    //!     x == first(make<P>(x, y))
+    //!     y == second(make<P>(x, y))
     //! @endcode
+    //!
+    //! @note
+    //! This law is less general than the universal property typically used to
+    //! define category theoretical products, but it is vastly enough for what
+    //! we need.
     //!
     //! This is basically saying that a `Product` must be the most general
     //! object able to contain a pair of objects `(P1, P2)`, but nothing
     //! more. Since the categorical product is defined by a universal
-    //! property, all the models of this concept are isomorphic.
+    //! property, all the models of this concept are isomorphic, and
+    //! the isomorphism is unique. In other words, there is one and only
+    //! one way to convert one `Product` to another.
+    //!
+    //! Another property that must be satisfied by `first` and `second` is
+    //! that of @ref move-independence, which ensures that we can optimally
+    //! decompose a `Product` into its two members without making redundant
+    //! copies.
     //!
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! 1. `first`, `second` and `make`
+    //! __Definitions of `first`, `second` and `make` satisfying the laws__\n
     //! `first` and `second` must obviously return the first and the second
     //! element of the pair, respectively. `make` must take two arguments `x`
     //! and `y` representing the first and the second element of the pair,
     //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
-    //! Example:
     //! @snippet example/product.cpp make
     //!
     //!
@@ -57,11 +79,7 @@ namespace boost { namespace hana {
     //! ---------------
     //! 1. `Comparable`\n
     //! Two products `x` and `y` are equal iff they are equal element-wise,
-    //! i.e. iff
-    //! @code
-    //!     first(x) == first(y) && second(x) == second(y)
-    //! @endcode
-    //! Example:
+    //! by comparing the first element before the second element.
     //! @snippet example/product.cpp comparable
     //!
     //! 2. `Orderable`\n
@@ -76,7 +94,7 @@ namespace boost { namespace hana {
     //! [1]: http://en.wikipedia.org/wiki/Product_(category_theory)
     struct Product { };
 
-    //! Returns the first element of a product.
+    //! Returns the first element of a pair.
     //! @relates Product
     //!
     //!
@@ -92,22 +110,24 @@ namespace boost { namespace hana {
     struct first_impl;
 
     struct _first {
-        template <typename P>
-        constexpr decltype(auto) operator()(P&& p) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Product, typename datatype<P>::type>{},
-            "hana::first(p) requires p to be a Product");
-#endif
-            return first_impl<typename datatype<P>::type>::apply(
-                static_cast<P&&>(p)
-            );
+        template <typename Pair>
+        constexpr decltype(auto) operator()(Pair&& pair) const {
+            using P = typename datatype<Pair>::type;
+            using First = first_impl<P>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Product, P>{},
+            "hana::first(pair) requires pair to be a Product");
+        #endif
+
+            return First::apply(static_cast<Pair&&>(pair));
         }
     };
 
     constexpr _first first{};
 #endif
 
-    //! Returns the second element of a product.
+    //! Returns the second element of a pair.
     //! @relates Product
     //!
     //!
@@ -123,15 +143,17 @@ namespace boost { namespace hana {
     struct second_impl;
 
     struct _second {
-        template <typename P>
-        constexpr decltype(auto) operator()(P&& p) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Product, typename datatype<P>::type>{},
-            "hana::second(p) requires p to be a Product");
-#endif
-            return second_impl<typename datatype<P>::type>::apply(
-                static_cast<P&&>(p)
-            );
+        template <typename Pair>
+        constexpr decltype(auto) operator()(Pair&& pair) const {
+            using P = typename datatype<Pair>::type;
+            using Second = second_impl<P>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Product, P>{},
+            "hana::second(pair) requires pair to be a Product");
+        #endif
+
+            return Second::apply(static_cast<Pair&&>(pair));
         }
     };
 
