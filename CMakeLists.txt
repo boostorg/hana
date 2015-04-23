@@ -113,14 +113,23 @@ if (DEFINED VALGRIND_COMMAND)
         COMMENT "Build and then run all the unit tests and examples under the memory checker.")
 endif()
 
-#   boost_hana_target_name_for(<output variable> <source file>)
+#   boost_hana_target_name_for(<output variable> <source file> [ext])
 #
 # Return the target name associated to a source file. If the path of the
-# source file relative from the root of Hana is `path/to/source/file.cpp`,
-# the target name associated to it is `path.to.source.file`.
+# source file relative from the root of Hana is `path/to/source/file.ext`,
+# the target name associated to it will be `path.to.source.file`.
+#
+# The extension of the file should be specified as a last argument. If no
+# extension is specified, the `.cpp` extension is assumed.
 function(boost_hana_target_name_for out file)
-    file(RELATIVE_PATH _relative ${CMAKE_SOURCE_DIR} ${file})
-    string(REGEX REPLACE "\\.cpp$" "" _name ${_relative})
+    if (NOT ARGV2)
+        set(_extension ".cpp")
+    else()
+        set(_extension "${ARGV2}")
+    endif()
+
+    file(RELATIVE_PATH _relative ${Boost.Hana_SOURCE_DIR} ${file})
+    string(REPLACE "${_extension}" "" _name ${_relative})
     string(REGEX REPLACE "/" "." _name ${_name})
     set(${out} "${_name}" PARENT_SCOPE)
 endfunction()

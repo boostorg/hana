@@ -1,6 +1,6 @@
 <% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
 <% fusion = (1..50).step(2).to_a %>
-<% mpl = (1..20).step(2).to_a %>
+<% mpl = hana %>
 <% mpl11 = (1..50).step(2).to_a + (50..500).step(25).to_a %>
 <% cexpr = (1..50).step(2).to_a + (50..200).step(25).to_a %>
 
@@ -12,41 +12,41 @@
   "series": [
     {
       "name": "Heterogeneous hana::tuple",
-      "data": <%= time_compilation('fold_left/compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
+      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
     }, {
       "name": "Homogeneous hana::tuple",
-      "data": <%= time_compilation('fold_left/compile.hana.tuple.homogeneous.erb.cpp', hana) %>
+      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
     }, {
       "name": "hana::tuple_t with a hana::Metafunction",
-      "data": <%= time_compilation('fold_left/compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
+      "data": <%= time_compilation('compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
     }
 
     <% if has_boost %>
     , {
       "name": "Heterogeneous fusion::vector",
-      "data": <%= time_compilation('fold_left/compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
+      "data": <%= time_compilation('compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
     }, {
       "name": "Homogeneous fusion::vector",
-      "data": <%= time_compilation('fold_left/compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
+      "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
     }, {
       "name": "mpl::vector with a MPL metafunction class",
-      "data": <%= time_compilation('fold_left/compile.mpl.vector.erb.cpp', mpl) %>
+      "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
     }
     <% end %>
 
     <% if has_mpl11 %>
     , {
       "name": "mpl11::list",
-      "data": <%= time_compilation('fold_left/compile.mpl11.list.erb.cpp', mpl11) %>
+      "data": <%= time_compilation('compile.mpl11.list.erb.cpp', mpl11) %>
     }
     <% end %>
 
     , {
       "name": "cexpr::list (recursive)",
-      "data": <%= time_compilation('fold_left/compile.cexpr.recursive.erb.cpp', cexpr) %>
+      "data": <%= time_compilation('compile.cexpr.recursive.erb.cpp', cexpr) %>
     }, {
       "name": "cexpr::list (unrolled)",
-      "data": <%= time_compilation('fold_left/compile.cexpr.unrolled.erb.cpp', cexpr) %>
+      "data": <%= time_compilation('compile.cexpr.unrolled.erb.cpp', cexpr) %>
     }
   ]
 }

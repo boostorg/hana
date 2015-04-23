@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/mpl/at.hpp>
+#include <boost/mpl/push_back.hpp>
 #include <boost/mpl/vector.hpp>
 namespace mpl = boost::mpl;
 
@@ -12,9 +13,7 @@ namespace mpl = boost::mpl;
 template <int>
 struct x;
 
-using vector = mpl::vector<
-    <%= (1..input_size).to_a.map { |n| "x<#{n}>" }.join(', ') %>
->;
+using vector = <%= mpl_vector((1..input_size).to_a.map { |n| "x<#{n}>" }) %>;
 
 using result = mpl::at_c<vector, <%= input_size-1 %>>::type;
 

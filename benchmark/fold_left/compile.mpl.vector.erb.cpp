@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/mpl/fold.hpp>
+#include <boost/mpl/push_back.hpp>
 #include <boost/mpl/quote.hpp>
 #include <boost/mpl/vector.hpp>
 
@@ -17,9 +18,7 @@ struct state { };
 template <int i>
 struct t { };
 
-using vector = boost::mpl::vector<
-    <%= (1..input_size).to_a.map { |n| "t<#{n}>" }.join(', ') %>
->;
+using vector = <%= mpl_vector((1..input_size).to_a.map { |n| "t<#{n}>" }) %>;
 
 using result = boost::mpl::fold<vector, state, boost::mpl::quote2<f>>::type;
 

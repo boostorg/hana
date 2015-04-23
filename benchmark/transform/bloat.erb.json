@@ -1,0 +1,30 @@
+<% exec = (1..50).step(10).to_a %>
+
+
+{
+  "title": {
+    "text": "Executable size for transform"
+  },
+  "yAxis": {
+    "title": {
+      "text": "Executable size (kb)"
+    },
+    "floor": 0
+  },
+  "tooltip": {
+    "valueSuffix": "kb"
+  },
+  "series": [
+    {
+      "name": "Homogeneous hana::tuple",
+      "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
+    }
+
+    <% if has_boost %>
+    , {
+      "name": "Homogeneous fusion::vector",
+      "data": <%= measure(:bloat, 'execute.fusion.vector.erb.cpp', exec) %>
+    }
+    <% end %>
+  ]
+}

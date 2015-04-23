@@ -1,20 +1,19 @@
 <% exec = (1..50).step(2).to_a %>
 
-
 {
   "title": {
-    "text": "Runtime behavior of fold.left"
+    "text": "Runtime behavior of fold.right"
   },
   "series": [
     {
       "name": "Homogeneous hana::tuple",
-      "data": <%= time_execution('fold_left/execute.hana.tuple.erb.cpp', exec) %>
+      "data": <%= time_execution('execute.hana.tuple.erb.cpp', exec) %>
     }
 
     <% if has_boost %>
     , {
       "name": "Homogeneous fusion::vector",
-      "data": <%= time_execution('fold_left/execute.fusion.vector.erb.cpp', exec) %>
+      "data": <%= time_execution('execute.fusion.vector.erb.cpp', exec) %>
     }
     <% end %>
   ]

@@ -39,23 +39,23 @@
     "data": [
       {
         "name": "Hana",
-        "y": <%= amortize('including/hana.erb.cpp') %>
+        "y": <%= amortize('hana.erb.cpp') %>
       }
 
       <% if has_boost %>
       , {
         "name": "Boost.MPL",
-        "y": <%= amortize('including/mpl.erb.cpp') %>
+        "y": <%= amortize('mpl.erb.cpp') %>
       }, {
         "name": "Boost.Fusion",
-        "y": <%= amortize('including/fusion.erb.cpp') %>
+        "y": <%= amortize('fusion.erb.cpp') %>
       }
       <% end %>
 
       <% if has_mpl11 %>
       , {
         "name": "MPL11",
-        "y": <%= amortize('including/mpl11.erb.cpp') %>
+        "y": <%= amortize('mpl11.erb.cpp') %>
       }
       <% end %>
     ]

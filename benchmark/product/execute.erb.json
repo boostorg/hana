@@ -7,7 +7,7 @@
   "series": [
     {
       "name": "Homogeneous hana::tuple",
-      "data": <%= time_execution('product/execute.hana.tuple.homogeneous.erb.cpp', exec) %>
+      "data": <%= time_execution('execute.hana.tuple.homogeneous.erb.cpp', exec) %>
     }
   ]
 }

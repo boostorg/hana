@@ -22,10 +22,34 @@ require 'ruby-progressbar'
 require 'tilt'
 
 
+def split_at(n, list)
+  before = list[0...n] || []
+  after = list[n..-1] || []
+  return [before, after]
+end
+
+# types : A sequence of strings to put in the mpl::vector.
+# Using this method requires including <boost/mpl/push_back.hpp>
+def mpl_vector(types)
+  fast, rest = split_at(20, types)
+  rest.inject("boost::mpl::vector#{fast.length}<#{fast.join(', ')}>") { |v, t|
+    "boost::mpl::push_back<#{v}, #{t}>::type"
+  }
+end
+
+# types : A sequence of strings to put in the mpl::list.
+# Using this method requires including <boost/mpl/push_front.hpp>
+def mpl_list(types)
+  prefix, fast = split_at([types.length - 20, 0].max, types)
+  prefix.reverse.inject("boost::mpl::list#{fast.length}<#{fast.join(', ')}>") { |l, t|
+    "boost::mpl::push_front<#{l}, #{t}>::type"
+  }
+end
+
 # aspect must be one of :compilation_time, :bloat, :execution_time
-def time(template_relative, range, aspect)
+def measure(aspect, template_relative, range)
   measure_file = Pathname.new("@CMAKE_CURRENT_SOURCE_DIR@/measure.cpp")
-  template = Pathname.new(template_relative).expand_path("@CMAKE_CURRENT_SOURCE_DIR@")
+  template = Pathname.new(template_relative).expand_path
   range = range.to_a
 
   make = -> (target) {
@@ -84,11 +108,11 @@ ensure
 end
 
 def time_execution(erb_file, range)
-  time(erb_file, range, :execution_time)
+  measure(:execution_time, erb_file, range)
 end
 
 def time_compilation(erb_file, range)
-  time(erb_file, range, :compilation_time)
+  measure(:compilation_time, erb_file, range)
 end
 
 if __FILE__ == $0
