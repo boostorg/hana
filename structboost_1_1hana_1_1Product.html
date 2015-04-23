@@ -104,22 +104,23 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Product.html','
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents types that are generic containers of two elements. </p>
-<p>Specifically, the <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> concept represents types that are <a href="http://en.wikipedia.org/wiki/Product_(category_theory)">category theoretical products</a>.</p>
+<p>This concept basically represents types that are like <code>std::pair</code>. The motivation for making such a precise concept is similar to the motivation behind the <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> concept; there are many different implementations of <code>std::pair</code> in different libraries, and we would like to manipulate any of them generically.</p>
+<p>Since a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> is basically a pair, it is unsurprising that the operations provided by this concept are getting the first and second element of a pair, creating a pair from two elements and other simmilar operations.</p>
+<dl class="section note"><dt>Note</dt><dd>Mathematically, this concept represents types that are category theoretical <a href="http://en.wikipedia.org/wiki/Product_(category_theory)">products</a>. This is also where the name comes from.</dd></dl>
 <h2>Laws </h2>
-<p>For a model <code>P</code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>, the following laws must be satisfied, which is equivalent to satisfying the universal property exposed in the article linked above. For every data types <code>X</code>, <code>P1</code>, <code>P2</code> and functions <code>f : X -&gt; P1</code>, <code>g : X -&gt; P2</code>, there exists a unique function <code>make : X -&gt; P</code> such that for all object <code>x</code> of data type <code>X</code>, </p><div class="fragment"><div class="line">f(x) == <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(<a class="code" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>(x))</div>
-<div class="line">g(x) == <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(<a class="code" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>(x))</div>
-</div><!-- fragment --><p>This is basically saying that a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> must be the most general object able to contain a pair of objects <code>(P1, P2)</code>, but nothing more. Since the categorical product is defined by a universal property, all the models of this concept are isomorphic.</p>
+<p>For a model <code>P</code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>, the following laws must be satisfied. For every data types <code>X</code> and <code>Y</code>, there must be a unique function \( make : X \times Y \to P \) such that for every <code>x</code>, <code>y</code>, </p><div class="fragment"><div class="line">x == <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(make&lt;P&gt;(x, y))</div>
+<div class="line">y == <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(<a class="code" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;P&gt;(x, y))</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This law is less general than the universal property typically used to define category theoretical products, but it is vastly enough for what we need.</dd></dl>
+<p>This is basically saying that a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> must be the most general object able to contain a pair of objects <code>(P1, P2)</code>, but nothing more. Since the categorical product is defined by a universal property, all the models of this concept are isomorphic, and the isomorphism is unique. In other words, there is one and only one way to convert one <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> to another.</p>
+<p>Another property that must be satisfied by <code>first</code> and <code>second</code> is that of <a class="el" href="structboost_1_1hana_1_1Struct.html#move-independence">move-independence</a>, which ensures that we can optimally decompose a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> into its two members without making redundant copies.</p>
 <h2>Minimal complete definition </h2>
-<ol type="1">
-<li><code>first</code>, <code>second</code> and <code>make</code> <code>first</code> and <code>second</code> must obviously return the first and the second element of the pair, respectively. <code>make</code> must take two arguments <code>x</code> and <code>y</code> representing the first and the second element of the pair, and return a pair <code>p</code> such that <code>first(p) == x</code> and <code>second(p) == y</code>. Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1);</div>
+<p><b>Definitions of <code>first</code>, <code>second</code> and <code>make</code> satisfying the laws</b><br />
+<code>first</code> and <code>second</code> must obviously return the first and the second element of the pair, respectively. <code>make</code> must take two arguments <code>x</code> and <code>y</code> representing the first and the second element of the pair, and return a pair <code>p</code> such that <code>first(p) == x</code> and <code>second(p) == y</code>. </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
-</div><!-- fragment --></li>
-</ol>
-<h2>Provided models </h2>
+</div><!-- fragment --><h2>Provided models </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
-Two products <code>x</code> and <code>y</code> are equal iff they are equal element-wise, i.e. iff <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(x) == <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(y) &amp;&amp; <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(x) == <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(y)</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(make&lt;Pair&gt;(1, <span class="stringliteral">&quot;234&quot;</span>s) == make&lt;Pair&gt;(1ll, <span class="stringliteral">&quot;234&quot;</span>s));</div>
+Two products <code>x</code> and <code>y</code> are equal iff they are equal element-wise, by comparing the first element before the second element. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(make&lt;Pair&gt;(1, <span class="stringliteral">&quot;234&quot;</span>s) == make&lt;Pair&gt;(1ll, <span class="stringliteral">&quot;234&quot;</span>s));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Pair&gt;(<span class="charliteral">&#39;x&#39;</span>, 2) != make&lt;Pair&gt;(<span class="charliteral">&#39;y&#39;</span>, 2));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
@@ -131,10 +132,10 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:ab6548bd227a06799a2e5abdfd9e9b0b9"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a></td></tr>
-<tr class="memdesc:ab6548bd227a06799a2e5abdfd9e9b0b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a product.  <a href="#ab6548bd227a06799a2e5abdfd9e9b0b9">More...</a><br /></td></tr>
+<tr class="memdesc:ab6548bd227a06799a2e5abdfd9e9b0b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a pair.  <a href="#ab6548bd227a06799a2e5abdfd9e9b0b9">More...</a><br /></td></tr>
 <tr class="separator:ab6548bd227a06799a2e5abdfd9e9b0b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d2111e165329a8ded67dec73f2df4ae"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a></td></tr>
-<tr class="memdesc:a5d2111e165329a8ded67dec73f2df4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the second element of a product.  <a href="#a5d2111e165329a8ded67dec73f2df4ae">More...</a><br /></td></tr>
+<tr class="memdesc:a5d2111e165329a8ded67dec73f2df4ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the second element of a pair.  <a href="#a5d2111e165329a8ded67dec73f2df4ae">More...</a><br /></td></tr>
 <tr class="separator:a5d2111e165329a8ded67dec73f2df4ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
@@ -159,7 +160,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the first element of a product. </p>
+<p>Returns the first element of a pair. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1);</div>
 </div><!-- fragment -->
@@ -186,7 +187,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the second element of a product. </p>
+<p>Returns the second element of a pair. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
 </div><!-- fragment -->

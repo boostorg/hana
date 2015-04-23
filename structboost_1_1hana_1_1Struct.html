@@ -154,7 +154,7 @@ A model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="
 <div class="line">    };};</div>
 <div class="line">};</div>
 </div><!-- fragment --><p> Finally, the most convenient (but least flexible) option is to use the <code>BOOST_HANA_DEFINE_STRUCT</code> or the <code>BOOST_HANA_ADAPT_STRUCT</code> macro to provide a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept with minimal syntactic overhead. See the documentation of these macros for details on how to use them.</p>
-<h2>Move-independence </h2>
+<p><a class="anchor" id="move-independence"></a></p><h2>Move-independence </h2>
 <p>The notion of move-independence presented here defines rigorously when it is legitimate to "double-move" from an object.</p>
 <p>A collection of functions <code>f1, ..., fn</code> sharing the same domain is said to be <em>move-independent</em> if for every fresh (not moved-from) object <code>x</code> in the domain, any permutation of the following statements is valid and leaves the <code>zk</code> objects in a fresh (not moved-from) state: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> z1 = f1(std::move(x));</div>
 <div class="line">...</div>
