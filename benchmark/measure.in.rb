@@ -29,7 +29,9 @@ def split_at(n, list)
 end
 
 # types : A sequence of strings to put in the mpl::vector.
-# Using this method requires including <boost/mpl/push_back.hpp>
+# Using this method requires including
+#   - <boost/mpl/vector.hpp>
+#   - <boost/mpl/push_back.hpp>
 def mpl_vector(types)
   fast, rest = split_at(20, types)
   rest.inject("boost::mpl::vector#{fast.length}<#{fast.join(', ')}>") { |v, t|
@@ -38,11 +40,24 @@ def mpl_vector(types)
 end
 
 # types : A sequence of strings to put in the mpl::list.
-# Using this method requires including <boost/mpl/push_front.hpp>
+# Using this method requires including
+#   - <boost/mpl/list.hpp>
+#   - <boost/mpl/push_front.hpp>
 def mpl_list(types)
   prefix, fast = split_at([types.length - 20, 0].max, types)
   prefix.reverse.inject("boost::mpl::list#{fast.length}<#{fast.join(', ')}>") { |l, t|
     "boost::mpl::push_front<#{l}, #{t}>::type"
+  }
+end
+
+# values : A sequence of strings representing values to put in the fusion::vector.
+# Using this method requires including
+#   - <boost/fusion/include/make_vector.hpp>
+#   - <boost/fusion/include/push_back.hpp>
+def fusion_vector(values)
+  fast, rest = split_at(10, values)
+  rest.inject("boost::fusion::make_vector(#{fast.join(', ')})") { |xs, v|
+    "boost::fusion::push_back(#{xs}, #{v})"
   }
 end
 

@@ -1,0 +1,36 @@
+<% rng = (0...50).step(5).to_a + (50..400).step(25).to_a %>
+<% fusion = (0...50).step(5).to_a + [50, 75, 100] %>
+
+{
+  "title": {
+    "text": "Compile-time behavior of creating a sequence"
+  },
+  "series": [
+    {
+      "name": "Heterogeneous hana::tuple",
+      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', rng) %>
+    }, {
+      "name": "Homogeneous hana::tuple",
+      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', rng) %>
+    }, {
+      "name": "hana::tuple_t",
+      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', rng) %>
+    }, {
+      "name": "hana::tuple_c",
+      "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', rng) %>
+    }
+
+    <% if has_boost %>
+    , {
+      "name": "Heterogeneous fusion::vector",
+      "data": <%= time_compilation('compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
+    }, {
+      "name": "Homogeneous fusion::vector",
+      "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
+    }, {
+      "name": "mpl::vector",
+      "data": <%= time_compilation('compile.mpl.vector.erb.cpp', rng) %>
+    }
+    <% end %>
+  ]
+}

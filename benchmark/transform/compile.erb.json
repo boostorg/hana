@@ -1,6 +1,6 @@
-<% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
-<% fusion = (1..50).step(2).to_a %>
-<% mpl = (1..50).step(2).to_a + (50..400).step(25).to_a %>
+<% hana = (0...50).step(5).to_a + (50..400).step(25).to_a %>
+<% fusion = (0...50).step(5).to_a + [50, 75, 100] %>
+<% mpl = hana %>
 
 {
   "title": {
@@ -14,7 +14,7 @@
       "name": "Homogeneous hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
     }, {
-      "name": "hana::tuple_t (hana::Metafunction)",
+      "name": "hana::tuple_t with hana::Metafunction",
       "data": <%= time_compilation('compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
     }
 

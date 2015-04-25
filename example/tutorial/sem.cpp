@@ -48,15 +48,14 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [reverse_transform_copy]
 reverse(
-    transform(xs, to_str) // <-- copy into reverse(...) here
+    transform(xs, to_str) // <-- copy into reverse(...) here?
 );
 //! [reverse_transform_copy]
 
 //! [reverse_transform_move]
 reverse(
-    transform(xs, to_str) // <-- move from the temporary
+    transform(xs, to_str) // <-- nah, move from the temporary!
 );
 //! [reverse_transform_move]
-
 
 }

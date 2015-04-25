@@ -34,7 +34,7 @@
     }
   },
   "series": [{
-    "name": "Libraries",
+    "name": "Include time",
     "colorByPoint": true,
     "data": [
       {

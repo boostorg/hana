@@ -151,7 +151,10 @@ namespace boost { namespace hana {
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/functor/transform.ctime.png
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.transform.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto transform = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;

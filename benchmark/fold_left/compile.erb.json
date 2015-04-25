@@ -1,8 +1,8 @@
-<% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
-<% fusion = (1..50).step(2).to_a %>
+<% hana = (0...50).step(5).to_a + (50..400).step(25).to_a %>
+<% fusion = (0...50).step(5).to_a + [50, 75, 100] %>
 <% mpl = hana %>
-<% mpl11 = (1..50).step(2).to_a + (50..500).step(25).to_a %>
-<% cexpr = (1..50).step(2).to_a + (50..200).step(25).to_a %>
+<% mpl11 = (0...50).step(5).to_a + (50..500).step(25).to_a %>
+<% cexpr = (0...50).step(5).to_a + (50..200).step(25).to_a %>
 
 
 {
@@ -17,7 +17,7 @@
       "name": "Homogeneous hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
     }, {
-      "name": "hana::tuple_t with a hana::Metafunction",
+      "name": "hana::tuple_t with hana::Metafunction",
       "data": <%= time_compilation('compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
     }
 
@@ -29,7 +29,7 @@
       "name": "Homogeneous fusion::vector",
       "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
     }, {
-      "name": "mpl::vector with a MPL metafunction class",
+      "name": "mpl::vector",
       "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
     }
     <% end %>

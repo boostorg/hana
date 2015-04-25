@@ -245,6 +245,18 @@ namespace boost { namespace hana {
     //!     fold.right(xs, f)        -> fold_right_nostate_impl<Xs>::apply(xs, f)
     //! @endcode
     //! `fold` is not tag-dispatched because it is just an alias to `fold.left`.
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.fold_left.compile.json">
+    //! </div>
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.fold_right.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto fold = see documentation;
 #else
@@ -1103,7 +1115,10 @@ namespace boost { namespace hana {
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/foldable/product.ctime.png
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.product.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto product = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
@@ -1159,7 +1174,10 @@ namespace boost { namespace hana {
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/foldable/count_if.ctime.png
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.count_if.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto count_if = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;

@@ -101,10 +101,10 @@ VERBATIM_HEADERS        = NO
 # HTML output
 HTML_OUTPUT             = html
 HTML_FILE_EXTENSION     = .html
-HTML_HEADER             =
-HTML_FOOTER             =
+HTML_HEADER             = @Boost.Hana_SOURCE_DIR@/doc/header.html
+HTML_FOOTER             = @Boost.Hana_SOURCE_DIR@/doc/footer.html
 HTML_EXTRA_STYLESHEET   =
-HTML_EXTRA_FILES        =
+HTML_EXTRA_FILES        = @Boost.Hana_SOURCE_DIR@/benchmark/chart.js
 HTML_COLORSTYLE_HUE     = 75  # 0 - 359
 HTML_COLORSTYLE_SAT     = 100 # 0 - 255
 HTML_COLORSTYLE_GAMMA   = 80

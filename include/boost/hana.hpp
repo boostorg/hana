@@ -103,10 +103,10 @@ insightful conversations with several attendees. The idea that it was
 possible to unify the [Boost.Fusion][] and the [Boost.MPL][] libraries
 made its way and I became convinced of it after writing the first prototype
 for what is now Boost.Hana. After working on Hana and polishing many rough
-edges during several months, Hana will soon go through informal and then
-formal reviews with the goal of being part of Boost.
+edges during several months, Hana will be going through formal review for
+inclusion in Boost from June 10 2015 to June 24 2015.
 
-Let the fun begin.
+Let the fun begin!
 
 
 
@@ -120,15 +120,15 @@ Let the fun begin.
 @section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
-Hana is a small, header-only library for C++ metaprogramming suited for
-computations on both types and values. The functionality it provides is
-a superset of what is provided by the well established Boost.MPL and
-Boost.Fusion libraries. By leveraging C++11/14 implementation techniques
-and idioms, Hana boasts faster compilation times and runtime performance on
-par or better than previous metaprogramming libraries, while increasing the
-level of expressiveness in the process. Hana is easy to extend in a ad-hoc
-manner and it provides out-of-the-box inter-operation with Boost.Fusion,
-Boost.MPL and the standard library.
+Hana is a header-only library for C++ metaprogramming suited for computations
+on both types and values. The functionality it provides is a superset of what
+is provided by the well established Boost.MPL and Boost.Fusion libraries. By
+leveraging C++11/14 implementation techniques and idioms, Hana boasts faster
+compilation times and runtime performance on par or better than previous
+metaprogramming libraries, while noticeably increasing the level of
+expressiveness in the process. Hana is easy to extend in a ad-hoc manner
+and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL
+and the standard library.
 
 
 __Motivation__\n
@@ -290,6 +290,7 @@ function                                     |  concept   | description
 `remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
 `reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
 `slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
+`subsequence(sequence, indices)`             | Sequence   | Returns the elements of a sequence at the `indices` in the given sequence.
 `sort(sequence[, predicate])`                | Sequence   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 `take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
 `take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
@@ -331,10 +332,7 @@ it also provides the `make_xxx` shortcut to reduce typing. Also, an
 interesting point that can be raised in this example is the fact that
 `r` is `constexpr`. In general, whenever a Hana sequence is initialized
 only with constant expressions (which is the case for `int_<...>`), that
-sequence may be marked as `constexpr`. However, there are some limitations
-to this because we sometimes use lambdas in the implementation and C++14
-does not allow lambdas to appear in constant expressions, so this should be
-considered a work in progress.
+sequence may be marked as `constexpr`.
 
 
 
@@ -430,20 +428,22 @@ that most of the time, we want to access all or almost all the elements in a
 sequence anyway, and hence performance is not a big argument in favor of
 laziness.
 
-
-@subsection tutorial-sem-perf Performance considerations
-
-One might think that returning full sequences from an algorithm would lead to
-tons of undesirable copies. For example, when using `reverse` and `transform`,
-one could think that an intermediate copy is made after the call to `transform`:
+One might think that returning full sequences that own their elements from an
+algorithm would lead to tons of undesirable copies. For example, when using
+`reverse` and `transform`, one could think that an intermediate copy is made
+after the call to `transform`:
 
 @snippet example/tutorial/sem.cpp reverse_transform_copy
 
 To make sure this does not happen, Hana uses perfect forwarding and move
-semantics heavily so it can provide almost optimal runtime performance.
+semantics heavily so it can provide an almost optimal runtime performance.
 So instead of doing a copy, a move occurs between `reverse` and `transform`:
 
 @snippet example/tutorial/sem.cpp reverse_transform_move
+
+Ultimately, the goal is that code written using Hana should be equivalent to
+clever hand-written code, except it should be enjoyable to write. Performance
+considerations are explained in depth in their own [section](@ref tutorial-perf).
 
 
 
@@ -519,10 +519,10 @@ you would need to already know the result of the algorithm!):
 
 @snippet example/tutorial/amphi.cpp all_of_compile_time_integral_constant
 
-We just saw how some algorithms are able to return IntegralConstants when their
-inputs satisfy some constraints with respect to `compile-time`ness. However,
-other algorithms are more restrictive and they _require_ their inputs to
-satisfy some constraints regarding `compile-time`ness, without which they
+We just saw how some algorithms are able to return `IntegralConstant`s when
+their inputs satisfy some constraints with respect to `compile-time`ness.
+However, other algorithms are more restrictive and they _require_ their inputs
+to satisfy some constraints regarding `compile-time`ness, without which they
 are not able to operate at all. An example of this is `filter`, which takes a
 sequence and a predicate, and returns a new sequence containing only those
 elements for which the predicate is satisfied. `filter` requires the predicate
@@ -683,9 +683,6 @@ a couple of interesting examples scattered in the documentation if you want
 more. There's also a minimal reimplementation of the MPL using Hana under
 the hood in `example/misc/mini_mpl.cpp`.
 
-
-@subsection tutorial-type-perf Performance considerations
-
 @todo
 - Provide links to the scattered examples, and also to example/misc/mini_mpl.
   For some reason, I can't get Doxygen to generate a link.
@@ -706,7 +703,206 @@ the hood in `example/misc/mini_mpl.cpp`.
 
 
 
-@section tutorial-constexpr Limitations of constexpr
+@section tutorial-perf Performance considerations
+
+------------------------------------------------------------------------------
+C++ programmers love performance, so here's a whole section dedicated to it.
+Since Hana lives on the frontier between runtime and compile-time computations,
+we are not only interested in runtime performance, but also compile-time
+performance. Since both topics are pretty much disjoint, we treat them
+separately below.
+
+@note
+The benchmarks presented in this section are updated automatically when we
+push to the repository. If you notice results that do not withstand the
+claims made here, open a [GitHub issue][GitHub.issues]; it could
+be a performance regression.
+
+
+@subsection tutorial-perf-compile Compile-time performance
+
+C++ metaprogramming brings its share of awful things. One of the most annoying
+and well-known problem associated to it is interminable compilation times.
+Hana claims to be more compile-time efficient than its predecessors; this is
+a bold claim and we will now try to back it. Of course, Hana can't do miracles;
+metaprogramming is a byproduct of the C++ template system and the compiler is
+not meant to be used as an interpreter for some meta language. However, by
+using cutting edge and intensely benchmarked techniques, Hana is able to
+minimize the strain on the compiler.
+
+Before we dive, let me make a quick note on the methodology used to measure
+compile-time performance in Hana. Previous metaprogramming libraries measured
+the compile-time complexity of their meta-algorithms and meta-sequences by
+looking at the number of instantiations the compiler had to perform. While
+easy to understand, this way of measuring the compile-time complexity actually
+does not give us a lot of information regarding the compilation time, which
+is what we're interested in minimizing at the end of the day. Basically, the
+reason for this is that template metaprogramming is such a twisted model of
+computation that it's very hard to find a standard way of measuring the
+performance of algorithms. Hence, instead of presenting meaningless complexity
+analyses, we prefer to benchmark everything on every supported compiler and to
+pick the best implementation on that compiler. Now, let's dive.
+
+First, Hana minimizes its dependency on the preprocessor. In addition to
+yielding cleaner error messages in many cases, this reduces the overall
+parsing and preprocessing time for header files. Also, because Hana only
+supports cutting edge compilers, there are very few workarounds in the
+library, which results in a cleaner and smaller library. Finally, Hana
+minimizes reliance on any kind of external dependencies. In particular,
+it only uses other Boost libraries in a few specific cases, and it does
+not rely on the standard library for the largest part. There are several
+reasons (other than include times) for doing so; they are documented in
+the [rationales](@ref tutorial-rationales).
+
+Below is a chart showing the time required to include different libraries. The
+chart shows the time for including everything in the (non-external) public API
+of each library. For example, for Hana this means the `<boost/hana.hpp>` header,
+which excludes the external adapters. For other libraries like Boost.Fusion,
+this means including all the public headers in the `boost/fusion/` directory,
+but not the adapters for external libraries like the MPL.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.including.compile.json">
+</div>
+
+In addition to reduced preprocessing times, Hana uses modern techniques to
+implement heterogeneous sequences and algorithms in the most compile-time
+efficient way possible. Before jumping to the compile-time performance of
+the algorithms, we will have a look at the compile-time cost of creating
+heterogeneous sequences. Indeed, since we will be presenting algorithms that
+work on sequences, we must be aware of the cost of creating the sequences
+themselves, since that will influence the benchmarks for the algorithms.
+The following chart presents the compile-time cost of creating sequences
+of `n` elements.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.make.compile.json">
+</div>
+
+@note
+You can zoom on the chart by selecting an area to zoom into.
+
+The benchmark methodology is to always create the sequences in the most
+efficient way possible. For Hana, this simply means using the `make<Tuple>`
+function. However, for the MPL, this means creating a `mpl::vectorN` of size
+up to 20, and then using `mpl::push_back` to create larger vectors. We use a
+similar technique for Fusion sequences. The reason for doing so is that
+Fusion and MPL sequences have fixed size limits, and the techniques used
+here have been found to be the fastest way to create longer sequences.
+
+As you can see, Hana's compile-time _complexity_ is better than the alternatives.
+However, if you look closer at the curves, you will see that the MPL has lower
+compile-times for small numbers of elements. This is because including Hana's
+`Tuple` takes more time than including `mpl::vector`, and you are witnessing
+that slowdown by a constant amount. The reason why including Hana's `Tuple` is
+slower than including `mpl::vector` is that Hana's `Tuple` includes all the
+algorithms it can be used with, while `mpl::vector` only includes the strict
+minimum. Considering you need to include most of them manually when using the
+MPL, this constant slowdown will be nonexistent in real code and Hana's
+approach just makes it less painful for the programmer.
+
+You can also see that creating sequences has a non-negligible cost. Actually,
+this is really the most expensive part, as you will see in the following charts
+showing the compile-time performance of algorithms. When you look at the charts
+here and elsewhere in the library, keep in mind the cost of merely creating the
+sequences. Also note that only the most important algorithms will be presented
+here, but micro benchmarks for compile-time performance are scattered in the
+reference documentation. Also, the benchmarks we present compare several
+different libraries. However, since Hana and Fusion can work with values and
+not only types, comparing their algorithms with type-only libraries like MPL
+is not really fair. Indeed, Hana and Fusion algorithms are more powerful since
+they also allow runtime effects to be performed. However, the comparison
+between Fusion and Hana is fair, because both libraries are just as powerful
+(strictly speaking).
+
+The first algorithm which is ubiquitous in metaprogramming is `transform`.
+It takes a sequence and a function, and returns a new sequence containing the
+result of applying the function to each element. The following chart presents
+the compile-time performance of applying `transform` to a sequence of `n`
+elements. The `x` axis represents the number of elements in the sequence, and
+the `y` axis represents the compilation time in seconds. Also note that we're
+using the `transform` equivalent in each library; we're not using the
+`transform` algorithm from Hana through the Boost.Fusion adapters, for
+example, which would likely be less efficient.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.transform.compile.json">
+</div>
+
+You probably also noticed how there are multiple slightly different curves for
+Fusion and Hana's `Tuple`. Those curves measure slightly different usage
+patterns for the `transform` algorithm. First, we benchmark `transform` when
+applied to sequences that contain both homogeneous and heterogeneous elements.
+The reason is that sequences holding heterogeneous elements tend to be less
+compile-time efficient, because the compiler has to instantiate more different
+types. Second, we benchmark the algorithm both on a standard Hana `Tuple` and
+on a `Tuple` created through `hana::tuple_t`, and mapping a Hana `Metafunction`
+instead of a regular function. The reason is that it is possible to optimize
+some algorithms (like `transform`) when we know we're actually mapping a
+metafunction on a type sequence. Basically, we can do the whole algorithm at
+the type level behind the scenes, which is more efficient, but you still get
+the nice value-level interface.
+
+@note
+The representation of `tuple_t` is not really optimized right now, so there is
+no difference between using it and not using it. You should still use `tuple_t`
+to create type-only `Tuple`s, as some nice optimizations can be implemented.
+
+The second important class of algorithms are folds. Folds can be used to
+implement many other algorithms like `count_if`, `minimum` and so on.
+Hence, a good compile-time performance for fold algorithms ensures a good
+compile-time performance for those derived algorithms, which is why we're
+only presenting folds here. Also note that all the non-monadic fold variants
+are somewhat equivalent in terms of compile-time, so we only present the left
+folds. The following chart presents the compile-time performance of applying
+`fold.left` to a sequence of `n` elements. The `x` axis represents the number
+of elements in the sequence, and the `y` axis represents the compilation time
+in seconds. The function used for folding is a dummy function that does nothing.
+In real code, you would likely fold with a nontrivial operation, so the curves
+would be worse than that. However, these are micro benchmarks and hence they
+only show the performance of the algorithm itself.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.fold_left.compile.json">
+</div>
+
+The third and last algorithm that we present here is the `find_if` algorithm.
+This algorithm is difficult to implement efficiently, because it requires
+stopping at the first element which satisfies the given predicate. For the
+same reason, modern techniques don't really help us here, so this algorithm
+constitutes a good test of the implementation quality of Hana disregarding
+the metaprogramming free lunch given to us by C++14.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.find_if.compile.json">
+</div>
+
+As you can see, Hana performs better than Fusion, and as well as MPL, yet
+Hana's `find_if` can be used with values too, unlike MPL's. This concludes
+the section on compile-time performance, but there are micro benchmarks of
+compile-time performance scattered around the documentation if you want to
+see the compile-time behavior of a particular algorithm.
+
+
+@subsection tutorial-perf-runtime Runtime performance
+
+@todo Write this section.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-constexpr The limitations of constexpr
 
 ------------------------------------------------------------------------------
 In C++, the border between compile-time and runtime is hazy, a fact that is
@@ -1223,15 +1419,46 @@ the library, and please leave feedback on GitHub so we can improve the library!
 
 
 
+@section tutorial-rationales Rationales/FAQ
+
+------------------------------------------------------------------------------
+This section documents the rationale for some design choices. It also serves
+as a FAQ for some (not so) frequently asked questions. If you think something
+should be added to this list, open a GitHub issue and we'll consider either
+improving the documentation or adding the question here.
+
+
+1. Why restrict usage of Boost and the standard library? After all, isn't this a (proposed) Boost library?
+There are several reasons for doing so. First, Hana is a very fundamental
+library; we are basically reimplementing the core language and the standard
+library with support for heterogeneous types. When you go through the code,
+you quickly realize that you very rarely need other libraries, and that
+almost everything must be implemented from scratch. Also, since Hana is very
+fundamental, there is even more incentive for keeping the dependencies minimal,
+because those dependencies will be handed down to the users.
+Finally, one big reason for using Boost is that it is highly portable. As an
+exception to the rule, this library only targets very recent compilers. Hence,
+we can afford to depend on modern constructs and the portability brought by
+using most Boost libraries is just dead weight.
+
+
+
+
+
+
+
+
+
 
 <!-- Links -->
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [C++Now]: http://cppnow.org
+[constexpr_throw]: http://stackoverflow.com/a/8626450/627587
+[GitHub.issues]: https://github.com/ldionne/hana/issues
+[GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [MPL11]: http://github.com/ldionne/mpl11
-[constexpr_throw]: http://stackoverflow.com/a/8626450/627587
-[GOTW]: http://www.gotw.ca/gotw/index.htm
 
 [Wikipedia.C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
 [Wikipedia.CXX14_udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals

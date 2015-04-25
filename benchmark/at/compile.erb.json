@@ -1,5 +1,5 @@
-<% hana = (1..50).step(2).to_a + (50..400).step(25).to_a %>
-<% fusion = (1..50).step(2).to_a %>
+<% hana = (1...50).step(5).to_a + (50..400).step(25).to_a %>
+<% fusion = (1...50).step(5).to_a + [50, 75, 100] %>
 <% mpl = hana %>
 
 {

@@ -352,6 +352,14 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/iterable.cpp at
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.at.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
         return tag-dispatched;

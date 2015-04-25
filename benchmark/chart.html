@@ -10,11 +10,8 @@
   <script src="chart.js"></script>
 
   <script type="text/javascript">
-    var drawChart = function() {
-      var compiler = $("#compiler").val();
-      var dataset = $("#dataset").val();
-      var repo = "https://raw.githubusercontent.com/ldionne/hana/datasets/release/";
-      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+    var setDataset = function(dataset) {
+      $.getJSON(dataset, function(options) {
         if ($("#container").highcharts())
           $("#container").highcharts().destroy();
 
@@ -22,29 +19,12 @@
         $("#container").highcharts().redraw();
       });
     };
-
-    window.onload = drawChart;
   </script>
 </head>
 
 <body>
   <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-  <select id="compiler" onchange="drawChart()">
-    <option value="clang-3.5.0">Clang 3.5.0</option>
-    <option value="clang-3.6.1">Clang 3.6.1</option>
-    <option value="clang-3.7.0">Clang 3.7.0 (trunk)</option>
-  </select>
-
-  <select id="dataset" onchange="drawChart()">
-    <option value="benchmark.fold_left.compile.json">Compile-time left fold</option>
-    <option value="benchmark.fold_right.compile.json">Compile-time right fold</option>
-    <option value="benchmark.transform.compile.json">Compile-time transform</option>
-    <option value="benchmark.count_if.compile.json">Compile-time count_if</option>
-    <option value="benchmark.at.compile.json">Compile-time at</option>
-    <option value="benchmark.product.compile.json">Compile-time product</option>
-    <option value="benchmark.including.compile.json">Include time</option>
-  </select>
+  <input type="text" size=100 name="dataset" class="enter" value="" onchange="setDataset(this.value)" />
 </body>
 
 </html>
