@@ -8,8 +8,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 int main() {
-    constexpr auto tuple = boost::hana::tuple_c<int,
-        <%= (1..input_size).map { |n| "#{n}" }.join(', ') %>
+    constexpr auto tuple = boost::hana::tuple_c<
+        <%= (['int'] + (1..input_size).to_a).join(', ') %>
     >;
     (void)tuple;
 }

@@ -67,6 +67,10 @@ def measure(aspect, template_relative, range)
   template = Pathname.new(template_relative).expand_path
   range = range.to_a
 
+  if ENV["check.benchmarks"] && range.length >= 2
+    range = [range[0], range[-1]]
+  end
+
   make = -> (target) {
     command = "@CMAKE_COMMAND@ --build @CMAKE_BINARY_DIR@ --target #{target}"
     stdout, stderr, status = Open3.capture3(command)

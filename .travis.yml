@@ -160,19 +160,18 @@ script:
   - if [[ "${DOCUMENTATION}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc; fi
   - if [[ "${DOCUMENTATION}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push &>/dev/null; fi
 
-  # We only run the benchmarks on `master` when we're not in a pull request, because
-  # otherwise it takes too much Travis resources. Note that we don't exit earlier in the
-  # script because we still want to make sure our dependencies can be installed when we
-  # push on develop. This is just to minimize the chances of breaking the build on master.
+  # We only run the full benchmarks on `master` when we're not in a pull request, because
+  # otherwise it takes too much Travis resources. Otherwise, we only run partial benchmarks
+  # to make sure they compile/run properly by using the 'check.benchmarks' target.
   #
   # When we run the benchmarks, we pre-clone the datasets branch, so the next datasets.clone
   # will just pull, which is pretty quick. This reduces the risk of push conflicts when these
   # jobs all run at the same time. When we push, we use travis_retry to try again if we encounter
   # a push conflict, and we disable the output to avoid leaking the GitHub token.
-  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then exit; fi
-  - if [[ "${BENCHMARKS}" == "true" ]]; then make benchmarks -k; fi
-  - if [[ "${BENCHMARKS}" == "true" ]]; then make datasets.clone; fi
-  - if [[ "${BENCHMARKS}" == "true" ]]; then travis_retry make datasets.push &>/dev/null; fi
+  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make check.benchmarks -k; fi
+  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make benchmarks -k; fi
+  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make datasets.clone; fi
+  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
 
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.headers compile.examples -k -j2 &>/dev/null; fi
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.all -k; fi

@@ -1,4 +1,4 @@
-<% exec = (1..50).step(2).to_a %>
+<% exec = (1..50).step(5).to_a %>
 
 {
   "title": {

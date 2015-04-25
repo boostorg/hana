@@ -9,8 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 int main() {
-    constexpr auto tuple = boost::hana::tuple_c<unsigned long long,
-        <%= (1..input_size).to_a.join(', ') %>
+    constexpr auto tuple = boost::hana::tuple_c<
+        <%= (['unsigned long long'] + (1..input_size).to_a).join(', ') %>
     >;
     constexpr auto result = boost::hana::product<
         boost::hana::IntegralConstant<unsigned long long>
