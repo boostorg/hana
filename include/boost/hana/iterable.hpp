@@ -383,7 +383,7 @@ namespace boost { namespace hana {
 
             template <typename Xs, typename Pred>
             static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(at_c<k>(xs)), true_, false_);
+                auto cond = hana::if_(pred(hana::at_c<k>(xs)), true_, false_);
                 return any_of_helper<k + 1, Len>::apply(cond,
                                         static_cast<Xs&&>(xs),
                                         static_cast<Pred&&>(pred));

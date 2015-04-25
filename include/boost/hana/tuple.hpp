@@ -42,6 +42,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
@@ -462,6 +463,117 @@ namespace boost { namespace hana {
             return drop_helper<drop_size>(static_cast<Xs&&>(xs),
                 detail::std::make_index_sequence<size - drop_size>{});
         }
+    };
+
+    template <>
+    struct drop_while_impl<Tuple> {
+        using Size = detail::std::size_t;
+
+        template <Size k, Size Len>
+        struct drop_while_helper {
+            template <typename Xs, typename Pred>
+            static constexpr decltype(auto)
+            apply(decltype(false_), Xs&& xs, Pred&&) {
+                return hana::drop.exactly(hana::size_t<k-1>,
+                                          static_cast<Xs&&>(xs));
+            }
+
+            template <typename Xs, typename Pred>
+            static constexpr decltype(auto)
+            apply(decltype(true_), Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(hana::at_c<k>(xs)), true_, false_);
+                return drop_while_helper<k + 1, Len>::apply(cond,
+                                        static_cast<Xs&&>(xs),
+                                        static_cast<Pred&&>(pred));
+            }
+        };
+
+        template <Size Len>
+        struct drop_while_helper<Len, Len> {
+            template <typename Xs, typename Pred>
+            static constexpr decltype(auto)
+            apply(decltype(false_), Xs&& xs, Pred&&) {
+                return hana::drop.exactly(hana::size_t<Len - 1>,
+                                          static_cast<Xs&&>(xs));
+            }
+
+            template <typename Xs, typename Pred>
+            static constexpr decltype(auto)
+            apply(decltype(true_), Xs&& xs, Pred&&) {
+                return hana::drop.exactly(hana::size_t<Len>,
+                                          static_cast<Xs&&>(xs));
+            }
+        };
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr Size len = tuple_detail::size<Xs>::value;
+            return drop_while_helper<0, len>::apply(true_,
+                                            static_cast<Xs&&>(xs),
+                                            static_cast<Pred&&>(pred));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Searchable
+    //////////////////////////////////////////////////////////////////////////
+    namespace tuple_detail {
+        template <typename Xs, typename Pred, typename = hana::when<true>>
+        struct find_tail_size;
+
+        template <typename Pred>
+        struct find_tail_size<hana::_tuple<>, Pred> { };
+
+        template <typename X, typename ...Xs, typename Pred>
+        struct find_tail_size<hana::_tuple<X, Xs...>, Pred, hana::when<
+            hana::if_(hana::value<decltype(
+                detail::std::declval<Pred>()(detail::std::declval<X>())
+            )>(), true, false)
+        >> {
+            static constexpr auto value = sizeof...(Xs);
+        };
+
+        template <typename X, typename ...Xs, typename Pred>
+        struct find_tail_size<hana::_tuple<X, Xs...>, Pred, hana::when<
+            !hana::if_(hana::value<decltype(
+                detail::std::declval<Pred>()(detail::std::declval<X>())
+            )>(), true, false)
+        >>
+            : find_tail_size<hana::_tuple<Xs...>, Pred>
+        { };
+
+        template <typename Xs, typename Pred,
+            detail::std::size_t tail_size = find_tail_size<
+                typename detail::std::remove_reference<Xs>::type, Pred
+            >::value
+        >
+        constexpr auto find_if_impl(Xs&& xs, Pred const&, int) {
+            //! @todo
+            //! Must we actually call `pred` to make sure potential
+            //! side effects are performed?
+            constexpr auto size = tuple_detail::size<Xs>::value;
+            constexpr auto index = size - tail_size - 1;
+            return hana::just(hana::at_c<index>(static_cast<Xs&&>(xs)));
+        }
+
+        template <typename Xs, typename Pred>
+        constexpr auto find_if_impl(Xs&&, Pred const&, long)
+        { return hana::nothing; }
+    }
+
+    template <>
+    struct find_if_impl<Tuple> {
+        #define BOOST_HANA_PP_FIND_IF(REF)                                  \
+            template <typename ...Xs, typename Pred>                        \
+            static constexpr decltype(auto)                                 \
+            apply(_tuple<Xs...> REF xs, Pred&& pred) {                      \
+                return tuple_detail::find_if_impl(                          \
+                    static_cast<_tuple<Xs...> REF>(xs),                     \
+                    static_cast<Pred&&>(pred), int{});                      \
+            }                                                               \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FIND_IF)
+        #undef BOOST_HANA_PP_FIND_IF
     };
 
     //////////////////////////////////////////////////////////////////////////

@@ -123,7 +123,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestIterable<S, when<_models<Sequence, S>{}>> : TestIterable<S, laws> {
+    struct TestIterable<S, when<_models<Sequence, S>{}()>>
+        : TestIterable<S, laws>
+    {
         template <int i>
         using x = ct_eq<i>;
 
@@ -425,6 +427,23 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 drop_while(list(false_, false_), id),
                 list(false_, false_)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_while(list(x<0>{}, x<1>{}), not_equal.to(x<99>{})),
+                list()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_while(list(x<0>{}, x<1>{}, x<2>{}), not_equal.to(x<1>{})),
+                list(x<1>{}, x<2>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_while(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), not_equal.to(x<3>{})),
+                list(x<3>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_while(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), not_equal.to(x<0>{})),
+                list(x<0>{}, x<1>{}, x<2>{}, x<3>{})
             ));
         }
     };
