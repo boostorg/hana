@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/create.hpp>
@@ -544,7 +545,9 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred,
             detail::std::size_t tail_size = find_tail_size<
-                typename detail::std::remove_reference<Xs>::type, Pred
+                typename detail::std::remove_cv<
+                    typename detail::std::remove_reference<Xs>::type
+                >::type, Pred
             >::value
         >
         constexpr auto find_if_impl(Xs&& xs, Pred const&, int) {
