@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -146,7 +164,7 @@ Files</h2></td></tr>
 <tr class="memdesc:enumerable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_enumerable.html" title="Represents data types whose values can be enumerated. ">boost::hana::Enumerable</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:foldable_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="foldable_8hpp.html">foldable.hpp</a></td></tr>
-<tr class="memdesc:foldable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">boost::hana::Foldable</a></code>. <br /></td></tr>
+<tr class="memdesc:foldable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">boost::hana::Foldable</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:functional_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="functional_8hpp.html">functional.hpp</a></td></tr>
 <tr class="memdesc:functional_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the <a class="el" href="group__group-functional.html">Functional</a> module. <br /></td></tr>
@@ -199,12 +217,6 @@ Files</h2></td></tr>
 <tr class="memitem:range_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="range_8hpp.html">range.hpp</a></td></tr>
 <tr class="memdesc:range_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_range.html" title="Compile-time half-open interval of Constants. ">boost::hana::Range</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:record_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="record_8hpp.html">record.hpp</a></td></tr>
-<tr class="memdesc:record_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_record.html" title="The Record concept represents record-like user-defined types. ">boost::hana::Record</a></code>. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:record__macros_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="record__macros_8hpp.html">record_macros.hpp</a></td></tr>
-<tr class="memdesc:record__macros_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the <code>BOOST_HANA_DEFINE_RECORD</code> and the <code>BOOST_HANA_DEFINE_RECORD_INTRUSIVE</code> macros. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ring_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ring_8hpp.html">ring.hpp</a></td></tr>
 <tr class="memdesc:ring_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">boost::hana::Ring</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,8 +232,14 @@ Files</h2></td></tr>
 <tr class="memitem:string_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="string_8hpp.html">string.hpp</a></td></tr>
 <tr class="memdesc:string_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">boost::hana::String</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:struct_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_8hpp.html">struct.hpp</a></td></tr>
+<tr class="memdesc:struct_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_struct.html" title="The Struct concept represents struct-like user-defined types. ">boost::hana::Struct</a></code>. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:struct__macros_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__macros_8hpp.html">struct_macros.hpp</a></td></tr>
+<tr class="memdesc:struct__macros_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the <code>BOOST_HANA_DEFINE_STRUCT</code> and the <code>BOOST_HANA_ADAPT_STRUCT</code> macros. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:traversable_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="traversable_8hpp.html">traversable.hpp</a></td></tr>
-<tr class="memdesc:traversable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure- preserving right fold with an Applica...">boost::hana::Traversable</a></code>. <br /></td></tr>
+<tr class="memdesc:traversable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">boost::hana::Traversable</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:tuple_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tuple_8hpp.html">tuple.hpp</a></td></tr>
 <tr class="memdesc:tuple_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1_tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a></code>. <br /></td></tr>
@@ -232,13 +250,11 @@ Files</h2></td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

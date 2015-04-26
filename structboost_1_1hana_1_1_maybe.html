@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -183,12 +201,12 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (operators provided)<br />
-The <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>bind</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>ness removed with <code>flatten</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
+The <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>ness removed with <code>flatten</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x + 1);</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(bind(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(bind(nothing, inc) == nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(chain(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(chain(nothing, inc) == nothing);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(flatten(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2))) == <a class="code" href="structboost_1_1hana_1_1_maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
 </div><!-- fragment --></li>
@@ -207,7 +225,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represe
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Maybe&gt;() == nothing);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure- preserving right fold with an Applica...">Traversable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a></code><br />
 Traversing <code>nothing</code> yields <code>nothing</code> in the new applicative, and traversing <code>just(x)</code> applies the function and maps <code>just</code> inside the resulting applicative. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> replicate3 = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, x, x);</div>
 <div class="line">};</div>
@@ -224,7 +242,7 @@ Traversing <code>nothing</code> yields <code>nothing</code> in the new applicati
 <div class="line">    make&lt;Tuple&gt;(nothing)</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code> is equivalent to folding a <code>List</code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">};</div>
@@ -590,13 +608,11 @@ Synopsis of methods</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_maybe.html">Maybe</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -105,7 +123,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_logical.html',
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> concept represents types with a truth value. </p>
 <p>Intuitively, a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is just a <code>bool</code>, or something that can act like one. However, in the context of programming with heterogeneous objects, it becomes extremely important to distinguish between those objects whose truth value is known at compile-time, and those whose truth value is only known at runtime. The reason why this is so important is because it is possible to branch at compile-time on a condition whose truth value is known at compile-time, and hence the return type of the enclosing function can depend on that truth value. However, if the truth value is only known at runtime, then the compiler has to compile both branches (because any or both of them may end up being used), which creates the additional requirement that both branches must evaluate to the same type.</p>
-<p>Specifically, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> (almost) represents a <a href="http://en.wikipedia.org/wiki/Boolean_algebra_(structure)">boolean algebra</a>, which is a mathematical structure encoding the usual properties that allow us to reason with <code>bool</code>. The exact properties that must be satisfied by any model of <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> are rigorously stated in the laws below.</p>
+<p>More specifically, <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> (almost) represents a <a href="http://en.wikipedia.org/wiki/Boolean_algebra_(structure)">boolean algebra</a>, which is a mathematical structure encoding the usual properties that allow us to reason with <code>bool</code>. The exact properties that must be satisfied by any model of <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> are rigorously stated in the laws below.</p>
 <h2>Truth, falsity and logical equivalence </h2>
 <p>A <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>x</code> is said to be <em>true-valued</em>, or sometimes also just <em>true</em> as an abuse of notation, if </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, <span class="keyword">true</span>, <span class="keyword">false</span>) == <span class="keyword">true</span></div>
 </div><!-- fragment --><p>Similarly, <code>x</code> is <em>false-valued</em>, or sometimes just <em>false</em>, if </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, <span class="keyword">true</span>, <span class="keyword">false</span>) == <span class="keyword">false</span></div>
@@ -536,13 +554,11 @@ Synopsis of methods</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_logical.html">Logical</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

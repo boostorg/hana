@@ -95,6 +95,8 @@ $(document).ready(function(){initNavTree('record__macros_8hpp.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">record_macros.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -102,16 +104,92 @@ $(document).ready(function(){initNavTree('record__macros_8hpp.html','');});
 
 <p>Defines the <code>BOOST_HANA_DEFINE_RECORD</code> and the <code>BOOST_HANA_DEFINE_RECORD_INTRUSIVE</code> macros.  
 <a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ac0c49e26841cde4895d867e2e479e085"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="record__macros_8hpp.html#ac0c49e26841cde4895d867e2e479e085">BOOST_HANA_DEFINE_RECORD_INTRUSIVE</a>(...)</td></tr>
+<tr class="memdesc:ac0c49e26841cde4895d867e2e479e085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a model of <code>Record</code> with the given members.  <a href="#ac0c49e26841cde4895d867e2e479e085">More...</a><br /></td></tr>
+<tr class="separator:ac0c49e26841cde4895d867e2e479e085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b4b7796bad58bc18683d99ca90a0034"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="record__macros_8hpp.html#a8b4b7796bad58bc18683d99ca90a0034">BOOST_HANA_DEFINE_RECORD</a>(...)</td></tr>
+<tr class="memdesc:a8b4b7796bad58bc18683d99ca90a0034"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a model of <code>Record</code> with the given members.  <a href="#a8b4b7796bad58bc18683d99ca90a0034">More...</a><br /></td></tr>
+<tr class="separator:a8b4b7796bad58bc18683d99ca90a0034"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the <code>BOOST_HANA_DEFINE_RECORD</code> and the <code>BOOST_HANA_DEFINE_RECORD_INTRUSIVE</code> macros. </p>
 <dl class="section note"><dt>Note</dt><dd>This header carries a dependency on the Boost.Preprocessor library. For this reason, it is not included by default by the master header of the library.</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ac0c49e26841cde4895d867e2e479e085"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_DEFINE_RECORD_INTRUSIVE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">BOOST_HANA_PP_DEFINE_RECORD_INTRUSIVE_IMPL(                             \</div>
+<div class="line">        BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__),                             \</div>
+<div class="line">        BOOST_PP_SEQ_TAIL(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))            \</div>
+<div class="line">    )                                                                       \</div>
+</div><!-- fragment -->
+<p>Defines a model of <code>Record</code> with the given members. </p>
+<p>Specifically, use this macro in the public section of a user-defined type <code>T</code> to define a model of the <code>Record</code> concept for <code>T</code>. Note that this only works if the data type of <code>T</code> is <code>T</code> itself.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">    <a class="code" href="record__macros_8hpp.html#ac0c49e26841cde4895d867e2e479e085">BOOST_HANA_DEFINE_RECORD_INTRUSIVE</a>(Person,</div>
+<div class="line">        (std::string, name),</div>
+<div class="line">        (<span class="keywordtype">int</span>, age)</div>
+<div class="line">    );</div>
+<div class="line">};</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a8b4b7796bad58bc18683d99ca90a0034"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_DEFINE_RECORD</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">BOOST_HANA_PP_DEFINE_RECORD_IMPL(                                       \</div>
+<div class="line">        BOOST_PP_VARIADIC_ELEM(0, __VA_ARGS__),                             \</div>
+<div class="line">        BOOST_PP_SEQ_TAIL(BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))            \</div>
+<div class="line">    )                                                                       \</div>
+</div><!-- fragment -->
+<p>Defines a model of <code>Record</code> with the given members. </p>
+<p>Specifically, use this macro at <b>global scope</b> to define a model of the <code>Record</code> concept for a given data type.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">namespace </span>ns {</div>
+<div class="line">    <span class="keyword">struct </span>Person {</div>
+<div class="line">        std::string name;</div>
+<div class="line">        <span class="keywordtype">int</span> age;</div>
+<div class="line">    };</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="record__macros_8hpp.html#a8b4b7796bad58bc18683d99ca90a0034">BOOST_HANA_DEFINE_RECORD</a>(ns::Person,</div>
+<div class="line">    (std::string, name),</div>
+<div class="line">    (<span class="keywordtype">int</span>, age)</div>
+<div class="line">);</div>
+</div><!-- fragment -->
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8ba7d03e214d8b93f63f7ed9669a8ee5.html">boost</a></li><li class="navelem"><a class="el" href="dir_62ceaa6da6a428bacbefa2ca5daffcb8.html">hana</a></li><li class="navelem"><a class="el" href="record__macros_8hpp.html">record_macros.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="record__macros_8hpp.html">record_macros.hpp</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>

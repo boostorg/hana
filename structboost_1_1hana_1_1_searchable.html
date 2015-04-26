@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -104,37 +122,37 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_searchable.htm
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept represents structures that can be searched. </p>
-<p>Intuitively, a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> is any structure, finite or infinite, containing elements that can be searched using a predicate. Sometimes, Searchables will associate keys to values; one can search for a key with a predicate, and the value associated to it is returned. This gives rise to map-like data structures. Other times, the elements of the structure that are searched (i.e. those to which the predicate is applied) are the same that are returned, which gives rise to set-like data structures. In general, we will refer to the <em>keys</em> of a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> structure as those elements that are used for searching, and to the <em>values</em> of a <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> as those elements that are returned when a search is successful. As was explained, there is no requirement that both notions differ, and it is often useful to have keys and values coincide (think about <code>std::set</code>).</p>
+<p>Intuitively, a <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> is any structure, finite or infinite, containing elements that can be searched using a predicate. Sometimes, <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s will associate keys to values; one can search for a key with a predicate, and the value associated to it is returned. This gives rise to map-like data structures. Other times, the elements of the structure that are searched (i.e. those to which the predicate is applied) are the same that are returned, which gives rise to set-like data structures. In general, we will refer to the <em>keys</em> of a <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> structure as those elements that are used for searching, and to the <em>values</em> of a <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> as those elements that are returned when a search is successful. As was explained, there is no requirement that both notions differ, and it is often useful to have keys and values coincide (think about <code>std::set</code>).</p>
 <p>Some methods like <code>any_of</code>, <code>all_of</code> and <code>none_of</code> allow simple queries to be performed on the keys of the structure, while other methods like <code>find</code> and <code>find_if</code> make it possible to find the value associated to a key. The most specific method should always be used if one cares about performance, because it is usually the case that heavy optimizations can be performed in more specific methods. For example, an associative data structure implemented as a hash table will be much faster to access using <code>find</code> than <code>find_if</code>, because in the second case it will have to do a linear search through all the entries. Similarly, using <code>elem</code> will likely be much faster than <code>any_of</code> with an equivalent predicate.</p>
 <blockquote class="doxtable">
-<h4>Insight</h4>
-<p>In a lazy evaluation context, any <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> can also become a model of <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> because we can search lazily through the structure with <code>foldr</code>. However, in the context of C++, some Searchables can not be folded; think for example of an infinite set. </p>
+<p><b>Insight</b><br />
+In a lazy evaluation context, any <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> can also become a model of <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> because we can search lazily through the structure with <code>foldr</code>. However, in the context of C++, some <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s can not be folded; think for example of an infinite set. </p>
 </blockquote>
 <h2>Laws </h2>
-<p>In order for the semantics of the methods to be consistent, some properties must be satisfied by any model of the <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> concept. Rigorously, for any <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> xs, ys</code> and predicate <code>p</code>, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, p) &lt;=&gt; !<a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, negated p)</div>
+<p>In order for the semantics of the methods to be consistent, some properties must be satisfied by any model of the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept. Rigorously, for any <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s <code>xs</code> and <code>ys</code> and any predicate <code>p</code>, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, p) &lt;=&gt; !<a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, negated p)</div>
 <div class="line">              &lt;=&gt; !<a class="code" href="structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">none_of</a>(xs, p)</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(xs, x) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, [](auto y) { <span class="keywordflow">return</span> y == x; })</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(xs, x) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(x))</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, [](<span class="keyword">auto</span> y) { <span class="keywordflow">return</span> y == x; })</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(x))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(false_)) == nothing</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(xs, ys) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(ys, x); })</div>
-</div><!-- fragment --><p>Additionally, if all the keys of the <a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> are <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, <span class="keywordtype">id</span>)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(xs, ys) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, [](auto x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1_searchable.html#a04e413e4acd1dac89e442df2f30f3e2d">elem</a>(ys, x); })</div>
+</div><!-- fragment --><p>Additionally, if all the keys of the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> are <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, <span class="keywordtype">id</span>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, <span class="keywordtype">id</span>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(xs) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">none_of</a>(xs, <span class="keywordtype">id</span>)</div>
 </div><!-- fragment --><h2>Minimal complete definition </h2>
-<ol type="1">
-<li><code>find_if</code> and <code>any_of</code><br />
-According to the above laws, it is possible to implement all the methods pertaining to this concept using only <code>find_if</code> and <code>any_of</code>. When <code>find_if</code> and <code>any_of</code> are provided, the other methods are implemented according to the laws above.</li>
-</ol>
-<h2>Provided models </h2>
-<ol type="1">
-<li>For builtin arrays<br />
-Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find_if</code> must return a compile-time <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>, the <code>find_if</code> method is fairly useless. For similar reasons, the <code>find</code> method is also fairly useless.</li>
-</ol>
+<p><code>find_if</code> and <code>any_of</code><br />
+According to the above laws, it is possible to implement all the methods pertaining to this concept using only <code>find_if</code> and <code>any_of</code>. When <code>find_if</code> and <code>any_of</code> are provided, the other methods are implemented according to the laws above.</p>
 <dl class="section note"><dt>Note</dt><dd>We could implement <code>any_of(xs, pred)</code> as <code>is_just(find_if(xs, pred))</code>, and then reduce the minimal complete definition to <code>find_if</code>. However, this is not done because that implementation requires the predicate of <code>any_of</code> to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, which is more restrictive than what we have right now.</dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>We should provide a member <code>operator[]</code> equivalent to <code>find</code>. </dd></dl>
+<h2>Provided model for builtin arrays </h2>
+<p>Builtin arrays whose size is known can be searched as-if they were homogeneous tuples. However, since arrays can only hold objects of a single type and the predicate to <code>find_if</code> must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, the <code>find_if</code> method is fairly useless. For similar reasons, the <code>find</code> method is also fairly useless. This model is provided mainly because of the <code>any_of</code> method &amp; friends, which are both useful and compile-time efficient.</p>
+<h2>Structure preserving functions </h2>
+<p>Given two <code>Searchables</code> <code>S1</code> and <code>S2</code>, a function \( f : S_1(X) \to S_2(X) \) is said to preserve the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> structure if for all <code>xs</code> of data type <code>S1(X)</code> and predicates \( pred : X \to Bool \) (for a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code>), </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, pred)  if and only if  <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(f(xs), pred)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, pred) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(f(xs), pred)</div>
+</div><!-- fragment --><p>This is really just a generalization of the following, more intuitive requirements. For all <code>xs</code> of data type <code>S1(X)</code> and <code>x</code> of data type <code>X</code>, </p><div class="fragment"><div class="line">x ^<a class="code" href="structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a>^ xs  <span class="keywordflow">if</span> and only <span class="keywordflow">if</span>  x ^<a class="code" href="structboost_1_1hana_1_1_searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a>^ f(xs)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(f(xs), x)</div>
+</div><!-- fragment --><p>These requirements can be understood as saying that <code>f</code> does not change the content of <code>xs</code>, although it may reorder elements. As usual, such a structure-preserving transformation is said to be an embedding if it is also injective, i.e. if it is a lossless transformation. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -575,6 +593,10 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
+<h2>Operator-form </h2>
+<p>For convenience, the <code>find</code> method can be applied to <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s that support it by using the <code>[]</code> operator. Hence, if <code>xs</code> supports the operator, </p><div class="fragment"><div class="line">xs[a] == <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(xs, a)</div>
+</div><!-- fragment --><p>To take advantage of this operator for a type <code>T</code>, <code>T</code> must inherit <code>hana::operators::Searchable_ops&lt;T&gt;</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The same operator is provided for the <code>at</code> method of the <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> concept. When a data type is a model of both <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, which operator is used should be documented properly.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, type&lt;int&gt;, <span class="charliteral">&#39;3&#39;</span>), type&lt;int&gt;) == just(type&lt;int&gt;)</div>
@@ -618,8 +640,10 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns whether a structure contains a subset of the keys of another structure. </p>
-<p>Specifically, <code>subset(xs, ys)</code> is a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether all of the keys of <code>xs</code> are also keys of <code>ys</code>. In particular, this method does <em>not</em> check whether <code>xs</code> is a strict subset of <code>ys</code>, i.e. a subset that is not equal.</p>
-<dl class="section note"><dt>Note</dt><dd>This method is tag-dispatched using the data type of the first argument only.</dd></dl>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s <code>xs</code> and <code>ys</code>, <code>subset</code> returns a <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>xs</code> is a subset of <code>ys</code>. In other words, it returns whether all the keys of <code>xs</code> are also present in <code>ys</code>. This method does not return whether <code>xs</code> is a <em>strict</em> subset of <code>ys</code>; if <code>xs</code> and <code>ys</code> are equal, all the keys of <code>xs</code> are also present in <code>ys</code>, and <code>subset</code> returns true.</p>
+<h2>Cross-type version of the method </h2>
+<p>This method is tag-dispatched using the data type of both arguments. It can be called with any two <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s sharing a common <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> embedding, as defined in the main documentation of the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept. When <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s of two different data types but sharing a common embedding are sent to <code>subset</code>, they are first converted to this common <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> and the <code>subset</code> method of the common embedding is then used. Of course, the method can be overriden for custom <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s for efficieny.</p>
+<dl class="section note"><dt>Note</dt><dd>While cross-type dispatching for <code>subset</code> is supported, it is not currently used by the library because there are no models of <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> with a common embedding.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to check whether it is a subset of <code>ys</code>.</td></tr>
@@ -629,23 +653,16 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_searchable.html#aa713b34e28603ea39c8873609fd24801">subset</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make&lt;Tuple&gt;(3.3, 1, <span class="charliteral">&#39;2&#39;</span>, <span class="keyword">nullptr</span>)));</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/searchable/subset.ctime.png" alt="subset.ctime.png"/>
-</div>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Consider using the data type of both arguments for tag-dispatching. </dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_searchable.html">Searchable</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

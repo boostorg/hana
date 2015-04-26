@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -125,7 +143,7 @@ The total order implemented for <code><a class="el" href="structboost_1_1hana_1_
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1_string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>) &gt; <a class="code" href="structboost_1_1hana_1_1_string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">String</a></code> is equivalent to folding the sequence of its characters. <div class="fragment"><div class="line"><span class="keyword">auto</span> sum_string = [](<span class="keyword">auto</span> str) {</div>
 <div class="line">    <span class="keywordflow">return</span> fold.left(str, int_&lt;0&gt;, [](<span class="keyword">auto</span> sum, <span class="keyword">auto</span> c) {</div>
 <div class="line">        constexpr <span class="keywordtype">int</span> i = value(c) - 48; <span class="comment">// convert character to decimal</span></div>
@@ -163,7 +181,7 @@ Searching through a <code><a class="el" href="structboost_1_1hana_1_1_string.htm
 <h4>Rationale for <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">String</a></code> not being a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code></h4>
 <p>The underlying type held by a <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">String</a></code> could be either <code>char const*</code> or some other constexpr-enabled string-like container. In the first case, <code><a class="el" href="structboost_1_1hana_1_1_string.html" title="Represents a compile-time string. ">String</a></code> can not be a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> because the models of several concepts would not be respected by the underlying type, causing <code>value</code> not to be structure-preserving. Providing an underlying value of constexpr-enabled string-like container type like <code>std::string_view</code> would be great, but that's a bit complicated for the time being. </p>
 </blockquote>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Right now, we use a different template specialization to store each different string. This could also work by using an anonymous type, but there seems to be a bug in Clang right now that makes this fail in some circumstances: <a href="http://llvm.org/bugs/show_bug.cgi?id=20625">http://llvm.org/bugs/show_bug.cgi?id=20625</a>. Using an anonymous type could have compile-time performance benefits, so this avenue should be explored once the bug is fixed. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Right now, we use a different template specialization to store each different string. This could also work by using an anonymous type, but there seems to be a bug in Clang right now that makes this fail in some circumstances: <a href="http://llvm.org/bugs/show_bug.cgi?id=20625">http://llvm.org/bugs/show_bug.cgi?id=20625</a>. Using an anonymous type could have compile-time performance benefits, so this avenue should be explored once the bug is fixed. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -235,13 +253,11 @@ template&lt;char... s&gt; </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_string.html">String</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

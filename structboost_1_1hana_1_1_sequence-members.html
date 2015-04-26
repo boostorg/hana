@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -115,21 +133,20 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_sequence.html'
   <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#afa204f71aac9f461d8574653295c67ba">slice_c</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
   <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a63f9ab281c8e979adfd7f6678383c46b">take_c</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3">unfold</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
-  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">subsequence</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a63f9ab281c8e979adfd7f6678383c46b">take_c</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3">unfold</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td><td class="entry"><a class="el" href="structboost_1_1hana_1_1_sequence.html">boost::hana::Sequence</a></td><td class="entry"><span class="mlabel">related</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

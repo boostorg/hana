@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -130,7 +148,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_constant.html'
 <p>Because of the requirement that <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s be interchangeable when their contents are compatible, two <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>A</code> and <code>B</code> will have a common data type whenever <code>A::value_type</code> and <code>B::value_type</code> have one. Their common data type is an unspecified <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>C</code> such that <code>C::value_type</code> is exactly <code>common_t&lt;A::value_type, B::value_type&gt;</code>. A specialization of the <code>common</code> metafunction is provided for <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s to reflect this.</p>
 <p>In the same vein, a common data type is also provided from any constant <code>A</code> to a type <code>T</code> such that <code>A::value_type</code> and <code>T</code> share a common type. The common type between <code>A</code> and <code>T</code> is obviously the common type between <code>A::value_type</code> and <code>T</code>. As explained above in the section on conversions, this is sometimes a violation of the definition of a common type, because there must be an embedding to the common type, which is not always the case. For the same reasons as explained above, this common type is still provided.</p>
 <h2>Provided models </h2>
-<p>In certain cases, a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> can automatically be made a model of other concepts. In particular, if a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> is holding an object of type <code>T</code>, and if <code>T</code> models a concept <code>X</code>, then <code>C</code> may in most cases model <code>X</code> by simply performing whatever operation is required on its underlying value, and then wrapping the result back in a <code>C</code>. Currently, automatic models are provided for Constants whose underlying value (<code>C::value_type</code>) is a model of the following concepts: <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>, <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, <a class="el" href="structboost_1_1hana_1_1_enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a>, <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> and <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> up to <a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a>. While it would be possible in theory to provide models for concepts like <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> too, in practice only a couple of concepts are useful because it allows things like <code>std::integral_constant</code> to model a bunch of other concepts by just defining the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> concept.</p>
+<p>In certain cases, a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> can automatically be made a model of other concepts. In particular, if a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> is holding an object of type <code>T</code>, and if <code>T</code> models a concept <code>X</code>, then <code>C</code> may in most cases model <code>X</code> by simply performing whatever operation is required on its underlying value, and then wrapping the result back in a <code>C</code>. Currently, automatic models are provided for Constants whose underlying value (<code>C::value_type</code>) is a model of the following concepts: <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>, <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, <a class="el" href="structboost_1_1hana_1_1_enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a>, <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> and <a class="el" href="structboost_1_1hana_1_1_monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> up to <a class="el" href="structboost_1_1hana_1_1_integral_domain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a>. While it would be possible in theory to provide models for concepts like <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> too, in practice only a couple of concepts are useful because it allows things like <code>std::integral_constant</code> to model a bunch of other concepts by just defining the <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> concept.</p>
 <dl class="section note"><dt>Note</dt><dd>An interesting observation is that <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> is actually the canonical embedding of the subcategory of <code>constexpr</code> things into the Hana category, which contains everything in this library. Hence, whatever is true in that subcategory is also true here, via this functor. This is why we can provide models of any concept that works on <code>constexpr</code> things for Constants, by simply passing them through that embedding. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -212,13 +230,11 @@ template&lt;typename T &gt; </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_constant.html">Constant</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -103,21 +121,26 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_foldable.html'
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> concept represents data structures that can be folded, i.e. summarized into a single value. </p>
-<p>Another way of seeing <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code>s is as data structures supporting internal iteration with the ability to accumulate a result. Also note that since C++ only supports eager evaluation, all models of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> must represent finite data structures.</p>
-<p>Additionally, only structures whose total size is known at compile-time can be models of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code>. This is because of the <code>unpack</code> method, whose return <em>type</em> depends on the number and types of the objects in the structure.</p>
-<dl class="section note"><dt>Note</dt><dd>While the fact that <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> only works for finite structures may seem overly restrictive in comparison to the Haskell definition of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code>, a finer grained separation of the concepts (see <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>) should mitigate the issue.</dd></dl>
-<h2>Laws </h2>
-<p>For any <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> <code>xs</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>.left(xs, s, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>.left(to&lt;Tuple&gt;(xs), s, f)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>.right(xs, s, f) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>.right(to&lt;Tuple&gt;(xs), s, f)</div>
-</div><!-- fragment --><p>where <code>s</code> and <code>f</code> are an arbitrary state and function that can be used for folding, respectively. Intuitively, these laws say that <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> respects the left-to-right order of elements within a structure.</p>
+<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> concept represents data structures that can be reduced to a single value. </p>
+<p>Another way of seeing <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is as data structures supporting internal iteration with the ability to accumulate a result. By internal iteration, we mean that the <em>loop control</em> is in the hand of the structure, not the caller. Hence, it is the structure who decides when the iteration stops, which is normally when the whole structure has been consumed. Since C++ is an eager language, this requires <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structures to be finite, or otherwise one would need to loop indefinitely to consume the whole structure.</p>
+<dl class="section note"><dt>Note</dt><dd>While the fact that <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> only works for finite structures may seem overly restrictive in comparison to the Haskell definition of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, a finer grained separation of the concepts should mitigate the issue. For iterating over possibly infinite data structures, see the <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> concept. For searching a possibly infinite data structure, see the <code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept.</dd></dl>
+<p><a class="anchor" id="Foldable-lin"></a></p><h2>The linearization of a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
+<p>Intuitively, for a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure <code>xs</code>, the <em>linearization</em> of <code>xs</code> is the sequence of all the elements in <code>xs</code> as if they had been put in a list: </p><div class="fragment"><div class="line">linearization(xs) = [x1, x2, ..., xn]</div>
+</div><!-- fragment --><p>Note that it is always possible to produce such a linearization for a finite <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> by setting </p><div class="fragment"><div class="line">linearization(xs) = <a class="code" href="structboost_1_1hana_1_1_foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>.left(xs, [], prepend)</div>
+</div><!-- fragment --><p> for an appropriate definition of <code>[]</code> and <code>prepend</code>. The notion of linearization is useful for expressing various properties of <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structures, and is used across the documentation. Also note that <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s define an <a class="el" href="structboost_1_1hana_1_1_iterable.html#Iterable-lin">extended version</a> of this allowing for infinite structures.</p>
+<h2>Provided conversion to any <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> </h2>
+<p>In the spirit of the notion of linearization presented above, any <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> can be converted to a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. The result is, as one might expect, simply the linearization of the <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure. More specifically, given a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code> with a linearization of <code>[x1, ..., xn]</code> and a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S</code>, <code>to&lt;S&gt;(xs)</code> is equivalent to <code>make&lt;S&gt;(x1, ..., xn)</code>. </p><div class="fragment"><div class="line">static_assert(to&lt;Tuple&gt;(just(1)) == make&lt;Tuple&gt;(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(to&lt;Tuple&gt;(nothing) == make&lt;Tuple&gt;());</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(to&lt;Tuple&gt;(make_range(int_&lt;3&gt;, int_&lt;6&gt;)) == tuple_c&lt;int, 3, 4, 5&gt;);</div>
+</div><!-- fragment --><h2>Compile-time Foldables </h2>
+<p>A compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> whose total length is known at compile-time. In other words, it is a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> whose <code>length</code> method returns a <code><a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type. When folding a compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, the folding can be unrolled, because the final number of steps of the algorithm is known at compile-time.</p>
+<p>Additionally, the <code>unpack</code> method is only available to compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s. This is because the return <em>type</em> of <code>unpack</code> depends on the number of objects in the structure. Being able to resolve <code>unpack</code>'s return type at compile-time hence requires the length of the structure to be known at compile-time too.</p>
+<p><b>In the current version of the library, only compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s are supported.</b> While it would be possible in theory to support runtime <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s too, doing so efficiently requires more research.</p>
 <h2>Minimal complete definition </h2>
 <p>(<code>fold.left</code> and <code>fold.right</code>) or <code>unpack</code></p>
-<h2>Provided models </h2>
-<ol type="1">
-<li>For builtin arrays<br />
-Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions. </li>
-</ol>
+<h2>Provided model for builtin arrays </h2>
+<p>Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -162,7 +185,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a0e3e724580e826eaa39a934eefa2b328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke a function with the elements of a structure as arguments.  <a href="#a0e3e724580e826eaa39a934eefa2b328">More...</a><br /></td></tr>
 <tr class="separator:a0e3e724580e826eaa39a934eefa2b328"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0840e48f29a87467e23d801ca0ca122a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a></td></tr>
-<tr class="memdesc:a0840e48f29a87467e23d801ca0ca122a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a function taking multiple arguments into a function that can be called with a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code>.  <a href="#a0840e48f29a87467e23d801ca0ca122a">More...</a><br /></td></tr>
+<tr class="memdesc:a0840e48f29a87467e23d801ca0ca122a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transform a function taking multiple arguments into a function that can be called with a compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>.  <a href="#a0840e48f29a87467e23d801ca0ca122a">More...</a><br /></td></tr>
 <tr class="separator:a0840e48f29a87467e23d801ca0ca122a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
@@ -197,7 +220,7 @@ Synopsis of methods</h2></td></tr>
 <p><code>fold.left</code> is a left-associative fold using a binary operation. Given a structure containing <code>x1, ..., xn</code>, a function <code>f</code> and optionnally an initial state, <code>fold.left</code> applies <code>f</code> as follows </p><div class="fragment"><div class="line">f(... f(f(f(x1, x2), x3), x4) ..., xn) <span class="comment">// without state</span></div>
 <div class="line">f(... f(f(f(f(state, x1), x2), x3), x4) ..., xn) <span class="comment">// with state</span></div>
 </div><!-- fragment --><h3>Signature</h3>
-<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> <code>xs</code> of data type <code>F(T)</code>, a function \( f : S \times T \to S \) and an initial state <code>s</code> of data type <code>S</code>, the signatures for <code>fold.left</code> are </p><p class="formulaDsp">
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code> of data type <code>F(T)</code>, a function \( f : S \times T \to S \) and an initial state <code>s</code> of data type <code>S</code>, the signatures for <code>fold.left</code> are </p><p class="formulaDsp">
 \[ \mathrm{fold.left} : F(T) \times S \times (S \times T \to S) \to S \]
 </p>
 <p>for the variant with an initial state, and </p><p class="formulaDsp">
@@ -242,7 +265,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">f(x1, f(x2, f(x3, f(x4, ... f(xn, state) ... )))) <span class="comment">// with state</span></div>
 </div><!-- fragment --><p>It is worth noting that the order in which the binary function should expect its arguments is reversed from <code>fold.left</code>.</p>
 <h3>Signature</h3>
-<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code> <code>xs</code> of data type <code>F(T)</code>, a function \( f : T \times S \to S \) and an initial state <code>s</code> of data type <code>S</code>, the signatures for <code>fold.right</code> are </p><p class="formulaDsp">
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code> of data type <code>F(T)</code>, a function \( f : T \times S \to S \) and an initial state <code>s</code> of data type <code>S</code>, the signatures for <code>fold.right</code> are </p><p class="formulaDsp">
 \[ \mathrm{fold.right} : F(T) \times S \times (T \times S \to S) \to S \]
 </p>
 <p>for the variant with an initial state, and </p><p class="formulaDsp">
@@ -287,8 +310,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line"></div>
 <div class="line">fold.right(xs, state, f) -&gt; fold_right_impl&lt;Xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, state, f)</div>
 <div class="line">fold.right(xs, f)        -&gt; fold_right_nostate_impl&lt;Xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, f)</div>
-</div><!-- fragment --><p> <code>fold</code> is not tag-dispatched because it is just an alias to <code>fold.left</code>. </p>
-
+</div><!-- fragment --><p> <code>fold</code> is not tag-dispatched because it is just an alias to <code>fold.left</code>.</p>
+<h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.compile.json"> </div> <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_right.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="a9d423c33a801e7cf2058faa19423d991"></a>
@@ -313,7 +337,7 @@ template&lt;typename M &gt; </div>
 
 <p>Monadic fold of a structure with a binary operation and an optional initial reduction state. </p>
 <dl class="section note"><dt>Note</dt><dd>This assumes the reader to be accustomed to non-monadic folds as explained by <code>hana::fold</code>.</dd></dl>
-<p>The <code>monadic_fold</code> method is used for left or right folding a structure with a monadic binary operation and an optional initial state. Basically, a monadic fold is a fold in which subsequent calls to the binary function are chained with the monadic <code>bind</code> operator of the corresponding <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>. This allows a structure to be folded in a custom monadic context. For example, performing a monadic fold with the <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> monad would require the binary function to return the result as a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, and the fold would abort and return nothing whenever one of the accumulation step would fail (i.e. return <code>nothing</code>). If, however, all the reduction steps succeed, then <code>just</code> the result would be returned. Different monads will of course result in different effects.</p>
+<p>The <code>monadic_fold</code> method is used for left or right folding a structure with a monadic binary operation and an optional initial state. Basically, a monadic fold is a fold in which subsequent calls to the binary function are chained with the monadic <code>chain</code> operator of the corresponding <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>. This allows a structure to be folded in a custom monadic context. For example, performing a monadic fold with the <a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a> monad would require the binary function to return the result as a <code><a class="el" href="structboost_1_1hana_1_1_maybe.html" title="Represents an optional value. ">Maybe</a></code>, and the fold would abort and return nothing whenever one of the accumulation step would fail (i.e. return <code>nothing</code>). If, however, all the reduction steps succeed, then <code>just</code> the result would be returned. Different monads will of course result in different effects.</p>
 <p>This method can be used to access all of the monadic fold variants, by using the different syntaxes documented below. Here's a summary: </p><div class="fragment"><div class="line">monadic_fold&lt;M&gt;.left(xs, state, f) = see below</div>
 <div class="line">monadic_fold&lt;M&gt;.left(xs, f) = see below</div>
 <div class="line">monadic_fold&lt;M&gt; = monadic_fold&lt;M&gt;.left</div>
@@ -323,11 +347,14 @@ template&lt;typename M &gt; </div>
 </div><!-- fragment --><p>In the above, <code>xs</code> is always the structure to be folded. Similarly, <code>state</code> is an initial value to use as the accumulation state.</p>
 <p>When the structure is empty, two things may arise. If an initial state was provided, it is lifted to the given <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> and returned as-is. Otherwise, if the no-state version of the method was used, an error is triggered. When the stucture contains a single element and the no-state version of the method was used, that single element is lifted into the given <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> and returned as is. This behavior is consistent with what happens for empty structures with a provided initial state.</p>
 <h2>Monadic left folds (<code>monadic_fold&lt;M&gt;.left</code>)</h2>
-<p><code>monadic_fold&lt;M&gt;.left</code> is a left-associative monadic fold. Given a structure containing <code>x1, ..., xn</code>, a function <code>f</code> and an optional initial state, <code>monadic_fold&lt;M&gt;.left</code> applies <code>f</code> as follows </p><div class="fragment"><div class="line">((((f(state, x1) | f(-, x2)) | f(-, x3)) | ...) | f(-, xn)) <span class="comment">// with state</span></div>
-<div class="line">((((f(x1, x2) | f(-, x3)) | f(-, x4)) | ...) | f(-, xn)) <span class="comment">// without state</span></div>
-</div><!-- fragment --><p>where <code>f(-, xk)</code> denotes the partial application of <code>f</code> to <code>xk</code>, and <code>|</code> is just the operator version of the monadic <code>bind</code>.</p>
+<p><code>monadic_fold&lt;M&gt;.left</code> is a left-associative monadic fold. Given a structure containing <code>x1, ..., xn</code>, a function <code>f</code> and an optional initial state, <code>monadic_fold&lt;M&gt;.left</code> applies <code>f</code> as follows </p><div class="fragment"><div class="line"><span class="comment">// with state</span></div>
+<div class="line">((((f(state, x1) | f(-, x2)) | f(-, x3)) | ...) | f(-, xn))</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// without state</span></div>
+<div class="line">((((f(x1, x2) | f(-, x3)) | f(-, x4)) | ...) | f(-, xn))</div>
+</div><!-- fragment --><p>where <code>f(-, xk)</code> denotes the partial application of <code>f</code> to <code>xk</code>, and <code>|</code> is just the operator version of the monadic <code>chain</code>.</p>
 <h3>Signature</h3>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> of data type <code>M</code>, a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> of data type <code>F(T)</code>, an initial state of data type <code>S</code> and a function \( f : S \times T \to M(S) \), the signatures of <code>monadic_fold&lt;M&gt;.left</code> are </p><p class="formulaDsp">
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> of data type <code>M</code>, a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> of data type <code>F(T)</code>, an initial state of data type <code>S</code> and a function \( f : S \times T \to M(S) \), the signatures of <code>monadic_fold&lt;M&gt;.left</code> are </p><p class="formulaDsp">
 \[ \mathrm{monadic\_fold}_M.\mathrm{left} : F(T) \times S \times (S \times T \to M(S)) \to M(S) \]
 </p>
 <p>for the version with an initial state, and </p><p class="formulaDsp">
@@ -393,11 +420,14 @@ template&lt;typename M &gt; </div>
 <div class="line">    sfinae(metafunction&lt;common_type&gt;)(type&lt;int&gt;, type&lt;int&gt;, type&lt;int*&gt;) == nothing</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><h2>Monadic right folds (<code>monadic_fold&lt;M&gt;.right</code>)</h2>
-<p><code>monadic_fold&lt;M&gt;.right</code> is a right-associative monadic fold. Given a structure containing <code>x1, ..., xn</code>, a function <code>f</code> and an optional initial state, <code>monadic_fold&lt;M&gt;.right</code> applies <code>f</code> as follows </p><div class="fragment"><div class="line">(f(x1, -) | (f(x2, -) | (f(x3, -) | (... | f(xn, state))))) <span class="comment">// with state</span></div>
-<div class="line">(f(x1, -) | (f(x2, -) | (f(x3, -) | (... | f(xn-1, xn))))) <span class="comment">// without state</span></div>
-</div><!-- fragment --><p>where <code>f(xk, -)</code> denotes the partial application of <code>f</code> to <code>xk</code>, and <code>|</code> is just the operator version of the monadic <code>bind</code>. It is worth noting that the order in which the binary function should expect its arguments is reversed from <code>monadic_fold&lt;M&gt;.left</code>.</p>
+<p><code>monadic_fold&lt;M&gt;.right</code> is a right-associative monadic fold. Given a structure containing <code>x1, ..., xn</code>, a function <code>f</code> and an optional initial state, <code>monadic_fold&lt;M&gt;.right</code> applies <code>f</code> as follows </p><div class="fragment"><div class="line"><span class="comment">// with state</span></div>
+<div class="line">(f(x1, -) | (f(x2, -) | (f(x3, -) | (... | f(xn, state)))))</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// without state</span></div>
+<div class="line">(f(x1, -) | (f(x2, -) | (f(x3, -) | (... | f(xn-1, xn)))))</div>
+</div><!-- fragment --><p>where <code>f(xk, -)</code> denotes the partial application of <code>f</code> to <code>xk</code>, and <code>|</code> is just the operator version of the monadic <code>chain</code>. It is worth noting that the order in which the binary function should expect its arguments is reversed from <code>monadic_fold&lt;M&gt;.left</code>.</p>
 <h3>Signature</h3>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> of data type <code>M</code>, a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> of data type <code>F(T)</code>, an initial state of data type <code>S</code> and a function \( f : T \times S \to M(S) \), the signatures of <code>monadic_fold&lt;M&gt;.right</code> are </p><p class="formulaDsp">
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> of data type <code>M</code>, a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> of data type <code>F(T)</code>, an initial state of data type <code>S</code> and a function \( f : T \times S \to M(S) \), the signatures of <code>monadic_fold&lt;M&gt;.right</code> are </p><p class="formulaDsp">
 \[ \mathrm{monadic\_fold}_M.\mathrm{right} : F(T) \times S \times (T \times S \to M(S)) \to M(S) \]
 </p>
 <p>for the version with an initial state, and </p><p class="formulaDsp">
@@ -645,7 +675,7 @@ template&lt;typename M &gt; </div>
 <p>Given a non-empty structure and an optional binary predicate (<code>less</code> by default), <code>minimum</code> returns the least element of the structure, i.e. an element which is less than or equal to every other element in the structure, according to the predicate.</p>
 <p>If the structure contains heterogeneous objects, then the predicate must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. If no predicate is provided, the elements in the structure must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, or compile-time <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if the structure is heterogeneous.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> <code>xs</code> of data type <code>F(T)</code>, a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>minimum</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> <code>xs</code> of data type <code>F(T)</code>, a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>minimum</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathrm{minimum} : S(T) \times (T \times T \to Bool) \to T \]
 </p>
 <p>for the variant without a custom predicate, the <code>T</code> data type is required to be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. The signature is then </p><p class="formulaDsp">
@@ -712,7 +742,7 @@ template&lt;typename M &gt; </div>
 <p>Given a non-empty structure and an optional binary predicate (<code>less</code> by default), <code>maximum</code> returns the greatest element of the structure, i.e. an element which is greater than or equal to every other element in the structure, according to the predicate.</p>
 <p>If the structure contains heterogeneous objects, then the predicate must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. If no predicate is provided, the elements in the structure must be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, or compile-time <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if the structure is heterogeneous.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> <code>xs</code> of data type <code>F(T)</code>, a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>maximum</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> <code>xs</code> of data type <code>F(T)</code>, a <a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>maximum</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathrm{maximum} : S(T) \times (T \times T \to Bool) \to T \]
 </p>
 <p>for the variant without a custom predicate, the <code>T</code> data type is required to be <a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. The signature is then </p><p class="formulaDsp">
@@ -842,10 +872,7 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line">    product&lt;unsigned long&gt;(make&lt;Tuple&gt;(2ul, 3ul)) == 6ul</div>
 <div class="line">);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/product.ctime.png" alt="product.ctime.png"/>
-</div>
- 
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.product.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="a21ca48cce90274a5f54354f9d4622930"></a>
@@ -893,10 +920,7 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;char&gt;) == size_t&lt;2&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1_foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(types, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> == type&lt;void&gt;) == size_t&lt;0&gt;);</div>
 </div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/count_if.ctime.png" alt="count_if.ctime.png"/>
-</div>
- 
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.count_if.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="ae0a55dd7eb4bd4f587f51ffd8c923e53"></a>
@@ -921,7 +945,7 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return the number of elements in the structure that compare equal to a given value. </p>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a> structure <code>foldable</code> and a value <code>value</code>, <code>count</code> returns an unsigned integral, or a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> thereof, representing the number of elements of <code>foldable</code> that compare equal to <code>value</code>. For this method to be well-defined, all the elements of the structure must be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> with the given value.</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a> structure <code>foldable</code> and a value <code>value</code>, <code>count</code> returns an unsigned integral, or a <a class="el" href="structboost_1_1hana_1_1_constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> thereof, representing the number of elements of <code>foldable</code> that compare equal to <code>value</code>. For this method to be well-defined, all the elements of the structure must be <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> with the given value.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">foldable</td><td>The structure whose elements are counted.</td></tr>
@@ -1014,11 +1038,11 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line">        };</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Transform a function taking multiple arguments into a function that can be called with a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code>. </p>
+<p>Transform a function taking multiple arguments into a function that can be called with a compile-time <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. </p>
 <p>This function is provided for convenience as a different way of calling <code>unpack</code>. Specifically, <code>fuse(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>(f)(foldable) == <a class="code" href="structboost_1_1hana_1_1_foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(foldable, f)</div>
 <div class="line">                  == f(x...)</div>
 </div><!-- fragment --><p> where <code>x...</code> are the elements in the foldable. This function is useful when one wants to create a function that accepts a foldable which is not known yet.</p>
-<dl class="section note"><dt>Note</dt><dd>This function is not tag-dispatched and so it can not be customized.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function is not tag-dispatched; customize <code>unpack</code> instead.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
@@ -1033,13 +1057,11 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_foldable.html">Foldable</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

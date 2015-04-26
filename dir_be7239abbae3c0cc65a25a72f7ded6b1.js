@@ -33,14 +33,14 @@ var dir_be7239abbae3c0cc65a25a72f7ded6b1 =
     [ "pair.hpp", "pair_8hpp.html", null ],
     [ "product.hpp", "product_8hpp.html", null ],
     [ "range.hpp", "range_8hpp.html", null ],
-    [ "record.hpp", "record_8hpp.html", null ],
-    [ "record_macros.hpp", "record__macros_8hpp.html", "record__macros_8hpp" ],
     [ "ring.hpp", "ring_8hpp.html", null ],
     [ "searchable.hpp", "searchable_8hpp.html", null ],
     [ "sequence.hpp", "sequence_8hpp.html", "sequence_8hpp" ],
     [ "set.hpp", "set_8hpp.html", null ],
     [ "string.hpp", "string_8hpp.html", null ],
+    [ "struct.hpp", "struct_8hpp.html", null ],
+    [ "struct_macros.hpp", "struct__macros_8hpp.html", null ],
     [ "traversable.hpp", "traversable_8hpp.html", null ],
-    [ "tuple.hpp", "tuple_8hpp.html", null ],
+    [ "tuple.hpp", "tuple_8hpp.html", "tuple_8hpp" ],
     [ "type.hpp", "type_8hpp.html", null ]
 ];

@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -102,6 +120,8 @@ $(document).ready(function(){initNavTree('dir_7c8e37cc545a1a2feede1af18dce8861.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="subdirs"></a>
 Directories</h2></td></tr>
+<tr class="memitem:dir_ce59eb38f843151223bb8df26f65592a"><td class="memItemLeft" align="right" valign="top">directory &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_ce59eb38f843151223bb8df26f65592a.html">constexpr</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:dir_af0ec260645899ef1869a7fd8a9eb3b3"><td class="memItemLeft" align="right" valign="top">directory &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_af0ec260645899ef1869a7fd8a9eb3b3.html">std</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:dir_0469e25f0061fb4758f217422c6dedaf"><td class="memItemLeft" align="right" valign="top">directory &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_0469e25f0061fb4758f217422c6dedaf.html">variadic</a></td></tr>
@@ -109,23 +129,20 @@ Directories</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:detail_2array_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="detail_2array_8hpp.html">array.hpp</a></td></tr>
-<tr class="memdesc:detail_2array_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1detail_1_1array.html" title="A minimal std::array with better constexpr support. ">boost::hana::detail::array</a></code>. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:canonical__constant_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="canonical__constant_8hpp.html">canonical_constant.hpp</a></td></tr>
 <tr class="memdesc:canonical__constant_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1detail_1_1_canonical_constant.html" title="Data type representing a canonical Constant. ">boost::hana::detail::CanonicalConstant</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:closure_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="closure_8hpp.html">closure.hpp</a></td></tr>
 <tr class="memdesc:closure_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::closure</code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:concepts_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concepts_8hpp.html">concepts.hpp</a></td></tr>
+<tr class="memdesc:concepts_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines concepts from the Standard library. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:create_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="create_8hpp.html">create.hpp</a></td></tr>
 <tr class="memdesc:create_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1detail_1_1create.html" title="Implementation of the generic std::make_xxx pattern for arbitrary xxxs. ">boost::hana::detail::create</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:dependent__on_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dependent__on_8hpp.html">dependent_on.hpp</a></td></tr>
 <tr class="memdesc:dependent__on_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::dependent_on</code>. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:equality__comparable_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="equality__comparable_8hpp.html">equality_comparable.hpp</a></td></tr>
-<tr class="memdesc:equality__comparable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::concept::EqualityComparable</code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:generate__integer__sequence_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="generate__integer__sequence_8hpp.html">generate_integer_sequence.hpp</a></td></tr>
 <tr class="memdesc:generate__integer__sequence_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::generate_integer_sequence</code> &amp; friends. <br /></td></tr>
@@ -135,9 +152,6 @@ Files</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:insert__fwd_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="insert__fwd_8hpp.html">insert_fwd.hpp</a></td></tr>
 <tr class="memdesc:insert__fwd_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forward declares <code>boost::hana::insert</code>. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:less__than__comparable_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="less__than__comparable_8hpp.html">less_than_comparable.hpp</a></td></tr>
-<tr class="memdesc:less__than__comparable_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::concept::LessThanComparable</code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:reverse__partial_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reverse__partial_8hpp.html">reverse_partial.hpp</a></td></tr>
 <tr class="memdesc:reverse__partial_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::reverse_partial</code>. <br /></td></tr>
@@ -151,22 +165,17 @@ Files</h2></td></tr>
 <tr class="memitem:type__foldr1_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="type__foldr1_8hpp.html">type_foldr1.hpp</a></td></tr>
 <tr class="memdesc:type__foldr1_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::type_foldr1</code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:wrap_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wrap_8hpp.html">wrap.hpp</a></td></tr>
-<tr class="memdesc:wrap_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code>boost::hana::detail::wrap</code>. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:wrong_8hpp"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="wrong_8hpp.html">wrong.hpp</a></td></tr>
 <tr class="memdesc:wrong_8hpp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines <code><a class="el" href="structboost_1_1hana_1_1detail_1_1wrong.html" title="Equivalent to a type-dependent std::false_type. ">boost::hana::detail::wrong</a></code>. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_3913df26df1cb371abfd458a6c1693a0.html">boost</a></li><li class="navelem"><a class="el" href="dir_be7239abbae3c0cc65a25a72f7ded6b1.html">hana</a></li><li class="navelem"><a class="el" href="dir_7c8e37cc545a1a2feede1af18dce8861.html">detail</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

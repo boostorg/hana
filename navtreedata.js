@@ -55,7 +55,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-header_organization",
-"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db"
+"structboost_1_1hana_1_1_sequence.html#a58c1454689bf6d2264bc428dc1d039db"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

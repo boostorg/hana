@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -112,14 +130,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1_applicative.ht
 For all objects <code>xs</code> of data type <code>F(A)</code>, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<span class="keywordtype">id</span>), xs) == xs</div>
 </div><!-- fragment --></li>
 <li>Composition<br />
-For all objects <code>xs</code> of data type <code>F(A)</code> and functions-in-an-applicative \( fs : F(B \to C) \), \( gs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), fs, gs, xs) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(gs, xs))</div>
+For all objects <code>xs</code> of data type <code>F(A)</code> and functions-in-an-applicative \( fs : F(B \to C) \), \( gs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>), fs, gs), xs) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(gs, xs))</div>
 </div><!-- fragment --></li>
 <li>Homomorphism<br />
 For all objects <code>x</code> of data type <code>A</code> and functions \( f : A \to B \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), lift&lt;F&gt;(x)) == lift&lt;F&gt;(f(x))</div>
 </div><!-- fragment --></li>
 <li>Interchange<br />
-For all objects <code>x</code> of data type <code>A</code> and functions-in-an-applicative \( fs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, lift&lt;F&gt;(x)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;([](f){ f(x) }), fs)</div>
-</div><!-- fragment --></li>
+For all objects <code>x</code> of data type <code>A</code> and functions-in-an-applicative \( fs : F(A \to B) \), <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, lift&lt;F&gt;(x)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(-, x)), fs)</div>
+</div><!-- fragment --> where <code>apply(-, x)</code> denotes the partial application of the <code>apply</code> function from the <a class="el" href="group__group-functional.html">Functional</a> module to the <code>x</code> argument.</li>
 </ol>
 <p>As a consequence of these laws, the model of <code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> for <code>F</code> will satisfy the following for all objects <code>xs</code> of data type <code>F(A)</code> and functions \( f : A \to B \): </p><div class="fragment"><div class="line">transform(xs, f) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), xs)</div>
 </div><!-- fragment --><h2>Superclass </h2>
@@ -134,8 +152,8 @@ As a consequence of the above laws, any <code><a class="el" href="structboost_1_
 </ol>
 <h2>Minimal complete definition </h2>
 <p><code>lift</code> and <code>ap</code> satisfying the above laws</p>
-<h2>Structure-preserving functions </h2>
-<p>An <em>applicative transformation</em> is a function \( t : F(a) \to G(a) \) from an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> F</code> to an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> G</code>, where <code>a</code> can be any data type, and which preserves the operations of an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. In other words, for all objects <code>x</code> of data type <code>A</code>, functions-in-an-applicative \( fs : F(A \to B) \) and objects <code>xs</code> of data type <code>F(A)</code>, </p><div class="fragment"><div class="line">t(lift&lt;F&gt;(x)) == lift&lt;G&gt;(x)</div>
+<p><a class="anchor" id="applicative-transformation"></a></p><h2>Structure-preserving functions </h2>
+<p>An <em>applicative transformation</em> is a function \( t : F(X) \to G(X) \) between two Applicatives <code>F</code> and <code>G</code>, where <code>X</code> can be any data type, and which preserves the operations of an <a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a>. In other words, for all objects <code>x</code> of data type <code>X</code>, functions-in-an-applicative \( fs : F(X \to Y) \) and objects <code>xs</code> of data type <code>F(X)</code>, </p><div class="fragment"><div class="line">t(lift&lt;F&gt;(x)) == lift&lt;G&gt;(x)</div>
 <div class="line">t(<a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, xs)) == <a class="code" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(t(fs), t(xs))</div>
 </div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -253,13 +271,11 @@ template&lt;typename A &gt; </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_applicative.html">Applicative</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

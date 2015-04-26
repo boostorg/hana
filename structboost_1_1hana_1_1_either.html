@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -210,11 +228,11 @@ The instance of <code><a class="el" href="structboost_1_1hana_1_1_monad.html" ti
 <div class="line">    (safe_div(int_&lt;4&gt;, int_&lt;2&gt;) | safe_dec) == <a class="code" href="structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(int_&lt;1&gt;)</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be folded, i.e. summarized into a single val...">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 For the purpose of being folded, an <code><a class="el" href="structboost_1_1hana_1_1_either.html" title="Represents a value with two possibilities. ">Either</a></code> is considered empty if it is a <code>left</code>, and it is considered equivalent to a one element list if it is a <code>right</code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1_either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>), make&lt;Tuple&gt;) == make&lt;Tuple&gt;());</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>), make&lt;Tuple&gt;) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure- preserving right fold with an Applica...">Traversable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a></code><br />
 Traversing a <code>left</code> with an <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> A</code> just lifts the <code>left</code> into the <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. Traversing a <code>right</code> will apply the function to the value inside the <code>right</code>, which effectively lifts the value into the <code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>, and then put back the value inside an <code>right</code> with <code>transform</code>. In other words, <div class="fragment"><div class="line">traverse&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1_either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x), f) == lift&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1_either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x))</div>
 <div class="line">traverse&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(y), f) == transform(f(y), <a class="code" href="structboost_1_1hana_1_1_either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> duplicate = [](<span class="keyword">auto</span> x) {</div>
@@ -340,13 +358,11 @@ Synopsis of methods</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1_either.html">Either</a></li>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>
