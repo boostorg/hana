@@ -1,3 +1,4 @@
+<!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -29,6 +30,23 @@
 });
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<!-- Additional javascript for drawing charts. -->
+<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="chart.js"></script>
+<script type="text/javascript">
+  window.onload = function() {
+    $(".benchmark-chart").each(function(index, div) {
+      var compiler = "clang-3.5.0";
+      var dataset = div.getAttribute("data-dataset");
+      var repo = "https://raw.githubusercontent.com/ldionne/hana/datasets/release/";
+      $.getJSON(repo + compiler + "/" + dataset, function(options) {
+        Hana.initChart($(div), options);
+      });
+    });
+  };
+</script>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -107,14 +125,14 @@ $(document).ready(function(){initNavTree('index.html','');});
 </li>
 <li class="level1"><a href="#tutorial-create">Creating sequences</a></li>
 <li class="level1"><a href="#tutorial-assert">Assertions</a></li>
-<li class="level1"><a href="#tutorial-sem">Algorithm semantics</a><ul><li class="level2"><a href="#tutorial-sem-perf">Performance considerations</a></li>
-</ul>
-</li>
+<li class="level1"><a href="#tutorial-sem">Algorithm semantics</a></li>
 <li class="level1"><a href="#tutorial-amphi">Amphibian algorithms</a></li>
-<li class="level1"><a href="#tutorial-type">Type computations</a><ul><li class="level2"><a href="#tutorial-type-perf">Performance considerations</a></li>
+<li class="level1"><a href="#tutorial-type">Type computations</a></li>
+<li class="level1"><a href="#tutorial-perf">Performance considerations</a><ul><li class="level2"><a href="#tutorial-perf-compile">Compile-time performance</a></li>
+<li class="level2"><a href="#tutorial-perf-runtime">Runtime performance</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-constexpr">Limitations of constexpr</a><ul><li class="level2"><a href="#tutorial-constexpr-constants">Constants</a></li>
+<li class="level1"><a href="#tutorial-constexpr">The limitations of constexpr</a><ul><li class="level2"><a href="#tutorial-constexpr-constants">Constants</a></li>
 <li class="level2"><a href="#tutorial-constexpr-side_effects">Side effects</a></li>
 </ul>
 </li>
@@ -132,17 +150,18 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level1"><a href="#tutorial-using_the_reference">Using the reference</a><ul><li class="level2"><a href="#tutorial-using_the_reference-pseudo">Pseudo-code glossary</a></li>
 </ul>
 </li>
+<li class="level1"><a href="#tutorial-rationales">Rationales/FAQ</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="tutorial-preface"></a>
 Preface</h1>
 <hr/>
-<p> The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. After working on Hana and polishing many rough edges during several months, Hana will soon go through informal and then formal reviews with the goal of being part of Boost.</p>
-<p>Let the fun begin.</p>
+<p> The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. After working on Hana and polishing many rough edges during several months, Hana will be going through formal review for inclusion in Boost from June 10 2015 to June 24 2015.</p>
+<p>Let the fun begin!</p>
 <h1><a class="anchor" id="tutorial-introduction"></a>
 Introduction</h1>
 <hr/>
-<p> Hana is a small, header-only library for C++ metaprogramming suited for computations on both types and values. The functionality it provides is a superset of what is provided by the well established Boost.MPL and Boost.Fusion libraries. By leveraging C++11/14 implementation techniques and idioms, Hana boasts faster compilation times and runtime performance on par or better than previous metaprogramming libraries, while increasing the level of expressiveness in the process. Hana is easy to extend in a ad-hoc manner and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL and the standard library.</p>
+<p> Hana is a header-only library for C++ metaprogramming suited for computations on both types and values. The functionality it provides is a superset of what is provided by the well established Boost.MPL and Boost.Fusion libraries. By leveraging C++11/14 implementation techniques and idioms, Hana boasts faster compilation times and runtime performance on par or better than previous metaprogramming libraries, while noticeably increasing the level of expressiveness in the process. Hana is easy to extend in a ad-hoc manner and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL and the standard library.</p>
 <p><b>Motivation</b><br />
 When Boost.MPL first appeared, it provided C++ programmers with a huge relief by abstracting tons of template hackery behind a workable interface. This breakthrough greatly contributed to making C++ template metaprogramming more mainstream, and today the discipline is deeply rooted in many serious projects. Recently, C++11 and C++14 brought many major changes to the language, some of which make metaprogramming much easier, while others drastically widen the design space for libraries. A natural question then arises: is it still desirable to have abstractions for metaprogramming, and if so, which ones? After investigating different options like the <a href="http://github.com/ldionne/mpl11">MPL11</a>, the answer eventually came by itself in the form of a library; Hana. The key insight to Hana is that the manipulation of types and values are nothing but two sides of the same coin. By unifying both concepts, metaprogramming becomes easier and new exciting possibilities open before us.</p>
 <p><b>Warning: functional programming ahead</b><br />
@@ -262,6 +281,8 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code>slice(sequence, from, to)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
 <tr>
+<td align="left"><code>subsequence(sequence, indices)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at the <code>indices</code> in the given sequence. </td></tr>
+<tr>
 <td align="left"><code>sort(sequence[, predicate])</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if no predicate is provided. </td></tr>
 <tr>
 <td align="left"><code>take(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take the first n elements of a sequence. n must be an <code>integral_constant</code>. </td></tr>
@@ -281,7 +302,7 @@ Creating sequences</h1>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = make&lt;Range&gt;(int_&lt;3&gt;, int_&lt;10&gt;);</div>
 <div class="line">static_assert(r == make_range(int_&lt;3&gt;, int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>int_&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding what Hana calls an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>.</dd></dl>
-<p>For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a Hana sequence is initialized only with constant expressions (which is the case for <code>int_&lt;...&gt;</code>), that sequence may be marked as <code>constexpr</code>. However, there are some limitations to this because we sometimes use lambdas in the implementation and C++14 does not allow lambdas to appear in constant expressions, so this should be considered a work in progress.</p>
+<p>For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a Hana sequence is initialized only with constant expressions (which is the case for <code>int_&lt;...&gt;</code>), that sequence may be marked as <code>constexpr</code>.</p>
 <h1><a class="anchor" id="tutorial-assert"></a>
 Assertions</h1>
 <hr/>
@@ -328,17 +349,16 @@ Algorithm semantics</h1>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));</div>
 <div class="line"><span class="comment">// perms has 3 628 800 elements, and your compiler just crashed</span></div>
 </div><!-- fragment --><p>To contrast, algorithms in Boost.Fusion return views which hold the original sequence by reference and apply the algorithm on demand, as the elements of the sequence are accessed. This leads to subtle lifetime issues, like having a view that refers to a sequence that was destroyed. Hana's design assumes that most of the time, we want to access all or almost all the elements in a sequence anyway, and hence performance is not a big argument in favor of laziness.</p>
-<h2><a class="anchor" id="tutorial-sem-perf"></a>
-Performance considerations</h2>
-<p>One might think that returning full sequences from an algorithm would lead to tons of undesirable copies. For example, when using <code>reverse</code> and <code>transform</code>, one could think that an intermediate copy is made after the call to <code>transform</code>:</p>
+<p>One might think that returning full sequences that own their elements from an algorithm would lead to tons of undesirable copies. For example, when using <code>reverse</code> and <code>transform</code>, one could think that an intermediate copy is made after the call to <code>transform</code>:</p>
 <div class="fragment"><div class="line">reverse(</div>
-<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- copy into reverse(...) here</span></div>
+<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- copy into reverse(...) here?</span></div>
 <div class="line">);</div>
-</div><!-- fragment --><p> To make sure this does not happen, Hana uses perfect forwarding and move semantics heavily so it can provide almost optimal runtime performance. So instead of doing a copy, a move occurs between <code>reverse</code> and <code>transform</code>:</p>
+</div><!-- fragment --><p> To make sure this does not happen, Hana uses perfect forwarding and move semantics heavily so it can provide an almost optimal runtime performance. So instead of doing a copy, a move occurs between <code>reverse</code> and <code>transform</code>:</p>
 <div class="fragment"><div class="line">reverse(</div>
-<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- move from the temporary</span></div>
+<div class="line">    transform(xs, to_str) <span class="comment">// &lt;-- nah, move from the temporary!</span></div>
 <div class="line">);</div>
-</div><!-- fragment --><h1><a class="anchor" id="tutorial-amphi"></a>
+</div><!-- fragment --><p> Ultimately, the goal is that code written using Hana should be equivalent to clever hand-written code, except it should be enjoyable to write. Performance considerations are explained in depth in their own <a class="el" href="index.html#tutorial-perf">section</a>.</p>
+<h1><a class="anchor" id="tutorial-amphi"></a>
 Amphibian algorithms</h1>
 <hr/>
 <p> Like we saw in the quick start, some functions are able to return something that can be used in a constant expression even when they are called on a non-<code>constexpr</code> object. Let's refresh our memory a bit:</p>
@@ -376,7 +396,7 @@ Amphibian algorithms</h1>
 <div class="line">    &gt;{};</div>
 <div class="line">});</div>
 <div class="line">static_assert(result, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> We just saw how some algorithms are able to return IntegralConstants when their inputs satisfy some constraints with respect to <code>compile-time</code>ness. However, other algorithms are more restrictive and they <em>require</em> their inputs to satisfy some constraints regarding <code>compile-time</code>ness, without which they are not able to operate at all. An example of this is <code>filter</code>, which takes a sequence and a predicate, and returns a new sequence containing only those elements for which the predicate is satisfied. <code>filter</code> requires the predicate to return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> (actually, a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> holding a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>). While this requirement may seem stringent, it really makes sense if you think about it. Indeed, since we're removing some elements from the tuple, the type of the object that's going to be returned by <code>filter</code> depends on the result of the predicate. Hence, the result of the predicate has to be known by the compiler to fix the type of the returned sequence. For example, consider what happens when we try to filter our sequence as follows:</p>
+</div><!-- fragment --><p> We just saw how some algorithms are able to return <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s when their inputs satisfy some constraints with respect to <code>compile-time</code>ness. However, other algorithms are more restrictive and they <em>require</em> their inputs to satisfy some constraints regarding <code>compile-time</code>ness, without which they are not able to operate at all. An example of this is <code>filter</code>, which takes a sequence and a predicate, and returns a new sequence containing only those elements for which the predicate is satisfied. <code>filter</code> requires the predicate to return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> (actually, a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> holding a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>). While this requirement may seem stringent, it really makes sense if you think about it. Indeed, since we're removing some elements from the tuple, the type of the object that's going to be returned by <code>filter</code> depends on the result of the predicate. Hence, the result of the predicate has to be known by the compiler to fix the type of the returned sequence. For example, consider what happens when we try to filter our sequence as follows:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> result = filter(stuff, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x.name == <span class="stringliteral">&quot;Louis&quot;</span>;</div>
 <div class="line">});</div>
@@ -489,9 +509,7 @@ Type computations</h1>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p>That's it for the introduction to type computations with Hana, but there are a couple of interesting examples scattered in the documentation if you want more. There's also a minimal reimplementation of the MPL using Hana under the hood in <code>example/misc/mini_mpl.cpp</code>.</p>
-<h2><a class="anchor" id="tutorial-type-perf"></a>
-Performance considerations</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><ul>
 <li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
 <li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
@@ -499,8 +517,33 @@ Performance considerations</h2>
 <li>Introduce the integration with <code>&lt;type_traits&gt;</code></li>
 </ul>
 </dd></dl>
+<h1><a class="anchor" id="tutorial-perf"></a>
+Performance considerations</h1>
+<hr/>
+<p> C++ programmers love performance, so here's a whole section dedicated to it. Since Hana lives on the frontier between runtime and compile-time computations, we are not only interested in runtime performance, but also compile-time performance. Since both topics are pretty much disjoint, we treat them separately below.</p>
+<dl class="section note"><dt>Note</dt><dd>The benchmarks presented in this section are updated automatically when we push to the repository. If you notice results that do not withstand the claims made here, open a <a href="https://github.com/ldionne/hana/issues">GitHub issue</a>; it could be a performance regression.</dd></dl>
+<h2><a class="anchor" id="tutorial-perf-compile"></a>
+Compile-time performance</h2>
+<p>C++ metaprogramming brings its share of awful things. One of the most annoying and well-known problem associated to it is interminable compilation times. Hana claims to be more compile-time efficient than its predecessors; this is a bold claim and we will now try to back it. Of course, Hana can't do miracles; metaprogramming is a byproduct of the C++ template system and the compiler is not meant to be used as an interpreter for some meta language. However, by using cutting edge and intensely benchmarked techniques, Hana is able to minimize the strain on the compiler.</p>
+<p>Before we dive, let me make a quick note on the methodology used to measure compile-time performance in Hana. Previous metaprogramming libraries measured the compile-time complexity of their meta-algorithms and meta-sequences by looking at the number of instantiations the compiler had to perform. While easy to understand, this way of measuring the compile-time complexity actually does not give us a lot of information regarding the compilation time, which is what we're interested in minimizing at the end of the day. Basically, the reason for this is that template metaprogramming is such a twisted model of computation that it's very hard to find a standard way of measuring the performance of algorithms. Hence, instead of presenting meaningless complexity analyses, we prefer to benchmark everything on every supported compiler and to pick the best implementation on that compiler. Now, let's dive.</p>
+<p>First, Hana minimizes its dependency on the preprocessor. In addition to yielding cleaner error messages in many cases, this reduces the overall parsing and preprocessing time for header files. Also, because Hana only supports cutting edge compilers, there are very few workarounds in the library, which results in a cleaner and smaller library. Finally, Hana minimizes reliance on any kind of external dependencies. In particular, it only uses other Boost libraries in a few specific cases, and it does not rely on the standard library for the largest part. There are several reasons (other than include times) for doing so; they are documented in the <a class="el" href="index.html#tutorial-rationales">rationales</a>.</p>
+<p>Below is a chart showing the time required to include different libraries. The chart shows the time for including everything in the (non-external) public API of each library. For example, for Hana this means the <code>&lt;<a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a>&gt;</code> header, which excludes the external adapters. For other libraries like Boost.Fusion, this means including all the public headers in the <code>boost/fusion/</code> directory, but not the adapters for external libraries like the MPL.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.including.compile.json"> </div><p>In addition to reduced preprocessing times, Hana uses modern techniques to implement heterogeneous sequences and algorithms in the most compile-time efficient way possible. Before jumping to the compile-time performance of the algorithms, we will have a look at the compile-time cost of creating heterogeneous sequences. Indeed, since we will be presenting algorithms that work on sequences, we must be aware of the cost of creating the sequences themselves, since that will influence the benchmarks for the algorithms. The following chart presents the compile-time cost of creating sequences of <code>n</code> elements.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.make.compile.json"> </div><dl class="section note"><dt>Note</dt><dd>You can zoom on the chart by selecting an area to zoom into.</dd></dl>
+<p>The benchmark methodology is to always create the sequences in the most efficient way possible. For Hana, this simply means using the <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> function. However, for the MPL, this means creating a <code>mpl::vectorN</code> of size up to 20, and then using <code>mpl::push_back</code> to create larger vectors. We use a similar technique for Fusion sequences. The reason for doing so is that Fusion and MPL sequences have fixed size limits, and the techniques used here have been found to be the fastest way to create longer sequences.</p>
+<p>As you can see, Hana's compile-time <em>complexity</em> is better than the alternatives. However, if you look closer at the curves, you will see that the MPL has lower compile-times for small numbers of elements. This is because including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> takes more time than including <code>mpl::vector</code>, and you are witnessing that slowdown by a constant amount. The reason why including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> is slower than including <code>mpl::vector</code> is that Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> includes all the algorithms it can be used with, while <code>mpl::vector</code> only includes the strict minimum. Considering you need to include most of them manually when using the MPL, this constant slowdown will be nonexistent in real code and Hana's approach just makes it less painful for the programmer.</p>
+<p>You can also see that creating sequences has a non-negligible cost. Actually, this is really the most expensive part, as you will see in the following charts showing the compile-time performance of algorithms. When you look at the charts here and elsewhere in the library, keep in mind the cost of merely creating the sequences. Also note that only the most important algorithms will be presented here, but micro benchmarks for compile-time performance are scattered in the reference documentation. Also, the benchmarks we present compare several different libraries. However, since Hana and Fusion can work with values and not only types, comparing their algorithms with type-only libraries like MPL is not really fair. Indeed, Hana and Fusion algorithms are more powerful since they also allow runtime effects to be performed. However, the comparison between Fusion and Hana is fair, because both libraries are just as powerful (strictly speaking).</p>
+<p>The first algorithm which is ubiquitous in metaprogramming is <code>transform</code>. It takes a sequence and a function, and returns a new sequence containing the result of applying the function to each element. The following chart presents the compile-time performance of applying <code>transform</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. Also note that we're using the <code>transform</code> equivalent in each library; we're not using the <code>transform</code> algorithm from Hana through the Boost.Fusion adapters, for example, which would likely be less efficient.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.compile.json"> </div><p>You probably also noticed how there are multiple slightly different curves for Fusion and Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. Those curves measure slightly different usage patterns for the <code>transform</code> algorithm. First, we benchmark <code>transform</code> when applied to sequences that contain both homogeneous and heterogeneous elements. The reason is that sequences holding heterogeneous elements tend to be less compile-time efficient, because the compiler has to instantiate more different types. Second, we benchmark the algorithm both on a standard Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> and on a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> created through <code>hana::tuple_t</code>, and mapping a Hana <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> instead of a regular function. The reason is that it is possible to optimize some algorithms (like <code>transform</code>) when we know we're actually mapping a metafunction on a type sequence. Basically, we can do the whole algorithm at the type level behind the scenes, which is more efficient, but you still get the nice value-level interface.</p>
+<dl class="section note"><dt>Note</dt><dd>The representation of <code>tuple_t</code> is not really optimized right now, so there is no difference between using it and not using it. You should still use <code>tuple_t</code> to create type-only <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>s, as some nice optimizations can be implemented.</dd></dl>
+<p>The second important class of algorithms are folds. Folds can be used to implement many other algorithms like <code>count_if</code>, <code>minimum</code> and so on. Hence, a good compile-time performance for fold algorithms ensures a good compile-time performance for those derived algorithms, which is why we're only presenting folds here. Also note that all the non-monadic fold variants are somewhat equivalent in terms of compile-time, so we only present the left folds. The following chart presents the compile-time performance of applying <code>fold.left</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. The function used for folding is a dummy function that does nothing. In real code, you would likely fold with a nontrivial operation, so the curves would be worse than that. However, these are micro benchmarks and hence they only show the performance of the algorithm itself.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.compile.json"> </div><p>The third and last algorithm that we present here is the <code>find_if</code> algorithm. This algorithm is difficult to implement efficiently, because it requires stopping at the first element which satisfies the given predicate. For the same reason, modern techniques don't really help us here, so this algorithm constitutes a good test of the implementation quality of Hana disregarding the metaprogramming free lunch given to us by C++14.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.find_if.compile.json"> </div><p>As you can see, Hana performs better than Fusion, and as well as MPL, yet Hana's <code>find_if</code> can be used with values too, unlike MPL's. This concludes the section on compile-time performance, but there are micro benchmarks of compile-time performance scattered around the documentation if you want to see the compile-time behavior of a particular algorithm.</p>
+<h2><a class="anchor" id="tutorial-perf-runtime"></a>
+Runtime performance</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-constexpr"></a>
-Limitations of constexpr</h1>
+The limitations of constexpr</h1>
 <hr/>
 <p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++11. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. Let's start off with a <a href="http://www.gotw.ca/gotw/index.htm">GOTW</a> style question: do you think the following code should compile, and why?</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -575,7 +618,7 @@ Heterogeneity and generalized types</h1>
 <p>Just like C++ templates are families of types that are parameterized by some other type, it makes sense to speak of parameterized generalized types. A parameterized <em>gtype</em> is simply a <em>gtype</em> which depends on other generalized types. You might have seen it coming, but this is actually the case for <code>_tuple</code>, whose <em>gtype</em> can be seen as depending on the <em>gtype</em> of the objects it contains. However, take good note that <b>parameterized generalized types in Hana only live at the documentation level</b>. While enforcing proper parametricity would make the library more mathematically correct, I fear it would also make it less usable given the lack of language support. Given a parametric <em>gtype</em> <code>F</code>, we use <code>F(T)</code> to denote the "application" of <code>F</code> to another <em>gtype</em> <code>T</code>. While this is analogous to "applying" a C++ template to a type, we purposefully do not use the <code>F&lt;T&gt;</code> notation because parametric gtypes are not necessarily templates in Hana and that would be more confusing than helpful.</p>
 <p>As an example, <code>_tuple&lt;int, int&gt;</code> conceptually has a gtype of <code>Tuple(int)</code>, but its actual gtype (outside of the documentation) is just <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. What about <code>_tuple&lt;int, long&gt;</code>? Well, <code>int</code> and <code>long</code> are embedded in the same mathematical universe, so we could say that it's a <code>Tuple(Number)</code>, where <code>Number</code> is some generalized type containing all the numeric types. What about <code>_tuple&lt;int, void&gt;</code>? First, that won't compile. But why would you create a sequence of objects that have nothing in common? What can you do with that?</p>
 <p>These generalized types are useful for several purposes, for example creating a tuple with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> and documenting pseudo-signatures for the functions provided in this library. Another important role is to customize algorithms; see the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a> for more information. Finally, you can also consult the reference of the <a class="el" href="structboost_1_1hana_1_1datatype.html">datatype</a> metafunction for details on how to specify the generalized type of a family of types.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
@@ -708,15 +751,20 @@ Pseudo-code glossary</h2>
 </ul>
 <hr/>
 <p> This finishes the tutorial part of the documentation. I hope you enjoy using the library, and please leave feedback on GitHub so we can improve the library!</p>
-<p>&ndash; Louis </p>
+<p>&ndash; Louis</p>
+<h1><a class="anchor" id="tutorial-rationales"></a>
+Rationales/FAQ</h1>
+<hr/>
+<p> This section documents the rationale for some design choices. It also serves as a FAQ for some (not so) frequently asked questions. If you think something should be added to this list, open a GitHub issue and we'll consider either improving the documentation or adding the question here.</p>
+<ol type="1">
+<li>Why restrict usage of Boost and the standard library? After all, isn't this a (proposed) Boost library? There are several reasons for doing so. First, Hana is a very fundamental library; we are basically reimplementing the core language and the standard library with support for heterogeneous types. When you go through the code, you quickly realize that you very rarely need other libraries, and that almost everything must be implemented from scratch. Also, since Hana is very fundamental, there is even more incentive for keeping the dependencies minimal, because those dependencies will be handed down to the users. Finally, one big reason for using Boost is that it is highly portable. As an exception to the rule, this library only targets very recent compilers. Hence, we can afford to depend on modern constructs and the portability brought by using most Boost libraries is just dead weight. </li>
+</ol>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated by
-    <a href="http://www.doxygen.org/index.html">
-    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
   </ul>
 </div>
 </body>

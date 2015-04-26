@@ -9,14 +9,14 @@ var NAVTREE =
       ] ],
       [ "Creating sequences", "index.html#tutorial-create", null ],
       [ "Assertions", "index.html#tutorial-assert", null ],
-      [ "Algorithm semantics", "index.html#tutorial-sem", [
-        [ "Performance considerations", "index.html#tutorial-sem-perf", null ]
-      ] ],
+      [ "Algorithm semantics", "index.html#tutorial-sem", null ],
       [ "Amphibian algorithms", "index.html#tutorial-amphi", null ],
-      [ "Type computations", "index.html#tutorial-type", [
-        [ "Performance considerations", "index.html#tutorial-type-perf", null ]
+      [ "Type computations", "index.html#tutorial-type", null ],
+      [ "Performance considerations", "index.html#tutorial-perf", [
+        [ "Compile-time performance", "index.html#tutorial-perf-compile", null ],
+        [ "Runtime performance", "index.html#tutorial-perf-runtime", null ]
       ] ],
-      [ "Limitations of constexpr", "index.html#tutorial-constexpr", [
+      [ "The limitations of constexpr", "index.html#tutorial-constexpr", [
         [ "Constants", "index.html#tutorial-constexpr-constants", null ],
         [ "Side effects", "index.html#tutorial-constexpr-side_effects", null ]
       ] ],
@@ -33,7 +33,8 @@ var NAVTREE =
       [ "Header organization", "index.html#tutorial-header_organization", null ],
       [ "Using the reference", "index.html#tutorial-using_the_reference", [
         [ "Pseudo-code glossary", "index.html#tutorial-using_the_reference-pseudo", null ]
-      ] ]
+      ] ],
+      [ "Rationales/FAQ", "index.html#tutorial-rationales", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Indexes", "usergroup0.html", [
@@ -54,7 +55,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-header_organization",
-"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b"
+"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

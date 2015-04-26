@@ -1,17 +1,19 @@
 var NAVTREEINDEX1 =
 {
-"index.html#tutorial-header_organization":[0,12],
-"index.html#tutorial-hetero":[0,9],
+"index.html#tutorial-header_organization":[0,13],
+"index.html#tutorial-hetero":[0,10],
 "index.html#tutorial-introduction":[0,1],
+"index.html#tutorial-perf":[0,8],
+"index.html#tutorial-perf-compile":[0,8,0],
+"index.html#tutorial-perf-runtime":[0,8,1],
 "index.html#tutorial-preface":[0,0],
 "index.html#tutorial-quickstart":[0,2],
 "index.html#tutorial-quickstart-cheatsheet":[0,2,0],
+"index.html#tutorial-rationales":[0,15],
 "index.html#tutorial-sem":[0,5],
-"index.html#tutorial-sem-perf":[0,5,0],
 "index.html#tutorial-type":[0,7],
-"index.html#tutorial-type-perf":[0,7,0],
-"index.html#tutorial-using_the_reference":[0,13],
-"index.html#tutorial-using_the_reference-pseudo":[0,13,0],
+"index.html#tutorial-using_the_reference":[0,14],
+"index.html#tutorial-using_the_reference-pseudo":[0,14,0],
 "infix_8hpp.html":[2,2,0,0,3,10],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,10,0],
 "insert__fwd_8hpp.html":[2,2,0,0,1,10],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,18,14],
 "structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,18,8],
 "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,18,7],
-"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,4],
-"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,18,11],
-"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,18,15]
+"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,4]
 };
