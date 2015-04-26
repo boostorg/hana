@@ -6,7 +6,7 @@
 # Setup master test targets and file lists
 ##############################################################################
 
-# Allows putting stuff that's only relevant to the unit tests in the
+# This allows putting stuff that's only relevant to the unit tests in the
 # test/include subdirectory.
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
@@ -46,32 +46,6 @@ file(GLOB_RECURSE _detail_headers
     RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
     "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/detail/*.hpp")
 list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_detail_headers})
-
-# A list of all the unit tests that are split into subparts to reduce the
-# load on the compiler.
-#
-# This list must not be modified by the caveats below; when a source file is
-# not available in BOOST_HANA_TEST_SOURCES, it won't be split regardless of
-# whether it appears in this list.
-file(GLOB BOOST_HANA_SPLIT_TEST_SOURCES
-    "cnumeric.cpp"
-    "detail/canonical_constant.cpp"
-    "either.cpp"
-    "ext/boost/fusion/vector/sequence.cpp"
-    "ext/boost/mpl/integral_c.cpp"
-    "ext/std/array.cpp"
-    "ext/std/integer_sequence.cpp"
-    "ext/std/integral_constant.cpp"
-    "ext/std/ratio.cpp"
-    "ext/std/tuple.cpp"
-    "integral_constant.cpp"
-    "map.cpp"
-    "maybe.cpp"
-    "set.cpp"
-    "string.cpp"
-    "struct.cpp"
-    "tuple.cpp"
-)
 
 
 ##############################################################################
@@ -167,16 +141,15 @@ endforeach()
 
 
 ##############################################################################
-# Split specially marked unit tests into subparts to avoid long compile-times,
-# OOMs on Travis and other inconveniences.
+# Add all the unit tests
 ##############################################################################
-foreach(_file IN LISTS BOOST_HANA_SPLIT_TEST_SOURCES)
-    # We only process the file if it appears in the list of all tests,
-    # which means it was not removed in the caveats above.
-    list(FIND BOOST_HANA_TEST_SOURCES "${_file}" _index)
-    if (NOT (${_index} EQUAL -1))
-        # Parse the file to find how it is split.
-        file(READ "${_file}" _contents)
+foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
+    file(READ "${_file}" _contents)
+
+    # If the file contains the special BOOST_HANA_TEST_PART marker, we split
+    # it into several subparts. This is done to avoid long compile-times and
+    # other inconveniences.
+    if ("${_contents}" MATCHES "BOOST_HANA_TEST_PART == ([0-9]+)")
         string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _parts "${_contents}")
         string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _parts "${_parts}")
         list(REMOVE_DUPLICATES _parts)
@@ -204,23 +177,13 @@ foreach(_file IN LISTS BOOST_HANA_SPLIT_TEST_SOURCES)
 
             add_test(NAME ${_ptarget} COMMAND compile.${_ptarget})
         endforeach()
-    endif()
-endforeach()
-
-# We remove the unit tests that were split into subparts so we don't
-# add them twice.
-list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${BOOST_HANA_SPLIT_TEST_SOURCES})
-
-
-##############################################################################
-# Add all the remaining regular unit tests
-##############################################################################
-foreach(file IN LISTS BOOST_HANA_TEST_SOURCES)
-    boost_hana_target_name_for(_target "${file}")
-    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
-    add_dependencies(compile.tests compile.${_target})
-    add_test(NAME ${_target} COMMAND compile.${_target})
-    if (DEFINED VALGRIND_COMMAND)
-        add_dependencies(memcheck.tests memcheck.${_target})
+    else()
+        boost_hana_target_name_for(_target "${_file}")
+        boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+        add_dependencies(compile.tests compile.${_target})
+        add_test(NAME ${_target} COMMAND compile.${_target})
+        if (DEFINED VALGRIND_COMMAND)
+            add_dependencies(memcheck.tests memcheck.${_target})
+        endif()
     endif()
 endforeach()
