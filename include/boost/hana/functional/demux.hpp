@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
 

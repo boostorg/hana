@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>

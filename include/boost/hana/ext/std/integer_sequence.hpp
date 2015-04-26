@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/foldable.hpp>

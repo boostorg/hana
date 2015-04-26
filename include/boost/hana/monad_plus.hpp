@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/flip.hpp>
@@ -61,7 +60,7 @@ namespace boost { namespace hana {
     struct prepend_impl<M, when<condition>> : default_ {
         template <typename X, typename Xs>
         static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
-            return hana::concat(lift<M>(static_cast<X&&>(x)),
+            return hana::concat(hana::lift<M>(static_cast<X&&>(x)),
                                 static_cast<Xs&&>(xs));
         }
     };
@@ -77,7 +76,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::concat(static_cast<Xs&&>(xs),
-                                lift<M>(static_cast<X&&>(x)));
+                                hana::lift<M>(static_cast<X&&>(x)));
         }
     };
 
@@ -93,8 +92,8 @@ namespace boost { namespace hana {
             template <typename Pred, typename X>
             constexpr decltype(auto) operator()(Pred&& pred, X&& x) const {
                 decltype(auto) cond = static_cast<Pred&&>(pred)(x);
-                return hana::if_(detail::std::forward<decltype(cond)>(cond),
-                    lift<M>(static_cast<X&&>(x)),
+                return hana::if_(static_cast<decltype(cond)&&>(cond),
+                    hana::lift<M>(static_cast<X&&>(x)),
                     empty<M>()
                 );
             }
@@ -190,7 +189,7 @@ namespace boost { namespace hana {
         template <typename N, typename X>
         static constexpr decltype(auto) apply(N&& n, X&& x) {
             return hana::cycle(static_cast<N&&>(n),
-                               lift<M>(static_cast<X&&>(x)));
+                               hana::lift<M>(static_cast<X&&>(x)));
         }
     };
 
@@ -231,8 +230,8 @@ namespace boost { namespace hana {
     template <typename M>
     struct models_impl<MonadPlus, M>
         : _integral_constant<bool,
-            !is_default<concat_impl<M>>{} &&
-            !is_default<empty_impl<M>>{}
+            !is_default<concat_impl<M>>{}() &&
+            !is_default<empty_impl<M>>{}()
         >
     { };
 }} // end namespace boost::hana

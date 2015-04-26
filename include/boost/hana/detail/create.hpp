@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_CREATE_HPP
 
 #include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana { namespace detail {

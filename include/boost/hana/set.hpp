@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>

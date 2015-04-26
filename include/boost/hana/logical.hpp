@@ -23,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -241,7 +240,7 @@ namespace boost { namespace hana {
             if (pred(state)) {
                 decltype(auto) r = f(static_cast<State&&>(state));
                 return hana::while_(static_cast<Pred&&>(pred),
-                                    detail::std::forward<decltype(r)>(r),
+                                    static_cast<decltype(r)&&>(r),
                                     static_cast<F&&>(f));
             }
             else {
@@ -311,7 +310,7 @@ namespace boost { namespace hana {
         while_helper(decltype(true_), Pred&& pred, State&& state, F&& f) {
             decltype(auto) r = f(static_cast<State&&>(state));
             return hana::while_(static_cast<Pred&&>(pred),
-                                detail::std::forward<decltype(r)>(r),
+                                static_cast<decltype(r)&&>(r),
                                 static_cast<F&&>(f));
         }
 

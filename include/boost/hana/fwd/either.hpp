@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_EITHER_HPP
 #define BOOST_HANA_FWD_EITHER_HPP
 
-#include <boost/hana/detail/std/forward.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a value with two possibilities.

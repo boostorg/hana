@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/concepts.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>

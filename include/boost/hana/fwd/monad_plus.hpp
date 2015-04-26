@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONAD_PLUS_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -611,10 +610,8 @@ namespace boost { namespace hana {
 #endif
         template <typename N, typename X>
         constexpr decltype(auto) operator()(N&& n, X&& x) const {
-            return repeat_impl<M>::apply(
-                detail::std::forward<decltype(n)>(n),
-                detail::std::forward<decltype(x)>(x)
-            );
+            return repeat_impl<M>::apply(static_cast<N&&>(n),
+                                         static_cast<X&&>(x));
         }
     };
 

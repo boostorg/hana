@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/monoid.hpp>

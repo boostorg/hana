@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LAZY_HPP
 #define BOOST_HANA_FWD_LAZY_HPP
 
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 
 

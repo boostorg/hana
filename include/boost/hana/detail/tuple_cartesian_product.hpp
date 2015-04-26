@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>

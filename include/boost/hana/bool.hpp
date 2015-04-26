@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/detail/std/size_t.hpp>

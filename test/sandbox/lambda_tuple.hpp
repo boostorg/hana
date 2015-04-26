@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
@@ -89,7 +88,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, F f) {
             return static_cast<Xs&&>(xs).storage(
                 [f(detail::std::move(f))](auto&& ...xs) -> decltype(auto) {
-                    return sandbox::lambda_tuple(f(detail::std::forward<decltype(xs)>(xs))...);
+                    return sandbox::lambda_tuple(f(static_cast<decltype(xs)&&>(xs))...);
                 }
             );
         }
@@ -117,7 +116,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
                 [](auto&& x, auto&& ...rest) -> decltype(auto) {
-                    return id(detail::std::forward<decltype(x)>(x));
+                    return id(static_cast<decltype(x)&&>(x));
                 }
             );
         }
@@ -129,7 +128,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
                 [](auto&& x, auto&& ...rest) -> decltype(auto) {
-                    return sandbox::lambda_tuple(detail::std::forward<decltype(rest)>(rest)...);
+                    return sandbox::lambda_tuple(static_cast<decltype(rest)&&>(rest)...);
                 }
             );
         }
@@ -184,7 +183,7 @@ namespace boost { namespace hana {
                         [=](auto&& ...ys) -> decltype(auto) {
                             return sandbox::lambda_tuple(
                                 detail::std::move(xs)...,
-                                detail::std::forward<decltype(ys)>(ys)...
+                                static_cast<decltype(ys)&&>(ys)...
                             );
                         }
                     );
@@ -201,7 +200,7 @@ namespace boost { namespace hana {
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
                         detail::std::move(x),
-                        detail::std::forward<decltype(xs)>(xs)...
+                        static_cast<decltype(xs)&&>(xs)...
                     );
                 }
             );
@@ -215,7 +214,7 @@ namespace boost { namespace hana {
             return static_cast<Xs&&>(xs).storage(
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
-                        detail::std::forward<decltype(xs)>(xs)...,
+                        static_cast<decltype(xs)&&>(xs)...,
                         detail::std::move(x)
                     );
                 }

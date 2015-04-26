@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP
 
 #include <boost/hana/detail/reverse_partial.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {

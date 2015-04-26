@@ -19,8 +19,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     BOOST_HANA_CONSTEXPR_LAMBDA auto reverse_apply =
         [](auto&& f, auto&& ...x) -> decltype(auto) {
             return detail::variadic::reverse_apply_unrolled(
-                detail::std::forward<decltype(f)>(f),
-                detail::std::forward<decltype(x)>(x)...
+                static_cast<decltype(f)&&>(f),
+                static_cast<decltype(x)&&>(x)...
             );
         };
 }}}} // end namespace boost::hana::detail::variadic

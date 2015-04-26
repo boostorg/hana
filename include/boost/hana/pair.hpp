@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/product.hpp>
 

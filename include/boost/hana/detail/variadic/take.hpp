@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP
 
 #include <boost/hana/detail/reverse_partial.hpp>
-#include <boost/hana/detail/std/forward.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/split_at.hpp>
 #include <boost/hana/functional/always.hpp>

@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ID_HPP
 #define BOOST_HANA_FUNCTIONAL_ID_HPP
 
-#include <boost/hana/detail/std/forward.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-functional
     //! The identity function -- returns its argument unchanged.
