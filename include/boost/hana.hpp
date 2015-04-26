@@ -782,7 +782,8 @@ of `n` elements.
 </div>
 
 @note
-You can zoom on the chart by selecting an area to zoom into.
+You can zoom on the chart by selecting an area to zoom into. Also, you can
+hide a series of points by clicking on it in the legend on the right.
 
 The benchmark methodology is to always create the sequences in the most
 efficient way possible. For Hana, this simply means using the `make<Tuple>`
@@ -1428,7 +1429,7 @@ should be added to this list, open a GitHub issue and we'll consider either
 improving the documentation or adding the question here.
 
 
-1. Why restrict usage of Boost and the standard library? After all, isn't this a (proposed) Boost library?
+1. __Why restrict usage of Boost and the standard library? After all, isn't this a (proposed) Boost library?__\n
 There are several reasons for doing so. First, Hana is a very fundamental
 library; we are basically reimplementing the core language and the standard
 library with support for heterogeneous types. When you go through the code,
