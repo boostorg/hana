@@ -40,7 +40,7 @@
     $(".benchmark-chart").each(function(index, div) {
       var compiler = "clang-3.5.0";
       var dataset = div.getAttribute("data-dataset");
-      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/datasets/release/";
       $.getJSON(repo + compiler + "/" + dataset, function(options) {
         Hana.initChart($(div), options);
       });
@@ -124,11 +124,11 @@ $(document).ready(function(){initNavTree('group__group-ext.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c.html">boost::hana::ext::boost::mpl::IntegralC&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapter for IntegralConstants from the Boost.MPL.  <a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_integral_c.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html">boost::hana::ext::boost::mpl::IntegralC&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapter for IntegralConstants from the Boost.MPL.  <a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_vector.html">boost::hana::ext::boost::mpl::Vector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapter for Boost.MPL vectors.  <a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1_vector.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1Vector.html">boost::hana::ext::boost::mpl::Vector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adapter for Boost.MPL vectors.  <a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1Vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

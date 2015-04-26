@@ -40,7 +40,7 @@
     $(".benchmark-chart").each(function(index, div) {
       var compiler = "clang-3.5.0";
       var dataset = div.getAttribute("data-dataset");
-      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/datasets/release/";
       $.getJSON(repo + compiler + "/" + dataset, function(options) {
         Hana.initChart($(div), options);
       });
@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1common.html',''
 <div class="textblock"><h3>template&lt;typename T, typename U, typename&gt;<br />
 struct boost::hana::common&lt; T, U, typename &gt;</h3>
 
-<p><a class="el" href="structboost_1_1hana_1_1_metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a> returning the common data type between two data types. </p>
+<p><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a> returning the common data type between two data types. </p>
 <p><code>common</code> is a natural extension of the <code>std::common_type</code> metafunction to data types. Given two data types <code>T</code> and <code>U</code>, we say that they share a common type <code>C</code> if both objects of data type <code>T</code> and objects of data type <code>U</code> may be converted (using <code>to</code>) to an object of data type <code>C</code>, and if that conversion is equality preserving. In other words, this means that for any objects <code>t1, t2</code> of data type <code>T</code> and <code>u1, u2</code> of data type <code>U</code>, the following law is satisfied: </p><div class="fragment"><div class="line">to&lt;C&gt;(t1) == to&lt;C&gt;(t2)  if and only if  t1 == t2</div>
 <div class="line"><a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(u1) == <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(u2)  if and only if  u1 == u2</div>
 </div><!-- fragment --><p>The role of <code>common</code> is to provide an alias to such a <code>C</code> if it exists. In other words, if <code>T</code> and <code>U</code> have a common data type <code>C</code>, <code>common&lt;T, U&gt;::type</code> is an alias to <code>C</code>. Otherwise, <code>common&lt;T, U&gt;</code> has no nested <code>type</code> and can be used in dependent contexts to exploit SFINAE. By default, the exact steps followed by <code>common</code> to determine the common type <code>C</code> of <code>T</code> and <code>U</code> are</p><ol type="1">

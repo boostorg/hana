@@ -1,6 +1,6 @@
 var group__group_details =
 [
-    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1_canonical_constant.html", null ],
+    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "array", "structboost_1_1hana_1_1detail_1_1constexpr___1_1array.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
     [ "closure", "group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2", null ],

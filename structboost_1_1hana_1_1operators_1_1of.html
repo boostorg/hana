@@ -40,7 +40,7 @@
     $(".benchmark-chart").each(function(index, div) {
       var compiler = "clang-3.5.0";
       var dataset = div.getAttribute("data-dataset");
-      var repo = "https://rawgit.com/ldionne/hana/datasets/release/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/datasets/release/";
       $.getJSON(repo + compiler + "/" + dataset, function(options) {
         Hana.initChart($(div), options);
       });
@@ -149,7 +149,7 @@ struct boost::hana::operators::of&lt; documentation &gt;</h3>
 <div class="line">    : operators::of&lt;C1&gt;, operators::of&lt;C2&gt;, operators::of&lt;C3&gt;</div>
 <div class="line">{ };</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This trait only controls which operators are enabled when they are found by name lookup. To make the operators findable by name lookup, one should use <code><a class="el" href="structboost_1_1hana_1_1operators_1_1adl.html" title="Makes the operators from boost::hana::operators visible to ADL. ">operators::adl</a></code> or import the operators from the <code>operators</code> namespace explicitly.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>If a data type enables the operator for a method or a concept that is not implemented or modeled by that data type, the behavior is undefined. In particular, one will probably end up with a ugly and hard to understand compiler error. The reason for that is that some methods like <code>equal</code> are defined for objects that are <code>EqualityComparable</code>, i.e. that can be compared using <code>==</code>. To do this, <code>equal</code> has to test whether the <code>x == y</code> expression is valid. If a data type enables the <code>==</code> operator provided by <a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> but does not define the <code>equal</code> method, and if the <code>==</code> operator is accessible through ADL for objects of that data type, then <code>equal</code> will get caught in the loop when trying to check whether <code>x == y</code> is a valid expression. Bottom line: don't do this.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If a data type enables the operator for a method or a concept that is not implemented or modeled by that data type, the behavior is undefined. In particular, one will probably end up with a ugly and hard to understand compiler error. The reason for that is that some methods like <code>equal</code> are defined for objects that are <code>EqualityComparable</code>, i.e. that can be compared using <code>==</code>. To do this, <code>equal</code> has to test whether the <code>x == y</code> expression is valid. If a data type enables the <code>==</code> operator provided by <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> but does not define the <code>equal</code> method, and if the <code>==</code> operator is accessible through ADL for objects of that data type, then <code>equal</code> will get caught in the loop when trying to check whether <code>x == y</code> is a valid expression. Bottom line: don't do this.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

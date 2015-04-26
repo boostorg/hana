@@ -40,7 +40,7 @@
     $(".benchmark-chart").each(function(index, div) {
       var compiler = "clang-3.5.0";
       var dataset = div.getAttribute("data-dataset");
-      var repo = "https://raw.githubusercontent.com/ldionne/hana/datasets/release/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/datasets/release/";
       $.getJSON(repo + compiler + "/" + dataset, function(options) {
         Hana.initChart($(div), options);
       });

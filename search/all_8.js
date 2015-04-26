@@ -6,5 +6,5 @@ var searchData=
   ['has_5fcommon_5fembedding_2ehpp',['has_common_embedding.hpp',['../has__common__embedding_8hpp.html',1,'']]],
   ['has_5fnontrivial_5fcommon_5fembedding',['has_nontrivial_common_embedding',['../group__group-details.html#ga30deee39211913d4f4c2f527b19d8dd2',1,'boost::hana::detail']]],
   ['has_5foperator',['has_operator',['../group__group-core.html#gaa7d2efbdd45154b3a1547fce93cf19a4',1,'boost::hana']]],
-  ['head',['head',['../structboost_1_1hana_1_1_iterable.html#adc2675aeee1174a9b337e94f39506bec',1,'boost::hana::Iterable']]]
+  ['head',['head',['../structboost_1_1hana_1_1Iterable.html#adc2675aeee1174a9b337e94f39506bec',1,'boost::hana::Iterable']]]
 ];
