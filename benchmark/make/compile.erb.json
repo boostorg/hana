@@ -1,5 +1,9 @@
-<% rng = (0...50).step(5).to_a + (50..400).step(25).to_a %>
-<% fusion = (0...50).step(5).to_a + [50, 75, 100] %>
+<%
+  hana = (0...50).step(5).to_a + (50..400).step(25).to_a
+  fusion = (0...50).step(5).to_a + [50, 75, 100]
+  mpl = hana
+  meta = (0...50).step(5).to_a + (50..200).step(25).to_a
+%>
 
 {
   "title": {
@@ -8,16 +12,16 @@
   "series": [
     {
       "name": "Heterogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', rng) %>
+      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
     }, {
       "name": "Homogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', rng) %>
+      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
     }, {
       "name": "hana::tuple_t",
-      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', rng) %>
+      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', hana) %>
     }, {
       "name": "hana::tuple_c",
-      "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', rng) %>
+      "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', hana) %>
     }
 
     <% if has_boost %>
@@ -29,7 +33,14 @@
       "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
     }, {
       "name": "mpl::vector",
-      "data": <%= time_compilation('compile.mpl.vector.erb.cpp', rng) %>
+      "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
+    }
+    <% end %>
+
+    <% if has_meta %>
+    , {
+      "name": "meta::list",
+      "data": <%= time_compilation('compile.meta.list.erb.cpp', meta) %>
     }
     <% end %>
   ]

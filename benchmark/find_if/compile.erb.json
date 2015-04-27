@@ -1,6 +1,9 @@
-<% hana = (0...50).step(5).to_a + (50..200).step(25).to_a %>
-<% fusion = (0...50).step(5).to_a %>
-<% mpl = hana %>
+<%
+  hana = (0...50).step(5).to_a + (50..200).step(25).to_a
+  fusion = (0...50).step(5).to_a
+  mpl = hana
+  meta = hana
+%>
 
 {
   "title": {
@@ -19,6 +22,13 @@
     }, {
       "name": "mpl::vector",
       "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
+    }
+    <% end %>
+
+    <% if has_meta %>
+    , {
+      "name": "meta::list",
+      "data": <%= time_compilation('compile.meta.list.erb.cpp', meta) %>
     }
     <% end %>
   ]

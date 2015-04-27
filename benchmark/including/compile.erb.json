@@ -58,6 +58,13 @@
         "y": <%= amortize('mpl11.erb.cpp') %>
       }
       <% end %>
+
+      <% if has_meta %>
+      , {
+        "name": "Meta",
+        "y": <%= amortize('meta.erb.cpp') %>
+      }
+      <% end %>
     ]
   }]
 }

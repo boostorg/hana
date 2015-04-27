@@ -31,6 +31,13 @@ else()
     set(MPL11_FOUND false)
 endif()
 
+if (DEFINED META_ROOT)
+    set(META_FOUND true)
+    include_directories(${META_ROOT}/include)
+else()
+    set(META_FOUND false)
+endif()
+
 ##############################################################################
 # Configure the measure.rb script
 ##############################################################################
@@ -79,7 +86,7 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
     set(output_file "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
     add_custom_command(OUTPUT "${output_file}"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}}    "
+            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}, has_meta: ${META_FOUND}}    "
             -e "json = Tilt::ERBTemplate.new('${_template}').render(nil, **env) "
             -e "File.open('${output_file}', 'w') { |f| f.write(json) }          "
         WORKING_DIRECTORY ${_template_dir}
@@ -92,7 +99,7 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
     add_custom_target(check.${_target}
         COMMAND ${CMAKE_COMMAND} -E env check.benchmarks=true
         ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}}    "
+            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}, has_meta: ${META_FOUND}}    "
             -e "Tilt::ERBTemplate.new('${_template}').render(nil, **env)        "
         WORKING_DIRECTORY ${_template_dir}
         VERBATIM
