@@ -120,10 +120,10 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Adapter for Boost.MPL vectors. </p>
 <h2>Modeled concepts </h2>
-<p>It is possible for MPL vectors to model a couple of concepts. However, because they are only able to hold types, they lack the generality required to model concepts like <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>, <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> and other related concepts.</p>
+<p>It is possible for MPL vectors to model a couple of concepts. However, because they are only able to hold types, they lack the generality required to model concepts like <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and other related concepts.</p>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
-Comparing two MPL vectors is equivalent to comparing them as <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>s. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+Two MPL vectors are equal if and only if they contain the same number of types, and if all those types are equal. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    equal(mpl::vector2&lt;int, char&gt;{}, mpl::vector&lt;int, char&gt;{})</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
@@ -131,7 +131,7 @@ Comparing two MPL vectors is equivalent to comparing them as <code><a class="el"
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Folding a MPL vector is equivalent to folding it as a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>. <div class="fragment"><div class="line"><span class="keyword">auto</span> types = mpl::vector&lt;long, float, short, float, long, long double&gt;{};</div>
+Folding a MPL vector is equivalent to folding it as a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><span class="keyword">auto</span> types = mpl::vector&lt;long, float, short, float, long, long double&gt;{};</div>
 <div class="line"><span class="keyword">auto</span> number_of_floats = fold.left(types, int_&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> if_(trait&lt;std::is_floating_point&gt;(t),</div>
 <div class="line">        count + int_&lt;1&gt;,</div>
@@ -142,7 +142,7 @@ Folding a MPL vector is equivalent to folding it as a <a class="el" href="struct
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(number_of_floats == int_&lt;3&gt;);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
-Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(mpl::vector&lt;int, char, void&gt;{}) == type&lt;int&gt;);</div>
+Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(mpl::vector&lt;int, char, void&gt;{}) == type&lt;int&gt;);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(equal(</div>
 <div class="line">    tail(mpl::vector&lt;int, char, void&gt;{}),</div>
@@ -156,7 +156,7 @@ Iterating over a MPL vector is just iterating over each of the types it contains
 <div class="line">));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-A MPL vector can be searched as if it were a <a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a> of Types. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+A MPL vector can be searched as if it were a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    find_if(mpl::vector&lt;int, float, char const*&gt;{}, equal.to(type&lt;float&gt;))</div>
 <div class="line">    ==</div>
 <div class="line">    just(type&lt;float&gt;)</div>
@@ -169,6 +169,20 @@ A MPL vector can be searched as if it were a <a class="el" href="structboost_1_1
 <div class="line">);</div>
 </div><!-- fragment --></li>
 </ol>
+<h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
+<p>A MPL vector can be created from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. More precisely, for a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code> whose linearization is <code>[x1, ..., xn]</code>, </p><div class="fragment"><div class="line">to&lt;ext::boost::mpl::Vector&gt;(xs) == mpl::vector&lt;t1, ..., tn&gt;</div>
+</div><!-- fragment --><p> where <code>tk</code> is the type of <code>xk</code>, or the type contained in <code>xk</code> if <code>xk</code> is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>. </p><dl class="section warning"><dt>Warning</dt><dd>The limitations on the size of <code>mpl::vector</code>s are inherited by this conversion utility, and hence trying to convert a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing more than <code>BOOST_MPL_MAX_VECTOR_SIZE</code> elements is an error. <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.0);</div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(to&lt;ext::boost::mpl::Vector&gt;(xs)),</div>
+<div class="line">    mpl::vector&lt;int, char, double&gt;</div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> ys = make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, type&lt;void&gt;);</div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    decltype(to&lt;ext::boost::mpl::Vector&gt;(ys)),</div>
+<div class="line">    mpl::vector&lt;int, char, void&gt;</div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --></dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
