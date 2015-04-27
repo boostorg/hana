@@ -22,21 +22,14 @@ if(${__BOOST_HANA_MISSING_GEMS})
     return()
 endif()
 
-# For the benchmarks, it is possible to define MPL11_ROOT to the root of an
-# installation of the MPL11, in which case additional benchmarks are available.
-if (DEFINED MPL11_ROOT)
-    set(MPL11_FOUND true)
-    include_directories(${MPL11_ROOT}/include)
-else()
-    set(MPL11_FOUND false)
+if (MPL11_FOUND)
+    include_directories(${MPL11_INCLUDE_DIR})
 endif()
 
-if (DEFINED META_ROOT)
-    set(META_FOUND true)
-    include_directories(${META_ROOT}/include)
-else()
-    set(META_FOUND false)
+if (Meta_FOUND)
+    include_directories(${Meta_INCLUDE_DIR})
 endif()
+
 
 ##############################################################################
 # Configure the measure.rb script
@@ -83,24 +76,26 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
     list(APPEND BOOST_HANA_BENCHMARKS "${_target}")
     get_filename_component(_template_dir "${_template}" DIRECTORY)
 
-    set(output_file "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
-    add_custom_command(OUTPUT "${output_file}"
+    set(_conf_template "${CMAKE_CURRENT_BINARY_DIR}/${_target}.erb.json")
+    configure_file("${_template}" "${_conf_template}" @ONLY)
+
+    set(_output_file "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
+    add_custom_command(OUTPUT "${_output_file}"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}, has_meta: ${META_FOUND}}    "
-            -e "json = Tilt::ERBTemplate.new('${_template}').render(nil, **env) "
-            -e "File.open('${output_file}', 'w') { |f| f.write(json) }          "
+            -e "json = Tilt::ERBTemplate.new('${_conf_template}').render     "
+            -e "File.open('${_output_file}', 'w') { |f| f.write(json) }  "
         WORKING_DIRECTORY ${_template_dir}
-        DEPENDS "${_template}"
+        DEPENDS "${_conf_template}"
         VERBATIM
+        COMMENT "Generating benchmarks for ${_target}"
     )
-    add_custom_target(${_target} DEPENDS "${output_file}")
+    add_custom_target(${_target} DEPENDS "${_output_file}")
     add_dependencies(benchmarks ${_target})
 
     add_custom_target(check.${_target}
         COMMAND ${CMAKE_COMMAND} -E env check.benchmarks=true
         ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "env = {has_boost: ${Boost_FOUND}, has_mpl11: ${MPL11_FOUND}, has_meta: ${META_FOUND}}    "
-            -e "Tilt::ERBTemplate.new('${_template}').render(nil, **env)        "
+            -e "Tilt::ERBTemplate.new('${_conf_template}').render"
         WORKING_DIRECTORY ${_template_dir}
         VERBATIM
     )

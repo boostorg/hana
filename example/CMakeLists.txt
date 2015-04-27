@@ -8,6 +8,9 @@
 
 add_custom_target(compile.examples COMMENT "Build all the examples.")
 add_dependencies(compile.all compile.examples)
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 add_custom_target(run.examples
     COMMENT "Build and then run all the examples."
@@ -15,7 +18,7 @@ add_custom_target(run.examples
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+")
 add_dependencies(run.all run.examples)
 
-if (DEFINED VALGRIND_COMMAND)
+if (Valgrind_FOUND)
     add_custom_target(memcheck.examples
         COMMENT "Build and then run all the examples under the memory checker.")
     add_dependencies(memcheck.all memcheck.examples)
@@ -43,7 +46,7 @@ foreach(file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
     boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
     add_dependencies(compile.examples compile.${_target})
     add_test(NAME ${_target} COMMAND compile.${_target})
-    if (DEFINED VALGRIND_COMMAND)
+    if (Valgrind_FOUND)
         add_dependencies(memcheck.examples memcheck.${_target})
     endif()
 endforeach()

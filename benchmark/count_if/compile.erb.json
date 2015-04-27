@@ -18,7 +18,7 @@
       "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
     }
 
-    <% if has_boost %>
+    <% if cmake_bool("@Boost_FOUND@") %>
     , {
       "name": "Homogeneous fusion::vector",
       "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
@@ -31,7 +31,7 @@
     }
     <% end %>
 
-    <% if has_meta %>
+    <% if cmake_bool("@Meta_FOUND@") %>
     , {
       "name": "meta::list",
       "data": <%= time_compilation('compile.meta.list.erb.cpp', meta) %>

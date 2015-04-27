@@ -7,6 +7,7 @@
 ##############################################################################
 project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
 ##############################################################################
@@ -62,11 +63,12 @@ endif()
 find_package(Boost)
 find_package(Doxygen)
 find_package(Git)
+find_package(Meta)
+find_package(MPL11)
 find_package(Ruby 2.1)
+find_package(Valgrind)
 
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-else()
+if (NOT ${Boost_FOUND})
     message(WARNING
         "The Boost library headers were not found; targets depending "
         "on Boost won't be available.")
@@ -108,7 +110,7 @@ add_custom_target(compile.all
 add_custom_target(run.all ALL
     COMMENT "Build and then run all the unit tests and examples.")
 
-if (DEFINED VALGRIND_COMMAND)
+if (Valgrind_FOUND)
     add_custom_target(memcheck.all ALL
         COMMENT "Build and then run all the unit tests and examples under the memory checker.")
 endif()
@@ -144,10 +146,9 @@ endif()
 # that were received, but also links the executable with the custom libc++
 # installation specified by `LIBCXX_ROOT`, if any.
 #
-# A target named `run.name` which builds and then runs the executable is
-# also created. Finally, if `VALGRIND_COMMAND` is defined, a target named
-# `memcheck.name` building and running the executable under Valgrind is
-# created too.
+# A target named `run.name` which builds and then runs the executable is also
+# created. Finally, if Valgrind was found, a target named `memcheck.name`
+# building and running the executable under Valgrind is created too.
 function(boost_hana_add_executable name)
     add_executable(compile.${ARGV})
     add_custom_target(run.${name} COMMAND compile.${name})
@@ -158,11 +159,10 @@ function(boost_hana_add_executable name)
             INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
     endif()
 
-    if (DEFINED VALGRIND_COMMAND)
+    if (Valgrind_FOUND)
         add_custom_target(memcheck.${name}
-            COMMAND ${VALGRIND_COMMAND} --leak-check=full
-                                        --error-exitcode=1
-                                        ${CMAKE_CURRENT_BINARY_DIR}/compile.${name}
+            COMMAND ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1
+                                           ${CMAKE_CURRENT_BINARY_DIR}/compile.${name}
             DEPENDS compile.${name})
     endif()
 endfunction()

@@ -10,6 +10,9 @@
 # test/include subdirectory.
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR})
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 add_custom_target(compile.tests
     COMMENT "Build all the unit tests.")
@@ -25,7 +28,7 @@ add_custom_target(compile.headers
     COMMENT "Build all the header-inclusion unit tests.")
 add_dependencies(compile.tests compile.headers)
 
-if (DEFINED VALGRIND_COMMAND)
+if (Valgrind_FOUND)
     add_custom_target(memcheck.tests
         COMMENT "Build and then run all the tests under the memory checker.")
     add_dependencies(memcheck.all memcheck.tests)
@@ -108,10 +111,7 @@ endif()
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    message(WARNING
-        "The compiler was detected to be Clang < 3.7.0; "
-        "the std::tuple adapter will not be supported.")
-
+    # The std::tuple adapter is not supported with Clang < 3.7.0
     list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
         "boost/hana/fwd/ext/std/tuple.hpp"
         "boost/hana/ext/std/tuple.hpp")
@@ -158,7 +158,7 @@ foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
         add_custom_target(compile.${_target})
         add_dependencies(compile.tests compile.${_target})
         add_custom_target(run.${_target})
-        if (DEFINED VALGRIND_COMMAND)
+        if (Valgrind_FOUND)
             add_custom_target(memcheck.${_target})
             add_dependencies(memcheck.tests memcheck.${_target})
         endif()
@@ -171,7 +171,7 @@ foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
             add_dependencies(compile.${_target} compile.${_ptarget})
             add_dependencies(run.${_target} run.${_ptarget})
 
-            if (DEFINED VALGRIND_COMMAND)
+            if (Valgrind_FOUND)
                 add_dependencies(memcheck.${_target} memcheck.${_ptarget})
             endif()
 
@@ -182,7 +182,7 @@ foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
         boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
         add_dependencies(compile.tests compile.${_target})
         add_test(NAME ${_target} COMMAND compile.${_target})
-        if (DEFINED VALGRIND_COMMAND)
+        if (Valgrind_FOUND)
             add_dependencies(memcheck.tests memcheck.${_target})
         endif()
     endif()

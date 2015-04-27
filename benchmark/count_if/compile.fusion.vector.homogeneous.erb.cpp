@@ -19,7 +19,7 @@ struct is_even {
 
 int main() {
     auto vector = boost::fusion::make_vector(
-        <%= (1..input_size).join(', ') %>
+        <%= (1..input_size).to_a.join(', ') %>
     );
     auto result = boost::fusion::count_if(vector, is_even{});
     (void)result;

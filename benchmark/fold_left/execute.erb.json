@@ -11,7 +11,7 @@
       "data": <%= time_execution('execute.hana.tuple.erb.cpp', exec) %>
     }
 
-    <% if has_boost %>
+    <% if cmake_bool("@Boost_FOUND@") %>
     , {
       "name": "Homogeneous fusion::vector",
       "data": <%= time_execution('execute.fusion.vector.erb.cpp', exec) %>

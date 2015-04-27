@@ -42,7 +42,7 @@
         "y": <%= amortize('hana.erb.cpp') %>
       }
 
-      <% if has_boost %>
+      <% if cmake_bool("@Boost_FOUND@") %>
       , {
         "name": "Boost.MPL",
         "y": <%= amortize('mpl.erb.cpp') %>
@@ -52,14 +52,14 @@
       }
       <% end %>
 
-      <% if has_mpl11 %>
+      <% if cmake_bool("@MPL11_FOUND@") %>
       , {
         "name": "MPL11",
         "y": <%= amortize('mpl11.erb.cpp') %>
       }
       <% end %>
 
-      <% if has_meta %>
+      <% if cmake_bool("@Meta_FOUND@") %>
       , {
         "name": "Meta",
         "y": <%= amortize('meta.erb.cpp') %>

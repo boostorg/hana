@@ -61,6 +61,13 @@ def fusion_vector(values)
   }
 end
 
+# Turns a CMake-style boolean into a Ruby boolean.
+def cmake_bool(b)
+  return true if b.is_a? String and ["true", "yes", "1"].include?(b.downcase)
+  return true if b.is_a? Integer and b > 0
+  return false # otherwise
+end
+
 # aspect must be one of :compilation_time, :bloat, :execution_time
 def measure(aspect, template_relative, range)
   measure_file = Pathname.new("@CMAKE_CURRENT_SOURCE_DIR@/measure.cpp")
