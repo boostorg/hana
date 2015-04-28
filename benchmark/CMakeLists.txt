@@ -22,6 +22,10 @@ if(${__BOOST_HANA_MISSING_GEMS})
     return()
 endif()
 
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 if (MPL11_FOUND)
     include_directories(${MPL11_INCLUDE_DIR})
 endif()
