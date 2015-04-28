@@ -25,12 +25,6 @@ if (NOT EXISTS "${Valgrind_EXECUTABLE}")
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Valgrind DEFAULT_MSG Valgrind_EXECUTABLE)
-
-# Use 0/1 instead of TRUE/FALSE, because we can use those values in scripts
-# more easily.
-if (Valgrind_FOUND)
-    set(Valgrind_FOUND 1)
-else()
-    set(Valgrind_FOUND 0)
-endif()
+find_package_handle_standard_args(Valgrind
+    FOUND_VAR Valgrind_FOUND
+    REQUIRED_VARS Valgrind_EXECUTABLE)

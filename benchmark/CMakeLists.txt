@@ -82,8 +82,8 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
     set(_output_file "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
     add_custom_command(OUTPUT "${_output_file}"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "json = Tilt::ERBTemplate.new('${_conf_template}').render     "
-            -e "File.open('${_output_file}', 'w') { |f| f.write(json) }  "
+            -e "json = Tilt::ERBTemplate.new('${_conf_template}').render"
+            -e "File.open('${_output_file}', 'w') { |f| f.write(json) } "
         WORKING_DIRECTORY ${_template_dir}
         DEPENDS "${_conf_template}"
         VERBATIM

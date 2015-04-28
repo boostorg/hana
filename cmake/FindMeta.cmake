@@ -47,12 +47,6 @@ if (NOT EXISTS "${Meta_INCLUDE_DIR}" AND Meta_CLONE_IF_MISSING)
 endif()
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(Meta DEFAULT_MSG Meta_INCLUDE_DIR)
-
-# Use 0/1 instead of TRUE/FALSE, because we can use those values in scripts
-# more easily.
-if (Meta_FOUND)
-    set(Meta_FOUND 1)
-else()
-    set(Meta_FOUND 0)
-endif()
+find_package_handle_standard_args(Meta
+    FOUND_VAR Meta_FOUND
+    REQUIRED_VARS Meta_INCLUDE_DIR)

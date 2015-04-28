@@ -46,11 +46,3 @@ endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(MPL11 DEFAULT_MSG MPL11_INCLUDE_DIR)
-
-# Use 0/1 instead of TRUE/FALSE, because we can use those values in scripts
-# more easily.
-if (MPL11_FOUND)
-    set(MPL11_FOUND 1)
-else()
-    set(MPL11_FOUND 0)
-endif()
