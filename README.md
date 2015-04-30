@@ -189,6 +189,11 @@ If you are interested in metaprogramming, you may also take a look at the
 [MPL11][], which is how Hana started out, and [this talk][MPL11-C++Now] about
 the MPL11 at [C++Now 2014][C++Now].
 
+I also wrote my bachelor's thesis on Hana. It is available [here][Hana.thesis],
+but unfortunately it is in french only. As part of this thesis, I presented a
+formalization of metaprogramming using category theory, which can be found
+[here][Hana.thesis.presentation].
+
 
 ## License
 Please see [LICENSE.md](LICENSE.md).
@@ -202,6 +207,8 @@ Please see [LICENSE.md](LICENSE.md).
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
 [Gitter.badge]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
 [Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
+[Hana.thesis.presentation]: http://ldionne.github.io/hana-thesis
+[Hana.thesis]: http://github.com/ldionne/hana-thesis
 [MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11
 [semver.badge]: https://img.shields.io/badge/semver-0.2.0-brightgreen.svg
