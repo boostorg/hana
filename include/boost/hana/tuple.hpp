@@ -170,12 +170,10 @@ namespace boost { namespace hana {
         // tuple
         template <detail::std::size_t i, detail::std::size_t n>
         struct equal_tuple {
-            //! @todo We're making a copy of xs and ys when we pass it to
-            //! `lazy`. We need a way to take stuff by reference.
             template <typename Xs, typename Ys>
-            constexpr decltype(auto) operator()(Xs const& xs, Ys const& ys) const {
+            constexpr decltype(auto) operator()(Xs const* xs, Ys const* ys) const {
                 return hana::eval_if(
-                    hana::equal(detail::get<i>(xs), detail::get<i>(ys)),
+                    hana::equal(detail::get<i>(*xs), detail::get<i>(*ys)),
                     hana::lazy(equal_tuple<i+1, n>{})(xs, ys),
                     hana::lazy(false_)
                 );
@@ -184,8 +182,7 @@ namespace boost { namespace hana {
 
         template <detail::std::size_t n>
         struct equal_tuple<n, n> {
-            template <typename Xs, typename Ys>
-            constexpr auto operator()(Xs const&, Ys const&) const
+            constexpr auto operator()(...) const
             { return true_; }
         };
 
@@ -195,7 +192,7 @@ namespace boost { namespace hana {
             !(Xs::is_tuple_c && Ys::is_tuple_c)
         >>
         static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
-        { return equal_tuple<0, Xs::size>{}(xs, ys); }
+        { return equal_tuple<0, Xs::size>{}(&xs, &ys); }
 
 
         // empty tuples and tuples with different sizes
