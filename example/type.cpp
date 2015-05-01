@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
+#include <string>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -183,4 +184,24 @@ BOOST_HANA_CONSTANT_CHECK(not_(trait<std::is_integral>(type<float>)));
 //! [trait]
 }
 
-int main() { }
+
+
+int main() {
+
+{
+
+//! [is_valid]
+struct Person { std::string name; };
+auto has_name = is_valid([](auto p) -> decltype(p.name) { });
+
+Person joe{"Joe"};
+static_assert(has_name(joe), "");
+static_assert(!has_name(1), "");
+
+static_assert(has_name(type<Person>), "");
+static_assert(!has_name(type<int>), "");
+//! [is_valid]
+
+}
+
+}

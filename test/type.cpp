@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
+#include <laws/base.hpp>
 #include <laws/comparable.hpp>
 
 #include <type_traits>
@@ -20,6 +21,7 @@ struct T { }; struct U;
 
 using Function = void();
 void function() { }
+struct undefined { };
 
 int main() {
     //////////////////////////////////////////////////////////////////////////
@@ -241,6 +243,25 @@ int main() {
                 constexpr auto r1 = alignof_(t); (void)r1;
                 constexpr auto r2 = alignof_(x); (void)r2;
             }
+        }
+
+        // is_valid
+        {
+            auto incrementable = is_valid([](auto&& x) -> decltype(++x) { });
+            BOOST_HANA_CONSTANT_CHECK(incrementable(1));
+            BOOST_HANA_CONSTANT_CHECK(not_(incrementable(undefined{})));
+
+            BOOST_HANA_CONSTANT_CHECK(incrementable(type<int>));
+            BOOST_HANA_CONSTANT_CHECK(not_(incrementable(type<void>)));
+
+            // make sure this can be `static_assert`ed upon even though
+            // `incrementable` and `i` are both non-constexpr.
+            int i;
+            static_assert(incrementable(i), "");
+
+            // make sure we can use it with non-pods.
+            is_valid(undefined{})(test::Tracked{1});
+            is_valid([t = Tracked{1}](auto) { return 1; })(Tracked{1});
         }
 
         // nested ::type

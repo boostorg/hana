@@ -178,7 +178,7 @@ namespace boost { namespace hana {
     //! A function called as `predicate(x)` and returning a true-valued
     //! `Logical` if `just(f(x))` should be the resulting value, and a
     //! false-valued one if `nothing` should be the resulting value.
-    //! Since the type of `just` and `nothing` differ, the result of
+    //! Since the types of `just` and `nothing` differ, the result of
     //! `predicate` has to be a compile-time `Logical`.
     //!
     //! @param f

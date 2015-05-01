@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     //! @relates Type
     //!
     //! `decltype_` is somewhat equivalent to `decltype` in that it returns
-    //! the type of an object, except it returns it as a Type object which
+    //! the type of an object, except it returns it as a `Type` object which
     //! is a first-class citizen of Hana instead of a raw C++ type.
     //! Specifically, given an object `x`, `decltype_` satisfies
     //! @code
@@ -190,7 +190,7 @@ namespace boost { namespace hana {
     //! As you can see, `decltype_` will strip any reference from the
     //! object's actual type. The reason for doing so is explained below.
     //! However, any `cv`-qualifiers will be retained. Also, when given a
-    //! Type object, `decltype_` is just the identity function. Hence, for
+    //! `Type` object, `decltype_` is just the identity function. Hence, for
     //! any C++ type `T`,
     //! @code
     //!     decltype_(type<T>) == type<T>
@@ -328,6 +328,56 @@ namespace boost { namespace hana {
     constexpr _alignof alignof_{};
 #endif
 
+    //! Checks whether a SFINAE-friendly expression is valid.
+    //! @relates Type
+    //!
+    //! Given a SFINAE-friendly function, `is_valid` returns whether the
+    //! function call is valid with the given arguments. Specifically, given
+    //! a function `f` and arguments `args...`,
+    //! @code
+    //!     is_valid(f, args...) == whether f(args...) is valid
+    //! @endcode
+    //!
+    //! The result is returned as a compile-time `Logical`. Furthermore,
+    //! `is_valid` can be used in curried form as follows:
+    //! @code
+    //!     is_valid(f)(args...)
+    //! @endcode
+    //!
+    //! This syntax makes it easy to create functions that check the validity
+    //! of a generic expression on any given argument(s).
+    //!
+    //! Also note that the arguments to `is_valid` may be either `Type`s or
+    //! non-`Type`s. The behavior of `is_valid` on non-`Type`s is consistent
+    //! with that of `sizeof_` and other `Type` utilities.
+    //!
+    //! @warning
+    //! To check whether calling a nullary function `f` is valid, one should
+    //! use the `is_valid(f)()` syntax. Indeed, `is_valid(f /* no args */)`
+    //! will be interpreted as the currying of `is_valid` to `f` rather than
+    //! the application of `is_valid` to `f` and no arguments.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/type.cpp is_valid
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto is_valid = [](auto&& f) {
+        return [](auto&& ...args) {
+            return whether f(args...) is a valid expression;
+        };
+    };
+#else
+    struct _is_valid {
+        template <typename F>
+        constexpr auto operator()(F&&) const;
+
+        template <typename F, typename ...Args>
+        constexpr auto operator()(F&&, Args&&...) const;
+    };
+
+    constexpr _is_valid is_valid{};
+#endif
 
     //! @ingroup group-datatypes
     //! A `Metafunction` is a function that takes `Type`s as inputs and
