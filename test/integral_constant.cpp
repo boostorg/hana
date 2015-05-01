@@ -26,6 +26,9 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
+void function() { }
+void function_index(...) { }
+
 int main() {
     auto ints = make<Tuple>(
         int_<-10>, int_<-2>, int_<0>, int_<1>, int_<3>, int_<4>
@@ -87,6 +90,10 @@ int main() {
             int counter = 0;
             int_<3>.times([&] { ++counter; });
             BOOST_HANA_RUNTIME_CHECK(counter == 3);
+
+            // Call .times with a normal function; used to fail.
+            int_<3>.times(function);
+            int_<3>.times.with_index(function_index);
         }
 
         // Arithmetic operators

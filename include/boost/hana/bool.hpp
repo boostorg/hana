@@ -60,12 +60,12 @@ namespace boost { namespace hana {
         template <typename T, T v>
         template <typename F>
         constexpr void _with_index<T, v>::operator()(F&& f) const
-        { go<T, (sizeof(F), v)>::with_index(static_cast<F&&>(f)); }
+        { go<T, (sizeof(&f), v)>::with_index(static_cast<F&&>(f)); }
 
         template <typename T, T v>
         template <typename F>
         constexpr void _times<T, v>::operator()(F&& f) const
-        { go<T, (sizeof(F), v)>::without_index(static_cast<F&&>(f)); }
+        { go<T, (sizeof(&f), v)>::without_index(static_cast<F&&>(f)); }
 
         // avoid link-time error
         template <typename T, T v>
