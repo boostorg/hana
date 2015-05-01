@@ -27,7 +27,7 @@ int main() {
     // Sequences capable of holding heterogeneous objects, and algorithms
     // to manipulate them.
     _tuple<Fish, Cat, Dog> animals{Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"}};
-    _tuple<std::string,std::string,std::string> names = transform(animals, [](auto a) {
+    auto names = transform(animals, [](auto a) {
         return a.name;
     });
     assert(reverse(names) == make_tuple("Snoopy", "Garfield", "Nemo"));
