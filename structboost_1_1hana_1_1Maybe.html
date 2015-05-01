@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
 <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
-<script type="text/javascript" src="http://raw.githubusercontent.com/michael/github/master/github.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
     var github = new Github({});
@@ -378,7 +378,7 @@ Synopsis of methods</h2></td></tr>
 <p>Specifically, returns <code>just(f(x))</code> if <code>predicate(x)</code> is a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, and <code>nothing</code> otherwise.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> and returning a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>just(f(x))</code> should be the resulting value, and a false-valued one if <code>nothing</code> should be the resulting value. Since the type of <code>just</code> and <code>nothing</code> differ, the result of <code>predicate</code> has to be a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> and returning a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>just(f(x))</code> should be the resulting value, and a false-valued one if <code>nothing</code> should be the resulting value. Since the types of <code>just</code> and <code>nothing</code> differ, the result of <code>predicate</code> has to be a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</td></tr>
     <tr><td class="paramname">f</td><td>A function called as <code>f(x)</code> if the <code>predicate</code> returns a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, and not called at all otherwise. If the <code>predicate</code> returns a false-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, the <code>f(x)</code> expression is not even required to be well-formed.</td></tr>
     <tr><td class="paramname">x</td><td>The value to either transform and put in a <code>just</code>, or discard.</td></tr>
   </table>

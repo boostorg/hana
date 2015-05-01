@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structboost_1_1hana_1_1_applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a>  </dt>
 <dd>This implementation is less compile-time efficient than <code>variadic::at</code>, but at least we can use perfect forwarding. Is there a way to get the efficiency of <code>variadic::at</code> with perfect forwarding?  </dd>
@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!-- fragment -->  </dd>
 <dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0">boost::hana::detail::reverse_partial</a>  </dt>
 <dd>Perhaps find a better name and make this part of Functional.  </dd>
-<dt><a class="anchor" id="_todo000008"></a>Class <a class="el" href="structboost_1_1hana_1_1_integral_constant.html">boost::hana::IntegralConstant&lt; T &gt;</a>  </dt>
+<dt><a class="anchor" id="_todo000008"></a>Class <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html">boost::hana::IntegralConstant&lt; T &gt;</a>  </dt>
 <dd><p class="startdd"><code>times</code> should be a shortcut to some tag-dispatched method. Specifically, anything that can be incremented, decremented and compared to some "zero" value can implement a <code>times</code> method with the same semantics.</p>
 <p class="enddd">Implicit conversions to the underlying integral type can be problematic: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;constexpr auto odd = [](auto x) {</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    return x % int_&lt;2&gt;;</div>
@@ -146,17 +146,17 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.  </dd>
 <dt><a class="anchor" id="_todo000017"></a>Class <a class="el" href="structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html">boost::hana::sequence_detail::partition_helper</a>  </dt>
 <dd>How could we avoid copying <code>parts</code> and <code>x</code> to both branches?  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Class <a class="el" href="structboost_1_1hana_1_1_string.html">boost::hana::String</a>  </dt>
+<dt><a class="anchor" id="_todo000014"></a>Class <a class="el" href="structboost_1_1hana_1_1String.html">boost::hana::String</a>  </dt>
 <dd>Right now, we use a different template specialization to store each different string. This could also work by using an anonymous type, but there seems to be a bug in Clang right now that makes this fail in some circumstances: <a href="http://llvm.org/bugs/show_bug.cgi?id=20625">http://llvm.org/bugs/show_bug.cgi?id=20625</a>. Using an anonymous type could have compile-time performance benefits, so this avenue should be explored once the bug is fixed.  </dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="structboost_1_1hana_1_1_foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
-<dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s. </dd>
-<dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>  </dt>
+<dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s. </dd>
+<dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
-<dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="structboost_1_1hana_1_1_orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
+<dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
 <dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
-<dt><a class="anchor" id="_todo000010"></a>Member <a class="el" href="structboost_1_1hana_1_1_integral_constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
+<dt><a class="anchor" id="_todo000010"></a>Member <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a1c078fd00db48686ca9e0aa17f47344e">operator</a> "_c" </dt>
 <dd>Add support for stuff like <code>0x1234_c</code>.  </dd>
-<dt><a class="anchor" id="_todo000022"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000021"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><ul>
 <li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>

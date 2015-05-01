@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
 <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
-<script type="text/javascript" src="http://raw.githubusercontent.com/michael/github/master/github.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
     var github = new Github({});
@@ -217,6 +217,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a6fd9ac456f4b5574dcb16384dbb85736"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a></td></tr>
 <tr class="memdesc:a6fd9ac456f4b5574dcb16384dbb85736"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>alignof</code> keyword, lifted to Hana.  <a href="#a6fd9ac456f4b5574dcb16384dbb85736">More...</a><br /></td></tr>
 <tr class="separator:a6fd9ac456f4b5574dcb16384dbb85736"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a></td></tr>
+<tr class="memdesc:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a SFINAE-friendly expression is valid.  <a href="#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">More...</a><br /></td></tr>
+<tr class="separator:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
 <a class="anchor" id="a4b171ee57f23017113921071f72639d0"></a>
@@ -262,8 +265,8 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p><code>decltype</code> keyword, lifted to Hana. </p>
-<p><code>decltype_</code> is somewhat equivalent to <code>decltype</code> in that it returns the type of an object, except it returns it as a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> object which is a first-class citizen of Hana instead of a raw C++ type. Specifically, given an object <code>x</code>, <code>decltype_</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(x) == type&lt;decltype(x) with references stripped&gt;</div>
-</div><!-- fragment --><p>As you can see, <code>decltype_</code> will strip any reference from the object's actual type. The reason for doing so is explained below. However, any <code>cv</code>-qualifiers will be retained. Also, when given a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> object, <code>decltype_</code> is just the identity function. Hence, for any C++ type <code>T</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;T&gt;) == type&lt;T&gt;</div>
+<p><code>decltype_</code> is somewhat equivalent to <code>decltype</code> in that it returns the type of an object, except it returns it as a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> object which is a first-class citizen of Hana instead of a raw C++ type. Specifically, given an object <code>x</code>, <code>decltype_</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(x) == type&lt;decltype(x) with references stripped&gt;</div>
+</div><!-- fragment --><p>As you can see, <code>decltype_</code> will strip any reference from the object's actual type. The reason for doing so is explained below. However, any <code>cv</code>-qualifiers will be retained. Also, when given a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> object, <code>decltype_</code> is just the identity function. Hence, for any C++ type <code>T</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;T&gt;) == type&lt;T&gt;</div>
 </div><!-- fragment --><p>In conjunction with the way <code>metafunction</code> &amp; al. are specified, this behavior makes it easier to interact with both types and values at the same time. However, it does make it impossible to create a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> containing a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> with <code>decltype_</code>. In other words, it is not possible to create a <code>type&lt;decltype(type&lt;T&gt;)&gt;</code> with this utility, because <code>decltype_(type&lt;T&gt;)</code> would be just <code>type&lt;T&gt;</code> instead of <code>type&lt;decltype(type&lt;T&gt;)&gt;</code>. This use case is assumed to be rare and a hand-coded function can be used if this is needed.</p>
 <h3>Rationale for stripping the references</h3>
 <p>The rules for template argument deduction are such that a perfect solution that always matches <code>decltype</code> is impossible. Hence, we have to settle on a solution that's good and and consistent enough for our needs. One case where matching <code>decltype</code>'s behavior is impossible is when the argument is a plain, unparenthesized variable or function parameter. In that case, <code>decltype_</code>'s argument will be deduced as a reference to that variable, but <code>decltype</code> would have given us the actual type of that variable, without references. Also, given the current definition of <code>metafunction</code> &amp; al., it would be mostly useless if <code>decltype_</code> could return a reference, because it is unlikely that <code>F</code> expects a reference in its simplest use case: </p><div class="fragment"><div class="line"><span class="keywordtype">int</span> i = 0;</div>
@@ -376,6 +379,48 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(1) == <span class="keyword">alignof</span>(decltype(1)), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;int&gt;) == <span class="keyword">alignof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto is_valid</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [](<span class="keyword">auto</span>&amp;&amp; ...args) {</div>
+<div class="line">            <span class="keywordflow">return</span> whether f(args...) is a valid expression;</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Checks whether a SFINAE-friendly expression is valid. </p>
+<p>Given a SFINAE-friendly function, <code>is_valid</code> returns whether the function call is valid with the given arguments. Specifically, given a function <code>f</code> and arguments <code>args...</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f, args...) == whether f(args...) is valid</div>
+</div><!-- fragment --><p>The result is returned as a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
+</div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
+<p>Also note that the arguments to <code>is_valid</code> may be either <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s or non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. The behavior of <code>is_valid</code> on non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s is consistent with that of <code>sizeof_</code> and other <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> utilities.</p>
+<dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"><span class="keyword">auto</span> has_name = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> p) -&gt; decltype(p.name) { });</div>
+<div class="line"></div>
+<div class="line">Person joe{<span class="stringliteral">&quot;Joe&quot;</span>};</div>
+<div class="line">static_assert(has_name(joe), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(has_name(type&lt;Person&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!has_name(type&lt;int&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
