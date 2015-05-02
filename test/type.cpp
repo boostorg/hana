@@ -262,6 +262,12 @@ int main() {
             // make sure we can use it with non-pods.
             is_valid(undefined{})(test::Tracked{1});
             is_valid([t = Tracked{1}](auto) { return 1; })(Tracked{1});
+
+            // check is_valid with a nullary function
+            auto f = [](auto ...x) { (void)sizeof...(x); /* -Wunused-param */ };
+            auto g = [](auto ...x) -> char(*)[sizeof...(x)] { };
+            BOOST_HANA_CONSTANT_CHECK(is_valid(f)());
+            BOOST_HANA_CONSTANT_CHECK(not_(is_valid(g)()));
         }
 
         // nested ::type

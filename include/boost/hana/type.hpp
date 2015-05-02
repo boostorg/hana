@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
-#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 
@@ -101,12 +100,27 @@ namespace boost { namespace hana {
             decltype((void)(detail::std::declval<F>()(
                 detail::std::declval<Args>()...))), F, Args...
         > { static constexpr bool value = true; };
+
+        template <typename F>
+        struct is_valid_fun {
+            template <typename ...Args>
+            constexpr auto operator()(Args&& ...args) const {
+                return bool_<is_valid_impl<void, F,
+                    typename decltype(
+                        hana::decltype_(static_cast<Args&&>(args))
+                    )::type...
+                >::value>;
+            }
+        };
     }
 
     //! @cond
     template <typename F>
-    constexpr auto _is_valid::operator()(F&& f) const
-    { return hana::partial(*this, hana::decltype_(static_cast<F&&>(f))); }
+    constexpr auto _is_valid::operator()(F&& f) const {
+        return type_detail::is_valid_fun<
+            typename decltype(hana::decltype_(static_cast<F&&>(f)))::type
+        >{};
+    }
 
     template <typename F, typename ...Args>
     constexpr auto _is_valid::operator()(F&& f, Args&& ...args) const {
