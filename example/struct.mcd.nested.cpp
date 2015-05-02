@@ -48,7 +48,7 @@ int main() {
 
     BOOST_HANA_RUNTIME_CHECK(find(john, BOOST_HANA_STRING("name")) == just("John"));
     BOOST_HANA_RUNTIME_CHECK(find(john, BOOST_HANA_STRING("age")) == just(30));
-    BOOST_HANA_CONSTANT_CHECK(find(john, "clearly not a member") == nothing);
+    BOOST_HANA_CONSTANT_CHECK(find(john, BOOST_HANA_STRING("foo")) == nothing);
 
     BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>(
         make<Pair>(BOOST_HANA_STRING("name"), "John"),

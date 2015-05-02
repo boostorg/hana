@@ -14,6 +14,18 @@ namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a compile-time string.
     //!
+    //! Conceptually, a `String` is like a `Tuple` holding `IntegralConstant`s
+    //! of type `char`. However, the interface of a `String` is not as rich as
+    //! that of a `Tuple`, because a `String` can only hold objects of a
+    //! single generalized type.
+    //!
+    //! `String`s are used for simple purposes like being keys in a `Map` or
+    //! tagging the members of a `Struct`. However, you might find that
+    //! `String` does not provide enough functionality to be used as a
+    //! full-blown compile-time string implementation. Indeed, providing
+    //! a comprehensive string interface is a lot of job, and it is out
+    //! of the scope of the library for the time being.
+    //!
     //!
     //! Modeled concepts
     //! ----------------
@@ -23,27 +35,37 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (operators provided)\n
     //! Two `String`s are equal if and only if they have the same number of
     //! characters and characters at corresponding indices are equal.
-    //! @snippet example/string.cpp comparable
+    //! @snippet example/string.cpp Comparable
     //!
     //! 2. `Orderable` (operators provided)\n
     //! The total order implemented for `Orderable` is the usual
     //! lexicographical comparison of strings.
-    //! @snippet example/string.cpp orderable
+    //! @snippet example/string.cpp Orderable
     //!
     //! 3. `Foldable`\n
     //! Folding a `String` is equivalent to folding the sequence of its
     //! characters.
-    //! @snippet example/string.cpp foldable
+    //! @snippet example/string.cpp Foldable
     //!
     //! 4. `Iterable` (operators provided)\n
     //! Iterating over a `String` is equivalent to iterating over the sequence
     //! of its characters.
-    //! @snippet example/string.cpp iterable
+    //! @snippet example/string.cpp Iterable
     //!
     //! 5. `Searchable`\n
     //! Searching through a `String` is equivalent to searching through the
     //! sequence of its characters.
-    //! @snippet example/string.cpp searchable
+    //! @snippet example/string.cpp Searchable
+    //!
+    //!
+    //! Conversion to `char const*`
+    //! ---------------------------
+    //! A `String` can be converted to a `constexpr` null-delimited string of
+    //! type `char const*` by using `to<char const*>`. This makes it easy to
+    //! turn a compile-time string into a runtime string. However, note that
+    //! this conversion is not an embedding, because `char const*` does not
+    //! model the same concepts as `String` does.
+    //! @snippet example/string.cpp to<char const*>
     //!
     //!
     //! > #### Rationale for `String` not being a `Constant`
@@ -64,7 +86,7 @@ namespace boost { namespace hana {
     //! in some circumstances: http://llvm.org/bugs/show_bug.cgi?id=20625.
     //! Using an anonymous type could have compile-time performance benefits,
     //! so this avenue should be explored once the bug is fixed.
-    struct String { using value_type = char const*; };
+    struct String { };
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates String

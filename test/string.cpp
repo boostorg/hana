@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
 
+#include <cstring>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -50,6 +51,44 @@ int main() {
         static_assert(std::is_same<
             decltype(s1), decltype(s2)
         >::value, "");
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // to<char const*>
+    //////////////////////////////////////////////////////////////////////////
+    {
+        static_assert(is_convertible<String, char const*>{}, "");
+        static_assert(!is_embedded<String, char const*>{}, "");
+
+        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+            to<char const*>(BOOST_HANA_STRING("")),
+            ""
+        ) == 0);
+
+        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+            to<char const*>(BOOST_HANA_STRING("a")),
+            "a"
+        ) == 0);
+
+        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+            to<char const*>(BOOST_HANA_STRING("ab")),
+            "ab"
+        ) == 0);
+
+        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+            to<char const*>(BOOST_HANA_STRING("abc")),
+            "abc"
+        ) == 0);
+
+        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+            to<char const*>(BOOST_HANA_STRING("abcd")),
+            "abcd"
+        ) == 0);
+
+        // make sure we can turn a non-constexpr String
+        // into a constexpr char const*
+        auto str = BOOST_HANA_STRING("abcdef");
+        constexpr char const* c_str = to<char const*>(str); (void)c_str;
     }
 
     //////////////////////////////////////////////////////////////////////////

@@ -50,14 +50,6 @@ constexpr auto format(Tokens ...tokens_) {
     return prepend(format_string, variables);
 }
 
-
-template <char ...s>
-char const string_literal[] = {s..., '\0'};
-
-template <char ...s>
-auto to_string_literal(_string<s...> const&)
-{ return string_literal<s...>; }
-
 int main() {
     int a = 1;
     float b = 1.3;
@@ -70,6 +62,6 @@ int main() {
     );
 
     unpack(args, [](auto fmt, auto ...args) {
-        std::printf(to_string_literal(fmt), args...);
+        std::printf(to<char const*>(fmt), args...);
     });
 }

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
@@ -78,6 +79,22 @@ namespace boost { namespace hana {
     struct operators::of<String>
         : operators::of<Comparable, Orderable, Iterable>
     { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // to<char const*>
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct to_impl<char const*, String> {
+        template <char ...c>
+        static constexpr char const c_string[sizeof...(c) + 1] = {c..., '\0'};
+
+        template <char ...c>
+        static constexpr char const* apply(_string<c...> const&)
+        { return c_string<c...>; }
+    };
+
+    template <char ...c>
+    constexpr char const to_impl<char const*, String>::c_string[sizeof...(c) + 1];
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
