@@ -47,7 +47,8 @@ file(GLOB_RECURSE BOOST_HANA_PUBLIC_HEADERS
     "${CMAKE_CURRENT_LIST_DIR}/../include/*.hpp")
 file(GLOB_RECURSE _detail_headers
     RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
-    "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/detail/*.hpp")
+    "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/detail/*.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost/fusion/detail/*.hpp")
 list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_detail_headers})
 
 
