@@ -26,7 +26,7 @@ struct Dog  { std::string name; };
 int main() {
     // Sequences capable of holding heterogeneous objects, and algorithms
     // to manipulate them.
-    _tuple<Fish, Cat, Dog> animals{Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"}};
+    _tuple<Fish, Cat, Dog> animals{{"Nemo"}, {"Garfield"}, {"Snoopy"}};
     auto names = transform(animals, [](auto a) {
         return a.name;
     });

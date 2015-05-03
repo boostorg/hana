@@ -40,6 +40,14 @@ struct x0; struct x1; struct x2; struct x3; struct x4;
 template <typename ...>
 struct F { struct type; };
 
+// a non-movable, non-copyable type
+struct ref_only {
+    test::Tracked _track{1};
+    ref_only() = default;
+    ref_only(ref_only const&) = delete;
+    ref_only(ref_only&&) = delete;
+};
+
 
 int main() {
     auto eq_tuples = make<Tuple>(
@@ -129,6 +137,42 @@ int main() {
 
         using Types = decltype(tuple_t<x0, x1>);
         Types default_{}; (void)default_;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // holding references in a tuple
+    //////////////////////////////////////////////////////////////////////////
+    {
+        ref_only a{};
+        ref_only b{};
+        _tuple<ref_only&, ref_only&> refs{a, b};
+        ref_only& a_ref = at_c<0>(refs); (void)a_ref;
+        ref_only& b_ref = at_c<1>(refs); (void)b_ref;
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // using brace initialization to initialize members of the tuple
+    //////////////////////////////////////////////////////////////////////////
+    {
+        {
+            struct Member { test::Tracked _track{1}; };
+            struct Element { Member member; };
+
+            _tuple<Element, Element> xs{
+                {Member()}, {Member()}
+            };
+            (void)xs;
+        }
+
+        // make sure we can initialize move-only elements with the brace
+        // initializer syntax
+        {
+            struct Element { test::move_only member; };
+            _tuple<Element, Element> xs{
+                {test::move_only()}, {test::move_only()}
+            };
+            (void)xs;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////

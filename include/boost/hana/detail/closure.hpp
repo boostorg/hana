@@ -29,6 +29,12 @@ namespace boost { namespace hana { namespace detail {
         closure_impl(closure_impl const&) = default;
         closure_impl(closure_impl&) = default;
 
+        // This constructor makes it possible to use brace initializers
+        // to initialize members of the closure.
+        constexpr closure_impl(typename Xs::get_type&& ...xs)
+            : Xs{static_cast<typename Xs::get_type&&>(xs)}...
+        { }
+
         // Make sure the constructor is SFINAE-friendly.
         template <typename ...Ys, typename = decltype(swallow(
             (Xs{detail::std::declval<Ys>()}, void(), 0)...
@@ -37,6 +43,9 @@ namespace boost { namespace hana { namespace detail {
             : Xs{static_cast<Ys&&>(y)}...
         { }
     };
+
+    template <>
+    struct closure_impl<> { };
 
     template <typename Indices, typename ...Xs>
     struct make_closure_impl;

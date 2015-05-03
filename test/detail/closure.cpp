@@ -69,10 +69,6 @@ int main() {
         static_assert(!std::is_constructible<
             detail::closure<T, U>, T, U, V
         >{}, "");
-
-        static_assert(!std::is_constructible<
-            detail::closure<float>, double
-        >{}, "");
     }
 
     // get
