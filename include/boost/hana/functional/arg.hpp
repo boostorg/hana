@@ -49,12 +49,6 @@ namespace boost { namespace hana {
     //!
     //! ### Example
     //! @snippet example/functional.cpp arg
-    //!
-    //!
-    //! @todo
-    //! This implementation is less compile-time efficient than `variadic::at`,
-    //! but at least we can use perfect forwarding. Is there a way to get the
-    //! efficiency of `variadic::at` with perfect forwarding?
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto arg = [](auto&& x1, ..., auto&& xm) -> decltype(auto) {

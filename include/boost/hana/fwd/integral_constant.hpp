@@ -139,25 +139,6 @@ namespace boost { namespace hana {
     //!    and `IntegralDomain` (operators provided)\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
-    //!
-    //!
-    //! @todo
-    //! `times` should be a shortcut to some tag-dispatched method. Specifically,
-    //! anything that can be incremented, decremented and compared to some
-    //! "zero" value can implement a `times` method with the same semantics.
-    //!
-    //! @todo
-    //! Implicit conversions to the underlying integral type can be problematic:
-    //! @code
-    //!     constexpr auto odd = [](auto x) {
-    //!         return x % int_<2>;
-    //!     };
-    //!
-    //!     if_(odd(int_<1>), something_of_type_A, something_of_type_B)
-    //! @endcode
-    //! This will fail because `odd(int_<1>)` has type `Int<1 % 2>`, which is
-    //! convertible to `bool` but not to `Bool<...>`. Because of this, the
-    //! runtime `if_` is used and compilation fails.
     template <typename T>
     struct IntegralConstant {
         using value_type = T;
@@ -273,7 +254,7 @@ namespace boost { namespace hana {
         //! @relates boost::hana::IntegralConstant
         //!
         //! The literal is parsed at compile-time and the result is returned
-        //! as an `llong<...>`.
+        //! as a `llong<...>`.
         //!
         //! @note
         //! We use `llong<...>` instead of `ullong<...>` because using an
@@ -285,8 +266,6 @@ namespace boost { namespace hana {
         //! Example
         //! -------
         //! @snippet example/integral_constant.cpp literals
-        //!
-        //! @todo Add support for stuff like `0x1234_c`.
         template <char ...c>
         constexpr auto operator"" _c();
     }

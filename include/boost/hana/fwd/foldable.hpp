@@ -660,20 +660,9 @@ namespace boost { namespace hana {
     //! The result of `f(x)`, whatever it is, is ignored.
     //!
     //!
-    //! @todo
-    //! The presence of implicit side effects in this function might be a
-    //! smell that it should be moved to a different concept and handled
-    //! through `Monad`s.
-    //!
-    //!
     //! Example
     //! -------
     //! @snippet example/foldable.cpp for_each
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/for_each.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto for_each = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;

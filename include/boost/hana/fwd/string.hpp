@@ -77,15 +77,6 @@ namespace boost { namespace hana {
     //! > value of constexpr-enabled string-like container type like
     //! > `std::string_view` would be great, but that's a bit complicated
     //! > for the time being.
-    //!
-    //!
-    //! @todo
-    //! Right now, we use a different template specialization to store each
-    //! different string. This could also work by using an anonymous type,
-    //! but there seems to be a bug in Clang right now that makes this fail
-    //! in some circumstances: http://llvm.org/bugs/show_bug.cgi?id=20625.
-    //! Using an anonymous type could have compile-time performance benefits,
-    //! so this avenue should be explored once the bug is fixed.
     struct String { };
 
     //! Create a compile-time string from a parameter pack of characters.
