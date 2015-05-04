@@ -252,36 +252,37 @@ namespace boost { namespace hana {
     struct partition_impl : partition_impl<S, when<true>> { };
 
     namespace sequence_detail {
+        template <typename Parts, typename X>
         struct append_first {
-            template <typename Parts, typename X>
-            constexpr decltype(auto) operator()(Parts&& parts, X&& x) const {
+            template <typename Parts_, typename X_>
+            constexpr decltype(auto) operator()(Parts_* parts, X_* x) const {
                 return hana::make<Pair>(
-                    hana::append(hana::first(static_cast<Parts&&>(parts)),
-                                 static_cast<X&&>(x)),
-                    hana::second(static_cast<Parts&&>(parts))
+                    hana::append(hana::first(static_cast<Parts&&>(*parts)),
+                                 static_cast<X&&>(*x)),
+                    hana::second(static_cast<Parts&&>(*parts))
                 );
             }
         };
 
+        template <typename Parts, typename X>
         struct append_second {
-            template <typename Parts, typename X>
-            constexpr decltype(auto) operator()(Parts&& parts, X&& x) const {
+            template <typename Parts_, typename X_>
+            constexpr decltype(auto) operator()(Parts_* parts, X_* x) const {
                 return hana::make<Pair>(
-                    hana::first(static_cast<Parts&&>(parts)),
-                    hana::append(hana::second(static_cast<Parts&&>(parts)),
-                                 static_cast<X&&>(x))
+                    hana::first(static_cast<Parts&&>(*parts)),
+                    hana::append(hana::second(static_cast<Parts&&>(*parts)),
+                                 static_cast<X&&>(*x))
                 );
             }
         };
 
-        //! @todo How could we avoid copying `parts` and `x` to both branches?
         struct partition_helper {
             template <typename Pred, typename Parts, typename X>
             constexpr decltype(auto)
             operator()(Pred&& pred, Parts&& parts, X&& x) const {
                 return hana::eval_if(static_cast<Pred&&>(pred)(x),
-                    hana::lazy(sequence_detail::append_first{})(parts, x),
-                    hana::lazy(sequence_detail::append_second{})(parts, x)
+                    hana::lazy(append_first<Parts&&, X&&>{})(&parts, &x),
+                    hana::lazy(append_second<Parts&&, X&&>{})(&parts, &x)
                 );
             }
         };

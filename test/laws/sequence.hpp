@@ -862,43 +862,43 @@ namespace boost { namespace hana { namespace test {
             // partition
             //////////////////////////////////////////////////////////////////
             {
-            auto prod = minimal_product;
-            auto pred = in ^ list(eq<-1>{}, eq<-2>{}, eq<-3>{}, eq<-4>{}, eq<-5>{});
+                auto prod = minimal_product;
+                auto pred = in ^ list(eq<-1>{}, eq<-2>{}, eq<-3>{}, eq<-4>{}, eq<-5>{});
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(), pred),
-                prod(list(), list())
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<0>{}), pred),
-                prod(list(),
-                     list(eq<0>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<0>{}, eq<1>{}), pred),
-                prod(list(),
-                     list(eq<0>{}, eq<1>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<-1>{}), pred),
-                prod(list(eq<-1>{}),
-                     list())
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<-1>{}, eq<0>{}, eq<2>{}), pred),
-                prod(list(eq<-1>{}),
-                     list(eq<0>{}, eq<2>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<0>{}, eq<-3>{}, eq<2>{}, eq<-5>{}, eq<6>{}), pred),
-                prod(list(eq<-3>{}, eq<-5>{}),
-                     list(eq<0>{}, eq<2>{}, eq<6>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                partition(list(eq<-1>{}, eq<2>{}, eq<-3>{}, eq<0>{}, eq<-3>{}, eq<4>{}), pred),
-                prod(list(eq<-1>{}, eq<-3>{}, eq<-3>{}),
-                     list(eq<2>{}, eq<0>{}, eq<4>{}))
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(), pred),
+                    prod(list(), list())
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<0>{}), pred),
+                    prod(list(),
+                         list(eq<0>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<0>{}, eq<1>{}), pred),
+                    prod(list(),
+                         list(eq<0>{}, eq<1>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<-1>{}), pred),
+                    prod(list(eq<-1>{}),
+                         list())
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<-1>{}, eq<0>{}, eq<2>{}), pred),
+                    prod(list(eq<-1>{}),
+                         list(eq<0>{}, eq<2>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<0>{}, eq<-3>{}, eq<2>{}, eq<-5>{}, eq<6>{}), pred),
+                    prod(list(eq<-3>{}, eq<-5>{}),
+                         list(eq<0>{}, eq<2>{}, eq<6>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition(list(eq<-1>{}, eq<2>{}, eq<-3>{}, eq<0>{}, eq<-3>{}, eq<4>{}), pred),
+                    prod(list(eq<-1>{}, eq<-3>{}, eq<-3>{}),
+                         list(eq<2>{}, eq<0>{}, eq<4>{}))
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
