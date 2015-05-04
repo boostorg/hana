@@ -264,6 +264,14 @@ BOOST_HANA_CONSTEXPR_CHECK(double_(1) == 2);
 BOOST_HANA_CONSTEXPR_CHECK(double_(1, "ignored") == 2);
 //! [placeholder]
 
+}{
+
+//! [reverse_partial]
+constexpr auto half = reverse_partial(quot, 2);
+static_assert(half(4) == 2, "");
+static_assert(half(8) == 4, "");
+//! [reverse_partial]
+
 }
 
 }

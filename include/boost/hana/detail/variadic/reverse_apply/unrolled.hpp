@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP
 
-#include <boost/hana/detail/reverse_partial.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
@@ -67,7 +67,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename ...Xn>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, Xn&& ...xn) const {
-            return (*this)(detail::reverse_partial(
+            return (*this)(hana::reverse_partial(
                   static_cast<F&&>(f)
                 , static_cast<X6&&>(x6)
                 , static_cast<X5&&>(x5)

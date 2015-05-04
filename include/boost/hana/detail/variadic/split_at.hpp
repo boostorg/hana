@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 
-#include <boost/hana/detail/reverse_partial.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
@@ -139,7 +139,8 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _make_split_at {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) const {
-            return detail::reverse_partial(_split_at<n>{}, static_cast<Xs&&>(xs)...);
+            return hana::reverse_partial(_split_at<n>{},
+                                         static_cast<Xs&&>(xs)...);
         }
     };
 

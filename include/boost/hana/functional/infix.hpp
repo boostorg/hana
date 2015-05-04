@@ -10,12 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_INFIX_HPP
 #define BOOST_HANA_FUNCTIONAL_INFIX_HPP
 
-#include <boost/hana/detail/reverse_partial.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 
 namespace boost { namespace hana {
@@ -127,7 +127,7 @@ namespace boost { namespace hana {
             template <typename F, typename Y>
             static constexpr decltype(auto) apply(F&& f, Y&& y) {
                 return make_infix<false, true>{}(
-                    detail::reverse_partial(
+                    hana::reverse_partial(
                         static_cast<F&&>(f), static_cast<Y&&>(y)
                     )
                 );
@@ -149,7 +149,7 @@ namespace boost { namespace hana {
             template <typename X, typename F>
             static constexpr decltype(auto) apply(X&& x, F&& f) {
                 return make_infix<true, false>{}(
-                    partial(static_cast<F&&>(f), static_cast<X&&>(x))
+                    hana::partial(static_cast<F&&>(f), static_cast<X&&>(x))
                 );
             }
         };

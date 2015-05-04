@@ -10,10 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP
 
-#include <boost/hana/detail/reverse_partial.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/split_at.hpp>
 #include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
@@ -28,7 +28,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         template <typename ...Xs>
         constexpr auto operator()(Xs&& ...xs) const {
             return hana::always(
-                detail::reverse_partial(_take_impl2{},
+                reverse_partial(_take_impl2{},
                     static_cast<Xs&&>(xs)...)
             );
         };

@@ -19,15 +19,22 @@ namespace boost { namespace hana {
     //! @ingroup group-functional
     //! Partially apply a function to some arguments.
     //!
-    //! Specifically, `partial(f, x...)` is a function such that
+    //! Given a function `f` and some arguments, `partial` returns a new
+    //! function corresponding to the partially applied function `f`. This
+    //! allows providing some arguments to a function and letting the rest
+    //! of the arguments be provided later. Specifically, `partial(f, x...)`
+    //! is a function such that
     //! @code
     //!     partial(f, x...)(y...) == f(x..., y...)
     //! @endcode
     //!
-    //! Given the semantics, the arity of `f` must match the number of
-    //! arguments passed in total, i.e. `sizeof...(x) + sizeof...(y)`.
+    //! @note
+    //! The arity of `f` must match the total number of arguments passed to
+    //! it, i.e. `sizeof...(x) + sizeof...(y)`.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/functional.cpp partial
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto partial = [](auto&& f, auto&& ...x) {

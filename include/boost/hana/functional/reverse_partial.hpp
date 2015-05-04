@@ -1,29 +1,40 @@
 /*!
 @file
-Defines `boost::hana::detail::reverse_partial`.
+Defines `boost::hana::reverse_partial`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_DETAIL_REVERSE_PARTIAL_HPP
-#define BOOST_HANA_DETAIL_REVERSE_PARTIAL_HPP
+#ifndef BOOST_HANA_FUNCTIONAL_REVERSE_PARTIAL_HPP
+#define BOOST_HANA_FUNCTIONAL_REVERSE_PARTIAL_HPP
 
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/move.hpp>
 
 
-namespace boost { namespace hana { namespace detail {
-    //! @ingroup group-details
-    //! Reverse version of `partial` from the Functional utilities.
+namespace boost { namespace hana {
+    //! @ingroup group-functional
+    //! Partially apply a function to some arguments.
     //!
-    //! Specifically, `reverse_partial(f, x...)(y...)` is equivalent to
-    //! `f(y..., x...)`.
+    //! Given a function `f` and some arguments, `reverse_partial` returns a
+    //! new function corresponding to `f` whose last arguments are partially
+    //! applied. Specifically, `reverse_partial(f, x...)` is a function such
+    //! that
+    //! @code
+    //!     reverse_partial(f, x...)(y...) == f(y..., x...)
+    //! @endcode
     //!
-    //! @todo
-    //! Perhaps find a better name and make this part of Functional.
+    //! @note
+    //! The arity of `f` must match the total number of arguments passed to
+    //! it, i.e. `sizeof...(x) + sizeof...(y)`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/functional.cpp reverse_partial
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto reverse_partial = [](auto&& f, auto&& ...x) {
         return [perfect-capture](auto&& ...y) -> decltype(auto) {
@@ -69,6 +80,6 @@ namespace boost { namespace hana { namespace detail {
 
     constexpr _make_reverse_partial reverse_partial{};
 #endif
-}}} // end namespace boost::hana::detail
+}} // end namespace boost::hana
 
-#endif // !BOOST_HANA_DETAIL_REVERSE_PARTIAL_HPP
+#endif // !BOOST_HANA_FUNCTIONAL_REVERSE_PARTIAL_HPP

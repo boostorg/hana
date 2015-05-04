@@ -28,5 +28,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/overload_linearly.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functional/placeholder.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 #endif // !BOOST_HANA_FUNCTIONAL_HPP

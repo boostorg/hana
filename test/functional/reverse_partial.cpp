@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/detail/reverse_partial.hpp>
+#include <boost/hana/functional/reverse_partial.hpp>
 
 #include <boost/hana/assert.hpp>
 
@@ -15,7 +15,7 @@ using namespace boost::hana;
 using test::ct_eq;
 
 int main() {
-    constexpr auto rp = detail::reverse_partial;
+    constexpr auto rp = reverse_partial;
     test::_injection<0> f{};
 
     BOOST_HANA_CONSTANT_CHECK(equal(
