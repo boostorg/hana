@@ -230,7 +230,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct elem_impl<Range> {
+    struct contains_impl<Range> {
         template <typename R, typename N>
         static constexpr auto apply(R const&, N const&) {
             constexpr auto n = hana::value<N>();

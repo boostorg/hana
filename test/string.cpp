@@ -397,20 +397,20 @@ int main() {
             ));
         }
 
-        // elem
+        // contains
         {
             struct invalid { };
             BOOST_HANA_CONSTANT_CHECK(
-                elem(BOOST_HANA_STRING("abcd"), char_<'a'>)
+                contains(BOOST_HANA_STRING("abcd"), char_<'a'>)
             );
             BOOST_HANA_CONSTANT_CHECK(
-                elem(BOOST_HANA_STRING("abcd"), char_<'c'>)
+                contains(BOOST_HANA_STRING("abcd"), char_<'c'>)
             );
             BOOST_HANA_CONSTANT_CHECK(
-                not_(elem(BOOST_HANA_STRING("abcd"), char_<'e'>))
+                not_(contains(BOOST_HANA_STRING("abcd"), char_<'e'>))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                not_(elem(BOOST_HANA_STRING("abcd"), invalid{}))
+                not_(contains(BOOST_HANA_STRING("abcd"), invalid{}))
             );
         }
 

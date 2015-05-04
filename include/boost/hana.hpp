@@ -281,7 +281,7 @@ function                                     |  concept   | description
 `remove(sequence, value)`                    | MonadPlus  | Remove all the elements that are equal to a given value.
 `{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
 `{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
-`elem(sequence, value)`                      | Searchable | Returns whether an object is in a sequence.
+`contains(sequence, value)`                  | Searchable | Returns whether a sequence contains the given object.
 `find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `find(sequence, value)`                      | Searchable | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
 `group(sequence[, predicate])`               | Sequence   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.

@@ -20,7 +20,6 @@ using namespace boost::hana;
 
 int main() {
 
-
 {
 
 //! [always]
@@ -145,11 +144,12 @@ static_assert(id('x') == 'x', "");
 }{
 
 //! [infix]
-constexpr auto is_subset_of = infix(subset);
-static_assert(make<Tuple>(1, '2', 3.3) ^is_subset_of^ make<Tuple>('2', 1, 3.3, "xyz"), "");
+BOOST_HANA_CONSTEXPR_LAMBDA auto divmod = infix([](auto x, auto y) {
+    // this could be a more efficient implementation
+    return make_pair(x / y, x % y);
+});
 
-constexpr auto contains = infix(elem);
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, '2', 3.3) ^contains^ 3.3);
+BOOST_HANA_CONSTEXPR_CHECK((42 ^divmod^ 23) == make_pair(1, 19));
 //! [infix]
 
 }{

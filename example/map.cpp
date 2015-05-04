@@ -53,9 +53,9 @@ static_assert(find(m, type<float>) == just('f'), "");
 BOOST_HANA_CONSTANT_CHECK(find(m, type<void>) == nothing);
 BOOST_HANA_CONSTANT_CHECK(find(m, int_<3>) == nothing);
 
-// operator[] is equivalent to find
-static_assert(m[type<int>] == just('i'), "");
-BOOST_HANA_CONSTANT_CHECK(m[type<void>] == nothing);
+// operator[] is equivalent to at_key
+static_assert(m[type<int>] == 'i', "");
+static_assert(m[type<float>] == 'f', "");
 //! [Searchable]
 
 }{

@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
+#include <string>
 #include <type_traits>
 using namespace boost::hana;
 
@@ -73,26 +74,40 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [any]
-BOOST_HANA_CONSTANT_CHECK(any(make<Tuple>(false, false_, true_)));
-BOOST_HANA_CONSTEXPR_CHECK(any(make<Tuple>(false, false_, true)));
-BOOST_HANA_CONSTEXPR_CHECK(!any(make<Tuple>(false, false_, false_)));
+BOOST_HANA_CONSTANT_CHECK(any(make_tuple(false, false_, true_)));
+BOOST_HANA_CONSTEXPR_CHECK(any(make_tuple(false, false_, true)));
+BOOST_HANA_CONSTEXPR_CHECK(!any(make_tuple(false, false_, false_)));
 //! [any]
 
 }{
 
-//! [elem]
-BOOST_HANA_CONSTANT_CHECK(elem(make<Tuple>(2, int_<2>, int_<3>, 'x'), int_<3>));
-BOOST_HANA_CONSTANT_CHECK(elem(set(1, '2', type<int>, "foobar"), type<int>));
-//! [elem]
+//! [contains]
+BOOST_HANA_CONSTANT_CHECK(contains(make_tuple(2, int_<2>, int_<3>, 'x'), int_<3>));
+BOOST_HANA_CONSTANT_CHECK(contains(make_set(1, '2', type<int>, "foobar"), type<int>));
+//! [contains]
+
+}{
+
+//! [contains.infix]
+BOOST_HANA_CONSTANT_CHECK(
+    make_tuple(2, int_<2>, int_<3>, 'x') ^contains^ int_<2>
+);
+//! [contains.infix]
+
+}{
+
+//! [in]
+BOOST_HANA_CONSTANT_CHECK(int_<2> ^in^ make_tuple(2, int_<2>, int_<3>, 'x'));
+//! [in]
 
 }{
 
 //! [find_if]
 BOOST_HANA_CONSTEXPR_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
+    find_if(make_tuple(1.0, 2, '3'), trait<std::is_integral>) == just(2)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
+    find_if(make_tuple(1.0, 2, '3'), trait<std::is_class>) == nothing
 );
 
 constexpr auto types = tuple_t<char, int, unsigned, long, unsigned long>;
@@ -124,16 +139,18 @@ BOOST_HANA_CONSTEXPR_CHECK(find(m, type<float>) == just(3.3));
 
 }{
 
-//! [in]
-BOOST_HANA_CONSTEXPR_LAMBDA auto xs = make<Tuple>(
-    int_<1>, type<int>, int_<2>, type<float>, int_<3>, type<void>, type<char>
+//! [at_key]
+auto m = make_map(
+    make_pair(type<int>, std::string{"int"}),
+    make_pair(int_<3>, std::string{"3"})
 );
-BOOST_HANA_CONSTANT_CHECK(
-    filter(xs, in ^ make<Tuple>(int_<3>, type<int>, type<void>))
-    ==
-    make<Tuple>(type<int>, int_<3>, type<void>)
-);
-//! [in]
+
+BOOST_HANA_RUNTIME_CHECK(at_key(m, type<int>) == "int");
+
+// operator-form
+BOOST_HANA_RUNTIME_CHECK(m[type<int>] == "int");
+BOOST_HANA_RUNTIME_CHECK(m[int_<3>] == "3");
+//! [at_key]
 
 }{
 
@@ -165,9 +182,19 @@ BOOST_HANA_CONSTANT_CHECK(!none(make<Tuple>(false, false_, true_)));
 
 }{
 
-//! [subset]
-BOOST_HANA_CONSTEXPR_CHECK(subset(make<Tuple>(1, '2', 3.3), make<Tuple>(3.3, 1, '2', nullptr)));
-//! [subset]
+//! [is_subset]
+BOOST_HANA_CONSTEXPR_CHECK(
+    is_subset(make_tuple(1, '2', 3.3), make_tuple(3.3, 1, '2', nullptr))
+);
+//! [is_subset]
+
+}{
+
+//! [is_subset.infix]
+BOOST_HANA_CONSTEXPR_CHECK(
+    make_tuple(1, '2', 3.3) ^is_subset^ make_tuple(3.3, 1, '2', nullptr)
+);
+//! [is_subset.infix]
 
 }
 

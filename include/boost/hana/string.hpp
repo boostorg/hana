@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     { };
 
     template <>
-    struct elem_impl<String> {
+    struct contains_impl<String> {
         template <char ...s, typename C>
         static constexpr auto
         helper(_string<s...> const&, C const&, decltype(true_)) {
@@ -214,7 +214,7 @@ namespace boost { namespace hana {
     struct find_impl<String> {
         template <char ...s, typename Char>
         static constexpr auto apply(_string<s...> const& str, Char const& c) {
-            return hana::if_(hana::elem(str, c),
+            return hana::if_(hana::contains(str, c),
                 hana::just(c),
                 nothing
             );

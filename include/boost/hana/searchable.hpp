@@ -39,7 +39,7 @@ namespace boost { namespace hana {
         struct Searchable_ops {
             template <typename Key>
             constexpr decltype(auto) operator[](Key&& key) const& {
-                return hana::find(
+                return hana::at_key(
                     static_cast<Derived const&>(*this),
                     static_cast<Key&&>(key)
                 );
@@ -47,7 +47,7 @@ namespace boost { namespace hana {
 
             template <typename Key>
             constexpr decltype(auto) operator[](Key&& key) & {
-                return hana::find(
+                return hana::at_key(
                     static_cast<Derived&>(*this),
                     static_cast<Key&&>(key)
                 );
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
 
             template <typename Key>
             constexpr decltype(auto) operator[](Key&& key) && {
-                return hana::find(
+                return hana::at_key(
                     static_cast<Derived&&>(*this),
                     static_cast<Key&&>(key)
                 );
@@ -144,13 +144,13 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // elem
+    // contains
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct elem_impl : elem_impl<S, when<true>> { };
+    struct contains_impl : contains_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct elem_impl<S, when<condition>> : default_ {
+    struct contains_impl<S, when<condition>> : default_ {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::any_of(static_cast<Xs&&>(xs),
@@ -185,35 +185,50 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // subset
+    // at_key
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct at_key_impl : at_key_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct at_key_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename Key>
+        static constexpr decltype(auto) apply(Xs&& xs, Key&& key) {
+            return hana::from_just(hana::find(static_cast<Xs&&>(xs),
+                                              static_cast<Key&&>(key)));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // is_subset
     //////////////////////////////////////////////////////////////////////////
     template <typename S1, typename S2, typename>
-    struct subset_impl : subset_impl<S1, S2, when<true>> { };
+    struct is_subset_impl : is_subset_impl<S1, S2, when<true>> { };
 
     template <typename S1, typename S2, bool condition>
-    struct subset_impl<S1, S2, when<condition>> : default_ {
+    struct is_subset_impl<S1, S2, when<condition>> : default_ {
         static void apply(...);
     };
 
     template <typename S, bool condition>
-    struct subset_impl<S, S, when<condition>> {
+    struct is_subset_impl<S, S, when<condition>> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return hana::all_of(static_cast<Xs&&>(xs),
-                    hana::partial(elem, static_cast<Ys&&>(ys)));
+                    hana::partial(contains, static_cast<Ys&&>(ys)));
         }
     };
 
     // Cross-type overload
     template <typename S1, typename S2>
-    struct subset_impl<S1, S2, when<
+    struct is_subset_impl<S1, S2, when<
         detail::has_nontrivial_common_embedding<Searchable, S1, S2>{}()
     >> {
         using C = typename common<S1, S2>::type;
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::subset(hana::to<C>(static_cast<Xs&&>(xs)),
-                                hana::to<C>(static_cast<Ys&&>(ys)));
+            return hana::is_subset(hana::to<C>(static_cast<Xs&&>(xs)),
+                                   hana::to<C>(static_cast<Ys&&>(ys)));
         }
     };
 

@@ -76,7 +76,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
             return hana::and_(
                 hana::equal(hana::length(s1.storage), hana::length(s2.storage)),
-                hana::subset(static_cast<S1&&>(s1), static_cast<S2&&>(s2))
+                hana::is_subset(static_cast<S1&&>(s1), static_cast<S2&&>(s2))
             );
         }
     };
@@ -145,7 +145,7 @@ namespace boost { namespace hana {
 
         template <typename S, typename X>
         static constexpr decltype(auto) apply(S&& set, X&& x) {
-            return hana::eval_if(hana::elem(set, x),
+            return hana::eval_if(hana::contains(set, x),
                 hana::lazy(set),
                 hana::lazy(insert_helper{})(set, x)
             );

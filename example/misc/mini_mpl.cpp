@@ -253,7 +253,7 @@ struct find
 
 template <typename Sequence, typename T>
 struct contains
-    : decltype(hana::elem(Sequence{}, hana::type<T>))
+    : decltype(hana::contains(Sequence{}, hana::type<T>))
 { };
 
 template <typename Sequence, typename T>

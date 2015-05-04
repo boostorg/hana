@@ -36,7 +36,7 @@ BOOST_HANA_CONSTANT_CHECK(flatten(just(nothing)) == nothing);
 //! [monadic_compose]
 BOOST_HANA_CONSTEXPR_LAMBDA auto block = [](auto ...types) {
     return [=](auto x) {
-        return if_(elem(make<Tuple>(types...), decltype_(x)),
+        return if_(contains(make_tuple(types...), decltype_(x)),
             nothing,
             just(x)
         );

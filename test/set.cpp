@@ -116,7 +116,7 @@ int main() {
         {
             auto check = [=](auto ...xs) {
                 BOOST_HANA_CONSTANT_CHECK(
-                    elem(permutations(list(xs...)), to<L>(set(xs...)))
+                    contains(permutations(list(xs...)), to<L>(set(xs...)))
                 );
             };
             check();
@@ -252,7 +252,7 @@ int main() {
         }
 
         // laws
-        static_assert(has_operator<Set, decltype(find)>, "");
+        static_assert(has_operator<Set, decltype(at_key)>, "");
         test::TestSearchable<Set>{eqs, keys};
     }
 
@@ -271,7 +271,7 @@ int main() {
             });
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(possible_results, unpack(set(xs...), f))
+                contains(possible_results, unpack(set(xs...), f))
             );
         };
 

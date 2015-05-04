@@ -13,14 +13,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/lazy.hpp>
+#include <boost/hana/maybe.hpp>
 #include <boost/hana/searchable.hpp>
 
 #include <laws/base.hpp>
 #include <test/numeric.hpp>
+
 
 namespace boost { namespace hana { namespace test {
     template <typename S, typename = when<true>>
@@ -78,16 +79,16 @@ namespace boost { namespace hana { namespace test {
 
 
                 // find_if(xs, always(false_)) == nothing
-                BOOST_HANA_CONSTANT_CHECK(equal(
+                BOOST_HANA_CONSTANT_CHECK(hana::equal(
                     hana::find_if(xs, hana::always(false_)),
                     nothing
                 ));
 
                 hana::for_each(searchables, hana::capture(xs)([](auto xs, auto ys) {
-                    // subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
+                    // is_subset(xs, ys) <=> all_of(xs, [](auto x) { return contains(ys, x); })
                     BOOST_HANA_CHECK(
-                        hana::subset(xs, ys) ^iff^
-                            hana::all_of(xs, hana::partial(elem, ys))
+                        hana::is_subset(xs, ys) ^iff^
+                            hana::all_of(xs, hana::partial(contains, ys))
                     );
                 }));
 
@@ -98,23 +99,32 @@ namespace boost { namespace hana { namespace test {
                         hana::find_if(xs, equal.to(key))
                     ));
 
-                    // elem(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
+                    // contains(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
                     BOOST_HANA_CHECK(
-                        hana::elem(xs, key) ^iff^
+                        hana::contains(xs, key) ^iff^
                         hana::any_of(xs, equal.to(key))
                     );
-                }));
 
-                // operators
-                only_when_(has_operator<S, decltype(find)>,
-                hana::lazy(hana::capture(keys)([](auto keys, auto xs) {
-                    hana::for_each(keys, hana::capture(xs)([](auto xs, auto key) {
-                        BOOST_HANA_CHECK(hana::equal(
-                            xs[key],
-                            hana::find(xs, key)
-                        ));
-                    }));
-                }))(xs));
+                    only_when_(hana::contains(xs, key),
+                        hana::lazy([](auto xs, auto key) {
+                            // at_key(xs, key) == from_just(find(xs, key))
+                            BOOST_HANA_CHECK(hana::equal(
+                                hana::at_key(xs, key),
+                                hana::from_just(hana::find(xs, key))
+                            ));
+
+                            // operators
+                            only_when_(has_operator<S, decltype(at_key)>,
+                                hana::lazy([](auto xs, auto key) {
+                                    BOOST_HANA_CHECK(hana::equal(
+                                        xs[key],
+                                        hana::at_key(xs, key)
+                                    ));
+                                })(xs, key)
+                            );
+                        })(xs, key)
+                    );
+                }));
             }));
         }
     };
@@ -128,6 +138,8 @@ namespace boost { namespace hana { namespace test {
 
         template <int = 0>
         struct invalid { };
+
+        struct undefined { };
 
         template <typename Xs, typename Keys>
         TestSearchable(Xs xs, Keys keys)
@@ -358,67 +370,128 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             // find
             //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(), invalid<>{}),
-                nothing
-            ));
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(), invalid<>{}),
+                    nothing
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}), x<9>{}),
-                nothing
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}), x<0>{}),
-                just(x<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, invalid<1>{}), x<0>{}),
-                just(x<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, invalid<1>{}, invalid<2>{}), x<0>{}),
-                just(x<0>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}), x<9>{}),
+                    nothing
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}), x<0>{}),
+                    just(x<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, invalid<1>{}), x<0>{}),
+                    just(x<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, invalid<1>{}, invalid<2>{}), x<0>{}),
+                    just(x<0>{})
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}), x<9>{}),
-                nothing
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}), x<1>{}),
-                just(x<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, invalid<2>{}), x<1>{}),
-                just(x<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, invalid<2>{}, invalid<3>{}), x<1>{}),
-                just(x<1>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}), x<9>{}),
+                    nothing
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}), x<1>{}),
+                    just(x<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, invalid<2>{}), x<1>{}),
+                    just(x<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, invalid<2>{}, invalid<3>{}), x<1>{}),
+                    just(x<1>{})
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}), x<9>{}),
-                nothing
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}), x<2>{}),
-                just(x<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}, nothing), x<2>{}),
-                just(x<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                find(list(x<0>{}, x<1>{}, x<2>{}, nothing, nothing), x<2>{}),
-                just(x<2>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, x<2>{}), x<9>{}),
+                    nothing
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, x<2>{}), x<2>{}),
+                    just(x<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, x<2>{}, nothing), x<2>{}),
+                    just(x<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    find(list(x<0>{}, x<1>{}, x<2>{}, nothing, nothing), x<2>{}),
+                    just(x<2>{})
+                ));
+            }
 
             //////////////////////////////////////////////////////////////////
-            // elem
+            // at_key
             //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTEXPR_CHECK(elem(list(c(0)), c(0)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(elem(list(c(0)), c(1))));
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}), x<0>{}),
+                    x<0>{}
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}, x<1>{}), x<0>{}),
+                    x<0>{}
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}, x<1>{}), x<1>{}),
+                    x<1>{}
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}, x<1>{}, x<2>{}), x<0>{}),
+                    x<0>{}
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}, x<1>{}, x<2>{}), x<1>{}),
+                    x<1>{}
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    at_key(list(x<0>{}, x<1>{}, x<2>{}), x<2>{}),
+                    x<2>{}
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // contains
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(not_(
+                    contains(list(), undefined{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(
+                    contains(list(x<0>{}), x<999>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    contains(list(x<0>{}), x<0>{})
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    contains(list(x<0>{}, x<1>{}), x<1>{})
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    contains(list(x<0>{}, x<1>{}, x<3>{}), x<3>{})
+                );
+
+                BOOST_HANA_CONSTEXPR_CHECK(contains(list(c(0)), c(0)));
+                BOOST_HANA_CONSTEXPR_CHECK(not_(contains(list(c(0)), c(1))));
+
+                // infix application
+                BOOST_HANA_CONSTANT_CHECK(
+                    list(x<0>{}, x<1>{}) ^contains^ x<1>{}
+                );
+            }
 
             //////////////////////////////////////////////////////////////////
             // in
@@ -427,23 +500,38 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CONSTEXPR_CHECK(not_(c(1) ^in^ list(c(0))));
 
             //////////////////////////////////////////////////////////////////
-            // subset
+            // is_subset
             //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(subset(
-                list(), list(c(1)))
-            );
+            {
+                BOOST_HANA_CONSTANT_CHECK(is_subset(
+                    list(), list(undefined{})
+                ));
 
-            BOOST_HANA_CONSTEXPR_CHECK(subset(
-                list(c(0)), list(c(0))
-            ));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_subset(
+                    list(undefined{}), list()
+                )));
 
-            BOOST_HANA_CONSTEXPR_CHECK(subset(
-                list(c(0)), list(c(0), c(1))
-            ));
+                BOOST_HANA_CONSTEXPR_CHECK(is_subset(
+                    list(c(0)), list(c(0))
+                ));
 
-            BOOST_HANA_CONSTEXPR_CHECK(not_(subset(
-                list(c(0)), list(c(1)))
-            ));
+                BOOST_HANA_CONSTEXPR_CHECK(is_subset(
+                    list(c(0)), list(c(0), c(1))
+                ));
+
+                BOOST_HANA_CONSTEXPR_CHECK(not_(is_subset(
+                    list(c(0)), list(c(1))
+                )));
+
+                // infix application
+                BOOST_HANA_CONSTANT_CHECK(
+                    list(x<0>{}) ^is_subset^ list(x<1>{}, x<0>{})
+                );
+
+                BOOST_HANA_CONSTANT_CHECK(
+                    list(x<0>{}, x<1>{}) ^is_subset^ list(x<1>{}, x<0>{})
+                );
+            }
         }
     };
 }}} // end namespace boost::hana::test

@@ -37,9 +37,11 @@ constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
 BOOST_HANA_CONSTANT_CHECK(find(xs, int_<0>) == just(int_<0>));
 BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
 
-// operator[] is equivalent to find
-BOOST_HANA_CONSTANT_CHECK(xs[int_<2>] == just(int_<2>));
-BOOST_HANA_CONSTANT_CHECK(xs[type<char>] == nothing);
+// operator[] is equivalent to at_key
+BOOST_HANA_CONSTANT_CHECK(xs[int_<2>] == int_<2>);
+
+// long_<0> == int_<0>, and therefore int_<0> is found
+BOOST_HANA_CONSTANT_CHECK(xs[long_<0>] == int_<0>);
 //! [Searchable]
 
 }{

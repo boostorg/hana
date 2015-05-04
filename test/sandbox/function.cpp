@@ -39,7 +39,7 @@ namespace boost { namespace hana {
 
         template <typename X>
         constexpr auto operator()(X x) const {
-            if (!elem(domain(*this), x))
+            if (!contains(domain(*this), x))
                 throw std::domain_error{"use of a hana::function with an argument out of the domain"};
             return def(x);
         }
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
         return fold.left(transform(domain(f), f), make<Tuple>(), [](auto xs, auto x) {
-            return if_(elem(xs, x), xs, prepend(x, xs));
+            return if_(contains(xs, x), xs, prepend(x, xs));
         });
     };
 

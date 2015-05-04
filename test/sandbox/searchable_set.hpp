@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     struct equal_impl<SearchableSet, SearchableSet> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs xs, Ys ys)
-        { return and_(subset(xs, ys), subset(ys, xs)); }
+        { return and_(is_subset(xs, ys), is_subset(ys, xs)); }
     };
 
 

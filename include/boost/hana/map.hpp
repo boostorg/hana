@@ -110,7 +110,7 @@ namespace boost { namespace hana {
 
         template <typename M, typename P>
         static constexpr decltype(auto) apply(M&& map, P&& pair) {
-            return hana::eval_if(hana::elem(map, hana::first(pair)),
+            return hana::eval_if(hana::contains(map, hana::first(pair)),
                 hana::lazy(map),
                 hana::lazy(insert_helper{})(map, pair)
             );

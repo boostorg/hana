@@ -78,38 +78,38 @@ int main() {
             ));
         }
 
-        // elem
+        // contains
         {
             BOOST_HANA_CONSTANT_CHECK(
-                not_(elem(range(int_<0>, int_<0>), test::cnumeric<int, 0>))
+                not_(contains(range(int_<0>, int_<0>), test::cnumeric<int, 0>))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(range(int_<0>, int_<1>), test::cnumeric<int, 0>)
+                contains(range(int_<0>, int_<1>), test::cnumeric<int, 0>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(range(int_<0>, int_<10>), test::cnumeric<int, 3>)
+                contains(range(int_<0>, int_<10>), test::cnumeric<int, 3>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(range(int_<0>, int_<10>), test::cnumeric<int, 9>)
+                contains(range(int_<0>, int_<10>), test::cnumeric<int, 9>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(range(int_<-10>, int_<10>), test::cnumeric<int, -10>)
+                contains(range(int_<-10>, int_<10>), test::cnumeric<int, -10>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                elem(range(int_<-10>, int_<10>), test::cnumeric<int, -5>)
+                contains(range(int_<-10>, int_<10>), test::cnumeric<int, -5>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(elem(range(int_<-10>, int_<0>), test::cnumeric<int, 3>))
+                not_(contains(range(int_<-10>, int_<0>), test::cnumeric<int, 3>))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(elem(range(int_<0>, int_<10>), test::cnumeric<int, 15>))
+                not_(contains(range(int_<0>, int_<10>), test::cnumeric<int, 15>))
             );
         }
 

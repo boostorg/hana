@@ -51,13 +51,13 @@ namespace boost { namespace hana {
     //! an associative data structure implemented as a hash table will be much
     //! faster to access using `find` than `find_if`, because in the second
     //! case it will have to do a linear search through all the entries.
-    //! Similarly, using `elem` will likely be much faster than `any_of`
+    //! Similarly, using `contains` will likely be much faster than `any_of`
     //! with an equivalent predicate.
     //!
     //! > __Insight__\n
     //! > In a lazy evaluation context, any `Foldable` can also become a model
     //! > of `Searchable` because we can search lazily through the structure
-    //! > with `foldr`. However, in the context of C++, some `Searchable`s
+    //! > with `fold.right`. However, in the context of C++, some `Searchable`s
     //! > can not be folded; think for example of an infinite set.
     //!
     //!
@@ -71,12 +71,12 @@ namespace boost { namespace hana {
     //!     any_of(xs, p) <=> !all_of(xs, negated p)
     //!                   <=> !none_of(xs, p)
     //!
-    //!     elem(xs, x) <=> any_of(xs, equal.to(x))
+    //!     contains(xs, x) <=> any_of(xs, equal.to(x))
     //!
     //!     find(xs, x) == find_if(xs, equal.to(x))
     //!     find_if(xs, always(false_)) == nothing
     //!
-    //!     subset(xs, ys) <=> all_of(xs, [](auto x) { return elem(ys, x); })
+    //!     is_subset(xs, ys) <=> all_of(xs, [](auto x) { return contains(ys, x); })
     //! @endcode
     //!
     //! Additionally, if all the keys of the `Searchable` are `Logical`s,
@@ -159,11 +159,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/searchable.cpp any_of
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/any_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto any_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -175,14 +170,15 @@ namespace boost { namespace hana {
     struct _any_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using AnyOf = any_of_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::any_of(xs, pred) requires xs to be a Searchable");
-#endif
-            return any_of_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
-            );
+        #endif
+
+            return AnyOf::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
         }
     };
 
@@ -211,13 +207,15 @@ namespace boost { namespace hana {
     struct _any {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using Any = any_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::any(xs) requires xs to be a Searchable");
-#endif
-            return any_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+        #endif
+
+            return Any::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -243,11 +241,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/searchable.cpp all_of
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/all_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto all_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -259,14 +252,15 @@ namespace boost { namespace hana {
     struct _all_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using AllOf = all_of_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::all_of(xs, pred) requires xs to be a Searchable");
-#endif
-            return all_of_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
-            );
+        #endif
+
+            return AllOf::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
         }
     };
 
@@ -295,13 +289,15 @@ namespace boost { namespace hana {
     struct _all {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using All = all_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::all(xs) requires xs to be a Searchable");
-#endif
-            return all_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+        #endif
+
+            return All::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -328,11 +324,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/searchable.cpp none_of
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/none_of.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto none_of = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -344,14 +335,15 @@ namespace boost { namespace hana {
     struct _none_of {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using NoneOf = none_of_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::none_of(xs, pred) requires xs to be a Searchable");
-#endif
-            return none_of_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
-            );
+        #endif
+
+            return NoneOf::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
         }
     };
 
@@ -380,13 +372,15 @@ namespace boost { namespace hana {
     struct _none {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
-            static_assert(_models<Searchable, typename datatype<Xs>::type>{},
+            using S = typename datatype<Xs>::type;
+            using None = none_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{},
             "hana::none(xs) requires xs to be a Searchable");
-#endif
-            return none_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+        #endif
+
+            return None::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -401,6 +395,10 @@ namespace boost { namespace hana {
     //! key has to appear at a finite "index" in the structure for this
     //! method to finish.
     //!
+    //! @note
+    //! For convenience, `contains` can also be applied in infix notation.
+    //! @snippet example/searchable.cpp contains.infix
+    //!
     //!
     //! @param xs
     //! The structure to search.
@@ -412,51 +410,48 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp elem
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/elem.ctime.png
+    //! @snippet example/searchable.cpp contains
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto elem = [](auto&& xs, auto&& key) -> decltype(auto) {
+    constexpr auto contains = [](auto&& xs, auto&& key) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct elem_impl;
+    struct contains_impl;
 
-    struct _elem {
+    struct _contains {
         template <typename Xs, typename Key>
         constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
             using S = typename datatype<Xs>::type;
-            using Elem = elem_impl<S>;
+            using Contains = contains_impl<S>;
 
         #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Searchable, S>{}(),
-            "hana::elem(xs, key) requires xs to be a Searchable");
+            "hana::contains(xs, key) requires xs to be a Searchable");
         #endif
 
-            return Elem::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
+            return Contains::apply(static_cast<Xs&&>(xs),
+                                   static_cast<Key&&>(key));
         }
     };
 
-    constexpr _elem elem{};
+    constexpr auto contains = infix(_contains{});
 #endif
 
     //! Return whether the key occurs in the structure.
     //! @relates Searchable
     //!
-    //! Specifically, this is equivalent to `flip(elem)`, except that `in`
-    //! can also be used in infix notation for increased expressiveness.
-    //! This function is not a method that can be overriden; it is just a
-    //! convenience function provided with the concept.
+    //! Specifically, this is equivalent to `contains`, except `in` takes its
+    //! arguments in reverse order. Like `contains`, `in` can also be applied
+    //! in infix notation for increased expressiveness. This function is not a
+    //! method that can be overriden; it is just a convenience function
+    //! provided with the concept.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/searchable.cpp in
-    constexpr auto in = infix(flip(elem));
+    constexpr auto in = infix(flip(contains));
 
     //! Finds the value associated to the first key satisfying a predicate.
     //! @relates Searchable
@@ -481,7 +476,10 @@ namespace boost { namespace hana {
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/searchable/find_if.ctime.png
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.find_if.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto find_if = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -511,9 +509,13 @@ namespace boost { namespace hana {
     //! Finds the value associated to the given key in a structure.
     //! @relates Searchable
     //!
-    //! Specifically, returns `just` the first value whose key is equal to
-    //! the given `key`, or `nothing` if there is no such key. Comparison
-    //! is done with `equal`.
+    //! Given a `key` and a `Searchable` structure, `find` returns the `just`
+    //! the first value whose key is equal to the given `key`, or `nothing` if
+    //! there is no such key. Comparison is done with `equal`. `find` satisfies
+    //! the following:
+    //! @code
+    //!     find(xs, key) == find_if(xs, equal.to(key))
+    //! @endcode
     //!
     //!
     //! @param xs
@@ -526,31 +528,9 @@ namespace boost { namespace hana {
     //! of the structure must return a compile-time `Logical`.
     //!
     //!
-    //! Operator-form
-    //! -------------
-    //! For convenience, the `find` method can be applied to `Searchable`s
-    //! that support it by using the `[]` operator. Hence, if `xs` supports
-    //! the operator,
-    //! @code
-    //!     xs[a] == find(xs, a)
-    //! @endcode
-    //!
-    //! To take advantage of this operator for a type `T`, `T` must inherit
-    //! `hana::operators::Searchable_ops<T>`.
-    //!
-    //! @note
-    //! The same operator is provided for the `at` method of the `Iterable`
-    //! concept. When a data type is a model of both `Searchable` and
-    //! `Iterable`, which operator is used should be documented properly.
-    //!
-    //!
     //! Example
     //! -------
     //! @snippet example/searchable.cpp find
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/searchable/find.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto find = [](auto&& xs, auto&& key) -> decltype(auto) {
         return tag-dispatched;
@@ -567,7 +547,7 @@ namespace boost { namespace hana {
 
         #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Searchable, S>{}(),
-            "hana::find(xs, key) requires xs to be a Searchable");
+            "hana::find(xs, key) requires xs to be Searchable");
         #endif
 
             return Find::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
@@ -577,16 +557,89 @@ namespace boost { namespace hana {
     constexpr _find find{};
 #endif
 
+    //! Returns the value associated to the given key in a structure, or fail.
+    //! @relates Searchable
+    //!
+    //! Given a `key` and a `Searchable` structure, `at_key` returns the first
+    //! value whose key is equal to the given `key`, and fails at compile-time
+    //! if no such key exists. This requires the `key` to be compile-time
+    //! `Comparable`, exactly like for `find`. `at_key` satisfies the following:
+    //! @code
+    //!     at_key(xs, key) == from_just(find(xs, key))
+    //! @endcode
+    //!
+    //!
+    //! @param xs
+    //! The structure to be searched.
+    //!
+    //! @param key
+    //! A key to be searched for in the structure. The key has to be
+    //! `Comparable` with the other keys of the structure. In the current
+    //! version of the library, the comparison of `key` with any other key
+    //! of the structure must return a compile-time `Logical`.
+    //!
+    //!
+    //! Operator-form
+    //! -------------
+    //! For convenience, the `at_key` method can be applied to `Searchable`s
+    //! that support it by using the `[]` operator. Hence, if `xs` supports
+    //! the operator,
+    //! @code
+    //!     xs[k] == at_key(xs, k)
+    //! @endcode
+    //!
+    //! To take advantage of this operator for a type `T`, `T` must inherit
+    //! `hana::operators::Searchable_ops<T>`.
+    //!
+    //! @note
+    //! The same operator is provided for the `at` method of the `Iterable`
+    //! concept. When a data type is a model of both `Searchable` and
+    //! `Iterable`, which operator is used should be documented properly.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/searchable.cpp at_key
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto at_key = [](auto&& xs, auto&& key) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct at_key_impl;
+
+    struct _at_key {
+        template <typename Xs, typename Key>
+        constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const {
+            using S = typename datatype<Xs>::type;
+            using AtKey = at_key_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Searchable, S>{}(),
+            "hana::at_key(xs, key) requires xs to be Searchable");
+        #endif
+
+            return AtKey::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
+        }
+    };
+
+    constexpr _at_key at_key{};
+#endif
+
     //! Returns whether a structure contains a subset of the keys of
     //! another structure.
     //! @relates Searchable
     //!
-    //! Given two `Searchable`s `xs` and `ys`, `subset` returns a `Logical`
+    //! Given two `Searchable`s `xs` and `ys`, `is_subset` returns a `Logical`
     //! representing whether `xs` is a subset of `ys`. In other words, it
     //! returns whether all the keys of `xs` are also present in `ys`. This
     //! method does not return whether `xs` is a _strict_ subset of `ys`; if
     //! `xs` and `ys` are equal, all the keys of `xs` are also present in
-    //! `ys`, and `subset` returns true.
+    //! `ys`, and `is_subset` returns true.
+    //!
+    //! @note
+    //! For convenience, `is_subset` can also be applied in infix notation.
+    //! @snippet example/searchable.cpp is_subset.infix
     //!
     //!
     //! Cross-type version of the method
@@ -595,13 +648,13 @@ namespace boost { namespace hana {
     //! It can be called with any two `Searchable`s sharing a common
     //! `Searchable` embedding, as defined in the main documentation
     //! of the `Searchable` concept. When `Searchable`s of two different
-    //! data types but sharing a common embedding are sent to `subset`,
+    //! data types but sharing a common embedding are sent to `is_subset`,
     //! they are first converted to this common `Searchable` and the
-    //! `subset` method of the common embedding is then used. Of course,
+    //! `is_subset` method of the common embedding is then used. Of course,
     //! the method can be overriden for custom `Searchable`s for efficieny.
     //!
     //! @note
-    //! While cross-type dispatching for `subset` is supported, it is
+    //! While cross-type dispatching for `is_subset` is supported, it is
     //! not currently used by the library because there are no models
     //! of `Searchable` with a common embedding.
     //!
@@ -615,44 +668,44 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp subset
+    //! @snippet example/searchable.cpp is_subset
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
+    constexpr auto is_subset = [](auto&& xs, auto&& ys) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename S1, typename S2, typename = void>
-    struct subset_impl;
+    struct is_subset_impl;
 
-    struct _subset {
+    struct _is_subset {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
             using S1 = typename datatype<Xs>::type;
             using S2 = typename datatype<Ys>::type;
-            using Subset = subset_impl<S1, S2>;
+            using IsSubset = is_subset_impl<S1, S2>;
 
         #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
             static_assert(_models<Searchable, S1>{}(),
-            "hana::subset(xs, ys) requires xs to be Searchable");
+            "hana::is_subset(xs, ys) requires xs to be Searchable");
 
             static_assert(_models<Searchable, S2>{}(),
-            "hana::subset(xs, ys) requires ys to be Searchable");
+            "hana::is_subset(xs, ys) requires ys to be Searchable");
 
-            static_assert(!is_default<subset_impl<S1, S2>>{}(),
-            "hana::subset(xs, ys) requires xs and ys to be embeddable "
+            static_assert(!is_default<is_subset_impl<S1, S2>>{}(),
+            "hana::is_subset(xs, ys) requires xs and ys to be embeddable "
             "in a common Searchable");
         #endif
 
-            return Subset::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
+            return IsSubset::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
         }
     };
 
-    constexpr _subset subset{};
+    constexpr auto is_subset = infix(_is_subset{});
 #endif
 
     template <>
     struct operators::of<Searchable>
-        : decltype(find)
+        : decltype(at_key)
     { };
 }} // end namespace boost::hana
 

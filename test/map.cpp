@@ -343,7 +343,7 @@ int main() {
         }
 
         // laws
-        static_assert(has_operator<Map, decltype(find)>, "");
+        static_assert(has_operator<Map, decltype(at_key)>, "");
         test::TestSearchable<Map>{eq_maps, eq_keys};
     }
 
