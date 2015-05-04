@@ -163,18 +163,18 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(find_if(doubleton(c<0>, c<1>), equal.to(c<2>)) == nothing);
         }
 
-        // subset
+        // is_subset
         {
-            BOOST_HANA_CONSTEXPR_CHECK(subset(singleton(n<0>), singleton(n<0>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(subset(singleton(n<1>), singleton(n<0>))));
+            BOOST_HANA_CONSTEXPR_CHECK(is_subset(singleton(n<0>), singleton(n<0>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(is_subset(singleton(n<1>), singleton(n<0>))));
 
-            BOOST_HANA_CONSTEXPR_CHECK(subset(singleton(n<0>), doubleton(n<0>, n<1>)));
-            BOOST_HANA_CONSTEXPR_CHECK(subset(singleton(n<1>), doubleton(n<0>, n<1>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(subset(singleton(n<2>), doubleton(n<0>, n<1>))));
+            BOOST_HANA_CONSTEXPR_CHECK(is_subset(singleton(n<0>), doubleton(n<0>, n<1>)));
+            BOOST_HANA_CONSTEXPR_CHECK(is_subset(singleton(n<1>), doubleton(n<0>, n<1>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(is_subset(singleton(n<2>), doubleton(n<0>, n<1>))));
 
-            BOOST_HANA_CONSTEXPR_CHECK(subset(doubleton(n<0>, n<1>), doubleton(n<0>, n<1>)));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(subset(doubleton(n<0>, n<2>), doubleton(n<0>, n<1>))));
-            BOOST_HANA_CONSTEXPR_CHECK(not_(subset(doubleton(n<2>, n<3>), doubleton(n<0>, n<1>))));
+            BOOST_HANA_CONSTEXPR_CHECK(is_subset(doubleton(n<0>, n<1>), doubleton(n<0>, n<1>)));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(is_subset(doubleton(n<0>, n<2>), doubleton(n<0>, n<1>))));
+            BOOST_HANA_CONSTEXPR_CHECK(not_(is_subset(doubleton(n<2>, n<3>), doubleton(n<0>, n<1>))));
         }
     }
 }
