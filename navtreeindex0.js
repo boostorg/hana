@@ -8,7 +8,6 @@ var NAVTREEINDEX0 =
 ".html":[2,1,0,0,2],
 ".html":[2,1,0,0,2,0],
 ".html":[2,1,0,0,2,0,0],
-".html":[2,1,0,0,4],
 "add__rvalue__reference_8hpp.html":[2,2,0,0,1,1,0],
 "algorithm_8hpp.html":[2,2,0,0,1,0,0],
 "always_8hpp.html":[2,2,0,0,3,0],
@@ -204,7 +203,6 @@ var NAVTREEINDEX0 =
 "group__group-datatypes.html":[1,1],
 "group__group-details.html":[1,7],
 "group__group-details.html#ga30deee39211913d4f4c2f527b19d8dd2":[1,7,7],
-"group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0":[1,7,8],
 "group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2":[1,7,3],
 "group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774":[1,7,4],
 "group__group-details.html#ga6f1cca2f6d42995e8459c1a0b93198a0":[1,7,5],
@@ -220,6 +218,7 @@ var NAVTREEINDEX0 =
 "group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0":[1,2,3],
 "group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89":[1,2,5],
 "group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d":[1,2,2],
+"group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8":[1,2,18],
 "group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf":[1,2,16],
 "group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557":[1,2,10],
 "group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b":[1,2,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "index.html#tutorial-ext-std":[0,11,0],
 "index.html#tutorial-extending":[0,12],
 "index.html#tutorial-extending-creating_concepts":[0,12,1],
-"index.html#tutorial-extending-tag_dispatching":[0,12,0]
+"index.html#tutorial-extending-tag_dispatching":[0,12,0],
+"index.html#tutorial-header_organization":[0,13]
 };

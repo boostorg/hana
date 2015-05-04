@@ -147,9 +147,11 @@ The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" tit
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;0&gt;) == just(int_&lt;0&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;3&gt;) == nothing);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// operator[] is equivalent to find</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[int_&lt;2&gt;] == just(int_&lt;2&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[type&lt;char&gt;] == nothing);</div>
+<div class="line"><span class="comment">// operator[] is equivalent to at_key</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[int_&lt;2&gt;] == int_&lt;2&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// long_&lt;0&gt; == int_&lt;0&gt;, and therefore int_&lt;0&gt; is found</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[long_&lt;0&gt;] == int_&lt;0&gt;);</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>

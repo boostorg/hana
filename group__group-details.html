@@ -119,8 +119,7 @@ $(document).ready(function(){initNavTree('group__group-details.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">Details</div>  </div>
 </div><!--header-->
@@ -163,12 +162,6 @@ template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="memitem:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga30deee39211913d4f4c2f527b19d8dd2">boost::hana::detail::has_nontrivial_common_embedding</a> = detail::std::integral_constant&lt; bool,!detail::std::is_same&lt; T, U &gt;{}&amp;&amp;has_common_embedding&lt; Concept, T, U &gt;{} &gt;</td></tr>
 <tr class="memdesc:ga30deee39211913d4f4c2f527b19d8dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="#ga30deee39211913d4f4c2f527b19d8dd2">More...</a><br /></td></tr>
 <tr class="separator:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ga5d30ed36591b4062f54ab0c87ad8d7f0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0">boost::hana::detail::reverse_partial</a></td></tr>
-<tr class="memdesc:ga5d30ed36591b4062f54ab0c87ad8d7f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse version of <code>partial</code> from the Functional utilities.  <a href="#ga5d30ed36591b4062f54ab0c87ad8d7f0">More...</a><br /></td></tr>
-<tr class="separator:ga5d30ed36591b4062f54ab0c87ad8d7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga69e96285beeb552b4cddc9f32336f5a2"></a>
@@ -252,31 +245,6 @@ template&lt;typename Concept , typename T , typename U &gt; </div>
 
 <p>Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type. </p>
 <p>If <code>T</code> and <code>U</code> do not have a common-type, a SFINAE-friendly failure happens when instantiating this alias. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="ga5d30ed36591b4062f54ab0c87ad8d7f0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto boost::hana::detail::reverse_partial</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="reverse__partial_8hpp.html">boost/hana/detail/reverse_partial.hpp</a>&gt;</code></p>
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; ...x) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">            <span class="keywordflow">return</span> forwarded(f)(forwarded(y)..., forwarded(x)...);</div>
-<div class="line">        };</div>
-<div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:34</div></div>
-</div><!-- fragment -->
-<p>Reverse version of <code>partial</code> from the Functional utilities. </p>
-<p>Specifically, <code>reverse_partial(f, x...)(y...)</code> is equivalent to <code>f(y..., x...)</code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Perhaps find a better name and make this part of Functional. </dd></dl>
 
 </div>
 </div>

@@ -185,6 +185,9 @@ Variables</h2></td></tr>
 <tr class="memitem:gaefe9fd152cba94be71c2b5b9de689d23"><td class="memItemLeft" align="right" valign="top">constexpr unspecified&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">boost::hana::_</a> {}</td></tr>
 <tr class="memdesc:gaefe9fd152cba94be71c2b5b9de689d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create simple functions representing C++ operators inline.  <a href="#gaefe9fd152cba94be71c2b5b9de689d23">More...</a><br /></td></tr>
 <tr class="separator:gaefe9fd152cba94be71c2b5b9de689d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6e648f0d3fc0209ec024e9d759a5e8f8"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">boost::hana::reverse_partial</a></td></tr>
+<tr class="memdesc:ga6e648f0d3fc0209ec024e9d759a5e8f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partially apply a function to some arguments.  <a href="#ga6e648f0d3fc0209ec024e9d759a5e8f8">More...</a><br /></td></tr>
+<tr class="separator:ga6e648f0d3fc0209ec024e9d759a5e8f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
 <a class="anchor" id="ga835970cb25a0c8dc200f1e5f8943538b"></a>
@@ -283,8 +286,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(arg&lt;2&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <span class="charliteral">&#39;2&#39;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(arg&lt;3&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 3.3);</div>
 <div class="line"><span class="comment">// arg&lt;4&gt;(1, &#39;2&#39;, 3.3); // static assertion</span></div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>This implementation is less compile-time efficient than <code>variadic::at</code>, but at least we can use perfect forwarding. Is there a way to get the efficiency of <code>variadic::at</code> with perfect forwarding? </dd></dl>
-
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ga41ada6b336e9d5bcb101ff0c737acbd0"></a>
@@ -629,11 +631,12 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> is_subset_of = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>(subset);</div>
-<div class="line">static_assert(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^is_subset_of^ make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 1, 3.3, <span class="stringliteral">&quot;xyz&quot;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> divmod = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">    <span class="comment">// this could be a more efficient implementation</span></div>
+<div class="line">    <span class="keywordflow">return</span> make_pair(x / y, x % y);</div>
+<div class="line">});</div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> contains = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>(elem);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) ^contains^ 3.3);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((42 ^divmod^ 23) == make_pair(1, 19));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -718,7 +721,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus)(to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
+</div><!-- fragment --> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>. </dd></dl>
 
 </div>
 </div>
@@ -868,9 +871,9 @@ template&lt;std::size_t n&gt; </div>
 <div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:34</div></div>
 </div><!-- fragment -->
 <p>Partially apply a function to some arguments. </p>
-<p>Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>
-</div><!-- fragment --><p>Given the semantics, the arity of <code>f</code> must match the number of arguments passed in total, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</p>
-<h3>Example</h3>
+<p>Given a function <code>f</code> and some arguments, <code>partial</code> returns a new function corresponding to the partially applied function <code>f</code>. This allows providing some arguments to a function and letting the rest of the arguments be provided later. Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
+<h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(plus, 1);</div>
 <div class="line">static_assert(increment(2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
@@ -916,6 +919,34 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Extra arguments are ignored.</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(double_(1, <span class="stringliteral">&quot;ignored&quot;</span>) == 2);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ga6e648f0d3fc0209ec024e9d759a5e8f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto boost::hana::reverse_partial</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="reverse__partial_8hpp.html">boost/hana/functional/reverse_partial.hpp</a>&gt;</code></p>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; ...x) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">            <span class="keywordflow">return</span> forwarded(f)(forwarded(y)..., forwarded(x)...);</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+<div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:34</div></div>
+</div><!-- fragment -->
+<p>Partially apply a function to some arguments. </p>
+<p>Given a function <code>f</code> and some arguments, <code>reverse_partial</code> returns a new function corresponding to <code>f</code> whose last arguments are partially applied. Specifically, <code>reverse_partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">reverse_partial</a>(f, x...)(y...) == f(y..., x...)</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">reverse_partial</a>(quot, 2);</div>
+<div class="line">static_assert(half(4) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(half(8) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

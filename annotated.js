@@ -22,9 +22,6 @@ var annotated =
           ] ]
         ] ],
         [ "operators", "namespaceboost_1_1hana_1_1operators.html", "namespaceboost_1_1hana_1_1operators" ],
-        [ "sequence_detail", null, [
-          [ "partition_helper", "structboost_1_1hana_1_1sequence__detail_1_1partition__helper.html", null ]
-        ] ],
         [ "Applicative", "structboost_1_1hana_1_1Applicative.html", "structboost_1_1hana_1_1Applicative" ],
         [ "common", "structboost_1_1hana_1_1common.html", null ],
         [ "Comonad", "structboost_1_1hana_1_1Comonad.html", "structboost_1_1hana_1_1Comonad" ],

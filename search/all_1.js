@@ -17,8 +17,8 @@ var searchData=
   ['ap',['ap',['../structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a',1,'boost::hana::Applicative']]],
   ['append',['append',['../structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4',1,'boost::hana::MonadPlus']]],
   ['applicative',['Applicative',['../structboost_1_1hana_1_1Applicative.html',1,'boost::hana']]],
-  ['applicative_2ehpp',['applicative.hpp',['../fwd_2applicative_8hpp.html',1,'']]],
   ['applicative_2ehpp',['applicative.hpp',['../applicative_8hpp.html',1,'']]],
+  ['applicative_2ehpp',['applicative.hpp',['../fwd_2applicative_8hpp.html',1,'']]],
   ['apply',['apply',['../group__group-functional.html#ga30027c383676084be151ef3c6cf2829f',1,'boost::hana']]],
   ['apply_2ehpp',['apply.hpp',['../apply_8hpp.html',1,'']]],
   ['arg',['arg',['../group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d',1,'boost::hana']]],
@@ -30,5 +30,6 @@ var searchData=
   ['at',['at',['../structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721',1,'boost::hana::Iterable']]],
   ['at_2ehpp',['at.hpp',['../at_8hpp.html',1,'']]],
   ['at_5fc',['at_c',['../structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202',1,'boost::hana::Iterable']]],
+  ['at_5fkey',['at_key',['../structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34',1,'boost::hana::Searchable']]],
   ['assertions',['Assertions',['../group__group-assertions.html',1,'']]]
 ];

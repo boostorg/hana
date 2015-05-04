@@ -577,7 +577,6 @@ template&lt;typename M &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>The presence of implicit side effects in this function might be a smell that it should be moved to a different concept and handled through <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line">std::stringstream ss;</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;234&quot;</span>, 5.5), [&amp;](<span class="keyword">auto</span> x) {</div>
@@ -585,11 +584,7 @@ template&lt;typename M &gt; </div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ss.str() == <span class="stringliteral">&quot;0 1 234 5.5 &quot;</span>);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/for_each.ctime.png" alt="for_each.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a5fb377e43aa7753bb77aa346c67fae0d"></a>

@@ -4,7 +4,6 @@ var searchData=
   ['either',['either',['../structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36',1,'boost::hana::Either']]],
   ['either_2ehpp',['either.hpp',['../either_8hpp.html',1,'']]],
   ['either_2ehpp',['either.hpp',['../fwd_2either_8hpp.html',1,'']]],
-  ['elem',['elem',['../structboost_1_1hana_1_1Searchable.html#a04e413e4acd1dac89e442df2f30f3e2d',1,'boost::hana::Searchable']]],
   ['embedding',['embedding',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
   ['embedding_3c_20_5fmodels_3c_20sequence_2c_20f_20_3e_7b_7d_28_29_3e',['embedding&lt; _models&lt; Sequence, F &gt;{}()&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
   ['embedding_3c_20is_5fembedded_3c_20c_3a_3avalue_5ftype_2c_20t_20_3e_7b_7d_3e',['embedding&lt; is_embedded&lt; C::value_type, T &gt;{}&gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],

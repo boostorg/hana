@@ -154,9 +154,9 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(m, type&lt;void&gt;) == nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(m, int_&lt;3&gt;) == nothing);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// operator[] is equivalent to find</span></div>
-<div class="line">static_assert(m[type&lt;int&gt;] == just(<span class="charliteral">&#39;i&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(m[type&lt;void&gt;] == nothing);</div>
+<div class="line"><span class="comment">// operator[] is equivalent to at_key</span></div>
+<div class="line">static_assert(m[type&lt;int&gt;] == <span class="charliteral">&#39;i&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(m[type&lt;float&gt;] == <span class="charliteral">&#39;f&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a map is equivalent to folding a list of the key/value pairs it contains. In particular, since that list is not guaranteed to be in any specific order, folding a map with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>

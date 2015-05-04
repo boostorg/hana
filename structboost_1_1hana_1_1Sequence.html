@@ -632,7 +632,7 @@ Synopsis of methods</h2></td></tr>
 <p>Specifically, <code>permutations(xs)</code> is a sequence whose elements are permutations of the original sequence <code>xs</code>. The permutations are not guaranteed to be in any specific order. Also note that the number of permutations grows very rapidly as the length of the original sequence increases. The growth rate is <code>O(length(xs)!)</code>; with a sequence <code>xs</code> of length only 8, <code>permutations(xs)</code> contains over 40 000 elements!</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> is_permutation_of = curry&lt;2&gt;([](<span class="keyword">auto</span> xs, <span class="keyword">auto</span> perm) {</div>
-<div class="line">    <span class="keywordflow">return</span> elem(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs), perm);</div>
+<div class="line">    <span class="keywordflow">return</span> contains(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(xs), perm);</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>

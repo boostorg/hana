@@ -17,5 +17,6 @@ var group__group_functional =
     [ "overload", "group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139", null ],
     [ "overload_linearly", "group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec", null ],
     [ "partial", "group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf", null ],
-    [ "_", "group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23", null ]
+    [ "_", "group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23", null ],
+    [ "reverse_partial", "group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8", null ]
 ];

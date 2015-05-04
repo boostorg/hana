@@ -17,5 +17,6 @@ var dir_481811edad3b6f31288f3abf2108f93e =
     [ "overload.hpp", "overload_8hpp.html", "overload_8hpp" ],
     [ "overload_linearly.hpp", "overload__linearly_8hpp.html", "overload__linearly_8hpp" ],
     [ "partial.hpp", "partial_8hpp.html", "partial_8hpp" ],
-    [ "placeholder.hpp", "placeholder_8hpp.html", "placeholder_8hpp" ]
+    [ "placeholder.hpp", "placeholder_8hpp.html", "placeholder_8hpp" ],
+    [ "reverse_partial.hpp", "reverse__partial_8hpp.html", "reverse__partial_8hpp" ]
 ];

@@ -35,7 +35,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "range.hpp", "range_8hpp.html", null ],
     [ "ring.hpp", "ring_8hpp.html", null ],
     [ "searchable.hpp", "searchable_8hpp.html", null ],
-    [ "sequence.hpp", "sequence_8hpp.html", "sequence_8hpp" ],
+    [ "sequence.hpp", "sequence_8hpp.html", null ],
     [ "set.hpp", "set_8hpp.html", null ],
     [ "string.hpp", "string_8hpp.html", null ],
     [ "struct.hpp", "struct_8hpp.html", null ],

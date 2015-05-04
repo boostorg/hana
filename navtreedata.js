@@ -54,7 +54,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-header_organization",
+"index.html#tutorial-hetero",
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db"
 ];
 

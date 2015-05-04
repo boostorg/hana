@@ -18,10 +18,10 @@ var searchData=
   ['reverse',['reverse',['../structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0',1,'boost::hana::Sequence']]],
   ['reverse_5fapply_2ehpp',['reverse_apply.hpp',['../reverse__apply_8hpp.html',1,'']]],
   ['reverse_5ffold',['reverse_fold',['../structboost_1_1hana_1_1Foldable.html#a9240a51cd23ef65186e32d643e82f52e',1,'boost::hana::Foldable']]],
-  ['reverse_5fpartial',['reverse_partial',['../group__group-details.html#ga5d30ed36591b4062f54ab0c87ad8d7f0',1,'boost::hana::detail']]],
+  ['reverse_5fpartial',['reverse_partial',['../group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8',1,'boost::hana']]],
   ['reverse_5fpartial_2ehpp',['reverse_partial.hpp',['../reverse__partial_8hpp.html',1,'']]],
   ['right',['right',['../structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb',1,'boost::hana::Either']]],
   ['ring',['Ring',['../structboost_1_1hana_1_1Ring.html',1,'boost::hana']]],
-  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]],
-  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]]
+  ['ring_2ehpp',['ring.hpp',['../ring_8hpp.html',1,'']]],
+  ['ring_2ehpp',['ring.hpp',['../fwd_2ring_8hpp.html',1,'']]]
 ];
