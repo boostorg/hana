@@ -16,13 +16,13 @@
   },
   "series": [
     {
-      "name": "Homogeneous hana::tuple",
+      "name": "hana::tuple",
       "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
-      "name": "Homogeneous fusion::vector",
+      "name": "fusion::vector",
       "data": <%= measure(:bloat, 'execute.fusion.vector.erb.cpp', exec) %>
     }
     <% end %>

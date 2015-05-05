@@ -61,6 +61,17 @@ def fusion_vector(values)
   }
 end
 
+# values : A sequence of strings representing values to put in the fusion::list.
+# Using this method requires including
+#   - <boost/fusion/include/make_list.hpp>
+#   - <boost/fusion/include/push_back.hpp>
+def fusion_list(values)
+  fast, rest = split_at(10, values)
+  rest.inject("boost::fusion::make_list(#{fast.join(', ')})") { |xs, v|
+    "boost::fusion::push_back(#{xs}, #{v})"
+  }
+end
+
 # Turns a CMake-style boolean into a Ruby boolean.
 def cmake_bool(b)
   return true if b.is_a? String and ["true", "yes", "1"].include?(b.downcase)

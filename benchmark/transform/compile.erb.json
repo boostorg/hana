@@ -3,6 +3,7 @@
   fusion = (0..50).step(5)
   mpl = hana
   meta = hana
+  mpl11 = hana
 %>
 
 {
@@ -11,14 +12,11 @@
   },
   "series": [
     {
-      "name": "Heterogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
-    }, {
-      "name": "Homogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
+      "name": "hana::tuple",
+      "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
     }, {
       "name": "hana::tuple_t with hana::Metafunction",
-      "data": <%= time_compilation('compile.hana.tuple_t.metafunction.erb.cpp', hana) %>
+      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', hana) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
@@ -26,11 +24,8 @@
       "name": "mpl::vector",
       "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
     }, {
-      "name": "Homogeneous fusion::vector",
-      "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
-    }, {
-      "name": "Heterogeneous fusion::vector",
-      "data": <%= time_compilation('compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
+      "name": "fusion::vector",
+      "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
     }
     <% end %>
 
@@ -38,6 +33,13 @@
     , {
       "name": "meta::list",
       "data": <%= time_compilation('compile.meta.list.erb.cpp', meta) %>
+    }
+    <% end %>
+
+    <% if cmake_bool("@MPL11_FOUND@") %>
+    , {
+      "name": "mpl11::list",
+      "data": <%= time_compilation('compile.mpl11.list.erb.cpp', mpl11) %>
     }
     <% end %>
   ]

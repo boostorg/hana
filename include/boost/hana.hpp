@@ -833,24 +833,20 @@ example, which would likely be less efficient.
      data-dataset="benchmark.transform.compile.json">
 </div>
 
-You probably also noticed how there are multiple slightly different curves for
-Fusion and Hana's `Tuple`. Those curves measure slightly different usage
-patterns for the `transform` algorithm. First, we benchmark `transform` when
-applied to sequences that contain both homogeneous and heterogeneous elements.
-The reason is that sequences holding heterogeneous elements tend to be less
-compile-time efficient, because the compiler has to instantiate more different
-types. Second, we benchmark the algorithm both on a standard Hana `Tuple` and
-on a `Tuple` created through `hana::tuple_t`, and mapping a Hana `Metafunction`
-instead of a regular function. The reason is that it is possible to optimize
-some algorithms (like `transform`) when we know we're actually mapping a
-metafunction on a type sequence. Basically, we can do the whole algorithm at
-the type level behind the scenes, which is more efficient, but you still get
-the nice value-level interface.
+You probably also noticed how there are two slightly different curves for
+Hana's `Tuple`. Those curves measure slightly different usage patterns of
+the `transform` algorithm. We benchmark the algorithm both on a standard Hana
+`Tuple` and on a `Tuple` created through `hana::tuple_t`, and mapping a Hana
+`Metafunction` instead of a regular function. The reason is that it is
+possible to optimize some algorithms (like `transform`) when we know we're
+actually mapping a metafunction on a type sequence. Basically, we can do the
+whole algorithm at the type level behind the scenes, which is more efficient,
+but you still get the nice value-level interface.
 
 @note
 The representation of `tuple_t` is not really optimized right now, so there is
 no difference between using it and not using it. You should still use `tuple_t`
-to create type-only `Tuple`s, as some nice optimizations can be implemented.
+to create type-only `Tuple`s, as some nice optimizations will be implemented.
 
 The second important class of algorithms are folds. Folds can be used to
 implement many other algorithms like `count_if`, `minimum` and so on.

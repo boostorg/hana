@@ -12,13 +12,13 @@
   },
   "series": [
     {
-      "name": "Heterogeneous hana::tuple",
+      "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
-      "name": "Heterogeneous fusion::vector",
+      "name": "fusion::vector",
       "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
     }, {
       "name": "mpl::vector",
