@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
@@ -812,6 +813,61 @@ namespace boost { namespace hana {
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_APPEND)
         #undef BOOST_HANA_PP_APPEND
+    };
+
+    template <>
+    struct filter_impl<Tuple> {
+        using Size = detail::std::size_t;
+
+        template <bool ...b>
+        struct KeepIndices {
+            template <typename Array>
+            constexpr auto operator()(Array indices) const {
+                constexpr bool keep[sizeof...(b)+1] = {b...};
+                //                              ^ avoid empty array
+                Size i = 0;
+                for (Size index = 0; index != sizeof...(b); ++index)
+                    if (keep[index])
+                        indices[i++] = index;
+                return indices;
+            }
+        };
+
+        template <typename Xs, Size ...i>
+        static constexpr auto
+        filter_helper(Xs&& xs, detail::std::index_sequence<i...>) {
+            return hana::make_tuple(detail::get<i>(static_cast<Xs&&>(xs))...);
+        }
+
+        #define BOOST_HANA_PP_FILTER(REF)                                   \
+            template <typename ...Xs, typename Pred>                        \
+            static constexpr decltype(auto)                                 \
+            apply(detail::closure_impl<Xs...> REF xs, Pred&& pred)          \
+            {                                                               \
+                constexpr bool keep[1+sizeof...(Xs)] = {                    \
+                    /*              ^ avoid empty array */                  \
+                    hana::if_(hana::value<decltype(                         \
+                        pred(static_cast<Xs REF>(xs).get)                   \
+                    )>(), true, false)...                                   \
+                };                                                          \
+                constexpr Size new_size = detail::constexpr_::count(        \
+                                    keep, keep+sizeof(keep)-1, true);       \
+                                                                            \
+                return filter_impl::filter_helper(                          \
+                    static_cast<detail::closure_impl<Xs...> REF>(xs),       \
+                    detail::generate_index_sequence<                        \
+                        new_size,                                           \
+                        KeepIndices<                                        \
+                            hana::if_(hana::value<decltype(                 \
+                                pred(static_cast<Xs REF>(xs).get)           \
+                            )>(), true, false)...                           \
+                        >                                                   \
+                    >{}                                                     \
+                );                                                          \
+            }                                                               \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FILTER)
+        #undef BOOST_HANA_PP_FILTER
     };
 
     //////////////////////////////////////////////////////////////////////////

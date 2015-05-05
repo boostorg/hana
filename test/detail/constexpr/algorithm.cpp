@@ -44,6 +44,8 @@ constexpr int constexpr_context() {
 
     cx::iota(first, last, 0);
 
+    cx::count(first, last, 2);
+
     return 0;
 }
 

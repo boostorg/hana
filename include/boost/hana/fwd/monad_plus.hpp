@@ -341,7 +341,10 @@ namespace boost { namespace hana {
     //!
     //! Benchmarks
     //! ----------
-    //! @image html benchmark/monad_plus/filter.ctime.png
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.filter.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto filter = [](auto&& xs, auto&& pred) -> decltype(auto) {
         return tag-dispatched;

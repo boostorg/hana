@@ -91,7 +91,9 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonadPlus<S, when<_models<Sequence, S>{}>> : TestMonadPlus<S, laws> {
+    struct TestMonadPlus<S, when<_models<Sequence, S>{}>>
+        : TestMonadPlus<S, laws>
+    {
         template <int i>
         using eq = test::ct_eq<i>;
 
@@ -229,6 +231,11 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 filter(list(z, z, eq<3>{}), not_equal.to(z)),
                 list(eq<3>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                filter(list(eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, z), not_equal.to(z)),
+                list(eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
             ));
 
             //////////////////////////////////////////////////////////////////
