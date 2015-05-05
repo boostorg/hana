@@ -208,10 +208,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp adjust_if
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/functor/adjust_if.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto adjust_if = [](auto&& xs, auto&& predicate, auto&& f) -> decltype(auto) {
         return tag-dispatched;
@@ -267,10 +263,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp adjust
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/functor/adjust.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto adjust = [](auto&& xs, auto&& value, auto&& f) -> decltype(auto) {
         return tag-dispatched;
@@ -325,10 +317,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp replace_if
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/functor/replace_if.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto replace_if = [](auto&& xs, auto&& predicate, auto&& value) -> decltype(auto) {
         return tag-dispatched;
@@ -432,10 +420,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/functor.cpp fill
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/functor/fill.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto fill = [](auto&& xs, auto&& value) -> decltype(auto) {
         return tag-dispatched;

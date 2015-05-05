@@ -414,11 +414,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/iterable.cpp last
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/iterable/last.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto last = [](auto&& iterable) -> decltype(auto) {
         return tag-dispatched;
@@ -580,11 +575,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/iterable.cpp drop_while
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/iterable/drop_while.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_while = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -640,11 +630,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/iterable.cpp drop_until
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/iterable/drop_until.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_until = [](auto&& iterable, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;

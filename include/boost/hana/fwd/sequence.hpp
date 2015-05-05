@@ -471,10 +471,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp permutations
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/permutations.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto permutations = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
@@ -519,11 +515,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp remove_at
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/remove_at.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto remove_at = [](auto&& n, auto&& xs) -> decltype(auto) {
         return tag-dispatched;
@@ -1179,11 +1170,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp take
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/take.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto take = see documentation;
 #else
@@ -1270,10 +1256,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp take_until
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/take_until.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto take_until = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -1320,11 +1302,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp take_while
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/take_while.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto take_while = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -1603,11 +1580,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/sequence.cpp zip
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/sequence/zip_with.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto zip = see documentation;
 #else

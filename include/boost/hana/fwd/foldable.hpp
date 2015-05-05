@@ -700,10 +700,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/foldable.cpp length
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/length.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto length = [](auto&& foldable) -> decltype(auto) {
         return tag-dispatched;
@@ -1028,11 +1024,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/foldable.cpp sum
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/sum.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sum = see documentation;
 #else
@@ -1265,11 +1256,6 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/foldable.cpp unpack
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! @image html benchmark/foldable/unpack.ctime.png
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;

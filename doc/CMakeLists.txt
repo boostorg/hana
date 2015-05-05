@@ -13,7 +13,7 @@ endif()
 
 configure_file(Doxyfile.in Doxyfile @ONLY)
 add_custom_target(doc
-    COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep "warning" | grep -v -e "recursive" -e "image file"
+    COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep "warning" | grep -v -e "recursive"
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM
 )
