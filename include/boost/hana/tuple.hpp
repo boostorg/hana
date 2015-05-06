@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -121,6 +120,27 @@ namespace boost { namespace hana {
 
         template <bool, typename T>
         using expand = T;
+
+        template <typename GenIndices, detail::std::size_t ...i>
+        constexpr auto
+        generate_index_sequence_impl(GenIndices gen,
+                                     detail::std::index_sequence<i...>)
+        {
+            constexpr auto indices = hana::eval(gen);
+            return detail::std::index_sequence<indices[i]...>{};
+        }
+
+        template <typename GenIndices>
+        constexpr auto generate_index_sequence(GenIndices gen) {
+            constexpr auto indices = hana::eval(gen);
+            return generate_index_sequence_impl(gen,
+                detail::std::make_index_sequence<indices.size()>{});
+        }
+
+        template <typename Xs, detail::std::size_t ...i>
+        constexpr auto get_subsequence(Xs&& xs, detail::std::index_sequence<i...>) {
+            return hana::make_tuple(detail::get<i>(static_cast<Xs&&>(xs))...);
+        }
     }
 
     #define BOOST_HANA_PP_FOR_EACH_REF1(MACRO)                          \
@@ -817,57 +837,40 @@ namespace boost { namespace hana {
 
     template <>
     struct filter_impl<Tuple> {
-        using Size = detail::std::size_t;
+        struct filter_helper {
+            template <typename ...Xs, typename Pred>
+            static constexpr auto apply(detail::closure_impl<Xs...> const&, Pred&&) {
+                using tuple_detail::generate_index_sequence;
+                return generate_index_sequence(hana::lazy(filter_helper{})
+                            (tuple_t<typename Xs::get_type...>, type<Pred&&>));
+            }
 
-        template <bool ...b>
-        struct KeepIndices {
-            template <typename Array>
-            constexpr auto operator()(Array indices) const {
-                constexpr bool keep[sizeof...(b)+1] = {b...};
-                //                              ^ avoid empty array
-                Size i = 0;
-                for (Size index = 0; index != sizeof...(b); ++index)
-                    if (keep[index])
-                        indices[i++] = index;
-                return indices;
+            template <typename ...Xs, typename Pred>
+            constexpr auto operator()(_tuple_t<Xs...>, _type<Pred>) const {
+                using detail::constexpr_::count;
+                using detail::constexpr_::array;
+                using detail::std::size_t;
+                using detail::std::declval;
+
+                constexpr size_t N = sizeof...(Xs);
+                constexpr array<bool, N> results =
+                    {{decltype(declval<Pred>()(declval<Xs>()))::value...}};
+                constexpr size_t keptN = count(&results[0], &results[N], true);
+                array<size_t, keptN> kept_indices{};
+                size_t* keep = &kept_indices[0];
+                for (size_t index = 0; index < N; ++index)
+                    if (results[index])
+                        *keep++ = index;
+                return kept_indices;
             }
         };
 
-        template <typename Xs, Size ...i>
-        static constexpr auto
-        filter_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::make_tuple(detail::get<i>(static_cast<Xs&&>(xs))...);
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            using tuple_detail::get_subsequence;
+            auto indices = filter_helper::apply(xs, pred);
+            return get_subsequence(static_cast<Xs&&>(xs), indices);
         }
-
-        #define BOOST_HANA_PP_FILTER(REF)                                   \
-            template <typename ...Xs, typename Pred>                        \
-            static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, Pred&& pred)          \
-            {                                                               \
-                constexpr bool keep[1+sizeof...(Xs)] = {                    \
-                    /*              ^ avoid empty array */                  \
-                    hana::if_(hana::value<decltype(                         \
-                        pred(static_cast<Xs REF>(xs).get)                   \
-                    )>(), true, false)...                                   \
-                };                                                          \
-                constexpr Size new_size = detail::constexpr_::count(        \
-                                    keep, keep+sizeof(keep)-1, true);       \
-                                                                            \
-                return filter_impl::filter_helper(                          \
-                    static_cast<detail::closure_impl<Xs...> REF>(xs),       \
-                    detail::generate_index_sequence<                        \
-                        new_size,                                           \
-                        KeepIndices<                                        \
-                            hana::if_(hana::value<decltype(                 \
-                                pred(static_cast<Xs REF>(xs).get)           \
-                            )>(), true, false)...                           \
-                        >                                                   \
-                    >{}                                                     \
-                );                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FILTER)
-        #undef BOOST_HANA_PP_FILTER
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -1006,85 +1009,47 @@ namespace boost { namespace hana {
 
     template <>
     struct partition_impl<Tuple> {
-        using Size = detail::std::size_t;
+        template <int which>
+        struct partition_helper {
+            template <typename ...Xs, typename Pred>
+            static constexpr auto apply(detail::closure_impl<Xs...> const&, Pred&&) {
+                using tuple_detail::generate_index_sequence;
+                return generate_index_sequence(hana::lazy(partition_helper{})(
+                            tuple_t<typename Xs::get_type...>, type<Pred&&>));
+            }
 
-        template <bool ...b>
-        struct LeftIndices {
-            template <typename Left>
-            constexpr auto operator()(Left left) const {
-                constexpr bool at_left[sizeof...(b)+1] = {b...};
-                //                              ^ avoid empty array
-                Size i = 0;
-                for (Size index = 0; index != sizeof...(b); ++index)
-                    if (at_left[index])
-                        left[i++] = index;
-                return left;
+            template <typename ...Xs, typename Pred>
+            constexpr auto operator()(_tuple_t<Xs...>, _type<Pred>) const {
+                using detail::constexpr_::count;
+                using detail::constexpr_::array;
+                using detail::std::size_t;
+                using detail::std::declval;
+
+                constexpr size_t N = sizeof...(Xs);
+                constexpr array<bool, N> results =
+                    {{decltype(declval<Pred>()(declval<Xs>()))::value...}};
+                constexpr size_t leftN = count(&results[0], &results[N], true);
+                array<size_t, leftN> left_indices{};
+                array<size_t, N - leftN> right_indices{};
+                size_t* left = &left_indices[0];
+                size_t* right = &right_indices[0];
+                for (size_t index = 0; index < N; ++index)
+                    *(results[index] ? left : right)++ = index;
+                return detail::get<which>(hana::make_tuple(left_indices,
+                                                           right_indices));
             }
         };
 
-        template <bool ...b>
-        struct RightIndices {
-            template <typename Right>
-            constexpr auto operator()(Right right) const {
-                constexpr bool at_left[sizeof...(b)+1] = {b...};
-                //                              ^ avoid empty array
-                Size i = 0;
-                for (Size index = 0; index != sizeof...(b); ++index)
-                    if (!at_left[index])
-                        right[i++] = index;
-                return right;
-            }
-        };
-
-        template <typename Xs, Size ...left, Size ...right>
-        static constexpr auto
-        partition_helper(Xs&& xs, detail::std::index_sequence<left...>,
-                                  detail::std::index_sequence<right...>)
-        {
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            using tuple_detail::get_subsequence;
+            auto left = partition_helper<0>::apply(xs, pred);
+            auto right = partition_helper<1>::apply(xs, pred);
             return hana::make_pair(
-                hana::make_tuple(detail::get<left>(static_cast<Xs&&>(xs))...),
-                hana::make_tuple(detail::get<right>(static_cast<Xs&&>(xs))...)
+                get_subsequence(static_cast<Xs&&>(xs), left),
+                get_subsequence(static_cast<Xs&&>(xs), right)
             );
         }
-
-        #define BOOST_HANA_PP_PARTITION(REF)                                \
-            template <typename ...Xs, typename Pred>                        \
-            static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs, Pred&& pred)          \
-            {                                                               \
-                constexpr bool pred_results[1+sizeof...(Xs)] = {            \
-                    /*                      ^ avoid empty array */          \
-                    hana::if_(hana::value<decltype(                         \
-                        pred(static_cast<Xs REF>(xs).get)                   \
-                    )>(), true, false)...                                   \
-                };                                                          \
-                constexpr Size left_size = detail::constexpr_::count(       \
-                  pred_results, pred_results+sizeof(pred_results)-1, true); \
-                constexpr Size right_size = sizeof...(Xs) - left_size;      \
-                                                                            \
-                return partition_impl::partition_helper(                    \
-                    static_cast<detail::closure_impl<Xs...> REF>(xs),       \
-                    detail::generate_index_sequence<                        \
-                        left_size,                                          \
-                        LeftIndices<                                        \
-                            hana::if_(hana::value<decltype(                 \
-                                pred(static_cast<Xs REF>(xs).get)           \
-                            )>(), true, false)...                           \
-                        >                                                   \
-                    >{},                                                    \
-                    detail::generate_index_sequence<                        \
-                        right_size,                                         \
-                        RightIndices<                                       \
-                            hana::if_(hana::value<decltype(                 \
-                                pred(static_cast<Xs REF>(xs).get)           \
-                            )>(), true, false)...                           \
-                        >                                                   \
-                    >{}                                                     \
-                );                                                          \
-            }                                                               \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_PARTITION)
-        #undef BOOST_HANA_PP_PARTITION
     };
 
     template <>
