@@ -4,6 +4,15 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
+#if BOOST_HANA_TEST_PART == 1
+#   define BOOST_HANA_TEST_SEQUENCE_PART 1
+#elif BOOST_HANA_TEST_PART == 2
+#   define BOOST_HANA_TEST_SEQUENCE_PART 2
+#elif BOOST_HANA_TEST_PART == 3
+#   define BOOST_HANA_TEST_SEQUENCE_PART 3
+#endif
+
 #include <boost/hana/ext/boost/fusion/deque.hpp>
 
 #include <laws/sequence.hpp>
@@ -14,8 +23,5 @@ using namespace boost::hana;
 
 
 int main() {
-    //////////////////////////////////////////////////////////////////////////
-    // Sequence
-    //////////////////////////////////////////////////////////////////////////
     test::TestSequence<ext::boost::fusion::Deque>{};
 }
