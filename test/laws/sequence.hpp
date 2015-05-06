@@ -606,7 +606,8 @@ namespace boost { namespace hana { namespace test {
             ));
             }
 
-#elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 2
+#endif
+#if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 2
             //////////////////////////////////////////////////////////////////
             // subsequence
             //////////////////////////////////////////////////////////////////
@@ -866,7 +867,7 @@ namespace boost { namespace hana { namespace test {
                 auto pred = in ^ list(eq<-1>{}, eq<-2>{}, eq<-3>{}, eq<-4>{}, eq<-5>{});
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    partition(list(), pred),
+                    partition(list(), undefined{}),
                     prod(list(), list())
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
@@ -1060,7 +1061,8 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
-#elif !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
+#endif
+#if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
 
             //////////////////////////////////////////////////////////////////
             // unfold.left
