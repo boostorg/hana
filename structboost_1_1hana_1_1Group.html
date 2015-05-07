@@ -142,14 +142,12 @@ When <code>minus</code> is specified, the <code>negate</code> method is defaulte
 When <code>negate</code> is specified, the <code>minus</code> method is defaulted by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(x, y) = plus(x, <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(y))</div>
 </div><!-- fragment --></li>
 </ol>
-<h2>Provided models </h2>
-<ol type="1">
-<li>For non-boolean arithmetic data types<br />
-A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> is automatically defined by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(x, y) = (x - y)</div>
+<h2>Free model for non-boolean arithmetic data types </h2>
+<p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(x, y) = (x - y)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x) = -x</div>
-</div><!-- fragment --></li>
-</ol>
-<dl class="section note"><dt>Note</dt><dd>The rationale for not providing a <a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> model for <code>bool</code> is the same as for not providing a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> model.</dd></dl>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The rationale for not providing a <a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> model for <code>bool</code> is the same as for not providing a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> model.</dd></dl>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Operators </h2>
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">binary -  -&gt;  <a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a></div>
 <div class="line">unary -   -&gt;  <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a></div>

@@ -132,13 +132,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x)) == x</div>
 </div><!-- fragment --><h2>Minimal complete definition </h2>
 <p><code>succ</code> and <code>pred</code> satisfying the above laws</p>
-<h2>Provided models </h2>
-<ol type="1">
-<li>For non-boolean arithmetic data types<br />
-A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> is automatically defined by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x) = ++x</div>
+<h2>Free model for non-boolean arithmetic data types </h2>
+<p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x) = ++x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(x) = --x</div>
-</div><!-- fragment --> </li>
-</ol>
+</div><!-- fragment --><h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>

@@ -143,8 +143,10 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Foldable.html',
 <p><b>In the current version of the library, only compile-time <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s are supported.</b> While it would be possible in theory to support runtime <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s too, doing so efficiently requires more research.</p>
 <h2>Minimal complete definition </h2>
 <p>(<code>fold.left</code> and <code>fold.right</code>) or <code>unpack</code></p>
-<h2>Provided model for builtin arrays </h2>
-<p>Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions. </p>
+<h2>Free model for builtin arrays </h2>
+<p>Builtin arrays whose size is known can be folded as-if they were homogeneous tuples. However, note that builtin arrays can't be made more than <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> (e.g. <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>) because they can't be empty and they also can't be returned from functions.</p>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Represents a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Compile-time half-open interval of Constants. ">Range</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
@@ -616,11 +618,7 @@ template&lt;typename M &gt; </div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(nothing) == size_t&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(just(<span class="charliteral">&#39;x&#39;</span>)) == size_t&lt;1&gt;);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/length.ctime.png" alt="length.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a95d3fe103aa2ab8634a824562dd8390c"></a>
@@ -823,11 +821,7 @@ template&lt;typename M &gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    sum&lt;unsigned long&gt;(make&lt;Tuple&gt;(1ul, 3ul)) == 4ul</div>
 <div class="line">);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/sum.ctime.png" alt="sum.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="aa37fd8d56461f749d49423c711e4c67a"></a>
@@ -1007,11 +1001,7 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line"></div>
 <div class="line">cheap_tie(a, b, c)(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(a == 1 &amp;&amp; b == <span class="charliteral">&#39;2&#39;</span> &amp;&amp; c == 3.3);</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/foldable/unpack.ctime.png" alt="unpack.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a0840e48f29a87467e23d801ca0ca122a"></a>

@@ -152,6 +152,8 @@ When <code>transform</code> is specified, <code>adjust_if</code> is defined anal
 When <code>adjust_if</code> is specified, <code>transform</code> is defined analogously to <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f) = <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="keyword">true</span>), f)</div>
 </div><!-- fragment --></li>
 </ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Represents a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code></p>
 <h2>Structure-preserving functions for Functors </h2>
 <p>A mapping between two functors which also preserves the functor laws is called a natural transformation (the term comes from category theory). A natural transformation is a function <code>f</code> from a functor <code>F</code> to a functor <code>G</code> such that for every other function <code>g</code> with an appropriate signature and for every object <code>xs</code> of generalized type <code>F(X)</code>, </p><div class="fragment"><div class="line">f(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, g)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(f(xs), g)</div>
 </div><!-- fragment --><p>There are several examples of such transformations, like <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> when applied to a <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a>. Indeed, for any function <code>g</code> and <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a> <code>m</code>, </p><div class="fragment"><div class="line">to&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(m, g)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(to&lt;Tuple&gt;(m), g)</div>
@@ -279,11 +281,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(3, 2, 1, 0, 1, 2, 3)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/functor/adjust_if.ctime.png" alt="adjust_if.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ac27a1807b60b8fa59e6c618cb8ca749f"></a>
@@ -328,11 +326,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(1, -4, 9, 2, 3, -4)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/functor/adjust.ctime.png" alt="adjust.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="ab57d42b572f43016f929b5729c2533f5"></a>
@@ -377,11 +371,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    ==</div>
 <div class="line">    make&lt;Tuple&gt;(0, 0, 0, 0, 1, 2, 3)</div>
 <div class="line">);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/functor/replace_if.ctime.png" alt="replace_if.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a72e73dcc09699c619bcfb006029a8967"></a>
@@ -463,11 +453,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(nothing, <span class="charliteral">&#39;x&#39;</span>) == nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(just(<span class="charliteral">&#39;y&#39;</span>), <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
-<div class="image">
-<img src="benchmark/functor/fill.ctime.png" alt="fill.ctime.png"/>
-</div>
- 
+</div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

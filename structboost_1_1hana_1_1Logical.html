@@ -175,18 +175,16 @@ The minimal complete definition for being a <a class="el" href="structboost_1_1h
 <div class="line">etc...</div>
 </div><!-- fragment --></li>
 </ol>
-<h2>Provided models </h2>
-<ol type="1">
-<li>For arithmetic data types<br />
-A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> is true. For an arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is provided automatically by using the result of the builtin implicit conversion to <code>bool</code> as a truth value. Specifically, the minimal complete definition for those data types is <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, then, else_) = cond ? then(<span class="keywordtype">id</span>) : else(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>)</div>
+<h2>Free model for arithmetic data types </h2>
+<p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> is true. For an arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is provided automatically by using the result of the builtin implicit conversion to <code>bool</code> as a truth value. Specifically, the minimal complete definition for those data types is </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, then, else_) = cond ? then(<span class="keywordtype">id</span>) : else(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(cond) = static_cast&lt;T&gt;(cond ? false : true)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#abd199c2e8d8947decc01a5e43b1f4489">while_</a>(pred, state, f) = equivalent <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a> a normal while loop</div>
-</div><!-- fragment --></li>
-</ol>
-<blockquote class="doxtable">
+</div><!-- fragment --><blockquote class="doxtable">
 <h4>Rationale for not providing a model for all contextually convertible to bool data types</h4>
 <p>The <code>not_</code> method can not be implemented in a meaningful way for all of those types. For example, one can not cast a pointer type <code>T*</code> to bool and then back again to <code>T*</code> in a meaningful way. With an arithmetic type <code>T</code>, however, it is possible to cast from <code>T</code> to bool and then to <code>T</code> again; the result will be <code>0</code> or <code>1</code> depending on the truth value. If you want to use a pointer type or something similar in a conditional, it is suggested to explicitly convert it to bool by using <code>to&lt;bool&gt;</code>. </p>
 </blockquote>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Operators </h2>
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&amp;&amp;  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a></div>
 <div class="line">||  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a></div>

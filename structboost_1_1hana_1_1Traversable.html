@@ -137,7 +137,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Traversable.htm
 \begin{align*} M(N(M(N(T)))) &amp;\to M(M(N(N(T)))) &amp; (\text{commute $M$ and $N$}) \\ &amp;\to M(M(N(T))) &amp; (\text{flatten $N$}) \\ &amp;\to M(N(T)) &amp; (\text{flatten $M$}) \end{align*}
 </p>
 <p>Hence, the composition of two monads <code>M</code> and <code>N</code> will be a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> whenever <code>M</code> is <a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a>. The ability to commute structures in this way is exactly what the <code>sequence</code> method provides.</p>
-<h2>Superclass </h2>
+<h2>Superclasses </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code></p>
 <h2>Minimal complete definition </h2>
 <ol type="1">
@@ -157,7 +157,9 @@ When <code>traverse</code> is defined, <code>sequence</code> can be obtained by 
 </div><!-- fragment --><p>Finally, for any <a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a> <code>xxs</code> of data type <code>T(A(B(X)))</code>, doing two traversals in sequence (commuting from <code>T(A(B(X)))</code> to <code>A(B(T(X)))</code>) must be collapsible into a single traversal: </p><div class="fragment"><div class="line"><span class="comment">// composition</span></div>
 <div class="line">sequence&lt;Compose&gt;(transform(xxs, make&lt;Compose&gt;))</div>
 <div class="line">    == make&lt;Compose&gt;(transform(sequence&lt;A&gt;(xxs), sequence&lt;B&gt;))</div>
-</div><!-- fragment --> </div><table class="memberdecls">
+</div><!-- fragment --><h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Represents a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> </p>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:ad2bcf2a65d198953b1690b02f9425419"><td class="memTemplParams" colspan="2">template&lt;typename A &gt; </td></tr>

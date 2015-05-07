@@ -139,17 +139,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Product.html','
 <p><b>Definitions of <code>first</code>, <code>second</code> and <code>make</code> satisfying the laws</b><br />
 <code>first</code> and <code>second</code> must obviously return the first and the second element of the pair, respectively. <code>make</code> must take two arguments <code>x</code> and <code>y</code> representing the first and the second element of the pair, and return a pair <code>p</code> such that <code>first(p) == x</code> and <code>second(p) == y</code>. </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(make&lt;Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
-</div><!-- fragment --><h2>Provided models </h2>
+</div><!-- fragment --><h2>Superclasses </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (free model)<br />
 Two products <code>x</code> and <code>y</code> are equal iff they are equal element-wise, by comparing the first element before the second element. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(make&lt;Pair&gt;(1, <span class="stringliteral">&quot;234&quot;</span>s) == make&lt;Pair&gt;(1ll, <span class="stringliteral">&quot;234&quot;</span>s));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(make&lt;Pair&gt;(<span class="charliteral">&#39;x&#39;</span>, 2) != make&lt;Pair&gt;(<span class="charliteral">&#39;y&#39;</span>, 2));</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> (free model)<br />
 Products are ordered using a lexicographical ordering as-if they were 2-element tuples.</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Folding a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> <code>p</code> is equivalent to folding a list containing <code>first(p)</code> and <code>second(p)</code>, in that order. </li>
+<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> (free model)<br />
+Folding a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> <code>p</code> is equivalent to folding a list containing <code>first(p)</code> and <code>second(p)</code>, in that order.</li>
 </ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>

@@ -143,6 +143,8 @@ Every <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comona
 </ol>
 <h2>Minimal complete definition </h2>
 <p><code>extract</code> and (<code>extend</code> or <code>duplicate</code>) satisfying the laws below.</p>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code></p>
 <h2>Laws </h2>
 <p>For all Comonads <code>w</code>, the following laws must be satisfied </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w)) == w</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w), <a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>) == w</div>
