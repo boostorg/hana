@@ -59,9 +59,8 @@ namespace boost { namespace hana {
     //! `one` and `mult` satisfying the above laws
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For non-boolean arithmetic data types\n
+    //! Free model for non-boolean arithmetic data types
+    //! ------------------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
     //! true. For a non-boolean arithmetic data type `T`, a model of `Ring` is
     //! automatically defined by using the provided `Group` model and setting
@@ -73,6 +72,11 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Ring model for `bool` is the same
     //! as for not providing Monoid and Group models.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Operators

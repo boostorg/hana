@@ -115,7 +115,7 @@ namespace boost { namespace hana {
     //!
     //! Superclasses
     //! ------------
-    //! 1. `Comparable` (model provided)\n
+    //! 1. `Comparable` (free model)\n
     //! `Struct`s are required to be `Comparable`. Specifically, two `Struct`s
     //! of the same data type `S` must be equal if and only if all of their
     //! members are equal. By default, a model of `Comparable` doing just that
@@ -124,7 +124,7 @@ namespace boost { namespace hana {
     //! the `hana::members` sequence.
     //! @snippet example/struct.cpp Comparable
     //!
-    //! 2. `Foldable` (model provided)\n
+    //! 2. `Foldable` (free model)\n
     //! A `Struct` can be folded by considering it as a list of pairs each
     //! containing the name of a member and the value associated to that
     //! member, in the same order as they appear in the `hana::members`
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     //! using the `to<...>` function!
     //! @snippet example/struct.cpp to<Map>
     //!
-    //! 3. `Searchable` (model provided)\n
+    //! 3. `Searchable` (free model)\n
     //! A `Struct` can be searched by considering it as a `Map` where the keys
     //! are the names of the members of the `Struct`, and the values are the
     //! members associated to those names. By default, a model of `Searchable`

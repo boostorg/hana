@@ -162,22 +162,30 @@ namespace boost { namespace hana {
     //! reasons as explained above, this common type is still provided.
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! In certain cases, a Constant can automatically be made a model of
-    //! other concepts. In particular, if a Constant `C` is holding an object
-    //! of type `T`, and if `T` models a concept `X`, then `C` may in most
-    //! cases model `X` by simply performing whatever operation is required
-    //! on its underlying value, and then wrapping the result back in a `C`.
-    //! Currently, automatic models are provided for Constants whose
-    //! underlying value (`C::value_type`) is a model of the following
-    //! concepts: Comparable, Orderable, Enumerable, Logical and Monoid
-    //! up to IntegralDomain. While it would be possible in theory to
-    //! provide models for concepts like Foldable too, in practice only
-    //! a couple of concepts are useful because it allows things like
-    //! `std::integral_constant` to model a bunch of other concepts by
-    //! just defining the Constant concept.
+    //! Superclasses
+    //! ------------
+    //! In certain cases, a `Constant` can automatically be made a model of
+    //! another concept. In particular, if a `Constant` `C` is holding an
+    //! object of type `T`, and if `T` models a concept `X`, then `C` may
+    //! in most cases model `X` by simply performing whatever operation is
+    //! required on its underlying value, and then wrapping the result back
+    //! in a `C`.
     //!
+    //! More specifically, if a `Constant` `C` has an underlying value
+    //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
+    //! `Enumerable`, `Logical`, or `Monoid` up to `IntegralDomain`, then
+    //! all of those concepts become superclasses of `Constant` for `C`.
+    //! In other words, when `C::value_type` models one of the listed
+    //! concepts, `C` itself must also model that concept. However, note
+    //! that free models are provided for those concepts, so no additional
+    //! work must be done.
+    //!
+    //! While it would be possible in theory to provide models for concepts
+    //! like `Foldable` too, only a couple of concepts are useful to have as
+    //! `Constant` in practice. Providing free models for the concepts listed
+    //! above is useful because it allows various types of integral constants
+    //! (`std::integral_constant`, `mpl::integral_c`, etc...) to easily have
+    //! models for them just by defining the `Constant` concept.
     //!
     //! @note
     //! An interesting observation is that `Constant` is actually the
@@ -187,6 +195,11 @@ namespace boost { namespace hana {
     //! this functor. This is why we can provide models of any concept that
     //! works on `constexpr` things for Constants, by simply passing them
     //! through that embedding.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType

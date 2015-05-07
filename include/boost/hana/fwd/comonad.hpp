@@ -74,6 +74,11 @@ namespace boost { namespace hana {
     //! `extract` and (`extend` or `duplicate`) satisfying the laws below.
     //!
     //!
+    //! Concrete models
+    //! ---------------
+    //! `Lazy`
+    //!
+    //!
     //! Laws
     //! ----
     //! For all Comonads `w`, the following laws must be satisfied

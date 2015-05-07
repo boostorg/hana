@@ -61,9 +61,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For `EqualityComparable` data types\n
+    //! Free model for `EqualityComparable` data types
+    //! ----------------------------------------------
     //! Two data types `T` and `U` that model the cross-type EqualityComparable
     //! concept presented in [N3351][2] automatically model the `Comparable`
     //! concept by setting
@@ -72,6 +71,12 @@ namespace boost { namespace hana {
     //! @endcode
     //! Note that this also makes EqualityComparable types in the
     //! [usual sense][3] models of `Comparable` in the same way.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `IntegralConstant`, `Map`, `Maybe`, `Pair`, `Range`,
+    //! `Set`, `String`, `Tuple`, `Type`
     //!
     //!
     //! Operators

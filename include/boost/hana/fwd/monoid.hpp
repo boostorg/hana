@@ -57,9 +57,8 @@ namespace boost { namespace hana {
     //! `plus` and `zero` satisfying the above laws
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For non-boolean arithmetic data types\n
+    //! Free model for non-boolean arithmetic data types
+    //! ------------------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
     //! true. For a non-boolean arithmetic data type `T`, a model of `Monoid`
     //! is automatically defined by setting
@@ -68,13 +67,18 @@ namespace boost { namespace hana {
     //!     zero<T>() = static_cast<T>(0)
     //! @endcode
     //!
-    //! > #### Rationale for not making `bool` a Monoid by default
-    //! > First, it makes no sense whatsoever to define an additive Monoid
+    //! > #### Rationale for not making `bool` a `Monoid` by default
+    //! > First, it makes no sense whatsoever to define an additive `Monoid`
     //! > over the `bool` type. Also, it could make sense to define a `Monoid`
     //! > with logical conjunction or disjunction. However, C++ allows `bool`s
     //! > to be added, and the method names of this concept really suggest
     //! > addition. In line with the principle of least surprise, no model
     //! > is provided by default.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Operators

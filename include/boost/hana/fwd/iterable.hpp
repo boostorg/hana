@@ -57,8 +57,8 @@ namespace boost { namespace hana {
     //! `Iterable`s, and is used for that throughout the documentation.
     //!
     //!
-    //! Compile-time Iterables
-    //! ----------------------
+    //! Compile-time `Iterable`s
+    //! ------------------------
     //! A _compile-time_ `Iterable` is an `Iterable` for which `is_empty`
     //! returns a compile-time `Logical`. These structures allow iteration
     //! to be done at compile-time, in the sense that the "loop" doing the
@@ -86,13 +86,76 @@ namespace boost { namespace hana {
     //! `head`, `tail` and `is_empty`
     //!
     //!
-    //! Superclass: `Searchable`
-    //! ------------------------
+    //! Superclasses
+    //! ------------
+    //! 1. `Searchable`\n
     //! Any `Iterable` gives rise to a model of `Searchable`, where the keys
     //! and the values are both the elements in the structure. Searching for
     //! a key is just doing a linear search through the elements of the
     //! structure.
     //! @snippet example/iterable.cpp Searchable
+    //!
+    //! 2. `Foldable` for finite `Iterable`s (free model)\n
+    //! Every finite `Iterable` gives rise to a model of  `Foldable`. Hence,
+    //! finite `Iterable`s must satisfy additional laws to make sure that
+    //! external iteration in `Iterable` and internal iteration in `Foldable`
+    //! are consistent. These laws are expressed in terms of the `Foldable`'s
+    //! [linearization](@ref Foldable-lin). For any finite `Iterable` `xs`
+    //! with linearization `[x1, ..., xn]`, the following must be satisfied:
+    //! @code
+    //!     at(i, xs) == xi
+    //!     is_empty(xs) <=> n == 0
+    //! @endcode
+    //! An equivalent way of writing this is
+    //! @code
+    //!     head(xs) == head(linearization(xs))
+    //!              == x1
+    //!
+    //!     linearization(tail(xs)) == tail(linearization(xs))
+    //!                             == [x2, ..., xn]
+    //!
+    //!     is_empty(xs)  <=>  is_empty(linearization(xs))
+    //!                   <=>  n == 0
+    //! @endcode
+    //! This says that linearizing an `Iterable` and then iterating through
+    //! it should be equivalent to just iterating through it.
+    //! @note
+    //! As explained above, `Iterable`s are also `Searchable`s and their
+    //! models have to be consistent. By the laws presented here, it also
+    //! means that the `Foldable` model for finite `Iterable`s has to be
+    //! consistent with the `Searchable` model.
+    //!
+    //! For convenience, a default minimal complete definition for `Foldable`
+    //! is provided for finite `Iterable`s via the `Iterable::fold_right_impl`
+    //! and `Iterable::fold_left_impl` methods. The provided model is simple
+    //! and intuitive; here is how it works:\n
+    //! Let `xs` be an `Iterable` and let `xi` denote the `i`-th element in
+    //! its linearization. In other words, `xs` can be linearized as
+    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in `xs`.
+    //! Then, right-folding `xs` with a binary operation `*` (in infix
+    //! notation for legibility) is equivalent to
+    //! @code
+    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
+    //! @endcode
+    //! Similarly, left-folding `xs` is equivalent to
+    //! @code
+    //!     (((x1 * x2) * x3) * ...) * xN
+    //! @endcode
+    //! In both cases, notice the side of the parentheses. Left-folding
+    //! applies `*` in a left-associative manner, whereas right-folding
+    //! applies it in a right-associative manner. For associative operations,
+    //! i.e. operations such that for all `a`, `b` and `c`,
+    //! @code
+    //!     (a * b) * c = a * (b * c)
+    //! @endcode
+    //! this makes no difference. Also note that folds with an initial state
+    //! are implemented in an analogous way, and they are provided as
+    //! `Iterable::fold_{left,right}_nostate_impl`.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Tuple`, `String`, `Range`
     //!
     //!
     //! Laws
@@ -122,72 +185,6 @@ namespace boost { namespace hana {
     //!     find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)
     //! @endcode
     //! or `nothing` if no such `xi` exists.
-    //!
-    //!
-    //! Provided model of `Foldable` for finite `Iterable`s
-    //! ---------------------------------------------------
-    //! Every finite `Iterable` gives rise to a model of  `Foldable`. Hence,
-    //! finite `Iterable`s must satisfy additional laws to make sure that
-    //! external iteration in `Iterable` and internal iteration in `Foldable`
-    //! are consistent. These laws are expressed in terms of the `Foldable`'s
-    //! [linearization](@ref Foldable-lin). For any finite `Iterable` `xs`
-    //! with linearization `[x1, ..., xn]`, the following must be satisfied:
-    //! @code
-    //!     at(i, xs) == xi
-    //!     is_empty(xs) <=> n == 0
-    //! @endcode
-    //!
-    //! An equivalent way of writing this is
-    //! @code
-    //!     head(xs) == head(linearization(xs))
-    //!              == x1
-    //!
-    //!     linearization(tail(xs)) == tail(linearization(xs))
-    //!                             == [x2, ..., xn]
-    //!
-    //!     is_empty(xs)  <=>  is_empty(linearization(xs))
-    //!                   <=>  n == 0
-    //! @endcode
-    //!
-    //! This says that linearizing an `Iterable` and then iterating through
-    //! it should be equivalent to just iterating through it.
-    //!
-    //! @note
-    //! As explained above, `Iterable`s are also `Searchable`s and their
-    //! models have to be consistent. By the laws presented here, it also
-    //! means that the `Foldable` model for finite `Iterable`s has to be
-    //! consistent with the `Searchable` model.
-    //!
-    //! For convenience, a default minimal complete definition for `Foldable`
-    //! is provided for finite `Iterable`s via the `Iterable::fold_right_impl`
-    //! and `Iterable::fold_left_impl` methods. The provided model is simple
-    //! and intuitive; here is how it works:
-    //!
-    //! Let `xs` be an `Iterable` and let `xi` denote the `i`-th element in
-    //! its linearization. In other words, `xs` can be linearized as
-    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in `xs`.
-    //! Then, right-folding `xs` with a binary operation `*` (in infix
-    //! notation for legibility) is equivalent to
-    //! @code
-    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
-    //! @endcode
-    //!
-    //! Similarly, left-folding `xs` is equivalent to
-    //! @code
-    //!     (((x1 * x2) * x3) * ...) * xN
-    //! @endcode
-    //!
-    //! In both cases, notice the side of the parentheses. Left-folding
-    //! applies `*` in a left-associative manner, whereas right-folding
-    //! applies it in a right-associative manner. For associative operations,
-    //! i.e. operations such that for all `a`, `b` and `c`,
-    //! @code
-    //!     (a * b) * c = a * (b * c)
-    //! @endcode
-    //!
-    //! this makes no difference. Also note that folds with an initial state
-    //! are implemented in an analogous way, and they are provided as
-    //! `Iterable::fold_{left,right}_nostate_impl`.
     //!
     //!
     //! [1]: https://github.com/ldionne/hana/issues/40

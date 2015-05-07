@@ -102,12 +102,17 @@ namespace boost { namespace hana {
     //! (`fold.left` and `fold.right`) or `unpack`
     //!
     //!
-    //! Provided model for builtin arrays
-    //! ---------------------------------
+    //! Free model for builtin arrays
+    //! -----------------------------
     //! Builtin arrays whose size is known can be folded as-if they were
     //! homogeneous tuples. However, note that builtin arrays can't be
     //! made more than `Foldable` (e.g. `Iterable`) because they can't
     //! be empty and they also can't be returned from functions.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Map`, `Maybe`, `Pair`, `Set`, `Range`, `Tuple`
     struct Foldable { };
 
     //! Fold a structure using a binary operation and (optionally) an initial

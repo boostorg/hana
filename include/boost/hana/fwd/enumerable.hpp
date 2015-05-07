@@ -42,9 +42,8 @@ namespace boost { namespace hana {
     //! `succ` and `pred` satisfying the above laws
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For non-boolean arithmetic data types\n
+    //! Free model for non-boolean arithmetic data types
+    //! ------------------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
     //! true. For a non-boolean arithmetic data type `T`, a model of
     //! `Enumerable` is automatically defined by setting
@@ -52,6 +51,11 @@ namespace boost { namespace hana {
     //!     succ(x) = ++x
     //!     pred(x) = --x
     //! @endcode
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Successor_function

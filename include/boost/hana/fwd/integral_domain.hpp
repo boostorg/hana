@@ -84,9 +84,8 @@ namespace boost { namespace hana {
     //! `quot` and `rem` satisfying the above laws
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For non-boolean integral data types\n
+    //! Free model for non-boolean integral data types
+    //! ----------------------------------------------
     //! A data type `T` is integral if `std::is_integral<T>::%value` is true.
     //! For a non-boolean integral data type `T`, a model of `IntegralDomain`
     //! is automatically defined by using the `Ring` model provided for
@@ -99,6 +98,11 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing an IntegralDomain model for `bool` is
     //! the same as for not providing Monoid, Group and Ring models.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Operators

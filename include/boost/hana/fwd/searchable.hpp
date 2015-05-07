@@ -104,8 +104,8 @@ namespace boost { namespace hana {
     //! restrictive than what we have right now.
     //!
     //!
-    //! Provided model for builtin arrays
-    //! ---------------------------------
+    //! Free model for builtin arrays
+    //! -----------------------------
     //! Builtin arrays whose size is known can be searched as-if they were
     //! homogeneous tuples. However, since arrays can only hold objects of
     //! a single type and the predicate to `find_if` must return a compile-time
@@ -113,6 +113,11 @@ namespace boost { namespace hana {
     //! the `find` method is also fairly useless. This model is provided mainly
     //! because of the `any_of` method & friends, which are both useful and
     //! compile-time efficient.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Map`, `Maybe`, `Range`, `Set`, `String`, `Tuple`
     //!
     //!
     //! Structure preserving functions

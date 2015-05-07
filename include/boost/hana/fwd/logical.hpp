@@ -132,9 +132,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For arithmetic data types\n
+    //! Free model for arithmetic data types
+    //! ------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::value` is
     //! true. For an arithmetic data type `T`, a model of `Logical` is
     //! provided automatically by using the result of the builtin implicit
@@ -155,6 +154,11 @@ namespace boost { namespace hana {
     //! > on the truth value. If you want to use a pointer type or something
     //! > similar in a conditional, it is suggested to explicitly convert it
     //! > to bool by using `to<bool>`.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Operators

@@ -135,8 +135,8 @@ namespace boost { namespace hana {
     //!     static_assert(value2<decltype(c)>() == 10, "");
     //! @endcode
     //!
-    //! 2. `Comparable`, `Orderable`, `Logical`, `Monoid`, `Group`, `Ring`,
-    //!    and `IntegralDomain` (operators provided)\n
+    //! 2. `Enumerable`, `Comparable`, `Orderable`, `Logical`, `Monoid`,
+    //!    `Group`, `Ring`, and `IntegralDomain` (operators provided)\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
     template <typename T>

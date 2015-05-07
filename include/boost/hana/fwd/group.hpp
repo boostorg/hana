@@ -66,9 +66,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For non-boolean arithmetic data types\n
+    //! Free model for non-boolean arithmetic data types
+    //! ------------------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
     //! true. For a non-boolean arithmetic data type `T`, a model of `Group`
     //! is automatically defined by setting
@@ -80,6 +79,11 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Group model for `bool` is the same
     //! as for not providing a `Monoid` model.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Operators

@@ -79,6 +79,33 @@ namespace boost { namespace hana {
     //! information.
     //!
     //!
+    //! Superclasses
+    //! ------------
+    //! 1. `Functor`
+    //! 2. `Applicative` (free implementation of `ap`)\n
+    //! When the minimal complete definition for `Monad` and `Functor` are
+    //! both satisfied, it is possible to automatically implement `ap` by
+    //! setting
+    //! @code
+    //!     ap(fs, xs) = chain(fs, [](auto f) {
+    //!         return transform(xs, f);
+    //!     })
+    //! @endcode
+    //! This implementation is provided through the `Monad::ap_impl` type,
+    //! which you can use as follows:
+    //! @code
+    //!     template <>
+    //!     struct ap_impl<YourDatatype>
+    //!         : Monad::ap_impl<YourDatatype>
+    //!     { };
+    //! @endcode
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Lazy`, `Maybe`, `Tuple`
+    //!
+    //!
     //! Laws
     //! ----
     //! To simplify writing the laws, we use the comparison between functions.
@@ -165,27 +192,6 @@ namespace boost { namespace hana {
     //!
     //! which is to say that `M` along with monadic composition is a Monoid
     //! where the neutral element is `lift`.
-    //!
-    //!
-    //! Provided superclass methods
-    //! ---------------------------
-    //! 1. `ap` from `Applicative`\n
-    //! When the minimal complete definition for `Monad` and `Functor` are
-    //! both satisfied, it is possible to automatically implement `ap` by
-    //! setting
-    //! @code
-    //!     ap(fs, xs) = chain(fs, [](auto f) {
-    //!         return transform(xs, f);
-    //!     })
-    //! @endcode
-    //! This implementation is provided through the `Monad::ap_impl` type,
-    //! which you can use as follows:
-    //! @code
-    //!     template <>
-    //!     struct ap_impl<YourDatatype>
-    //!         : Monad::ap_impl<YourDatatype>
-    //!     { };
-    //! @endcode
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/

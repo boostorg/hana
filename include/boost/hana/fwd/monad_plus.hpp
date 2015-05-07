@@ -48,6 +48,11 @@ namespace boost { namespace hana {
     //! `concat` and `empty`
     //!
     //!
+    //! Concrete models
+    //! ---------------
+    //! `Maybe`, `Tuple`
+    //!
+    //!
     //! Laws
     //! ----
     //! First, a MonadPlus is required to have a monoidal structure. Hence, it

@@ -98,6 +98,11 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Lazy`, `Maybe`, `Tuple`
+    //!
+    //!
     //! Structure-preserving functions for Functors
     //! -------------------------------------------
     //! A mapping between two functors which also preserves the functor

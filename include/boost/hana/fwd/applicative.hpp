@@ -73,7 +73,7 @@ namespace boost { namespace hana {
     //!
     //! Superclass
     //! ----------
-    //! 1. `Functor` (model provided)\n
+    //! 1. `Functor` (free model)\n
     //! As a consequence of the above laws, any `Applicative F` can be made a
     //! `Functor` by setting
     //! @code
@@ -93,6 +93,11 @@ namespace boost { namespace hana {
     //! Minimal complete definition
     //! ---------------------------
     //! `lift` and `ap` satisfying the above laws
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Lazy`, `Maybe`, `Tuple`
     //!
     //!
     //! @anchor applicative-transformation

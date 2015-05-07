@@ -180,8 +180,8 @@ namespace boost { namespace hana {
     //! @snippet example/sequence.cpp Traversable
     //!
     //!
-    //! Provided `make`
-    //! ---------------
+    //! Free `make` method
+    //! ------------------
     //! For any `Sequence` `S`, the `make<S>` method is defined
     //! automatically as
     //! @code
@@ -192,6 +192,12 @@ namespace boost { namespace hana {
     //! While this definition is correct, it can be compile-time inefficient.
     //! Hence, implementers of new sequences are encouraged to override this
     //! default definition.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Tuple`
+    //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
     struct Sequence {

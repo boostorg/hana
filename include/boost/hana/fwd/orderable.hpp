@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //!
     //! Superclass
     //! ----------
-    //! 1. `Comparable` (model provided)\n
+    //! 1. `Comparable` (free model)\n
     //! Since `Orderable` requires `less_equal` to be a total order, a model
     //! of `Comparable` may always be obtained by setting
     //! @code
@@ -85,9 +85,8 @@ namespace boost { namespace hana {
     //! the same definition as mandated in the laws above.
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. For `LessThanComparable` data types\n
+    //! Free model for `LessThanComparable` data types
+    //! ----------------------------------------------
     //! Two data types `T` and `U` that model the cross-type version of the
     //! usual [LessThanComparable][2] C++ concept are automatically a model
     //! of `Orderable` by setting
@@ -107,6 +106,11 @@ namespace boost { namespace hana {
     //! but this is debatable and so the design choice of providing a model
     //! for LessThanComparable data types is open to debate. Waiting for
     //! some user input.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `IntegralConstant`, `Maybe`, `Pair`, `String`, `Tuple`
     //!
     //!
     //! Operators

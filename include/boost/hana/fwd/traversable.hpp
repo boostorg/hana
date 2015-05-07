@@ -56,8 +56,8 @@ namespace boost { namespace hana {
     //! this way is exactly what the `sequence` method provides.
     //!
     //!
-    //! Superclass
-    //! ----------
+    //! Superclasses
+    //! ------------
     //! `Functor`, `Foldable`
     //!
     //!
@@ -107,6 +107,12 @@ namespace boost { namespace hana {
     //!     sequence<Compose>(transform(xxs, make<Compose>))
     //!         == make<Compose>(transform(sequence<A>(xxs), sequence<B>))
     //! @endcode
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Maybe`, `Tuple`
+    //!
     //!
     //! [1]: https://hackage.haskell.org/package/base-4.7.0.2/docs/Data-Traversable.html
     struct Traversable { };

@@ -74,20 +74,25 @@ namespace boost { namespace hana {
     //! @snippet example/product.cpp make
     //!
     //!
-    //! Provided models
-    //! ---------------
-    //! 1. `Comparable`\n
+    //! Superclasses
+    //! ------------
+    //! 1. `Comparable` (free model)\n
     //! Two products `x` and `y` are equal iff they are equal element-wise,
     //! by comparing the first element before the second element.
     //! @snippet example/product.cpp comparable
     //!
-    //! 2. `Orderable`\n
+    //! 2. `Orderable` (free model)\n
     //! Products are ordered using a lexicographical ordering as-if they
     //! were 2-element tuples.
     //!
-    //! 3. `Foldable`\n
+    //! 3. `Foldable` (free model)\n
     //! Folding a `Product` `p` is equivalent to folding a list containing
     //! `first(p)` and `second(p)`, in that order.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Pair`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Product_(category_theory)
