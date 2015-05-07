@@ -123,17 +123,15 @@ namespace boost { namespace hana {
 
         template <typename GenIndices, detail::std::size_t ...i>
         constexpr auto
-        generate_index_sequence_impl(GenIndices gen,
-                                     detail::std::index_sequence<i...>)
-        {
-            constexpr auto indices = hana::eval(gen);
+        generate_index_sequence_impl(detail::std::index_sequence<i...>) {
+            constexpr auto indices = GenIndices::apply();
             return detail::std::index_sequence<indices[i]...>{};
         }
 
         template <typename GenIndices>
-        constexpr auto generate_index_sequence(GenIndices gen) {
-            constexpr auto indices = hana::eval(gen);
-            return generate_index_sequence_impl(gen,
+        constexpr auto generate_index_sequence() {
+            constexpr auto indices = GenIndices::apply();
+            return generate_index_sequence_impl<GenIndices>(
                 detail::std::make_index_sequence<indices.size()>{});
         }
 
@@ -837,24 +835,18 @@ namespace boost { namespace hana {
 
     template <>
     struct filter_impl<Tuple> {
+        template <typename Pred, typename ...Xs>
         struct filter_helper {
-            template <typename ...Xs, typename Pred>
-            static constexpr auto apply(detail::closure_impl<Xs...> const&, Pred&&) {
-                using tuple_detail::generate_index_sequence;
-                return generate_index_sequence(hana::lazy(filter_helper{})
-                            (tuple_t<typename Xs::get_type...>, type<Pred&&>));
-            }
-
-            template <typename ...Xs, typename Pred>
-            constexpr auto operator()(_tuple_t<Xs...>, _type<Pred>) const {
+            static constexpr auto apply() {
                 using detail::constexpr_::count;
                 using detail::constexpr_::array;
                 using detail::std::size_t;
                 using detail::std::declval;
 
                 constexpr size_t N = sizeof...(Xs);
-                constexpr array<bool, N> results =
-                    {{decltype(declval<Pred>()(declval<Xs>()))::value...}};
+                constexpr array<bool, N> results ={{
+                    hana::value<decltype(declval<Pred>()(declval<Xs>()))>()...
+                }};
                 constexpr size_t keptN = count(&results[0], &results[N], true);
                 array<size_t, keptN> kept_indices{};
                 size_t* keep = &kept_indices[0];
@@ -865,10 +857,19 @@ namespace boost { namespace hana {
             }
         };
 
+        template <typename ...Xs, typename Pred>
+        static constexpr auto
+        filter_indices(detail::closure_impl<Xs...> const&, Pred&&) {
+            using tuple_detail::generate_index_sequence;
+            return generate_index_sequence<
+                filter_helper<Pred&&, typename Xs::get_type...>
+            >();
+        }
+
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             using tuple_detail::get_subsequence;
-            auto indices = filter_helper::apply(xs, pred);
+            auto indices = filter_impl::filter_indices(xs, static_cast<Pred&&>(pred));
             return get_subsequence(static_cast<Xs&&>(xs), indices);
         }
     };
@@ -1009,25 +1010,18 @@ namespace boost { namespace hana {
 
     template <>
     struct partition_impl<Tuple> {
-        template <int which>
+        template <int which, typename Pred, typename ...Xs>
         struct partition_helper {
-            template <typename ...Xs, typename Pred>
-            static constexpr auto apply(detail::closure_impl<Xs...> const&, Pred&&) {
-                using tuple_detail::generate_index_sequence;
-                return generate_index_sequence(hana::lazy(partition_helper{})(
-                            tuple_t<typename Xs::get_type...>, type<Pred&&>));
-            }
-
-            template <typename ...Xs, typename Pred>
-            constexpr auto operator()(_tuple_t<Xs...>, _type<Pred>) const {
+            static constexpr auto apply() {
                 using detail::constexpr_::count;
                 using detail::constexpr_::array;
                 using detail::std::size_t;
                 using detail::std::declval;
 
                 constexpr size_t N = sizeof...(Xs);
-                constexpr array<bool, N> results =
-                    {{decltype(declval<Pred>()(declval<Xs>()))::value...}};
+                constexpr array<bool, N> results = {{
+                    hana::value<decltype(declval<Pred>()(declval<Xs>()))>()...
+                }};
                 constexpr size_t leftN = count(&results[0], &results[N], true);
                 array<size_t, leftN> left_indices{};
                 array<size_t, N - leftN> right_indices{};
@@ -1040,11 +1034,20 @@ namespace boost { namespace hana {
             }
         };
 
+        template <int which, typename ...Xs, typename Pred>
+        static constexpr auto
+        partition_indices(detail::closure_impl<Xs...> const&, Pred&&) {
+            using tuple_detail::generate_index_sequence;
+            return generate_index_sequence<
+                partition_helper<which, Pred&&, typename Xs::get_type...>
+            >();
+        }
+
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             using tuple_detail::get_subsequence;
-            auto left = partition_helper<0>::apply(xs, pred);
-            auto right = partition_helper<1>::apply(xs, pred);
+            auto left = partition_indices<0>(xs, static_cast<Pred&&>(pred));
+            auto right = partition_indices<1>(xs, static_cast<Pred&&>(pred));
             return hana::make_pair(
                 get_subsequence(static_cast<Xs&&>(xs), left),
                 get_subsequence(static_cast<Xs&&>(xs), right)
