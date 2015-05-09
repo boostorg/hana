@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
@@ -34,15 +33,15 @@ template <typename ...Tokens>
 constexpr auto format(Tokens ...tokens_) {
     auto tokens = make_tuple(tokens_...);
 
-    // If you don't care about constexpr-ness of `format`, you
-    // can use this lambda instead of `demux(...)(...)`:
+    // If you don't care about constexpr-ness of `format`, you can use
+    // this lambda instead of `compose(partial(...), decltype_)`:
     //
     // [](auto token) {
-    //     return from_just(find(formats, decltype_(token)));
+    //     return formats[decltype_(token)];
     // }
     auto format_string_tokens = adjust_if(tokens,
         compose(not_, is_a<String>),
-        demux(from_just)(compose(partial(find, formats), decltype_))
+        compose(partial(at_key, formats), decltype_)
     );
 
     auto format_string = fold.left(format_string_tokens, string<>, concat_strings{});

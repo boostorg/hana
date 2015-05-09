@@ -43,12 +43,12 @@ template <typename ...Ts>
 using common_type_t = typename common_type<Ts...>::type;
 
 static_assert(std::is_same<
-    common_type_t<char, short, char, short>, int>{}
-, "");
+    common_type_t<char, short, char, short>, int
+>{}, "");
 
 static_assert(std::is_same<
-    common_type_t<char, double, short, char, short, double>, double>{}
-, "");
+    common_type_t<char, double, short, char, short, double>, double
+>{}, "");
 
 static_assert(std::is_same<
     common_type_t<char, short, float, short>, float
