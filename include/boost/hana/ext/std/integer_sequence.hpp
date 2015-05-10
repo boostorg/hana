@@ -46,7 +46,7 @@ namespace boost { namespace hana {
         {
             return bool_<detail::std::is_same<
                 ::std::integer_sequence<bool, (xs == ys)...>,
-                ::std::integer_sequence<bool, (xs, true)...>
+                ::std::integer_sequence<bool, ((void)xs, true)...>
             >::value>;
         }
 

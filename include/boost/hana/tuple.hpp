@@ -127,6 +127,7 @@ namespace boost { namespace hana {
         constexpr auto
         generate_index_sequence_impl(detail::std::index_sequence<i...>) {
             constexpr auto indices = GenIndices::apply();
+            (void)indices; // remove GCC warning about `indices` being unused
             return detail::std::index_sequence<indices[i]...>{};
         }
 
@@ -686,19 +687,19 @@ namespace boost { namespace hana {
     struct flatten_impl<Tuple> {
         using Size = detail::std::size_t;
 
-        template <int Which, Size ...Lengths>
+        template <bool inner, Size ...Lengths>
         struct flatten_indices {
-            template <typename Array>
-            constexpr auto operator()(Array outer) const {
+            static constexpr auto apply() {
                 constexpr Size lengths[] = {Lengths...};
-                Array inner = outer;
+                constexpr Size total_length = hana::sum<Size>(lengths);
+                detail::constexpr_::array<Size, total_length> indices{};
+
                 for (Size index = 0, i = 0; i < sizeof...(Lengths); ++i) {
                     for (Size j = 0; j < lengths[i]; ++j, ++index) {
-                        inner[index] = i;
-                        outer[index] = j;
+                        indices[index] = (inner ? i : j);
                     }
                 }
-                return detail::get<Which>(hana::make<Tuple>(outer, inner));
+                return indices;
             }
         };
 
@@ -715,22 +716,21 @@ namespace boost { namespace hana {
             template <typename ...Xs>                                           \
             static constexpr decltype(auto)                                     \
             apply(detail::closure_impl<Xs...> REF xs) {                         \
-                constexpr /* Size */ Size lengths[] = {0,                       \
-                    tuple_detail::size<typename Xs::get_type>{}...              \
-                };                                                              \
-                constexpr Size total_length = hana::sum<Size>(lengths);         \
+                using tuple_detail::generate_index_sequence;                    \
+                using tuple_detail::size;                                       \
                                                                                 \
-                using Outer = flatten_indices<0,                                \
-                    tuple_detail::size<typename Xs::get_type>{}...              \
-                >;                                                              \
-                using Inner = flatten_indices<1,                                \
-                    tuple_detail::size<typename Xs::get_type>{}...              \
-                >;                                                              \
+                auto outer = generate_index_sequence<                           \
+                    flatten_indices<false, size<typename Xs::get_type>{}()...>  \
+                >();                                                            \
+                                                                                \
+                auto inner = generate_index_sequence<                           \
+                    flatten_indices<true, size<typename Xs::get_type>{}()...>   \
+                >();                                                            \
                                                                                 \
                 return flatten_helper(                                          \
                     static_cast<detail::closure_impl<Xs...> REF>(xs),           \
-                    detail::generate_index_sequence<total_length, Outer>{},     \
-                    detail::generate_index_sequence<total_length, Inner>{});    \
+                    outer, inner                                                \
+                );                                                              \
             }                                                                   \
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FLATTEN)

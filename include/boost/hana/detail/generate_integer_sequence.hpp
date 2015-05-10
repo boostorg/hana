@@ -21,6 +21,7 @@ namespace boost { namespace hana { namespace detail {
     constexpr auto generate_integer_sequence_impl(detail::std::index_sequence<i...>) {
         constexpr array<T, sizeof...(i)> a = {{static_cast<T>(i)...}};
         constexpr auto sequence = F{}(a);
+        (void)sequence; // remove GCC warning about `sequence` being unused
         return detail::std::integer_sequence<T, sequence[i]...>{};
     }
 
