@@ -58,6 +58,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
    </div>
@@ -411,12 +412,12 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="keyword">using</span> common_type_t = <span class="keyword">typename</span> common_type&lt;Ts...&gt;::type;</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
-<div class="line">    common_type_t&lt;char, short, char, short&gt;, <span class="keywordtype">int</span>&gt;{}</div>
-<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    common_type_t&lt;char, short, char, short&gt;, <span class="keywordtype">int</span></div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
-<div class="line">    common_type_t&lt;char, double, short, char, short, double&gt;, <span class="keywordtype">double</span>&gt;{}</div>
-<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    common_type_t&lt;char, double, short, char, short, double&gt;, <span class="keywordtype">double</span></div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    common_type_t&lt;char, short, float, short&gt;, <span class="keywordtype">float</span></div>
