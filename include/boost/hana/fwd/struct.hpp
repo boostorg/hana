@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_STRUCT_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/keys_fwd.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -182,6 +183,24 @@ namespace boost { namespace hana {
 
     template <typename S>
     constexpr _accessors<S> accessors{};
+#endif
+
+    //! Returns a `Sequence` containing the name of the members of
+    //! the data structure.
+    //! @relates Struct
+    //!
+    //! Given a `Struct` object, `keys` returns a `Sequence` containing the
+    //! name of all the members of the `Struct`, in the same order as they
+    //! appear in the `accessors` sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/struct.cpp keys
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto keys = [](auto&& struct_) -> decltype(auto) {
+        return unspecified-type;
+    };
 #endif
 
     //! Returns a `Sequence` containing the members of a `Struct`.

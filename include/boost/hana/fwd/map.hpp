@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAP_HPP
 #define BOOST_HANA_FWD_MAP_HPP
 
+#include <boost/hana/detail/insert_fwd.hpp>
+#include <boost/hana/detail/keys_fwd.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
@@ -92,13 +94,6 @@ namespace boost { namespace hana {
     constexpr auto keys = [](auto&& map) -> decltype(auto) {
         return unspecified-type;
     };
-#else
-    struct _keys {
-        template <typename Map>
-        constexpr decltype(auto) operator()(Map&& map) const;
-    };
-
-    constexpr _keys keys{};
 #endif
 
     //! Returns a Sequence of the values of the map, in unspecified order.

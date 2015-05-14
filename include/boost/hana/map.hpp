@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
+#include <boost/hana/detail/keys_fwd.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
@@ -75,12 +76,13 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // keys
     //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename Map>
-    constexpr decltype(auto) _keys::operator()(Map&& map) const {
-        return hana::transform(static_cast<Map&&>(map).storage, first);
-    }
-    //! @endcond
+    template <>
+    struct keys_impl<Map> {
+        template <typename Map>
+        static constexpr decltype(auto) apply(Map&& map) {
+            return hana::transform(static_cast<Map&&>(map).storage, first);
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // values

@@ -34,8 +34,8 @@ struct Person {
 
 Person john{"John", 30}, kevin{"Kevin", 20};
 
-BOOST_HANA_RUNTIME_ASSERT(equal(john, john));
-BOOST_HANA_RUNTIME_ASSERT(not_equal(john, kevin));
+BOOST_HANA_RUNTIME_CHECK(equal(john, john));
+BOOST_HANA_RUNTIME_CHECK(not_equal(john, kevin));
 //! [Comparable]
 
 }{
@@ -50,7 +50,7 @@ struct Classroom {
 
 constexpr Classroom compsci{20, 3}; /* lol */
 
-BOOST_HANA_CONSTEXPR_ASSERT(
+BOOST_HANA_CONSTEXPR_CHECK(
     fold.left(compsci, 0, [](auto total, auto member) {
         // first(member) is the name of the member, here
         // "boys" or "girls", and second(member) is its value.
@@ -70,7 +70,7 @@ struct Person {
 };
 
 Person john{"John", 30u};
-BOOST_HANA_RUNTIME_ASSERT(to<Map>(john) == make<Map>(
+BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make<Map>(
     make<Pair>(BOOST_HANA_STRING("name"), "John"),
     make<Pair>(BOOST_HANA_STRING("age"), 30u)
 ));
@@ -88,11 +88,11 @@ struct Person {
 
 Person john{"John", 30};
 
-BOOST_HANA_RUNTIME_ASSERT(
+BOOST_HANA_RUNTIME_CHECK(
     find(john, BOOST_HANA_STRING("name")) == just("John")
 );
 
-BOOST_HANA_CONSTANT_ASSERT(
+BOOST_HANA_CONSTANT_CHECK(
     find(john, BOOST_HANA_STRING("foobar")) == nothing
 );
 //! [Searchable]
@@ -112,7 +112,7 @@ struct Person {
     );
 };
 
-BOOST_HANA_CONSTANT_ASSERT(
+BOOST_HANA_CONSTANT_CHECK(
     transform(accessors<Person>(), first) == make_tuple(
         BOOST_HANA_STRING("name"), BOOST_HANA_STRING("age")
     )
@@ -122,8 +122,8 @@ auto get_name = second(at_c<0>(accessors<Person>()));
 auto get_age = second(at_c<1>(accessors<Person>()));
 
 Person john{"John", 30};
-BOOST_HANA_RUNTIME_ASSERT(get_name(john) == "John");
-BOOST_HANA_RUNTIME_ASSERT(get_age(john) == 30);
+BOOST_HANA_RUNTIME_CHECK(get_name(john) == "John");
+BOOST_HANA_RUNTIME_CHECK(get_age(john) == 30);
 //! [accessors]
 
 }{
@@ -137,8 +137,25 @@ struct Person {
 };
 
 Person john{"John", 30};
-BOOST_HANA_RUNTIME_ASSERT(members(john) == make_tuple("John", 30));
+BOOST_HANA_RUNTIME_CHECK(members(john) == make_tuple("John", 30));
 //! [members]
+
+}{
+
+//! [keys]
+struct Person {
+    BOOST_HANA_DEFINE_STRUCT(Person,
+        (std::string, name),
+        (unsigned short, age)
+    );
+};
+
+Person john{"John", 30};
+BOOST_HANA_CONSTANT_CHECK(
+    keys(john) == make_tuple(BOOST_HANA_STRING("name"),
+                             BOOST_HANA_STRING("age"))
+);
+//! [keys]
 
 }
 

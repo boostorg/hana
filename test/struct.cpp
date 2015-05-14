@@ -112,6 +112,36 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
+    // keys
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            keys(obj()),
+            test::seq()
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            keys(obj(undefined<0>{})),
+            test::seq(int_<0>)
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            keys(obj(undefined<0>{}, undefined<1>{})),
+            test::seq(int_<0>, int_<1>)
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{})),
+            test::seq(int_<0>, int_<1>, int_<2>)
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{}, undefined<3>{})),
+            test::seq(int_<0>, int_<1>, int_<2>, int_<3>)
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {

@@ -10,19 +10,21 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_INSERT_FWD_HPP
 #define BOOST_HANA_DETAIL_INSERT_FWD_HPP
 
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/when.hpp>
 
 
 namespace boost { namespace hana {
-    template <typename T>
+    template <typename T, typename = void>
     struct insert_impl;
+
+    template <typename T, typename>
+    struct insert_impl : insert_impl<T, when<true>> { };
 
     struct _insert {
         template <typename Set, typename X>
         constexpr decltype(auto) operator()(Set&& set, X&& x) const {
-            return insert_impl<
-                datatype_t<Set>
-            >::apply(
+            return insert_impl<typename datatype<Set>::type>::apply(
                 static_cast<Set&&>(set),
                 static_cast<X&&>(x)
             );
