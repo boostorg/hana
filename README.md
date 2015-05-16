@@ -1,4 +1,4 @@
-# Boost.Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][Travis.badge]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][Gitter.badge]</a> <a href="http://semver.org" target="_blank">![Version][semver.badge]</a>
+# Boost.Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a> <a href="http://semver.org" target="_blank">![Version][badge.semver]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -190,15 +190,15 @@ Want to contribute? Great!
 
 
 ## Related material
-I presented a [talk on Hana][Hana-CppCon] at [CppCon 2014][CppCon].
-If you are interested in metaprogramming, you may also take a look at the
-[MPL11][], which is how Hana started out, and [this talk][MPL11-C++Now] about
-the MPL11 at [C++Now 2014][C++Now].
+- [Talk on metaprogramming][slides.C++Now.2015] at [C++Now][] 2015
+- [Talk on Hana][video.CppCon.2014] at [CppCon][] 2014 ([slides][slides.CppCon.2014])
+- The [MPL11][] library, which is how Hana started out
+- [Talk on the MPL11][video.C++Now.2014] at [C++Now][] 2014 ([slides][slides.C++Now.2014])
 
-I also wrote my bachelor's thesis on Hana. It is available [here][Hana.thesis],
-but unfortunately it is in french only. As part of this thesis, I presented a
-formalization of metaprogramming using category theory, which can be found
-[here][Hana.thesis.presentation].
+I also wrote my bachelor's thesis on a formalization of C++ metaprogramming
+through category theory and Hana. It is available [here][thesis], but
+unfortunately it is in french only. I also presented [a talk][slides.thesis]
+on this formalization for my bachelor's thesis (french only).
 
 
 ## License
@@ -206,16 +206,19 @@ Please see [LICENSE.md](LICENSE.md).
 
 
 <!-- Links -->
+[badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
+[badge.semver]: https://img.shields.io/badge/semver-0.2.0-brightgreen.svg
+[badge.Travis]: https://travis-ci.org/ldionne/hana.svg?branch=master
 [C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
-[Gitter.badge]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
-[Hana-CppCon]: http://ldionne.github.io/hana-cppcon-2014
-[Hana.thesis.presentation]: http://ldionne.github.io/hana-thesis
-[Hana.thesis]: http://github.com/ldionne/hana-thesis
-[MPL11-C++Now]: http://ldionne.github.io/mpl11-cppnow-2014
 [MPL11]: http://github.com/ldionne/mpl11
-[semver.badge]: https://img.shields.io/badge/semver-0.2.0-brightgreen.svg
-[Travis.badge]: https://travis-ci.org/ldionne/hana.svg?branch=master
+[slides.C++Now.2014]: http://ldionne.github.io/mpl11-cppnow-2014
+[slides.C++Now.2015]: http://ldionne.github.io/hana-cppnow-2015
+[slides.CppCon.2014]: http://ldionne.github.io/hana-cppcon-2014
+[slides.thesis]: http://ldionne.github.io/hana-thesis
+[thesis]: http://github.com/ldionne/hana-thesis
+[video.C++Now.2014]: https://youtu.be/8c0aWLuEO0Y
+[video.CppCon.2014]: https://youtu.be/L2SktfaJPuU
