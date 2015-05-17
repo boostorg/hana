@@ -198,8 +198,8 @@ A model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="
 <div class="line"></div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30}, kevin{<span class="stringliteral">&quot;Kevin&quot;</span>, 20};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(equal(john, john));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(not_equal(john, kevin));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(equal(john, john));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(not_equal(john, kevin));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> (free model)<br />
 A <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> can be folded by considering it as a list of pairs each containing the name of a member and the value associated to that member, in the same order as they appear in the <code>hana::members</code> sequence. By default, a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> doing just that is provided for models of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. <div class="fragment"><div class="line"><span class="keyword">struct </span>Classroom {</div>
@@ -211,7 +211,7 @@ A <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struc
 <div class="line"></div>
 <div class="line">constexpr Classroom compsci{20, 3}; <span class="comment">/* lol */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    fold.left(compsci, 0, [](<span class="keyword">auto</span> total, <span class="keyword">auto</span> member) {</div>
 <div class="line">        <span class="comment">// first(member) is the name of the member, here</span></div>
 <div class="line">        <span class="comment">// &quot;boys&quot; or &quot;girls&quot;, and second(member) is its value.</span></div>
@@ -226,7 +226,7 @@ A <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struc
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30u};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(to&lt;Map&gt;(john) == make&lt;Map&gt;(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(to&lt;Map&gt;(john) == make&lt;Map&gt;(</div>
 <div class="line">    make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">    make&lt;Pair&gt;(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30u)</div>
 <div class="line">));</div>
@@ -241,11 +241,11 @@ A <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struc
 <div class="line"></div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">    find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>)) == just(<span class="stringliteral">&quot;John&quot;</span>)</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar&quot;</span>)) == nothing</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
@@ -257,6 +257,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a5706310d661d5d88e708d684e4ea0739"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739">accessors</a></td></tr>
 <tr class="memdesc:a5706310d661d5d88e708d684e4ea0739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code>s representing the accessors of the data structure.  <a href="#a5706310d661d5d88e708d684e4ea0739">More...</a><br /></td></tr>
 <tr class="separator:a5706310d661d5d88e708d684e4ea0739"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f32260f859b2510dd16235b7bc011ac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac">keys</a></td></tr>
+<tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> containing the name of the members of the data structure.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
+<tr class="separator:a0f32260f859b2510dd16235b7bc011ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5daffa262501273590ec3164122eb92e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">members</a></td></tr>
 <tr class="memdesc:a5daffa262501273590ec3164122eb92e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> containing the members of a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>.  <a href="#a5daffa262501273590ec3164122eb92e">More...</a><br /></td></tr>
 <tr class="separator:a5daffa262501273590ec3164122eb92e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -301,7 +304,7 @@ template&lt;typename S &gt; </div>
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    transform(accessors&lt;Person&gt;(), first) == make_tuple(</div>
 <div class="line">        BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)</div>
 <div class="line">    )</div>
@@ -311,8 +314,47 @@ template&lt;typename S &gt; </div>
 <div class="line"><span class="keyword">auto</span> get_age = second(at_c&lt;1&gt;(accessors&lt;Person&gt;()));</div>
 <div class="line"></div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(get_name(john) == <span class="stringliteral">&quot;John&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(get_age(john) == 30);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(get_name(john) == <span class="stringliteral">&quot;John&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(get_age(john) == 30);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a0f32260f859b2510dd16235b7bc011ac"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto keys</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; struct_) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> unspecified-type;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> containing the name of the members of the data structure. </p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> object, <code>keys</code> returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> containing the name of all the members of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>, in the same order as they appear in the <code>accessors</code> sequence.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672">BOOST_HANA_DEFINE_STRUCT</a>(Person,</div>
+<div class="line">        (std::string, name),</div>
+<div class="line">        (<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span>, age)</div>
+<div class="line">    );</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac">keys</a>(john) == make_tuple(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>),</div>
+<div class="line">                             BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>))</div>
+<div class="line">);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -348,7 +390,7 @@ template&lt;typename S &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(<a class="code" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">members</a>(john) == make_tuple(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">members</a>(john) == make_tuple(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
 </div><!-- fragment -->
 </div>
 </div>

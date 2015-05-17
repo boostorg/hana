@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,4],
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,18,11],
 "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,18,15],
 "structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,18,5],
@@ -22,10 +23,11 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84":[1,1,8,1],
 "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9":[1,1,8,0],
 "structboost_1_1hana_1_1Struct.html":[1,0,19],
-"structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672":[1,0,19,2],
+"structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672":[1,0,19,3],
+"structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac":[1,0,19,1],
 "structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739":[1,0,19,0],
-"structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e":[1,0,19,1],
-"structboost_1_1hana_1_1Struct.html#a93de92bddd52b3286e83877f12b8edd6":[1,0,19,3],
+"structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e":[1,0,19,2],
+"structboost_1_1hana_1_1Struct.html#a93de92bddd52b3286e83877f12b8edd6":[1,0,19,4],
 "structboost_1_1hana_1_1Traversable.html":[1,0,20],
 "structboost_1_1hana_1_1Traversable.html#a15f448955bcfe5b536c94a76b0c007fb":[1,0,20,1],
 "structboost_1_1hana_1_1Traversable.html#ad2bcf2a65d198953b1690b02f9425419":[1,0,20,0],
@@ -64,14 +66,14 @@ var NAVTREEINDEX2 =
 "traversable_8hpp.html":[2,2,0,0,40],
 "tuple_8hpp.html":[2,2,0,0,41],
 "tuple_8hpp.html#a67497c558d692b60448a4e8d692fc402":[2,2,0,0,41,0],
-"tuple__cartesian__product_8hpp.html":[2,2,0,0,1,11],
+"tuple__cartesian__product_8hpp.html":[2,2,0,0,1,12],
 "type_8hpp.html":[2,2,0,0,42],
-"type__foldl1_8hpp.html":[2,2,0,0,1,12],
-"type__foldr1_8hpp.html":[2,2,0,0,1,13],
+"type__foldl1_8hpp.html":[2,2,0,0,1,13],
+"type__foldr1_8hpp.html":[2,2,0,0,1,14],
 "type__traits_8hpp.html":[2,2,0,0,2,1,6],
 "unrolled_8hpp.html":[2,2,0,0,1,2,0,1],
 "usergroup0.html":[2],
 "utility_8hpp.html":[2,2,0,0,2,1,7],
 "void__t_8hpp.html":[2,2,0,0,1,1,21],
-"wrong_8hpp.html":[2,2,0,0,1,14]
+"wrong_8hpp.html":[2,2,0,0,1,15]
 };

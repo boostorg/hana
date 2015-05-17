@@ -30,6 +30,7 @@ var NAVTREEINDEX1 =
 "iterable_8hpp.html":[2,2,0,0,21],
 "iterate_8hpp.html":[2,2,0,0,3,11],
 "iterate_8hpp.html#gad1b8669c022d8675d68e5974451073d1":[2,2,0,0,3,11,0],
+"keys__fwd_8hpp.html":[2,2,0,0,1,11],
 "lazy_8hpp.html":[2,2,0,0,22],
 "list_8hpp.html":[2,2,0,0,2,0,0,2],
 "lockstep_8hpp.html":[2,2,0,0,3,12],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4":[1,0,18,16],
 "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,18,14],
 "structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404":[1,0,18,8],
-"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,18,7],
-"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,18,4]
+"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,18,7]
 };
