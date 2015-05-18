@@ -15,6 +15,11 @@ namespace vd = detail::variadic;
 using test::ct_eq;
 
 
+struct constexpr_function {
+    template <typename T>
+    constexpr void operator()(T) const { }
+};
+
 int main() {
     // Make sure the function is applied in left-to-right order.
     {
@@ -37,5 +42,12 @@ int main() {
         vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{});
         vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
         vd::for_each([](auto) { }, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
+    }
+
+    // Make sure for_each is constexpr when used with a constexpr function
+    // and constexpr arguments. This used not to be the case.
+    {
+        constexpr auto i = (vd::for_each(constexpr_function{}, 1, 2, 3), 1);
+        (void)i;
     }
 }

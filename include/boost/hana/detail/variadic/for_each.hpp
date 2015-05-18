@@ -14,9 +14,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     struct _for_each {
         template <typename F, typename ...Xs>
         constexpr void operator()(F&& f, Xs&& ...xs) const {
-            using swallow = int[];
-            (void)swallow{1,
-                (f(static_cast<Xs&&>(xs)), void(), 1)...
+            using Swallow = int[];
+            (void)Swallow{1,
+                ((void)f(static_cast<Xs&&>(xs)), 1)...
             };
         }
     };
