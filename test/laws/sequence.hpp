@@ -1061,6 +1061,158 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
+            //////////////////////////////////////////////////////////////////
+            // cartesian_product
+            //////////////////////////////////////////////////////////////////
+            {
+                // 0 lists
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list()),
+                    list()
+                ));
+
+                // 1 list
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list()
+                    )),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<0>{})
+                    )),
+                    list(
+                        list(eq<0>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<0>{}, eq<1>{})
+                    )),
+                    list(
+                        list(eq<0>{}),
+                        list(eq<1>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<0>{}, eq<1>{}, eq<2>{})
+                    )),
+                    list(
+                        list(eq<0>{}),
+                        list(eq<1>{}),
+                        list(eq<2>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+                    )),
+                    list(
+                        list(eq<0>{}),
+                        list(eq<1>{}),
+                        list(eq<2>{}),
+                        list(eq<3>{})
+                    )
+                ));
+
+                // 2 lists
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(),
+                        list()
+                    )),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}),
+                        list()
+                    )),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}),
+                        list(eq<10>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}, eq<01>{}),
+                        list(eq<10>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{}),
+                        list(eq<01>{}, eq<10>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}),
+                        list(eq<10>{}, eq<11>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{}),
+                        list(eq<00>{}, eq<11>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}, eq<01>{}),
+                        list(eq<10>{}, eq<11>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{}),
+                        list(eq<00>{}, eq<11>{}),
+                        list(eq<01>{}, eq<10>{}),
+                        list(eq<01>{}, eq<11>{})
+                    )
+                ));
+
+                // misc
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}),
+                        list(eq<10>{}),
+                        list(eq<20>{}),
+                        list(eq<30>{}, eq<31>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{}, eq<20>{}, eq<30>{}),
+                        list(eq<00>{}, eq<10>{}, eq<20>{}, eq<31>{})
+                    )
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    cartesian_product(list(
+                        list(eq<00>{}),
+                        list(eq<10>{}),
+                        list(eq<20>{}, eq<21>{}),
+                        list(eq<30>{}, eq<31>{})
+                    )),
+                    list(
+                        list(eq<00>{}, eq<10>{}, eq<20>{}, eq<30>{}),
+                        list(eq<00>{}, eq<10>{}, eq<20>{}, eq<31>{}),
+                        list(eq<00>{}, eq<10>{}, eq<21>{}, eq<30>{}),
+                        list(eq<00>{}, eq<10>{}, eq<21>{}, eq<31>{})
+                    )
+                ));
+            }
+
 #endif
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
 

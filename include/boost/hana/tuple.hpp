@@ -882,6 +882,60 @@ namespace boost { namespace hana {
         : decltype(true_)
     { };
 
+    // Credits: implementation adapted from http://github.com/alexk7/hel.
+    template <>
+    struct cartesian_product_impl<Tuple> {
+        using Size = detail::std::size_t;
+
+        template <Size ...lengths_>
+        static constexpr auto indices_of(Size i) {
+            constexpr Size lengths[] = {lengths_...};
+            constexpr Size n = sizeof...(lengths_);
+            detail::constexpr_::array<Size, n> result{};
+            for (Size j = n; j--;) {
+                result[j] = i % lengths[j];
+                i /= lengths[j];
+            }
+            return result;
+        }
+
+        template <Size n, Size ...k, typename ...Tuples>
+        static constexpr auto
+        product_element(detail::std::index_sequence<k...>, Tuples&& ...tuples) {
+            constexpr auto indices = indices_of<tuple_detail::size<Tuples>{}()...>(n);
+            return hana::make_tuple(detail::get<indices[k]>(tuples)...);
+        }
+
+        template <Size ...n, typename ...Tuples>
+        static constexpr auto
+        cartesian_product_helper(detail::std::index_sequence<n...>,
+                                 Tuples&& ...tuples)
+        {
+            auto ks = detail::std::make_index_sequence<sizeof...(Tuples)>{};
+            return hana::make_tuple(product_element<n>(ks, tuples...)...);
+        }
+
+        #define BOOST_HANA_PP_CARTESIAN_PRODUCT(REF)                                \
+            template <typename ...Tuples>                                           \
+            static constexpr auto apply(detail::closure_impl<Tuples...> REF xs) {   \
+                constexpr Size lengths[] = {                                        \
+                    tuple_detail::size<typename Tuples::get_type>{}()...            \
+                };                                                                  \
+                constexpr Size total_length = hana::product<Size>(lengths);         \
+                auto ns = detail::std::make_index_sequence<total_length>{};         \
+                return cartesian_product_helper(ns,                                 \
+                    static_cast<Tuples REF>(xs).get...                              \
+                );                                                                  \
+            }                                                                       \
+                                                                                    \
+            static constexpr auto apply(detail::closure_impl<> REF) {               \
+                return hana::make_tuple();                                          \
+            }                                                                       \
+        /**/
+        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_CARTESIAN_PRODUCT)
+        #undef BOOST_HANA_PP_CARTESIAN_PRODUCT
+    };
+
     template <>
     struct init_impl<Tuple> {
         template <typename Xs, detail::std::size_t ...n>

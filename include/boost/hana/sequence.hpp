@@ -125,6 +125,26 @@ namespace boost { namespace hana {
     } // end namespace sequence_detail
 
     //////////////////////////////////////////////////////////////////////////
+    // cartesian_product
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct cartesian_product_impl : cartesian_product_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct cartesian_product_impl<S, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return hana::eval_if(hana::is_empty(xs),
+                hana::lazy(hana::make<S>()),
+                hana::lazy(hana::unpack)(
+                    static_cast<Xs&&>(xs),
+                    hana::partial(hana::ap, hana::lift<S>(hana::make<S>))
+                )
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // group (with a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>

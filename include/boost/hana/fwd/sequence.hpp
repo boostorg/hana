@@ -212,6 +212,74 @@ namespace boost { namespace hana {
         template <typename S> struct traverse_impl;
     };
 
+    //! Computes the cartesian product of a sequence of sequences.
+    //! @relates Sequence
+    //!
+    //! Given a sequence of sequences, `cartesian_product` returns a new
+    //! sequence of sequences containing the cartesian product of the
+    //! original sequences. For this method to finish, a finite number
+    //! of finite sequences must be provided.
+    //!
+    //! All the sequences must have the same data type, and that data type
+    //! must also match that of the top-level sequence. In other words,
+    //! the sequence must be of the form
+    //! @code
+    //!     make_sequence(
+    //!         make_sequence(...),
+    //!         ...
+    //!         make_sequence(...)
+    //!     )
+    //! @endcode
+    //!
+    //! for some function `make_sequence` returning a `Sequence`.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a `Sequence` `S` and a generalized type `T`, the signature is
+    //! \f[
+    //!     \mathrm{cartesian\_product} : S(S(T)) \to S(S(T))
+    //! \f]
+    //!
+    //! @param xs
+    //! A sequence of sequences of which the cartesian product is computed.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp cartesian_product
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.cartesian_product.compile.json">
+    //! </div>
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto cartesian_product = see documentation;
+#else
+    template <typename S, typename = void>
+    struct cartesian_product_impl;
+
+    struct _cartesian_product {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const {
+            using S = typename datatype<Xs>::type;
+            using CartesianProduct = cartesian_product_impl<S>;
+
+        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            static_assert(_models<Sequence, S>{},
+            "hana::cartesian_product(xs) requires xs to be a Sequence");
+        #endif
+
+            return CartesianProduct::apply(static_cast<Xs&&>(xs));
+        }
+    };
+
+    constexpr _cartesian_product cartesian_product{};
+#endif
+
     //! Group adjacent elements of a sequence that all respect a binary
     //! predicate, by default equality.
     //! @relates Sequence

@@ -240,6 +240,36 @@ BOOST_HANA_CONSTANT_CHECK(
 //////////////////////////////////////////////////////////////////////////////
 {
 
+//! [cartesian_product]
+static_assert(
+    cartesian_product(
+        make_tuple(
+            make_tuple(1, 2, 3),
+            make_tuple('a', 'b'),
+            make_tuple(type<int>, type<char>)
+        )
+    ) ==
+    make_tuple(
+        make_tuple(1, 'a', type<int>),
+        make_tuple(1, 'a', type<char>),
+        make_tuple(1, 'b', type<int>),
+        make_tuple(1, 'b', type<char>),
+
+        make_tuple(2, 'a', type<int>),
+        make_tuple(2, 'a', type<char>),
+        make_tuple(2, 'b', type<int>),
+        make_tuple(2, 'b', type<char>),
+
+        make_tuple(3, 'a', type<int>),
+        make_tuple(3, 'a', type<char>),
+        make_tuple(3, 'b', type<int>),
+        make_tuple(3, 'b', type<char>)
+    )
+, "");
+//! [cartesian_product]
+
+}{
+
 //! [group]
 // without a predicate
 BOOST_HANA_CONSTANT_CHECK(
