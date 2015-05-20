@@ -104,10 +104,16 @@ if (Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad_plus.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/sequence.cpp")
 
-    # Currently, the test for fusion::tuple's model of Monad is disabled
+    # Currently, the tests for fusion::tuple's models of Monad and Sequence
+    # are disabled because of bugs in Fusion.
+    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/sequence.cpp")
+
+    # Currently, the test for fusion::vector's model of Sequence is disabled
     # because of a bug in Fusion.
     list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp")
+        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/vector/sequence.cpp")
 endif()
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
