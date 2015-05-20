@@ -57,6 +57,18 @@ namespace boost { namespace hana { namespace test {
                     datatype_t<decltype(hana::value(c))>
                 >{}, "");
 
+                // equivalence of value_of(c) and value<decltype(c)>
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::value_of(c),
+                    hana::value<decltype(c)>()
+                ));
+
+                // equivalence of value<decltype(c)>() and value(c)
+                BOOST_HANA_CHECK(hana::equal(
+                    hana::value<decltype(c)>(),
+                    hana::value(c)
+                ));
+
                 // conversion from an arbitrary Constant
                 (void)to<C>(wrap_arbitrary_constant<decltype(c)>{});
                 static_assert(is_embedded<detail::CanonicalConstant<T>, C>{}, "");
