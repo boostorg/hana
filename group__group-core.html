@@ -282,7 +282,8 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="keyword">struct </span>base_template&lt;T, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;typename T::value_type&gt;&gt; {</div>
 <div class="line">    <span class="comment">// something useful...</span></div>
 <div class="line">};</div>
-</div><!-- fragment -->
+</div><!-- fragment --><dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>Using <code>when_valid</code> seems to trigger ambiguous partial specializations on GCC. </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -529,10 +530,12 @@ template&lt;typename Datatype , typename Method &gt; </div>
 <div class="line"><span class="comment">// Once the operators can be found by name lookup, we still need to</span></div>
 <div class="line"><span class="comment">// specialize the `operators::of` trait to enable them, or we could</span></div>
 <div class="line"><span class="comment">// have used a nested `hana::operators` type too.</span></div>
-<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span><a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of</a>&lt;Person&gt;</div>
-<div class="line">    : <a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">boost::hana::operators::of</a>&lt;Comparable&gt;</div>
-<div class="line">{ };</div>
+<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana { <span class="keyword">namespace </span>operators {</div>
+<div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line">    <span class="keyword">struct </span>of&lt;Person&gt;</div>
+<div class="line">        : <a class="code" href="structboost_1_1hana_1_1operators_1_1of.html">operators::of</a>&lt;Comparable&gt;</div>
+<div class="line">    { };</div>
+<div class="line">}}}</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Here, the operators are made findable by ADL by using `operators::adl` as</span></div>
 <div class="line"><span class="comment">// a base class. Unfortunately, we lose PODness even though `operators::adl`</span></div>

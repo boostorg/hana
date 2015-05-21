@@ -10,7 +10,7 @@ var indexSectionsWithContent =
   7: "b",
   8: "b",
   9: "acdef",
-  10: "tu"
+  10: "btu"
 };
 
 var indexSectionNames =

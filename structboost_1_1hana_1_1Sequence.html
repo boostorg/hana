@@ -332,6 +332,9 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Traversable.html" 
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
+<tr class="memitem:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95">cartesian_product</a> = see documentation</td></tr>
+<tr class="memdesc:a211a6ce41e4972cd7642b77a1afa8e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cartesian product of a sequence of sequences.  <a href="#a211a6ce41e4972cd7642b77a1afa8e95">More...</a><br /></td></tr>
+<tr class="separator:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a> = see documentation</td></tr>
 <tr class="memdesc:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> adjacent elements of a sequence that all respect a binary predicate, by default equality.  <a href="#a83d9b8f0f293c6fe7cfccd2359dec330">More...</a><br /></td></tr>
 <tr class="separator:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -401,6 +404,72 @@ Synopsis of methods</h2></td></tr>
 <tr class="separator:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
+<a class="anchor" id="a211a6ce41e4972cd7642b77a1afa8e95"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto cartesian_product = see documentation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the cartesian product of a sequence of sequences. </p>
+<p>Given a sequence of sequences, <code>cartesian_product</code> returns a new sequence of sequences containing the cartesian product of the original sequences. For this method to finish, a finite number of finite sequences must be provided.</p>
+<p>All the sequences must have the same data type, and that data type must also match that of the top-level sequence. In other words, the sequence must be of the form </p><div class="fragment"><div class="line">make_sequence(</div>
+<div class="line">    make_sequence(...),</div>
+<div class="line">    ...</div>
+<div class="line">    make_sequence(...)</div>
+<div class="line">)</div>
+</div><!-- fragment --><p>for some function <code>make_sequence</code> returning a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>.</p>
+<h2>Signature </h2>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S</code> and a generalized type <code>T</code>, the signature is </p><p class="formulaDsp">
+\[ \mathrm{cartesian\_product} : S(S(T)) \to S(S(T)) \]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>A sequence of sequences of which the cartesian product is computed.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95">cartesian_product</a>(</div>
+<div class="line">        make_tuple(</div>
+<div class="line">            make_tuple(1, 2, 3),</div>
+<div class="line">            make_tuple(<span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;b&#39;</span>),</div>
+<div class="line">            make_tuple(type&lt;int&gt;, type&lt;char&gt;)</div>
+<div class="line">        )</div>
+<div class="line">    ) ==</div>
+<div class="line">    make_tuple(</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;a&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;a&#39;</span>, type&lt;char&gt;),</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;b&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;b&#39;</span>, type&lt;char&gt;),</div>
+<div class="line"></div>
+<div class="line">        make_tuple(2, <span class="charliteral">&#39;a&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(2, <span class="charliteral">&#39;a&#39;</span>, type&lt;char&gt;),</div>
+<div class="line">        make_tuple(2, <span class="charliteral">&#39;b&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(2, <span class="charliteral">&#39;b&#39;</span>, type&lt;char&gt;),</div>
+<div class="line"></div>
+<div class="line">        make_tuple(3, <span class="charliteral">&#39;a&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(3, <span class="charliteral">&#39;a&#39;</span>, type&lt;char&gt;),</div>
+<div class="line">        make_tuple(3, <span class="charliteral">&#39;b&#39;</span>, type&lt;int&gt;),</div>
+<div class="line">        make_tuple(3, <span class="charliteral">&#39;b&#39;</span>, type&lt;char&gt;)</div>
+<div class="line">    )</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.cartesian_product.compile.json"> </div> 
+</div>
+</div>
 <a class="anchor" id="a83d9b8f0f293c6fe7cfccd2359dec330"></a>
 <div class="memitem">
 <div class="memproto">

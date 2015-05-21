@@ -149,6 +149,8 @@ When <code>sequence</code> is defined, <code>traverse</code> can be obtained by 
 When <code>traverse</code> is defined, <code>sequence</code> can be obtained by setting <div class="fragment"><div class="line">sequence&lt;A&gt;(xs) = traverse&lt;A&gt;(xs, <span class="keywordtype">id</span>)</div>
 </div><!-- fragment --></li>
 </ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Represents a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code></p>
 <h2>Laws </h2>
 <p>In the laws below, we use the <code>Identity</code> and <code>Compose</code> functors defined <a href="https://hackage.haskell.org/package/base-4.7.0.2/docs/Data-Traversable.html">here</a>. Note that those functors are not provided by Hana and they are only used here for documentation purposes.</p>
 <p>Let <code>A</code>, <code>B</code> be arbitrary Applicatives, and let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a> of data type <code>T(A(X))</code>. Then, for any <a class="el" href="structboost_1_1hana_1_1Applicative.html#applicative-transformation">applicative-transformation</a> \( f : A(X) \to B(X) \), the following must hold. First, <code>sequence</code> must <em>play well</em> with <code>transform</code>: </p><div class="fragment"><div class="line"><span class="comment">// naturality</span></div>
@@ -158,9 +160,7 @@ When <code>traverse</code> is defined, <code>sequence</code> can be obtained by 
 </div><!-- fragment --><p>Finally, for any <a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a> <code>xxs</code> of data type <code>T(A(B(X)))</code>, doing two traversals in sequence (commuting from <code>T(A(B(X)))</code> to <code>A(B(T(X)))</code>) must be collapsible into a single traversal: </p><div class="fragment"><div class="line"><span class="comment">// composition</span></div>
 <div class="line">sequence&lt;Compose&gt;(transform(xxs, make&lt;Compose&gt;))</div>
 <div class="line">    == make&lt;Compose&gt;(transform(sequence&lt;A&gt;(xxs), sequence&lt;B&gt;))</div>
-</div><!-- fragment --><h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Represents a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> </p>
-</div><table class="memberdecls">
+</div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:ad2bcf2a65d198953b1690b02f9425419"><td class="memTemplParams" colspan="2">template&lt;typename A &gt; </td></tr>

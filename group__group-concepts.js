@@ -132,6 +132,7 @@ var group__group_concepts =
       [ "is_subset", "structboost_1_1hana_1_1Searchable.html#a386ac8af7123ea1e8ea1fa2bbd4cbf3d", null ]
     ] ],
     [ "Sequence", "structboost_1_1hana_1_1Sequence.html", [
+      [ "cartesian_product", "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95", null ],
       [ "group", "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
       [ "init", "structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26", null ],
       [ "intersperse", "structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec", null ],

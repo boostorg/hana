@@ -24,6 +24,7 @@ var NAVTREEINDEX0 =
 "boost_2fusion_2vector_8hpp.html":[2,2,0,0,2,0,0,4],
 "boost_2mpl_2vector_8hpp.html":[2,2,0,0,2,0,1,1],
 "boost_8hpp.html":[2,2,0,0,2,2],
+"bug.html":[4],
 "canonical__constant_8hpp.html":[2,2,0,0,1,3],
 "capture_8hpp.html":[2,2,0,0,3,3],
 "capture_8hpp.html#ga41ada6b336e9d5bcb101ff0c737acbd0":[2,2,0,0,3,3,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "index.html#tutorial-ext-std":[0,11,0],
 "index.html#tutorial-extending":[0,12],
 "index.html#tutorial-extending-creating_concepts":[0,12,1],
-"index.html#tutorial-extending-tag_dispatching":[0,12,0],
-"index.html#tutorial-header_organization":[0,13]
+"index.html#tutorial-extending-tag_dispatching":[0,12,0]
 };

@@ -186,7 +186,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line"><span class="comment">// and so on...</span></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
+<div class="line">constexpr <span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Maybe.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(static_cast&lt;int&gt;(n - 48)),</div>
 <div class="line">    nothing</div>
 <div class="line">);</div>
