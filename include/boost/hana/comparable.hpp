@@ -88,7 +88,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _equal::_to::operator()(X&& x) const
+    constexpr decltype(auto) _equal_to::operator()(X&& x) const
     { return hana::partial(equal, static_cast<X&&>(x)); }
     //! @endcond
 
@@ -122,7 +122,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _not_equal::_to::operator()(X&& x) const
+    constexpr decltype(auto) _not_equal_to::operator()(X&& x) const
     { return hana::partial(not_equal, static_cast<X&&>(x)); }
     //! @endcond
 
@@ -176,7 +176,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(X const&, Y const&) {
             constexpr auto equal = hana::equal(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(equal, true, false);
-            return _bool<truth_value>{};
+            return bool_<truth_value>;
         }
     };
 }} // end namespace boost::hana

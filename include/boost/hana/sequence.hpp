@@ -970,8 +970,11 @@ namespace boost { namespace hana {
     // zip.shortest
     //////////////////////////////////////////////////////////////////////////
     //! @cond
+    template <typename ...AvoidODRViolation>
     template <typename Xs, typename ...Ys>
-    constexpr decltype(auto) _zip_shortest::operator()(Xs&& xs, Ys&& ...ys) const {
+    constexpr decltype(auto) _zip_shortest<AvoidODRViolation...>::
+                             operator()(Xs&& xs, Ys&& ...ys) const
+    {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
@@ -1054,8 +1057,11 @@ namespace boost { namespace hana {
     // zip.unsafe
     //////////////////////////////////////////////////////////////////////////
     //! @cond
+    template <typename ...AvoidODRViolation>
     template <typename Xs, typename ...Ys>
-    constexpr decltype(auto) _zip_unsafe::operator()(Xs&& xs, Ys&& ...ys) const {
+    constexpr decltype(auto) _zip_unsafe<AvoidODRViolation...>::
+                             operator()(Xs&& xs, Ys&& ...ys) const
+    {
 #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...

@@ -331,14 +331,17 @@ namespace boost { namespace hana {
         }
     };
 
+    template <typename ...AvoidODRViolation>
     struct _fold : _fold_left {
         static constexpr _fold_left left{};
         static constexpr _fold_right right{};
     };
-    constexpr _fold_left _fold::left;
-    constexpr _fold_right _fold::right;
+    template <typename ...AvoidODRViolation>
+    constexpr _fold_left _fold<AvoidODRViolation...>::left;
+    template <typename ...AvoidODRViolation>
+    constexpr _fold_right _fold<AvoidODRViolation...>::right;
 
-    constexpr _fold fold{};
+    constexpr _fold<> fold{};
 #endif
 
     //! Monadic fold of a structure with a binary operation and an optional
@@ -833,6 +836,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Predicate&&) const;
     };
 
+    template <typename ...AvoidODRViolation>
     struct _minimum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -859,9 +863,10 @@ namespace boost { namespace hana {
 
         static constexpr _minimum_by by{};
     };
-    constexpr _minimum_by _minimum::by;
+    template <typename ...AvoidODRViolation>
+    constexpr _minimum_by _minimum<AvoidODRViolation...>::by;
 
-    constexpr _minimum minimum{};
+    constexpr _minimum<> minimum{};
 #endif
 
     //! Return the greatest element of a non-empty structure with respect to
@@ -954,6 +959,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Predicate&&) const;
     };
 
+    template <typename ...AvoidODRViolation>
     struct _maximum {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -980,9 +986,10 @@ namespace boost { namespace hana {
 
         static constexpr _maximum_by by{};
     };
-    constexpr _maximum_by _maximum::by;
+    template <typename ...AvoidODRViolation>
+    constexpr _maximum_by _maximum<AvoidODRViolation...>::by;
 
-    constexpr _maximum maximum{};
+    constexpr _maximum<> maximum{};
 #endif
 
     //! Compute the sum of the numbers of a structure.

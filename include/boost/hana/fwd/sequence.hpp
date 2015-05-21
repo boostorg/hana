@@ -373,6 +373,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Predicate&&) const;
     };
 
+    template <typename ...AvoidODRViolation>
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -399,9 +400,10 @@ namespace boost { namespace hana {
 
         static constexpr _group_by by{};
     };
-    constexpr _group_by _group::by;
+    template <typename ...AvoidODRViolation>
+    constexpr _group_by _group<AvoidODRViolation...>::by;
 
-    constexpr _group group{};
+    constexpr _group<> group{};
 #endif
 
     //! Remove the last element of a non-empty sequence.
@@ -888,14 +890,17 @@ namespace boost { namespace hana {
         }
     };
 
+    template <typename ...AvoidODRViolation>
     struct _scan : _scan_left {
         static constexpr _scan_left left{};
         static constexpr _scan_right right{};
     };
-    constexpr _scan_left _scan::left;
-    constexpr _scan_right _scan::right;
+    template <typename ...AvoidODRViolation>
+    constexpr _scan_left _scan<AvoidODRViolation...>::left;
+    template <typename ...AvoidODRViolation>
+    constexpr _scan_right _scan<AvoidODRViolation...>::right;
 
-    constexpr _scan scan{};
+    constexpr _scan<> scan{};
 #endif
 
     //! Extract a subsequence delimited by the given indices.
@@ -1068,6 +1073,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Predicate&&) const;
     };
 
+    template <typename ...AvoidODRViolation>
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -1094,9 +1100,10 @@ namespace boost { namespace hana {
 
         static constexpr _sort_by by{};
     };
-    constexpr _sort_by _sort::by;
+    template <typename ...AvoidODRViolation>
+    constexpr _sort_by _sort<AvoidODRViolation...>::by;
 
-    constexpr _sort sort{};
+    constexpr _sort<> sort{};
 #endif
 
     //! Returns a `Product` containing the longest prefix of a sequence
@@ -1286,13 +1293,16 @@ namespace boost { namespace hana {
         }
     };
 
+    template <typename ...AvoidODRViolation>
     struct _take : _take_at_most {
         static constexpr _take_exactly exactly{};
         static constexpr _take_at_most at_most{};
     };
-    constexpr _take_exactly _take::exactly;
-    constexpr _take_at_most _take::at_most;
-    constexpr _take take{};
+    template <typename ...AvoidODRViolation>
+    constexpr _take_exactly _take<AvoidODRViolation...>::exactly;
+    template <typename ...AvoidODRViolation>
+    constexpr _take_at_most _take<AvoidODRViolation...>::at_most;
+    constexpr _take<> take{};
 #endif
 
     //! Equivalent to `take`; provided for convenience.
@@ -1674,13 +1684,15 @@ namespace boost { namespace hana {
 
     template <typename S, typename = void>
     struct zip_unsafe_impl;
+    template <typename ...AvoidODRViolation>
     struct _zip_unsafe {
         static constexpr _zip_unsafe_with with{};
 
         template <typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
     };
-    constexpr _zip_unsafe_with _zip_unsafe::with;
+    template <typename ...AvoidODRViolation>
+    constexpr _zip_unsafe_with _zip_unsafe<AvoidODRViolation...>::with;
 
 
     template <typename S, typename = void>
@@ -1693,22 +1705,27 @@ namespace boost { namespace hana {
 
     template <typename S, typename = void>
     struct zip_shortest_impl;
+    template <typename ...AvoidODRViolation>
     struct _zip_shortest {
         static constexpr _zip_shortest_with with{};
         template <typename Xs, typename ...Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
     };
-    constexpr _zip_shortest_with _zip_shortest::with;
+    template <typename ...AvoidODRViolation>
+    constexpr _zip_shortest_with _zip_shortest<AvoidODRViolation...>::with;
 
 
-    struct _zip : _zip_shortest {
-        static constexpr _zip_shortest shortest{};
-        static constexpr _zip_unsafe unsafe{};
+    template <typename ...AvoidODRViolation>
+    struct _zip : _zip_shortest<> {
+        static constexpr _zip_shortest<> shortest{};
+        static constexpr _zip_unsafe<> unsafe{};
     };
-    constexpr _zip_shortest _zip::shortest;
-    constexpr _zip_unsafe _zip::unsafe;
+    template <typename ...AvoidODRViolation>
+    constexpr _zip_shortest<> _zip<AvoidODRViolation...>::shortest;
+    template <typename ...AvoidODRViolation>
+    constexpr _zip_unsafe<> _zip<AvoidODRViolation...>::unsafe;
 
-    constexpr _zip zip{};
+    constexpr _zip<> zip{};
 #endif
 }} // end namespace boost::hana
 

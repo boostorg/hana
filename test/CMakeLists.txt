@@ -148,6 +148,21 @@ endforeach()
 
 
 ##############################################################################
+# Add other custom unit tests
+##############################################################################
+# Check for ODR violations when linking several translation units
+# (GitHub issue 75)
+list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
+    "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75_other_tu.cpp")
+
+boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp")
+boost_hana_add_executable(${github_75} EXCLUDE_FROM_ALL
+                        "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
+add_test(NAME ${github_75} COMMAND compile.${github_75})
+
+
+##############################################################################
 # Add all the unit tests
 ##############################################################################
 foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)

@@ -91,7 +91,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _less::_than::operator()(X&& x) const
+    constexpr decltype(auto) _less_than::operator()(X&& x) const
     { return hana::partial(hana::flip(less), static_cast<X&&>(x)); }
     //! @endcond
 
@@ -125,7 +125,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _less_equal::_than::operator()(X&& x) const
+    constexpr decltype(auto) _less_equal_than::operator()(X&& x) const
     { return hana::partial(hana::flip(less_equal), static_cast<X&&>(x)); }
     //! @endcond
 
@@ -159,7 +159,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _greater::_than::operator()(X&& x) const
+    constexpr decltype(auto) _greater_than::operator()(X&& x) const
     { return hana::partial(hana::flip(greater), static_cast<X&&>(x)); }
     //! @endcond
 
@@ -193,7 +193,7 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr decltype(auto) _greater_equal::_than::operator()(X&& x) const
+    constexpr decltype(auto) _greater_equal_than::operator()(X&& x) const
     { return hana::partial(hana::flip(greater_equal), static_cast<X&&>(x)); }
     //! @endcond
 

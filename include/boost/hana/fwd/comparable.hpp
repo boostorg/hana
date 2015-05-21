@@ -219,6 +219,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct equal_impl;
 
+    struct _equal_to {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -228,15 +234,12 @@ namespace boost { namespace hana {
             return Equal::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _to {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _to to{};
+        static constexpr _equal_to to{};
     };
-    constexpr _equal::_to _equal::to;
+    template <typename ...AvoidODRViolation>
+    constexpr _equal_to _equal<AvoidODRViolation...>::to;
 
-    constexpr _equal equal{};
+    constexpr _equal<> equal{};
 #endif
 
     //! Returns a `Logical` representing whether `x` is not equal to `y`.
@@ -281,6 +284,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct not_equal_impl;
 
+    struct _not_equal_to {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _not_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -290,15 +299,12 @@ namespace boost { namespace hana {
             return NotEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _to {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _to to{};
+        static constexpr _not_equal_to to{};
     };
-    constexpr _not_equal::_to _not_equal::to;
+    template <typename ...AvoidODRViolation>
+    constexpr _not_equal_to _not_equal<AvoidODRViolation...>::to;
 
-    constexpr _not_equal not_equal{};
+    constexpr _not_equal<> not_equal{};
 #endif
 
     //! Returns a function performing `equal` after applying a transformation

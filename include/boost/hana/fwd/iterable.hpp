@@ -518,13 +518,16 @@ namespace boost { namespace hana {
         }
     };
 
+    template <typename ...>
     struct _drop : _drop_at_most {
         static constexpr _drop_exactly exactly{};
         static constexpr _drop_at_most at_most{};
     };
-    constexpr _drop_exactly _drop::exactly;
-    constexpr _drop_at_most _drop::at_most;
-    constexpr _drop drop{};
+    template <typename ...Dummy>
+    constexpr _drop_exactly _drop<Dummy...>::exactly;
+    template <typename ...Dummy>
+    constexpr _drop_at_most _drop<Dummy...>::at_most;
+    constexpr _drop<> drop{};
 #endif
 
     //! Equivalent to `drop`; provided for convenience.

@@ -234,6 +234,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct less_impl;
 
+    struct _less_than {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _less {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -256,15 +262,12 @@ namespace boost { namespace hana {
             return Less::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _than {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _than than{};
+        static constexpr _less_than than{};
     };
-    constexpr _less::_than _less::than;
+    template <typename ...AvoidODRViolation>
+    constexpr _less_than _less<AvoidODRViolation...>::than;
 
-    constexpr _less less{};
+    constexpr _less<> less{};
 #endif
 
     //! Returns a `Logical` representing whether `x` is less than or
@@ -293,6 +296,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct less_equal_impl;
 
+    struct _less_equal_than {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _less_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -311,15 +320,12 @@ namespace boost { namespace hana {
             return LessEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _than {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _than than{};
+        static constexpr _less_equal_than than{};
     };
-    constexpr _less_equal::_than _less_equal::than;
+    template <typename ...AvoidODRViolation>
+    constexpr _less_equal_than _less_equal<AvoidODRViolation...>::than;
 
-    constexpr _less_equal less_equal{};
+    constexpr _less_equal<> less_equal{};
 #endif
 
     //! Returns a `Logical` representing whether `x` is greater than `y`.
@@ -347,6 +353,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct greater_impl;
 
+    struct _greater_than {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _greater {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -365,15 +377,12 @@ namespace boost { namespace hana {
             return Greater::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _than {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _than than{};
+        static constexpr _greater_than than{};
     };
-    constexpr _greater::_than _greater::than;
+    template <typename ...AvoidODRViolation>
+    constexpr _greater_than _greater<AvoidODRViolation...>::than;
 
-    constexpr _greater greater{};
+    constexpr _greater<> greater{};
 #endif
 
     //! Returns a `Logical` representing whether `x` is greater than or
@@ -402,6 +411,12 @@ namespace boost { namespace hana {
     template <typename T, typename U, typename = void>
     struct greater_equal_impl;
 
+    struct _greater_equal_than {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
+
+    template <typename ...AvoidODRViolation>
     struct _greater_equal {
         template <typename X, typename Y>
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
@@ -420,15 +435,12 @@ namespace boost { namespace hana {
             return GreaterEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
         }
 
-        struct _than {
-            template <typename X>
-            constexpr decltype(auto) operator()(X&& x) const;
-        };
-        static constexpr _than than{};
+        static constexpr _greater_equal_than than{};
     };
-    constexpr _greater_equal::_than _greater_equal::than;
+    template <typename ...AvoidODRViolation>
+    constexpr _greater_equal_than _greater_equal<AvoidODRViolation...>::than;
 
-    constexpr _greater_equal greater_equal{};
+    constexpr _greater_equal<> greater_equal{};
 #endif
 
     //! Returns the smallest of its arguments according to the `less` ordering.
