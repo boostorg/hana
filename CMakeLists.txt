@@ -8,6 +8,7 @@
 project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+enable_testing()
 
 
 ##############################################################################
@@ -17,6 +18,7 @@ include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_PEDANTIC "Compile with pedantic enabled." ON)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler supports it." ON)
+option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found" OFF)
 
 
 ##############################################################################
@@ -66,7 +68,10 @@ find_package(Git)
 find_package(Meta)
 find_package(MPL11)
 find_package(Ruby 2.1)
-find_package(Valgrind)
+
+if (BOOST_HANA_ENABLE_MEMCHECK)
+    find_package(Valgrind REQUIRED)
+endif()
 
 if (NOT ${Boost_FOUND})
     message(WARNING
@@ -102,19 +107,8 @@ endif()
 
 
 ##############################################################################
-# Setup subdirectories
+# Setup custom functions to ease the creation of targets
 ##############################################################################
-add_custom_target(compile.all
-    COMMENT "Build all the unit tests and examples.")
-
-add_custom_target(run.all ALL
-    COMMENT "Build and then run all the unit tests and examples.")
-
-if (Valgrind_FOUND)
-    add_custom_target(memcheck.all ALL
-        COMMENT "Build and then run all the unit tests and examples under the memory checker.")
-endif()
-
 #   boost_hana_target_name_for(<output variable> <source file> [ext])
 #
 # Return the target name associated to a source file. If the path of the
@@ -142,35 +136,46 @@ endif()
 
 #   boost_hana_add_executable(<name> ...)
 #
-# Creates an executable called `compile.name` with exactly the same arguments
-# that were received, but also links the executable with the custom libc++
+# Creates an executable called `name` with exactly the same arguments that
+# were received, but also links the executable with the custom libc++
 # installation specified by `LIBCXX_ROOT`, if any.
-#
-# A target named `run.name` which builds and then runs the executable is also
-# created. Finally, if Valgrind was found, a target named `memcheck.name`
-# building and running the executable under Valgrind is created too.
 function(boost_hana_add_executable name)
-    add_executable(compile.${ARGV})
-    add_custom_target(run.${name} COMMAND compile.${name})
+    add_executable(${name} ${ARGN})
 
     if (DEFINED LIBCXX_ROOT)
-        target_link_libraries(compile.${name} ${libcxx})
-        set_property(TARGET compile.${name} APPEND PROPERTY
+        target_link_libraries(${name} ${libcxx})
+        set_property(TARGET ${name} APPEND PROPERTY
             INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
-    endif()
-
-    if (Valgrind_FOUND)
-        add_custom_target(memcheck.${name}
-            COMMAND ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1
-                                           ${CMAKE_CURRENT_BINARY_DIR}/compile.${name}
-            DEPENDS compile.${name})
     endif()
 endfunction()
 
-# Note: benchmark/ MUST be included before doc/ because the 'doc' target
-# depends on the 'benchmarks' target.
-enable_testing()
-include_directories(include)
+#   boost_hana_add_test(<name> <command> [<arg>...])
+#
+# Creates a test called `name`, which runs the given `command` with the given
+# `arg`uments. However, if `BOOST_HANA_ENABLE_MEMCHECK` is set to `ON`, the
+# test will run the provided command under the memory checker.
+function(boost_hana_add_test name)
+    if (BOOST_HANA_ENABLE_MEMCHECK)
+        add_test(${name}
+            ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
+    else()
+        add_test(${name} ${ARGN})
+    endif()
+endfunction()
+
+#   boost_hana_list_remove_glob(<list> <GLOB|GLOB_RECURSE> [globbing expressions]...)
+#
+# Generates a list of files matching the given glob expressions, and remove
+# the matched elements from the given <list>.
+macro(boost_hana_list_remove_glob list glob)
+    file(${glob} _bhlrg10321023_avoid_macro_clash_matches ${ARGN})
+    list(REMOVE_ITEM ${list} ${_bhlrg10321023_avoid_macro_clash_matches})
+endmacro()
+
+
+##############################################################################
+# Setup subdirectories
+##############################################################################
 add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)

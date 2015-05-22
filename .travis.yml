@@ -151,7 +151,7 @@ before_script:
   # Setup the build directory
   - mkdir build
   - cd build
-  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
+  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/libcxx/build -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_MEMCHECK=ON
 
 
 script:
@@ -162,21 +162,20 @@ script:
 
   # We only run the full benchmarks on `master` when we're not in a pull request, because
   # otherwise it takes too much Travis resources. Otherwise, we only run partial benchmarks
-  # to make sure they compile/run properly by using the 'check.benchmarks' target.
-  #
+  # to make sure they compile/run properly.
+  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make check.benchmarks -k; fi
+
   # When we run the benchmarks, we pre-clone the datasets branch, so the next datasets.clone
   # will just pull, which is pretty quick. This reduces the risk of push conflicts when these
   # jobs all run at the same time. When we push, we use travis_retry to try again if we encounter
   # a push conflict, and we disable the output to avoid leaking the GitHub token.
-  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make check.benchmarks -k; fi
-  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make benchmarks -k; fi
+  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make benchmarks; fi
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make datasets.clone; fi
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
 
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.headers compile.examples -k -j2 &>/dev/null; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make compile.all -k; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make run.all; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make memcheck.all; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make headers examples -k -j2 &>/dev/null; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make -k; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then ctest --output-on-failure; fi
 
 
 notifications:

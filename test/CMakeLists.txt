@@ -3,163 +3,163 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 ##############################################################################
-# Setup master test targets and file lists
+# Setup custom functions, master targets and file lists for the unit tests
 ##############################################################################
+add_custom_target(tests ALL COMMENT "Build all the unit tests.")
+add_custom_target(tests.quick ALL
+    COMMENT "Build all the unit tests, except external adapters and MCD unit tests.")
+add_custom_target(headers ALL COMMENT "Build all the header-inclusion unit tests.")
 
-# This allows putting stuff that's only relevant to the unit tests in the
-# test/include subdirectory.
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR})
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
-
-add_custom_target(compile.tests
-    COMMENT "Build all the unit tests.")
-add_dependencies(compile.all compile.tests)
-
-add_custom_target(run.tests
-    COMMENT "Build and then run all the unit tests."
-    DEPENDS compile.tests
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "test.+")
-add_dependencies(run.all run.tests)
-
-add_custom_target(compile.headers
-    COMMENT "Build all the header-inclusion unit tests.")
-add_dependencies(compile.tests compile.headers)
-
-if (Valgrind_FOUND)
-    add_custom_target(memcheck.tests
-        COMMENT "Build and then run all the tests under the memory checker.")
-    add_dependencies(memcheck.all memcheck.tests)
-endif()
-
-# A list of all the test files
-# Source files that are not available due to caveats are removed from this
-# list below.
-file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
-
-# A list of all the public headers.
-# Header files that are not available due to caveats are removed from this
-# list below.
-file(GLOB_RECURSE BOOST_HANA_PUBLIC_HEADERS
-    RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
-    "${CMAKE_CURRENT_LIST_DIR}/../include/*.hpp")
-file(GLOB_RECURSE _detail_headers
-    RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
-    "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/detail/*.hpp"
-    "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost/fusion/detail/*.hpp")
-list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_detail_headers})
-
-
-##############################################################################
-# Caveats
-##############################################################################
-
-# If Boost is not found, remove the headers that require Boost from the list
-# of public headers and the tests that require Boost from the list of tests.
-if (NOT Boost_FOUND)
-    file(GLOB_RECURSE _tests_that_require_Boost
-        "ext/boost/*.cpp"
-        "struct_macros.*.cpp")
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_tests_that_require_Boost})
-
-    file(GLOB_RECURSE _headers_that_require_boost
-        RELATIVE "${CMAKE_CURRENT_LIST_DIR}/../include"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost/*.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/ext/boost.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost/*.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/fwd/ext/boost.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/../include/boost/hana/struct_macros.hpp")
-    list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS ${_headers_that_require_boost})
-endif()
-
-if (Boost_FOUND)
-    if (${Boost_VERSION} LESS 105800)
-        # If the version of Boost is < 1.58.0, the fusion::deque and
-        # fusion::list adapters are not being tested because of bugs
-        # in Boost.Fusion.
-        list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
-            "boost/hana/ext/boost/fusion/deque.hpp"
-            "boost/hana/fwd/ext/boost/fusion/deque.hpp"
-            "boost/hana/ext/boost/fusion/list.hpp"
-            "boost/hana/fwd/ext/boost/fusion/list.hpp")
-
-        file(GLOB_RECURSE _ext_fusion_bad_tests
-            "ext/boost/fusion/deque/*.cpp"
-            "ext/boost/fusion/list/*.cpp")
-        list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_fusion_bad_tests})
+#   boost_hana_add_unit_test(<name> ...)
+#
+# Equivalent to `boost_hana_add_test`, except the test is also added as a
+# dependency of the `tests` target.
+function(boost_hana_add_unit_test name)
+    boost_hana_add_test(${ARGV})
+    add_dependencies(tests ${name})
+    if ((NOT "${name}" MATCHES "\\.ext\\.") AND (NOT "${name}" MATCHES "_mcd"))
+        add_dependencies(tests.quick ${name})
     endif()
+endfunction()
 
-    # Currently, the tests for fusion::deque's models of MonadPlus and Sequence
-    # are disabled due to bugs in Fusion.
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/monad_plus.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/deque/sequence.cpp")
-
-    # Currently, the tests for fusion::list's models of Monad, MonadPlus and
-    # Sequence are disabled due to bugs in Fusion.
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/monad_plus.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/list/sequence.cpp")
-
-    # Currently, the tests for fusion::tuple's models of Monad and Sequence
-    # are disabled because of bugs in Fusion.
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/monad.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/tuple/sequence.cpp")
-
-    # Currently, the test for fusion::vector's model of Sequence is disabled
-    # because of a bug in Fusion.
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-        "${CMAKE_CURRENT_LIST_DIR}/ext/boost/fusion/vector/sequence.cpp")
-endif()
-
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    # The std::tuple adapter is not supported with Clang < 3.7.0
-    list(REMOVE_ITEM BOOST_HANA_PUBLIC_HEADERS
-        "boost/hana/fwd/ext/std/tuple.hpp"
-        "boost/hana/ext/std/tuple.hpp")
-
-    file(GLOB_RECURSE _ext_std_tuple_tests "ext/std/tuple.cpp")
-    list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES ${_ext_std_tuple_tests})
-endif()
-
-
-##############################################################################
-# Generate tests that include each public header.
-##############################################################################
-foreach(header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
-    string(REGEX REPLACE "/" "." header_name "${header}")
+#   boost_hana_add_header_test(<header-name>)
+#
+# Add a unit test for the public header file `header-name`, which must be a
+# relative path from Hana's include directory, e.g. `boost/hana/tuple.hpp`.
+#
+# This function creates an executable named `header.header-name` and a test
+# of the same name. The only source file of the executable contains an empty
+# `main` and it includes the `header-name` file. This is used to make sure
+# that including any public header works properly. Also, the
+# `header.header-name` target is made a dependency of the `headers` target.
+function(boost_hana_add_header_test header)
+    string(REGEX REPLACE "/" "." _target "${header}")
     if (NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
         file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp" "
             #include <${header}>
             int main() { }
         ")
     endif()
-    boost_hana_add_executable(header.${header_name} EXCLUDE_FROM_ALL
+    boost_hana_add_executable(header.${_target} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-    add_dependencies(compile.headers compile.header.${header_name})
+    boost_hana_add_test(header.${_target}
+                                ${CMAKE_CURRENT_BINARY_DIR}/header.${_target})
+    add_dependencies(headers header.${_target})
+endfunction()
 
-    add_test(NAME header.${header_name} COMMAND compile.header.${header_name})
+# A list of all the test files
+#
+# Source files that are not available due to caveats are removed
+# from this list below.
+file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
+
+# A list of all the public headers
+#
+# Header files that are not available due to caveats are removed
+# from this list below.
+file(GLOB_RECURSE BOOST_HANA_PUBLIC_HEADERS "${Boost.Hana_SOURCE_DIR}/include/*.hpp")
+boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB_RECURSE
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/detail/*.hpp"
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/detail/*.hpp")
+
+
+##############################################################################
+# Include directories
+##############################################################################
+include_directories(${Boost.Hana_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR})
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
+
+##############################################################################
+# Caveats
+##############################################################################
+# If Boost is not found, remove the headers that require Boost from the list
+# of public headers and the tests that require Boost from the list of tests.
+if (NOT Boost_FOUND)
+    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
+        "ext/boost/*.cpp"
+        "struct_macros.*.cpp")
+
+    boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB_RECURSE
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/struct_macros.hpp")
+
+# Boost.Fusion is broken in several way. Because of this, we disable
+# several unit tests that break because of Fusion bugs.
+else()
+    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
+        # fusion::deque's models of MonadPlus and Sequence
+        "ext/boost/fusion/deque/monad_plus.cpp"
+        "ext/boost/fusion/deque/sequence.cpp"
+
+        # fusion::list's models of Monad, MonadPlus and Sequence
+        "ext/boost/fusion/list/monad.cpp"
+        "ext/boost/fusion/list/monad_plus.cpp"
+        "ext/boost/fusion/list/sequence.cpp"
+
+        # fusion::tuple's models of Monad and Sequence
+        "ext/boost/fusion/tuple/monad.cpp"
+        "ext/boost/fusion/tuple/sequence.cpp"
+
+        # fusion::vector's model of Sequence
+        "ext/boost/fusion/vector/sequence.cpp")
+
+    # If the version of Boost is < 1.58.0, the fusion::deque and
+    # fusion::list adapters are not being tested because of bugs
+    # in Boost.Fusion.
+    if (${Boost_VERSION} LESS 105800)
+        boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB
+            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/deque.hpp"
+            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/fusion/deque.hpp"
+            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/list.hpp"
+            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/fusion/list.hpp")
+
+        boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
+            "ext/boost/fusion/deque/*.cpp"
+            "ext/boost/fusion/list/*.cpp")
+    endif()
+
+endif()
+
+# The std::tuple adapter is not supported with Clang < 3.7.0
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
+    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
+    boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/std/tuple.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
+
+    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
+        "ext/std/tuple.cpp")
+endif()
+
+
+##############################################################################
+# Generate tests that include each public header
+##############################################################################
+foreach(_header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
+    file(RELATIVE_PATH _relative "${Boost.Hana_SOURCE_DIR}/include" "${_header}")
+    boost_hana_add_header_test("${_relative}")
 endforeach()
 
 
 ##############################################################################
-# Add other custom unit tests
-##############################################################################
 # Check for ODR violations when linking several translation units
 # (GitHub issue 75)
-list(REMOVE_ITEM BOOST_HANA_TEST_SOURCES
-    "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75_other_tu.cpp")
-
+##############################################################################
+boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
+    "bugs/github_75.cpp"
+    "bugs/github_75_other_tu.cpp")
 boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp")
 boost_hana_add_executable(${github_75} EXCLUDE_FROM_ALL
-                        "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
-add_test(NAME ${github_75} COMMAND compile.${github_75})
+                    "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
+boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 
 
 ##############################################################################
@@ -167,6 +167,7 @@ add_test(NAME ${github_75} COMMAND compile.${github_75})
 ##############################################################################
 foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
     file(READ "${_file}" _contents)
+    boost_hana_target_name_for(_target "${_file}")
 
     # If the file contains the special BOOST_HANA_TEST_PART marker, we split
     # it into several subparts. This is done to avoid long compile-times and
@@ -175,37 +176,20 @@ foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
         string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _parts "${_contents}")
         string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _parts "${_parts}")
         list(REMOVE_DUPLICATES _parts)
+        add_custom_target(${_target})
 
-        boost_hana_target_name_for(_target "${_file}")
-        add_custom_target(compile.${_target})
-        add_dependencies(compile.tests compile.${_target})
-        add_custom_target(run.${_target})
-        if (Valgrind_FOUND)
-            add_custom_target(memcheck.${_target})
-            add_dependencies(memcheck.tests memcheck.${_target})
-        endif()
+        foreach(n IN LISTS _parts)
+            boost_hana_add_executable("${_target}.part${n}"
+                EXCLUDE_FROM_ALL "${_file}")
+            set_target_properties("${_target}.part${n}"
+                PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${n}")
+            add_dependencies(${_target} "${_target}.part${n}")
 
-        foreach(_part IN LISTS _parts)
-            set(_ptarget "${_target}.part${_part}")
-            boost_hana_add_executable(${_ptarget} EXCLUDE_FROM_ALL "${_file}")
-            set_target_properties(compile.${_ptarget}
-                PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${_part}")
-            add_dependencies(compile.${_target} compile.${_ptarget})
-            add_dependencies(run.${_target} run.${_ptarget})
-
-            if (Valgrind_FOUND)
-                add_dependencies(memcheck.${_target} memcheck.${_ptarget})
-            endif()
-
-            add_test(NAME ${_ptarget} COMMAND compile.${_ptarget})
+            boost_hana_add_unit_test("${_target}.part${n}"
+                ${CMAKE_CURRENT_BINARY_DIR}/${_target}.part${n})
         endforeach()
     else()
-        boost_hana_target_name_for(_target "${_file}")
         boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-        add_dependencies(compile.tests compile.${_target})
-        add_test(NAME ${_target} COMMAND compile.${_target})
-        if (Valgrind_FOUND)
-            add_dependencies(memcheck.tests memcheck.${_target})
-        endif()
+        boost_hana_add_unit_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     endif()
 endforeach()

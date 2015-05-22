@@ -22,6 +22,8 @@ if(${__BOOST_HANA_MISSING_GEMS})
     return()
 endif()
 
+include_directories(${Boost.Hana_SOURCE_DIR}/include)
+
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
@@ -59,9 +61,10 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/measure.in.rb #input
 # file to perform their benchmarking, and launching the benchmarks will wipe
 # anything from the `measure.cpp` file.
 ##############################################################################
-boost_hana_add_executable(benchmark.measure EXCLUDE_FROM_ALL measure.cpp)
+boost_hana_add_executable(compile.benchmark.measure EXCLUDE_FROM_ALL measure.cpp)
 set_target_properties(compile.benchmark.measure
     PROPERTIES RULE_LAUNCH_COMPILE "${CMAKE_CURRENT_BINARY_DIR}/measure.rb")
+add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
 
 
 ##############################################################################

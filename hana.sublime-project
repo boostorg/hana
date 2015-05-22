@@ -11,13 +11,26 @@
     [
         {
             "name": "[Hana] Build current file",
-            "cmd": ["ruby", "-r", "pathname", "-e", "exec('make', 'compile.' + Pathname.new('${file}').relative_path_from(Pathname.new('${project_path}')).sub_ext('').to_s.gsub('/', '.'))"],
             "selector": "source.c++",
-            "working_dir": "$project_path",
+            "working_dir": "$project_path/build",
+            "cmd": ["ruby"
+                , "-r", "pathname"
+                , "-e", "project = Pathname.new('${project_path}')"
+                , "-e", "file = Pathname.new('${file}').relative_path_from(project)"
+                , "-e", "target = file.sub_ext('').to_s.gsub('/', '.')"
+                , "-e", "system('/usr/local/bin/cmake', '--build', '$project_path/build', '--target', target)"
+            ],
             "variants": [
                 {
                     "name": "Primary Quick Build",
-                    "cmd": ["ruby", "-r", "pathname", "-e", "exec('make', 'run.' + Pathname.new('${file}').relative_path_from(Pathname.new('${project_path}')).sub_ext('').to_s.gsub('/', '.'))"]
+                    "cmd": ["ruby"
+                        , "-r", "pathname"
+                        , "-e", "project = Pathname.new('${project_path}')"
+                        , "-e", "file = Pathname.new('${file}').relative_path_from(project)"
+                        , "-e", "target = file.sub_ext('').to_s.gsub('/', '.')"
+                        , "-e", "system('/usr/local/bin/cmake', '--build', '$project_path/build', '--target', target)"
+                        , "-e", "system('/usr/local/bin/ctest', '--output-on-failure', '-R', target)"
+                    ]
                 }
             ]
         }

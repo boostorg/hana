@@ -3,33 +3,40 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 ##############################################################################
-# Setup examples
+# Setup custom functions, master targets and file lists for the examples
 ##############################################################################
+add_custom_target(examples ALL COMMENT "Build all the examples.")
 
-add_custom_target(compile.examples COMMENT "Build all the examples.")
-add_dependencies(compile.all compile.examples)
+#   boost_hana_add_example(<name> ...)
+#
+# Equivalent to `boost_hana_add_test`, except the created test is also added
+# as a dependency of the `examples` target.
+function(boost_hana_add_example name)
+    boost_hana_add_test(${ARGV})
+    add_dependencies(examples ${name})
+endfunction()
+
+# A list of all the example files
+#
+# Examples that are not available due to caveats are removed
+# from this list below.
+file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
+
+
+##############################################################################
+# Include directories
+##############################################################################
+include_directories(${Boost.Hana_SOURCE_DIR}/include)
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()
 
-add_custom_target(run.examples
-    COMMENT "Build and then run all the examples."
-    DEPENDS compile.examples
-    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure -R "example.+")
-add_dependencies(run.all run.examples)
 
-if (Valgrind_FOUND)
-    add_custom_target(memcheck.examples
-        COMMENT "Build and then run all the examples under the memory checker.")
-    add_dependencies(memcheck.all memcheck.examples)
-endif()
-
-# A list of all the example files
-file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
-
-# If Boost is not found, remove the examples that require Boost from the list.
+##############################################################################
+# Caveats
+##############################################################################
 if (NOT Boost_FOUND)
-    file(GLOB_RECURSE _examples_that_require_Boost
+    boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
         "ext/boost/*.cpp"
         "misc/mini_mpl.cpp"
         "struct.cpp"
@@ -37,16 +44,14 @@ if (NOT Boost_FOUND)
         "tutorial/mpl_cheatsheet.cpp"
         "tutorial/type.cpp"
     )
-    list(REMOVE_ITEM BOOST_HANA_EXAMPLE_SOURCES ${_examples_that_require_Boost})
 endif()
 
+
+##############################################################################
 # Add all the examples
-foreach(file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
-    boost_hana_target_name_for(_target "${file}")
-    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${file}")
-    add_dependencies(compile.examples compile.${_target})
-    add_test(NAME ${_target} COMMAND compile.${_target})
-    if (Valgrind_FOUND)
-        add_dependencies(memcheck.examples memcheck.${_target})
-    endif()
+##############################################################################
+foreach(_file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
+    boost_hana_target_name_for(_target "${_file}")
+    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    boost_hana_add_example(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
 endforeach()

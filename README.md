@@ -120,7 +120,8 @@ cmake .. -DBOOST_ROOT=/path/to/boost
 You can now build and run the unit tests and the examples. Assuming you
 used the Makefile generator with CMake, you can issue
 ```shell
-make run.all
+make
+make test
 ```
 
 > #### Tip
@@ -132,6 +133,11 @@ You should be aware that compiling the unit tests is pretty time and RAM
 consuming, especially the tests for external adapters. This is due to the
 fact that Hana's unit tests are very thorough, and also that heterogeneous
 sequences in other libraries tend to have horrible compile-time performance.
+To alleviate this, you can instead build the `tests.quick` target, which only
+builds some of Hana's unit tests.
+```shell
+make tests.quick
+```
 
 There are also optional targets which are enabled only when the required
 software is available on your computer. For example, generating the
@@ -147,10 +153,12 @@ If you want to add unit tests or examples, just add a source file in `test/`
 or `example/` and then re-run the CMake generation step so the new source
 file is known to the build system. Let's suppose the relative path from the
 root of the project to the new source file is `path/to/file.cpp`. When you
-re-run the CMake generation step, two new targets will be created. The first
-is a target named `compile.path.to.file`, which compiles that source file, and
-the second is a target named `run.path.to.file`, which compiles and then runs
-that source file.
+re-run the CMake generation step, a new target named `path.to.file` will be
+created, and a test of the same name will also be created. Hence,
+```shell
+make path.to.file # Compiles the unit test associated to path/to/file.cpp
+make test # Runs all the tests, including the one associated to path/to/file.cpp
+```
 
 > #### Tip for Sublime Text users
 > If you use the provided [hana.sublime-project](hana.sublime-project) file,
