@@ -139,7 +139,7 @@ namespace boost { namespace hana { namespace detail {
                 BOOST_HANA_PP_IGNORE                                        \
             )(TYPE, MEMBERS)                                                \
         };                                                                  \
-    }}                                                                      \
+    }} static_assert(true, "force the usage of a trailing semicolon")       \
 /**/
 
 #endif // !BOOST_HANA_STRUCT_MACROS_HPP
