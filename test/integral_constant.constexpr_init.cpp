@@ -46,7 +46,10 @@ template <typename T>
 constexpr auto check_true() { return true_; }
 
 template <typename T>
-constexpr auto check_size_t() { return size_t<0>; }
+constexpr auto check_size_t() {
+    using boost::hana::size_t; // disambiguate with std::size_t on GCC
+    return size_t<0>;
+}
 
 
 int main() { }

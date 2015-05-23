@@ -14,7 +14,7 @@ using namespace boost::hana;
 
 
 //! [monadic_fold.left]
-auto builtin_common_t = sfinae([](auto t, auto u) -> decltype(type<
+auto builtin_common_t = sfinae([](auto&& t, auto&& u) -> decltype(type<
     std::decay_t<decltype(true ? traits::declval(t) : traits::declval(u))>
 >) { return {}; });
 
