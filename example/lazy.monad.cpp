@@ -17,12 +17,12 @@ using namespace boost::hana;
 
 //! [monad]
 template <typename T>
-auto read_ = [](std::istream& stream) {
+T read_(std::istream& stream) {
     T x;
     stream >> x;
     std::cout << "read " << x << " from the stream\n";
     return x;
-};
+}
 
 int main() {
     std::stringstream ss;

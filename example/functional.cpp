@@ -112,7 +112,7 @@ static_assert(
 }{
 
 //! [fix]
-BOOST_HANA_CONSTEXPR_LAMBDA auto factorial = fix([](auto fact, auto n) {
+BOOST_HANA_CONSTEXPR_LAMBDA auto factorial = fix([](auto fact, auto n) -> int {
     if (n == 0) return 1;
     else        return n * fact(n - 1);
 });
