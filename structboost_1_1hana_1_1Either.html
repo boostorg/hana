@@ -171,29 +171,36 @@ The instance of <code><a class="el" href="structboost_1_1hana_1_1Applicative.htm
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x), <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(anything)) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x)</div>
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(f), <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x)) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(f(x))</div>
 <div class="line">lift&lt;Either&gt;(x) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x)</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> op&gt;</div>
-<div class="line"><span class="keyword">auto</span> <span class="keyword">function</span> = <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(op + std::string{<span class="stringliteral">&quot; is not a valid operation&quot;</span>});</div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="keyword">auto</span> arithmetic_operators = make_map(</div>
+<div class="line">    make_pair(char_&lt;&#39;+&#39;&gt;, [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + y;</div>
+<div class="line">    }),</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + y;</div>
-<div class="line">});</div>
+<div class="line">    make_pair(char_&lt;&#39;-&#39;&gt;, [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">        <span class="keywordflow">return</span> x - y;</div>
+<div class="line">    })</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> x - y;</div>
-<div class="line">});</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// and so on...</span></div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
-<div class="line"><span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(static_cast&lt;int&gt;(n - 48)),</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(n + std::string{<span class="stringliteral">&quot; is not a valid digit&quot;</span>})</div>
+<div class="line">    <span class="comment">// and so on...</span></div>
 <div class="line">);</div>
 <div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> op&gt;</div>
+<div class="line"><span class="keyword">auto</span> <span class="keyword">function</span>() {</div>
+<div class="line">    <span class="keywordflow">return</span> eval_if(arithmetic_operators ^contains^ char_&lt;op&gt;,</div>
+<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(arithmetic_operators)[char_&lt;op&gt;]); },</div>
+<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(op) + <span class="stringliteral">&quot; is not a valid operation&quot;</span>s); }</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
+<div class="line"><span class="keyword">auto</span> digit() {</div>
+<div class="line">    <span class="keywordflow">return</span> if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(static_cast&lt;int&gt;(n - 48)),</div>
+<div class="line">        <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(n + <span class="stringliteral">&quot; is not a valid digit&quot;</span>s)</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+<div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> x, <span class="keywordtype">char</span> op, <span class="keywordtype">char</span> y&gt;</div>
-<div class="line"><span class="keyword">auto</span> evaluate = ap(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
+<div class="line"><span class="keyword">auto</span> evaluate = ap(function&lt;op&gt;(), digit&lt;x&gt;(), digit&lt;y&gt;());</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1 + 2));</div>

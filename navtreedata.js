@@ -7,8 +7,11 @@ var NAVTREE =
       [ "Quick start", "index.html#tutorial-quickstart", [
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
       ] ],
-      [ "Creating sequences", "index.html#tutorial-create", null ],
+      [ "C++ computational quadrants", "index.html#tutorial-quadrants", [
+        [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
+      ] ],
       [ "Assertions", "index.html#tutorial-assert", null ],
+      [ "Creating sequences", "index.html#tutorial-create", null ],
       [ "Algorithm semantics", "index.html#tutorial-sem", null ],
       [ "Amphibian algorithms", "index.html#tutorial-amphi", null ],
       [ "Type computations", "index.html#tutorial-type", null ],
@@ -56,7 +59,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-header_organization",
-"structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404"
+"structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -383,7 +383,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> builtin_common_t = sfinae([](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) -&gt; decltype(type&lt;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> builtin_common_t = sfinae([](<span class="keyword">auto</span>&amp;&amp; t, <span class="keyword">auto</span>&amp;&amp; u) -&gt; decltype(type&lt;</div>
 <div class="line">    std::decay_t&lt;decltype(<span class="keyword">true</span> ? traits::declval(t) : traits::declval(u))&gt;</div>
 <div class="line">&gt;) { <span class="keywordflow">return</span> {}; });</div>
 <div class="line"></div>

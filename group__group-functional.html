@@ -533,7 +533,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) {</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) -&gt; <span class="keywordtype">int</span> {</div>
 <div class="line">    <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">return</span> 1;</div>
 <div class="line">    <span class="keywordflow">else</span>        <span class="keywordflow">return</span> n * fact(n - 1);</div>
 <div class="line">});</div>
