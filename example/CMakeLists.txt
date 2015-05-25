@@ -42,6 +42,7 @@ if (NOT Boost_FOUND)
         "struct.cpp"
         "struct.macros.cpp"
         "tutorial/mpl_cheatsheet.cpp"
+        "tutorial/quickstart.cpp"
         "tutorial/type.cpp"
     )
 endif()

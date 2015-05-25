@@ -17,11 +17,7 @@ using namespace boost::hana;
 
 int main() {
 
-// IMPORTANT NOTE:
-// When changing this, make sure the corresponding changes are propagated
-// to `example/tutorial/quickstart.cpp`.
-
-//! [quickstart_tuple]
+//! [setup]
 struct Person { std::string name; };
 struct Car    { std::string name; };
 struct City   { std::string name; };
@@ -29,7 +25,7 @@ struct City   { std::string name; };
 auto stuff = make_tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
 //   ^^^^^ not constexpr
 static_assert(length(stuff) == 3u, ""); // <--- used in a constant expression
-//! [quickstart_tuple]
+//! [setup]
 
 //! [is_empty]
 static_assert(!is_empty(stuff), "");

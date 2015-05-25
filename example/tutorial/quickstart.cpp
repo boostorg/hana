@@ -4,18 +4,17 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-// Make sure assert always triggers an assertion
+// Make sure `assert` always triggers an assertion
 #ifdef NDEBUG
 #   undef NDEBUG
 #endif
 
+#include <boost/any.hpp>
 #include <cassert>
-#include <iostream>
 #include <string>
-#include <tuple>
-#include <type_traits>
-
-#include <boost/hana/ext/std/type_traits.hpp>
+#include <typeindex>
+#include <typeinfo>
+#include <utility>
 
 //! [includes]
 #include <boost/hana.hpp>
@@ -23,50 +22,96 @@ using namespace boost::hana;
 //! [includes]
 
 
-int main() {
+//////////////////////////////////////////////////////////////////////////////
+// IMPORTANT:
+// Any change in this file must be acommpanied by matching changes in the
+// quickstart section of the tutorial.
+//////////////////////////////////////////////////////////////////////////////
 
-// IMPORTANT NOTE:
-// When changing this, make sure the corresponding changes are propagated
-// to `example/tutorial/amphi.cpp`.
+//! [full]
+//! [cases]
+template <typename T>
+auto case_ = [](auto f) {
+  return std::make_pair(type<T>, f);
+};
 
-//! [decls]
-struct Person { std::string name; };
-struct Car    { std::string name; };
-struct City   { std::string name; };
-//! [decls]
+struct _default;
+auto default_ = case_<_default>;
+//! [cases]
 
-//! [make_tuple]
-auto stuff = make_tuple(Person{"Louis"}, Car{"Toyota"}, City{"Quebec"});
-//! [make_tuple]
-
-{
-//! [_tuple]
-_tuple<Person, Car, City> stuff{Person{"Louis"}, Car{"Toyota"}, City{"Quebec"}};
-//! [_tuple]
+//! [process]
+template <typename Any, typename Default>
+auto process(Any&, std::type_index const&, Default& default_) {
+  return default_();
 }
 
-//! [basic_operations]
-Car& car = at_c<1>(stuff);
-assert(car.name == "Toyota");
-static_assert(length(stuff) == 3u, "");
-//! [basic_operations]
+template <typename Any, typename Default, typename Case, typename ...Rest>
+auto process(Any& a, std::type_index const& t, Default& default_,
+             Case& case_, Rest& ...rest)
+{
+  using T = typename decltype(case_.first)::type;
+  return t == typeid(T) ? case_.second(*boost::unsafe_any_cast<T>(&a))
+                        : process(a, t, default_, rest...);
+}
+//! [process]
 
-//! [transform]
-_tuple<std::string, std::string, std::string> names = transform(stuff, [](auto x) { return x.name; });
-assert(names == make_tuple("Louis", "Toyota", "Quebec"));
-//! [transform]
+//! [switch_]
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    auto cases = make_tuple(cases_...);
 
-//! [metafunction]
-using namespace traits; // bring in remove_cv and add_pointer
+    auto default_ = find_if(cases, [](auto const& c) {
+      return c.first == type<_default>;
+    });
+    static_assert(default_ != nothing,
+      "switch is missing a default_ case");
 
-auto F = [](auto T) { // F is a "metafunction"; just pretend T is a type
-    return add_pointer(remove_cv(T));
-};
-//! [metafunction]
+    auto rest = filter(cases, [](auto const& c) {
+      return c.first != type<_default>;
+    });
 
-//! [type]
-auto intp = F(type<int const>);
-static_assert(intp == type<int*>, "");
-//! [type]
+    return unpack(rest, [&](auto& ...rest) {
+      return process(a, a.type(), default_->second, rest...);
+    });
+  };
+}
+//! [switch_]
+//! [full]
+
+
+int main() {
+using namespace std::literals;
+using ::default_; // disambiguate with boost::hana::default_
+
+{
+
+//! [usage]
+boost::any a = 'x';
+std::string r = switch_(a)(
+  case_<int>([](auto i) { return "int: "s + std::to_string(i); }),
+  case_<char>([](auto c) { return "char: "s + std::string{c}; }),
+  default_([] { return "unknown"s; })
+);
+
+assert(r == "char: x");
+//! [usage]
+
+}{
+
+//! [result_inference]
+boost::any a = 'x';
+auto r = switch_(a)(
+  case_<int>([](auto) -> int { return 1; }),
+  case_<char>([](auto) -> long { return 2l; }),
+  default_([]() -> long long { return 3ll; })
+);
+
+// r is inferred to be a long long
+static_assert(std::is_same<decltype(r), long long>{}, "");
+assert(r == 2ll);
+//! [result_inference]
+
+}
 
 }

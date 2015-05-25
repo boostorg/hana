@@ -178,74 +178,212 @@ and the [C++14 standard][Wikipedia.C++14]. First, let's include the library:
 Unless specified otherwise, the documentation assumes that the above lines
 are present before examples and code snippets. Also note that finer grained
 headers are provided and will be explained in the [Header organization]
-(@ref tutorial-header_organization) section. Now, let's define three simple
-types so we can work with them below:
+(@ref tutorial-header_organization) section. The goal of this section is to
+introduce the main concepts of the library from a very high level. To do so,
+we will proceed by example and implement a kind of `switch` statement able to
+process `boost::any`s. Given a `boost::any`, the goal is to dispatch to the
+function associated to the dynamic type of the `any`:
 
-@snippet example/tutorial/quickstart.cpp decls
+@snippet example/tutorial/quickstart.cpp usage
 
-If you are reading this documentation, chances are you already know
-`std::tuple` and `std::make_tuple`. Hana provides its own `tuple` and
-`make_tuple`:
+Since the any holds a `char`, the second function is called with the `char`
+inside it. If the `any` had held an `int` instead, the first function would
+have been called with the `int` inside it. When the dynamic type of the `any`
+does not match any of the covered cases, the `default_` function is called
+instead. Finally, the result of the `switch` is the result of calling the
+function associated to the `any`'s dynamic type. The type of that result is
+inferred to be the common type of the result of all the provided functions:
 
-@snippet example/tutorial/quickstart.cpp make_tuple
+@snippet example/tutorial/quickstart.cpp result_inference
 
-Notice how the `auto` keyword is used when defining `stuff`; it is often
-useful to let the compiler deduce the type of a tuple, but sometimes it
-is necessary to specify it. This is of course also possible:
+We'll now look at how this utility can be implemented using Hana. The first
+step is to associate each type to a function. To do so, we represent each
+`case_` as a `std::pair` whose first element is a type and whose second element
+is a function. Furthermore, we (arbitrarily) decide to represent the `default_`
+case as a `std::pair` mapping a dummy type to a function:
 
-@snippet example/tutorial/quickstart.cpp _tuple
-
-Hana provides several basic operations to manipulate tuples and other kinds
-of heterogeneous sequences. For example, one can get the `n`th element of a
-tuple with `at_c` and its length with `length`, which are analogous to
-`std::get` and `std::tuple_size` respectively:
-
-@snippet example/tutorial/quickstart.cpp basic_operations
-
-Notice how `length` can be used in a `static_assert` even though it is called
-on a non-`constexpr` tuple? Boldly, Hana makes sure that no information that's
-known at compile-time is lost, which is clearly the case of the tuple's size.
-The details are explained in the [section on amphibian algorithms]
-(@ref tutorial-amphi). Hana also provides high level algorithms to manipulate
-tuples and other heterogeneous containers. For example, one can apply a
-function to every element of a tuple and get a tuple of the results with
-`transform`, which is analogous to `std::transform`:
-
-@snippet example/tutorial/quickstart.cpp transform
-
-Notice how we pass a [C++14 generic lambda][Wikipedia.generic_lambda] to
-`transform`; this is required because the lambda will first be called with
-a `Person`, then a `Car` and finally a `City`, which are all different types.
-Hana also allows type computations to be expressed very naturally. Basically,
-one writes a metafunction as a generic function object as if the arguments
-were types:
-
-@snippet example/tutorial/quickstart.cpp metafunction
+@snippet example/tutorial/quickstart.cpp cases
 
 @note
-The traits in namespace `boost::hana::trait` are in the
-`<boost/hana/ext/std/type_traits.hpp>` header, which is not
-included by `<boost/hana.hpp>`.
+`type<...>` is not a type! It is a [C++14 variable template]
+[Wikipedia.variable_template] yielding an object representing a type for Hana.
+The details are explained in the section on [type computations](@ref tutorial-type).
 
-Then, one passes types to the function by representing them as objects
-using the `type<...>` wrapper, and everything just works:
+To provide the interface we showed above, `switch_` will have to return a
+function taking the cases. In other words, `switch_(a)` must be a function
+taking any number of cases (which are `std::pair`s), and performing the logic
+to dispatch `a` to the right function. This can easily be achieved by having
+`switch_` return a C++14 generic lambda:
 
-@snippet example/tutorial/quickstart.cpp type
+@code
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    // ...
+  };
+}
+@endcode
 
-This is a completely new way of doing type computations which turns out to
-be extremely powerful, especially for complex computations.
+Since parameter packs are not very flexible, we put the cases into a tuple. If
+you are reading this documentation, chances are you already know `std::tuple`
+and `std::make_tuple`. Hana provides its own `tuple` and `make_tuple`, and
+this is what we're using here:
 
-That's it for the quick start! There are many more algorithms that can be
-performed on sequences; they are documented by the concept to which they
-belong (Foldable, Iterable, Searchable, Sequence, etc...). Apart from tuples,
-there are also other kinds of sequences provided by Hana; they are documented
-in their respective page (Tuple, Range, Set, Map, etc..). The next sections
-gradually introduce general concepts pertaining to Hana, but you may skip
-directly to the section on [type computations](@ref tutorial-type) if you
-are mostly interested by that. For quick reference, or if you want to start
-right away, here's a cheatsheet of the most useful functions and algorithms.
-Always keep in mind that the algorithms return their result as a new sequence
-and no in-place mutation is ever performed.
+@code
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    auto cases = make_tuple(cases_...);
+    // ...
+  };
+}
+@endcode
+
+Notice how the `auto` keyword is used when defining `cases`; it is often
+easier to let the compiler deduce the type of the tuple and use `make_tuple`
+instead of working out the types manually. The next step is to separate the
+default case from the rest of the cases. This is where things start to get
+interesting. To do so, we use Hana's `find_if` algorithm, which works a bit
+like `std::find_if`:
+
+@code
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    auto cases = make_tuple(cases_...);
+
+    auto default_ = find_if(cases, [](auto const& c) {
+      return c.first == type<_default>;
+    });
+
+    // ...
+  };
+}
+@endcode
+
+`find_if` takes a `tuple` and a predicate, and returns the first element of
+the tuple which satisfies the predicate. The result is returned as an optional
+value called a `Maybe`, which is very similar to a `std::optional`, except
+whether that optional value is empty or not is known at compile-time. If the
+predicate is not satisfied for any element of the `tuple`, `find_if` returns
+`nothing` (an empty value). Otherwise, it returns `just(x)` (a non-empty value),
+where `x` is the first element satisfying the predicate. Unlike predicates
+used in STL algorithms, the predicate used here must be generic because the
+tuple's elements are heterogeneous. Furthermore, that predicate must return
+what Hana calls an `IntegralConstant`, which means that the predicate's result
+must be known at compile-time. These details are explained in the section on
+[amphibian algorithms](@ref tutorial-amphi). Inside the predicate, we simply
+compare the type of the case's first element to `type<_default>`. If you recall
+that we were using `std::pair`s to encode cases, this simply means that we're
+finding the default case among all of the provided cases. But what if no default
+case was provided? We should fail at compile-time, of course!
+
+@code
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    auto cases = make_tuple(cases_...);
+
+    auto default_ = find_if(cases, [](auto const& c) {
+      return c.first == type<_default>;
+    });
+    static_assert(default_ != nothing,
+      "switch is missing a default_ case");
+
+    // ...
+  };
+}
+@endcode
+
+Notice how we can use `static_assert` on the result of the comparison with
+`nothing`, even though `default_` is a non-`constexpr` object? Boldly, Hana
+makes sure that no information that's known at compile-time is lost to the
+runtime, which is clearly the case of the presence of a `default_` case.
+The details are explained in the section on [amphibian algorithms]
+(@ref tutorial-amphi). The next step is to gather the set of non-default
+cases. To achieve this, we use the `filter` algorithm, effectively filters
+a sequence with a given predicate, keeping only the elements satisfying the
+predicate:
+
+@code
+template <typename Any>
+auto switch_(Any& a) {
+  return [&a](auto ...cases_) {
+    auto cases = make_tuple(cases_...);
+
+    auto default_ = find_if(cases, [](auto const& c) {
+      return c.first == type<_default>;
+    });
+    static_assert(default_ != nothing,
+      "switch is missing a default_ case");
+
+    auto rest = filter(cases, [](auto const& c) {
+      return c.first != type<_default>;
+    });
+
+    // ...
+  };
+}
+@endcode
+
+The next step is to find the first case matching the dynamic type of the `any`,
+and then call the function associated to that case. The simplest way to do this
+is to use classic recursion with variadic parameter packs. Of course, we could
+probably intertwine Hana algorithms in a convoluted way to achieve this, but
+sometimes the best way to do something is to write it from scratch using basic
+techniques. To do so, we'll call an implementation function with the contents of
+the `rest` tuple by using the `unpack` function:
+
+@snippet example/tutorial/quickstart.cpp switch_
+
+`unpack` takes a `tuple` and a function, and calls the function with the content
+of the `tuple` as arguments. The result of `unpack` is the result of calling that
+function. In our case, the function is a generic lambda which in turn calls the
+`process` function. Our reason for using `unpack` here was to turn the `rest`
+tuple into a parameter pack of arguments, which are easier to process recursively
+than tuples. Before we move on to the `process` function, it is worthwhile to
+explain what `default_->second` is all about. As we explained earlier, `default_`
+is an optional value. Like `std::optional`, this optional value overloads the
+dereference operator and the arrow operator to allow accessing the value inside
+the `optional`. If the optional is empty (`nothing`), a compile-time error is
+triggered. Since we know `default_` is not empty (we checked that just above),
+what we're doing is simply pass the function associated to the default case to
+the `process` function. We're now ready for the final step, which is the
+implementation of the `process` function:
+
+@snippet example/tutorial/quickstart.cpp process
+
+There are two overloads of this function: an overload for when there is at least
+one case to process, and the base case overload for when there's only the default
+case. As we would expect, the base case simply calls the default function and
+returns that result. The other overload is slightly more interesting. First, we
+retrieve the type associated to that case and store it in `T`. This
+`decltype(...)::%type` dance might seem convoluted, but it is actually quite
+simple. Roughly speaking, this takes a type represented as an object (a `type<T>`)
+and pulls it back down to the type level (a `T`). The details are explained in
+the section on [type-level computations](@ref tutorial-type). Then, we compare
+whether the dynamic type of the `any` matches this case, and if so we call the
+function associated to this case with the `any` casted to the proper type.
+Otherwise, we simply call `process` recursively with the rest of the cases.
+Pretty simple, wasn't it? Here's the final solution, which spans a big total
+of 42 lines:
+
+@snippet example/tutorial/quickstart.cpp full
+
+That's it for the quick start! This example only introduced a couple of useful
+algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers (`Tuple`,
+`Maybe`), but rest assured that there is much more. All the algorithms are
+documented by the concept to which they belong (`Foldable`, `Iterable`,
+`Searchable`, `Sequence`, etc...), which is similar to the way most generic
+libraries are documented (e.g. the [SGI STL][SGI.Container]). Apart from tuples
+and optional values, there are also other kinds of containers provided by Hana;
+they are documented in their respective page (`Range`, `Set`, `Map`, etc..). The
+next sections of the tutorial gradually introduce general concepts pertaining to
+Hana in a friendly way, but you may use the following cheatsheet for quick
+reference if you want to start coding right away. For the record, always keep
+in mind that the algorithms return their result as a new container and no
+in-place mutation is ever performed, which is detailed in the section on
+[algorithm semantics](@ref tutorial-sem).
 
 
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
@@ -298,6 +436,8 @@ function                                     |  concept   | description
 `zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
 
 
+<!-- Links -->
+[SGI.Container]: https://www.sgi.com/tech/stl/Container.html
 
 
 
@@ -459,11 +599,12 @@ considerations are explained in depth in their own [section](@ref tutorial-perf)
 ------------------------------------------------------------------------------
 Like we saw in the quick start, some functions are able to return something
 that can be used in a constant expression even when they are called on a
-non-`constexpr` object. Let's refresh our memory a bit:
+non-`constexpr` object. For example, let's consider the `length` function
+applied to a non-`constexpr` tuple:
 
-@snippet example/tutorial/amphi.cpp quickstart_tuple
+@snippet example/tutorial/amphi.cpp setup
 
-Obviously, `stuff` can't be made `constexpr`, since it contains `std::string`s.
+Obviously, the tuple can't be made `constexpr`, since it contains `std::string`s.
 Still, even though it is not called on a constant expression, `length` returns
 something that can be used inside one. If you think of it, the size of the
 tuple is known at compile-time regardless of its content, and hence it only
