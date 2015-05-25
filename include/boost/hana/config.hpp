@@ -22,23 +22,32 @@ Distributed under the Boost Software License, Version 1.0.
 //////////////////////////////////////////////////////////////////////////////
 // Detect the compiler
 //////////////////////////////////////////////////////////////////////////////
-#if defined(__clang__) && !defined(__apple_build_version__)
+#if defined(__clang__) && defined(__apple_build_version__) // Apple's Clang
 
-#   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
-            __clang_major__, __clang_minor__, __clang_patchlevel__)
-
-#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
-#       error Versions of Clang prior to 3.5.0 are not supported.
+#   if __apple_build_version__ >= 6020049
+#       define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 6, 0)
+#   else
+#       warning Versions of Apple's Clang prior to the one shipped with     \
+                Xcode 6.3 are not supported by Hana.
 #   endif
 
-#elif defined(__GNUC__)
+#elif defined(__clang__) // genuine Clang (not Apple's)
+
+#   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
+                __clang_major__, __clang_minor__, __clang_patchlevel__)
+
+#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
+#       warning Versions of Clang prior to 3.5.0 are not supported by Hana.
+#   endif
+
+#elif defined(__GNUC__) // GCC
 
 #   define BOOST_HANA_CONFIG_GCC BOOST_HANA_CONFIG_VERSION(                 \
                             __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
 
 #else
 
-#   warning Your compiler is not officially supported by Hana or it was \
+#   warning Your compiler is not officially supported by Hana or it was     \
             not detected properly.
 
 #endif
