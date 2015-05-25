@@ -94,7 +94,7 @@ std::string r = switch_(a)(
   default_([] { return "unknown"s; })
 );
 
-assert(r == "char: x");
+assert(r == "char: x"s);
 //! [usage]
 
 }{

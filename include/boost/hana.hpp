@@ -130,7 +130,6 @@ expressiveness in the process. Hana is easy to extend in a ad-hoc manner
 and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL
 and the standard library.
 
-
 __Motivation__\n
 When Boost.MPL first appeared, it provided C++ programmers with a huge relief
 by abstracting tons of template hackery behind a workable interface. This
@@ -145,7 +144,6 @@ came by itself in the form of a library; Hana. The key insight to Hana is that
 the manipulation of types and values are nothing but two sides of the same
 coin. By unifying both concepts, metaprogramming becomes easier and new
 exciting possibilities open before us.
-
 
 __Warning: functional programming ahead__\n
 Programming with heterogeneous objects is inherently functional -- since it is
@@ -186,10 +184,16 @@ function associated to the dynamic type of the `any`:
 
 @snippet example/tutorial/quickstart.cpp usage
 
+@note
+In the documentation, we will often use the `s` suffix on string literals to
+create `std::string`s without syntactic overhead. This is a standard-defined
+[C++14 user-defined literal][Wikipedia.cxx14_udl].
+
+
 Since the any holds a `char`, the second function is called with the `char`
 inside it. If the `any` had held an `int` instead, the first function would
 have been called with the `int` inside it. When the dynamic type of the `any`
-does not match any of the covered cases, the `default_` function is called
+does not match any of the covered cases, the `%default_` function is called
 instead. Finally, the result of the `switch` is the result of calling the
 function associated to the `any`'s dynamic type. The type of that result is
 inferred to be the common type of the result of all the provided functions:
@@ -199,7 +203,7 @@ inferred to be the common type of the result of all the provided functions:
 We'll now look at how this utility can be implemented using Hana. The first
 step is to associate each type to a function. To do so, we represent each
 `case_` as a `std::pair` whose first element is a type and whose second element
-is a function. Furthermore, we (arbitrarily) decide to represent the `default_`
+is a function. Furthermore, we (arbitrarily) decide to represent the `%default_`
 case as a `std::pair` mapping a dummy type to a function:
 
 @snippet example/tutorial/quickstart.cpp cases
@@ -296,9 +300,9 @@ auto switch_(Any& a) {
 @endcode
 
 Notice how we can use `static_assert` on the result of the comparison with
-`nothing`, even though `default_` is a non-`constexpr` object? Boldly, Hana
+`nothing`, even though `%default_` is a non-`constexpr` object? Boldly, Hana
 makes sure that no information that's known at compile-time is lost to the
-runtime, which is clearly the case of the presence of a `default_` case.
+runtime, which is clearly the case of the presence of a `%default_` case.
 The details are explained in the section on [amphibian algorithms]
 (@ref tutorial-amphi). The next step is to gather the set of non-default
 cases. To achieve this, we use the `filter` algorithm, effectively filters
@@ -331,8 +335,8 @@ and then call the function associated to that case. The simplest way to do this
 is to use classic recursion with variadic parameter packs. Of course, we could
 probably intertwine Hana algorithms in a convoluted way to achieve this, but
 sometimes the best way to do something is to write it from scratch using basic
-techniques. To do so, we'll call an implementation function with the contents of
-the `rest` tuple by using the `unpack` function:
+techniques. To do so, we'll call an implementation function with the contents
+of the `rest` tuple by using the `unpack` function:
 
 @snippet example/tutorial/quickstart.cpp switch_
 
@@ -342,11 +346,11 @@ function. In our case, the function is a generic lambda which in turn calls the
 `process` function. Our reason for using `unpack` here was to turn the `rest`
 tuple into a parameter pack of arguments, which are easier to process recursively
 than tuples. Before we move on to the `process` function, it is worthwhile to
-explain what `default_->second` is all about. As we explained earlier, `default_`
+explain what `%default_->second` is all about. As we explained earlier, `%default_`
 is an optional value. Like `std::optional`, this optional value overloads the
 dereference operator and the arrow operator to allow accessing the value inside
 the `optional`. If the optional is empty (`nothing`), a compile-time error is
-triggered. Since we know `default_` is not empty (we checked that just above),
+triggered. Since we know `%default_` is not empty (we checked that just above),
 what we're doing is simply pass the function associated to the default case to
 the `process` function. We're now ready for the final step, which is the
 implementation of the `process` function:
@@ -356,8 +360,8 @@ implementation of the `process` function:
 There are two overloads of this function: an overload for when there is at least
 one case to process, and the base case overload for when there's only the default
 case. As we would expect, the base case simply calls the default function and
-returns that result. The other overload is slightly more interesting. First, we
-retrieve the type associated to that case and store it in `T`. This
+returns that result. The other overload is slightly more interesting. First,
+we retrieve the type associated to that case and store it in `T`. This
 `decltype(...)::%type` dance might seem convoluted, but it is actually quite
 simple. Roughly speaking, this takes a type represented as an object (a `type<T>`)
 and pulls it back down to the type level (a `T`). The details are explained in
@@ -438,6 +442,151 @@ function                                     |  concept   | description
 
 <!-- Links -->
 [SGI.Container]: https://www.sgi.com/tech/stl/Container.html
+[Wikipedia.cxx14_udl]: http://en.wikipedia.org/wiki/C%2B%2B14#Standard_user-defined_literals
+
+
+
+
+
+
+
+
+
+
+@section tutorial-quadrants C++ computational quadrants
+
+------------------------------------------------------------------------------
+To really understand what is Hana all about, it is essential to understand the
+different types of computations in C++. We will focus our attention on four
+different kinds of computations, even though a finer grained separation would
+be possible. First, we have runtime computations, which are the usual
+computations we use in C++. In that world, we have runtime containers,
+runtime functions and runtime algorithms:
+
+@snippet example/tutorial/quadrants.cpp runtime
+
+The usual toolbox for programming within this quadrant is the C++ standard
+library, which provides reusable algorithms and containers operating at
+runtime. Since C++11, a second kind of computation is possible: `constexpr`
+computations. There, we have `constexpr` containers, `constexpr` functions
+and `constexpr` algorithms:
+
+@code
+constexpr int factorial(int n) {
+  return n == 0 ? 1 : n * factorial(n - 1);
+}
+
+template <typename T, std::size_t N, typename F>
+  constexpr std::array<std::result_of_t<F(T)>, N>
+transform(std::array<T, N> array, F f) {
+  // ...
+}
+
+constexpr std::array<int, 4> ints{{1, 2, 3, 4}};
+constexpr std::array<int, 4> facts = transform(ints, factorial);
+static_assert(facts == std::array<int, 4>{{1, 2, 6, 24}}, "");
+@endcode
+
+@note
+For the above code to actually work, `std::array`'s `operator==` would have to
+be marked `constexpr`, which is not the case (even in C++14).
+
+Basically, a `constexpr` computation is different from a runtime computation
+in that it is simple enough to be evaluated (interpreted, really) by the
+compiler. In general, any function that does not perform anything too
+_unfriendly_ to the compiler's evaluator (like throwing or allocating memory)
+can be marked `constexpr` without any further change. This makes `constexpr`
+computations very similar to runtime computations, except `constexpr`
+computations are more restricted and they gain the ability to be evaluated
+at compile-time. Unfortunately, there is no commonly used toolbox for
+`constexpr`-programming, i.e. there is no widely adopted "standard library"
+for `constexpr` programming. However, the [Sprout][] library may be worth
+checking out for those with some interest in `constexpr` computations.
+
+The third kind of computations are heterogeneous computations. Heterogeneous
+computations differ from normal computations in that instead of having
+containers holding homogeneous objects (all objects having the same type),
+the containers may hold objects with different types. Furthermore, functions
+in this quadrant of computation are _heterogeneous_ functions, which is a
+complicated way of talking about template functions. Similarly, we have
+heterogeneous algorithms that manipulate heterogeneous containers and
+functions:
+
+@snippet example/tutorial/quadrants.cpp heterogeneous
+
+If manipulating heterogeneous containers seems overly weird to you, just think
+of it as glorified `std::tuple` manipulation. In a C++03 world, the go-to
+library for doing this kind of computation is [Boost.Fusion][], which provides
+several data structures and algorithms to manipulate heterogeneous collections
+of data. The fourth and last quadrant of computation that we'll be considering
+here is the quadrant of type-level computations. In this quadrant, we have
+type-level containers, type-level functions (usually called metafunctions)
+and type-level algorithms. Here, everything operates on types: containers hold
+types and metafunctions take types as arguments and return types as results.
+
+@snippet example/tutorial/quadrants.cpp type-level
+
+The realm of type-level computations has been explored quite extensively, and
+the de-facto solution for type-level computations in C++03 is a library named
+[Boost.MPL][], which provides type-level containers and algorithms. For
+low-level type transformations, the metafunctions provided by the
+`<type_traits>` standard header can also be used since C++11.
+
+
+@subsection tutorial-quadrants-about What is this library about?
+
+So all is good, but what is this library actually about? Now that we have set
+the table by clarifying the kinds of computations available to us in C++, the
+answer might strike you as very simple. __The purpose of Hana is to merge the
+3rd and the 4th quadrants of computation__. More specifically, Hana is a
+(long-winded) constructive proof that heterogeneous computations are strictly
+more powerful than type-level computations, and that we can therefore express
+any type-level computation by an equivalent heterogeneous computation. This
+construction is done in two steps. First, Hana is a fully featured library of
+heterogeneous algorithms and containers, a bit like a modernized Boost.Fusion.
+Second, Hana provides a way of translating any type-level computation into its
+equivalent heterogeneous computation and back, which allows the full machinery
+of heterogeneous computations to be reused for type-level computations without
+any code duplication. Of course, the biggest advantage of this unification is
+seen by the user, as you will witness by yourself.
+
+<!-- Links -->
+[Sprout]: https://github.com/bolero-MURAKAMI/Sprout
+
+
+
+
+
+
+
+
+
+
+@section tutorial-assert Assertions
+
+------------------------------------------------------------------------------
+In the rest of this tutorial, you will come across code snippets where different
+kinds of assertions like `BOOST_HANA_RUNTIME_CHECK` and `BOOST_HANA_CONSTANT_CHECK`
+are used. Like any sensible `assert` macro, they basically check that the
+condition they are given is satisfied. However, in the context of heterogeneous
+programming, some informations are known at compile-time, while others are known
+only at runtime. The exact type of assertion that's used in a context tells you
+whether the condition that's asserted upon can be known at compile-time or if it
+must be computed at runtime, which is a very precious piece of information. Here
+are the different kinds of assertions used in the tutorial, with a small
+description of their particularities. For more details, you should check
+the [reference on assertions](@ref group-assertions).
+
+assertion                    | description
+:--------------------------- | :----------
+`BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
+`BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, the only reason for it not being a `static_assert` is the language limitation that lambdas can't appear in constant expressions, which [might be lifted][N4487] in C++17.
+`BOOST_HANA_CONSTANT_CHECK`  | Assertion on what Hana calls a compile-time `Logical`. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on [IntegralConstants](@ref tutorial-constexpr-constants), but here's a hint about how this works: the truth value of the expression is encoded in the _type_ of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee.
+
+<!-- Links -->
+[N4487]: https://isocpp.org/files/papers/N4487.pdf
+
+
 
 
 
@@ -473,42 +622,6 @@ interesting point that can be raised in this example is the fact that
 `r` is `constexpr`. In general, whenever a Hana sequence is initialized
 only with constant expressions (which is the case for `int_<...>`), that
 sequence may be marked as `constexpr`.
-
-
-
-
-
-
-
-
-
-
-@section tutorial-assert Assertions
-
-------------------------------------------------------------------------------
-In the rest of this tutorial, you will come across code snippets in
-which different kinds of assertions like `BOOST_HANA_RUNTIME_CHECK` and
-`BOOST_HANA_CONSTANT_CHECK` are used. Like any sensible `assert` macro,
-they basically check that the condition they are given is satisfied.
-However, in the context of heterogeneous programming, some informations
-are known at compile-time, while others are known only at runtime. The
-exact type of assertion that's used in a context tells you whether the
-condition that's asserted upon can be known at compile-time or if it
-must be computed at runtime, which is very important to be aware of.
-Here are the different kinds of assertions used in the tutorial, with a
-small description of their particularities. For more details, you should
-check the [reference on assertions](@ref group-assertions).
-
-assertion                    | description
-:--------------------------- | :----------
-`BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
-`BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, it's not a `static_assert`, but only because lambdas are sometimes used inside the implementation and hence the result can't be `constexpr`.
-`BOOST_HANA_CONSTANT_CHECK`  | Assertion on a compile-time Logical. Basically, this means that the expression is in fact an IntegralConstant whose truth value is known at compile-time regardless of whether the value of the expression itself is known at compile-time, because that truth value is encoded in the type of the expression. This assertion provides the strongest form of guarantee.
-
-
-> Why don't we simply use `assert` and `static_assert`? That's because of
-> language limitations documented in the section on [constexpr's limitations]
-> (@ref tutorial-constexpr).
 
 
 
