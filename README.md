@@ -185,18 +185,6 @@ The project is organized in a couple of subdirectories.
 - The [test](test) directory contains the source code for all the unit tests.
 
 
-## Contributing
-Want to contribute? Great!
-
-1. Fork it.
-2. Create a branch (`git checkout -b feature/xxx`)
-3. Do your modifications on that branch
-4. Make sure you did not break anything (`make tests examples`)
-5. Commit your changes (`git commit -am "Added feature xxx"`)
-6. Push to the branch (`git push origin feature/xxx`)
-7. Open a pull request
-
-
 ## Related material
 - [Talk on metaprogramming][slides.C++Now.2015] at [C++Now][] 2015
 - [Talk on Hana][video.CppCon.2014] at [CppCon][] 2014 ([slides][slides.CppCon.2014])
@@ -207,6 +195,10 @@ I also wrote my bachelor's thesis on a formalization of C++ metaprogramming
 through category theory and Hana. It is available [here][thesis], but
 unfortunately it is in french only. I also presented [a talk][slides.thesis]
 on this formalization for my bachelor's thesis (french only).
+
+
+## Contributing
+Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 ## License
