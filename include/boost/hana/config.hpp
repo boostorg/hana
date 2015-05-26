@@ -22,10 +22,20 @@ Distributed under the Boost Software License, Version 1.0.
 //////////////////////////////////////////////////////////////////////////////
 // Detect the compiler
 //////////////////////////////////////////////////////////////////////////////
-#if defined(__clang__) && !defined(__apple_build_version__)
+#if defined(__clang__)
 
-#   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
-            __clang_major__, __clang_minor__, __clang_patchlevel__)
+#   if defined(__apple_build_version__)
+#       if __apple_build_version__ >= 6020049
+#           define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 6, 0)
+#       elif __apple_build_version__ >= 6000051
+#           define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 5, 0)
+#       else
+#           define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(0, 0, 0)
+#       endif
+#   else
+#       define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
+                __clang_major__, __clang_minor__, __clang_patchlevel__)
+#   endif
 
 #   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
 #       error Versions of Clang prior to 3.5.0 are not supported.
