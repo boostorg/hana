@@ -28,13 +28,7 @@ BOOST_HANA_CONSTANT_CHECK(size_t<3> * ushort<5> == size_t<15>);
 BOOST_HANA_CONSTANT_CHECK(llong<15> == int_<15>);
 //! [operators]
 
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// Note: Those examples are also act as our unit tests for the `times`
-//       member function, so don't delete them.
-//////////////////////////////////////////////////////////////////////////////
-{
+}{
 
 //! [times_loop_unrolling]
 std::string s;

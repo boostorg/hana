@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -87,15 +88,41 @@ int main() {
     // Extensions to std::integral_constant
     //////////////////////////////////////////////////////////////////////////
     {
-        // times member function (the other ones are tested in the examples)
+        // times member function
         {
             int counter = 0;
             int_<3>.times([&] { ++counter; });
             BOOST_HANA_RUNTIME_CHECK(counter == 3);
 
-            // Call .times with a normal function; used to fail.
+            // Call .times with a normal function used to fail.
             int_<3>.times(function);
+
+            // make sure times can be accessed as a static member function too
+            decltype(int_<5>)::times([]{ });
+
+            // make sure xxx.times can be used as a function object
+            auto z = int_<5>.times; (void)z;
+        }
+
+        // times.with_index
+        {
+            int index = 0;
+            int_<3>.times.with_index([&](auto i) {
+                static_assert(is_an<IntegralConstant<int>>(i), "");
+                BOOST_HANA_RUNTIME_CHECK(value(i) == index);
+                ++index;
+            });
+
+            // Calling .times.with_index with a normal function used to fail.
             int_<3>.times.with_index(function_index);
+
+            // make sure times.with_index can be accessed as a static member
+            // function too
+            auto times = int_<5>.times;
+            decltype(times)::with_index([](auto) { });
+
+            // make sure xxx.times.with_index can be used as a function object
+            auto z = int_<5>.times.with_index; (void)z;
         }
 
         // Arithmetic operators
