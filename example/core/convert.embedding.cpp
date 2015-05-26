@@ -43,7 +43,7 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    BOOST_HANA_RUNTIME_ASSERT(
+    BOOST_HANA_RUNTIME_CHECK(
         to<std::vector<int>>(std::vector<float>{1.1, 2.2, 3.3})
                         ==
         std::vector<int>{1, 2, 3}

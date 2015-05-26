@@ -35,6 +35,6 @@ int main() {
         [](double f) { return f + 2; }
     );
 
-    BOOST_HANA_RUNTIME_ASSERT(f(1) == just(1 + 1));
-    BOOST_HANA_RUNTIME_ASSERT(f(2.3) == just(static_cast<int>(2.3) + 1));
+    BOOST_HANA_RUNTIME_CHECK(f(1) == just(1 + 1));
+    BOOST_HANA_RUNTIME_CHECK(f(2.3) == just(static_cast<int>(2.3) + 1));
 }

@@ -60,27 +60,27 @@ int main() {
         static_assert(is_convertible<String, char const*>{}, "");
         static_assert(!is_embedded<String, char const*>{}, "");
 
-        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+        BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("")),
             ""
         ) == 0);
 
-        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+        BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("a")),
             "a"
         ) == 0);
 
-        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+        BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("ab")),
             "ab"
         ) == 0);
 
-        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+        BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("abc")),
             "abc"
         ) == 0);
 
-        BOOST_HANA_RUNTIME_ASSERT(std::strcmp(
+        BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("abcd")),
             "abcd"
         ) == 0);

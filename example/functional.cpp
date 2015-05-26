@@ -236,9 +236,9 @@ auto f = overload_linearly(
     [](double) { throw "never called"; }
 );
 
-BOOST_HANA_RUNTIME_ASSERT(f(1) == 2);
-BOOST_HANA_RUNTIME_ASSERT(f("abc") == "abcd");
-BOOST_HANA_RUNTIME_ASSERT(f(2.2) == static_cast<int>(2.2) + 1);
+BOOST_HANA_RUNTIME_CHECK(f(1) == 2);
+BOOST_HANA_RUNTIME_CHECK(f("abc") == "abcd");
+BOOST_HANA_RUNTIME_CHECK(f(2.2) == static_cast<int>(2.2) + 1);
 //! [overload_linearly]
 
 }{
