@@ -46,8 +46,13 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //! Equivalent to `is_a`; provided for consistency with the rules of the
     //! English language.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename DataType, typename ...T>
     constexpr auto is_an = is_a<DataType, T...>;
+#else
+    template <typename DataType, typename ...T>
+    constexpr _is_a<DataType, T...> is_an{};
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CORE_IS_A_HPP
