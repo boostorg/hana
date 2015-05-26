@@ -581,6 +581,7 @@ assertion                    | description
 :--------------------------- | :----------
 `BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
 `BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, the only reason for it not being a `static_assert` is the language limitation that lambdas can't appear in constant expressions, which [might be lifted][N4487] in C++17.
+`static_assert`              | Assertion on a `constexpr` condition. This is stronger than `BOOST_HANA_CONSTEXPR_CHECK` in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are `constexpr`-friendly.
 `BOOST_HANA_CONSTANT_CHECK`  | Assertion on what Hana calls a compile-time `Logical`. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on [IntegralConstants](@ref tutorial-constexpr-constants), but here's a hint about how this works: the truth value of the expression is encoded in the _type_ of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee.
 
 <!-- Links -->
@@ -1464,28 +1465,71 @@ work around it. To do so, we use an infrastructure with three distinct
 components:
 
 1. A metafunction associating a single tag to every type in a family of
-   related types. In Hana, we use the generalized type of an object,
-   which is accessible through the `datatype` metafunction.
+   related types. In Hana, this tag can be accessed using the `datatype`
+   metafunction. Specifically, for any type `T`, `datatype<T>::%type` is
+   the tag used to dispatch it.
 
 2. A function belonging to the public interface of the library, for which
-   we'd like to be able to provide a customized implementation.
+   we'd like to be able to provide a customized implementation. In Hana,
+   these functions are the algorithms associated to a concept, like
+   `transform` or `unpack`.
 
-3. An implementation for the function, parameterized with the data type(s)
-   of the argument(s) passed to the function.
+3. An implementation for the function, parameterized with the tag(s) of the
+   argument(s) passed to the function. In Hana, this is usually done by having
+   a separate template called `xxx_impl` (for an interface function `xxx`)
+   with a nested `apply` static function, as will be shown below.
 
-When the public interface function is called, it will use the metafunction
-on its argument(s) (or a subset thereof) to obtain their data type(s) and
-redirect to the implementation associated to those data type(s). For example,
-a basic setup for tag dispatching of a function that prints its argument to a
-stream would look like:
+When the public interface function `xxx` is called, it will get the tag of the
+argument(s) it wishes to dispatch the call on, and then forward the call to
+the `xxx_impl` implementation associated to those tags. For example, let's
+implement a basic setup for tag dispatching of a function that prints its
+argument to a stream. First, we define the public interface function and the
+implementation that can be specialized:
 
-@snippet tutorial/tag_dispatching.cpp setup
+@snippet example/tutorial/tag_dispatching.cpp setup
 
-Then, if you want to customize the behavior of the `print` function for some
-user defined family of types, you only need to specialize the `print_impl`
-template for the tag representing the whole family of types:
+Now, let's define a type that needs tag-dispatching to customize the behavior
+of `print`. While some C++14 examples exist, they are too complicated to show
+in this tutorial and we will therefore use a C++03 tuple implemented as several
+different types to illustrate the technique:
 
-@snippet tutorial/tag_dispatching.cpp customize
+@snippet example/tutorial/tag_dispatching.cpp Vector
+
+The nested `struct hana { using datatype = Vector; }` part is a terse way of
+controling the result of `datatype` metafunction, and hence the tag of the
+`vectorN` type. This is explained in the reference for `datatype`. Finally,
+if you wanted to customize the behavior of the `print` function for all the
+`vectorN` types, you would normally have to write something along the lines of
+
+@snippet example/tutorial/tag_dispatching.cpp old_way
+
+Now, with tag dispatching, you can rely on the `vectorN`s all sharing the same
+tag and specialize only the `print_impl` struct instead:
+
+@snippet example/tutorial/tag_dispatching.cpp customize
+
+One upside is that all `vectorN`s can now be treated uniformly by the `print`
+function, at the cost of some boilerplate when creating the data structure
+(to specify the tag of each `vectorN`) and when creating the initial `print`
+function (to setup the tag-dispatching system with `print_impl`). There are
+also other advantages to this technique, like the ability to check for
+preconditions in the interface function without having to do it in each
+custom implementation, which would be tedious:
+
+@snippet example/tutorial/tag_dispatching.cpp preconditions
+
+@note
+Checking preconditions does not make much sense for a `print` function, but
+consider for example a function to get the `n`th element of a sequence; you
+might want to make sure that the index is not out-of-bounds.
+
+This technique also makes it easier to provide interface functions as function
+objects instead of normal overloaded functions, because only the interface
+function itself must go through the trouble of defining a function object.
+Function objects have several advantages over overloaded functions, like the
+ability to be used in higher order algorithms or as variables:
+
+@snippet example/tutorial/tag_dispatching.cpp function_objects
 
 
 @subsection tutorial-extending-creating_concepts Creating new concepts
