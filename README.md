@@ -67,11 +67,14 @@ the [include](include) directory to your compiler's header search path and
 you are done.
 
 The library relies on a full-featured C++14 compiler and standard library,
-but nothing else is required. As of April 2015, the only compiler known to
-compile the full test suite is Clang >= 3.5.0 with a recent libc++. The code
-is tested on OS X and Linux. Work on a GCC port is currently underway. The
-goal is to support GCC 5 when it is released, and perhaps GCC 4.9 by providing
-a version of Hana with reduced functionality.
+but nothing else is required. Here is a table of the current C++14 compilers
+with comments regarding support for Hana:
+
+Compiler                     | Status
+--------                     | ------
+Clang (>= 3.5.0)             | Fully working; tested on each push to `master`
+Apple's Clang (Xcode >= 6.3) | Fully working according to external sources
+GCC (>= 5.1.0)               | Almost working; waiting for the GCC team to fix [this][GCC.65719] bug amongst others
 
 
 ## Documentation
@@ -214,6 +217,7 @@ Please see [LICENSE.md](LICENSE.md).
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
+[GCC.65719]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65719
 [MPL11]: http://github.com/ldionne/mpl11
 [slides.C++Now.2014]: http://ldionne.github.io/mpl11-cppnow-2014
 [slides.C++Now.2015]: http://ldionne.github.io/hana-cppnow-2015
