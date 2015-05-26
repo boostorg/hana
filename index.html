@@ -515,6 +515,8 @@ Assertions</h1>
 <tr>
 <td align="left"><code>BOOST_HANA_CONSTEXPR_CHECK</code> </td><td align="left">Assertion on a condition that would be <code>constexpr</code> if lambdas were allowed inside constant expressions. In other words, the only reason for it not being a <code>static_assert</code> is the language limitation that lambdas can't appear in constant expressions, which <a href="https://isocpp.org/files/papers/N4487.pdf">might be lifted</a> in C++17. </td></tr>
 <tr>
+<td align="left"><code>static_assert</code> </td><td align="left">Assertion on a <code>constexpr</code> condition. This is stronger than <code>BOOST_HANA_CONSTEXPR_CHECK</code> in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are <code>constexpr</code>-friendly. </td></tr>
+<tr>
 <td align="left"><code>BOOST_HANA_CONSTANT_CHECK</code> </td><td align="left">Assertion on what Hana calls a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on <a class="el" href="index.html#tutorial-constexpr-constants">IntegralConstants</a>, but here's a hint about how this works: the truth value of the expression is encoded in the <em>type</em> of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee. </td></tr>
 </table>
 <h1><a class="anchor" id="tutorial-create"></a>
@@ -853,32 +855,110 @@ Tag dispatching</h2>
 <div class="line">...</div>
 </div><!-- fragment --><p>This is an implementation detail required by the lack of variadic templates in C++03 that leaks into the interface. This is unfortunate, but we need a way to work around it. To do so, we use an infrastructure with three distinct components:</p>
 <ol type="1">
-<li>A metafunction associating a single tag to every type in a family of related types. In Hana, we use the generalized type of an object, which is accessible through the <code>datatype</code> metafunction.</li>
-<li>A function belonging to the public interface of the library, for which we'd like to be able to provide a customized implementation.</li>
-<li>An implementation for the function, parameterized with the data type(s) of the argument(s) passed to the function.</li>
+<li>A metafunction associating a single tag to every type in a family of related types. In Hana, this tag can be accessed using the <code>datatype</code> metafunction. Specifically, for any type <code>T</code>, <code>datatype&lt;T&gt;::type</code> is the tag used to dispatch it.</li>
+<li>A function belonging to the public interface of the library, for which we'd like to be able to provide a customized implementation. In Hana, these functions are the algorithms associated to a concept, like <code>transform</code> or <code>unpack</code>.</li>
+<li>An implementation for the function, parameterized with the tag(s) of the argument(s) passed to the function. In Hana, this is usually done by having a separate template called <code>xxx_impl</code> (for an interface function <code>xxx</code>) with a nested <code>apply</code> static function, as will be shown below.</li>
 </ol>
-<p>When the public interface function is called, it will use the metafunction on its argument(s) (or a subset thereof) to obtain their data type(s) and redirect to the implementation associated to those data type(s). For example, a basic setup for tag dispatching of a function that prints its argument to a stream would look like:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Datatype&gt;</div>
+<p>When the public interface function <code>xxx</code> is called, it will get the tag of the argument(s) it wishes to dispatch the call on, and then forward the call to the <code>xxx_impl</code> implementation associated to those tags. For example, let's implement a basic setup for tag dispatching of a function that prints its argument to a stream. First, we define the public interface function and the implementation that can be specialized:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tag&gt;</div>
 <div class="line"><span class="keyword">struct </span>print_impl {</div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; <span class="comment">/*os*/</span>, X <span class="comment">/*x*/</span>) {</div>
-<div class="line">        <span class="comment">/* possibly some default implementation */</span></div>
-<div class="line">    }</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">  <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp;, X <span class="keyword">const</span>&amp;) {</div>
+<div class="line">    <span class="comment">// possibly some default implementation</span></div>
+<div class="line">  }</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
-<div class="line">    <span class="keyword">using</span> Datatype = <span class="keyword">typename</span> <a class="code" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt;X&gt;::type</a>;</div>
-<div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Datatype&gt;::apply</a>(os, x);</div>
+<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> Then, if you want to customize the behavior of the <code>print</code> function for some user defined family of types, you only need to specialize the <code>print_impl</code> template for the tag representing the whole family of types:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl&lt;UserDefinedDatatype&gt; {</div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; <span class="comment">/*os*/</span>, X <span class="comment">/*x*/</span>) {</div>
-<div class="line">        <span class="comment">/* a custom implementation for some data type */</span></div>
-<div class="line">    }</div>
+</div><!-- fragment --><p> Now, let's define a type that needs tag-dispatching to customize the behavior of <code>print</code>. While some C++14 examples exist, they are too complicated to show in this tutorial and we will therefore use a C++03 tuple implemented as several different types to illustrate the technique:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Vector;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>vector0 {</div>
+<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 0;</div>
 <div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1&gt;</div>
+<div class="line"><span class="keyword">struct </span>vector1 {</div>
+<div class="line">  T1 t1;</div>
+<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 1;</div>
+<div class="line"></div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Index&gt;</div>
+<div class="line">  <span class="keyword">auto</span> <span class="keyword">const</span>&amp; operator[](Index i)<span class="keyword"> const </span>{</div>
+<div class="line">    static_assert(i == 0u, <span class="stringliteral">&quot;index out of bounds&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> t1;</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
+<div class="line"><span class="keyword">struct </span>vector2 {</div>
+<div class="line">  T1 t1; T2 t2;</div>
+<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 2;</div>
+<div class="line"></div>
+<div class="line">  <span class="comment">// Using Hana as a backend to simplify the example.</span></div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Index&gt;</div>
+<div class="line">  <span class="keyword">auto</span> <span class="keyword">const</span>&amp; operator[](Index i)<span class="keyword"> const </span>{</div>
+<div class="line">    <span class="keywordflow">return</span> *boost::hana::make_tuple(&amp;t1, &amp;t2)[i];</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// and so on...</span></div>
+</div><!-- fragment --><p> The nested <code>struct hana { using datatype = Vector; }</code> part is a terse way of controling the result of <code>datatype</code> metafunction, and hence the tag of the <code>vectorN</code> type. This is explained in the reference for <code>datatype</code>. Finally, if you wanted to customize the behavior of the <code>print</code> function for all the <code>vectorN</code> types, you would normally have to write something along the lines of</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, vector0)</div>
+<div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[]&quot;</span>; }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, vector1&lt;T1&gt; v)</div>
+<div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; v.t1 &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>; }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, vector2&lt;T1, T2&gt; v)</div>
+<div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; v.t1 &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; v.t2 &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>; }</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// and so on...</span></div>
+</div><!-- fragment --><p> Now, with tag dispatching, you can rely on the <code>vectorN</code>s all sharing the same tag and specialize only the <code>print_impl</code> struct instead:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl&lt;Vector&gt; {</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> vectorN&gt;</div>
+<div class="line">  <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, vectorN xs) {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> N = hana::size_t&lt;vectorN::size&gt;;</div>
+<div class="line"></div>
+<div class="line">    os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span>;</div>
+<div class="line">    N.times.with_index([&amp;](<span class="keyword">auto</span> i) {</div>
+<div class="line">      os &lt;&lt; xs[i];</div>
+<div class="line">      <span class="keywordflow">if</span> (i != N - hana::size_t&lt;1&gt;) os &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line">    });</div>
+<div class="line">    os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> One upside is that all <code>vectorN</code>s can now be treated uniformly by the <code>print</code> function, at the cost of some boilerplate when creating the data structure (to specify the tag of each <code>vectorN</code>) and when creating the initial <code>print</code> function (to setup the tag-dispatching system with <code>print_impl</code>). There are also other advantages to this technique, like the ability to check for preconditions in the interface function without having to do it in each custom implementation, which would be tedious:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
+<div class="line">  <span class="comment">// **** check some precondition ****</span></div>
+<div class="line"></div>
+<div class="line">  <span class="comment">// The precondition only has to be checked here; implementations</span></div>
+<div class="line">  <span class="comment">// can assume their arguments to always be sane.</span></div>
+<div class="line"></div>
+<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
+<div class="line">}</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Checking preconditions does not make much sense for a <code>print</code> function, but consider for example a function to get the <code>n</code>th element of a sequence; you might want to make sure that the index is not out-of-bounds.</dd></dl>
+<p>This technique also makes it easier to provide interface functions as function objects instead of normal overloaded functions, because only the interface function itself must go through the trouble of defining a function object. Function objects have several advantages over overloaded functions, like the ability to be used in higher order algorithms or as variables:</p>
+<div class="fragment"><div class="line"><span class="comment">// Defining a function object is only needed once and implementations do not</span></div>
+<div class="line"><span class="comment">// have to worry about static initialization and other painful tricks.</span></div>
+<div class="line"><span class="keyword">struct </span>_print {</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
+<div class="line">  <span class="keywordtype">void</span> operator()(std::ostream&amp; os, X x)<span class="keyword"> const </span>{</div>
+<div class="line">    <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-creating_concepts"></a>
 Creating new concepts</h2>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
