@@ -16,6 +16,7 @@ you contribute:
    please try to follow the style guide below.
 4. Make sure your modifications did not break anything by building and
    running the tests:
+
    ```shell
    make
    make test
