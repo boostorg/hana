@@ -169,7 +169,7 @@ in mind that the highest rewards are usually the fruit of some effort.
 
 ------------------------------------------------------------------------------
 This tutorial assumes the reader is already familiar with basic metaprogramming
-and the [C++14 standard][Wikipedia.C++14]. First, let's include the library:
+and the [C++14 standard][C++14]. First, let's include the library:
 
 @snippet example/tutorial/quickstart.cpp includes
 
@@ -187,7 +187,7 @@ function associated to the dynamic type of the `any`:
 @note
 In the documentation, we will often use the `s` suffix on string literals to
 create `std::string`s without syntactic overhead. This is a standard-defined
-[C++14 user-defined literal][Wikipedia.cxx14_udl].
+[C++14 user-defined literal][C++14.udl].
 
 
 Since the any holds a `char`, the second function is called with the `char`
@@ -209,9 +209,9 @@ case as a `std::pair` mapping a dummy type to a function:
 @snippet example/tutorial/quickstart.cpp cases
 
 @note
-`type<...>` is not a type! It is a [C++14 variable template]
-[Wikipedia.variable_template] yielding an object representing a type for Hana.
-The details are explained in the section on [type computations](@ref tutorial-type).
+`type<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
+yielding an object representing a type for Hana. The details are explained in
+the section on [type computations](@ref tutorial-type).
 
 To provide the interface we showed above, `switch_` will have to return a
 function taking the cases. In other words, `switch_(a)` must be a function
@@ -387,7 +387,7 @@ Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. For the record, always keep
 in mind that the algorithms return their result as a new container and no
 in-place mutation is ever performed, which is detailed in the section on
-[algorithm semantics](@ref tutorial-sem).
+[algorithms](@ref tutorial-algorithms).
 
 
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
@@ -438,11 +438,6 @@ function                                     |  concept   | description
 `take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
 `zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
 `zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
-
-
-<!-- Links -->
-[SGI.Container]: https://www.sgi.com/tech/stl/Container.html
-[Wikipedia.cxx14_udl]: http://en.wikipedia.org/wiki/C%2B%2B14#Standard_user-defined_literals
 
 
 
@@ -544,14 +539,11 @@ more powerful than type-level computations, and that we can therefore express
 any type-level computation by an equivalent heterogeneous computation. This
 construction is done in two steps. First, Hana is a fully featured library of
 heterogeneous algorithms and containers, a bit like a modernized Boost.Fusion.
-Second, Hana provides a way of translating any type-level computation into its
+Secondly, Hana provides a way of translating any type-level computation into its
 equivalent heterogeneous computation and back, which allows the full machinery
 of heterogeneous computations to be reused for type-level computations without
 any code duplication. Of course, the biggest advantage of this unification is
 seen by the user, as you will witness by yourself.
-
-<!-- Links -->
-[Sprout]: https://github.com/bolero-MURAKAMI/Sprout
 
 
 
@@ -584,8 +576,6 @@ assertion                    | description
 `static_assert`              | Assertion on a `constexpr` condition. This is stronger than `BOOST_HANA_CONSTEXPR_CHECK` in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are `constexpr`-friendly.
 `BOOST_HANA_CONSTANT_CHECK`  | Assertion on what Hana calls a compile-time `Logical`. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on [IntegralConstants](@ref tutorial-constexpr-constants), but here's a hint about how this works: the truth value of the expression is encoded in the _type_ of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee.
 
-<!-- Links -->
-[N4487]: https://isocpp.org/files/papers/N4487.pdf
 
 
 
@@ -595,34 +585,102 @@ assertion                    | description
 
 
 
-
-@section tutorial-create Creating sequences
+@section tutorial-containers Generalities on containers
 
 ------------------------------------------------------------------------------
-Like we saw in the quick start, a tuple can be created with `make_tuple`. In
-general, sequences in Hana may be created with the `make` function:
+This section explains several important notions about Hana's containers: how
+to create them, the lifetime of their elements and other concerns.
 
-@snippet example/tutorial/create.cpp make<Tuple>
+
+@subsection tutorial-containers-creating Container creation
+
+Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
+can be created with `hana::make_tuple`. However, in general, containers in
+Hana may be created with the `make` function:
+
+@snippet example/tutorial/containers.cpp make<Tuple>
 
 Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
 have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
-Hana's namespace. Simply put, `make<...>` is is used all around the
-library to create different types of objects, thus generalizing the
-`std::make_xxx` family of functions. For example, one can create
-a Range of compile-time integers with `make<Range>`:
+Hana's namespace. Simply put, `make<...>` is is used all around the library
+to create different types of objects, thus generalizing the `std::make_xxx`
+family of functions. For example, one can create a `Range` of compile-time
+integers with `make<Range>`:
 
-@snippet example/tutorial/create.cpp make<Range>
+@snippet example/tutorial/containers.cpp make<Range>
 
 @note
-`int_<...>` is not a type! It is a [C++14 variable template]
-[Wikipedia.variable_template] yielding what Hana calls an IntegralConstant.
+`int_<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
+yielding what Hana calls an `IntegralConstant`. This is explained later in the
+tutorial.
 
 For convenience, whenever a component of Hana provides a `make<XXX>` function,
-it also provides the `make_xxx` shortcut to reduce typing. Also, an
-interesting point that can be raised in this example is the fact that
-`r` is `constexpr`. In general, whenever a Hana sequence is initialized
-only with constant expressions (which is the case for `int_<...>`), that
-sequence may be marked as `constexpr`.
+it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
+point that can be raised in this example is the fact that `r` is `constexpr`.
+In general, whenever a container is initialized with constant expressions only
+(which is the case for `r`), that container may be marked as `constexpr`.
+
+
+@subsection tutorial-containers-elements Container elements
+
+In Hana, containers own their elements. When a container is created, it makes
+a _copy_ of the elements used to initialize it and stores them inside the
+container. Of course, unnecessary copies are avoided by using move semantics.
+Because of those owning semantics, the lifetime of the objects inside the
+container is the same as that of the container.
+
+@snippet example/tutorial/containers.cpp lifetime
+
+Much like containers in the standard library, containers in Hana expect their
+elements to be objects. For this reason, references _may not_ be stored in
+them. When references must be stored inside a container, one should use a
+`std::reference_wrapper` instead:
+
+@snippet example/tutorial/containers.cpp reference_wrapper
+
+
+@subsection tutorial-containers-types Container types
+
+So far, we have only created containers with the `make_xxx` family of
+functions, and we always let the compiler deduce the actual type of the
+container by using `auto`. We will now clarify what can be expected from
+the types of Hana's containers:
+
+@snippet example/tutorial/containers.cpp types
+
+The answer is quite simple, actually. In general, you can't expect anything
+from the type of a container in Hana. This is indicated by the documentation
+of the `make` function for that container, which will return an
+`unspecified-type` if the type is, well, unspecified. Otherwise, if the type
+of the container is specified, it will be documented properly by the return
+type of the `make` function for that container. There are several reasons for
+leaving the type of a container unspecified; they are explained in the
+[rationales](@ref tutorial-rationales-container_types). However, leaving
+the types of containers completely unspecified makes some things very
+difficult to achieve, like overloading functions on heterogeneous containers:
+
+@code
+template <typename T>
+void f(std::vector<T> xs) {
+  // ...
+}
+
+template <typename ...T>
+void f(unspecified-tuple-type<T...> xs) {
+  // ...
+}
+@endcode
+
+The `is_a` utility is provided for this reason (and others). `is_a` allows
+checking whether a type is a precise kind of container, regardless of the
+actual type of the container. For example, the above example could be
+rewritten as
+
+@snippet example/tutorial/containers.cpp overloading
+
+This way, the second overload of `f` will only match when `Xs` represents a
+Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
+`is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
 
 
 
@@ -633,36 +691,51 @@ sequence may be marked as `constexpr`.
 
 
 
-@section tutorial-sem Algorithm semantics
+@section tutorial-algorithms Generalities on algorithms
 
 ------------------------------------------------------------------------------
-By default, all the sequences in Hana hold their elements by value and hence
-they own them. For example, when creating a tuple, the tuple will make copies
-of the elements it is initialized with:
+Much like the previous section introduced general but important notions about
+heterogeneous containers, this section introduces general notions about
+heterogeneous algorithms.
 
-@snippet example/tutorial/sem.cpp copy_initialize
 
-When given the chance, the tuple will move the values in:
+@subsection tutorial-algorithms-value By-value semantics
 
-@snippet example/tutorial/sem.cpp move_initialize
+Algorithms in Hana always return a new container holding the result. This
+allows one to easily chain algorithms by simply using the result of the first
+as the input of the second. For example, to apply a function to every element
+of a tuple and then reverse the result, one simply has to connect the `reverse`
+and `transform` algorithms:
 
-Algorithms in Hana always return a new sequence containing the result.
-This allows one to easily chain algorithms by simply using the result of the
-first as the input of the second. For example, to apply a function to every
-element of a tuple and then reverse the result, one simply has to connect the
-`reverse` and `transform` algorithms:
-
-@snippet example/tutorial/sem.cpp reverse_transform
+@snippet example/tutorial/algorithms.cpp reverse_transform
 
 This is different from the algorithms of the standard library, where one has
-to provide iterators to the underlying sequence. Iterator based designs
-have their own merits like low coupling and performance, but they also have
-drawbacks like reducing the composability of algorithms. In the context
-of heterogeneous sequences, iterators are also less useful. For example,
-incrementing an iterator would have to return a new iterator with a different
-type, because the type of the new object it is pointing to in the sequence
-might be different. To deal with complexity, Hana uses different abstractions
-that are composable and happen to be efficient given the heterogeneous setting.
+to provide iterators to the underlying sequence. For reasons documented in the
+[rationales](@ref tutorial-rationales-iterators), an iterator-based design was
+considered but was quickly dismissed in favor of composable and efficient
+abstractions better suited to the very particular context of heterogeneous
+programming.
+
+One might also think that returning full sequences that own their elements
+from an algorithm would lead to tons of undesirable copies. For example, when
+using `reverse` and `transform`, one could think that an intermediate copy is
+made after the call to `transform`:
+
+@snippet example/tutorial/algorithms.cpp reverse_transform_copy
+
+To make sure this does not happen, Hana uses perfect forwarding and move
+semantics heavily so it can provide an almost optimal runtime performance.
+So instead of doing a copy, a move occurs between `reverse` and `transform`:
+
+@snippet example/tutorial/algorithms.cpp reverse_transform_move
+
+Ultimately, the goal is that code written using Hana should be equivalent to
+clever hand-written code, except it should be enjoyable to write. Performance
+considerations are explained in depth in their own [section]
+(@ref tutorial-performance).
+
+
+@subsection tutorial-algorithms-laziness (Non-)Laziness
 
 Algorithms in Hana are not lazy. When an algorithm is called, it does its
 job and returns a new sequence containing the result, end of the story.
@@ -682,22 +755,104 @@ that most of the time, we want to access all or almost all the elements in a
 sequence anyway, and hence performance is not a big argument in favor of
 laziness.
 
-One might think that returning full sequences that own their elements from an
-algorithm would lead to tons of undesirable copies. For example, when using
-`reverse` and `transform`, one could think that an intermediate copy is made
-after the call to `transform`:
 
-@snippet example/tutorial/sem.cpp reverse_transform_copy
+@subsection tutorial-algorithms-effects Side effects and purity
 
-To make sure this does not happen, Hana uses perfect forwarding and move
-semantics heavily so it can provide an almost optimal runtime performance.
-So instead of doing a copy, a move occurs between `reverse` and `transform`:
+By default, Hana assumes functions to be pure. A pure function is a function
+that has no side-effects at all. In other words, it is a function whose effect
+on the program is solely determined by its return value. In particular, such a
+function may not access any state that outlives a single invocation of the
+function. These functions have very nice properties, like the ability to
+reason mathematically about them, to reorder or even eliminate calls, and
+so on. Except where specified otherwise, all functions used with Hana (i.e.
+used in higher order algorithms) should be pure. In particular, functions
+passed to higher order algorithms are not guaranteed to be called any
+specific number of times. Furthermore, the order of execution is generally
+not specified and should therefore not be taken for granted. If this seems
+crazy, consider the following:
 
-@snippet example/tutorial/sem.cpp reverse_transform_move
+@snippet example/tutorial/algorithms.cpp effects
 
-Ultimately, the goal is that code written using Hana should be equivalent to
-clever hand-written code, except it should be enjoyable to write. Performance
-considerations are explained in depth in their own [section](@ref tutorial-perf).
+@note
+For this code to work, the `<boost/hana/ext/std/type_traits.hpp>` header must
+be included.
+
+Clearly, whether one of these objects has an integral type is known at
+compile-time. Hence, we would expect the predicate to have no overhead at
+all, and to be "executed at compile-time". Hana pushes this to its limit
+and does not even execute the predicate; it only uses the result type of
+the predicate on a particular object. Regarding the order of evaluation,
+consider the `transform` algorithm, which is specified (for `Tuple`s) as:
+
+@code
+transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
+@endcode
+
+Since `make_tuple` is a function, and since the evaluation order for the
+arguments of a function is unspecified, the order in which `f` is called
+on each element of the tuple is unspecified too. If one sticks to pure
+functions, everything works fine and the resulting code is often easier
+to understand.
+
+However, some exceptional algorithms like `for_each` do expect impure
+functions, and they guarantee an order of evaluation. Indeed, a `for_each`
+algorithm that would only take pure functions would be pretty much useless.
+
+
+@subsection tutorial-algorithms-codegen What is generated?
+
+Algorithms in Hana are a bit special with respect to the runtime code they are
+expanded into. The goal of this subsection is not to explain exactly what code
+is generated, which depends on the compiler anyway, but to give a feel for
+things. Basically, a Hana algorithm is like an unrolled version of an
+equivalent classical algorithm. Indeed, since the bounds of the processed
+sequence are known at compile-time, it makes sense that we can unroll the
+loop over the sequence. For example, let's consider the `for_each` algorithm:
+
+@code
+auto xs = make_tuple(0, 1, 2, 3);
+for_each(xs, f);
+@endcode
+
+If `xs` was a runtime sequence instead of a tuple, its length would only be
+known at runtime and the above code would have to be implemented as a loop:
+
+@code
+for (int i = 0; i < xs.size(); ++i) {
+  f(xs[i]);
+}
+@endcode
+
+However, in our case, the length of the sequence is known at compile-time and
+so we don't have to check the index at each iteration. Hence, we can just
+write:
+
+@code
+f(xs[0_c]);
+f(xs[1_c]);
+f(xs[2_c]);
+f(xs[3_c]);
+@endcode
+
+The main difference here is that no bound checking and index increment is done
+at each step, because there is no index anymore; the loop was effectively
+unrolled. In some cases, this can be desirable for performance reasons. In
+other cases, this can be detrimental to performance because it causes the
+code size to grow. As always, performance is a tricky subject and whether
+you actually want loop unrolling to happen should be tackled on a case-by-case
+basis. As a rule of thumb, algorithms processing all (or a subset) of the
+elements of a container are unrolled. In fact, if you think about it, this
+unrolling is the only way to go for heterogeneous sequences, because different
+elements of the sequence may have different types. As you might have noticed,
+we're not using normal indices into the tuple, but compile-time indices, which
+can't be generated by a normal `for` loop. In other words, the following does
+not make sense:
+
+@code
+for (??? i = 0_c; i < xs.size(); ++i) {
+  f(xs[i]);
+}
+@endcode
 
 
 
@@ -757,7 +912,7 @@ However, let's say we used `all` with the following predicate instead:
 
 @note
 For this to work, the external adapters for `std::integral_constant` contained
-in `boost/hana/ext/std/integral_constant.hpp` have to be included.
+in `<boost/hana/ext/std/integral_constant.hpp>` have to be included.
 
 First, since the predicate is only querying information about the type of the
 `.name` member of an element of the tuple, it is clear that its result can be
@@ -840,7 +995,7 @@ them properly:
 
 @note
 The `type<int>` expression is _not_ a type! It is an object, more precisely a
-[variable template][Wikipedia.variable_template] defined roughly as
+[variable template][C++14.vtemplate] defined roughly as
 @code
     template <typename T>
     constexpr the-type-of-the-object type{};
@@ -958,7 +1113,7 @@ the hood in `example/misc/mini_mpl.cpp`.
 
 
 
-@section tutorial-perf Performance considerations
+@section tutorial-performance Performance considerations
 
 ------------------------------------------------------------------------------
 C++ programmers love performance, so here's a whole section dedicated to it.
@@ -970,11 +1125,11 @@ separately below.
 @note
 The benchmarks presented in this section are updated automatically when we
 push to the repository. If you notice results that do not withstand the
-claims made here, open a [GitHub issue][GitHub.issues]; it could
-be a performance regression.
+claims made here, open a [GitHub issue][Hana.issues]; it could be a
+performance regression.
 
 
-@subsection tutorial-perf-compile Compile-time performance
+@subsection tutorial-performance-compile Compile-time performance
 
 C++ metaprogramming brings its share of awful things. One of the most annoying
 and well-known problem associated to it is interminable compilation times.
@@ -1007,7 +1162,7 @@ minimizes reliance on any kind of external dependencies. In particular,
 it only uses other Boost libraries in a few specific cases, and it does
 not rely on the standard library for the largest part. There are several
 reasons (other than include times) for doing so; they are documented in
-the [rationales](@ref tutorial-rationales).
+the [rationales](@ref tutorial-rationales-dependencies).
 
 Below is a chart showing the time required to include different libraries. The
 chart shows the time for including everything in the (non-external) public API
@@ -1126,8 +1281,8 @@ The third and last algorithm that we present here is the `find_if` algorithm.
 This algorithm is difficult to implement efficiently, because it requires
 stopping at the first element which satisfies the given predicate. For the
 same reason, modern techniques don't really help us here, so this algorithm
-constitutes a good test of the implementation quality of Hana disregarding
-the metaprogramming free lunch given to us by C++14.
+constitutes a good test of the implementation quality of Hana, without taking
+into account the free lunch given to use by C++14.
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -1141,9 +1296,158 @@ compile-time performance scattered around the documentation if you want to
 see the compile-time behavior of a particular algorithm.
 
 
-@subsection tutorial-perf-runtime Runtime performance
+@subsection tutorial-performance-runtime Runtime performance
 
-@todo Write this section.
+Hana was designed to be very efficient at runtime. But before we dive into the
+details, let's clarify one thing. Hana being a metaprogramming library which
+allows manipulating both types and values, it does not always make sense to
+even talk about runtime performance. Indeed, for type-level computations and
+computations on `IntegralConstant`s, runtime performance is simply not a
+concern, because the result of the computation is contained in a _type_, which
+is a purely compile-time entity. In other words, these computations involve
+only compile-time work, and no code is even generated to perform these
+computations at runtime. The only case where it makes sense to discuss runtime
+performance is when manipulating runtime values in heterogeneous containers
+and algorithms, because this is the only case where the compiler has to
+generate some runtime code. It is therefore only computations of this sort
+that we will be studying in the remainder of this section.
+
+Like we did for compile-time benchmarks, the methodology used to measure
+runtime performance in Hana is data driven rather than analytical. In other
+words, instead of trying to determine the complexity of an algorithm by
+counting the number of basic operations it does as a function of the input
+size, we simply take measurements for the most interesting cases and see how
+it behaves. There are a couple of reasons for doing so. First, we do not
+expect Hana's algorithms to be called on large inputs since those algorithms
+work on heterogeneous sequences whose length must be known at compile-time.
+For example, if you tried to call the `find_if` algorithm on a sequence of
+100k elements, your compiler would simply die while trying to generate the
+code for this algorithm. Hence, algorithms can't be called on very large inputs
+and the analytical approach then loses a lot of its attractiveness. Secondly,
+processors have evolved into pretty complex beasts, and the actual performance
+you'll be able to squeeze out is actually controlled by much more than the
+mere number of steps your algorithm is doing. For example, bad cache behavior
+or branch misprediction could turn a theoretically efficient algorithm into a
+slowpoke, especially for small inputs. Since Hana causes a lot of unrolling to
+happen, these factors must be considered even more carefully and any analytical
+approach would probably only comfort us into thinking we're efficient. Instead,
+we want hard data (and pretty charts to display it)!
+
+There are a couple of different aspects we will want to benchmark. First, we
+will obviously want to benchmark the execution time of the algorithms.
+Secondly, because of the by-value semantics used throughout the library, we
+will also want to make sure that the minimum amount of data is copied around.
+Finally, we will want to make sure that using Hana does not cause too much
+code bloat because of unrolling, as explained in the [section]
+(@ref tutorial-algorithms-codegen) on algorithms.
+
+Just like we studied only a couple of key algorithms for compile-time
+performance, we will focus on the runtime performance of a few algorithms.
+For each benchmarked aspect, we will compare the algorithm as implemented by
+different libraries. Our goal is to always be at least as efficient as
+Boost.Fusion, which is near from optimality in terms of runtime performance.
+For comparison, we also show the same algorithm as executed on a runtime
+sequence, and on a sequence whose length is known at compile-time but whose
+`transform` algorithm does not use explicit loop unrolling. All the benchmarks
+presented here are done in a _Release_ CMake configuration, which takes care
+of passing the proper optimization flags (usually `-O3`). Let's start with the
+following chart, which shows the execution time required to `transform`
+different kinds of sequences:
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.transform.execute.json">
+</div>
+
+As you can see, Hana and Fusion are pretty much on the same line. `std::array`
+is slightly slower for larger collections data sets, and `std::vector` is much
+slower for larger collections. Since we also want to look out for code bloat,
+let's take a look at the size of the executable generated for the exact same
+scenario:
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.transform.bloat.json">
+</div>
+
+As you can see, code bloat does not seem to be an issue, at least not one that
+can be detected in micro benchmarks such as this one. Let's now take a look at
+the `fold` algorithm, which is used very frequently:
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.fold_left.execute.json">
+</div>
+
+Here, you can see that Fusion, Hana and `std::array` perform pretty much the
+same, while `std::vector` is slower for larger inputs. Again, let's look at
+the executable size:
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.fold_left.bloat.json">
+</div>
+
+Here again, the code size did not explode. So at least for moderate usages of
+Hana (and Fusion for that matter, since they have the same problem), code
+bloat should not be a major concern. The containers in the charts we just
+presented contain randomly generated `int`s, which is cheap to copy around and
+lends itself well to micro benchmarks. However, what happens when we chain
+multiple algorithms on a container whose elements are expensive to copy? More
+generally, the question is: when an algorithm is passed a temporary object,
+does it seize the opportunity to avoid unnecessary copies? Consider:
+
+@code
+auto xs = make_tuple("some"s, "huge"s, "string"s);
+
+// No copy of xs's elements should be made: they should only be moved around.
+auto ys = reverse(std::move(xs));
+@endcode
+
+To answer this question, we'll look at the chart generated when benchmarking
+the above code for strings of about 1k characters. However, note that it does
+not really make sense to benchmark this for standard library algorithms,
+because they do not return containers.
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.reverse.move.json">
+</div>
+
+As you can see, Hana is faster than Fusion, probably because of a more
+consistent use of move semantics in the implementation. If we had not
+provided a temporary container to `reverse`, no move could have been
+performed by Hana and both libraries would have performed similarly:
+
+<div class="benchmark-chart"
+     style="min-width: 310px; height: 400px; margin: 0 auto"
+     data-dataset="benchmark.reverse.nomove.json">
+</div>
+
+This concludes the section on runtime performance. Hopefully you are now
+convinced that Hana was built for speed. Performance is important to us:
+if you ever encounter a scenario where Hana causes bad code to be generated
+(and the fault is not on the compiler), please open an [issue][Hana.issues]
+so the problem can be addressed.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-ext Integration with external libraries
+
+------------------------------------------------------------------------------
+
+@subsection tutorial-ext-std The standard library
+
+@subsection tutorial-ext-fusion Boost.Fusion
+
+@subsection tutorial-ext-mpl Boost.MPL
 
 
 
@@ -1159,12 +1463,12 @@ see the compile-time behavior of a particular algorithm.
 ------------------------------------------------------------------------------
 In C++, the border between compile-time and runtime is hazy, a fact that is
 even more true with the introduction of [generalized constant expressions]
-[Wikipedia.generalized_constexpr] in C++11. However, being able to manipulate
-heterogeneous objects is all about understanding that border and then crossing
-it at one's will. The goal of this section is to set things straight with
-`constexpr`; to understand which problems it can solve and which ones it
-can't. Let's start off with a [GOTW][] style question: do you think the
-following code should compile, and why?
+[C++14.gconstexpr] in C++14. However, being able to manipulate heterogeneous
+objects is all about understanding that border and then crossing it at one's
+will. The goal of this section is to set things straight with `constexpr`; to
+understand which problems it can solve and which ones it can't. Let's start
+off with a [GOTW][] style question: do you think the following code should
+compile, and why?
 
 @code
     template <typename T>
@@ -1403,25 +1707,6 @@ let me know.
 
 
 
-@section tutorial-ext Integration with external libraries
-
-------------------------------------------------------------------------------
-
-@subsection tutorial-ext-std The standard library
-
-@subsection tutorial-ext-fusion Boost.Fusion
-
-@subsection tutorial-ext-mpl Boost.MPL
-
-
-
-
-
-
-
-
-
-
 @section tutorial-extending Extending the library
 
 ------------------------------------------------------------------------------
@@ -1569,7 +1854,7 @@ the library was also intentionally kept simple, because we all love simplicity.
     and data type in the library. Basically, `boost/hana/fwd/[XXX].hpp`
     is the forward declaration for the concept or data type named `XXX`.
     Also note that forward declarations for headers in `boost/hana/ext/`
-    are not provided.
+    and `boost/hana/functional/` are not provided.
 
   - `boost/hana/functional/`\n
     This subdirectory contains various function objects that are often useful,
@@ -1723,18 +2008,79 @@ should be added to this list, open a GitHub issue and we'll consider either
 improving the documentation or adding the question here.
 
 
-1. __Why restrict usage of Boost and the standard library? After all, isn't this a (proposed) Boost library?__\n
+@subsection tutorial-rationales-dependencies Why restrict usage of external dependencies?
+
 There are several reasons for doing so. First, Hana is a very fundamental
 library; we are basically reimplementing the core language and the standard
-library with support for heterogeneous types. When you go through the code,
-you quickly realize that you very rarely need other libraries, and that
-almost everything must be implemented from scratch. Also, since Hana is very
-fundamental, there is even more incentive for keeping the dependencies minimal,
-because those dependencies will be handed down to the users.
-Finally, one big reason for using Boost is that it is highly portable. As an
-exception to the rule, this library only targets very recent compilers. Hence,
-we can afford to depend on modern constructs and the portability brought by
-using most Boost libraries is just dead weight.
+library with support for heterogeneous types. When going through the code,
+one quickly realizes that other libraries are rarely needed, and that almost
+everything has to be implemented from scratch. Also, since Hana is very
+fundamental, there is even more incentive for keeping the dependencies
+minimal, because those dependencies will be handed down to the users.
+Regarding the minimal reliance on Boost in particular, one big argument
+for using it is portability. However, as a cutting edge library, Hana only
+targets very recent compilers. Hence, we can afford to depend on modern
+constructs and the portability given to us by using Boost would mostly
+represent dead weight.
+
+
+@subsection tutorial-rationales-iterators Why no iterators?
+
+Iterator based designs have their own merits, but they are also known to
+reduce the composability of algorithms. Furthermore, the context of
+heterogeneous programming brings a lot of points that make iterators much
+less interesting. For example, incrementing an iterator would have to return
+a new iterator with a different type, because the type of the new object it
+is pointing to in the sequence might be different. It also turns out that
+implementing most algorithms in terms of iterators leads to a worse
+compile-time performance, simply because the execution model of metaprogramming
+(using the compiler as an interpreter) is so different from the runtime
+execution model of C++ (a processor accessing contiguous memory).
+
+
+@subsection tutorial-rationales-container_types Why leave container types unspecified?
+
+First, it gives much more wiggle room for the implementation to perform
+compile-time and runtime optimizations by using clever representations for
+specific containers. For example, a tuple containing homogeneous objects of
+type `T` could be implemented as an array of type `T` instead, which is more
+efficient at compile-time. Secondly, it turns out that knowing the type of a
+_heterogeneous_ container is not as useful as you would think. Indeed, the
+main motivation for wanting well-specified container types is function
+overloading to process tuples recursively:
+
+@code
+template <typename T1, typename ...Tn>
+auto f(tuple<T1, Tn...> xs) {
+  // ...
+}
+
+auto f(tuple<> xs) {
+  // base case
+}
+@endcode
+
+However, this code is very inefficient both at compile-time and at runtime.
+It is inefficent at compile-time because it requires the instantiation of a
+new `tuple<...>` specialization at each step, which is expensive (see the
+[section](@ref tutorial-performance-compile) on compile-time performance).
+It is inefficient at runtime because it requires the whole tail of the tuple
+to be copied (or moved) at each iteration, which could be expensive. In most
+cases, the above function should be rewritten using Hana algorithms instead
+of a recursive approach. In the rare cases where it is not possible to do so
+(when `f`'s recursion pattern is not captured by an algorithm), the following
+index-based approach can be used instead:
+
+@snippet example/tutorial/rationales.cpp index_based_recursion
+
+While slightly ugly, this approach at least has the advantage of not copying
+the tuple around, because it is always passed by reference. However, this
+approach has the disadvantage that `f` is now a completely unconstrained
+template and it will therefore match on nonsensical inputs like `f(1)`.
+This can easily be solved by enabling the template only when the type
+`Xs` is a `Tuple`:
+
+@snippet example/tutorial/rationales.cpp constrained_index_based_recursion
 
 
 
@@ -1748,18 +2094,19 @@ using most Boost libraries is just dead weight.
 <!-- Links -->
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
+[C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
+[C++14.udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals
+[C++14.vtemplate]: http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates
+[C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
 [C++Now]: http://cppnow.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
-[GitHub.issues]: https://github.com/ldionne/hana/issues
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
+[Hana.issues]: https://github.com/ldionne/hana/issues
 [MPL11]: http://github.com/ldionne/mpl11
-
-[Wikipedia.C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
-[Wikipedia.CXX14_udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals
-[Wikipedia.generic_lambda]: http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas
-[Wikipedia.variable_template]: http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates
-[Wikipedia.generalized_constexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
+[N4487]: https://isocpp.org/files/papers/N4487.pdf
+[SGI.Container]: https://www.sgi.com/tech/stl/Container.html
+[Sprout]: https://github.com/bolero-MURAKAMI/Sprout
 
 */
 

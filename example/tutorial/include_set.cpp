@@ -13,7 +13,7 @@ using namespace boost::hana;
 
 
 int main() {
-    constexpr auto xs = set(1, 2.2, 'x');
-    static_assert(contains(xs, 'x'), "");
+  constexpr auto xs = set(1, 2.2, 'x');
+  static_assert(contains(xs, 'x'), "");
 }
 //! [main]

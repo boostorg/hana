@@ -569,9 +569,6 @@ namespace boost { namespace hana {
             >::value
         >
         constexpr auto find_if_impl(Xs&& xs, Pred const&, int) {
-            //! @todo
-            //! Must we actually call `pred` to make sure potential
-            //! side effects are performed?
             constexpr auto size = tuple_detail::size<Xs>::value;
             constexpr auto index = size - tail_size - 1;
             return hana::just(hana::at_c<index>(static_cast<Xs&&>(xs)));

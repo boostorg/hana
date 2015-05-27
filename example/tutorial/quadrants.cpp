@@ -79,7 +79,7 @@ using types = mpl::vector<int, char, float, void>;
 using pointers = mpl::transform<types, add_const_pointer<mpl::_1>>::type;
 
 static_assert(mpl::equal<
-    pointers,
-    mpl::vector<int const*, char const*, float const*, void const*>
+  pointers,
+  mpl::vector<int const*, char const*, float const*, void const*>
 >::value, "");
 //! [type-level]

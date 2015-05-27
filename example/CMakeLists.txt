@@ -7,6 +7,12 @@
 ##############################################################################
 add_custom_target(examples ALL COMMENT "Build all the examples.")
 
+# Several examples have unused parameters because the name of the parameters
+# are useful for illustration, even if the implementation is not actually
+# presented. We don't want to generate warnings for that or need to comment
+# out all unused parameter names.
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter)
+
 #   boost_hana_add_example(<name> ...)
 #
 # Equivalent to `boost_hana_add_test`, except the created test is also added

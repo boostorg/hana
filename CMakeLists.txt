@@ -21,7 +21,7 @@ option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrin
 
 
 ##############################################################################
-# Setup compiler flags (more can be set on a per-target basis)
+# Setup compiler flags (more can be set on a per-target basis or in subdirectories)
 ##############################################################################
 include(CheckCXXCompilerFlag)
 macro(boost_hana_append_flag testname flag)

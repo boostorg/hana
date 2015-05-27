@@ -1,5 +1,7 @@
-<% exec = (1..50).step(10).to_a %>
-
+<%
+  exec = (0..100).step(10).to_a
+  fusion = (0..50).step(10).to_a
+%>
 
 {
   "title": {
@@ -20,10 +22,20 @@
       "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
     }
 
+    , {
+      "name": "std::array",
+      "data": <%= measure(:bloat, 'execute.std.array.erb.cpp', exec) %>
+    }
+
+    , {
+      "name": "std::vector",
+      "data": <%= measure(:bloat, 'execute.std.vector.erb.cpp', exec) %>
+    }
+
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
       "name": "fusion::vector",
-      "data": <%= measure(:bloat, 'execute.fusion.vector.erb.cpp', exec) %>
+      "data": <%= measure(:bloat, 'execute.fusion.vector.erb.cpp', fusion) %>
     }
     <% end %>
   ]
