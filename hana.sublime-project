@@ -29,7 +29,7 @@
                         , "-e", "file = Pathname.new('${file}').relative_path_from(project)"
                         , "-e", "target = file.sub_ext('').to_s.gsub('/', '.')"
                         , "-e", "system('/usr/local/bin/cmake', '--build', '$project_path/build', '--target', target)"
-                        , "-e", "system('/usr/local/bin/ctest', '--output-on-failure', '-R', target)"
+                        , "-e", "system('/usr/local/bin/ctest', '-V', '--output-on-failure', '-R', target)"
                     ]
                 }
             ]
