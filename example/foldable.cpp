@@ -220,10 +220,20 @@ BOOST_HANA_CONSTEXPR_CHECK(
 }{
 
 //! [unpack]
+BOOST_HANA_CONSTEXPR_LAMBDA auto add = [](auto x, auto y, auto z) {
+    return x + y + z;
+};
+
+BOOST_HANA_CONSTEXPR_CHECK(unpack(make_tuple(1, 2, 3), add) == 6);
+//! [unpack]
+
+}{
+
+//! [fuse]
 auto cheap_tie = [](auto& ...vars) {
-    return partial(flip(unpack), [&vars...](auto ...values) {
+    return fuse([&vars...](auto ...values) {
         // Using an initializer list sequences the assignments.
-        int dummy[] = {((vars = values), 0)...};
+        int dummy[] = {0, ((void)(vars = values), 0)...};
         (void)dummy;
     });
 };
@@ -233,19 +243,6 @@ double c = 0;
 
 cheap_tie(a, b, c)(make<Tuple>(1, '2', 3.3));
 BOOST_HANA_RUNTIME_CHECK(a == 1 && b == '2' && c == 3.3);
-//! [unpack]
-
-}{
-
-//! [fuse]
-BOOST_HANA_CONSTEXPR_LAMBDA auto add = [](auto x, auto y) {
-    return x + y;
-};
-
-// Would be `boost::fusion::make_fused(add)` in Boost.Fusion.
-BOOST_HANA_CONSTEXPR_LAMBDA auto add_seq = fuse(add);
-
-BOOST_HANA_CONSTEXPR_CHECK(add_seq(make<Tuple>(1, 2)) == add(1, 2));
 //! [fuse]
 
 }{
