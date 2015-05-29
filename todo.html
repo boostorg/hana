@@ -38,6 +38,18 @@
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
+    // We parse the code snippets and italicize the words from the pseudo-code
+    // glossary to make them stand out. We also link them to their respective
+    // definition in the glossary.
+    $(".fragment").children(".line").each(function(index, div) {
+      div.innerHTML = div.innerHTML
+        .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
+        .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
+        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
+        .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
+        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/see-documentation/g, "see-documentation".italics());
+    });
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
@@ -136,7 +148,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
 <dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
 <dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
-<dt><a class="anchor" id="_todo000013"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000012"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><ul>
 <li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
@@ -144,7 +156,6 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li>Introduce the mini-MPL</li>
 <li>Introduce the integration with <code>&lt;type_traits&gt;</code></li>
 </ul>
-<p>Write this section.</p>
 <p class="enddd">There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</p>
 </dd>
 </dl>

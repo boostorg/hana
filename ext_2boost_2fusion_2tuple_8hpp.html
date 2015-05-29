@@ -38,6 +38,18 @@
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
+    // We parse the code snippets and italicize the words from the pseudo-code
+    // glossary to make them stand out. We also link them to their respective
+    // definition in the glossary.
+    $(".fragment").children(".line").each(function(index, div) {
+      div.innerHTML = div.innerHTML
+        .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
+        .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
+        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
+        .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
+        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/see-documentation/g, "see-documentation".italics());
+    });
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {

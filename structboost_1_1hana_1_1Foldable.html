@@ -38,6 +38,18 @@
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
+    // We parse the code snippets and italicize the words from the pseudo-code
+    // glossary to make them stand out. We also link them to their respective
+    // definition in the glossary.
+    $(".fragment").children(".line").each(function(index, div) {
+      div.innerHTML = div.innerHTML
+        .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
+        .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
+        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
+        .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
+        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/see-documentation/g, "see-documentation".italics());
+    });
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
@@ -989,19 +1001,11 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> cheap_tie = [](<span class="keyword">auto</span>&amp; ...vars) {</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>), [&amp;vars...](auto ...values) {</div>
-<div class="line">        <span class="comment">// Using an initializer list sequences the assignments.</span></div>
-<div class="line">        int dummy[] = {((vars = values), 0)...};</div>
-<div class="line">        (<span class="keywordtype">void</span>)dummy;</div>
-<div class="line">    });</div>
+<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">    <span class="keywordflow">return</span> x + y + z;</div>
 <div class="line">};</div>
-<div class="line"><span class="keywordtype">int</span> a = 0;</div>
-<div class="line"><span class="keywordtype">char</span> b = <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><span class="keywordtype">double</span> c = 0;</div>
 <div class="line"></div>
-<div class="line">cheap_tie(a, b, c)(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(a == 1 &amp;&amp; b == <span class="charliteral">&#39;2&#39;</span> &amp;&amp; c == 3.3);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(make_tuple(1, 2, 3), add) == 6);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1034,14 +1038,19 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 </div><!-- fragment --><p> where <code>x...</code> are the elements in the foldable. This function is useful when one wants to create a function that accepts a foldable which is not known yet.</p>
 <dl class="section note"><dt>Note</dt><dd>This function is not tag-dispatched; customize <code>unpack</code> instead.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + y;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> cheap_tie = [](<span class="keyword">auto</span>&amp; ...vars) {</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>([&amp;vars...](auto ...values) {</div>
+<div class="line">        <span class="comment">// Using an initializer list sequences the assignments.</span></div>
+<div class="line">        int dummy[] = {0, ((void)(vars = values), 0)...};</div>
+<div class="line">        (<span class="keywordtype">void</span>)dummy;</div>
+<div class="line">    });</div>
 <div class="line">};</div>
+<div class="line"><span class="keywordtype">int</span> a = 0;</div>
+<div class="line"><span class="keywordtype">char</span> b = <span class="charliteral">&#39;\0&#39;</span>;</div>
+<div class="line"><span class="keywordtype">double</span> c = 0;</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Would be `boost::fusion::make_fused(add)` in Boost.Fusion.</span></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add_seq = <a class="code" href="structboost_1_1hana_1_1Foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>(add);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(add_seq(make&lt;Tuple&gt;(1, 2)) == add(1, 2));</div>
+<div class="line">cheap_tie(a, b, c)(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(a == 1 &amp;&amp; b == <span class="charliteral">&#39;2&#39;</span> &amp;&amp; c == 3.3);</div>
 </div><!-- fragment -->
 </div>
 </div>
