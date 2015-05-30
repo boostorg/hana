@@ -48,9 +48,9 @@ Distributed under the Boost Software License, Version 1.0.
     //!     static_assert(value(expr), "...");
     //! @endcode
     //!
-    //! To understand why this is sometimes needed, especially when
-    //! the expression contains a lambda, read the section on
-    //! [Constants and side effects](@ref tutorial-constexpr-side_effects).
+    //! To understand why this is sometimes needed, especially when the
+    //! expression contains a lambda, see the advanced section on
+    //! [constexpr and side-effects](@ref tutorial-appendix-constexpr-effects).
 #   define BOOST_HANA_CONSTANT_ASSERT(...) unspecified
 
     //! @ingroup group-assertions

@@ -574,7 +574,256 @@ assertion                    | description
 `BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
 `BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, the only reason for it not being a `static_assert` is the language limitation that lambdas can't appear in constant expressions, which [might be lifted][N4487] in C++17.
 `static_assert`              | Assertion on a `constexpr` condition. This is stronger than `BOOST_HANA_CONSTEXPR_CHECK` in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are `constexpr`-friendly.
-`BOOST_HANA_CONSTANT_CHECK`  | Assertion on what Hana calls a compile-time `Logical`. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on [IntegralConstants](@ref tutorial-constexpr-constants), but here's a hint about how this works: the truth value of the expression is encoded in the _type_ of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee.
+`BOOST_HANA_CONSTANT_CHECK`  | Assertion on a boolean `IntegralConstant`. This assertion provides the strongest form of guarantee. Note that in reality, any compile-time `Logical` is accepted by this macro, which is more general than requiring a boolean `IntegralConstant`.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-integral Compile-time numbers
+
+------------------------------------------------------------------------------
+This section introduces the important notion of `IntegralConstant` and the
+philosophy behind Hana's metaprogramming paradigm. Let's start with a rather
+odd question. What is an `integral_constant`?
+
+@code
+template<class T, T v>
+struct integral_constant {
+  static constexpr T value = v;
+  typedef T value_type;
+  typedef integral_constant type;
+  constexpr operator value_type() const noexcept { return value; }
+  constexpr value_type operator()() const noexcept { return value; }
+};
+@endcode
+
+@note
+If this is totally new to you, you might want to take a look at the
+[documentation][C++14.ice] for `std::integral_constant`.
+
+One valid answer is that `integral_constant` represents a type-level
+encoding of a number, or more generally any object of an integral type.
+For illustration, we could define a successor function on numbers in that
+representation very easily by using a template alias:
+
+@code
+template <typename N>
+using succ = integral_constant<int, N::value + 1>;
+
+using one = integral_constant<int, 1>;
+using two = succ<one>;
+using three = succ<two>;
+// ...
+@endcode
+
+This is the way `integral_constant`s are usually thought of; as _type-level_
+entities that can be used for template metaprogramming. Another way to see
+an `integral_constant` is as a runtime object representing a `constexpr` value
+of an integral type:
+
+@code
+auto one = integral_constant<int, 1>{};
+@endcode
+
+Here, while `one` is not marked as `constexpr`, the abstract value it holds
+(a `constexpr 1`) is still available at compile-time, because that value is
+encoded in the type of `one`. Indeed, even if `one` is not `constexpr`, we
+can use `decltype` to retrieve the compile-time value it represents:
+
+@code
+auto one = integral_constant<int, 1>{};
+constexpr int one_constexpr = decltype(one)::value;
+@endcode
+
+But why on earth would we want to consider `integral_constant`s as objects
+instead of type-level entities? To see why, consider how we could now
+implement the same successor function as before:
+
+@code
+template <typename N>
+auto succ(N) {
+  return integral_constant<int, N::value + 1>{};
+}
+
+auto one = integral_constant<int, 1>{};
+auto two = succ(one);
+auto three = succ(two);
+// ...
+@endcode
+
+Did you notice anything new? The difference is that instead of implementing
+`succ` at the type-level with a template alias, we're now implementing it at
+the value-level with a template function. Furthermore, we can now perform
+compile-time arithmetic using the same syntax as that of normal C++. This
+way of seeing compile-time entities as objects instead of types is the key
+to Hana's expressive power.
+
+
+@subsection tutorial-integral-arithmetic Compile-time arithmetic
+
+The MPL defines [arithmetic operators][MPL.arithmetic] that can be used to do
+compile-time computations with `integral_constant`s. A typical example of such
+an operation is `plus`, which is implemented roughly as:
+
+@code
+template <typename X, typename Y>
+struct plus {
+  using type = integral_constant<
+    decltype(X::value + Y::value),
+    X::value + Y::value
+  >;
+};
+
+using three = plus<integral_constant<int, 1>,
+                   integral_constant<int, 2>>::type;
+@endcode
+
+By viewing `integral_constant`s as objects instead of types, the translation
+from a metafunction to a function is very straightforward:
+
+@code
+template <typename V, V v, typename U, U u>
+constexpr auto
+operator+(integral_constant<V, v>, integral_constant<U, u>)
+{ return integral_constant<decltype(v + u), v + u>{}; }
+
+auto three = integral_constant<int, 1>{} + integral_constant<int, 2>{};
+@endcode
+
+It is very important to emphasize the fact that this operator does not return
+a normal integer. Instead, it returns a value-initialized object whose type
+contains the result of the addition. The only useful information contained in
+that object is actually in its type, and we're creating an object because it
+allows us to use this nice value-level syntax. It turns out that we can make
+this syntax even better by using a [C++14 variable template][C++14.vtemplate]
+to simplify the creation of an `integral_constant`:
+
+@code
+template <int i>
+constexpr integral_constant<int, i> int_{};
+
+auto three = int_<1> + int_<2>;
+@endcode
+
+Now we're talking about a visible gain in expressiveness over the initial
+type-level approach, aren't we? But there's more; we can also use
+[C++14 user defined literals][C++14.udl] to make this process even simpler:
+
+@code
+template <char ...c>
+constexpr auto operator"" _c() {
+  // parse the characters and return an integral_constant
+}
+
+auto three = 1_c + 3_c;
+@endcode
+
+Hana provides its own `integral_constant`s, which define arithmetic operators
+just like we showed above. Hana also provides variable templates to easily
+create different kinds of `integral_constant`s: `int_`, `long_`, `bool_`,
+etc... However, note that `integral_constant` in Hana is a variable template
+instead of a type, so `integral_constant<int, 1>` is actually an object,
+unlike `std::integral_constant<int, 1>`, which is a type. This allows you
+to omit the trailing `{}` braces otherwise required to value-initialize
+`integral_constant`s. Of course, the `_c` suffix is also provided; it is
+part of the `boost::hana::literals` namespace, and you should import it
+into your namespace before using it:
+
+@code
+using namespace boost::hana::literals;
+
+auto three = 1_c + 3_c;
+@endcode
+
+This way, you may do compile-time arithmetic without having to struggle with
+awkward type-level idiosyncrasies, and your coworkers will now be able to
+understand what's going on.
+
+
+@subsection tutorial-integral-distance Example: Euclidean distance
+
+To illustrate how good it gets, let's implement a function computing a 2-D
+euclidean distance at compile-time. As a reminder, the euclidean distance of
+two points in the 2-D plane is given by
+
+@f[
+  \mathrm{distance}\left((x_1, y_1), (x_2, y_2)\right)
+      := \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}
+@f]
+
+First, here's how it looks like with a type-level approach (using the MPL):
+
+@snippet example/tutorial/integral.cpp distance-mpl
+
+Yeah... Now, let's implement it with the value-level approach presented above:
+
+@snippet example/tutorial/integral.cpp distance-hana
+
+This version looks arguably cleaner. However, this is not all. Notice how the
+`distance` function looks exactly as the one you would have written for
+computing the euclidean distance on dynamic values? Indeed, because we're
+using the same syntax for dynamic and compile-time arithmetic, generic
+functions written for one will work for both!
+
+@snippet example/tutorial/integral.cpp distance-dynamic
+
+__Without changing any code__, we can use our `distance` function on runtime
+values and everything just works. Now that's DRY.
+
+
+@subsection tutorial-integral-more Why stop here?
+
+Why should we limit ourselves to arithmetic operations? When you start
+considering `IntegralConstant`s as objects, it becomes sensible to augment
+their interface with more functions that are generally useful. For example,
+Hana's `IntegralConstant`s define a `times` member function that can be used
+to invoke a function a certain number of times, which is especially useful
+for loop unrolling:
+
+@code
+__attribute__((noinline)) void f() { }
+
+int main() {
+    int_<10>.times(f);
+}
+@endcode
+
+In the above code, the 10 calls to `f` are expanded at compile-time. In other
+words, this is equivalent to writing
+
+@code
+f(); f(); ... f(); // 10 times
+@endcode
+
+Another nice use of `IntegralConstant`s is to define good-looking operators
+for indexing heterogeneous sequences. Whereas `std::tuple` must be accessed
+with `std::get`, Hana's `Tuple` can be accessed using the familiar `operator[]`
+used for standard library containers:
+
+@code
+auto values = make_tuple(1, 'x', 3.4f);
+char x = values[1_c];
+@endcode
+
+How this works is very simple. Basically, Hana's `Tuple` defines an `operator[]`
+taking an `IntegralConstant` instead of a normal integer, in a way similar to
+
+@code
+template <typename N>
+constexpr decltype(auto) operator[](N const&) {
+  return std::get<N::value>(*this);
+}
+@endcode
+
+This is the end of the section on `IntegralConstant`s. This section introduced
+the feel behind Hana's new way of metaprogramming; if you liked what you've
+seen so far, the rest of this tutorial should feel just like home.
 
 
 
@@ -608,11 +857,6 @@ family of functions. For example, one can create a `Range` of compile-time
 integers with `make<Range>`:
 
 @snippet example/tutorial/containers.cpp make<Range>
-
-@note
-`int_<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
-yielding what Hana calls an `IntegralConstant`. This is explained later in the
-tutorial.
 
 For convenience, whenever a component of Hana provides a `make<XXX>` function,
 it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
@@ -863,9 +1107,31 @@ for (??? i = 0_c; i < xs.size(); ++i) {
 
 
 
+@section tutorial-introspection Introspection
+
+------------------------------------------------------------------------------
+
+@todo
+Write this section.
+  - Adapting structs
+  - JSON example
+  - Checking for a member
+  - sfinae + Maybe
+
+
+
+
+
+
+
+
+
+
 @section tutorial-amphi Amphibian algorithms
 
 ------------------------------------------------------------------------------
+@todo Merge this section with the one on algorithms.
+
 Like we saw in the quick start, some functions are able to return something
 that can be used in a constant expression even when they are called on a
 non-`constexpr` object. For example, let's consider the `length` function
@@ -885,12 +1151,12 @@ surprising, think about `std::tuple`:
 Since the size of the tuple is encoded in it's type, it's always available
 at compile-time regardless of whether the tuple is `constexpr` or not. In
 Hana, this is implemented by having `length` return what we call an
-IntegralConstant. Since an IntegralConstant is convertible to the integral
+`IntegralConstant`. Since an `IntegralConstant` is convertible to the integral
 value it represents at compile-time, it can be used in a constant expression.
 There are subtleties that could be highlighted, but this is left to the more
-hardcore [section](@ref tutorial-constexpr) on the limitations of `constexpr`.
-`length` is not the only function that returns an IntegralConstant; for
-example, `is_empty` does that too:
+hardcore [section](@ref tutorial-appendix-constexpr) on `constexpr`. `length`
+is not the only function that returns an IntegralConstant; for example,
+`is_empty` does that too:
 
 @snippet example/tutorial/amphi.cpp is_empty
 
@@ -964,9 +1230,9 @@ the return type of the algorithm. Other algorithms like `partition` and `sort`
 work similarly; special requirements are always documented by the functions
 they apply to. While this constitutes a fairly complete explanation of the
 interaction between runtime and compile-time inside algorithms, a deeper
-insight can be gained by reading the [section](@ref tutorial-constexpr) on
-the limitations of `constexpr` and the reference for Constant and
-IntegralConstant.
+insight can be gained by reading the [advanced section]
+(@ref tutorial-appendix-constexpr) on `constexpr` and
+the reference for `Constant` and `IntegralConstant`.
 
 
 
@@ -1360,7 +1626,7 @@ different kinds of sequences:
 </div>
 
 As you can see, Hana and Fusion are pretty much on the same line. `std::array`
-is slightly slower for larger collections data sets, and `std::vector` is much
+is slightly slower for larger collections data sets, and `std::vector` is
 slower for larger collections. Since we also want to look out for code bloat,
 let's take a look at the size of the executable generated for the exact same
 scenario:
@@ -1443,260 +1709,14 @@ so the problem can be addressed.
 
 ------------------------------------------------------------------------------
 
+@todo Write this section.
+
+
 @subsection tutorial-ext-std The standard library
 
 @subsection tutorial-ext-fusion Boost.Fusion
 
 @subsection tutorial-ext-mpl Boost.MPL
-
-
-
-
-
-
-
-
-
-
-@section tutorial-constexpr The limitations of constexpr
-
-------------------------------------------------------------------------------
-In C++, the border between compile-time and runtime is hazy, a fact that is
-even more true with the introduction of [generalized constant expressions]
-[C++14.gconstexpr] in C++14. However, being able to manipulate heterogeneous
-objects is all about understanding that border and then crossing it at one's
-will. The goal of this section is to set things straight with `constexpr`; to
-understand which problems it can solve and which ones it can't. Let's start
-off with a [GOTW][] style question: do you think the following code should
-compile, and why?
-
-@code
-    template <typename T>
-    constexpr T assert_positive(T i) {
-        static_assert(i > 0, "");
-        return i;
-    }
-
-    int main() {
-        constexpr int i = 2;
-        assert_positive(i);
-    }
-@endcode
-
-The right answer is "no". The error given by Clang goes like
-
-@code
-    error: static_assert expression is not an integral constant expression
-        static_assert(i > 0, "");
-                      ^~~~~
-@endcode
-
-The problem is that when you are in a function (`constexpr` or otherwise), you
-can't use an argument as a constant expression, even if the argument turns out
-to be a constant expression when you call the function. If you are surprised,
-consider the following code; the function is not a template anymore, which
-doesn't change anything with respect to the `constexpr`-ness of the argument
-if you think about it. Yet, the answer is now obvious:
-
-@code
-    constexpr int assert_positive(int i) {
-        static_assert(i > 0, "");
-        return i;
-    }
-
-    int main() {
-        constexpr int i = 2;
-        assert_positive(i);
-    }
-@endcode
-
-Actually, since the body of `assert_positive` is not dependent anymore, Clang
-does not even reach `main` before giving the same error as before. Now, this
-is not a big problem for static assertions because we have [another way]
-[constexpr_throw] of reporting errors inside `constexpr` functions. However,
-it also means that we can't use an argument as a non-type template parameter,
-since that requires a constant expression. In other words, we can't create
-types that are dependent on the _value_ of an argument in C++, which is
-nothing new if you think about it:
-
-@code
-    template <int i>
-    struct foo { };
-
-    void f(int i) {
-        foo<i> x; // obviously won't work
-    }
-@endcode
-
-In particular, this means that the return type of a function can't depend on
-the value of its arguments; it may only depend on their type, and `constexpr`
-can't change this fact. This is of utmost importance to us, because we're
-interested in manipulating heterogeneous objects and eventually returning them
-from functions. Some of these functions might want to return an object of type
-`T` in one case and an object of type `U` in the other; from our little
-analysis, we now know that these "cases" will have to depend on information
-encoded in the _types_ of the arguments, not in their _values_.
-
-
-@subsection tutorial-constexpr-constants Constants
-
-To represent this fact, Hana defines the concept of a `Constant`, which is an
-object from which a constant expression may always be obtained, regardless of
-the `constexpr`-ness of the object. `Constant`s provide a way to obtain that
-constant expression through the use of the `value` function. Specifically, for
-any `Constant` `c`, the following must be valid:
-
-@code
-    constexpr auto x = value<decltype(c)>();
-@endcode
-
-This requirement that must be respected by `Constant`s expresses the minimal
-requirement that we're able to retrieve a constant expression from an object.
-There is no restriction on what the type of the constant expression might be,
-but it should be documented. Hana provides a model of this concept called an
-`IntegralConstant`; it encodes a compile-time value of an integral type, and
-you can think of it as a `std::integral_constant`. Before going on to the next
-section, you probably want to take a look at the [reference documentation]
-(@ref IntegralConstant) for `IntegralConstant`, which explains how to create
-these objects and what you can expect from them.
-
-
-@subsection tutorial-constexpr-side_effects Side effects
-
-@note
-You should be familiar with the Constant concept before reading this section.
-Also note that this section contains somewhat advanced material, and it can
-safely be skipped during a first read.
-
-Let me ask a tricky question. Is the following code valid?
-
-@code
-    template <typename X>
-    auto identity(X x) { return x; }
-
-    static_assert(value(identity(bool_<true>)), "");
-@endcode
-
-The answer is "no", but the reason might not be obvious at first. Even more
-puzzling is that the following code is perfectly valid:
-
-@snippet example/tutorial/constant_side_effects.cpp pure
-
-To understand why the compiler can't possibly evaluate the first assertion
-at compile-time, notice that `identity` was not marked `constexpr` and
-consider the following alternative (but valid) definition for `identity`:
-
-@snippet example/tutorial/constant_side_effects.cpp impure_identity
-
-The signature of the function did not change; the function could even have
-been defined in a separate source file. However, it is now obvious that the
-compiler can't evaluate that expression at compile-time. On the other hand,
-when we write
-
-@snippet example/tutorial/constant_side_effects.cpp impure
-
-we're telling the compiler to perform those potential side effects during the
-dynamic initialization phase! Then, we use `value` to return the compile-time
-value associated to its argument. Also note that `value` takes a `const&` to
-its argument; if it tried taking it by value, we would be reading from a
-non-`constexpr` variable to do the copying, and that could hide side-effects.
-
-
-
-
-
-
-
-
-
-
-@section tutorial-hetero Heterogeneity and generalized types
-
-------------------------------------------------------------------------------
-The purpose of Hana is to manipulate heterogeneous objects. However, there's
-a fundamental question that we have not asked yet: does it even make sense to
-manipulate heterogeneous objects?
-
-For the sake of the explanation, let me make the following claim: a function
-template that compiles with an argument of every possible type must have a
-trivial implementation, in the sense that it must do nothing with its argument
-except perhaps return it. Hence, for a function template to do something
-interesting, it must fail to compile for some set of arguments. While I won't
-try to prove that claim formally -- it might be false in some corner cases --,
-think about it for a moment. Let's say I want to apply a function to each
-element of an heterogeneous sequence:
-
-@code
-    for_each([x, y, z], f)
-@endcode
-
-The first observation is that `f` must have a templated call operator because
-`x`, `y` and `z` have different types. The second observation is that without
-knowing anything specific about the types of `x`, `y` and `z`, it is impossible
-for `f` to do anything meaningful. For example, could it print its argument?
-Of course not, since it does not know whether `std::cout << x` is well-formed!
-In order to do something meaningful, the function has to put constraints on
-its arguments; it has to define a domain which is more specific that the set
-of all types, and hence it can't be _fully_ polymorphic, even if we do not have
-a way to express this in C++ (right now). So while we're manipulating types
-that are technically heterogeneous, they still conceptually need something in
-common, or it wouldn't be possible to do anything meaningful with them. We'll
-still say that we're manipulating heterogeneous objects, but always keep in
-mind that the objects we manipulate share something, and are hence homogeneous
-in _some way_.
-
-Pushing this to the extreme, some type families represent exactly the same
-entity, except they must have a different C++ type because the language
-requires them to. For example, this is the case of `_tuple<...>`. In our
-context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
-as different representations for the same data structure (a "tuple"), but the
-C++ language requires us to give them different types. In Hana, we associate
-what we call a _generalized type_ (we also say _data type_ and sometimes
-_gtype_) to each type family. A generalized type is simply a tag (like in
-MPL or Fusion) which is associated to all the types in a family through the
-`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
-other constructs in Hana also follow this convention of naming their
-generalized type with a capital letter.
-
-Just like C++ templates are families of types that are parameterized by some
-other type, it makes sense to speak of parameterized generalized types. A
-parameterized _gtype_ is simply a _gtype_ which depends on other generalized
-types. You might have seen it coming, but this is actually the case for
-`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
-it contains. However, take good note that __parameterized generalized types in
-Hana only live at the documentation level__. While enforcing proper
-parametricity would make the library more mathematically correct, I fear it
-would also make it less usable given the lack of language support. Given a
-parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
-another _gtype_ `T`. While this is analogous to "applying" a C++ template to
-a type, we purposefully do not use the `F<T>` notation because parametric
-gtypes are not necessarily templates in Hana and that would be more confusing
-than helpful.
-
-As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
-but its actual gtype (outside of the documentation) is just `Tuple`. What
-about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
-mathematical universe, so we could say that it's a `Tuple(Number)`, where
-`Number` is some generalized type containing all the numeric types. What
-about `_tuple<int, void>`? First, that won't compile. But why would you
-create a sequence of objects that have nothing in common? What can you do
-with that?
-
-These generalized types are useful for several purposes, for example creating
-a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
-provided in this library. Another important role is to customize algorithms;
-see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
-for more information. Finally, you can also consult the reference of the
-[datatype](@ref datatype) metafunction for details on how to specify the
-generalized type of a family of types.
-
-@todo
-There is obviously a connection between generalized types and concepts.
-I think that generalized types are concepts whose models are unique up
-to a unique isomorphism. Still, it is necessary to distinguish between
-isomorphic models when we want to provide an implementation or create an
-object. If you see how it all fits together better than I do right now,
-let me know.
 
 
 
@@ -1818,6 +1838,8 @@ ability to be used in higher order algorithms or as variables:
 
 
 @subsection tutorial-extending-creating_concepts Creating new concepts
+
+@todo Write this section.
 
 
 
@@ -2093,10 +2115,358 @@ This can easily be solved by enabling the template only when the type
 
 
 
+@section tutorial-appendix-constexpr Apendix I: Advanced constexpr
+
+------------------------------------------------------------------------------
+In C++, the border between compile-time and runtime is hazy, a fact that is
+even more true with the introduction of [generalized constant expressions]
+[C++14.gconstexpr] in C++14. However, being able to manipulate heterogeneous
+objects is all about understanding that border and then crossing it at one's
+will. The goal of this section is to set things straight with `constexpr`; to
+understand which problems it can solve and which ones it can't. This section
+covers advanced concepts about to constant expressions; only readers with a
+good understanding of `constexpr` should attempt to read this.
+
+
+@subsection tutorial-appendix-constexpr-stripping Constexpr stripping
+
+Let's start with a challenging question. Should the following code compile?
+
+@code
+template <typename T>
+void f(T t) {
+  static_assert(t == 1, "");
+}
+
+constexpr int one = 1;
+f(one);
+@endcode
+
+The answer is no, and the error given by Clang goes like
+
+@code
+error: static_assert expression is not an integral constant expression
+  static_assert(t == 1, "");
+                ^~~~~~
+@endcode
+
+The explanation is that inside of `f`'s body, `t` is not a constant expression,
+and hence it can't be used as the operand to a `static_assert`. The reason is
+that such a function simply can't be generated by the compiler. To understand
+the issue, consider what should happen when we instantiate the `f` template
+with a concrete type:
+
+@code
+// Here, the compiler should generate the code for f<int> and store the
+// address of that code into fptr.
+void (*fptr)(int) = f<int>;
+@endcode
+
+Clearly, the compiler can't generate `f<int>`'s code, which should trigger a
+`static_assert` if `t != 1`, because we haven't specified `t` yet. Even worse,
+the generated function should work on both constant and non-constant
+expressions:
+
+@code
+void (*fptr)(int) = f<int>; // assume this was possible
+int i = ...; // user input
+fptr(i);
+@endcode
+
+Clearly, `fptr`'s code can't be generated, because it would require being able
+to `static_assert` on a runtime value, which does not make sense. Furthermore,
+note that it does not matter whether you make the function `constexpr` or not;
+making `f` `constexpr` would only state that the _result_ of `f` is a constant
+expression whenever its argument is a constant expression, but it still does
+not give you the ability to know whether you were called with a constant
+expression from `f`'s body. In other words, what we would want is something
+like:
+
+@code
+template <typename T>
+void f(constexpr T t) {
+  static_assert(t == 1, "");
+}
+
+constexpr int one = 1;
+f(one);
+@endcode
+
+In this hypothetical scenario, the compiler would know that `t` is a constant
+expression from the body of `f`, and the `static_assert` could be made to work.
+However, `constexpr` parameters do not exist in the current language, and
+adding them would bring up very challenging design and implementation issues.
+The conclusion of this little experiment is that __argument passing strips
+away `constexpr`-ness__. What might be unclear by now are the consequences
+of this stripping, which are explained next.
+
+
+@subsection tutorial-tutorial-appendix-constexpr-preservation Constexpr preservation
+
+The fact that an argument is not a constant expression means that we can't use
+it as a non-type template parameter, as an array bound, inside a `static_assert`
+or anything else that requires a constant expression. In addition, this means
+that the return type of a function can't depend on the _value_ of an argument
+which is nothing new if you think about it:
+
+@code
+    template <int i>
+    struct foo { };
+
+    auto f(int i) -> foo<i>; // obviously won't work
+@endcode
+
+In fact, the return type of a function may only depend on the types of its
+arguments, and `constexpr` can't change this fact. This is of utmost importance
+to us, because we're interested in manipulating heterogeneous objects, which
+eventually means returning objects with different types depending on the
+argument of the function. For example, a function might want to return an
+object of type `T` in one case and an object of type `U` in the other;
+from our analysis, we now know that these "cases" will have to depend on
+information encoded in the _types_ of the arguments, not in their _values_.
+
+To preserve `constexpr`-ness through argument passing, we have to encode the
+`constexpr` value into a type, and then pass a not-necessarily-`constexpr`
+object of that type to the function. The function, which must be a template,
+may then access the `constexpr` value encoded inside that type.
+
+@todo
+Improve this explanation and talk about non-integral constant expressions
+wrapped into types.
+
+
+@subsection tutorial-appendix-constexpr-effects Side effects
+
+Let me ask a tricky question. Is the following code valid?
+
+@code
+template <typename T>
+constexpr int f(T& n) { return 1; }
+
+int n = 0;
+constexpr int i = f(n);
+@endcode
+
+The answer is _yes_, but the reason might not be obvious at first. What
+happens here is that we have a non-`constexpr` `int n`, and a `constexpr`
+function `f` taking a reference to its argument. The reason why most people
+think it shouldn't work is that `n` is not `constexpr`. However, we're not
+doing anything with `n` inside of `f`, so there is no actual reason why this
+shouldn't work! This is a bit like `throw`ing inside of a `constexpr` function:
+
+@code
+constexpr int sqrt(int i) {
+  if (i < 0) throw "i should be non-negative";
+
+  return ...;
+}
+
+constexpr int two = sqrt(4); // ok: did not attempt to throw
+constexpr int error = sqrt(-4); // error: can't throw in a constant expression
+@endcode
+
+As long as the code path where `throw` appears is not executed, the result of
+the invocation can be a constant expression. Similarly, we can do whatever we
+want inside of `f`, as long as we don't execute a code path that requires
+accessing its argument `n`, which is not a constant expression:
+
+@code
+template <typename T>
+constexpr int f(T& n, bool touch_n) {
+  if (touch_n) n + 1;
+  return 1;
+}
+
+int n = 0;
+constexpr int i = f(n, false); // ok
+constexpr int j = f(n, true); // error
+@endcode
+
+The error given by Clang for the second invocation is
+
+@code
+error: constexpr variable 'j' must be initialized by a constant expression
+constexpr int j = f(n, true); // error
+              ^   ~~~~~~~~~~
+note: read of non-const variable 'n' is not allowed in a constant expression
+  if (touch_n) n + 1;
+               ^
+@endcode
+
+Let's now step the game up a bit and consider a more subtle example.
+Is the following code valid?
+
+@code
+template <typename T>
+constexpr int f(T n) { return 1; }
+
+int n = 0;
+constexpr int i = f(n);
+@endcode
+
+The only difference with our initial scenario is that `f` now takes its
+argument by value instead of by reference. However, this makes a world of
+difference. Indeed, we're now asking the compiler to make a copy of `n`
+and to pass this copy to `f`. However, `n` is not `constexpr`, so its
+value is only known at runtime. How could the compiler make a copy (at
+compile-time) of a variable whose value is only known at runtime? Of
+course, it can't. Indeed, the error message given by Clang is pretty
+explicit about what's happening:
+
+@code
+error: constexpr variable 'i' must be initialized by a constant expression
+constexpr int i = f(n);
+              ^   ~~~~
+note: read of non-const variable 'n' is not allowed in a constant expression
+constexpr int i = f(n);
+                    ^
+@endcode
+
+@todo
+Explain how side-effects may not appear inside constant expressions, even
+if the expression they yield are not accessed.
+
+<!-------------------
+Let me ask a tricky question. Is the following code valid?
+
+@code
+  template <typename X>
+  auto identity(X x) { return x; }
+
+  static_assert(value(identity(bool_<true>)), "");
+@endcode
+
+The answer is "no", but the reason might not be obvious at first. Even more
+puzzling is that the following code is perfectly valid:
+
+@snippet example/tutorial/constant_side_effects.cpp pure
+
+To understand why the compiler can't possibly evaluate the first assertion
+at compile-time, notice that `identity` was not marked `constexpr` and
+consider the following alternative (but valid) definition for `identity`:
+
+@snippet example/tutorial/constant_side_effects.cpp impure_identity
+
+The signature of the function did not change; the function could even have
+been defined in a separate source file. However, it is now obvious that the
+compiler can't evaluate that expression at compile-time. On the other hand,
+when we write
+
+@snippet example/tutorial/constant_side_effects.cpp impure
+
+we're telling the compiler to perform those potential side effects during the
+dynamic initialization phase! Then, we use `value` to return the compile-time
+value associated to its argument. Also note that `value` takes a `const&` to
+its argument; if it tried taking it by value, we would be reading from a
+non-`constexpr` variable to do the copying, and that could hide side-effects.
+------>
+
+
+
+
+
+
+
+
+
+
+@section tutorial-appendix-math Apendix II: The maths behind Hana
+
+------------------------------------------------------------------------------
+@todo Write this section.
+<!----------------------------------------------------------------------------
+The purpose of Hana is to manipulate heterogeneous objects. However, there's
+a fundamental question that we have not asked yet: does it even make sense to
+manipulate heterogeneous objects?
+
+For the sake of the explanation, let me make the following claim: a function
+template that compiles with an argument of every possible type must have a
+trivial implementation, in the sense that it must do nothing with its argument
+except perhaps return it. Hence, for a function template to do something
+interesting, it must fail to compile for some set of arguments. While I won't
+try to prove that claim formally -- it might be false in some corner cases --,
+think about it for a moment. Let's say I want to apply a function to each
+element of an heterogeneous sequence:
+
+@code
+    for_each([x, y, z], f)
+@endcode
+
+The first observation is that `f` must have a templated call operator because
+`x`, `y` and `z` have different types. The second observation is that without
+knowing anything specific about the types of `x`, `y` and `z`, it is impossible
+for `f` to do anything meaningful. For example, could it print its argument?
+Of course not, since it does not know whether `std::cout << x` is well-formed!
+In order to do something meaningful, the function has to put constraints on
+its arguments; it has to define a domain which is more specific that the set
+of all types, and hence it can't be _fully_ polymorphic, even if we do not have
+a way to express this in C++ (right now). So while we're manipulating types
+that are technically heterogeneous, they still conceptually need something in
+common, or it wouldn't be possible to do anything meaningful with them. We'll
+still say that we're manipulating heterogeneous objects, but always keep in
+mind that the objects we manipulate share something, and are hence homogeneous
+in _some way_.
+
+Pushing this to the extreme, some type families represent exactly the same
+entity, except they must have a different C++ type because the language
+requires them to. For example, this is the case of `_tuple<...>`. In our
+context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
+as different representations for the same data structure (a "tuple"), but the
+C++ language requires us to give them different types. In Hana, we associate
+what we call a _generalized type_ (we also say _data type_ and sometimes
+_gtype_) to each type family. A generalized type is simply a tag (like in
+MPL or Fusion) which is associated to all the types in a family through the
+`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
+other constructs in Hana also follow this convention of naming their
+generalized type with a capital letter.
+
+Just like C++ templates are families of types that are parameterized by some
+other type, it makes sense to speak of parameterized generalized types. A
+parameterized _gtype_ is simply a _gtype_ which depends on other generalized
+types. You might have seen it coming, but this is actually the case for
+`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
+it contains. However, take good note that __parameterized generalized types in
+Hana only live at the documentation level__. While enforcing proper
+parametricity would make the library more mathematically correct, I fear it
+would also make it less usable given the lack of language support. Given a
+parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
+another _gtype_ `T`. While this is analogous to "applying" a C++ template to
+a type, we purposefully do not use the `F<T>` notation because parametric
+gtypes are not necessarily templates in Hana and that would be more confusing
+than helpful.
+
+As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
+but its actual gtype (outside of the documentation) is just `Tuple`. What
+about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
+mathematical universe, so we could say that it's a `Tuple(Number)`, where
+`Number` is some generalized type containing all the numeric types. What
+about `_tuple<int, void>`? First, that won't compile. But why would you
+create a sequence of objects that have nothing in common? What can you do
+with that?
+
+These generalized types are useful for several purposes, for example creating
+a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
+provided in this library. Another important role is to customize algorithms;
+see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
+for more information. Finally, you can also consult the reference of the
+[datatype](@ref datatype) metafunction for details on how to specify the
+generalized type of a family of types.
+----------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+
+
 <!-- Links -->
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
+[C++14.ice]: http://en.cppreference.com/w/cpp/types/integral_constant
 [C++14.udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals
 [C++14.vtemplate]: http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates
 [C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
@@ -2105,6 +2475,7 @@ This can easily be solved by enabling the template only when the type
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.issues]: https://github.com/ldionne/hana/issues
+[MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [SGI.Container]: https://www.sgi.com/tech/stl/Container.html

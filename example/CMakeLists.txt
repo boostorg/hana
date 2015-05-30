@@ -48,10 +48,10 @@ if (NOT Boost_FOUND)
         "misc/mini_mpl.cpp"
         "struct.cpp"
         "struct.macros.cpp"
+        "tutorial/integral.cpp"
         "tutorial/mpl_cheatsheet.cpp"
         "tutorial/quickstart.cpp"
-        "tutorial/type.cpp"
-    )
+        "tutorial/type.cpp")
 endif()
 
 
