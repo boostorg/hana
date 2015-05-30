@@ -174,8 +174,7 @@ script:
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
 
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make headers examples -k -j2 &>/dev/null; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make -k; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then ctest --output-on-failure; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make check -k; fi
 
 
 notifications:

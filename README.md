@@ -70,11 +70,11 @@ The library relies on a full-featured C++14 compiler and standard library,
 but nothing else is required. Here is a table of the current C++14 compilers
 with comments regarding support for Hana:
 
-Compiler                     | Status
---------                     | ------
-Clang (>= 3.5.0)             | Fully working; tested on each push to `master`
-Apple's Clang (Xcode >= 6.3) | Fully working according to external sources
-GCC (>= 5.1.0)               | Almost working; waiting for the GCC team to fix [this][GCC.65719] bug amongst others
+Compiler/Toolchain | Status
+------------------ | ------
+Clang >= 3.5.0     | Fully working; tested on each push to `master`
+Xcode >= 6.3       | Fully working according to external sources
+GCC >= 5.1.0       | Almost working; waiting for the GCC team to fix [this][GCC.65719] bug amongst others
 
 
 ## Documentation
@@ -123,8 +123,7 @@ cmake .. -DBOOST_ROOT=/path/to/boost
 You can now build and run the unit tests and the examples. Assuming you
 used the Makefile generator with CMake, you can issue
 ```shell
-make
-make test
+make check
 ```
 
 > #### Tip
@@ -136,11 +135,6 @@ You should be aware that compiling the unit tests is pretty time and RAM
 consuming, especially the tests for external adapters. This is due to the
 fact that Hana's unit tests are very thorough, and also that heterogeneous
 sequences in other libraries tend to have horrible compile-time performance.
-To alleviate this, you can instead build the `tests.quick` target, which only
-builds some of Hana's unit tests.
-```shell
-make tests.quick
-```
 
 There are also optional targets which are enabled only when the required
 software is available on your computer. For example, generating the
@@ -160,7 +154,7 @@ re-run the CMake generation step, a new target named `path.to.file` will be
 created, and a test of the same name will also be created. Hence,
 ```shell
 make path.to.file # Compiles the unit test associated to path/to/file.cpp
-make test # Runs all the tests, including the one associated to path/to/file.cpp
+cd build && ctest path.to.file # Runs the corresponding unit test
 ```
 
 > #### Tip for Sublime Text users
@@ -177,6 +171,8 @@ The project is organized in a couple of subdirectories.
   code is written mostly in the form of [eRuby][] templates. The templates
   are used to generate C++ files which are then compiled while gathering
   compilation and execution statistics.
+- The [cmake](cmake) directory contains various CMake modules needed by the
+  build system.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation. The `doc/gh-pages` subdirectory is automatically ignored
   by git; you can conveniently store a local copy of the documentation by

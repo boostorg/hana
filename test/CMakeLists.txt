@@ -5,10 +5,16 @@
 ##############################################################################
 # Setup custom functions, master targets and file lists for the unit tests
 ##############################################################################
-add_custom_target(tests ALL COMMENT "Build all the unit tests.")
-add_custom_target(tests.quick ALL
-    COMMENT "Build all the unit tests, except external adapters and MCD unit tests.")
-add_custom_target(headers ALL COMMENT "Build all the header-inclusion unit tests.")
+add_custom_target(headers
+    COMMENT "Build all the header-inclusion unit tests.")
+
+add_custom_target(tests
+    DEPENDS headers
+    COMMENT "Build all the unit tests.")
+
+add_custom_target(tests.quick
+    DEPENDS headers
+    COMMENT "Build a subset of all the unit tests to finish faster.")
 
 #   boost_hana_add_unit_test(<name> ...)
 #
