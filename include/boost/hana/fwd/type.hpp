@@ -14,133 +14,12 @@ namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Represents a C++ type.
     //!
-    //! @note
-    //! This page explains how Types work at a low level. To gain intuition
-    //! about type-level metaprogramming in Hana, you should read the
-    //! [tutorial section](@ref tutorial-type) on type-level computations.
-    //!
     //! A `Type` is a special kind of object representing a C++ type like
     //! `int`, `void`, `std::vector<float>` or anything else you can imagine.
-    //! Basically, the trick to implement such an object is to create the
-    //! following dummy type:
-    //! @code
-    //!     template <typename T>
-    //!     struct _type { };
-    //! @endcode
     //!
-    //! Now, if we want to represent the type `int` by an object, we just
-    //! create the following object
-    //! @code
-    //!     _type<int> foo;
-    //! @endcode
-    //! and pretend that `foo` represents the type `int`. Note that since
-    //! `_type<int>` can only be default constructed and hence has only one
-    //! value, we could even not bother giving this object a name and we
-    //! could simply use the `_type<int>{}` expression. The point here is
-    //! that there is nothing special about the `foo` variable; it is just
-    //! an alias for `_type<int>{}`.
-    //!
-    //! > __Note__
-    //! > This is not exactly how `Type`s are implemented in Hana because of
-    //! > some subtleties; things were dumbed down here for the sake of
-    //! > clarity. Please check below to know exactly what you can expect
-    //! > from a `Type`.
-    //!
-    //! Now, let's say we wanted to transform our type `int` (represented by
-    //! `foo`) into a type `int*` (represented by some other variable); how
-    //! could we do that? More generally, how could we transform a type `T`
-    //! into a type `T*`? Let's write a function!
-    //! @code
-    //!     template <typename T>
-    //!     _type<T*> add_pointer(_type<T> foo) {
-    //!         _type<T*> bar;
-    //!         return bar;
-    //!     }
-    //! @endcode
-    //!
-    //! We just let the compiler deduce the `T`, and from that we are able to
-    //! generate the proper return type. That's it for the signature. For the
-    //! implementation, we provide the simplest one that will make the code
-    //! compile; we create a dummy object of the proper type and we return it.
-    //! We can now use our function like:
-    //! @code
-    //!     auto bar = add_pointer(foo);
-    //!     auto baz = add_pointer(bar);
-    //! @endcode
-    //! and we now have objects that represent the types `int*` and `int**`,
-    //! respectively.
-    //!
-    //! As a side note, since we're lazy and we want to save as many
-    //! keystrokes as possible, we'll use a variable template (new in
-    //! C++14) to create our dummy variables:
-    //! @code
-    //!     template <typename T>
-    //!     _type<T> type;
-    //! @endcode
-    //! Instead of typing `foo` or `_type<int>{}`, we can now simply write
-    //! `type<int>`, which is effectively the same but looks better.
-    //!
-    //! However, the current definition of `_type` does not make it very
-    //! useful. Indeed, we are only able to copy those objects around and
-    //! perform pattern matching in template functions, which is still a bit
-    //! limited. To make them more widely useful, we add the requirement
-    //! that a `_type<T>` provides a nested alias to the type it wraps.
-    //! In Boost.MPL parlance, we make `_type<T>` a nullary metafunction:
-    //! @code
-    //!     template <typename T>
-    //!     struct _type {
-    //!         using type = T;
-    //!     };
-    //! @endcode
-    //!
-    //! Now, we can get the type represented by one of our objects without
-    //! having to perform pattern matching inside a template function:
-    //! @code
-    //!     auto bar = type<int*>;
-    //!     using Bar = decltype(bar)::type;
-    //!     static_assert(std::is_same<int*, Bar>{}, "");
-    //! @endcode
-    //!
-    //! Also, this makes any function returning a `Type` easily usable as a
-    //! classic metafunction, by simply using decltype. For example, let's
-    //! consider the following function, which finds the largest type in
-    //! a sequence of types:
-    //!
-    //! @snippet example/type.cpp largest
-    //!
-    //! To make it a classic metafunction instead, we only need to modify it
-    //! slightly using `decltype`:
-    //!
-    //! @snippet example/type.cpp largest2
-    //!
-    //! While this new paradigm for type level programming might be difficult
-    //! to grok at first, it will make more sense as you use it more and more.
-    //! You will also come to appreciate how it blurs the line between types
-    //! and values, opening new exciting possibilities.
-    //!
-    //!
-    //! Lvalues and rvalues
-    //! -------------------
-    //! When storing `Type`s in heterogeneous containers, some algorithms will
-    //! return references to those objects. Since we are primarily interested
-    //! in accessing their nested `::type`, receiving a reference is
-    //! undesirable; we would end up trying to fetch the nested `::type`
-    //! inside a reference type, which is a compilation error:
-    //! @code
-    //!     auto ts = std::make_tuple(type<int>, type<char>);
-    //!     // Error; decltype(...) is a reference!
-    //!     using T = decltype(std::get<1>(ts))::type;
-    //! @endcode
-    //!
-    //! For this reason, `Type`s provide an overload of the unary `+` operator
-    //! that can be used to turn a lvalue into a rvalue. So when using a result
-    //! which might be a reference to a `Type` object, one can use `+` to make
-    //! sure a rvalue is obtained before fetching its nested `::type`:
-    //! @code
-    //!     auto ts = std::make_tuple(type<int>, type<char>);
-    //!     // Good; decltype(+...) is an rvalue.
-    //!     using T = decltype(+std::get<1>(ts))::type;
-    //! @endcode
+    //! This page explains how `Type`s work at a low level. To gain intuition
+    //! about type-level metaprogramming in Hana, you should read the
+    //! [tutorial section](@ref tutorial-type) on type-level computations.
     //!
     //!
     //! The actual representation of a Type
@@ -151,6 +30,28 @@ namespace boost { namespace hana {
     //! fact that `type<T>` is of type `_type<T>`, but you can rely on
     //! the fact that it inherits it, which is different in some contexts,
     //! e.g. for template specialization.
+    //!
+    //!
+    //! Lvalues and rvalues
+    //! -------------------
+    //! When storing `Type`s in heterogeneous containers, some algorithms will
+    //! return references to those objects. Since we are primarily interested
+    //! in accessing their nested `::type`, receiving a reference is
+    //! undesirable; we would end up trying to fetch the nested `::type`
+    //! inside a reference type, which is a compilation error:
+    //! @code
+    //!   auto ts = make_tuple(type<int>, type<char>);
+    //!   using T = decltype(ts[0_c])::type; // error: 'ts[0_c]' is a reference!
+    //! @endcode
+    //!
+    //! For this reason, `Type`s provide an overload of the unary `+` operator
+    //! that can be used to turn a lvalue into a rvalue. So when using a result
+    //! which might be a reference to a `Type` object, one can use `+` to make
+    //! sure a rvalue is obtained before fetching its nested `::type`:
+    //! @code
+    //!   auto ts = make_tuple(type<int>, type<char>);
+    //!   using T = decltype(+ts[0_c])::type; // ok: '+ts[0_c]' is an rvalue
+    //! @endcode
     //!
     //!
     //! Modeled concepts
@@ -189,7 +90,7 @@ namespace boost { namespace hana {
     //! is a first-class citizen of Hana instead of a raw C++ type.
     //! Specifically, given an object `x`, `decltype_` satisfies
     //! @code
-    //!     decltype_(x) == type<decltype(x) with references stripped>
+    //!   decltype_(x) == type<decltype(x) with references stripped>
     //! @endcode
     //!
     //! As you can see, `decltype_` will strip any reference from the
@@ -198,7 +99,7 @@ namespace boost { namespace hana {
     //! `Type` object, `decltype_` is just the identity function. Hence, for
     //! any C++ type `T`,
     //! @code
-    //!     decltype_(type<T>) == type<T>
+    //!   decltype_(type<T>) == type<T>
     //! @endcode
     //!
     //! In conjunction with the way `metafunction` & al. are specified, this
@@ -224,8 +125,8 @@ namespace boost { namespace hana {
     //! mostly useless if `decltype_` could return a reference, because it
     //! is unlikely that `F` expects a reference in its simplest use case:
     //! @code
-    //!     int i = 0;
-    //!     auto result = metafunction<F>(i);
+    //!   int i = 0;
+    //!   auto result = metafunction<F>(i);
     //! @endcode
     //!
     //! Hence, always discarding references seems to be the least painful
@@ -266,13 +167,13 @@ namespace boost { namespace hana {
     //! or a Type object and returns its size as an IntegralConstant.
     //! Specifically, given an expression `expr`, `sizeof_` satisfies
     //! @code
-    //!     sizeof_(expr) == size_t<sizeof(decltype(expr) with references stripped)>
+    //!   sizeof_(expr) == size_t<sizeof(decltype(expr) with references stripped)>
     //! @endcode
     //!
     //! However, given a Type object, `sizeof_` will simply fetch the size
     //! of the C++ type represented by that object. In other words,
     //! @code
-    //!     sizeof_(type<T>) == size_t<sizeof(T)>
+    //!   sizeof_(type<T>) == size_t<sizeof(T)>
     //! @endcode
     //!
     //! The behavior of `sizeof_` is consistent with that of `decltype_`.
@@ -307,8 +208,8 @@ namespace boost { namespace hana {
     //! called on an arbitrary expression. Specifically, given an expression
     //! `expr` and a C++ type `T`, `alignof_` satisfies
     //! @code
-    //!     alignof_(expr) == size_t<alignof(decltype(expr) with references stripped)>
-    //!     alignof_(type<T>) == size_t<alignof(T)>
+    //!   alignof_(expr) == size_t<alignof(decltype(expr) with references stripped)>
+    //!   alignof_(type<T>) == size_t<alignof(T)>
     //! @endcode
     //!
     //! The behavior of `alignof_` is consistent with that of `decltype_`.
@@ -340,13 +241,13 @@ namespace boost { namespace hana {
     //! function call is valid with the given arguments. Specifically, given
     //! a function `f` and arguments `args...`,
     //! @code
-    //!     is_valid(f, args...) == whether f(args...) is valid
+    //!   is_valid(f, args...) == whether f(args...) is valid
     //! @endcode
     //!
     //! The result is returned as a compile-time `Logical`. Furthermore,
     //! `is_valid` can be used in curried form as follows:
     //! @code
-    //!     is_valid(f)(args...)
+    //!   is_valid(f)(args...)
     //! @endcode
     //!
     //! This syntax makes it easy to create functions that check the validity

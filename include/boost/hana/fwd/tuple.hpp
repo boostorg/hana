@@ -58,8 +58,10 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/tuple.cpp make<Tuple>
     template <>
-    constexpr auto make<Tuple> = [](auto&& ...xs) {
-        return _tuple<decayed(decltype(xs))...>{forwarded(xs)...};
+    constexpr auto make<Tuple> = [](auto&& ...xs)
+        -> _tuple<std::decay_t(decltype(xs))...>
+    {
+        return {forwarded(xs)...};
     };
 #endif
 

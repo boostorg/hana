@@ -5,11 +5,13 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <type_traits>
+using namespace boost::hana::literals;
 using namespace boost::hana;
 using namespace std::literals;
 
@@ -26,6 +28,7 @@ auto to_str = [](auto const& x) {
 };
 
 auto xs = make_tuple(1, 2.2, 'a', "bcde");
+
 BOOST_HANA_RUNTIME_CHECK(
   reverse(transform(xs, to_str)) == make_tuple("bcde", "a", "2.2", "1")
 );
@@ -49,8 +52,98 @@ reverse(
 auto r = any_of(make_tuple("hello"s, 1.2, 3), [](auto x) {
   return std::is_integral<decltype(x)>{};
 });
-static_assert(r, "");
+
+BOOST_HANA_CONSTANT_CHECK(r);
 //! [effects]
+
+{
+
+//! [effects.codegen]
+auto xs = make_tuple("hello"s, 1.2, 3);
+auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
+
+auto r = bool_<
+  decltype(pred(xs[0_c]))::value ? true :
+  decltype(pred(xs[1_c]))::value ? true :
+  decltype(pred(xs[2_c]))::value ? true :
+  false
+>;
+
+BOOST_HANA_CONSTANT_CHECK(r);
+//! [effects.codegen]
+
+}
+
+}{
+
+//! [cross_phase.setup]
+struct Fish { std::string name; };
+struct Cat  { std::string name; };
+struct Dog  { std::string name; };
+
+auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+//   ^^^^^^^ not a compile-time value
+
+BOOST_HANA_CONSTANT_CHECK(length(animals) == size_t<3>);
+//                        ^^^^^^^^^^^^^^^ assert done at compile-time
+//! [cross_phase.setup]
+
+//! [cross_phase.is_empty]
+BOOST_HANA_CONSTANT_CHECK(!is_empty(animals));
+//                         ^^^^^^^^^^^^^^^^^ assert done at compile-time
+//! [cross_phase.is_empty]
+
+{
+
+//! [cross_phase.any_of_runtime]
+bool any_garfield = any_of(animals, [](auto animal) {
+  return animal.name == "Garfield"s;
+});
+
+BOOST_HANA_RUNTIME_CHECK(any_garfield);
+//! [cross_phase.any_of_runtime]
+
+}{
+
+//! [cross_phase.any_of_compile_time]
+auto any_cat = any_of(animals, [](auto x) {
+  return std::is_same<decltype(x), Cat>{};
+});
+
+BOOST_HANA_CONSTANT_CHECK(any_cat);
+//! [cross_phase.any_of_compile_time]
+
+}{
+
+//! [cross_phase.any_of_explicit]
+decltype(true_) any_cat = any_of(animals, [](auto x) {
+  return std::is_same<decltype(x), Cat>{};
+});
+
+BOOST_HANA_CONSTANT_CHECK(any_cat);
+//! [cross_phase.any_of_explicit]
+
+}{
+
+//! [cross_phase.filter]
+auto mammals = filter(animals, [](auto animal) {
+  return type<decltype(animal)> != type<Fish>;
+});
+//! [cross_phase.filter]
+
+BOOST_HANA_RUNTIME_CHECK(
+  transform(mammals, [](auto x) { return x.name; })
+    == make_tuple("Garfield", "Snoopy")
+);
+
+}
+
+}{
+
+//! [cross_phase.std::tuple_size]
+std::tuple<int, char, std::string> xs{1, '2', std::string{"345"}};
+static_assert(std::tuple_size<decltype(xs)>::value == 3u, "");
+//! [cross_phase.std::tuple_size]
 
 }
 

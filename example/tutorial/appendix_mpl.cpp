@@ -18,25 +18,10 @@ namespace hana = boost::hana;
 namespace mpl = boost::mpl;
 
 
-//////////////////////////////////////////////////////////////////////////////
-// This is a mini reimplementation of the MPL library.
-//
-// The goal is to be as backward compatible as possible with the MPL, while
-// still using Hana under the hood. Only the "Algorithms" part of the MPL is
-// implemented as a case study, but it should be possible to implement many
-// (but not all) other metafunctions of the MPL.
-//
-// Scroll down to the main function to see the tests. The tests are exactly
-// the examples in the MPL documentation that were copy/pasted and then
-// modified as little as possible to work with this reimplementation.
-//////////////////////////////////////////////////////////////////////////////
-
-
 namespace hpl {
-
 //////////////////////////////////////////////////////////////////////////////
 // Utilities
-// Most of this should be abstracted and then lifted into Hana.
+// Most of this will be abstracted and then lifted into Hana as time permits.
 //////////////////////////////////////////////////////////////////////////////
 
 // unique{_by} should be implemented in Hana. Also note that this can
@@ -81,20 +66,13 @@ using false_ = bool_<false>;
 // Sequences, compile-time integers & al
 //
 // Differences with the MPL:
-// 1. No more annoying numbered variants
-// 2. `pair<...>::first` and `pair<...>::second` won't work;
+// 1. `pair<...>::first` and `pair<...>::second` won't work;
 //    use `first<pair<...>>` instead
 //////////////////////////////////////////////////////////////////////////////
 template <typename ...T>
 struct vector : decltype(hana::tuple_t<T...>) {
     using hana = vector;
     using datatype = boost::hana::Tuple;
-};
-
-template <typename ...T>
-struct set : decltype(hana::set(hana::gcc_wknd::mktype<T>()...)) {
-    using hana = set;
-    using datatype = boost::hana::Set;
 };
 
 template <typename T, T ...v>
@@ -211,15 +189,15 @@ struct size
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename State, typename F>
 struct fold
-    : decltype(hana::fold.left(
+    : decltype(hana::fold(
         Sequence{}, hana::type<State>, detail::mpl_metafunction<F>
     ))
 { };
 
 template <typename Sequence, typename State, typename F>
 struct reverse_fold
-    : decltype(hana::fold.right(
-        Sequence{}, hana::type<State>, hana::flip(detail::mpl_metafunction<F>)
+    : decltype(hana::reverse_fold(
+        Sequence{}, hana::type<State>, detail::mpl_metafunction<F>
     ))
 { };
 
@@ -287,7 +265,7 @@ struct equal
 { };
 
 //////////////////////////////////////////////////////////////////////////////
-// Transformaton algorithms
+// Transformation algorithms
 //
 // Differences from the MPL:
 // 1. The algorithms do not accept an optional inserter, and they always

@@ -130,7 +130,9 @@ expressiveness in the process. Hana is easy to extend in a ad-hoc manner
 and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL
 and the standard library.
 
-__Motivation__\n
+
+@subsection tutorial-introduction-motivation Motivation
+
 When Boost.MPL first appeared, it provided C++ programmers with a huge relief
 by abstracting tons of template hackery behind a workable interface. This
 breakthrough greatly contributed to making C++ template metaprogramming more
@@ -144,17 +146,6 @@ came by itself in the form of a library; Hana. The key insight to Hana is that
 the manipulation of types and values are nothing but two sides of the same
 coin. By unifying both concepts, metaprogramming becomes easier and new
 exciting possibilities open before us.
-
-__Warning: functional programming ahead__\n
-Programming with heterogeneous objects is inherently functional -- since it is
-impossible to modify the type of an object, a new object must be introduced
-instead, which rules out mutation. Unlike previous metaprogramming libraries
-whose design was modeled on the STL, Hana uses a functional style of
-programming which is the source for a good portion of its expressiveness.
-However, as a result, many concepts used in Hana will be unfamiliar to C++
-programmers without a knowledge of FP. The documentation attempts to make
-these concepts approachable by using intuition whenever possible, but bear
-in mind that the highest rewards are usually the fruit of some effort.
 
 
 
@@ -276,11 +267,12 @@ used in STL algorithms, the predicate used here must be generic because the
 tuple's elements are heterogeneous. Furthermore, that predicate must return
 what Hana calls an `IntegralConstant`, which means that the predicate's result
 must be known at compile-time. These details are explained in the section on
-[amphibian algorithms](@ref tutorial-amphi). Inside the predicate, we simply
-compare the type of the case's first element to `type<_default>`. If you recall
-that we were using `std::pair`s to encode cases, this simply means that we're
-finding the default case among all of the provided cases. But what if no default
-case was provided? We should fail at compile-time, of course!
+[cross-phase algorithms](@ref tutorial-algorithms-cross_phase). Inside the
+predicate, we simply compare the type of the case's first element to
+`type<_default>`. If you recall that we were using `std::pair`s to encode
+cases, this simply means that we're finding the default case among all of the
+provided cases. But what if no default case was provided? We should fail at
+compile-time, of course!
 
 @code
 template <typename Any>
@@ -303,11 +295,9 @@ Notice how we can use `static_assert` on the result of the comparison with
 `nothing`, even though `%default_` is a non-`constexpr` object? Boldly, Hana
 makes sure that no information that's known at compile-time is lost to the
 runtime, which is clearly the case of the presence of a `%default_` case.
-The details are explained in the section on [amphibian algorithms]
-(@ref tutorial-amphi). The next step is to gather the set of non-default
-cases. To achieve this, we use the `filter` algorithm, effectively filters
-a sequence with a given predicate, keeping only the elements satisfying the
-predicate:
+The next step is to gather the set of non-default cases. To achieve this, we
+use the `filter` algorithm, effectively filters a sequence with a given
+predicate, keeping only the elements satisfying the predicate:
 
 @code
 template <typename Any>
@@ -574,7 +564,7 @@ assertion                    | description
 `BOOST_HANA_RUNTIME_CHECK`   | Assertion on a condition that is not known until runtime. This assertion provides the weakest form of guarantee.
 `BOOST_HANA_CONSTEXPR_CHECK` | Assertion on a condition that would be `constexpr` if lambdas were allowed inside constant expressions. In other words, the only reason for it not being a `static_assert` is the language limitation that lambdas can't appear in constant expressions, which [might be lifted][N4487] in C++17.
 `static_assert`              | Assertion on a `constexpr` condition. This is stronger than `BOOST_HANA_CONSTEXPR_CHECK` in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are `constexpr`-friendly.
-`BOOST_HANA_CONSTANT_CHECK`  | Assertion on a boolean `IntegralConstant`. This assertion provides the strongest form of guarantee. Note that in reality, any compile-time `Logical` is accepted by this macro, which is more general than requiring a boolean `IntegralConstant`.
+`BOOST_HANA_CONSTANT_CHECK`  | Assertion on a boolean `IntegralConstant`. This assertion provides the strongest form of guarantee, because an `IntegralConstant` can be converted to a `constexpr` value even if it is not `constexpr` itself. Note that in reality, any compile-time `Logical` is accepted by this macro, which is more general than requiring a boolean `IntegralConstant`.
 
 
 
@@ -834,6 +824,356 @@ seen so far, the rest of this tutorial should feel just like home.
 
 
 
+@section tutorial-type Type computations
+
+------------------------------------------------------------------------------
+At this point, if you are interested in doing type-level computations as with
+the MPL, you might be wondering how is Hana going to help you. Do not despair.
+Hana provides a way to perform type-level computations with a great deal of
+expressiveness by representing types as values, just like we represented
+compile-time numbers as values. This is a completely new way of approaching
+metaprogramming, and you should try to set your old MPL habits aside for a bit
+if you want to become proficient with Hana.
+
+
+@subsection tutorial-type-objects Types as objects
+
+The key behind Hana's approach to type-level computations is essentially the
+same as the approach to compile-time arithmetic. Basically, the idea is to
+represent compile-time entities as objects by wrapping them into some kind of
+container. For `IntegralConstant`s, the compile-time entities were constant
+expressions of an integral type and the wrapper we used was `integral_constant`.
+In this section, the compile-time entities will be types and the wrapper we'll
+be using is called `type`. Just like we did for `IntegralConstant`s, let's
+start by defining a dummy template that could be used to represent a type:
+
+@code
+template <typename T>
+struct _type {
+  // empty (for now)
+};
+
+_type<int> Int{};
+_type<char> Char{};
+// ...
+@endcode
+
+While this may seem completely useless, it is actually enough to start writing
+metafunctions that look like functions. Indeed, consider the following
+alternate implementations of `std::add_pointer` and `std::is_pointer`:
+
+@code
+template <typename T>
+constexpr _type<T*> add_pointer(_type<T> const&)
+{ return {}; }
+
+template <typename T>
+constexpr auto is_pointer(_type<T> const&)
+{ return false_; }
+
+template <typename T>
+constexpr auto is_pointer(_type<T*> const&)
+{ return true_; }
+@endcode
+
+We've just written metafunctions that look like functions, just like we wrote
+compile-time arithmetic metafunctions as heterogeneous C++ operators in the
+previous section. Here's how we can use them:
+
+@code
+_type<int> t{};
+auto p = add_pointer(t);
+BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
+@endcode
+
+Notice how we can now use a normal function call syntax to perform type-level
+computations? This is analogous to how using values for compile-time numbers
+allowed us to use normal C++ operators to perform compile-time computations.
+Like we did for `integral_constant`, we can also go one step further and use
+C++14 variable templates to provide syntactic sugar for creating types:
+
+@code
+template <typename T>
+constexpr _type<T> type{};
+
+auto t = type<int>;
+auto p = add_pointer(t);
+BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
+@endcode
+
+@note
+This is not exactly how the `type` variable template is implemented in Hana
+because of some subtleties; things were dumbed down here for the sake of the
+explanation. Please check the reference for `Type` to know exactly what you
+can expect from a `type<...>`.
+
+
+@subsection tutorial-type-benefits Benefits of this representation
+
+But what does that buy us? Well, since a `type<...>` is just an object, we can
+store it in a heterogeneous sequence like a tuple, we can move it around and
+pass it to (or return it from) functions, and we can do basically anything
+else that requires an object:
+
+@snippet example/tutorial/type.cpp tuple
+
+@note
+Writing `make_tuple(type<T>...)` can be annoying when there are several types.
+For this reason, Hana provides the `tuple_t<T...>` variable template, which is
+syntactic sugar for `make_tuple(type<T>...)`.
+
+Also, notice that since the above tuple is really just a normal heterogeneous
+sequence, we can apply heterogeneous algorithms on that sequence just like we
+could on a tuple of `int`s, for example. Furthermore, since we're just
+manipulating objects, we can now use the full language instead of just the
+small subset available at the type-level. For example, consider the task of
+removing all the types that are not a reference or a pointer from a sequence
+of types. With the MPL, we would have to use a placeholder expression to
+express the predicate, which is clunky:
+
+@snippet example/tutorial/type.cpp filter.MPL
+
+Now, since we're manipulating objects, we can use the full language and use a
+generic lambda instead, which leads to much more readable code:
+
+@snippet example/tutorial/type.cpp filter.Hana
+
+Since Hana handles all heterogeneous containers uniformly, this approach of
+representing types as values also has the benefit that a single library is
+now needed for both heterogeneous computations and type level computations.
+Indeed, whereas we would normally need two different libraries to perform
+almost identical tasks, we now need a single library. Again, consider the
+task of filtering a sequence with a predicate. With MPL and Fusion, this
+is what we must do:
+
+@snippet example/tutorial/type.cpp single_library.then
+
+With Hana, a single library is required (notice how we use the same `filter`
+algorithm and the same container):
+
+@snippet example/tutorial/type.cpp single_library.Hana
+
+But that is not all. Indeed, having a unified syntax for type-level and
+value-level computations allows us to achieve greater consistency in the
+interface of heterogeneous containers. For example, consider the simple
+task of creating a heterogeneous map associating types to values, and then
+accessing an element of it. With Fusion, what's happening is far from obvious
+to the untrained eye:
+
+@snippet example/tutorial/type.cpp make_map.Fusion
+
+However, with a unified syntax for types and values, the same thing becomes
+much clearer:
+
+@snippet example/tutorial/type.cpp make_map.Hana
+
+
+@subsection tutorial-type-working Working with this representation
+
+So far, we can represent types as values and perform type-level computations
+on those objects using the usual C++ syntax. This is nice, but it is not very
+useful because we have no way to get back a normal C++ type from an object
+representation. For example, how could we declare a variable whose type is the
+result of a type computation?
+
+@code
+auto t = add_pointer(type<int>); // could be a complex type computation
+using T = the-type-represented-by-t;
+
+T var = ...;
+@endcode
+
+Right now, there is no easy way to do it. To make this easier to achieve, we
+enrich the interface of the `_type` container that we defined above. Instead
+of being an empty `struct`, we now define it as
+
+@code
+template <typename T>
+struct _type {
+  using type = T;
+};
+@endcode
+
+@note
+This is equivalent to making `_type` a metafunction in the MPL sense.
+
+This way, we can use `decltype` to easily access the actual C++ type
+represented by a `type<...>` object:
+
+@code
+auto t = add_pointer(type<int>);
+using T = decltype(t)::type; // fetches _type<T>::type
+
+T var = ...;
+@endcode
+
+In general, doing type-level metaprogramming with Hana is a three step process:
+
+1. Represent types as objects by wrapping them with `type<...>`
+2. Perform type transformations with value syntax
+3. Unwrap the result with `decltype(...)::%type`
+
+Now, you must be thinking that this is incredibly cumbersome. In reality, it
+is very manageable for several reasons. First, this wrapping and unwrapping
+only needs to happen at some very thin boundaries.
+
+@code
+auto t = type<T>;
+auto result = huge_type_computation(t);
+using Result = decltype(result)::type;
+@endcode
+
+Furthermore, since you get the advantage of working with objects (without
+having to wrap/unwrap) inside the computation, the cost of wrapping and
+unwrapping is amortized on the whole computation. Hence, for complex type
+computations, the syntactic noise of this three step process quickly becomes
+negligible in light of the expressiveness gain of working with values inside
+that computation. Also, using values instead of types means that we can avoid
+typing `typename` and `template` all around the place, which accounted for a
+lot of syntactic noise in classic metaprogramming.
+
+Another point is that the three full steps are not always required. Indeed,
+sometimes one just needs to do a type-level computation and query something
+about the result, without necessarily fetching the result as a normal C++ type:
+
+@code
+auto t = type<T>;
+auto result = type_computation(t);
+BOOST_HANA_CONSTANT_CHECK(is_pointer(result)); // third step skipped
+@endcode
+
+In this case, we were able to skip the third step because we did not need to
+access the actual type represented by `result`. In other cases, the first step
+can be avoided, like when using `tuple_t`, which has no more syntactic noise
+than any other pure type-level approach:
+
+@snippet example/tutorial/type.cpp skip_first_step
+
+For skeptical readers, let's consider the task of finding the smallest type
+in a sequence of types. This is a very good example of a short type-only
+computation, which is where we would expect the new paradigm to suffer the
+most. As you will see, things stay manageable even for small computations.
+First, let's implement it with the MPL:
+
+@snippet example/tutorial/type.cpp smallest.MPL
+
+The result is quite readable (for anyone familiar with the MPL). Let's now
+implement the same thing using Hana:
+
+@snippet example/tutorial/type.cpp smallest.Hana
+
+As you can witness, the syntactic noise of the 3-step process is almost
+completely hidden by the rest of the computation.
+
+
+@subsection tutorial-type-lifting The generic lifting process
+
+The first type-level computation that we introduced in the form of a function
+looked like:
+
+@code
+template <typename T>
+constexpr auto add_pointer(_type<T> const&) {
+  return type<T*>;
+}
+@endcode
+
+While it looks more complicated, we could also write it as:
+
+@code
+template <typename T>
+constexpr auto add_pointer(_type<T> const&) {
+  return type<typename std::add_pointer<T>::type>;
+}
+@endcode
+
+However, this implementation emphasizes the fact that we're really emulating
+an existing metafunction and simply representing it as a function. In other
+words, we're _lifting_ a metafunction (`std::add_pointer`) to the world of
+values by creating our own `add_pointer` function. It turns out that this
+lifting process is a generic one. Indeed, given any metafunction, we could
+write almost the same thing:
+
+@code
+template <typename T>
+constexpr auto add_const(_type<T> const&)
+{ return type<typename std::add_const<T>::type>; }
+
+template <typename T>
+constexpr auto add_volatile(_type<T> const&)
+{ return type<typename std::add_volatile<T>::type>; }
+
+template <typename T>
+constexpr auto add_lvalue_reference(_type<T> const&)
+{ return type<typename std::add_lvalue_reference<T>::type>; }
+
+// etc...
+@endcode
+
+This mechanical transformation is easy to abstract into a generic metafunction
+lifter as follows:
+
+@snippet example/tutorial/type.cpp metafunction1
+
+More generally, we'll want to allow metafunctions with any number of
+arguments, which brings us to the following less naive implementation:
+
+@snippet example/tutorial/type.cpp metafunction2
+
+Hana provides a similar generic metafunction lifter called `metafunction`.
+One small improvement is that Hana's `metafunction<F>` is a function object
+instead of an overloaded function, so one can pass it to higher-order
+algorithms. The process we explored in this section does not only apply
+to metafunctions; it also applies to templates. Indeed, we could define:
+
+@snippet example/tutorial/type.cpp template_
+
+Hana provides a generic lifter for templates named `template_`, and it also
+provides a generic lifter for MPL metafunction classes names `metafunction_class`.
+This gives us a way to uniformly represent "legacy" type-level computations as
+functions, so that any code written using a classic type-level metaprogramming
+library can almost trivially be used with Hana. For example, say you have a
+large chunk of MPL-based code and you'd like to interface with Hana. The
+process of doing so is no harder than wrapping your metafunctions with the
+lifter provided by Hana:
+
+@code
+template <typename T>
+struct legacy {
+  using type = ...; // something you really don't want to mess with
+};
+
+auto types = make_tuple(...);
+auto use = transform(types, metafunction<legacy>);
+@endcode
+
+Finally, since metafunctions provided by the `<type_traits>` header are used
+so frequently, Hana provides a lifted version for every one of them. Those
+lifted traits are in the `boost::hana::traits` namespace, and they live in
+the `<boost/hana/ext/std/type_traits.hpp>` header:
+
+@snippet example/tutorial/type.cpp traits
+
+This is the end of the section on type computations. While this new paradigm
+for type level programming might be difficult to grok at first, it will make
+more sense as you use it more and more. You will also come to appreciate how
+it blurs the line between types and values, opening new exciting possibilities
+and simplifying many tasks.
+
+@note
+Curious or skeptical readers should consider checking the minimal
+reimplementation of the MPL presented in the [appendices]
+(@ref tutorial-appendix-MPL).
+
+
+
+
+
+
+
+
+
+
 @section tutorial-containers Generalities on containers
 
 ------------------------------------------------------------------------------
@@ -895,13 +1235,14 @@ the types of Hana's containers:
 The answer is quite simple, actually. In general, you can't expect anything
 from the type of a container in Hana. This is indicated by the documentation
 of the `make` function for that container, which will return an
-_unspecified-type_ if the type is, well, unspecified. Otherwise, if the type
-of the container is specified, it will be documented properly by the return
-type of the `make` function for that container. There are several reasons for
-leaving the type of a container unspecified; they are explained in the
-[rationales](@ref tutorial-rationales-container_types). However, leaving
-the types of containers completely unspecified makes some things very
-difficult to achieve, like overloading functions on heterogeneous containers:
+[unspecified-type](@ref tutorial-glossary-unspecified_type) if the type is,
+well, unspecified. Otherwise, if the type of the container is specified, it
+will be documented properly by the return type of the `make` function for that
+container. There are several reasons for leaving the type of a container
+unspecified; they are explained in the [rationales]
+(@ref tutorial-rationales-container_types). However, leaving the type of
+containers completely unspecified makes some things very difficult to achieve,
+like overloading functions on heterogeneous containers:
 
 @code
 template <typename T>
@@ -1000,49 +1341,6 @@ sequence anyway, and hence performance is not a big argument in favor of
 laziness.
 
 
-@subsection tutorial-algorithms-effects Side effects and purity
-
-By default, Hana assumes functions to be pure. A pure function is a function
-that has no side-effects at all. In other words, it is a function whose effect
-on the program is solely determined by its return value. In particular, such a
-function may not access any state that outlives a single invocation of the
-function. These functions have very nice properties, like the ability to
-reason mathematically about them, to reorder or even eliminate calls, and
-so on. Except where specified otherwise, all functions used with Hana (i.e.
-used in higher order algorithms) should be pure. In particular, functions
-passed to higher order algorithms are not guaranteed to be called any
-specific number of times. Furthermore, the order of execution is generally
-not specified and should therefore not be taken for granted. If this seems
-crazy, consider the following:
-
-@snippet example/tutorial/algorithms.cpp effects
-
-@note
-For this code to work, the `<boost/hana/ext/std/type_traits.hpp>` header must
-be included.
-
-Clearly, whether one of these objects has an integral type is known at
-compile-time. Hence, we would expect the predicate to have no overhead at
-all, and to be "executed at compile-time". Hana pushes this to its limit
-and does not even execute the predicate; it only uses the result type of
-the predicate on a particular object. Regarding the order of evaluation,
-consider the `transform` algorithm, which is specified (for `Tuple`s) as:
-
-@code
-transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
-@endcode
-
-Since `make_tuple` is a function, and since the evaluation order for the
-arguments of a function is unspecified, the order in which `f` is called
-on each element of the tuple is unspecified too. If one sticks to pure
-functions, everything works fine and the resulting code is often easier
-to understand.
-
-However, some exceptional algorithms like `for_each` do expect impure
-functions, and they guarantee an order of evaluation. Indeed, a `for_each`
-algorithm that would only take pure functions would be pretty much useless.
-
-
 @subsection tutorial-algorithms-codegen What is generated?
 
 Algorithms in Hana are a bit special with respect to the runtime code they are
@@ -1099,6 +1397,207 @@ for (??? i = 0_c; i < xs.size(); ++i) {
 @endcode
 
 
+@subsection tutorial-algorithms-effects Side effects and purity
+
+By default, Hana assumes functions to be pure. A pure function is a function
+that has no side-effects at all. In other words, it is a function whose effect
+on the program is solely determined by its return value. In particular, such a
+function may not access any state that outlives a single invocation of the
+function. These functions have very nice properties, like the ability to
+reason mathematically about them, to reorder or even eliminate calls, and
+so on. Except where specified otherwise, all functions used with Hana (i.e.
+used in higher order algorithms) should be pure. In particular, functions
+passed to higher order algorithms are not guaranteed to be called any
+specific number of times. Furthermore, the order of execution is generally
+not specified and should therefore not be taken for granted. If this lack of
+guarantees about function invocations seems crazy, consider the following use
+of the `any_of` algorithm:
+
+@snippet example/tutorial/algorithms.cpp effects
+
+@note
+For this to work, the external adapters for `std::integral_constant` contained
+in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
+
+According to the previous section on unrolling, this algorithm should be
+expanded into something like:
+
+@code
+auto xs = make_tuple("hello"s, 1.2, 3);
+auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
+
+auto r = bool_<
+  pred(xs[0_c]) ? true :
+  pred(xs[1_c]) ? true :
+  pred(xs[2_c]) ? true :
+  false
+>;
+
+BOOST_HANA_CONSTANT_CHECK(r);
+@endcode
+
+Of course, the above code can't work as-is, because we're calling `pred` inside
+something that would have to be a constant expression, but `pred` is a lambda
+(and lambdas can't be called in constant expressions). However, whether any of
+these objects has an integral type is clearly known at compile-time, and hence
+we would expect that computing the answer only involves compile-time
+computations. In fact, this is exactly what Hana does, and the above
+algorithm is expanded into something like:
+
+@snippet example/tutorial/algorithms.cpp effects.codegen
+
+@note
+As you will be able to deduce from the next section on cross-phase computations,
+the implementation of `any_of` must actually be more general than this. However,
+this [lie-to-children][] is perfect for educational purposes.
+
+As you can see, the predicate is never even executed; only its result type on
+a particular object is used. Regarding the order of evaluation, consider the
+`transform` algorithm, which is specified (for `Tuple`s) as:
+
+@code
+transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
+@endcode
+
+Since `make_tuple` is a function, and since the evaluation order for the
+arguments of a function is unspecified, the order in which `f` is called
+on each element of the tuple is unspecified too. If one sticks to pure
+functions, everything works fine and the resulting code is often easier
+to understand. However, some exceptional algorithms like `for_each` do
+expect impure functions, and they guarantee an order of evaluation. Indeed,
+a `for_each` algorithm that would only take pure functions would be pretty
+much useless. When an algorithm can accept an impure function or guarantees
+some order of evaluation, the documentation for that algorithm will mention
+it explicitly. However, by default, no guarantees may be taken for granted.
+
+
+@subsection tutorial-algorithms-cross_phase Cross-phase algorithms
+
+This section introduces the notion of cross-phase computations and algorithms.
+In fact, we have already used cross-phase algorithms in the [quick start]
+(@ref tutorial-quickstart), for example with `filter`, but we did not explain
+exactly what was happening at that time. But before we introduce cross-phase
+algorithms, let's define what we mean by _cross-phase_. The phases we're
+referring to here are the compilation and the execution of a program. In C++
+as in most statically typed languages, there is a clear distinction between
+compile-time and runtime; this is called phase distinction. When we speak of
+a cross-phase computation, we mean a computation that is somehow performed
+across those phases; i.e. that is partly executed at compile-time and partly
+executed at runtime.
+
+Like we saw in earlier examples, some functions are able to return something
+that can be used at compile-time even when they are called on a runtime value.
+For example, let's consider the `length` function applied to a non-`constexpr`
+container:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.setup
+
+Obviously, the tuple can't be made `constexpr`, since it contains runtime
+`std::string`s. Still, even though it is not called on a constant expression,
+`length` returns something that can be used at compile-time. If you think of
+it, the size of the tuple is known at compile-time regardless of its content,
+and hence it would only make sense for this information to be available to us
+at compile-time. If that seems surprising, think about `std::tuple` and
+`std::tuple_size`:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.std::tuple_size
+
+Since the size of the tuple is encoded in its type, it is always available
+at compile-time regardless of whether the tuple is `constexpr` or not. In Hana,
+this is implemented by having `length` return an `IntegralConstant`. Since an
+`IntegralConstant`'s value is encoded in its type, the result of `length` is
+contained in the type of the object it returns, and the length is therefore
+known at compile-time. Because `length` goes from a runtime value (the
+container) to a compile-time value (the `IntegralConstant`), `length` is a
+trivial example of a cross-phase algorithm (trivial because it does not really
+manipulate the tuple). Another algorithm that is very similar to `length` is
+the `is_empty` algorithm, which returns whether a container is empty:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.is_empty
+
+More generally, any algorithm that takes a container whose value is known at
+runtime but queries something that can be known at compile-time should be able
+to return an `IntegralConstant` or another similar compile-time value. Let's
+make things slightly more complicated by considering the `any_of` algorithm,
+which we already encountered in the previous section:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_runtime
+
+In this example, the result can't be known at compile-time, because the
+predicate returns a `bool` that is the result of comparing two `std::string`s.
+Since `std::string`s can't be compared at compile-time, the predicate must
+operate at runtime, and the overall result of the algorithm can then only be
+known at runtime too. However, let's say we used `any_of` with the following
+predicate instead:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_compile_time
+
+@note
+For this to work, the external adapters for `std::integral_constant` contained
+in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
+
+First, since the predicate is only querying information about the type of each
+element of the tuple, it is clear that its result can be known at compile-time.
+Since the number of elements in the tuple is also known at compile-time, the
+overall result of the algorithm can, in theory, be known at compile-time. More
+precisely, what happens is that the predicate returns a value initialized
+`std::is_same<...>`, which inherits from `std::integral_constant`. Hana
+recognizes these objects, and the algorithm is written in such a way that it
+preserves the `compile-time`ness of the predicate's result. In the end,
+`any_of` hence returns an `IntegralConstant` holding the result of the
+algorithm, and we use the compiler's type deduction in a clever way to make
+it look easy. Hence, it would be equivalent to write (but then you would need
+to already know the result of the algorithm!):
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_explicit
+
+Ok, so some algorithms are able to return compile-time values when their input
+satisfies some constraints with respect to `compile-time`ness. However, other
+algorithms are more restrictive and they _require_ their inputs to satisfy some
+constraints regarding `compile-time`ness, without which they are not able to
+operate at all. An example of this is `filter`, which takes a sequence and a
+predicate, and returns a new sequence containing only those elements for which
+the predicate is satisfied. `filter` requires the predicate to return an
+`IntegralConstant`. While this requirement may seem stringent, it really makes
+sense if you think about it. Indeed, since we're removing some elements from
+the heterogeneous sequence, the type of the resulting sequence depends on the
+result of the predicate. Hence, the result of the predicate has to be known at
+compile-time for the compiler to be able to assign a type to the returned
+sequence. For example, consider what happens when we try to filter a
+heterogeneous sequence as follows:
+
+@code
+auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+
+auto no_garfield = filter(animals, [](auto animal) {
+  return animal.name != "Garfield"s;
+});
+@endcode
+
+Clearly, we know that the predicate will only return false on the second
+element, and hence the result _should be_ a `[Fish, Dog]` tuple. However,
+the compiler has no way of knowing this since the predicate's result is the
+result of a runtime computation, which happens way after the compiler has
+finished its job. Hence, the compiler does not have enough information to
+determine the return type of the algorithm. However, we could `filter` the
+same sequence with any predicate whose result is available at compile-time:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.filter
+
+Since the predicate returns an `IntegralConstant`, we know which elements
+of the heterogeneous sequence we'll be keeping at compile-time. Hence, the
+compiler is able to figure out the return type of the algorithm. Other
+algorithms like `partition` and `sort` work similarly; special algorithm
+requirements are always documented, just read the reference documentation
+of an algorithm before using it to avoid surprises.
+
+This is the end of the section on algorithms. While this constitutes a fairly
+complete explanation of phase interaction inside algorithms, a deeper
+understanding can be gained by reading the [advanced section]
+(@ref tutorial-appendix-constexpr) on `constexpr` and the reference
+for `Constant` and `IntegralConstant`.
+
+
 
 
 
@@ -1117,258 +1616,6 @@ Write this section.
   - JSON example
   - Checking for a member
   - sfinae + Maybe
-
-
-
-
-
-
-
-
-
-
-@section tutorial-amphi Amphibian algorithms
-
-------------------------------------------------------------------------------
-@todo Merge this section with the one on algorithms.
-
-Like we saw in the quick start, some functions are able to return something
-that can be used in a constant expression even when they are called on a
-non-`constexpr` object. For example, let's consider the `length` function
-applied to a non-`constexpr` tuple:
-
-@snippet example/tutorial/amphi.cpp setup
-
-Obviously, the tuple can't be made `constexpr`, since it contains `std::string`s.
-Still, even though it is not called on a constant expression, `length` returns
-something that can be used inside one. If you think of it, the size of the
-tuple is known at compile-time regardless of its content, and hence it only
-makes sense that Hana does not throw away this information. If that seems
-surprising, think about `std::tuple`:
-
-@snippet example/tutorial/amphi.cpp std_tuple_size
-
-Since the size of the tuple is encoded in it's type, it's always available
-at compile-time regardless of whether the tuple is `constexpr` or not. In
-Hana, this is implemented by having `length` return what we call an
-`IntegralConstant`. Since an `IntegralConstant` is convertible to the integral
-value it represents at compile-time, it can be used in a constant expression.
-There are subtleties that could be highlighted, but this is left to the more
-hardcore [section](@ref tutorial-appendix-constexpr) on `constexpr`. `length`
-is not the only function that returns an IntegralConstant; for example,
-`is_empty` does that too:
-
-@snippet example/tutorial/amphi.cpp is_empty
-
-More generally, any algorithm that queries something that can be known at
-compile-time will be able of returning such an IntegralConstant. To illustrate,
-let's take a look at the `all` algorithm, which is analogous to `std::all_of`:
-
-@snippet example/tutorial/amphi.cpp all_of_runtime
-
-Given a sequence and a predicate, `all` returns whether the predicate is
-satisfied by all the elements of the sequence. In this example, the result
-can't be known at compile-time, because our predicate returns a `bool` that's
-the result of comparing two `std::string`s. Since `std::string`s can't be
-compared at compile-time, our predicate must operate at runtime, and the
-overall result of the algorithm can then only be known at runtime too.
-However, let's say we used `all` with the following predicate instead:
-
-@snippet example/tutorial/amphi.cpp all_of_compile_time
-
-@note
-For this to work, the external adapters for `std::integral_constant` contained
-in `<boost/hana/ext/std/integral_constant.hpp>` have to be included.
-
-First, since the predicate is only querying information about the type of the
-`.name` member of an element of the tuple, it is clear that its result can be
-known at compile-time. Since the number of elements in the tuple is also known
-at compile-time, the overall result of the algorithm can, in theory, be known
-at compile-time. More precisely, what happens is that the predicate returns a
-default constructed `std::is_same<...>`, which inherits from
-`std::integral_constant`. Hana recognizes these objects, and `all` is written
-in such a way that it preserves the fact that the predicate's result is known
-at compile-time. In the end, `all` returns an IntegralConstant holding the
-result of the algorithm, and we use the compiler's type deduction in a clever
-way to make it look easy. Hence, it would be equivalent to write (but then
-you would need to already know the result of the algorithm!):
-
-@snippet example/tutorial/amphi.cpp all_of_compile_time_integral_constant
-
-We just saw how some algorithms are able to return `IntegralConstant`s when
-their inputs satisfy some constraints with respect to `compile-time`ness.
-However, other algorithms are more restrictive and they _require_ their inputs
-to satisfy some constraints regarding `compile-time`ness, without which they
-are not able to operate at all. An example of this is `filter`, which takes a
-sequence and a predicate, and returns a new sequence containing only those
-elements for which the predicate is satisfied. `filter` requires the predicate
-to return an IntegralConstant (actually, a Constant holding a Logical). While
-this requirement may seem stringent, it really makes sense if you think about
-it. Indeed, since we're removing some elements from the tuple, the type of the
-object that's going to be returned by `filter` depends on the result of the
-predicate. Hence, the result of the predicate has to be known by the compiler
-to fix the type of the returned sequence. For example, consider what happens
-when we try to filter our sequence as follows:
-
-@code
-    auto result = filter(stuff, [](auto x) {
-        return x.name == "Louis";
-    });
-@endcode
-
-Clearly, we know that the predicate will only return true on the first
-element, and hence the result _should be_ a `_tuple<Person>`. However,
-the compiler has no way of knowing it since the predicate's result is the
-result of a runtime computation, which happens long after the compiler
-has finished its job. However, we could filter our sequence with any
-predicate whose result is available at compile-time:
-
-@snippet example/tutorial/amphi.cpp filter
-
-Since the predicate returns a Constant, the compiler is able to figure out
-the return type of the algorithm. Other algorithms like `partition` and `sort`
-work similarly; special requirements are always documented by the functions
-they apply to. While this constitutes a fairly complete explanation of the
-interaction between runtime and compile-time inside algorithms, a deeper
-insight can be gained by reading the [advanced section]
-(@ref tutorial-appendix-constexpr) on `constexpr` and
-the reference for `Constant` and `IntegralConstant`.
-
-
-
-
-
-
-
-
-
-
-
-@section tutorial-type Type computations
-
-------------------------------------------------------------------------------
-At this point, if you are interested in doing Boost.MPL-like computations on
-types, you might be wondering how is Hana going to help you. Do not despair.
-Hana provides a way to perform type-level computations with a great deal of
-expressiveness by representing types as values. This is a completely new way
-of metaprogramming, and you should try to set your MPL habits aside for a bit
-if you want to become proficient with Hana. Basically, Hana provides a way of
-representing a type `T` as an object, and it also provides a way of applying
-type transformations to those objects as-if they were functions, by wrapping
-them properly:
-
-@snippet example/tutorial/type.cpp type
-
-@note
-The `type<int>` expression is _not_ a type! It is an object, more precisely a
-[variable template][C++14.vtemplate] defined roughly as
-@code
-    template <typename T>
-    constexpr the-type-of-the-object type{};
-@endcode
-
-Now, since `type<...>` is just an object, we can store it in a heterogeneous
-sequence like a tuple. This also means that all the algorithms that apply to
-usual heterogeneous sequences are available to us, which is nice:
-
-@snippet example/tutorial/type.cpp type_sequence
-
-Also, since typing `type<...>` can be annoying at the end of the day, Hana
-provides a variable template called `tuple_t`, which creates a tuple of
-`type<...>`s:
-
-@snippet example/tutorial/type.cpp tuple_t
-
-I won't say much more about `type` and `metafunction` (see the [reference]
-(@ref Type)), but the last essential thing to know is that `decltype(type<T>)`
-is a MPL nullary metafunction. In other words, `decltype(type<T>)::%type` is
-an alias to `T`:
-
-@snippet example/tutorial/type.cpp type_as_nullary_metafunction
-
-This way, you can recover the result of a type computation by unwrapping it
-with `decltype(...)::%type`. Hence, doing type-level metaprogramming with Hana
-is usually a three step process:
-1. Wrap the types with `type<...>` so they become values
-2. Apply whatever type transformation `F` by using `metafunction<F>`
-3. Unwrap the result with `decltype(...)::%type`
-
-At this point, you must be thinking this is incredibly cumbersome. Why on
-earth would you want to write
-
-@snippet example/tutorial/type.cpp type_three_step_cumbersome
-
-instead of simply writing
-
-@snippet example/tutorial/type.cpp type_three_step_alternative
-
-The answer is that of course you don't! For simple type computations such as
-this one, where you know the type transformation and the type itself, just
-use the most straightforward way of doing it. However, for more complex
-type computations, the syntactic noise of this three step process becomes
-negligible in light of the expressiveness gain of working with values instead
-of types inside that computation. Indeed, since we're working inside real
-functions instead of clunky structs, we can use variables, lambdas and a
-reasonable syntax. It also means that we don't need `typename` all around
-the place, which is nice (but can be avoided in MPL world with aliases).
-But this syntactic unification is not only some sugar for our eyes; it also
-means that some of our "metafunctions" will actually also work on normal
-values. Hence, any piece of generic enough code will work with both types
-and values out-of-the-box, without any extra work on our side. With previous
-approaches to type-level static metaprogramming, we had to reimplement type
-sequences and basically everything else from the ground up. For example,
-consider the simple problem of applying a transformation to each element in
-a sequence of sequences. For some metafunction `f` and sequence
-
-@code
-    [
-        [x1, x2, ..., xN],
-        [y1, y2, ..., yM],
-        ...
-        [z1, z2, ..., zK]
-    ]
-@endcode
-
-we want to produce a sequence
-
-@code
-    [
-        [f<x1>::type, f<x2>::type, ..., f<xN>::type],
-        [f<y1>::type, f<y2>::type, ..., f<yM>::type],
-        ...
-        [f<z1>::type, f<z2>::type, ..., f<zK>::type]
-    ]
-@endcode
-
-With Hana, this is very straightforward, and in fact the resulting algorithm
-will even work when given a regular function and values instead of a
-metafunction and types:
-
-@snippet example/tutorial/type.cpp apply_to_all
-
-However, expressing the same algorithm using Boost.MPL requires using lambda
-expressions, which are much more limited than plain lambdas. It also requires
-being at class or global scope, which means that you can't create this
-algorithm on the fly (e.g. inside a function), and it will only work on types!
-
-@snippet example/tutorial/type.cpp apply_to_all_mpl
-
-
-That's it for the introduction to type computations with Hana, but there are
-a couple of interesting examples scattered in the documentation if you want
-more. There's also a minimal reimplementation of the MPL using Hana under
-the hood in `example/misc/mini_mpl.cpp`.
-
-@todo
-- Provide links to the scattered examples, and also to example/misc/mini_mpl.
-  For some reason, I can't get Doxygen to generate a link.
-- Expand this section to explain the philosophy behind Hana's metaprogramming
-  paradigm, i.e. that you only retrieve the types at the end and that you do
-  not try to represent everything as a type.
-- Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code.
-  %Maybe this should go in some Appendix?
-- Introduce the mini-MPL
-- Introduce the integration with `<type_traits>`
 
 
 
@@ -1903,15 +2150,18 @@ the library was also intentionally kept simple, because we all love simplicity.
 
 
 
-@section tutorial-using_the_reference Using the reference
+@section tutorial-conclusion Conclusion
 
 ------------------------------------------------------------------------------
-You now have everything you need to start using the library. From here on,
-mastering the library is only a matter of understanding and knowing how to
-use the general purpose concepts and data types provided with it, which
-is best done by looking at the reference documentation. At some point, you
-will probably also want to create your own concepts and data types that fit
-your needs better; go ahead, the library was intended to be used that way.
+You now have everything you need to start using the library. From this point
+forward, mastering the library is only a matter of understanding how to use
+the general purpose concepts and containers provided with it, which is best
+done by looking at the reference documentation. At some point, you will
+probably also want to create your own concepts and data types that fit your
+needs better; go ahead, the library was designed to be used that way.
+
+
+@subsection tutorial-conclusion-reference Structure of the reference
 
 The structure of the reference (available in the menu to the left) goes as
 follow:
@@ -1962,8 +2212,7 @@ follow:
     Implementation details. Don't go there.
 
 
-
-@subsection tutorial-using_the_reference-pseudo Pseudo-code glossary
+@subsection tutorial-conclusion-glossary Pseudo-code glossary
 
 In the documentation, a simplified implementation of the documented object
 is sometimes provided in pseudo-code. The reason is that the actual
@@ -1989,11 +2238,6 @@ This is used in lambdas to signify that the captured variables are
 initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
 had been used.
 
-@anchor tutorial-glossary-decayed
-#### `decayed(T)`
-Represents a type `T` after decaying. This is basically equivalent to
-`std::decay_t<T>`.
-
 @anchor tutorial-glossary-tag_dispatched
 #### `tag-dispatched`
 This means that the documented method uses tag-dispatching, and hence
@@ -2008,7 +2252,20 @@ beyond what is documented. Normally, the concepts satisfied by the returned
 object will be specified, because otherwise that function wouldn't be very
 useful.
 
-------------------------------------------------------------------------------
+
+@subsection tutorial-conclusion-warning Fair warning: functional programming ahead
+
+Programming with heterogeneous objects is inherently functional -- since it is
+impossible to modify the type of an object, a new object must be introduced
+instead, which rules out mutation. Unlike previous metaprogramming libraries
+whose design was modeled on the STL, Hana uses a functional style of
+programming which is the source for a good portion of its expressiveness.
+However, as a result, many concepts presented in the reference will be
+unfamiliar to C++ programmers without a knowledge of functional programming.
+The reference attempts to make these concepts approachable by using intuition
+whenever possible, but bear in mind that the highest rewards are usually the
+fruit of some effort.
+
 This finishes the tutorial part of the documentation. I hope you enjoy using
 the library, and please leave feedback on GitHub so we can improve the library!
 
@@ -2462,6 +2719,30 @@ generalized type of a family of types.
 
 
 
+@section tutorial-appendix-MPL Apendix III: A minimal MPL
+
+------------------------------------------------------------------------------
+This section presents a mini reimplementation of the MPL library. The goal is
+to be as backward compatible as possible with the MPL, while still using Hana
+under the hood. Only the "Algorithms" part of the MPL is implemented as a case
+study, but it should be possible to implement many (but not all) metafunctions
+of the MPL.
+
+Scroll down to the `main` function to see the tests. The tests are exactly
+the examples in the MPL documentation that were copy/pasted and then
+modified as little as possible to work with this reimplementation.
+
+@include example/tutorial/appendix_mpl.cpp
+
+
+
+
+
+
+
+
+
+
 <!-- Links -->
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
@@ -2475,6 +2756,7 @@ generalized type of a family of types.
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.issues]: https://github.com/ldionne/hana/issues
+[lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf

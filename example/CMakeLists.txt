@@ -45,13 +45,15 @@ endif()
 if (NOT Boost_FOUND)
     boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
         "ext/boost/*.cpp"
-        "misc/mini_mpl.cpp"
         "struct.cpp"
         "struct.macros.cpp"
+        "tutorial/appendix_mpl.cpp"
         "tutorial/integral.cpp"
         "tutorial/mpl_cheatsheet.cpp"
+        "tutorial/quadrants.cpp"
         "tutorial/quickstart.cpp"
-        "tutorial/type.cpp")
+        "tutorial/type.cpp"
+    )
 endif()
 
 

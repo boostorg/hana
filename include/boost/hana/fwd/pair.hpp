@@ -63,10 +63,10 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/pair.cpp make<Pair>
     template <>
-    constexpr auto make<Pair> = [](auto&& first, auto&& second) {
-        return _pair<decayed(decltype(first)), decayed(decltype(second))>{
-            forwarded(first), forwarded(second)
-        };
+    constexpr auto make<Pair> = [](auto&& first, auto&& second)
+        -> _pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
+    {
+        return {forwarded(first), forwarded(second)};
     };
 #endif
 
