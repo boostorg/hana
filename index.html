@@ -144,6 +144,11 @@ $(document).ready(function(){initNavTree('index.html','');});
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-assert">Assertions</a></li>
+<li class="level1"><a href="#tutorial-integral">Compile-time numbers</a><ul><li class="level2"><a href="#tutorial-integral-arithmetic">Compile-time arithmetic</a></li>
+<li class="level2"><a href="#tutorial-integral-distance">Example: Euclidean distance</a></li>
+<li class="level2"><a href="#tutorial-integral-more">Why stop here?</a></li>
+</ul>
+</li>
 <li class="level1"><a href="#tutorial-containers">Generalities on containers</a><ul><li class="level2"><a href="#tutorial-containers-creating">Container creation</a></li>
 <li class="level2"><a href="#tutorial-containers-elements">Container elements</a></li>
 <li class="level2"><a href="#tutorial-containers-types">Container types</a></li>
@@ -155,6 +160,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-algorithms-codegen">What is generated?</a></li>
 </ul>
 </li>
+<li class="level1"><a href="#tutorial-introspection">Introspection</a></li>
 <li class="level1"><a href="#tutorial-amphi">Amphibian algorithms</a></li>
 <li class="level1"><a href="#tutorial-type">Type computations</a></li>
 <li class="level1"><a href="#tutorial-performance">Performance considerations</a><ul><li class="level2"><a href="#tutorial-performance-compile">Compile-time performance</a></li>
@@ -166,11 +172,6 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-ext-mpl">Boost.MPL</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-constexpr">The limitations of constexpr</a><ul><li class="level2"><a href="#tutorial-constexpr-constants">Constants</a></li>
-<li class="level2"><a href="#tutorial-constexpr-side_effects">Side effects</a></li>
-</ul>
-</li>
-<li class="level1"><a href="#tutorial-hetero">Heterogeneity and generalized types</a></li>
 <li class="level1"><a href="#tutorial-extending">Extending the library</a><ul><li class="level2"><a href="#tutorial-extending-tag_dispatching">Tag dispatching</a></li>
 <li class="level2"><a href="#tutorial-extending-creating_concepts">Creating new concepts</a></li>
 </ul>
@@ -184,6 +185,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-rationales-container_types">Why leave container types unspecified?</a></li>
 </ul>
 </li>
+<li class="level1"><a href="#tutorial-appendix-constexpr">Apendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
+<li class="level2"><a href="#tutorial-tutorial-appendix-constexpr-preservation">Constexpr preservation</a></li>
+<li class="level2"><a href="#tutorial-appendix-constexpr-effects">Side effects</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-appendix-math">Apendix II: The maths behind Hana</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="tutorial-preface"></a>
@@ -542,8 +549,141 @@ Assertions</h1>
 <tr>
 <td align="left"><code>static_assert</code> </td><td align="left">Assertion on a <code>constexpr</code> condition. This is stronger than <code>BOOST_HANA_CONSTEXPR_CHECK</code> in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are <code>constexpr</code>-friendly. </td></tr>
 <tr>
-<td align="left"><code>BOOST_HANA_CONSTANT_CHECK</code> </td><td align="left">Assertion on what Hana calls a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Basically, this means that the truth value of the expression is known at compile-time even if the value of that expression might only be known at runtime. The details are explained in the section on <a class="el" href="index.html#tutorial-constexpr-constants">IntegralConstants</a>, but here's a hint about how this works: the truth value of the expression is encoded in the <em>type</em> of that expression, not in its value (which might be runtime). This assertion provides the strongest form of guarantee. </td></tr>
+<td align="left"><code>BOOST_HANA_CONSTANT_CHECK</code> </td><td align="left">Assertion on a boolean <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>. This assertion provides the strongest form of guarantee. Note that in reality, any compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is accepted by this macro, which is more general than requiring a boolean <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>. </td></tr>
 </table>
+<h1><a class="anchor" id="tutorial-integral"></a>
+Compile-time numbers</h1>
+<hr/>
+<p> This section introduces the important notion of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> and the philosophy behind Hana's metaprogramming paradigm. Let's start with a rather odd question. What is an <code>integral_constant</code>?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T, T v&gt;</div>
+<div class="line"><span class="keyword">struct </span>integral_constant {</div>
+<div class="line">  <span class="keyword">static</span> constexpr T value = v;</div>
+<div class="line">  <span class="keyword">typedef</span> T value_type;</div>
+<div class="line">  <span class="keyword">typedef</span> integral_constant type;</div>
+<div class="line">  constexpr <span class="keyword">operator</span> value_type() const noexcept { <span class="keywordflow">return</span> value; }</div>
+<div class="line">  constexpr value_type operator()() const noexcept { <span class="keywordflow">return</span> value; }</div>
+<div class="line">};</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>If this is totally new to you, you might want to take a look at the <a href="http://en.cppreference.com/w/cpp/types/integral_constant">documentation</a> for <code>std::integral_constant</code>.</dd></dl>
+<p>One valid answer is that <code>integral_constant</code> represents a type-level encoding of a number, or more generally any object of an integral type. For illustration, we could define a successor function on numbers in that representation very easily by using a template alias:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<div class="line"><span class="keyword">using</span> succ = integral_constant&lt;int, N::value + 1&gt;;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using</span> one = integral_constant&lt;int, 1&gt;;</div>
+<div class="line"><span class="keyword">using</span> two = succ&lt;one&gt;;</div>
+<div class="line"><span class="keyword">using</span> three = succ&lt;two&gt;;</div>
+<div class="line"><span class="comment">// ...</span></div>
+</div><!-- fragment --><p>This is the way <code>integral_constant</code>s are usually thought of; as <em>type-level</em> entities that can be used for template metaprogramming. Another way to see an <code>integral_constant</code> is as a runtime object representing a <code>constexpr</code> value of an integral type:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> one = integral_constant&lt;int, 1&gt;{};</div>
+</div><!-- fragment --><p>Here, while <code>one</code> is not marked as <code>constexpr</code>, the abstract value it holds (a <code>constexpr 1</code>) is still available at compile-time, because that value is encoded in the type of <code>one</code>. Indeed, even if <code>one</code> is not <code>constexpr</code>, we can use <code>decltype</code> to retrieve the compile-time value it represents:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> one = integral_constant&lt;int, 1&gt;{};</div>
+<div class="line">constexpr <span class="keywordtype">int</span> one_constexpr = decltype(one)::value;</div>
+</div><!-- fragment --><p>But why on earth would we want to consider <code>integral_constant</code>s as objects instead of type-level entities? To see why, consider how we could now implement the same successor function as before:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<div class="line"><span class="keyword">auto</span> succ(N) {</div>
+<div class="line">  <span class="keywordflow">return</span> integral_constant&lt;int, N::value + 1&gt;{};</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> one = integral_constant&lt;int, 1&gt;{};</div>
+<div class="line"><span class="keyword">auto</span> two = succ(one);</div>
+<div class="line"><span class="keyword">auto</span> three = succ(two);</div>
+<div class="line"><span class="comment">// ...</span></div>
+</div><!-- fragment --><p>Did you notice anything new? The difference is that instead of implementing <code>succ</code> at the type-level with a template alias, we're now implementing it at the value-level with a template function. Furthermore, we can now perform compile-time arithmetic using the same syntax as that of normal C++. This way of seeing compile-time entities as objects instead of types is the key to Hana's expressive power.</p>
+<h2><a class="anchor" id="tutorial-integral-arithmetic"></a>
+Compile-time arithmetic</h2>
+<p>The MPL defines <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html">arithmetic operators</a> that can be used to do compile-time computations with <code>integral_constant</code>s. A typical example of such an operation is <code>plus</code>, which is implemented roughly as:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y&gt;</div>
+<div class="line"><span class="keyword">struct </span>plus {</div>
+<div class="line">  <span class="keyword">using</span> type = integral_constant&lt;</div>
+<div class="line">    decltype(X::value + Y::value),</div>
+<div class="line">    X::value + Y::value</div>
+<div class="line">  &gt;;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using</span> three = plus&lt;integral_constant&lt;int, 1&gt;,</div>
+<div class="line">                   integral_constant&lt;int, 2&gt;&gt;::type;</div>
+</div><!-- fragment --><p>By viewing <code>integral_constant</code>s as objects instead of types, the translation from a metafunction to a function is very straightforward:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> V, V v, <span class="keyword">typename</span> U, U u&gt;</div>
+<div class="line">constexpr <span class="keyword">auto</span></div>
+<div class="line">operator+(integral_constant&lt;V, v&gt;, integral_constant&lt;U, u&gt;)</div>
+<div class="line">{ <span class="keywordflow">return</span> integral_constant&lt;decltype(v + u), v + u&gt;{}; }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> three = integral_constant&lt;int, 1&gt;{} + integral_constant&lt;int, 2&gt;{};</div>
+</div><!-- fragment --><p>It is very important to emphasize the fact that this operator does not return a normal integer. Instead, it returns a value-initialized object whose type contains the result of the addition. The only useful information contained in that object is actually in its type, and we're creating an object because it allows us to use this nice value-level syntax. It turns out that we can make this syntax even better by using a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> to simplify the creation of an <code>integral_constant</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> i&gt;</div>
+<div class="line">constexpr integral_constant&lt;int, i&gt; int_{};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> three = int_&lt;1&gt; + int_&lt;2&gt;;</div>
+</div><!-- fragment --><p>Now we're talking about a visible gain in expressiveness over the initial type-level approach, aren't we? But there's more; we can also use <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user defined literals</a> to make this process even simpler:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> ...c&gt;</div>
+<div class="line">constexpr <span class="keyword">auto</span> <span class="keyword">operator</span><span class="stringliteral">&quot;&quot;</span> _c() {</div>
+<div class="line">  <span class="comment">// parse the characters and return an integral_constant</span></div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> three = 1_c + 3_c;</div>
+</div><!-- fragment --><p>Hana provides its own <code>integral_constant</code>s, which define arithmetic operators just like we showed above. Hana also provides variable templates to easily create different kinds of <code>integral_constant</code>s: <code>int_</code>, <code>long_</code>, <code>bool_</code>, etc... However, note that <code>integral_constant</code> in Hana is a variable template instead of a type, so <code>integral_constant&lt;int, 1&gt;</code> is actually an object, unlike <code>std::integral_constant&lt;int, 1&gt;</code>, which is a type. This allows you to omit the trailing <code>{}</code> braces otherwise required to value-initialize <code>integral_constant</code>s. Of course, the <code>_c</code> suffix is also provided; it is part of the <code>boost::hana::literals</code> namespace, and you should import it into your namespace before using it:</p>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> three = 1_c + 3_c;</div>
+</div><!-- fragment --><p>This way, you may do compile-time arithmetic without having to struggle with awkward type-level idiosyncrasies, and your coworkers will now be able to understand what's going on.</p>
+<h2><a class="anchor" id="tutorial-integral-distance"></a>
+Example: Euclidean distance</h2>
+<p>To illustrate how good it gets, let's implement a function computing a 2-D euclidean distance at compile-time. As a reminder, the euclidean distance of two points in the 2-D plane is given by</p>
+<p class="formulaDsp">
+\[ \mathrm{distance}\left((x_1, y_1), (x_2, y_2)\right) := \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
+</p>
+<p>First, here's how it looks like with a type-level approach (using the MPL):</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P1, <span class="keyword">typename</span> P2&gt;</div>
+<div class="line"><span class="keyword">struct </span>distance {</div>
+<div class="line">  <span class="keyword">using</span> xs = <span class="keyword">typename</span> mpl::minus&lt;<span class="keyword">typename</span> P1::x,</div>
+<div class="line">                                 <span class="keyword">typename</span> P2::x&gt;::type;</div>
+<div class="line">  <span class="keyword">using</span> ys = <span class="keyword">typename</span> mpl::minus&lt;<span class="keyword">typename</span> P1::y,</div>
+<div class="line">                                 <span class="keyword">typename</span> P2::y&gt;::type;</div>
+<div class="line">  <span class="keyword">using</span> type = <span class="keyword">typename</span> sqrt&lt;</div>
+<div class="line">    <span class="keyword">typename</span> mpl::plus&lt;</div>
+<div class="line">      <span class="keyword">typename</span> mpl::multiplies&lt;xs, xs&gt;::type,</div>
+<div class="line">      <span class="keyword">typename</span> mpl::multiplies&lt;ys, ys&gt;::type</div>
+<div class="line">    &gt;::type</div>
+<div class="line">  &gt;::type;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">static_assert(mpl::equal_to&lt;</div>
+<div class="line">  distance&lt;point&lt;mpl::int_&lt;3&gt;, mpl::int_&lt;5&gt;&gt;,</div>
+<div class="line">           point&lt;mpl::int_&lt;7&gt;, mpl::int_&lt;2&gt;&gt;&gt;::type,</div>
+<div class="line">  mpl::int_&lt;5&gt;</div>
+<div class="line">&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Yeah... Now, let's implement it with the value-level approach presented above:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P1, <span class="keyword">typename</span> P2&gt;</div>
+<div class="line">constexpr <span class="keyword">auto</span> distance(P1 p1, P2 p2) {</div>
+<div class="line">  <span class="keyword">auto</span> xs = p1.x - p2.x;</div>
+<div class="line">  <span class="keyword">auto</span> ys = p1.y - p2.y;</div>
+<div class="line">  <span class="keywordflow">return</span> sqrt(xs*xs + ys*ys);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(distance(point(3_c, 5_c), point(7_c, 2_c)) == 5_c);</div>
+</div><!-- fragment --><p> This version looks arguably cleaner. However, this is not all. Notice how the <code>distance</code> function looks exactly as the one you would have written for computing the euclidean distance on dynamic values? Indeed, because we're using the same syntax for dynamic and compile-time arithmetic, generic functions written for one will work for both!</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> p1 = point(3, 5); <span class="comment">// dynamic values now</span></div>
+<div class="line"><span class="keyword">auto</span> p2 = point(7, 2); <span class="comment">//</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(distance(p1, p2) == 5); <span class="comment">// same function works!</span></div>
+</div><!-- fragment --><p> <b>Without changing any code</b>, we can use our <code>distance</code> function on runtime values and everything just works. Now that's DRY.</p>
+<h2><a class="anchor" id="tutorial-integral-more"></a>
+Why stop here?</h2>
+<p>Why should we limit ourselves to arithmetic operations? When you start considering <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s as objects, it becomes sensible to augment their interface with more functions that are generally useful. For example, Hana's <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s define a <code>times</code> member function that can be used to invoke a function a certain number of times, which is especially useful for loop unrolling:</p>
+<div class="fragment"><div class="line">__attribute__((noinline)) void f() { }</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    int_&lt;10&gt;.times(f);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>In the above code, the 10 calls to <code>f</code> are expanded at compile-time. In other words, this is equivalent to writing</p>
+<div class="fragment"><div class="line">f(); f(); ... f(); <span class="comment">// 10 times</span></div>
+</div><!-- fragment --><p>Another nice use of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s is to define good-looking operators for indexing heterogeneous sequences. Whereas <code>std::tuple</code> must be accessed with <code>std::get</code>, Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> can be accessed using the familiar <code>operator[]</code> used for standard library containers:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> values = make_tuple(1, <span class="charliteral">&#39;x&#39;</span>, 3.4f);</div>
+<div class="line"><span class="keywordtype">char</span> x = values[1_c];</div>
+</div><!-- fragment --><p>How this works is very simple. Basically, Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> defines an <code>operator[]</code> taking an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> instead of a normal integer, in a way similar to</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
+<div class="line">constexpr decltype(<span class="keyword">auto</span>) operator[](N const&amp;) {</div>
+<div class="line">  <span class="keywordflow">return</span> std::get&lt;N::value&gt;(*this);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>This is the end of the section on <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s. This section introduced the feel behind Hana's new way of metaprogramming; if you liked what you've seen so far, the rest of this tutorial should feel just like home.</p>
 <h1><a class="anchor" id="tutorial-containers"></a>
 Generalities on containers</h1>
 <hr/>
@@ -555,8 +695,7 @@ Container creation</h2>
 </div><!-- fragment --><p> Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">boost::hana::Tuple</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Compile-time half-open interval of Constants. ">Range</a></code> of compile-time integers with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html" title="Compile-time half-open interval of Constants. ">Range</a>&gt;</code>:</p>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = make&lt;Range&gt;(int_&lt;3&gt;, int_&lt;10&gt;);</div>
 <div class="line">static_assert(r == make_range(int_&lt;3&gt;, int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>int_&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding what Hana calls an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>. This is explained later in the tutorial.</dd></dl>
-<p>For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
+</div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
 <h2><a class="anchor" id="tutorial-containers-elements"></a>
 Container elements</h2>
 <p>In Hana, containers own their elements. When a container is created, it makes a <em>copy</em> of the elements used to initialize it and stores them inside the container. Of course, unnecessary copies are avoided by using move semantics. Because of those owning semantics, the lifetime of the objects inside the container is the same as that of the container.</p>
@@ -670,10 +809,21 @@ What is generated?</h2>
 <div class="fragment"><div class="line"><span class="keywordflow">for</span> (??? i = 0_c; i &lt; xs.size(); ++i) {</div>
 <div class="line">  f(xs[i]);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="tutorial-amphi"></a>
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-introspection"></a>
+Introspection</h1>
+<hr/>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Write this section.<ul>
+<li>Adapting structs</li>
+<li>JSON example</li>
+<li>Checking for a member</li>
+<li>sfinae + <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></li>
+</ul>
+</dd></dl>
+<h1><a class="anchor" id="tutorial-amphi"></a>
 Amphibian algorithms</h1>
 <hr/>
-<p> Like we saw in the quick start, some functions are able to return something that can be used in a constant expression even when they are called on a non-<code>constexpr</code> object. For example, let's consider the <code>length</code> function applied to a non-<code>constexpr</code> tuple:</p>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Merge this section with the one on algorithms.</dd></dl>
+<p>Like we saw in the quick start, some functions are able to return something that can be used in a constant expression even when they are called on a non-<code>constexpr</code> object. For example, let's consider the <code>length</code> function applied to a non-<code>constexpr</code> tuple:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>Car    { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>City   { std::string name; };</div>
@@ -684,7 +834,7 @@ Amphibian algorithms</h1>
 </div><!-- fragment --><p> Obviously, the tuple can't be made <code>constexpr</code>, since it contains <code>std::string</code>s. Still, even though it is not called on a constant expression, <code>length</code> returns something that can be used inside one. If you think of it, the size of the tuple is known at compile-time regardless of its content, and hence it only makes sense that Hana does not throw away this information. If that seems surprising, think about <code>std::tuple</code>:</p>
 <div class="fragment"><div class="line">std::tuple&lt;int, char, std::string&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}};</div>
 <div class="line">static_assert(std::tuple_size&lt;decltype(xs)&gt;::value == 3u, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> Since the size of the tuple is encoded in it's type, it's always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. In Hana, this is implemented by having <code>length</code> return what we call an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. Since an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a> is convertible to the integral value it represents at compile-time, it can be used in a constant expression. There are subtleties that could be highlighted, but this is left to the more hardcore <a class="el" href="index.html#tutorial-constexpr">section</a> on the limitations of <code>constexpr</code>. <code>length</code> is not the only function that returns an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>; for example, <code>is_empty</code> does that too:</p>
+</div><!-- fragment --><p> Since the size of the tuple is encoded in it's type, it's always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. In Hana, this is implemented by having <code>length</code> return what we call an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>. Since an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> is convertible to the integral value it represents at compile-time, it can be used in a constant expression. There are subtleties that could be highlighted, but this is left to the more hardcore <a class="el" href="index.html#tutorial-appendix-constexpr">section</a> on <code>constexpr</code>. <code>length</code> is not the only function that returns an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>; for example, <code>is_empty</code> does that too:</p>
 <div class="fragment"><div class="line">static_assert(!is_empty(stuff), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> More generally, any algorithm that queries something that can be known at compile-time will be able of returning such an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>. To illustrate, let's take a look at the <code>all</code> algorithm, which is analogous to <code>std::all_of</code>:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">bool</span> result = all_of(stuff, [](<span class="keyword">auto</span> x) {</div>
@@ -716,7 +866,7 @@ Amphibian algorithms</h1>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> result = filter(stuff, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Car&gt;{};</div>
 <div class="line">});</div>
-</div><!-- fragment --><p> Since the predicate returns a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>, the compiler is able to figure out the return type of the algorithm. Other algorithms like <code>partition</code> and <code>sort</code> work similarly; special requirements are always documented by the functions they apply to. While this constitutes a fairly complete explanation of the interaction between runtime and compile-time inside algorithms, a deeper insight can be gained by reading the <a class="el" href="index.html#tutorial-constexpr">section</a> on the limitations of <code>constexpr</code> and the reference for <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> and <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a>.</p>
+</div><!-- fragment --><p> Since the predicate returns a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>, the compiler is able to figure out the return type of the algorithm. Other algorithms like <code>partition</code> and <code>sort</code> work similarly; special requirements are always documented by the functions they apply to. While this constitutes a fairly complete explanation of the interaction between runtime and compile-time inside algorithms, a deeper insight can be gained by reading the <a class="el" href="index.html#tutorial-appendix-constexpr">advanced section</a> on <code>constexpr</code> and the reference for <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> and <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>.</p>
 <h1><a class="anchor" id="tutorial-type"></a>
 Type computations</h1>
 <hr/>
@@ -821,7 +971,7 @@ Type computations</h1>
 <div class="line">    mpl::equal&lt;mpl::_1, mpl::_2, mpl::quote2&lt;std::is_same&gt;&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p>That's it for the introduction to type computations with Hana, but there are a couple of interesting examples scattered in the documentation if you want more. There's also a minimal reimplementation of the MPL using Hana under the hood in <code>example/misc/mini_mpl.cpp</code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd><ul>
 <li>Provide links to the scattered examples, and also to example/misc/mini_mpl. For some reason, I can't get Doxygen to generate a link.</li>
 <li>Expand this section to explain the philosophy behind Hana's metaprogramming paradigm, i.e. that you only retrieve the types at the end and that you do not try to represent everything as a type.</li>
 <li>Write a cheatsheet mapping common MPL/Fusion idioms to idiomatic Hana code. Maybe this should go in some Appendix?</li>
@@ -857,7 +1007,7 @@ Runtime performance</h2>
 <p>Like we did for compile-time benchmarks, the methodology used to measure runtime performance in Hana is data driven rather than analytical. In other words, instead of trying to determine the complexity of an algorithm by counting the number of basic operations it does as a function of the input size, we simply take measurements for the most interesting cases and see how it behaves. There are a couple of reasons for doing so. First, we do not expect Hana's algorithms to be called on large inputs since those algorithms work on heterogeneous sequences whose length must be known at compile-time. For example, if you tried to call the <code>find_if</code> algorithm on a sequence of 100k elements, your compiler would simply die while trying to generate the code for this algorithm. Hence, algorithms can't be called on very large inputs and the analytical approach then loses a lot of its attractiveness. Secondly, processors have evolved into pretty complex beasts, and the actual performance you'll be able to squeeze out is actually controlled by much more than the mere number of steps your algorithm is doing. For example, bad cache behavior or branch misprediction could turn a theoretically efficient algorithm into a slowpoke, especially for small inputs. Since Hana causes a lot of unrolling to happen, these factors must be considered even more carefully and any analytical approach would probably only comfort us into thinking we're efficient. Instead, we want hard data (and pretty charts to display it)!</p>
 <p>There are a couple of different aspects we will want to benchmark. First, we will obviously want to benchmark the execution time of the algorithms. Secondly, because of the by-value semantics used throughout the library, we will also want to make sure that the minimum amount of data is copied around. Finally, we will want to make sure that using Hana does not cause too much code bloat because of unrolling, as explained in the <a class="el" href="index.html#tutorial-algorithms-codegen">section</a> on algorithms.</p>
 <p>Just like we studied only a couple of key algorithms for compile-time performance, we will focus on the runtime performance of a few algorithms. For each benchmarked aspect, we will compare the algorithm as implemented by different libraries. Our goal is to always be at least as efficient as Boost.Fusion, which is near from optimality in terms of runtime performance. For comparison, we also show the same algorithm as executed on a runtime sequence, and on a sequence whose length is known at compile-time but whose <code>transform</code> algorithm does not use explicit loop unrolling. All the benchmarks presented here are done in a <em>Release</em> CMake configuration, which takes care of passing the proper optimization flags (usually <code>-O3</code>). Let's start with the following chart, which shows the execution time required to <code>transform</code> different kinds of sequences:</p>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.execute.json"> </div><p>As you can see, Hana and Fusion are pretty much on the same line. <code>std::array</code> is slightly slower for larger collections data sets, and <code>std::vector</code> is much slower for larger collections. Since we also want to look out for code bloat, let's take a look at the size of the executable generated for the exact same scenario:</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.execute.json"> </div><p>As you can see, Hana and Fusion are pretty much on the same line. <code>std::array</code> is slightly slower for larger collections data sets, and <code>std::vector</code> is slower for larger collections. Since we also want to look out for code bloat, let's take a look at the size of the executable generated for the exact same scenario:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.bloat.json"> </div><p>As you can see, code bloat does not seem to be an issue, at least not one that can be detected in micro benchmarks such as this one. Let's now take a look at the <code>fold</code> algorithm, which is used very frequently:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.execute.json"> </div><p>Here, you can see that Fusion, Hana and <code>std::array</code> perform pretty much the same, while <code>std::vector</code> is slower for larger inputs. Again, let's look at the executable size:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.bloat.json"> </div><p>Here again, the code size did not explode. So at least for moderate usages of Hana (and Fusion for that matter, since they have the same problem), code bloat should not be a major concern. The containers in the charts we just presented contain randomly generated <code>int</code>s, which is cheap to copy around and lends itself well to micro benchmarks. However, what happens when we chain multiple algorithms on a container whose elements are expensive to copy? More generally, the question is: when an algorithm is passed a temporary object, does it seize the opportunity to avoid unnecessary copies? Consider:</p>
@@ -871,89 +1021,13 @@ Runtime performance</h2>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h2><a class="anchor" id="tutorial-ext-std"></a>
 The standard library</h2>
 <h2><a class="anchor" id="tutorial-ext-fusion"></a>
 Boost.Fusion</h2>
 <h2><a class="anchor" id="tutorial-ext-mpl"></a>
 Boost.MPL</h2>
-<h1><a class="anchor" id="tutorial-constexpr"></a>
-The limitations of constexpr</h1>
-<hr/>
-<p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++14. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. Let's start off with a <a href="http://www.gotw.ca/gotw/index.htm">GOTW</a> style question: do you think the following code should compile, and why?</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr T assert_positive(T i) {</div>
-<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">return</span> i;</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keywordtype">int</span> i = 2;</div>
-<div class="line">    assert_positive(i);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>The right answer is "no". The error given by Clang goes like</p>
-<div class="fragment"><div class="line">error: static_assert expression is not an integral constant expression</div>
-<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">                  ^~~~~</div>
-</div><!-- fragment --><p>The problem is that when you are in a function (<code>constexpr</code> or otherwise), you can't use an argument as a constant expression, even if the argument turns out to be a constant expression when you call the function. If you are surprised, consider the following code; the function is not a template anymore, which doesn't change anything with respect to the <code>constexpr</code>-ness of the argument if you think about it. Yet, the answer is now obvious:</p>
-<div class="fragment"><div class="line">constexpr <span class="keywordtype">int</span> assert_positive(<span class="keywordtype">int</span> i) {</div>
-<div class="line">    static_assert(i &gt; 0, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <span class="keywordflow">return</span> i;</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keywordtype">int</span> i = 2;</div>
-<div class="line">    assert_positive(i);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Actually, since the body of <code>assert_positive</code> is not dependent anymore, Clang does not even reach <code>main</code> before giving the same error as before. Now, this is not a big problem for static assertions because we have <a href="http://stackoverflow.com/a/8626450/627587">another way</a> of reporting errors inside <code>constexpr</code> functions. However, it also means that we can't use an argument as a non-type template parameter, since that requires a constant expression. In other words, we can't create types that are dependent on the <em>value</em> of an argument in C++, which is nothing new if you think about it:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> i&gt;</div>
-<div class="line"><span class="keyword">struct </span>foo { };</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">void</span> f(<span class="keywordtype">int</span> i) {</div>
-<div class="line">    foo&lt;i&gt; x; <span class="comment">// obviously won&#39;t work</span></div>
-<div class="line">}</div>
-</div><!-- fragment --><p>In particular, this means that the return type of a function can't depend on the value of its arguments; it may only depend on their type, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects and eventually returning them from functions. Some of these functions might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our little analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
-<h2><a class="anchor" id="tutorial-constexpr-constants"></a>
-Constants</h2>
-<p>To represent this fact, Hana defines the concept of a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>, which is an object from which a constant expression may always be obtained, regardless of the <code>constexpr</code>-ness of the object. <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s provide a way to obtain that constant expression through the use of the <code>value</code> function. Specifically, for any <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>c</code>, the following must be valid:</p>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> x = value&lt;decltype(c)&gt;();</div>
-</div><!-- fragment --><p>This requirement that must be respected by <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s expresses the minimal requirement that we're able to retrieve a constant expression from an object. There is no restriction on what the type of the constant expression might be, but it should be documented. Hana provides a model of this concept called an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>; it encodes a compile-time value of an integral type, and you can think of it as a <code>std::integral_constant</code>. Before going on to the next section, you probably want to take a look at the <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html">reference documentation</a> for <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>, which explains how to create these objects and what you can expect from them.</p>
-<h2><a class="anchor" id="tutorial-constexpr-side_effects"></a>
-Side effects</h2>
-<dl class="section note"><dt>Note</dt><dd>You should be familiar with the <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> concept before reading this section. Also note that this section contains somewhat advanced material, and it can safely be skipped during a first read.</dd></dl>
-<p>Let me ask a tricky question. Is the following code valid?</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><span class="keyword">auto</span> identity(X x) { <span class="keywordflow">return</span> x; }</div>
-<div class="line"></div>
-<div class="line">static_assert(value(identity(bool_&lt;true&gt;)), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p>The answer is "no", but the reason might not be obvious at first. Even more puzzling is that the following code is perfectly valid:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><span class="keyword">auto</span> identity(X x) { <span class="keywordflow">return</span> x; }</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> x = identity(bool_&lt;true&gt;);</div>
-<div class="line">static_assert(value(x), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> To understand why the compiler can't possibly evaluate the first assertion at compile-time, notice that <code>identity</code> was not marked <code>constexpr</code> and consider the following alternative (but valid) definition for <code>identity</code>:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><span class="keyword">auto</span> identity(X x) {</div>
-<div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Good luck in evaluating this at compile-time!&quot;</span>;</div>
-<div class="line">    <span class="keywordflow">return</span> x;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p> The signature of the function did not change; the function could even have been defined in a separate source file. However, it is now obvious that the compiler can't evaluate that expression at compile-time. On the other hand, when we write</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> x = identity(bool_&lt;true&gt;);</div>
-<div class="line">static_assert(value(x), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> we're telling the compiler to perform those potential side effects during the dynamic initialization phase! Then, we use <code>value</code> to return the compile-time value associated to its argument. Also note that <code>value</code> takes a <code>const&amp;</code> to its argument; if it tried taking it by value, we would be reading from a non-<code>constexpr</code> variable to do the copying, and that could hide side-effects.</p>
-<h1><a class="anchor" id="tutorial-hetero"></a>
-Heterogeneity and generalized types</h1>
-<hr/>
-<p> The purpose of Hana is to manipulate heterogeneous objects. However, there's a fundamental question that we have not asked yet: does it even make sense to manipulate heterogeneous objects?</p>
-<p>For the sake of the explanation, let me make the following claim: a function template that compiles with an argument of every possible type must have a trivial implementation, in the sense that it must do nothing with its argument except perhaps return it. Hence, for a function template to do something interesting, it must fail to compile for some set of arguments. While I won't try to prove that claim formally &ndash; it might be false in some corner cases &ndash;, think about it for a moment. Let's say I want to apply a function to each element of an heterogeneous sequence:</p>
-<div class="fragment"><div class="line">for_each([x, y, z], f)</div>
-</div><!-- fragment --><p>The first observation is that <code>f</code> must have a templated call operator because <code>x</code>, <code>y</code> and <code>z</code> have different types. The second observation is that without knowing anything specific about the types of <code>x</code>, <code>y</code> and <code>z</code>, it is impossible for <code>f</code> to do anything meaningful. For example, could it print its argument? Of course not, since it does not know whether <code>std::cout &lt;&lt; x</code> is well-formed! In order to do something meaningful, the function has to put constraints on its arguments; it has to define a domain which is more specific that the set of all types, and hence it can't be <em>fully</em> polymorphic, even if we do not have a way to express this in C++ (right now). So while we're manipulating types that are technically heterogeneous, they still conceptually need something in common, or it wouldn't be possible to do anything meaningful with them. We'll still say that we're manipulating heterogeneous objects, but always keep in mind that the objects we manipulate share something, and are hence homogeneous in <em>some way</em>.</p>
-<p>Pushing this to the extreme, some type families represent exactly the same entity, except they must have a different C++ type because the language requires them to. For example, this is the case of <code>_tuple&lt;...&gt;</code>. In our context, we would like to see <code>_tuple&lt;int, int&gt;</code> and <code>_tuple&lt;int, long, float&gt;</code> as different representations for the same data structure (a "tuple"), but the C++ language requires us to give them different types. In Hana, we associate what we call a <em>generalized type</em> (we also say <em>data type</em> and sometimes <em>gtype</em>) to each type family. A generalized type is simply a tag (like in MPL or Fusion) which is associated to all the types in a family through the <code>datatype</code> metafunction. For <code>_tuple&lt;...&gt;</code>, this generalized type is <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>; other constructs in Hana also follow this convention of naming their generalized type with a capital letter.</p>
-<p>Just like C++ templates are families of types that are parameterized by some other type, it makes sense to speak of parameterized generalized types. A parameterized <em>gtype</em> is simply a <em>gtype</em> which depends on other generalized types. You might have seen it coming, but this is actually the case for <code>_tuple</code>, whose <em>gtype</em> can be seen as depending on the <em>gtype</em> of the objects it contains. However, take good note that <b>parameterized generalized types in Hana only live at the documentation level</b>. While enforcing proper parametricity would make the library more mathematically correct, I fear it would also make it less usable given the lack of language support. Given a parametric <em>gtype</em> <code>F</code>, we use <code>F(T)</code> to denote the "application" of <code>F</code> to another <em>gtype</em> <code>T</code>. While this is analogous to "applying" a C++ template to a type, we purposefully do not use the <code>F&lt;T&gt;</code> notation because parametric gtypes are not necessarily templates in Hana and that would be more confusing than helpful.</p>
-<p>As an example, <code>_tuple&lt;int, int&gt;</code> conceptually has a gtype of <code>Tuple(int)</code>, but its actual gtype (outside of the documentation) is just <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. What about <code>_tuple&lt;int, long&gt;</code>? Well, <code>int</code> and <code>long</code> are embedded in the same mathematical universe, so we could say that it's a <code>Tuple(Number)</code>, where <code>Number</code> is some generalized type containing all the numeric types. What about <code>_tuple&lt;int, void&gt;</code>? First, that won't compile. But why would you create a sequence of objects that have nothing in common? What can you do with that?</p>
-<p>These generalized types are useful for several purposes, for example creating a tuple with <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> and documenting pseudo-signatures for the functions provided in this library. Another important role is to customize algorithms; see the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a> for more information. Finally, you can also consult the reference of the <a class="el" href="structboost_1_1hana_1_1datatype.html">datatype</a> metafunction for details on how to specify the generalized type of a family of types.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>There is obviously a connection between generalized types and concepts. I think that generalized types are concepts whose models are unique up to a unique isomorphism. Still, it is necessary to distinguish between isomorphic models when we want to provide an implementation or create an object. If you see how it all fits together better than I do right now, let me know.</dd></dl>
 <h1><a class="anchor" id="tutorial-extending"></a>
 Extending the library</h1>
 <hr/>
@@ -1078,6 +1152,7 @@ Tag dispatching</h2>
 <div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-creating_concepts"></a>
 Creating new concepts</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -1194,7 +1269,104 @@ Why leave container types unspecified?</h2>
 <div class="line"><span class="keyword">auto</span> f(Xs&amp;&amp; xs, Index i = size_t&lt;0&gt;) {</div>
 <div class="line">  <span class="comment">// same as before</span></div>
 <div class="line">}</div>
-</div><!-- fragment --></div></div><!-- contents -->
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
+Apendix I: Advanced constexpr</h1>
+<hr/>
+<p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++14. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. This section covers advanced concepts about to constant expressions; only readers with a good understanding of <code>constexpr</code> should attempt to read this.</p>
+<h2><a class="anchor" id="tutorial-appendix-constexpr-stripping"></a>
+Constexpr stripping</h2>
+<p>Let's start with a challenging question. Should the following code compile?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(T t) {</div>
+<div class="line">  static_assert(t == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keywordtype">int</span> one = 1;</div>
+<div class="line">f(one);</div>
+</div><!-- fragment --><p>The answer is no, and the error given by Clang goes like</p>
+<div class="fragment"><div class="line">error: static_assert expression is not an integral constant expression</div>
+<div class="line">  static_assert(t == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">                ^~~~~~</div>
+</div><!-- fragment --><p>The explanation is that inside of <code>f</code>'s body, <code>t</code> is not a constant expression, and hence it can't be used as the operand to a <code>static_assert</code>. The reason is that such a function simply can't be generated by the compiler. To understand the issue, consider what should happen when we instantiate the <code>f</code> template with a concrete type:</p>
+<div class="fragment"><div class="line"><span class="comment">// Here, the compiler should generate the code for f&lt;int&gt; and store the</span></div>
+<div class="line"><span class="comment">// address of that code into fptr.</span></div>
+<div class="line">void (*fptr)(int) = f&lt;int&gt;;</div>
+</div><!-- fragment --><p>Clearly, the compiler can't generate <code>f&lt;int&gt;</code>'s code, which should trigger a <code>static_assert</code> if <code>t != 1</code>, because we haven't specified <code>t</code> yet. Even worse, the generated function should work on both constant and non-constant expressions:</p>
+<div class="fragment"><div class="line">void (*fptr)(int) = f&lt;int&gt;; <span class="comment">// assume this was possible</span></div>
+<div class="line"><span class="keywordtype">int</span> i = ...; <span class="comment">// user input</span></div>
+<div class="line">fptr(i);</div>
+</div><!-- fragment --><p>Clearly, <code>fptr</code>'s code can't be generated, because it would require being able to <code>static_assert</code> on a runtime value, which does not make sense. Furthermore, note that it does not matter whether you make the function <code>constexpr</code> or not; making <code>f</code> <code>constexpr</code> would only state that the <em>result</em> of <code>f</code> is a constant expression whenever its argument is a constant expression, but it still does not give you the ability to know whether you were called with a constant expression from <code>f</code>'s body. In other words, what we would want is something like:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(constexpr T t) {</div>
+<div class="line">  static_assert(t == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keywordtype">int</span> one = 1;</div>
+<div class="line">f(one);</div>
+</div><!-- fragment --><p>In this hypothetical scenario, the compiler would know that <code>t</code> is a constant expression from the body of <code>f</code>, and the <code>static_assert</code> could be made to work. However, <code>constexpr</code> parameters do not exist in the current language, and adding them would bring up very challenging design and implementation issues. The conclusion of this little experiment is that <b>argument passing strips away <code>constexpr</code>-ness</b>. What might be unclear by now are the consequences of this stripping, which are explained next.</p>
+<h2><a class="anchor" id="tutorial-tutorial-appendix-constexpr-preservation"></a>
+Constexpr preservation</h2>
+<p>The fact that an argument is not a constant expression means that we can't use it as a non-type template parameter, as an array bound, inside a <code>static_assert</code> or anything else that requires a constant expression. In addition, this means that the return type of a function can't depend on the <em>value</em> of an argument which is nothing new if you think about it:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> i&gt;</div>
+<div class="line"><span class="keyword">struct </span>foo { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
+</div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
+<p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
+Side effects</h2>
+<p>Let me ask a tricky question. Is the following code valid?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> f(T&amp; n) { <span class="keywordflow">return</span> 1; }</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> n = 0;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
+</div><!-- fragment --><p>The answer is <em>yes</em>, but the reason might not be obvious at first. What happens here is that we have a non-<code>constexpr</code> <code>int n</code>, and a <code>constexpr</code> function <code>f</code> taking a reference to its argument. The reason why most people think it shouldn't work is that <code>n</code> is not <code>constexpr</code>. However, we're not doing anything with <code>n</code> inside of <code>f</code>, so there is no actual reason why this shouldn't work! This is a bit like <code>throw</code>ing inside of a <code>constexpr</code> function:</p>
+<div class="fragment"><div class="line">constexpr <span class="keywordtype">int</span> sqrt(<span class="keywordtype">int</span> i) {</div>
+<div class="line">  <span class="keywordflow">if</span> (i &lt; 0) <span class="keywordflow">throw</span> <span class="stringliteral">&quot;i should be non-negative&quot;</span>;</div>
+<div class="line"></div>
+<div class="line">  <span class="keywordflow">return</span> ...;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keywordtype">int</span> two = sqrt(4); <span class="comment">// ok: did not attempt to throw</span></div>
+<div class="line">constexpr <span class="keywordtype">int</span> error = sqrt(-4); <span class="comment">// error: can&#39;t throw in a constant expression</span></div>
+</div><!-- fragment --><p>As long as the code path where <code>throw</code> appears is not executed, the result of the invocation can be a constant expression. Similarly, we can do whatever we want inside of <code>f</code>, as long as we don't execute a code path that requires accessing its argument <code>n</code>, which is not a constant expression:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> f(T&amp; n, <span class="keywordtype">bool</span> touch_n) {</div>
+<div class="line">  <span class="keywordflow">if</span> (touch_n) n + 1;</div>
+<div class="line">  <span class="keywordflow">return</span> 1;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> n = 0;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> i = f(n, <span class="keyword">false</span>); <span class="comment">// ok</span></div>
+<div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
+</div><!-- fragment --><p>The error given by Clang for the second invocation is</p>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;j&#39;</span> must be initialized by a constant expression</div>
+<div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
+<div class="line">              ^   ~~~~~~~~~~</div>
+<div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
+<div class="line">  <span class="keywordflow">if</span> (touch_n) n + 1;</div>
+<div class="line">               ^</div>
+</div><!-- fragment --><p>Let's now step the game up a bit and consider a more subtle example. Is the following code valid?</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> f(T n) { <span class="keywordflow">return</span> 1; }</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> n = 0;</div>
+<div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
+</div><!-- fragment --><p>The only difference with our initial scenario is that <code>f</code> now takes its argument by value instead of by reference. However, this makes a world of difference. Indeed, we're now asking the compiler to make a copy of <code>n</code> and to pass this copy to <code>f</code>. However, <code>n</code> is not <code>constexpr</code>, so its value is only known at runtime. How could the compiler make a copy (at compile-time) of a variable whose value is only known at runtime? Of course, it can't. Indeed, the error message given by Clang is pretty explicit about what's happening:</p>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;i&#39;</span> must be initialized by a constant expression</div>
+<div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
+<div class="line">              ^   ~~~~</div>
+<div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
+<div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
+<div class="line">                    ^</div>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+<h1><a class="anchor" id="tutorial-appendix-math"></a>
+Apendix II: The maths behind Hana</h1>
+<hr/>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Write this section. </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->

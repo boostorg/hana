@@ -11,6 +11,11 @@ var NAVTREE =
         [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
       ] ],
       [ "Assertions", "index.html#tutorial-assert", null ],
+      [ "Compile-time numbers", "index.html#tutorial-integral", [
+        [ "Compile-time arithmetic", "index.html#tutorial-integral-arithmetic", null ],
+        [ "Example: Euclidean distance", "index.html#tutorial-integral-distance", null ],
+        [ "Why stop here?", "index.html#tutorial-integral-more", null ]
+      ] ],
       [ "Generalities on containers", "index.html#tutorial-containers", [
         [ "Container creation", "index.html#tutorial-containers-creating", null ],
         [ "Container elements", "index.html#tutorial-containers-elements", null ],
@@ -22,6 +27,7 @@ var NAVTREE =
         [ "Side effects and purity", "index.html#tutorial-algorithms-effects", null ],
         [ "What is generated?", "index.html#tutorial-algorithms-codegen", null ]
       ] ],
+      [ "Introspection", "index.html#tutorial-introspection", null ],
       [ "Amphibian algorithms", "index.html#tutorial-amphi", null ],
       [ "Type computations", "index.html#tutorial-type", null ],
       [ "Performance considerations", "index.html#tutorial-performance", [
@@ -33,11 +39,6 @@ var NAVTREE =
         [ "Boost.Fusion", "index.html#tutorial-ext-fusion", null ],
         [ "Boost.MPL", "index.html#tutorial-ext-mpl", null ]
       ] ],
-      [ "The limitations of constexpr", "index.html#tutorial-constexpr", [
-        [ "Constants", "index.html#tutorial-constexpr-constants", null ],
-        [ "Side effects", "index.html#tutorial-constexpr-side_effects", null ]
-      ] ],
-      [ "Heterogeneity and generalized types", "index.html#tutorial-hetero", null ],
       [ "Extending the library", "index.html#tutorial-extending", [
         [ "Tag dispatching", "index.html#tutorial-extending-tag_dispatching", null ],
         [ "Creating new concepts", "index.html#tutorial-extending-creating_concepts", null ]
@@ -50,7 +51,13 @@ var NAVTREE =
         [ "Why restrict usage of external dependencies?", "index.html#tutorial-rationales-dependencies", null ],
         [ "Why no iterators?", "index.html#tutorial-rationales-iterators", null ],
         [ "Why leave container types unspecified?", "index.html#tutorial-rationales-container_types", null ]
-      ] ]
+      ] ],
+      [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
+        [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
+        [ "Constexpr preservation", "index.html#tutorial-tutorial-appendix-constexpr-preservation", null ],
+        [ "Side effects", "index.html#tutorial-appendix-constexpr-effects", null ]
+      ] ],
+      [ "Apendix II: The maths behind Hana", "index.html#tutorial-appendix-math", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Indexes", "usergroup0.html", [
@@ -71,8 +78,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-containers-types",
-"structboost_1_1hana_1_1Searchable.html#a9365b793fe547271e48fa719a7f4854d"
+"index.html#tutorial-containers-elements",
+"structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

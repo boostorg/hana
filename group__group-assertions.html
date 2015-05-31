@@ -208,7 +208,7 @@ Macros</h2></td></tr>
 <p>This macro may be used at global or function scope. Its argument must be a <code>Constant</code>, or else a compile-time assertion is triggered. If the argument is a <code>Constant</code>, its <code>value</code> is retrieved, it is converted to a boolean and <code>static_assert</code>ed upon. This kind of assertion is even stronger than a <code>static_assert</code>, since a <code>Constant</code> can yield a constant expression in any context.</p>
 <p>When the expression is a Constant, <code><a class="el" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77" title="Compile-time assertion for Constants. ">BOOST_HANA_CONSTANT_ASSERT(expr)</a></code> is essentially equivalent to </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;auto temporary = expr;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;static_assert(value(expr), &quot;...&quot;);</div>
-</div><!-- fragment --><p>To understand why this is sometimes needed, especially when the expression contains a lambda, read the section on <a class="el" href="index.html#tutorial-constexpr-side_effects">Constants and side effects</a>. </p>
+</div><!-- fragment --><p>To understand why this is sometimes needed, especially when the expression contains a lambda, see the advanced section on <a class="el" href="index.html#tutorial-appendix-constexpr-effects">constexpr and side-effects</a>. </p>
 
 </div>
 </div>
