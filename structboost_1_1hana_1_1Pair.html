@@ -45,7 +45,6 @@
       div.innerHTML = div.innerHTML
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
-        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
         .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
@@ -194,10 +193,10 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; first, <span class="keyword">auto</span>&amp;&amp; second) {</div>
-<div class="line">        <span class="keywordflow">return</span> _pair&lt;decayed(decltype(first)), decayed(decltype(second))&gt;{</div>
-<div class="line">            forwarded(first), forwarded(second)</div>
-<div class="line">        };</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; first, <span class="keyword">auto</span>&amp;&amp; second)</div>
+<div class="line">        -&gt; _pair&lt;std::decay_t&lt;decltype(first)&gt;, std::decay_t&lt;decltype(second)&gt;&gt;</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">return</span> {forwarded(first), forwarded(second)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Creates a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> with the given elements. </p>

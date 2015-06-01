@@ -3,7 +3,9 @@ var NAVTREE =
   [ "Boost.Hana", "index.html", [
     [ "User Manual", "index.html", [
       [ "Preface", "index.html#tutorial-preface", null ],
-      [ "Introduction", "index.html#tutorial-introduction", null ],
+      [ "Introduction", "index.html#tutorial-introduction", [
+        [ "Motivation", "index.html#tutorial-introduction-motivation", null ]
+      ] ],
       [ "Quick start", "index.html#tutorial-quickstart", [
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
       ] ],
@@ -16,6 +18,12 @@ var NAVTREE =
         [ "Example: Euclidean distance", "index.html#tutorial-integral-distance", null ],
         [ "Why stop here?", "index.html#tutorial-integral-more", null ]
       ] ],
+      [ "Type computations", "index.html#tutorial-type", [
+        [ "Types as objects", "index.html#tutorial-type-objects", null ],
+        [ "Benefits of this representation", "index.html#tutorial-type-benefits", null ],
+        [ "Working with this representation", "index.html#tutorial-type-working", null ],
+        [ "The generic lifting process", "index.html#tutorial-type-lifting", null ]
+      ] ],
       [ "Generalities on containers", "index.html#tutorial-containers", [
         [ "Container creation", "index.html#tutorial-containers-creating", null ],
         [ "Container elements", "index.html#tutorial-containers-elements", null ],
@@ -24,12 +32,11 @@ var NAVTREE =
       [ "Generalities on algorithms", "index.html#tutorial-algorithms", [
         [ "By-value semantics", "index.html#tutorial-algorithms-value", null ],
         [ "(Non-)Laziness", "index.html#tutorial-algorithms-laziness", null ],
+        [ "What is generated?", "index.html#tutorial-algorithms-codegen", null ],
         [ "Side effects and purity", "index.html#tutorial-algorithms-effects", null ],
-        [ "What is generated?", "index.html#tutorial-algorithms-codegen", null ]
+        [ "Cross-phase algorithms", "index.html#tutorial-algorithms-cross_phase", null ]
       ] ],
       [ "Introspection", "index.html#tutorial-introspection", null ],
-      [ "Amphibian algorithms", "index.html#tutorial-amphi", null ],
-      [ "Type computations", "index.html#tutorial-type", null ],
       [ "Performance considerations", "index.html#tutorial-performance", [
         [ "Compile-time performance", "index.html#tutorial-performance-compile", null ],
         [ "Runtime performance", "index.html#tutorial-performance-runtime", null ]
@@ -44,8 +51,10 @@ var NAVTREE =
         [ "Creating new concepts", "index.html#tutorial-extending-creating_concepts", null ]
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
-      [ "Using the reference", "index.html#tutorial-using_the_reference", [
-        [ "Pseudo-code glossary", "index.html#tutorial-using_the_reference-pseudo", null ]
+      [ "Conclusion", "index.html#tutorial-conclusion", [
+        [ "Structure of the reference", "index.html#tutorial-conclusion-reference", null ],
+        [ "Pseudo-code glossary", "index.html#tutorial-conclusion-glossary", null ],
+        [ "Fair warning: functional programming ahead", "index.html#tutorial-conclusion-warning", null ]
       ] ],
       [ "Rationales/FAQ", "index.html#tutorial-rationales", [
         [ "Why restrict usage of external dependencies?", "index.html#tutorial-rationales-dependencies", null ],
@@ -57,7 +66,8 @@ var NAVTREE =
         [ "Constexpr preservation", "index.html#tutorial-tutorial-appendix-constexpr-preservation", null ],
         [ "Side effects", "index.html#tutorial-appendix-constexpr-effects", null ]
       ] ],
-      [ "Apendix II: The maths behind Hana", "index.html#tutorial-appendix-math", null ]
+      [ "Apendix II: The maths behind Hana", "index.html#tutorial-appendix-math", null ],
+      [ "Apendix III: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Indexes", "usergroup0.html", [
@@ -78,8 +88,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-containers-elements",
-"structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074"
+"index.html#tutorial-conclusion-glossary",
+"structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

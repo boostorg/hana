@@ -45,7 +45,6 @@
       div.innerHTML = div.innerHTML
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
-        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
         .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
@@ -139,69 +138,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Type.html','');
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents a C++ type. </p>
-<dl class="section note"><dt>Note</dt><dd>This page explains how Types work at a low level. To gain intuition about type-level metaprogramming in Hana, you should read the <a class="el" href="index.html#tutorial-type">tutorial section</a> on type-level computations.</dd></dl>
-<p>A <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> is a special kind of object representing a C++ type like <code>int</code>, <code>void</code>, <code>std::vector&lt;float&gt;</code> or anything else you can imagine. Basically, the trick to implement such an object is to create the following dummy type: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>_type { };</div>
-</div><!-- fragment --><p>Now, if we want to represent the type <code>int</code> by an object, we just create the following object </p><div class="fragment"><div class="line">_type&lt;int&gt; foo;</div>
-</div><!-- fragment --><p> and pretend that <code>foo</code> represents the type <code>int</code>. Note that since <code>_type&lt;int&gt;</code> can only be default constructed and hence has only one value, we could even not bother giving this object a name and we could simply use the <code>_type&lt;int&gt;{}</code> expression. The point here is that there is nothing special about the <code>foo</code> variable; it is just an alias for <code>_type&lt;int&gt;{}</code>.</p>
-<blockquote class="doxtable">
-<p><b>Note</b> This is not exactly how <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s are implemented in Hana because of some subtleties; things were dumbed down here for the sake of clarity. Please check below to know exactly what you can expect from a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>. </p>
-</blockquote>
-<p>Now, let's say we wanted to transform our type <code>int</code> (represented by <code>foo</code>) into a type <code>int*</code> (represented by some other variable); how could we do that? More generally, how could we transform a type <code>T</code> into a type <code>T*</code>? Let's write a function! </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">_type&lt;T*&gt; add_pointer(_type&lt;T&gt; foo) {</div>
-<div class="line">    _type&lt;T*&gt; bar;</div>
-<div class="line">    <span class="keywordflow">return</span> bar;</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>We just let the compiler deduce the <code>T</code>, and from that we are able to generate the proper return type. That's it for the signature. For the implementation, we provide the simplest one that will make the code compile; we create a dummy object of the proper type and we return it. We can now use our function like: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> bar = add_pointer(foo);</div>
-<div class="line"><span class="keyword">auto</span> baz = add_pointer(bar);</div>
-</div><!-- fragment --><p> and we now have objects that represent the types <code>int*</code> and <code>int**</code>, respectively.</p>
-<p>As a side note, since we're lazy and we want to save as many keystrokes as possible, we'll use a variable template (new in C++14) to create our dummy variables: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">_type&lt;T&gt; <a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
-</div><!-- fragment --><p> Instead of typing <code>foo</code> or <code>_type&lt;int&gt;{}</code>, we can now simply write <code>type&lt;int&gt;</code>, which is effectively the same but looks better.</p>
-<p>However, the current definition of <code>_type</code> does not make it very useful. Indeed, we are only able to copy those objects around and perform pattern matching in template functions, which is still a bit limited. To make them more widely useful, we add the requirement that a <code>_type&lt;T&gt;</code> provides a nested alias to the type it wraps. In Boost.MPL parlance, we make <code>_type&lt;T&gt;</code> a nullary metafunction: </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>_type {</div>
-<div class="line">    <span class="keyword">using</span> type = T;</div>
-<div class="line">};</div>
-</div><!-- fragment --><p>Now, we can get the type represented by one of our objects without having to perform pattern matching inside a template function: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> bar = type&lt;int*&gt;;</div>
-<div class="line"><span class="keyword">using</span> Bar = decltype(bar)::type;</div>
-<div class="line">static_assert(std::is_same&lt;int*, Bar&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p>Also, this makes any function returning a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> easily usable as a classic metafunction, by simply using decltype. For example, let's consider the following function, which finds the largest type in a sequence of types:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Types&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> largest(Types ...types) {</div>
-<div class="line">    <span class="keywordflow">return</span> maximum.by(ordering(<a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>), make&lt;Tuple&gt;(types...));</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> size&gt;</div>
-<div class="line"><span class="keyword">struct </span>storage { <span class="keywordtype">char</span> s[size]; };</div>
-<div class="line"></div>
-<div class="line">static_assert(</div>
-<div class="line">    largest(type&lt;storage&lt;1&gt;&gt;, type&lt;storage&lt;2&gt;&gt;, type&lt;storage&lt;3&gt;&gt;) == type&lt;storage&lt;3&gt;&gt;</div>
-<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> To make it a classic metafunction instead, we only need to modify it slightly using <code>decltype</code>:</p>
-<div class="fragment"><div class="line"><span class="comment">// Note: tuple_t&lt;T...&gt; is equivalent to make&lt;Tuple&gt;(type&lt;T&gt;...)</span></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><span class="keyword">struct </span>largest</div>
-<div class="line">    : decltype(maximum.by(ordering(sizeof_), tuple_t&lt;T...&gt;))</div>
-<div class="line">{ };</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">int</span> size&gt;</div>
-<div class="line"><span class="keyword">struct </span>storage { <span class="keywordtype">char</span> s[size]; };</div>
-<div class="line"></div>
-<div class="line">static_assert(std::is_same&lt;</div>
-<div class="line">    largest&lt;storage&lt;1&gt;, storage&lt;2&gt;, storage&lt;3&gt;&gt;::type,</div>
-<div class="line">    storage&lt;3&gt;</div>
-<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> While this new paradigm for type level programming might be difficult to grok at first, it will make more sense as you use it more and more. You will also come to appreciate how it blurs the line between types and values, opening new exciting possibilities.</p>
-<h2>Lvalues and rvalues </h2>
-<p>When storing <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s in heterogeneous containers, some algorithms will return references to those objects. Since we are primarily interested in accessing their nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code>, receiving a reference is undesirable; we would end up trying to fetch the nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code> inside a reference type, which is a compilation error: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = std::make_tuple(type&lt;int&gt;, type&lt;char&gt;);</div>
-<div class="line"><span class="comment">// Error; decltype(...) is a reference!</span></div>
-<div class="line"><span class="keyword">using</span> T = decltype(std::get&lt;1&gt;(ts))::type;</div>
-</div><!-- fragment --><p>For this reason, <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s provide an overload of the unary <code>+</code> operator that can be used to turn a lvalue into a rvalue. So when using a result which might be a reference to a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> object, one can use <code>+</code> to make sure a rvalue is obtained before fetching its nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code>: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = std::make_tuple(type&lt;int&gt;, type&lt;char&gt;);</div>
-<div class="line"><span class="comment">// Good; decltype(+...) is an rvalue.</span></div>
-<div class="line"><span class="keyword">using</span> T = decltype(+std::get&lt;1&gt;(ts))::type;</div>
-</div><!-- fragment --><h2>The actual representation of a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> </h2>
+<p>A <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> is a special kind of object representing a C++ type like <code>int</code>, <code>void</code>, <code>std::vector&lt;float&gt;</code> or anything else you can imagine.</p>
+<p>This page explains how <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s work at a low level. To gain intuition about type-level metaprogramming in Hana, you should read the <a class="el" href="index.html#tutorial-type">tutorial section</a> on type-level computations.</p>
+<h2>The actual representation of a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a> </h2>
 <p>For subtle reasons having to do with ADL, the actual type of the <code>type&lt;T&gt;</code> expression is not <code>_type&lt;T&gt;</code>. It is a dependent type which inherits <code>_type&lt;T&gt;</code>. Hence, you should never rely on the fact that <code>type&lt;T&gt;</code> is of type <code>_type&lt;T&gt;</code>, but you can rely on the fact that it inherits it, which is different in some contexts, e.g. for template specialization.</p>
-<h2>Modeled concepts </h2>
+<h2>Lvalues and rvalues </h2>
+<p>When storing <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s in heterogeneous containers, some algorithms will return references to those objects. Since we are primarily interested in accessing their nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code>, receiving a reference is undesirable; we would end up trying to fetch the nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code> inside a reference type, which is a compilation error: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = make_tuple(type&lt;int&gt;, type&lt;char&gt;);</div>
+<div class="line"><span class="keyword">using</span> T = decltype(ts[0_c])::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>; <span class="comment">// error: &#39;ts[0_c]&#39; is a reference!</span></div>
+</div><!-- fragment --><p>For this reason, <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s provide an overload of the unary <code>+</code> operator that can be used to turn a lvalue into a rvalue. So when using a result which might be a reference to a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> object, one can use <code>+</code> to make sure a rvalue is obtained before fetching its nested <code><a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0" title="Creates an object representing the C++ type T. ">type</a></code>: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = make_tuple(type&lt;int&gt;, type&lt;char&gt;);</div>
+<div class="line"><span class="keyword">using</span> T = decltype(+ts[0_c])::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>; <span class="comment">// ok: &#39;+ts[0_c]&#39; is an rvalue</span></div>
+</div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
 Two <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="keyword">struct </span>T;</div>

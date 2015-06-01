@@ -45,7 +45,6 @@
       div.innerHTML = div.innerHTML
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
-        .replace(/decayed/g, "decayed".link("index.html#tutorial-glossary-decayed").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
         .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
@@ -184,8 +183,10 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> _tuple&lt;decayed(decltype(xs))...&gt;{forwarded(xs)...};</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs)</div>
+<div class="line">        -&gt; _tuple&lt;std::decay_t(decltype(xs))...&gt;</div>
+<div class="line">    {</div>
+<div class="line">        <span class="keywordflow">return</span> {forwarded(xs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> containing the given objects. </p>
