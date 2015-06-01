@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 #include <type_traits>
+#include <vector>
 using namespace boost::hana;
 
 
@@ -159,15 +160,22 @@ int main() {
 {
 
 //! [is_valid]
+// Checking for a member
 struct Person { std::string name; };
-auto has_name = is_valid([](auto p) -> decltype(p.name) { });
+auto has_name = is_valid([](auto&& p) -> decltype((void)p.name) { });
 
 Person joe{"Joe"};
 static_assert(has_name(joe), "");
 static_assert(!has_name(1), "");
 
-static_assert(has_name(type<Person>), "");
-static_assert(!has_name(type<int>), "");
+
+// Checking for a nested type
+auto has_value_type = is_valid([](auto t) -> decltype(type<
+    typename decltype(t)::type::value_type
+>) { });
+
+static_assert(has_value_type(type<std::vector<int>>), "");
+static_assert(!has_value_type(type<Person>), "");
 //! [is_valid]
 
 }

@@ -92,43 +92,30 @@ namespace boost { namespace hana {
     // is_valid
     //////////////////////////////////////////////////////////////////////////
     namespace type_detail {
-        template <typename, typename F, typename ...Args>
-        struct is_valid_impl { static constexpr bool value = false; };
+        template <typename F, typename ...Args, typename = decltype(
+            detail::std::declval<F&&>()(detail::std::declval<Args&&>()...)
+        )>
+        constexpr auto is_valid_impl(int) { return true_; }
 
         template <typename F, typename ...Args>
-        struct is_valid_impl<
-            decltype((void)(detail::std::declval<F>()(
-                detail::std::declval<Args>()...))), F, Args...
-        > { static constexpr bool value = true; };
+        constexpr auto is_valid_impl(...) { return false_; }
 
         template <typename F>
         struct is_valid_fun {
             template <typename ...Args>
-            constexpr auto operator()(Args&& ...args) const {
-                return bool_<is_valid_impl<void, F,
-                    typename decltype(
-                        hana::decltype_(static_cast<Args&&>(args))
-                    )::type...
-                >::value>;
-            }
+            constexpr auto operator()(Args&& ...) const
+            { return is_valid_impl<F, Args&&...>(int{}); }
         };
     }
 
     //! @cond
     template <typename F>
-    constexpr auto _is_valid::operator()(F&& f) const {
-        return type_detail::is_valid_fun<
-            typename decltype(hana::decltype_(static_cast<F&&>(f)))::type
-        >{};
-    }
+    constexpr auto _is_valid::operator()(F&&) const
+    { return type_detail::is_valid_fun<F&&>{}; }
 
     template <typename F, typename ...Args>
-    constexpr auto _is_valid::operator()(F&& f, Args&& ...args) const {
-        return bool_<type_detail::is_valid_impl<void,
-            typename decltype(hana::decltype_(static_cast<F&&>(f)))::type,
-            typename decltype(hana::decltype_(static_cast<Args&&>(args)))::type...
-        >::value>;
-    }
+    constexpr auto _is_valid::operator()(F&&, Args&& ...) const
+    { return type_detail::is_valid_impl<F&&, Args&&...>(int{}); }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////

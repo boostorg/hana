@@ -253,10 +253,6 @@ namespace boost { namespace hana {
     //! This syntax makes it easy to create functions that check the validity
     //! of a generic expression on any given argument(s).
     //!
-    //! Also note that the arguments to `is_valid` may be either `Type`s or
-    //! non-`Type`s. The behavior of `is_valid` on non-`Type`s is consistent
-    //! with that of `sizeof_` and other `Type` utilities.
-    //!
     //! @warning
     //! To check whether calling a nullary function `f` is valid, one should
     //! use the `is_valid(f)()` syntax. Indeed, `is_valid(f /* no args */)`
