@@ -1,9 +1,10 @@
-# Boost.Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a> <a href="http://semver.org" target="_blank">![Version][badge.semver]</a>
+# Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a> <a href="http://semver.org" target="_blank">![Version][badge.semver]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
-This is not an official Boost library. However, a formal review will be asked
-for shortly. The library is fairly stable, but no effort will be made to stay
+This is not an official Boost library. However, the formal review is scheduled
+for June 10 - June 24, after which an official status (accepted/refused) will
+be available. The library is fairly stable, but no effort will be made to stay
 backward compatible.
 
 
@@ -62,8 +63,8 @@ int main() {
 
 
 ## Prerequisites and installation
-Boost.Hana is a header only library. To use it in your own project, just add
-the [include](include) directory to your compiler's header search path and
+Hana is a header only library. To use it in your own project, just add the
+[include](include) directory to your compiler's header search path and
 you are done.
 
 The library relies on a full-featured C++14 compiler and standard library,
@@ -92,9 +93,9 @@ ignored by git so updating the documentation won't pollute your index.
 
 
 ## Hacking on Hana
-Setting yourself up to work on Boost.Hana is easy. First, you will need an
-installation of [CMake][]. Once this is done, you can `cd` to the root of
-the project and setup the build directory:
+Setting yourself up to work on Hana is easy. First, you will need an
+installation of [CMake][]. Once this is done, you can `cd` to the root
+of the project and setup the build directory:
 ```shell
 mkdir build
 cd build

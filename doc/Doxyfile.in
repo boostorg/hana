@@ -1,4 +1,4 @@
-PROJECT_NAME            = "Boost.Hana"
+PROJECT_NAME            = "Hana"
 PROJECT_BRIEF           = "Your standard library for metaprogramming"
 PROJECT_LOGO            = @Boost.Hana_SOURCE_DIR@/doc/Boost.png
 PROJECT_NUMBER          =

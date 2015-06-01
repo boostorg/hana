@@ -102,9 +102,9 @@ was started full steam, I presented the project at [C++Now][] and had
 insightful conversations with several attendees. The idea that it was
 possible to unify the [Boost.Fusion][] and the [Boost.MPL][] libraries
 made its way and I became convinced of it after writing the first prototype
-for what is now Boost.Hana. After working on Hana and polishing many rough
-edges during several months, Hana will be going through formal review for
-inclusion in Boost from June 10 2015 to June 24 2015.
+for what is now Hana. After working on Hana and polishing many rough edges
+during several months, Hana will be going through formal review for inclusion
+in Boost from June 10 2015 to June 24 2015.
 
 Let the fun begin!
 
@@ -1609,13 +1609,304 @@ for `Constant` and `IntegralConstant`.
 @section tutorial-introspection Introspection
 
 ------------------------------------------------------------------------------
+Static introspection, as we will discuss it here, is the ability of a program
+to examine the type of an object at compile-time. In other words, it is a
+programmatic interface to interact with types at compile-time. For example,
+have you ever wanted to check whether some unknown type has a member named
+`foo`? Or perhaps at some point you have needed to iterate on the members
+of a `struct`?
+
+@code
+struct Person {
+  std::string name;
+  int age;
+};
+
+Person john{"John", 30};
+for (auto& member : john)
+  std::cout << member.name << ": " << member.value << std::endl;
+
+// name: "John"
+// age: 30
+@endcode
+
+If you have written a bit of templates in your life, chances are very high
+that you came across the first problem of checking for a member. Also, anyone
+having tried to implement object serialization or even just pretty printing
+has come across the second problem. In most dynamic languages like Python,
+Ruby or JavaScript, these problems are completely solved and introspection is
+used every day by programmers to make a lot of tasks simpler. However, as a
+C++ programmer, we do not have language support for those things, which makes
+several tasks much harder than they should be. While language support would
+likely be needed to properly tackle this problem, Hana makes some common
+introspection patterns much more accessible.
+
+
+@subsection tutorial-introspection-is_valid Checking expression validity
+
+Given an object of an unknown type, it is sometimes desirable to check
+whether this object has a member (or member function) with some name.
+This can be used to perform sophisticated flavors of overloading. For
+example, consider the problem of calling a `toString` method on objects
+that support it, but providing another default implementation for objects
+that do not support it:
+
+@code
+template <typename T>
+std::string optionalToString(T const& obj) {
+  if (obj.toString() is a valid expression)
+    return obj.toString();
+  else
+    return "toString not defined";
+}
+@endcode
+
+@note
+While most use cases for this technique will be addressed by [concepts lite]
+[C++17.clite] in future revisions of the standard, there will still be cases
+where a quick and dirty check is more convenient than creating a full blown
+concept.
+
+How could we implement a check for the validity of `obj.toString()` as above
+in a generic fashion (so it can be reused in other functions, for example)?
+Normally, we would be stuck writing some kind of SFINAE-based detection:
+
+@snippet example/tutorial/introspection.cpp has_toString.then
+
+This works, but the intent is not very clear and most people without a deep
+knowledge of template metaprogramming would think this is black magic. Then,
+we could implement `optionalToString` as
+
+@code
+template <typename T>
+std::string optionalToString(T const& obj) {
+  if (has_toString<T>::value)
+    return obj.toString();
+  else
+    return "toString not defined";
+}
+@endcode
+
+@note
+Of course, this implementation won't actually work because both branches of
+the `if` statement will be compiled. If `obj` does not have a `toString`
+method, the compilation of the `if` branch will fail. We will address
+this issue in a moment.
+
+Instead of the above SFINAE trick, Hana provides a `is_valid` function that
+can be combined with [C++14 generic lambdas][C++14.glambda] to obtain a much
+cleaner implementation of the same thing:
+
+@snippet example/tutorial/introspection.cpp has_toString.now
+
+This leaves us with a function object `has_toString` which returns whether the
+given expression is valid on the argument we pass to it. The result is returned
+as an `IntegralConstant`, so `constexpr`-ness is not an issue here because the
+result of the function is represented as a type anyway. Now, in addition to
+being less verbose (that's a one liner!), the intent is much clearer. Other
+benefits are the fact that `has_toString` can be passed to higher order
+algorithms and it can also be defined at function scope, so there is no need
+to pollute the namespace scope with implementation details. Here is how we
+would now write `optionalToString`:
+
+@code
+template <typename T>
+std::string optionalToString(T const& obj) {
+  if (has_toString(obj))
+    return obj.toString();
+  else
+    return "toString not defined";
+}
+@endcode
+
+Much cleaner, right? However, as we said earlier, this implementation won't
+actually work because both branches of the `if` always have to be compiled,
+regardless of whether `obj` has a `toString` method. There are several
+possible options, but the most classical one is to use `std::enable_if`:
+
+@snippet example/tutorial/introspection.cpp optionalToString.then
+
+@note
+We're using the fact that `has_toString` returns an `IntegralConstant` to
+write `decltype(...)::%value`, which is a constant expression. For some
+reason, `has_toString(obj)` is not considered a constant expression, even
+though I think it should be one because we never read from `obj` (see the
+section on [advanced constexpr](@ref tutorial-appendix-constexpr)).
+
+While this implementation is perfectly valid, it is still pretty cumbersome
+because it requires writing two different functions and going through the
+hoops of SFINAE explicitly by using `std::enable_if`. Since this pattern of
+branching at compile-time is so widely used, Hana provides an `if_` function
+that can be used to emulate a `static_if` functionality. Here is how we could
+write `optionalToString` with Hana's `if_`:
+
+@snippet example/tutorial/introspection.cpp optionalToString
+
+`if_` works a bit like a normal `if` statement, except it takes a condition
+that can be an `IntegralConstant` and returns the one of two values (which may
+have different types) chosen by the condition. If the condition is true, the
+first value is returned, and otherwise the second value is returned. In our
+case, the first value is a generic lambda representing the branch we want to
+execute if `obj` has a `toString` method, and the second one is the branch we
+want to execute otherwise. `if_` therefore returns the branch chosen by the
+condition, and we call that branch (which is a generic lambda) immediately
+with `obj`. The reason why this approach works is because the body of the
+first branch (where we call `x.toString()`) can only be compiled when the
+type of `x` is known. Indeed, since the branch is a generic lambda, the type
+of the argument is not known until the lambda is called, and the compiler must
+wait for `x`'s type to be known before type-checking the lambda's body. Since
+the lambda is never called when the condition is not satisfied (Hana's `if_`
+takes care of that), the body of the lambda is never type-checked and no
+compilation error happens. There are many different ways of branching in
+Hana; you may take a look at `eval_if` and `Lazy` for details.
+
+Now, the previous example covered only the specific case of checking for the
+presence of a non-static member function. However, `is_valid` can be used to
+detect the validity of almost any kind of expression. We now present a list
+of common use cases for validity checking along with how to use `is_valid` to
+implement them.
+
+
+@subsubsection tutorial-introspection-is_valid-non_static Non-static members
+
+The previous example presented the case of a non-static member function. For
+completeness, we show how to check the presence of a non-static member. First,
+we can do it in a similar way as we did for the previous example:
+
+@snippet example/tutorial/introspection.cpp non_static_member_from_object
+
+Notice how we cast the result of `x.member` to `void`? This is to make sure
+that our detection also works for types that can't be returned from functions,
+like array types. Also, it is important to use a reference as the parameter to
+our generic lambda, because that would otherwise require `x` to be
+[CopyConstructible][], which is not what we're trying to check. This approach
+is simple and the most convenient when an object is available. However, when
+the checker is intended to be used with no object around, the following
+alternate implementation can be better suited:
+
+@snippet example/tutorial/introspection.cpp non_static_member_from_type
+
+This validity checker is different from what we saw earlier because the
+generic lambda is not expecting an usual object anymore; it is now expecting
+a `Type` (which is an object, but still represents a type). We then use the
+`traits::declval` lifted metafunction from the `<boost/hana/ext/std/utility.hpp>`
+header to create an rvalue of the type represented by `t`, which we can then
+use to check for a non-static member. Finally, instead of passing an actual
+object to `has_member` (like `Foo{}` or `Bar{}`), we now pass a `type<...>`.
+This implementation is ideal for when no object is lying around.
+
+
+@subsubsection tutorial-introspection-is_valid-static Static members
+
+Checking for a static member is easy, and it is provided for completeness:
+
+@snippet example/tutorial/introspection.cpp static_member
+
+Again, we expect a `Type` to be passed to the checker. Inside the generic
+lambda, we use `decltype(t)::%type` to fetch the actual C++ type represented
+by the `t` object, as explained in the section on [type computations]
+(@ref tutorial-type-working). Then, we fetch the static member inside
+that type and cast it to `void`, for the same reason as we did for non-static
+members.
+
+
+@subsubsection tutorial-introspection-is_valid-typename Nested type names
+
+Checking for a nested type name is not hard, but it requires a bit
+more typing than the previous cases:
+
+@snippet example/tutorial/introspection.cpp nested_type_name
+
+One might wonder why we use `-> decltype(type<typename-expression>)` instead
+of simply `-> typename-expression`. Again, the reason is that we want to
+support types that can't be returned from functions, like array types or
+incomplete types.
+
+
+@subsubsection tutorial-introspection-is_valid-template Nested templates
+
+Checking for a nested template name is similar to checking for a nested type
+name, except we use `template_<...>` instead of `type<...>` in the generic
+lambda:
+
+@snippet example/tutorial/introspection.cpp nested_template
+
+
+@subsection tutorial-introspection-sfinae Taking control of SFINAE
+
+Doing something only if an expression is well-formed is a very common pattern
+in C++. Indeed, the `optionalToString` function is just one instance of the
+following pattern, which is very general:
+
+@code
+template <typename T>
+auto f(T x) {
+  if (some expression involving x is well-formed)
+    return something involving x;
+  else
+    return something else;
+}
+@endcode
+
+To encapsulate this pattern, Hana provides the `sfinae` function, which allows
+executing an expression, but only if it is well-formed:
+
+@snippet example/tutorial/introspection.sfinae.cpp maybe_add
+
+Here, we create a `maybe_add` function, which is simply a generic lambda
+wrapped with Hana's `sfinae` function. `maybe_add` is a function which takes
+two inputs and returns `just` the result of the generic lambda if that call
+is well-formed, and `nothing` otherwise. `just(...)` and `nothing` both belong
+to a type of container called `Maybe`, which is essentially a compile-time
+`std::optional`. All in all, `maybe_add` is morally equivalent to the
+following function returning a `std::optional`, except that the check is
+done at compile-time:
+
+@code
+auto maybe_add = [](auto x, auto y) {
+  if (x + y is well formed)
+    return std::optional<decltype(x + y)>{x + y};
+  else
+    return std::optional<???>{};
+};
+@endcode
+
+It turns out that we can take advantage of `sfinae` and `Maybe` to implement
+the `optionalToString` function as follows:
+
+@snippet example/tutorial/introspection.sfinae.cpp optionalToString.sfinae
+
+First, we wrap `toString` with the `sfinae` function. Hence, `maybe_toString`
+is a function which either returns `just(x.toString())` if that is well-formed,
+or `nothing` otherwise. Secondly, we use the `from_maybe` function to extract
+the optional value from the container. `from_maybe` takes a default value and
+an optional value. If the optional value is `nothing`, `from_maybe` returns
+the default value; otherwise, it returns the value inside the `just` (here
+`x.toString()`). This way of seeing SFINAE as a special case of computations
+that might fail is very clean and powerful, especially since `sfinae`'d
+functions can be combined through the `Maybe` `Monad`, which is left to
+the reference documentation.
+
+
+@subsection tutorial-introspection-adapting Introspecting user-defined types
+
+Have you ever wanted to iterate over the members of a user-defined type? The
+goal of this section is to show you how Hana can be used to do it quite easily.
+To allow working with user-defined types, Hana defines the `Struct` concept.
+Once a user-defined type is a model of that concept, one can iterate over the
+members of an object of that type and query other useful information. The
+reference documentation for the `Struct` concept covers the details about what
+can be done with a `Struct`; we will focus on explaining how a user-defined
+type can be made a model of it.
 
 @todo
-Write this section.
-  - Adapting structs
-  - JSON example
-  - Checking for a member
-  - sfinae + Maybe
+- How to adapt structs with the macros
+- How to adapt structs without the macros
+
+
+@subsection tutorial-introspection-json Example: generating JSON
+@todo
+- Present the example of generating JSON. Should also support std::containers.
 
 
 
@@ -1749,7 +2040,7 @@ elements. The `x` axis represents the number of elements in the sequence, and
 the `y` axis represents the compilation time in seconds. Also note that we're
 using the `transform` equivalent in each library; we're not using the
 `transform` algorithm from Hana through the Boost.Fusion adapters, for
-example, which would likely be less efficient.
+example, which would probably be less efficient.
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -2211,6 +2502,13 @@ follow:
   - @ref group-details\n
     Implementation details. Don't go there.
 
+After you get to know Hana a bit better, it will probably happen that you just
+want to find the reference for a precise function, concept or container. If
+you know the name of what you're looking for, you can use the _search_ box
+located in the upper right corner of any page of the documentation. My
+personal experience is that this is by far the quickest way of finding
+what you want when you already know its name.
+
 
 @subsection tutorial-conclusion-glossary Pseudo-code glossary
 
@@ -2267,9 +2565,40 @@ whenever possible, but bear in mind that the highest rewards are usually the
 fruit of some effort.
 
 This finishes the tutorial part of the documentation. I hope you enjoy using
-the library, and please leave feedback on GitHub so we can improve the library!
+the library, and please consider [contributing][Hana.contributing] to make it
+even better!
 
 -- Louis
+
+
+
+
+
+
+
+
+
+
+@section tutorial-acknowledgements Acknowledgements
+
+------------------------------------------------------------------------------
+I'd like to thank the following persons and organizations for contributing to
+Hana in one way or another:
+
+- Zach Laine and Matt Calabrese for the original idea of using function call
+  syntax to do type-level computations, as presented in their BoostCon
+  [presentation][video.inst_must_go] ([slides 1][slides.inst_must_go1])
+  ([slides 2][slides.inst_must_go2]).
+- Joel Falcou for mentoring me two consecutive years during my work on Hana
+  as part of the [Google Summer of Code][GSoC] program, Niall Douglas for
+  being the GSoC admin for Boost and helping me get in the program, and
+  finally Google for their awesome GSoC program.
+- The [Boost Steering committee][Boost.Steering] for unlocking a grant for me
+  to work on Hana in the winter of 2015, as an extension to the previous
+  year's GSoC.
+- Several [C++Now][] attendees and members of the [Boost mailing list]
+  [Boost.Devel] for insightful conversations, comments and questions
+  about the project.
 
 
 
@@ -2744,24 +3073,33 @@ modified as little as possible to work with this reimplementation.
 
 
 <!-- Links -->
+[Boost.Devel]: http://news.gmane.org/gmane.comp.lib.boost.devel
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
+[Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
+[C++14.glambda]: http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas
 [C++14.ice]: http://en.cppreference.com/w/cpp/types/integral_constant
 [C++14.udl]: http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals
 [C++14.vtemplate]: http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates
 [C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
+[C++17.clite]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf
 [C++Now]: http://cppnow.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
+[CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
+[Hana.contributing]: https://goo.gl/N8DuJW
 [Hana.issues]: https://github.com/ldionne/hana/issues
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [SGI.Container]: https://www.sgi.com/tech/stl/Container.html
+[slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
+[slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
 [Sprout]: https://github.com/bolero-MURAKAMI/Sprout
+[video.inst_must_go]: https://www.youtube.com/watch?v=x7UmrRzKAXU
 
 */
 
