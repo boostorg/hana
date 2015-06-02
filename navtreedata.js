@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "Boost.Hana", "index.html", [
+  [ "Hana", "index.html", [
     [ "User Manual", "index.html", [
       [ "Preface", "index.html#tutorial-preface", null ],
       [ "Introduction", "index.html#tutorial-introduction", [
@@ -36,7 +36,17 @@ var NAVTREE =
         [ "Side effects and purity", "index.html#tutorial-algorithms-effects", null ],
         [ "Cross-phase algorithms", "index.html#tutorial-algorithms-cross_phase", null ]
       ] ],
-      [ "Introspection", "index.html#tutorial-introspection", null ],
+      [ "Introspection", "index.html#tutorial-introspection", [
+        [ "Checking expression validity", "index.html#tutorial-introspection-is_valid", [
+          [ "Non-static members", "index.html#tutorial-introspection-is_valid-non_static", null ],
+          [ "Static members", "index.html#tutorial-introspection-is_valid-static", null ],
+          [ "Nested type names", "index.html#tutorial-introspection-is_valid-typename", null ],
+          [ "Nested templates", "index.html#tutorial-introspection-is_valid-template", null ]
+        ] ],
+        [ "Taking control of SFINAE", "index.html#tutorial-introspection-sfinae", null ],
+        [ "Introspecting user-defined types", "index.html#tutorial-introspection-adapting", null ],
+        [ "Example: generating JSON", "index.html#tutorial-introspection-json", null ]
+      ] ],
       [ "Performance considerations", "index.html#tutorial-performance", [
         [ "Compile-time performance", "index.html#tutorial-performance-compile", null ],
         [ "Runtime performance", "index.html#tutorial-performance-runtime", null ]
@@ -56,6 +66,7 @@ var NAVTREE =
         [ "Pseudo-code glossary", "index.html#tutorial-conclusion-glossary", null ],
         [ "Fair warning: functional programming ahead", "index.html#tutorial-conclusion-warning", null ]
       ] ],
+      [ "Acknowledgements", "index.html#tutorial-acknowledgements", null ],
       [ "Rationales/FAQ", "index.html#tutorial-rationales", [
         [ "Why restrict usage of external dependencies?", "index.html#tutorial-rationales-dependencies", null ],
         [ "Why no iterators?", "index.html#tutorial-rationales-iterators", null ],
@@ -88,8 +99,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"index.html#tutorial-conclusion-glossary",
-"structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f"
+"index.html#tutorial-conclusion",
+"structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

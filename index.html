@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Boost.Hana: User Manual</title>
+<title>Hana: User Manual</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Boost.Hana
+   <div id="projectname">Hana
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -168,7 +168,17 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-algorithms-cross_phase">Cross-phase algorithms</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-introspection">Introspection</a></li>
+<li class="level1"><a href="#tutorial-introspection">Introspection</a><ul><li class="level2"><a href="#tutorial-introspection-is_valid">Checking expression validity</a><ul><li class="level3"><a href="#tutorial-introspection-is_valid-non_static">Non-static members</a></li>
+<li class="level3"><a href="#tutorial-introspection-is_valid-static">Static members</a></li>
+<li class="level3"><a href="#tutorial-introspection-is_valid-typename">Nested type names</a></li>
+<li class="level3"><a href="#tutorial-introspection-is_valid-template">Nested templates</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#tutorial-introspection-sfinae">Taking control of SFINAE</a></li>
+<li class="level2"><a href="#tutorial-introspection-adapting">Introspecting user-defined types</a></li>
+<li class="level2"><a href="#tutorial-introspection-json">Example: generating JSON</a></li>
+</ul>
+</li>
 <li class="level1"><a href="#tutorial-performance">Performance considerations</a><ul><li class="level2"><a href="#tutorial-performance-compile">Compile-time performance</a></li>
 <li class="level2"><a href="#tutorial-performance-runtime">Runtime performance</a></li>
 </ul>
@@ -188,6 +198,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-conclusion-warning">Fair warning: functional programming ahead</a></li>
 </ul>
 </li>
+<li class="level1"><a href="#tutorial-acknowledgements">Acknowledgements</a></li>
 <li class="level1"><a href="#tutorial-rationales">Rationales/FAQ</a><ul><li class="level2"><a href="#tutorial-rationales-dependencies">Why restrict usage of external dependencies?</a></li>
 <li class="level2"><a href="#tutorial-rationales-iterators">Why no iterators?</a></li>
 <li class="level2"><a href="#tutorial-rationales-container_types">Why leave container types unspecified?</a></li>
@@ -205,7 +216,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="textblock"><h1><a class="anchor" id="tutorial-preface"></a>
 Preface</h1>
 <hr/>
-<p> The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Boost.Hana. After working on Hana and polishing many rough edges during several months, Hana will be going through formal review for inclusion in Boost from June 10 2015 to June 24 2015.</p>
+<p> The seed that became this library was planted in late 2012, when I first started to reimplement the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> using C++11 in a project named <a href="http://github.com/ldionne/mpl11">MPL11</a>. In spring 2014, I applied to <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> with that project for the Boost organization and got in. The goal was to polish the MPL11 and get it in Boost by the end of the summer. In May, before GSoC was started full steam, I presented the project at <a href="http://cppnow.org">C++Now</a> and had insightful conversations with several attendees. The idea that it was possible to unify the <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> and the <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> libraries made its way and I became convinced of it after writing the first prototype for what is now Hana. After working on Hana and polishing many rough edges during several months, Hana will be going through formal review for inclusion in Boost from June 10 2015 to June 24 2015.</p>
 <p>Let the fun begin!</p>
 <h1><a class="anchor" id="tutorial-introduction"></a>
 Introduction</h1>
@@ -1133,11 +1144,184 @@ Cross-phase algorithms</h2>
 <h1><a class="anchor" id="tutorial-introspection"></a>
 Introspection</h1>
 <hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Write this section.<ul>
-<li>Adapting structs</li>
-<li>JSON example</li>
-<li>Checking for a member</li>
-<li>sfinae + <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></li>
+<p> Static introspection, as we will discuss it here, is the ability of a program to examine the type of an object at compile-time. In other words, it is a programmatic interface to interact with types at compile-time. For example, have you ever wanted to check whether some unknown type has a member named <code>foo</code>? Or perhaps at some point you have needed to iterate on the members of a <code>struct</code>?</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">  std::string name;</div>
+<div class="line">  <span class="keywordtype">int</span> age;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; member : john)</div>
+<div class="line">  std::cout &lt;&lt; member.name &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; member.value &lt;&lt; std::endl;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// name: &quot;John&quot;</span></div>
+<div class="line"><span class="comment">// age: 30</span></div>
+</div><!-- fragment --><p>If you have written a bit of templates in your life, chances are very high that you came across the first problem of checking for a member. Also, anyone having tried to implement object serialization or even just pretty printing has come across the second problem. In most dynamic languages like Python, Ruby or JavaScript, these problems are completely solved and introspection is used every day by programmers to make a lot of tasks simpler. However, as a C++ programmer, we do not have language support for those things, which makes several tasks much harder than they should be. While language support would likely be needed to properly tackle this problem, Hana makes some common introspection patterns much more accessible.</p>
+<h2><a class="anchor" id="tutorial-introspection-is_valid"></a>
+Checking expression validity</h2>
+<p>Given an object of an unknown type, it is sometimes desirable to check whether this object has a member (or member function) with some name. This can be used to perform sophisticated flavors of overloading. For example, consider the problem of calling a <code>toString</code> method on objects that support it, but providing another default implementation for objects that do not support it:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
+<div class="line">  <span class="keywordflow">if</span> (obj.toString() is a valid expression)</div>
+<div class="line">    <span class="keywordflow">return</span> obj.toString();</div>
+<div class="line">  <span class="keywordflow">else</span></div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>While most use cases for this technique will be addressed by <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf">concepts lite</a> in future revisions of the standard, there will still be cases where a quick and dirty check is more convenient than creating a full blown concept.</dd></dl>
+<p>How could we implement a check for the validity of <code>obj.toString()</code> as above in a generic fashion (so it can be reused in other functions, for example)? Normally, we would be stuck writing some kind of SFINAE-based detection:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;</div>
+<div class="line"><span class="keyword">struct </span>has_toString</div>
+<div class="line">  : std::false_type</div>
+<div class="line">{ };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>has_toString&lt;T, decltype((void)<a class="code" href="namespacestd.html">std</a>::declval&lt;T&gt;().toString())&gt;</div>
+<div class="line">  : std::true_type</div>
+<div class="line">{ };</div>
+</div><!-- fragment --><p> This works, but the intent is not very clear and most people without a deep knowledge of template metaprogramming would think this is black magic. Then, we could implement <code>optionalToString</code> as</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
+<div class="line">  <span class="keywordflow">if</span> (has_toString&lt;T&gt;::value)</div>
+<div class="line">    <span class="keywordflow">return</span> obj.toString();</div>
+<div class="line">  <span class="keywordflow">else</span></div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Of course, this implementation won't actually work because both branches of the <code>if</code> statement will be compiled. If <code>obj</code> does not have a <code>toString</code> method, the compilation of the <code>if</code> branch will fail. We will address this issue in a moment.</dd></dl>
+<p>Instead of the above SFINAE trick, Hana provides a <code>is_valid</code> function that can be combined with <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambdas</a> to obtain a much cleaner implementation of the same thing:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_toString = is_valid([](<span class="keyword">auto</span>&amp;&amp; obj) -&gt; decltype(obj.toString()) { });</div>
+</div><!-- fragment --><p> This leaves us with a function object <code>has_toString</code> which returns whether the given expression is valid on the argument we pass to it. The result is returned as an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>, so <code>constexpr</code>-ness is not an issue here because the result of the function is represented as a type anyway. Now, in addition to being less verbose (that's a one liner!), the intent is much clearer. Other benefits are the fact that <code>has_toString</code> can be passed to higher order algorithms and it can also be defined at function scope, so there is no need to pollute the namespace scope with implementation details. Here is how we would now write <code>optionalToString</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
+<div class="line">  <span class="keywordflow">if</span> (has_toString(obj))</div>
+<div class="line">    <span class="keywordflow">return</span> obj.toString();</div>
+<div class="line">  <span class="keywordflow">else</span></div>
+<div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Much cleaner, right? However, as we said earlier, this implementation won't actually work because both branches of the <code>if</code> always have to be compiled, regardless of whether <code>obj</code> has a <code>toString</code> method. There are several possible options, but the most classical one is to use <code>std::enable_if</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> optionalToString(T <span class="keyword">const</span>&amp; obj)</div>
+<div class="line">  -&gt; std::enable_if_t&lt;decltype(has_toString(obj))::value, std::string&gt;</div>
+<div class="line">{ <span class="keywordflow">return</span> obj.toString(); }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> optionalToString(T <span class="keyword">const</span>&amp; obj)</div>
+<div class="line">  -&gt; std::enable_if_t&lt;decltype(!has_toString(obj))::value, std::string&gt;</div>
+<div class="line">{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>; }</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>We're using the fact that <code>has_toString</code> returns an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> to write <code>decltype(...)::value</code>, which is a constant expression. For some reason, <code>has_toString(obj)</code> is not considered a constant expression, even though I think it should be one because we never read from <code>obj</code> (see the section on <a class="el" href="index.html#tutorial-appendix-constexpr">advanced constexpr</a>).</dd></dl>
+<p>While this implementation is perfectly valid, it is still pretty cumbersome because it requires writing two different functions and going through the hoops of SFINAE explicitly by using <code>std::enable_if</code>. Since this pattern of branching at compile-time is so widely used, Hana provides an <code>if_</code> function that can be used to emulate a <code>static_if</code> functionality. Here is how we could write <code>optionalToString</code> with Hana's <code>if_</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
+<div class="line">  <span class="keywordflow">return</span> if_(has_toString(obj),</div>
+<div class="line">    [](<span class="keyword">auto</span>&amp; x) { <span class="keywordflow">return</span> x.toString(); },</div>
+<div class="line">    [](<span class="keyword">auto</span>&amp; x) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>; }</div>
+<div class="line">  )(obj);</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> <code>if_</code> works a bit like a normal <code>if</code> statement, except it takes a condition that can be an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> and returns the one of two values (which may have different types) chosen by the condition. If the condition is true, the first value is returned, and otherwise the second value is returned. In our case, the first value is a generic lambda representing the branch we want to execute if <code>obj</code> has a <code>toString</code> method, and the second one is the branch we want to execute otherwise. <code>if_</code> therefore returns the branch chosen by the condition, and we call that branch (which is a generic lambda) immediately with <code>obj</code>. The reason why this approach works is because the body of the first branch (where we call <code>x.toString()</code>) can only be compiled when the type of <code>x</code> is known. Indeed, since the branch is a generic lambda, the type of the argument is not known until the lambda is called, and the compiler must wait for <code>x</code>'s type to be known before type-checking the lambda's body. Since the lambda is never called when the condition is not satisfied (Hana's <code>if_</code> takes care of that), the body of the lambda is never type-checked and no compilation error happens. There are many different ways of branching in Hana; you may take a look at <code>eval_if</code> and <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> for details.</p>
+<p>Now, the previous example covered only the specific case of checking for the presence of a non-static member function. However, <code>is_valid</code> can be used to detect the validity of almost any kind of expression. We now present a list of common use cases for validity checking along with how to use <code>is_valid</code> to implement them.</p>
+<h3><a class="anchor" id="tutorial-introspection-is_valid-non_static"></a>
+Non-static members</h3>
+<p>The previous example presented the case of a non-static member function. For completeness, we show how to check the presence of a non-static member. First, we can do it in a similar way as we did for the previous example:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = is_valid([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.member) { });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Foo { <span class="keywordtype">int</span> member[4]; };</div>
+<div class="line"><span class="keyword">struct </span>Bar { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(Foo{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(Bar{}));</div>
+</div><!-- fragment --><p> Notice how we cast the result of <code>x.member</code> to <code>void</code>? This is to make sure that our detection also works for types that can't be returned from functions, like array types. Also, it is important to use a reference as the parameter to our generic lambda, because that would otherwise require <code>x</code> to be <a href="http://en.cppreference.com/w/cpp/concept/CopyConstructible">CopyConstructible</a>, which is not what we're trying to check. This approach is simple and the most convenient when an object is available. However, when the checker is intended to be used with no object around, the following alternate implementation can be better suited:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
+<div class="line">  (<span class="keywordtype">void</span>)traits::declval(t).member</div>
+<div class="line">) { });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Foo { <span class="keywordtype">int</span> member[4]; };</div>
+<div class="line"><span class="keyword">struct </span>Bar { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> (which is an object, but still represents a type). We then use the <code>traits::declval</code> lifted metafunction from the <code>&lt;<a class="el" href="utility_8hpp.html" title="Defines adapters for components in the <utility> header. ">boost/hana/ext/std/utility.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
+<h3><a class="anchor" id="tutorial-introspection-is_valid-static"></a>
+Static members</h3>
+<p>Checking for a static member is easy, and it is provided for completeness:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
+<div class="line">  (<span class="keywordtype">void</span>)decltype(t)::type::member</div>
+<div class="line">) { });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">static</span> <span class="keywordtype">int</span> member[4]; };</div>
+<div class="line"><span class="keyword">struct </span>Bar { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+</div><!-- fragment --><p> Again, we expect a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> to be passed to the checker. Inside the generic lambda, we use <code>decltype(t)::type</code> to fetch the actual C++ type represented by the <code>t</code> object, as explained in the section on <a class="el" href="index.html#tutorial-type-working">type computations</a>. Then, we fetch the static member inside that type and cast it to <code>void</code>, for the same reason as we did for non-static members.</p>
+<h3><a class="anchor" id="tutorial-introspection-is_valid-typename"></a>
+Nested type names</h3>
+<p>Checking for a nested type name is not hard, but it requires a bit more typing than the previous cases:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(type&lt;</div>
+<div class="line">  <span class="keyword">typename</span> decltype(t)::type::member</div>
+<div class="line"><span class="comment">//^^^^^^^^ needed because of the dependent context</span></div>
+<div class="line">&gt;) { });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">struct </span>member; <span class="comment">/* not defined! */</span> };</div>
+<div class="line"><span class="keyword">struct </span>Bar { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+</div><!-- fragment --><p> One might wonder why we use <code>-&gt; decltype(type&lt;typename-expression&gt;)</code> instead of simply <code>-&gt; typename-expression</code>. Again, the reason is that we want to support types that can't be returned from functions, like array types or incomplete types.</p>
+<h3><a class="anchor" id="tutorial-introspection-is_valid-template"></a>
+Nested templates</h3>
+<p>Checking for a nested template name is similar to checking for a nested type name, except we use <code>template_&lt;...&gt;</code> instead of <code>type&lt;...&gt;</code> in the generic lambda:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(template_&lt;</div>
+<div class="line">  decltype(t)::type::template member</div>
+<div class="line">  <span class="comment">//                 ^^^^^^^^ needed because of the dependent context</span></div>
+<div class="line">&gt;) { });</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>member; };</div>
+<div class="line"><span class="keyword">struct </span>Bar { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-introspection-sfinae"></a>
+Taking control of SFINAE</h2>
+<p>Doing something only if an expression is well-formed is a very common pattern in C++. Indeed, the <code>optionalToString</code> function is just one instance of the following pattern, which is very general:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> f(T x) {</div>
+<div class="line">  <span class="keywordflow">if</span> (some expression involving x is well-formed)</div>
+<div class="line">    <span class="keywordflow">return</span> something involving x;</div>
+<div class="line">  <span class="keywordflow">else</span></div>
+<div class="line">    <span class="keywordflow">return</span> something <span class="keywordflow">else</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>To encapsulate this pattern, Hana provides the <code>sfinae</code> function, which allows executing an expression, but only if it is well-formed:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> maybe_add = sfinae([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) -&gt; decltype(x + y) {</div>
+<div class="line">  <span class="keywordflow">return</span> x + y;</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line">maybe_add(1, 2); <span class="comment">// just(3)</span></div>
+<div class="line"></div>
+<div class="line">std::vector&lt;int&gt; v;</div>
+<div class="line">maybe_add(v, <span class="stringliteral">&quot;foobar&quot;</span>); <span class="comment">// nothing</span></div>
+</div><!-- fragment --><p> Here, we create a <code>maybe_add</code> function, which is simply a generic lambda wrapped with Hana's <code>sfinae</code> function. <code>maybe_add</code> is a function which takes two inputs and returns <code>just</code> the result of the generic lambda if that call is well-formed, and <code>nothing</code> otherwise. <code>just(...)</code> and <code>nothing</code> both belong to a type of container called <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>, which is essentially a compile-time <code>std::optional</code>. All in all, <code>maybe_add</code> is morally equivalent to the following function returning a <code>std::optional</code>, except that the check is done at compile-time:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> maybe_add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">  <span class="keywordflow">if</span> (x + y is well formed)</div>
+<div class="line">    <span class="keywordflow">return</span> std::optional&lt;decltype(x + y)&gt;{x + y};</div>
+<div class="line">  <span class="keywordflow">else</span></div>
+<div class="line">    <span class="keywordflow">return</span> std::optional&lt;???&gt;{};</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>It turns out that we can take advantage of <code>sfinae</code> and <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code> to implement the <code>optionalToString</code> function as follows:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
+<div class="line">  <span class="keyword">auto</span> maybe_toString = sfinae([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(x.toString()) {</div>
+<div class="line">    <span class="keywordflow">return</span> x.toString();</div>
+<div class="line">  });</div>
+<div class="line"></div>
+<div class="line">  <span class="keywordflow">return</span> from_maybe(<span class="stringliteral">&quot;toString not defined&quot;</span>, maybe_toString(obj));</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> First, we wrap <code>toString</code> with the <code>sfinae</code> function. Hence, <code>maybe_toString</code> is a function which either returns <code>just(x.toString())</code> if that is well-formed, or <code>nothing</code> otherwise. Secondly, we use the <code>from_maybe</code> function to extract the optional value from the container. <code>from_maybe</code> takes a default value and an optional value. If the optional value is <code>nothing</code>, <code>from_maybe</code> returns the default value; otherwise, it returns the value inside the <code>just</code> (here <code>x.toString()</code>). This way of seeing SFINAE as a special case of computations that might fail is very clean and powerful, especially since <code>sfinae</code>'d functions can be combined through the <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>, which is left to the reference documentation.</p>
+<h2><a class="anchor" id="tutorial-introspection-adapting"></a>
+Introspecting user-defined types</h2>
+<p>Have you ever wanted to iterate over the members of a user-defined type? The goal of this section is to show you how Hana can be used to do it quite easily. To allow working with user-defined types, Hana defines the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. Once a user-defined type is a model of that concept, one can iterate over the members of an object of that type and query other useful information. The reference documentation for the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept covers the details about what can be done with a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>; we will focus on explaining how a user-defined type can be made a model of it.</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><ul>
+<li>How to adapt structs with the macros</li>
+<li>How to adapt structs without the macros</li>
+</ul>
+</dd></dl>
+<h2><a class="anchor" id="tutorial-introspection-json"></a>
+Example: generating JSON</h2>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd><ul>
+<li>Present the example of generating JSON. Should also support std::containers.</li>
 </ul>
 </dd></dl>
 <h1><a class="anchor" id="tutorial-performance"></a>
@@ -1156,7 +1340,7 @@ Compile-time performance</h2>
 <p>The benchmark methodology is to always create the sequences in the most efficient way possible. For Hana, this simply means using the <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a>&gt;</code> function. However, for the MPL, this means creating a <code>mpl::vectorN</code> of size up to 20, and then using <code>mpl::push_back</code> to create larger vectors. We use a similar technique for Fusion sequences. The reason for doing so is that Fusion and MPL sequences have fixed size limits, and the techniques used here have been found to be the fastest way to create longer sequences.</p>
 <p>As you can see, Hana's compile-time <em>complexity</em> is better than the alternatives. However, if you look closer at the curves, you will see that the MPL has lower compile-times for small numbers of elements. This is because including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> takes more time than including <code>mpl::vector</code>, and you are witnessing that slowdown by a constant amount. The reason why including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> is slower than including <code>mpl::vector</code> is that Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> includes all the algorithms it can be used with, while <code>mpl::vector</code> only includes the strict minimum. Considering you need to include most of them manually when using the MPL, this constant slowdown will be nonexistent in real code and Hana's approach just makes it less painful for the programmer.</p>
 <p>You can also see that creating sequences has a non-negligible cost. Actually, this is really the most expensive part, as you will see in the following charts showing the compile-time performance of algorithms. When you look at the charts here and elsewhere in the library, keep in mind the cost of merely creating the sequences. Also note that only the most important algorithms will be presented here, but micro benchmarks for compile-time performance are scattered in the reference documentation. Also, the benchmarks we present compare several different libraries. However, since Hana and Fusion can work with values and not only types, comparing their algorithms with type-only libraries like MPL is not really fair. Indeed, Hana and Fusion algorithms are more powerful since they also allow runtime effects to be performed. However, the comparison between Fusion and Hana is fair, because both libraries are just as powerful (strictly speaking).</p>
-<p>The first algorithm which is ubiquitous in metaprogramming is <code>transform</code>. It takes a sequence and a function, and returns a new sequence containing the result of applying the function to each element. The following chart presents the compile-time performance of applying <code>transform</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. Also note that we're using the <code>transform</code> equivalent in each library; we're not using the <code>transform</code> algorithm from Hana through the Boost.Fusion adapters, for example, which would likely be less efficient.</p>
+<p>The first algorithm which is ubiquitous in metaprogramming is <code>transform</code>. It takes a sequence and a function, and returns a new sequence containing the result of applying the function to each element. The following chart presents the compile-time performance of applying <code>transform</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. Also note that we're using the <code>transform</code> equivalent in each library; we're not using the <code>transform</code> algorithm from Hana through the Boost.Fusion adapters, for example, which would probably be less efficient.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.compile.json"> </div><p>You probably also noticed how there are two slightly different curves for Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. Those curves measure slightly different usage patterns of the <code>transform</code> algorithm. We benchmark the algorithm both on a standard Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> and on a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> created through <code>hana::tuple_t</code>, and mapping a Hana <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> instead of a regular function. The reason is that it is possible to optimize some algorithms (like <code>transform</code>) when we know we're actually mapping a metafunction on a type sequence. Basically, we can do the whole algorithm at the type level behind the scenes, which is more efficient, but you still get the nice value-level interface.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code>tuple_t</code> is not really optimized right now, so there is no difference between using it and not using it. You should still use <code>tuple_t</code> to create type-only <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>s, as some nice optimizations will be implemented.</dd></dl>
 <p>The second important class of algorithms are folds. Folds can be used to implement many other algorithms like <code>count_if</code>, <code>minimum</code> and so on. Hence, a good compile-time performance for fold algorithms ensures a good compile-time performance for those derived algorithms, which is why we're only presenting folds here. Also note that all the non-monadic fold variants are somewhat equivalent in terms of compile-time, so we only present the left folds. The following chart presents the compile-time performance of applying <code>fold.left</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. The function used for folding is a dummy function that does nothing. In real code, you would likely fold with a nontrivial operation, so the curves would be worse than that. However, these are micro benchmarks and hence they only show the performance of the algorithm itself.</p>
@@ -1182,7 +1366,7 @@ Runtime performance</h2>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h2><a class="anchor" id="tutorial-ext-std"></a>
 The standard library</h2>
 <h2><a class="anchor" id="tutorial-ext-fusion"></a>
@@ -1313,7 +1497,7 @@ Tag dispatching</h2>
 <div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-creating_concepts"></a>
 Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -1374,6 +1558,7 @@ Structure of the reference</h2>
 <li><a class="el" href="group__group-details.html">Details</a><br />
  Implementation details. Don't go there.</li>
 </ul>
+<p>After you get to know Hana a bit better, it will probably happen that you just want to find the reference for a precise function, concept or container. If you know the name of what you're looking for, you can use the <em>search</em> box located in the upper right corner of any page of the documentation. My personal experience is that this is by far the quickest way of finding what you want when you already know its name.</p>
 <h2><a class="anchor" id="tutorial-conclusion-glossary"></a>
 Pseudo-code glossary</h2>
 <p>In the documentation, a simplified implementation of the documented object is sometimes provided in pseudo-code. The reason is that the actual implementation is sometimes contrived because of unimportant details or language limitations. Here is an explanation of some terms that appear in the pseudo-code:</p>
@@ -1389,8 +1574,18 @@ Pseudo-code glossary</h2>
 <h2><a class="anchor" id="tutorial-conclusion-warning"></a>
 Fair warning: functional programming ahead</h2>
 <p>Programming with heterogeneous objects is inherently functional &ndash; since it is impossible to modify the type of an object, a new object must be introduced instead, which rules out mutation. Unlike previous metaprogramming libraries whose design was modeled on the STL, Hana uses a functional style of programming which is the source for a good portion of its expressiveness. However, as a result, many concepts presented in the reference will be unfamiliar to C++ programmers without a knowledge of functional programming. The reference attempts to make these concepts approachable by using intuition whenever possible, but bear in mind that the highest rewards are usually the fruit of some effort.</p>
-<p>This finishes the tutorial part of the documentation. I hope you enjoy using the library, and please leave feedback on GitHub so we can improve the library!</p>
+<p>This finishes the tutorial part of the documentation. I hope you enjoy using the library, and please consider <a href="https://goo.gl/N8DuJW">contributing</a> to make it even better!</p>
 <p>&ndash; Louis</p>
+<h1><a class="anchor" id="tutorial-acknowledgements"></a>
+Acknowledgements</h1>
+<hr/>
+<p> I'd like to thank the following persons and organizations for contributing to Hana in one way or another:</p>
+<ul>
+<li>Zach Laine and Matt Calabrese for the original idea of using function call syntax to do type-level computations, as presented in their BoostCon <a href="https://www.youtube.com/watch?v=x7UmrRzKAXU">presentation</a> (<a href="https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf">slides 1</a>) (<a href="https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf">slides 2</a>).</li>
+<li>Joel Falcou for mentoring me two consecutive years during my work on Hana as part of the <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2014">Google Summer of Code</a> program, Niall Douglas for being the GSoC admin for Boost and helping me get in the program, and finally Google for their awesome GSoC program.</li>
+<li>The <a href="https://sites.google.com/a/boost.org/steering/home">Boost Steering committee</a> for unlocking a grant for me to work on Hana in the winter of 2015, as an extension to the previous year's GSoC.</li>
+<li>Several <a href="http://cppnow.org">C++Now</a> attendees and members of the <a href="http://news.gmane.org/gmane.comp.lib.boost.devel">Boost mailing list</a> for insightful conversations, comments and questions about the project.</li>
+</ul>
 <h1><a class="anchor" id="tutorial-rationales"></a>
 Rationales/FAQ</h1>
 <hr/>
@@ -1477,7 +1672,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -1525,11 +1720,11 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-math"></a>
 Apendix II: The maths behind Hana</h1>
 <hr/>
- <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Write this section. </dd></dl>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Write this section. </dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix III: A minimal MPL</h1>
 <hr/>

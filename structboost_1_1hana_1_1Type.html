@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.9.1"/>
-<title>Boost.Hana: boost::hana::Type Struct Reference</title>
+<title>Hana: boost::hana::Type Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Boost.Hana
+   <div id="projectname">Hana
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -368,18 +368,24 @@ template&lt;&gt; </div>
 <p>Given a SFINAE-friendly function, <code>is_valid</code> returns whether the function call is valid with the given arguments. Specifically, given a function <code>f</code> and arguments <code>args...</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f, args...) == whether f(args...) is valid</div>
 </div><!-- fragment --><p>The result is returned as a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
 </div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
-<p>Also note that the arguments to <code>is_valid</code> may be either <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s or non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s. The behavior of <code>is_valid</code> on non-<code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code>s is consistent with that of <code>sizeof_</code> and other <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Represents a C++ type. ">Type</a></code> utilities.</p>
 <dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
-<div class="line"><span class="keyword">auto</span> has_name = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> p) -&gt; decltype(p.name) { });</div>
+<div class="fragment"><div class="line"><span class="comment">// Checking for a member</span></div>
+<div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"><span class="keyword">auto</span> has_name = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype((<span class="keywordtype">void</span>)p.name) { });</div>
 <div class="line"></div>
 <div class="line">Person joe{<span class="stringliteral">&quot;Joe&quot;</span>};</div>
 <div class="line">static_assert(has_name(joe), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">static_assert(has_name(type&lt;Person&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!has_name(type&lt;int&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Checking for a nested type</span></div>
+<div class="line"><span class="keyword">auto</span> has_value_type = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;</div>
+<div class="line">    <span class="keyword">typename</span> decltype(t)::type::value_type</div>
+<div class="line">&gt;) { });</div>
+<div class="line"></div>
+<div class="line">static_assert(has_value_type(<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;std::vector&lt;int&gt;&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!has_value_type(type&lt;Person&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
