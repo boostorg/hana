@@ -38,7 +38,6 @@ boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
 boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
 boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
 boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_LONG_LONG              -Wno-long-long)
 boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
 boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
 
