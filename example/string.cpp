@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/string.hpp>
@@ -16,6 +17,7 @@ using namespace boost::hana;
 
 
 int main() {
+using boost::hana::size_t; // disambiguate with ::size_t on GCC
 
 //////////////////////////////////////////////////////////////////////////////
 // Modeled concepts
@@ -96,14 +98,14 @@ BOOST_HANA_CONSTANT_CHECK(
 //! [BOOST_HANA_STRING]
 BOOST_HANA_CONSTEXPR_LAMBDA auto str = BOOST_HANA_STRING("abcdef");
 BOOST_HANA_CONSTANT_CHECK(str == string<'a', 'b', 'c', 'd', 'e', 'f'>);
-static_assert(std::is_same<datatype_t<decltype(str)>, String>{}, "");
+BOOST_HANA_CONSTANT_CHECK(is_a<String>(str));
 //! [BOOST_HANA_STRING]
 
 }{
 
 //! [string]
 constexpr auto str = string<'a', 'b', 'c', 'd', 'e', 'f'>;
-static_assert(std::is_same<datatype_t<decltype(str)>, String>{}, "");
+BOOST_HANA_CONSTANT_CHECK(is_a<String>(str));
 //! [string]
 
 }{
@@ -113,6 +115,18 @@ constexpr auto str = string<'h', 'i'>;
 constexpr char const* s = to<char const*>(str);
 static_assert(s[0] == 'h' && s[1] == 'i' && s[2] == '\0', "");
 //! [to<char const*>]
+
+}{
+
+#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+//! [_s]
+using namespace boost::hana::literals;
+
+constexpr auto str = "Hello world!"_s;
+BOOST_HANA_CONSTANT_CHECK(is_a<String>(str));
+BOOST_HANA_CONSTANT_CHECK(length(str) == size_t<12>);
+//! [_s]
+#endif
 
 }
 

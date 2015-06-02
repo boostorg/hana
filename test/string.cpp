@@ -48,9 +48,7 @@ int main() {
         BOOST_HANA_CONSTEXPR_LAMBDA auto const s1 = BOOST_HANA_STRING("abcd");
         constexpr auto s2 = string<'a', 'b', 'c', 'd'>;
 
-        static_assert(std::is_same<
-            decltype(s1), decltype(s2)
-        >::value, "");
+        static_assert(std::is_same<decltype(s1), decltype(s2)>::value, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -90,6 +88,20 @@ int main() {
         auto str = BOOST_HANA_STRING("abcdef");
         constexpr char const* c_str = to<char const*>(str); (void)c_str;
     }
+
+#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+    //////////////////////////////////////////////////////////////////////////
+    // _s user-defined literal
+    //////////////////////////////////////////////////////////////////////////
+    {
+        using namespace boost::hana::literals;
+
+        constexpr auto s1 = "abcd"_s;
+        constexpr auto s2 = string<'a', 'b', 'c', 'd'>;
+
+        static_assert(std::is_same<decltype(s1), decltype(s2)>::value, "");
+    }
+#endif
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

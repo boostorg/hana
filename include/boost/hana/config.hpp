@@ -208,4 +208,18 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_CHECK_DATA_TYPES
 #endif
 
+#if defined(BOOST_HANA_DOXYGEN_INVOKED)
+    //! @ingroup group-config
+    //! Enables usage of the "string literal operator template" GNU extension.
+    //!
+    //! That operator is not part of the language yet, but it is supported by
+    //! both Clang and GCC. This operator allows Hana to provide the nice `_s`
+    //! user-defined literal for creating compile-time `String`s.
+    //!
+    //! When this macro is not defined, the GNU extension will be not used
+    //! by Hana. Because this is a non-standard extension, the macro is not
+    //! defined by default.
+#   define BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+#endif
+
 #endif // !BOOST_HANA_CONFIG_HPP

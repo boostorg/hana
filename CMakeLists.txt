@@ -51,6 +51,14 @@ if (BOOST_HANA_ENABLE_LIBCXX)
     boost_hana_append_flag(BOOST_HANA_HAS_STDLIB_LIBCXX -stdlib=libc++)
 endif()
 
+# By default, we enable the GNU extension allowing the special string literal
+# operator template, which enables the _s suffix for creating compile-time
+# Strings. We do so to allow testing this operator. We also suppress warnings
+# pertaining to this operator.
+add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
+                       -Wno-gnu-string-literal-operator-template)
+
 
 ##############################################################################
 # Search for packages.

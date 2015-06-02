@@ -120,7 +120,44 @@ namespace boost { namespace hana {
     // BOOST_HANA_STRING macro appear in the related objects of String
     // (as we want it to).
 #else
-    // defined in boost/hana/string.hpp
+    // defined in <boost/hana/string.hpp>
+#endif
+
+#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+    namespace literals {
+        //! Creates a compile-time `String` from a string literal.
+        //! @relates boost::hana::String
+        //!
+        //! The string literal is parsed at compile-time and the result is
+        //! returned as a Hana compile-time `string<...>`. This feature is
+        //! an extension that is enabled by default; see below for details.
+        //!
+        //! @note
+        //! Only narrow string literals are supported right now; support for
+        //! fancier types of string literals like wide or UTF-XX might be
+        //! added in the future if there is a demand for it. See [this issue]
+        //! [Hana.issue80] if you need this.
+        //!
+        //! @warning
+        //! This user-defined literal is an extension which requires a special
+        //! string literal operator that is not part of the standard yet.
+        //! That operator is supported by both Clang and GCC, and several
+        //! proposals were made for it to enter C++17. However, since it is
+        //! not standard, it is disabled by default and defining the
+        //! `BOOST_HANA_CONFIG_ENABLE_STRING_UDL` config macro is required
+        //! to get this operator. Hence, if you want to stay safe, just use
+        //! the `BOOST_HANA_STRING` macro instead. If you want to be fast and
+        //! furious (I do), define `BOOST_HANA_CONFIG_ENABLE_STRING_UDL`.
+        //!
+        //!
+        //! Example
+        //! -------
+        //! @snippet example/string.cpp _s
+        //!
+        //! [Hana.issue80]: https://github.com/ldionne/hana/issues/80
+        template <typename CharT, CharT ...s>
+        constexpr auto operator"" _s();
+    }
 #endif
 }} // end namespace boost::hana
 

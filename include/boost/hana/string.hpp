@@ -23,6 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
+#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -72,6 +73,22 @@ namespace boost { namespace hana {
         return tmp{};                                                       \
     }()))                                                                   \
 /**/
+
+#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+    //////////////////////////////////////////////////////////////////////////
+    // _s user-defined literal
+    //////////////////////////////////////////////////////////////////////////
+    namespace literals {
+        template <typename CharT, CharT ...s>
+        constexpr auto operator"" _s() {
+            static_assert(detail::std::is_same<CharT, char>::value,
+            "Hana String: Only narrow string literals are supported with "
+            "the _s string literal right now. See https://goo.gl/fBbKD7 "
+            "if you need support for fancier types of compile-time Strings.");
+            return hana::string<s...>;
+        }
+    }
+#endif
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
