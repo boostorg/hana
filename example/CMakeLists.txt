@@ -49,6 +49,7 @@ if (NOT Boost_FOUND)
         "struct.macros.cpp"
         "tutorial/appendix_mpl.cpp"
         "tutorial/integral.cpp"
+        "tutorial/introspection.adapt.cpp"
         "tutorial/introspection.json.cpp"
         "tutorial/mpl_cheatsheet.cpp"
         "tutorial/quadrants.cpp"

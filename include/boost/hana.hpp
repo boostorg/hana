@@ -835,6 +835,13 @@ compile-time numbers as values. This is a completely new way of approaching
 metaprogramming, and you should try to set your old MPL habits aside for a bit
 if you want to become proficient with Hana.
 
+However, please be aware that modern C++ features like [auto-deduced return type]
+[C++14.auto_rt] remove the need for type computations in many cases. Hence,
+before even considering to do a type computation, you should ask yourself
+whether there's a simpler way to achieve what you're trying to achieve. In
+most cases, the answer will be yes. However, when the answer is no, Hana will
+provide you with nuclear-strength facilities to do what needs to be done.
+
 
 @subsection tutorial-type-objects Types as objects
 
@@ -1626,7 +1633,7 @@ Person john{"John", 30};
 for (auto& member : john)
   std::cout << member.name << ": " << member.value << std::endl;
 
-// name: "John"
+// name: John
 // age: 30
 @endcode
 
@@ -1894,19 +1901,144 @@ Have you ever wanted to iterate over the members of a user-defined type? The
 goal of this section is to show you how Hana can be used to do it quite easily.
 To allow working with user-defined types, Hana defines the `Struct` concept.
 Once a user-defined type is a model of that concept, one can iterate over the
-members of an object of that type and query other useful information. The
-reference documentation for the `Struct` concept covers the details about what
-can be done with a `Struct`; we will focus on explaining how a user-defined
-type can be made a model of it.
+members of an object of that type and query other useful information. To turn
+a user-defined type into a `Struct`, a couple of options are available. First,
+you may define the members of your user-defined type with the
+`BOOST_HANA_DEFINE_STRUCT` macro:
 
-@todo
-- How to adapt structs with the macros
-- How to adapt structs without the macros
+@snippet example/tutorial/introspection.adapt.cpp BOOST_HANA_DEFINE_STRUCT
+
+@note
+This macro (and `BOOST_HANA_ADAPT_STRUCT` presented below) live in
+the `<boost/hana/struct_macros.hpp>` header, and they require the
+Boost.Preprocessor library.
+
+This macro defines two members (`name` and `age`) with the given types. Then,
+it defines some boilerplate inside a `Person::hana` nested `struct`, which is
+required to make `Person` a model of the `Struct` concept. No constructors are
+defined (so [POD-ness][POD] is retained), the members are defined in the same
+order as they appear here and the macro can be used with template `struct`s
+just as well, and at any scope. Also note that you are free to add more
+members to the `Person` type after or before you use the macro. However,
+only members defined with the macro will be picked up when introspecting the
+`Person` type. Easy enough? Now, a `Person` can be accessed programmatically:
+
+@snippet example/tutorial/introspection.adapt.cpp for_each
+
+Iteration over a `Struct` is done as if the `Struct` was a sequence of pairs,
+where the first element of a pair is the key associated to a member, and the
+second element is the member itself. When a `Struct` is defined through the
+`BOOST_HANA_DEFINE_STRUCT` macro, the key associated to any member is a
+compile-time `String` representing the name of that member. This is why the
+function used with `for_each` takes a single argument `pair`, and then uses
+`first` and `second` to access the subparts of the pair. Also, notice how
+the `to<char const*>` function is used on the name of the member? This
+converts the compile-time `String` to a `constexpr char const*` so it can
+`cout`ed. Since it can be annoying to always use `first` and `second` to
+fetch the subparts of the pair, we can also use the `fuse` function to wrap
+our lambda and make it a binary lambda instead:
+
+@snippet example/tutorial/introspection.adapt.cpp for_each.fuse
+
+Now, it looks much cleaner. As we just mentioned, `Struct`s are seen as a kind
+of sequence of pairs for the purpose of iteration. In fact, a `Struct` can
+even be searched like an associative data structure whose keys are the names
+of the members, and whose values are the members themselves:
+
+@snippet example/tutorial/introspection.adapt.cpp at_key
+
+@note
+The `_s` user-defined literal creates a compile-time Hana `String`. It is
+located in the `boost::hana::literals` namespace. Note that it is not part
+of the standard yet, but it is supported by Clang and GCC. If you want to
+stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
+
+The main difference between a `Struct` and a `Map` is that a `Map` can be
+modified (keys can be added and removed), while a `Struct` is immutable.
+However, you can easily convert a `Struct` into a `Map` by using `to<Map>`,
+and then you can manipulate it in a more flexible way.
+
+@snippet example/tutorial/introspection.adapt.cpp to<Map>
+
+Using the `BOOST_HANA_DEFINE_STRUCT` macro to adapt a `struct` is convenient,
+but sometimes one can't modify the type that needs to be adapted. In these
+cases, the `BOOST_HANA_ADAPT_STRUCT` macro can be used to adapt a `struct` in
+a ad-hoc manner:
+
+@snippet example/tutorial/introspection.adapt.cpp BOOST_HANA_ADAPT_STRUCT
+
+@note
+The `BOOST_HANA_ADAPT_STRUCT` macro must be used at global scope.
+
+The effect is exactly the same as with the `BOOST_HANA_DEFINE_STRUCT` macro,
+except you do not need to modify the type you want to adapt, which is
+sometimes useful. Before we move on to a concrete example of using these
+introspection features, it should also be mentioned that `struct`s can be
+adapted without using macros. This advanced interface for defining `Struct`s
+can be used to specify keys that are not compile-time `String`s and to specify
+custom accessors for the members of the structure. The advanced interface is
+described in the documentation for the `Struct` concept.
 
 
 @subsection tutorial-introspection-json Example: generating JSON
-@todo
-- Present the example of generating JSON. Should also support std::containers.
+
+Let's now move on with a concrete example of using the introspection
+capabilities we just presented for printing custom objects as JSON.
+Our end goal is to have something like this:
+
+@snippet example/tutorial/introspection.json.cpp usage
+
+And the output, after passing it through a JSON pretty-printer,
+should look like
+
+@code{.json}
+[
+  {
+    "name": "John",
+    "last_name": "Doe",
+    "age": 30
+  },
+  {
+    "brand": "Audi",
+    "model": "A4"
+  },
+  {
+    "brand": "BMW",
+    "model": "Z3"
+  }
+]
+@endcode
+
+First, let's define a couple of utility functions to make string manipulation
+easier:
+
+@snippet example/tutorial/introspection.json.cpp utilities
+
+The `quote` and the `to_json` overloads are pretty self-explanatory. The
+`join` function, however, might need a bit of explanation. Basically, the
+`intersperse` function takes a sequence and a separator, and returns a new
+sequence with the separator in between each pair of elements of the original
+sequence. In other words, we take a sequence of the form `[x1, ..., xn]` and
+turn it into a sequence of the form `[x1, seq, x2, sep, ..., sep, xn]`.
+Finally, we fold the resulting sequence with the `_ + _` function object,
+which is equivalent to `std::plus<>{}`. Since our sequence contains
+`std::string`s (we assume it does), this has the effect of concatenating
+all the strings of the sequence into one big string. Now, let's define
+how to print a `Sequence`:
+
+@snippet example/tutorial/introspection.json.cpp Sequence
+
+First, we use the `transform` algorithm to turn our sequence of objects into
+a sequence of `std::string`s in JSON format. Then, we join that sequence with
+commas and we enclose it with `[]` to denote a sequence in JSON notation.
+Simple enough? Let's now take a look at how to print user-defined types:
+
+@snippet example/tutorial/introspection.json.cpp Struct
+
+Here, we use the `keys` method to retrieve a `Tuple` containing the names of
+the members of the user-defined type. Then, we `transform` that sequence into
+a sequence of `"name" : member` strings, which we then `join` and enclose with
+`{}`, which is used to denote objects in JSON notation. And that's it!
 
 
 
@@ -2693,6 +2825,10 @@ This can easily be solved by enabling the template only when the type
 @snippet example/tutorial/rationales.cpp constrained_index_based_recursion
 
 
+@subsection tutorial-rationales-why_Hana Why Hana?
+
+No, it isn't the name of my girlfriend! I just needed a short and good looking
+name that people would easily remember, and Hana came up.
 
 
 
@@ -3077,6 +3213,7 @@ modified as little as possible to work with this reimplementation.
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
+[C++14.auto_rt]: http://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
 [C++14.glambda]: http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas
 [C++14.ice]: http://en.cppreference.com/w/cpp/types/integral_constant
@@ -3095,6 +3232,7 @@ modified as little as possible to work with this reimplementation.
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
+[POD]: http://en.cppreference.com/w/cpp/concept/PODType
 [SGI.Container]: https://www.sgi.com/tech/stl/Container.html
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf

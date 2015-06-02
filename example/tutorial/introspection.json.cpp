@@ -15,14 +15,12 @@ using namespace boost::hana;
 using namespace std::literals;
 
 
-
-
+//! [utilities]
 template <typename Xs>
 std::string join(Xs&& xs, std::string sep) {
-  return fold.left(intersperse(std::forward<Xs>(xs), sep), "", _ + _);
+  return fold(intersperse(std::forward<Xs>(xs), sep), "", _ + _);
 }
 
-// sample(json-base)
 std::string quote(std::string s) { return "\"" + s + "\""; }
 
 template <typename T>
@@ -32,9 +30,9 @@ auto to_json(T const& x) -> decltype(std::to_string(x)) {
 
 std::string to_json(char c) { return quote({c}); }
 std::string to_json(std::string s) { return quote(s); }
-// end-sample
+//! [utilities]
 
-// sample(json-Struct)
+//! [Struct]
 template <typename T>
   std::enable_if_t<models<Struct, T>(),
 std::string> to_json(T const& x) {
@@ -45,9 +43,9 @@ std::string> to_json(T const& x) {
 
   return "{" + join(std::move(json), ", ") + "}";
 }
-// end-sample
+//! [Struct]
 
-// sample(json-Sequence)
+//! [Sequence]
 template <typename Xs>
   std::enable_if_t<models<Sequence, Xs>(),
 std::string> to_json(Xs const& xs) {
@@ -57,19 +55,30 @@ std::string> to_json(Xs const& xs) {
 
   return "[" + join(std::move(json), ", ") + "]";
 }
-// end-sample
+//! [Sequence]
 
 
 int main() {
-// sample(json-usage)
+//! [usage]
+struct Car {
+  BOOST_HANA_DEFINE_STRUCT(Car,
+    (std::string, brand),
+    (std::string, model)
+  );
+};
+
 struct Person {
   BOOST_HANA_DEFINE_STRUCT(Person,
     (std::string, name),
+    (std::string, last_name),
     (int, age)
   );
 };
 
-Person joe{"Joe", 30};
-std::cout << to_json(make_tuple(1, 'c', joe));
-// end-sample
+Car bmw{"BMW", "Z3"}, audi{"Audi", "A4"};
+Person john{"John", "Doe", 30};
+
+auto tuple = make_tuple(john, audi, bmw);
+std::cout << to_json(tuple) << std::endl;
+//! [usage]
 }
