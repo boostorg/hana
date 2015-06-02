@@ -77,7 +77,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(F&& f, G&& g, X&& x) const {
                 using M = typename datatype<decltype(g(x))>::type;
 
-            #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
                 static_assert(_models<Monad, M>{},
                 "hana::monadic_compose(f, g) requires g to return a monadic value");
             #endif

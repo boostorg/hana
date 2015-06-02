@@ -247,7 +247,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Less = less_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::less(x, y) requires x to be Orderable");
 
@@ -309,7 +309,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using LessEqual = less_equal_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::less_equal(x, y) requires x to be Orderable");
 
@@ -366,7 +366,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Greater = greater_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::greater(x, y) requires x to be Orderable");
 
@@ -424,7 +424,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using GreaterEqual = greater_equal_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::greater_equal(x, y) requires x to be Orderable");
 
@@ -474,7 +474,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Min = min_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::min(x, y) requires x to be Orderable");
 
@@ -513,7 +513,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Max = max_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
             "hana::max(x, y) requires x to be Orderable");
 

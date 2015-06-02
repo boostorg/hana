@@ -156,7 +156,7 @@ namespace boost { namespace hana {
     template <typename A>
     struct _sequence {
 
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Applicative, A>{},
         "hana::sequence<A> requires A to be an Applicative");
     #endif
@@ -165,7 +165,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using T = typename datatype<Xs>::type;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Traversable, T>{},
             "hana::sequence<A>(xs) requires xs to be a Traversable");
         #endif
@@ -219,7 +219,7 @@ namespace boost { namespace hana {
     template <typename A>
     struct _traverse {
 
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Applicative, A>{},
         "hana::traverse<A> requires A to be an Applicative");
     #endif
@@ -229,7 +229,7 @@ namespace boost { namespace hana {
             using T = typename datatype<Xs>::type;
             using Traverse = traverse_impl<T>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Traversable, T>{},
             "hana::traverse<A>(xs, f) requires xs to be a Traversable");
         #endif

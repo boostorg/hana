@@ -119,7 +119,7 @@ namespace boost { namespace hana {
             using P = typename datatype<Pair>::type;
             using First = first_impl<P>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Product, P>{},
             "hana::first(pair) requires pair to be a Product");
         #endif
@@ -152,7 +152,7 @@ namespace boost { namespace hana {
             using P = typename datatype<Pair>::type;
             using Second = second_impl<P>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Product, P>{},
             "hana::second(pair) requires pair to be a Product");
         #endif

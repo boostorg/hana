@@ -44,10 +44,10 @@ namespace boost { namespace hana {
             typename detail::std::remove_reference<T>::type
         >::type;
 
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Constant, typename datatype<RawT>::type>{},
         "hana::value<T>() requires T to be a Constant");
-#endif
+    #endif
 
         return value_impl<typename datatype<RawT>::type>::template apply<RawT>();
     }

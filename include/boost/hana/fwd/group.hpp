@@ -165,7 +165,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Minus = minus_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Group, T>{},
             "hana::minus(x, y) requires x to be a Group");
 
@@ -200,7 +200,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x) const {
             using G = typename datatype<X>::type;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Group, G>{},
             "hana::negate(x) requires x to be in a Group");
         #endif

@@ -937,13 +937,14 @@ namespace boost { namespace hana {
     template <typename F, typename Xs, typename ...Ys>
     constexpr decltype(auto)
     _zip_shortest_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
         "hana::zip.shortest.with(f, xs, ys...) requires xs and ys... to be Sequences");
-#endif
+    #endif
+
         return zip_shortest_with_impl<typename datatype<Xs>::type>::apply(
             static_cast<F&&>(f),
             static_cast<Xs&&>(xs),
@@ -975,13 +976,14 @@ namespace boost { namespace hana {
     constexpr decltype(auto) _zip_shortest<AvoidODRViolation...>::
                              operator()(Xs&& xs, Ys&& ...ys) const
     {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
         "hana::zip.shortest(xs, ys...) requires xs and ys... to be Sequences");
-#endif
+    #endif
+
         return zip_shortest_impl<typename datatype<Xs>::type>::apply(
             static_cast<Xs&&>(xs),
             static_cast<Ys&&>(ys)...
@@ -1007,13 +1009,14 @@ namespace boost { namespace hana {
     template <typename F, typename Xs, typename ...Ys>
     constexpr decltype(auto)
     _zip_unsafe_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
         "hana::zip.unsafe.with(f, xs, ys...) requires xs and ys... to be Sequences");
-#endif
+    #endif
+
         return zip_unsafe_with_impl<typename datatype<Xs>::type>::apply(
             static_cast<F&&>(f),
             static_cast<Xs&&>(xs),
@@ -1062,13 +1065,14 @@ namespace boost { namespace hana {
     constexpr decltype(auto) _zip_unsafe<AvoidODRViolation...>::
                              operator()(Xs&& xs, Ys&& ...ys) const
     {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
         "hana::zip.unsafe(xs, ys...) requires xs and ys... to be Sequences");
-#endif
+    #endif
+
         return zip_unsafe_impl<typename datatype<Xs>::type>::apply(
             static_cast<Xs&&>(xs),
             static_cast<Ys&&>(ys)...

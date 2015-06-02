@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 //////////////////////////////////////////////////////////////////////////////
 // Detect the compiler
 //////////////////////////////////////////////////////////////////////////////
+
 #if defined(__clang__) && defined(__apple_build_version__) // Apple's Clang
 
 #   if __apple_build_version__ >= 6020049
@@ -146,28 +147,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Compiler-independent options that can be tweaked by users
+// Library features and options that can be tweaked by users
 //////////////////////////////////////////////////////////////////////////////
-
-#if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
-    (defined(NDEBUG) && !defined(BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS))
-    //! @ingroup group-config
-    //! Disables the checking of preconditions in tag-dispatched methods.
-    //!
-    //! Some tag-dispatched methods have preconditions that can be checked
-    //! reasonably easily. When this is the case, these preconditions are
-    //! checked automatically when the method is used. When this macro is
-    //! defined, the checks are not performed.
-    //!
-    //! This macro is defined automatically when `NDEBUG` is defined. It can
-    //! also be defined by users before including this header or defined on
-    //! the command line.
-    //!
-    //! @note
-    //! This does not disable the `BOOST_HANA_*_ASSERT` macro & friends.
-    //! See @ref BOOST_HANA_CONFIG_DISABLE_ASSERTIONS for this.
-#   define BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS
-#endif
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED) || \
     (defined(NDEBUG) && !defined(BOOST_HANA_CONFIG_DISABLE_ASSERTIONS))
@@ -180,32 +161,21 @@ Distributed under the Boost Software License, Version 1.0.
     //! This macro is defined automatically when `NDEBUG` is defined. It can
     //! also be defined by users before including this header or defined on
     //! the command line.
-    //!
-    //! @note
-    //! This macro has the side effect of disabling the checking of most
-    //! preconditions in tag-dispatched methods, because those preconditions
-    //! usually use the `BOOST_HANA_*_ASSERT` macros to do their job. However,
-    //! if one wants to disable the checking of preconditions specifically,
-    //! the @ref BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS macro should be used
-    //! instead.
 #   define BOOST_HANA_CONFIG_DISABLE_ASSERTIONS
 #endif
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED)
     //! @ingroup group-config
-    //! Disables data type checks in the methods.
+    //! Disables concept checks in interface methods.
     //!
-    //! When this macro is not defined, tag-dispatched methods will make sure
-    //! the arguments they are passed are models of the proper concept(s).
-    //! This can be very helpful in catching programming errors, but it is
-    //! also slightly less compile-time efficient. You should probably always
-    //! leave the checks enabled, except perhaps in translation units that are
-    //! compiled very often but whose code using Hana is modified very rarely.
-#   define BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS
-#endif
-
-#ifndef BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS
-#   define BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    //! When this macro is not defined (the default), tag-dispatched methods
+    //! will make sure the arguments they are passed are models of the proper
+    //! concept(s). This can be very helpful in catching programming errors,
+    //! but it is also slightly less compile-time efficient. You should
+    //! probably always leave the checks enabled (and hence never define this
+    //! macro), except perhaps in translation units that are compiled very
+    //! often but whose code using Hana is modified very rarely.
+#   define BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
 #endif
 
 #if defined(BOOST_HANA_DOXYGEN_INVOKED)

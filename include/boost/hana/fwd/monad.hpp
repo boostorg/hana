@@ -263,7 +263,7 @@ namespace boost { namespace hana {
             using M = typename datatype<Xs>::type;
             using Chain = chain_impl<M>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Monad, M>{},
             "hana::chain(xs, f) requires xs to be a Monad");
         #endif
@@ -315,7 +315,7 @@ namespace boost { namespace hana {
             using M = typename datatype<Xs>::type;
             using Flatten = flatten_impl<M>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Monad, M>{},
             "hana::flatten(xs) requires xs to be a Monad");
         #endif
@@ -411,7 +411,7 @@ namespace boost { namespace hana {
     struct _then {
         template <typename Before, typename Xs>
         constexpr decltype(auto) operator()(Before&& before, Xs&& xs) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Monad, typename datatype<Before>::type>{},
             "hana::then(before, xs) requires before to be a Monad");
 
@@ -470,7 +470,7 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _tap {
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Monad, M>{},
         "hana::tap<M> requires M to be a Monad");
     #endif

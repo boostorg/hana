@@ -178,7 +178,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using AnyOf = any_of_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::any_of(xs, pred) requires xs to be a Searchable");
         #endif
@@ -215,7 +215,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using Any = any_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::any(xs) requires xs to be a Searchable");
         #endif
@@ -260,7 +260,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using AllOf = all_of_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::all_of(xs, pred) requires xs to be a Searchable");
         #endif
@@ -297,7 +297,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using All = all_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::all(xs) requires xs to be a Searchable");
         #endif
@@ -343,7 +343,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using NoneOf = none_of_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::none_of(xs, pred) requires xs to be a Searchable");
         #endif
@@ -380,7 +380,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using None = none_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{},
             "hana::none(xs) requires xs to be a Searchable");
         #endif
@@ -430,7 +430,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using Contains = contains_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{}(),
             "hana::contains(xs, key) requires xs to be a Searchable");
         #endif
@@ -499,7 +499,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using FindIf = find_if_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{}(),
             "hana::find_if(xs, pred) requires xs to be a Searchable");
         #endif
@@ -550,7 +550,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using Find = find_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{}(),
             "hana::find(xs, key) requires xs to be Searchable");
         #endif
@@ -619,7 +619,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using AtKey = at_key_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S>{}(),
             "hana::at_key(xs, key) requires xs to be Searchable");
         #endif
@@ -689,7 +689,7 @@ namespace boost { namespace hana {
             using S2 = typename datatype<Ys>::type;
             using IsSubset = is_subset_impl<S1, S2>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Searchable, S1>{}(),
             "hana::is_subset(xs, ys) requires xs to be Searchable");
 

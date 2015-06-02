@@ -39,13 +39,14 @@ namespace boost { namespace hana {
     //! @cond
     template <typename F, typename X>
     constexpr decltype(auto) _ap::operator()(F&& f, X&& x) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Applicative, typename datatype<F>::type>{},
         "hana::ap(f, x) requires f to be an Applicative");
 
         static_assert(_models<Applicative, typename datatype<X>::type>{},
         "hana::ap(f, x) requires x to be an Applicative");
-#endif
+    #endif
+
         return ap_impl<typename datatype<F>::type>::apply(
             static_cast<F&&>(f), static_cast<X&&>(x)
         );

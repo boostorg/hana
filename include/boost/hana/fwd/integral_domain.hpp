@@ -157,7 +157,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Quot = quot_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<IntegralDomain, T>{},
             "hana::quot(x, y) requires x to be an IntegralDomain");
 
@@ -218,7 +218,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Rem = rem_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<IntegralDomain, T>{},
             "hana::rem(x, y) requires x to be an IntegralDomain");
 

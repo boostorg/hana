@@ -208,7 +208,7 @@ namespace boost { namespace hana {
     struct _if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::if_(cond, then, else) requires cond to be a Logical");
 #endif
@@ -324,7 +324,7 @@ namespace boost { namespace hana {
     struct _eval_if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::eval_if(cond, then, else) requires cond to be a Logical");
 #endif
@@ -392,7 +392,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
             using Cond = decltype(pred(state));
 
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::while_(pred, state, f) requires pred(state) to be a Logical");
 #endif
@@ -453,7 +453,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
             using Cond = decltype(pred(state));
 
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Logical, typename datatype<Cond>::type>{},
             "hana::until(pred, state, f) requires pred(state) to be a Logical");
 #endif

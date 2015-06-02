@@ -156,7 +156,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Mult = mult_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Ring, T>{},
             "hana::mult(x, y) requires x to be a Ring");
 
@@ -197,7 +197,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct _one {
 
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Ring, R>{},
         "hana::one<R>() requires R to be a Ring");
     #endif
@@ -245,7 +245,7 @@ namespace boost { namespace hana {
             using R = typename datatype<X>::type;
             using Power = power_impl<R>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Ring, R>{},
             "hana::power(x, n) requires x to be in a Ring");
         #endif

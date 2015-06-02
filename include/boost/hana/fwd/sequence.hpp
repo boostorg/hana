@@ -268,7 +268,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using CartesianProduct = cartesian_product_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, S>{},
             "hana::cartesian_product(xs) requires xs to be a Sequence");
         #endif
@@ -377,7 +377,7 @@ namespace boost { namespace hana {
     struct _group {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::group(xs) requires xs to be a Sequence");
         #endif
@@ -388,7 +388,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Predicate>
         constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::group(xs, predicate) requires xs to be a Sequence");
         #endif
@@ -428,7 +428,7 @@ namespace boost { namespace hana {
     struct _init {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::init(xs) requires xs to be a Sequence");
 #endif
@@ -471,7 +471,7 @@ namespace boost { namespace hana {
     struct _intersperse {
         template <typename Xs, typename Z>
         constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::intersperse(xs, z) requires xs to be a Sequence");
 #endif
@@ -525,7 +525,7 @@ namespace boost { namespace hana {
     struct _partition {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::partition(xs, pred) requires xs to be a Sequence");
 #endif
@@ -565,7 +565,7 @@ namespace boost { namespace hana {
     struct _permutations {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::permutations(xs) requires xs to be a Sequence");
 #endif
@@ -609,7 +609,7 @@ namespace boost { namespace hana {
     struct _remove_at {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::remove_at(n, xs) requires xs to be a Sequence");
 #endif
@@ -668,7 +668,7 @@ namespace boost { namespace hana {
     struct _reverse {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::reverse(xs) requires xs to be a Sequence");
 #endif
@@ -839,7 +839,7 @@ namespace boost { namespace hana {
     struct _scan_left {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::scan.left(xs, state, f) requires xs to be a Sequence");
         #endif
@@ -852,7 +852,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::scan.left(xs, f) requires xs to be a Sequence");
         #endif
@@ -866,7 +866,7 @@ namespace boost { namespace hana {
     struct _scan_right {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::scan.right(xs, state, f) requires xs to be a Sequence");
         #endif
@@ -879,7 +879,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::scan.right(xs, f) requires xs to be a Sequence");
         #endif
@@ -940,7 +940,7 @@ namespace boost { namespace hana {
     struct _slice {
         template <typename Xs, typename From, typename To>
         constexpr decltype(auto) operator()(Xs&& xs, From&& from, To&& to) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::slice(xs, from, to) requires xs to be a Sequence");
 #endif
@@ -1077,7 +1077,7 @@ namespace boost { namespace hana {
     struct _sort {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::sort(xs) requires xs to be a Sequence");
         #endif
@@ -1088,7 +1088,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Predicate>
         constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::sort(xs, predicate) requires xs to be a Sequence");
         #endif
@@ -1145,7 +1145,7 @@ namespace boost { namespace hana {
     struct _span {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::span(xs, pred) requires xs to be a Sequence");
 #endif
@@ -1200,7 +1200,7 @@ namespace boost { namespace hana {
             using S = typename datatype<Xs>::type;
             using Subsequence = subsequence_impl<S>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, S>{},
             "hana::subsequence(xs, indices) requires xs to be a Sequence");
 
@@ -1266,7 +1266,7 @@ namespace boost { namespace hana {
     struct _take_exactly {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::take.exactly(n, xs) requires xs to be a Sequence");
 #endif
@@ -1282,7 +1282,7 @@ namespace boost { namespace hana {
     struct _take_at_most {
         template <typename N, typename Xs>
         constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::take.at_most(n, xs) requires xs to be a Sequence");
 #endif
@@ -1358,7 +1358,7 @@ namespace boost { namespace hana {
     struct _take_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::take_until(xs, pred) requires xs to be a Sequence");
 #endif
@@ -1404,7 +1404,7 @@ namespace boost { namespace hana {
     struct _take_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::take_while(xs, pred) requires xs to be a Sequence");
 #endif
@@ -1516,7 +1516,7 @@ namespace boost { namespace hana {
 
     template <typename S>
     struct _unfold : _unfold_left<S> {
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Sequence, S>{},
         "hana::unfold<S> requires S to be a Sequence");
     #endif
@@ -1563,7 +1563,7 @@ namespace boost { namespace hana {
     struct _unzip {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::unzip(xs) requires xs to be a Sequence");
 #endif

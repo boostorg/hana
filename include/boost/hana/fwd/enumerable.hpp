@@ -83,7 +83,7 @@ namespace boost { namespace hana {
             using E = typename datatype<N>::type;
             using Succ = succ_impl<E>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Enumerable, E>{},
             "hana::succ(n) requires n to be Enumerable");
         #endif
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
             using E = typename datatype<N>::type;
             using Pred = pred_impl<E>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Enumerable, E>{},
             "hana::pred(n) requires n to be Enumerable");
         #endif

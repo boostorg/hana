@@ -172,7 +172,7 @@ namespace boost { namespace hana {
 
     template <typename S>
     struct _accessors {
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Struct, S>{},
         "hana::accessors<S> requires S to be a Struct");
     #endif
@@ -227,7 +227,7 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Object&& object) const {
             using S = typename datatype<Object>::type;
 
-            #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
                 static_assert(_models<Struct, S>{},
                 "hana::members(object) requires object to be a Struct");
             #endif

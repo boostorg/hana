@@ -151,7 +151,7 @@ namespace boost { namespace hana {
             using U = typename datatype<Y>::type;
             using Plus = plus_impl<T, U>;
 
-        #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Monoid, T>{},
             "hana::plus(x, y) requires x to be a Monoid");
 
@@ -192,7 +192,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct _zero {
 
-    #ifdef BOOST_HANA_CONFIG_CHECK_DATA_TYPES
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Monoid, M>{},
         "hana::zero<M>() requires M to be a Monoid");
     #endif
