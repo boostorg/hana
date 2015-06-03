@@ -88,7 +88,7 @@ namespace boost { namespace hana {
     //!
     //! Superclasses
     //! ------------
-    //! 1. `Searchable`\n
+    //! 1. `Searchable` (free model)\n
     //! Any `Iterable` gives rise to a model of `Searchable`, where the keys
     //! and the values are both the elements in the structure. Searching for
     //! a key is just doing a linear search through the elements of the

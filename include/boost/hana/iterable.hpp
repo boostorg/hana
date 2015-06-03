@@ -368,15 +368,17 @@ namespace boost { namespace hana {
 
     template <typename It>
     struct Iterable::any_of_impl {
-        template <detail::std::size_t k, detail::std::size_t Len>
+        template <bool Done, typename Dummy = void>
         struct any_of_helper {
             template <typename Xs, typename Pred>
             static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(at_c<k>(xs)), true_, false_);
+                auto cond = hana::if_(pred(hana::head(xs)), true_, false_);
+                decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
+                constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
                 return prev_cond ? true_
-                    : any_of_helper<k + 1, Len>::apply(cond,
-                                        static_cast<Xs&&>(xs),
-                                        static_cast<Pred&&>(pred));
+                    : any_of_impl::any_of_helper<done>::apply(cond,
+                                static_cast<decltype(tail)&&>(tail),
+                                static_cast<Pred&&>(pred));
             }
 
             template <typename Xs, typename Pred>
@@ -385,15 +387,18 @@ namespace boost { namespace hana {
 
             template <typename Xs, typename Pred>
             static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::at_c<k>(xs)), true_, false_);
-                return any_of_helper<k + 1, Len>::apply(cond,
-                                        static_cast<Xs&&>(xs),
+                auto cond = hana::if_(pred(hana::head(xs)), true_, false_);
+                constexpr bool done = hana::value<decltype(
+                    hana::is_empty(hana::tail(xs))
+                )>();
+                return any_of_impl::any_of_helper<done>::apply(cond,
+                                        hana::tail(static_cast<Xs&&>(xs)),
                                         static_cast<Pred&&>(pred));
             }
         };
 
-        template <detail::std::size_t Len>
-        struct any_of_helper<Len, Len> {
+        template <typename Dummy>
+        struct any_of_helper<true, Dummy> {
             template <typename Cond, typename Xs, typename Pred>
             static constexpr auto apply(Cond cond, Xs&&, Pred&&)
             { return cond; }
@@ -401,10 +406,8 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
-            constexpr detail::std::size_t len = hana::value<
-                decltype(hana::length(xs))
-            >();
-            return any_of_helper<0, len>::apply(false_,
+            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
+            return any_of_impl::any_of_helper<done>::apply(false_,
                                             static_cast<Xs&&>(xs),
                                             static_cast<Pred&&>(pred));
         }

@@ -594,6 +594,50 @@ namespace boost { namespace hana {
         #undef BOOST_HANA_PP_FIND_IF
     };
 
+    template <>
+    struct any_of_impl<Tuple> {
+        template <detail::std::size_t k, detail::std::size_t Len>
+        struct any_of_helper {
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(at_c<k>(xs)), true_, false_);
+                return prev_cond ? true_
+                    : any_of_impl::any_of_helper<k + 1, Len>::apply(cond,
+                                        static_cast<Xs&&>(xs),
+                                        static_cast<Pred&&>(pred));
+            }
+
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(decltype(true_), Xs&&, Pred&&)
+            { return true_; }
+
+            template <typename Xs, typename Pred>
+            static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(hana::at_c<k>(xs)), true_, false_);
+                return any_of_impl::any_of_helper<k + 1, Len>::apply(cond,
+                                        static_cast<Xs&&>(xs),
+                                        static_cast<Pred&&>(pred));
+            }
+        };
+
+        template <detail::std::size_t Len>
+        struct any_of_helper<Len, Len> {
+            template <typename Cond, typename Xs, typename Pred>
+            static constexpr auto apply(Cond cond, Xs&&, Pred&&)
+            { return cond; }
+        };
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr detail::std::size_t len = hana::value<
+                decltype(hana::length(xs))
+            >();
+            return any_of_impl::any_of_helper<0, len>::apply(false_,
+                                            static_cast<Xs&&>(xs),
+                                            static_cast<Pred&&>(pred));
+        }
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Functor
     //////////////////////////////////////////////////////////////////////////
