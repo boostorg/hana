@@ -663,17 +663,50 @@ BOOST_HANA_CONSTANT_CHECK(
 
 }{
 
+//! [unique]
+using namespace std::literals;
+
+// without a predicate
+constexpr auto types = tuple_t<int, float, float, char, int, int, int, double>;
+BOOST_HANA_CONSTANT_CHECK(
+    unique(types) == tuple_t<int, float, char, int, double>
+);
+
+// with a predicate
+auto objects = make_tuple(1, 2, "abc"s, 'd', "efg"s, "hij"s, 3.4f);
+BOOST_HANA_RUNTIME_CHECK(
+    unique(objects, [](auto const& t, auto const& u)
+                    { return decltype_(t) == decltype_(u); })
+    ==
+    make_tuple(1, "abc"s, 'd', "efg"s, 3.4f)
+);
+//! [unique]
+
+}{
+
+//! [unique.by]
+using namespace std::literals;
+
+auto objects = make_tuple(1, 2, "abc"s, 'd', "efg"s, "hij"s, 3.4f);
+BOOST_HANA_RUNTIME_CHECK(
+    unique.by(comparing(decltype_), objects) ==
+        make_tuple(1, "abc"s, 'd', "efg"s, 3.4f)
+);
+//! [unique.by]
+
+}{
+
 //! [unzip]
 BOOST_HANA_CONSTEXPR_CHECK(
-    unzip(make<Tuple>(make<Tuple>(1, '2', 3.3), make<Tuple>('4', 5.5, 6)))
+    unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6)))
     ==
-    make<Tuple>(make<Tuple>(1, '4'), make<Tuple>('2', 5.5), make<Tuple>(3.3, 6))
+    make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    unzip(make<Tuple>(make<Tuple>(1, '2', 3.3), make<Tuple>('4', 5.5, 6, "ignored")))
+    unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6, "ignored")))
     ==
-    make<Tuple>(make<Tuple>(1, '4'), make<Tuple>('2', 5.5), make<Tuple>(3.3, 6))
+    make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
 );
 //! [unzip]
 
@@ -681,15 +714,15 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [zip]
 BOOST_HANA_CONSTEXPR_CHECK(
-    zip(make<Tuple>(1, 'a'), make<Tuple>(2, 3.3))
+    zip(make_tuple(1, 'a'), make_tuple(2, 3.3))
     ==
-    make<Tuple>(make<Tuple>(1, 2), make<Tuple>('a', 3.3))
+    make_tuple(make_tuple(1, 2), make_tuple('a', 3.3))
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    zip(make<Tuple>(1, 'a'), make<Tuple>(2, 3.3), make<Tuple>(3, 'c', "ignored"))
+    zip(make_tuple(1, 'a'), make_tuple(2, 3.3), make_tuple(3, 'c', "ignored"))
     ==
-    make<Tuple>(make<Tuple>(1, 2, 3), make<Tuple>('a', 3.3, 'c'))
+    make_tuple(make_tuple(1, 2, 3), make_tuple('a', 3.3, 'c'))
 );
 //! [zip]
 
@@ -697,9 +730,9 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [zip_with]
 BOOST_HANA_CONSTEXPR_CHECK(
-    zip.with(_ * _, make<Tuple>(1, 2, 3, 4), make<Tuple>(5, 6, 7, 8, "ignored"))
+    zip.with(_ * _, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8, "ignored"))
     ==
-    make<Tuple>(5, 12, 21, 32)
+    make_tuple(5, 12, 21, 32)
 );
 //! [zip_with]
 

@@ -889,6 +889,35 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // unique (with a predicate)
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct unique_pred_impl : unique_pred_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct unique_pred_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::transform(
+                hana::group(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred)),
+                hana::head);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // unique (without a predicate)
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct unique_impl : unique_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct unique_impl<S, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::unique(static_cast<Xs&&>(xs), hana::equal); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
     // unzip
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>

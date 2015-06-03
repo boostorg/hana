@@ -414,18 +414,19 @@ function                                     |  concept   | description
 `{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
 `{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
 `contains(sequence, value)`                  | Searchable | Returns whether a sequence contains the given object.
-`find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `find(sequence, value)`                      | Searchable | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
+`find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
 `group(sequence[, predicate])`               | Sequence   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
 `init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
 `partition(sequence, predicate)`             | Sequence   | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
 `remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
 `reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
 `slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
-`subsequence(sequence, indices)`             | Sequence   | Returns the elements of a sequence at the `indices` in the given sequence.
 `sort(sequence[, predicate])`                | Sequence   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+`subsequence(sequence, indices)`             | Sequence   | Returns the elements of a sequence at the `indices` in the given sequence.
 `take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
 `take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
+`unique(sequence[, predicate])`              | Sequence   | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
 `zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
 `zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
 

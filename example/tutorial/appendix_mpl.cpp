@@ -21,16 +21,7 @@ namespace mpl = boost::mpl;
 namespace hpl {
 //////////////////////////////////////////////////////////////////////////////
 // Utilities
-// Most of this will be abstracted and then lifted into Hana as time permits.
 //////////////////////////////////////////////////////////////////////////////
-
-// unique{_by} should be implemented in Hana. Also note that this can
-// certainly be made more efficient.
-template <typename Predicate, typename Sequence>
-constexpr decltype(auto) unique_by(Predicate predicate, Sequence sequence) {
-    return hana::transform(hana::group(sequence, predicate), hana::head);
-}
-
 namespace detail {
     template <typename Pred>
     constexpr auto mpl_predicate = hana::integral(hana::metafunction_class<
@@ -341,9 +332,9 @@ struct remove_if {
 
 template <typename Sequence, typename Pred>
 struct unique {
-    using type = decltype(unique_by(
-        detail::mpl_predicate<Pred>,
-        hana::to<hana::Tuple>(Sequence{})
+    using type = decltype(hana::unique(
+        hana::to<hana::Tuple>(Sequence{}),
+        detail::mpl_predicate<Pred>
     ));
 };
 
