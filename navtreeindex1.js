@@ -43,6 +43,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-rationales-container_types":[0,16,2],
 "index.html#tutorial-rationales-dependencies":[0,16,0],
 "index.html#tutorial-rationales-iterators":[0,16,1],
+"index.html#tutorial-rationales-why_Hana":[0,16,3],
 "index.html#tutorial-tutorial-appendix-constexpr-preservation":[0,17,1],
 "index.html#tutorial-type":[0,6],
 "index.html#tutorial-type-benefits":[0,6,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc":[1,0,14,2],
 "structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23":[1,0,14,1],
 "structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e":[1,0,14,5],
-"structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37":[1,0,14,6],
-"structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5":[1,0,14,0]
+"structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37":[1,0,14,6]
 };

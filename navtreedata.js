@@ -70,7 +70,8 @@ var NAVTREE =
       [ "Rationales/FAQ", "index.html#tutorial-rationales", [
         [ "Why restrict usage of external dependencies?", "index.html#tutorial-rationales-dependencies", null ],
         [ "Why no iterators?", "index.html#tutorial-rationales-iterators", null ],
-        [ "Why leave container types unspecified?", "index.html#tutorial-rationales-container_types", null ]
+        [ "Why leave container types unspecified?", "index.html#tutorial-rationales-container_types", null ],
+        [ "Why Hana?", "index.html#tutorial-rationales-why_Hana", null ]
       ] ],
       [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
         [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
@@ -100,7 +101,7 @@ var NAVTREEINDEX =
 [
 ".html",
 "index.html#tutorial-conclusion",
-"structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa"
+"structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

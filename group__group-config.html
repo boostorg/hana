@@ -140,36 +140,17 @@ $(document).ready(function(){initNavTree('group__group-config.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:gae842ac40c50442c84defc1f4b9ae4d38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS</a></td></tr>
-<tr class="memdesc:gae842ac40c50442c84defc1f4b9ae4d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the checking of preconditions in tag-dispatched methods.  <a href="#gae842ac40c50442c84defc1f4b9ae4d38">More...</a><br /></td></tr>
-<tr class="separator:gae842ac40c50442c84defc1f4b9ae4d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga08dcc32bef198420e646244e851d1995"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</a></td></tr>
 <tr class="memdesc:ga08dcc32bef198420e646244e851d1995"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends.  <a href="#ga08dcc32bef198420e646244e851d1995">More...</a><br /></td></tr>
 <tr class="separator:ga08dcc32bef198420e646244e851d1995"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4052530075fb10a81c8110b7830e56bd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga4052530075fb10a81c8110b7830e56bd">BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS</a></td></tr>
-<tr class="memdesc:ga4052530075fb10a81c8110b7830e56bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables data type checks in the methods.  <a href="#ga4052530075fb10a81c8110b7830e56bd">More...</a><br /></td></tr>
-<tr class="separator:ga4052530075fb10a81c8110b7830e56bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad2b44f7cf8a6ba1002437a1a89e62acd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#gad2b44f7cf8a6ba1002437a1a89e62acd">BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</a></td></tr>
+<tr class="memdesc:gad2b44f7cf8a6ba1002437a1a89e62acd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disables concept checks in interface methods.  <a href="#gad2b44f7cf8a6ba1002437a1a89e62acd">More...</a><br /></td></tr>
+<tr class="separator:gad2b44f7cf8a6ba1002437a1a89e62acd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10">BOOST_HANA_CONFIG_ENABLE_STRING_UDL</a></td></tr>
+<tr class="memdesc:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables usage of the "string literal operator template" GNU extension.  <a href="#ga81de60f5bea16e6ff4a38c94e3022f10">More...</a><br /></td></tr>
+<tr class="separator:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="gae842ac40c50442c84defc1f4b9ae4d38"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</code></p>
-
-<p>Disables the checking of preconditions in tag-dispatched methods. </p>
-<p>Some tag-dispatched methods have preconditions that can be checked reasonably easily. When this is the case, these preconditions are checked automatically when the method is used. When this macro is defined, the checks are not performed.</p>
-<p>This macro is defined automatically when <code>NDEBUG</code> is defined. It can also be defined by users before including this header or defined on the command line.</p>
-<dl class="section note"><dt>Note</dt><dd>This does not disable the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends. See <a class="el" href="group__group-config.html#ga08dcc32bef198420e646244e851d1995">BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</a> for this. </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="ga08dcc32bef198420e646244e851d1995"></a>
 <div class="memitem">
 <div class="memproto">
@@ -184,25 +165,42 @@ Macros</h2></td></tr>
 
 <p>Disables the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends. </p>
 <p>When this macro is defined, the <code>BOOST_HANA_*_ASSERT</code> macro &amp; friends are disabled, i.e. they expand to nothing.</p>
-<p>This macro is defined automatically when <code>NDEBUG</code> is defined. It can also be defined by users before including this header or defined on the command line.</p>
-<dl class="section note"><dt>Note</dt><dd>This macro has the side effect of disabling the checking of most preconditions in tag-dispatched methods, because those preconditions usually use the <code>BOOST_HANA_*_ASSERT</code> macros to do their job. However, if one wants to disable the checking of preconditions specifically, the <a class="el" href="group__group-config.html#gae842ac40c50442c84defc1f4b9ae4d38">BOOST_HANA_CONFIG_DISABLE_PRECONDITIONS</a> macro should be used instead. </dd></dl>
+<p>This macro is defined automatically when <code>NDEBUG</code> is defined. It can also be defined by users before including this header or defined on the command line. </p>
 
 </div>
 </div>
-<a class="anchor" id="ga4052530075fb10a81c8110b7830e56bd"></a>
+<a class="anchor" id="gad2b44f7cf8a6ba1002437a1a89e62acd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define BOOST_HANA_CONFIG_DISABLE_DATA_TYPE_CHECKS</td>
+          <td class="memname">#define BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</code></p>
 
-<p>Disables data type checks in the methods. </p>
-<p>When this macro is not defined, tag-dispatched methods will make sure the arguments they are passed are models of the proper concept(s). This can be very helpful in catching programming errors, but it is also slightly less compile-time efficient. You should probably always leave the checks enabled, except perhaps in translation units that are compiled very often but whose code using Hana is modified very rarely. </p>
+<p>Disables concept checks in interface methods. </p>
+<p>When this macro is not defined (the default), tag-dispatched methods will make sure the arguments they are passed are models of the proper concept(s). This can be very helpful in catching programming errors, but it is also slightly less compile-time efficient. You should probably always leave the checks enabled (and hence never define this macro), except perhaps in translation units that are compiled very often but whose code using Hana is modified very rarely. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga81de60f5bea16e6ff4a38c94e3022f10"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_CONFIG_ENABLE_STRING_UDL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</code></p>
+
+<p>Enables usage of the "string literal operator template" GNU extension. </p>
+<p>That operator is not part of the language yet, but it is supported by both Clang and GCC. This operator allows Hana to provide the nice <code>_s</code> user-defined literal for creating compile-time <code>String</code>s.</p>
+<p>When this macro is not defined, the GNU extension will be not used by Hana. Because this is a non-standard extension, the macro is not defined by default. </p>
 
 </div>
 </div>

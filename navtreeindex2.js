@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5":[1,0,14,0],
 "structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa":[1,0,14,4],
 "structboost_1_1hana_1_1Pair.html":[1,1,5],
 "structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1],
@@ -58,6 +59,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43":[1,1,7,1],
 "structboost_1_1hana_1_1String.html":[1,1,8],
 "structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84":[1,1,8,1],
+"structboost_1_1hana_1_1String.html#ad77f7afff008c2ce15739ad16a8bf0a8":[1,1,8,2],
 "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9":[1,1,8,0],
 "structboost_1_1hana_1_1Struct.html":[1,0,19],
 "structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672":[1,0,19,3],

@@ -61,7 +61,8 @@ var group__group_datatypes =
     ] ],
     [ "String", "structboost_1_1hana_1_1String.html", [
       [ "string", "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9", null ],
-      [ "BOOST_HANA_STRING", "structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84", null ]
+      [ "BOOST_HANA_STRING", "structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84", null ],
+      [ "operator\"\"_s", "structboost_1_1hana_1_1String.html#ad77f7afff008c2ce15739ad16a8bf0a8", null ]
     ] ],
     [ "Tuple", "structboost_1_1hana_1_1Tuple.html", [
       [ "make< Tuple >", "structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb", null ],

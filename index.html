@@ -202,6 +202,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level1"><a href="#tutorial-rationales">Rationales/FAQ</a><ul><li class="level2"><a href="#tutorial-rationales-dependencies">Why restrict usage of external dependencies?</a></li>
 <li class="level2"><a href="#tutorial-rationales-iterators">Why no iterators?</a></li>
 <li class="level2"><a href="#tutorial-rationales-container_types">Why leave container types unspecified?</a></li>
+<li class="level2"><a href="#tutorial-rationales-why_Hana">Why Hana?</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-appendix-constexpr">Apendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
@@ -707,6 +708,7 @@ Why stop here?</h2>
 Type computations</h1>
 <hr/>
 <p> At this point, if you are interested in doing type-level computations as with the MPL, you might be wondering how is Hana going to help you. Do not despair. Hana provides a way to perform type-level computations with a great deal of expressiveness by representing types as values, just like we represented compile-time numbers as values. This is a completely new way of approaching metaprogramming, and you should try to set your old MPL habits aside for a bit if you want to become proficient with Hana.</p>
+<p>However, please be aware that modern C++ features like <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction">auto-deduced return type</a> remove the need for type computations in many cases. Hence, before even considering to do a type computation, you should ask yourself whether there's a simpler way to achieve what you're trying to achieve. In most cases, the answer will be yes. However, when the answer is no, Hana will provide you with nuclear-strength facilities to do what needs to be done.</p>
 <h2><a class="anchor" id="tutorial-type-objects"></a>
 Types as objects</h2>
 <p>The key behind Hana's approach to type-level computations is essentially the same as the approach to compile-time arithmetic. Basically, the idea is to represent compile-time entities as objects by wrapping them into some kind of container. For <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s, the compile-time entities were constant expressions of an integral type and the wrapper we used was <code>integral_constant</code>. In this section, the compile-time entities will be types and the wrapper we'll be using is called <code>type</code>. Just like we did for <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s, let's start by defining a dummy template that could be used to represent a type:</p>
@@ -1154,7 +1156,7 @@ Introspection</h1>
 <div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; member : john)</div>
 <div class="line">  std::cout &lt;&lt; member.name &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; member.value &lt;&lt; std::endl;</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// name: &quot;John&quot;</span></div>
+<div class="line"><span class="comment">// name: John</span></div>
 <div class="line"><span class="comment">// age: 30</span></div>
 </div><!-- fragment --><p>If you have written a bit of templates in your life, chances are very high that you came across the first problem of checking for a member. Also, anyone having tried to implement object serialization or even just pretty printing has come across the second problem. In most dynamic languages like Python, Ruby or JavaScript, these problems are completely solved and introspection is used every day by programmers to make a lot of tasks simpler. However, as a C++ programmer, we do not have language support for those things, which makes several tasks much harder than they should be. While language support would likely be needed to properly tackle this problem, Hana makes some common introspection patterns much more accessible.</p>
 <h2><a class="anchor" id="tutorial-introspection-is_valid"></a>
@@ -1312,18 +1314,135 @@ Taking control of SFINAE</h2>
 </div><!-- fragment --><p> First, we wrap <code>toString</code> with the <code>sfinae</code> function. Hence, <code>maybe_toString</code> is a function which either returns <code>just(x.toString())</code> if that is well-formed, or <code>nothing</code> otherwise. Secondly, we use the <code>from_maybe</code> function to extract the optional value from the container. <code>from_maybe</code> takes a default value and an optional value. If the optional value is <code>nothing</code>, <code>from_maybe</code> returns the default value; otherwise, it returns the value inside the <code>just</code> (here <code>x.toString()</code>). This way of seeing SFINAE as a special case of computations that might fail is very clean and powerful, especially since <code>sfinae</code>'d functions can be combined through the <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>, which is left to the reference documentation.</p>
 <h2><a class="anchor" id="tutorial-introspection-adapting"></a>
 Introspecting user-defined types</h2>
-<p>Have you ever wanted to iterate over the members of a user-defined type? The goal of this section is to show you how Hana can be used to do it quite easily. To allow working with user-defined types, Hana defines the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. Once a user-defined type is a model of that concept, one can iterate over the members of an object of that type and query other useful information. The reference documentation for the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept covers the details about what can be done with a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>; we will focus on explaining how a user-defined type can be made a model of it.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd><ul>
-<li>How to adapt structs with the macros</li>
-<li>How to adapt structs without the macros</li>
-</ul>
-</dd></dl>
+<p>Have you ever wanted to iterate over the members of a user-defined type? The goal of this section is to show you how Hana can be used to do it quite easily. To allow working with user-defined types, Hana defines the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. Once a user-defined type is a model of that concept, one can iterate over the members of an object of that type and query other useful information. To turn a user-defined type into a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>, a couple of options are available. First, you may define the members of your user-defined type with the <code>BOOST_HANA_DEFINE_STRUCT</code> macro:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">  BOOST_HANA_DEFINE_STRUCT(Person,</div>
+<div class="line">    (std::string, name),</div>
+<div class="line">    (<span class="keywordtype">int</span>, age)</div>
+<div class="line">  );</div>
+<div class="line">};</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>This macro (and <code>BOOST_HANA_ADAPT_STRUCT</code> presented below) live in the <code>&lt;<a class="el" href="struct__macros_8hpp.html" title="Defines the BOOST_HANA_DEFINE_STRUCT and the BOOST_HANA_ADAPT_STRUCT macros. ">boost/hana/struct_macros.hpp</a>&gt;</code> header, and they require the Boost.Preprocessor library.</dd></dl>
+<p>This macro defines two members (<code>name</code> and <code>age</code>) with the given types. Then, it defines some boilerplate inside a <code>Person::hana</code> nested <code>struct</code>, which is required to make <code>Person</code> a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. No constructors are defined (so <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD-ness</a> is retained), the members are defined in the same order as they appear here and the macro can be used with template <code>struct</code>s just as well, and at any scope. Also note that you are free to add more members to the <code>Person</code> type after or before you use the macro. However, only members defined with the macro will be picked up when introspecting the <code>Person</code> type. Easy enough? Now, a <code>Person</code> can be accessed programmatically:</p>
+<div class="fragment"><div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
+<div class="line"></div>
+<div class="line">for_each(john, [](<span class="keyword">auto</span> pair) {</div>
+<div class="line">  std::cout &lt;&lt; to&lt;char const*&gt;(first(pair)) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; second(pair) &lt;&lt; std::endl;</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// name: John</span></div>
+<div class="line"><span class="comment">// age: 30</span></div>
+</div><!-- fragment --><p> Iteration over a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> is done as if the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> was a sequence of pairs, where the first element of a pair is the key associated to a member, and the second element is the member itself. When a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> is defined through the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, the key associated to any member is a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code> representing the name of that member. This is why the function used with <code>for_each</code> takes a single argument <code>pair</code>, and then uses <code>first</code> and <code>second</code> to access the subparts of the pair. Also, notice how the <code>to&lt;char const*&gt;</code> function is used on the name of the member? This converts the compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code> to a <code>constexpr char const*</code> so it can <code>cout</code>ed. Since it can be annoying to always use <code>first</code> and <code>second</code> to fetch the subparts of the pair, we can also use the <code>fuse</code> function to wrap our lambda and make it a binary lambda instead:</p>
+<div class="fragment"><div class="line">for_each(john, fuse([](<span class="keyword">auto</span> name, <span class="keyword">auto</span> member) {</div>
+<div class="line">  std::cout &lt;&lt; to&lt;char const*&gt;(name) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; member &lt;&lt; std::endl;</div>
+<div class="line">}));</div>
+</div><!-- fragment --><p> Now, it looks much cleaner. As we just mentioned, <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>s are seen as a kind of sequence of pairs for the purpose of iteration. In fact, a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> can even be searched like an associative data structure whose keys are the names of the members, and whose values are the members themselves:</p>
+<div class="fragment"><div class="line">std::string name = at_key(john, <span class="stringliteral">&quot;name&quot;</span>_s);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(name == <span class="stringliteral">&quot;John&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> age = at_key(john, <span class="stringliteral">&quot;age&quot;</span>_s);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(age == 30);</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The <code>_s</code> user-defined literal creates a compile-time Hana <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code>. It is located in the <code>boost::hana::literals</code> namespace. Note that it is not part of the standard yet, but it is supported by Clang and GCC. If you want to stay 100% standard, you can use the <code>BOOST_HANA_STRING</code> macro instead.</dd></dl>
+<p>The main difference between a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> and a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> is that a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> can be modified (keys can be added and removed), while a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> is immutable. However, you can easily convert a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> into a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> by using <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a>&gt;</code>, and then you can manipulate it in a more flexible way.</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> map = insert(to&lt;Map&gt;(john), make_pair(<span class="stringliteral">&quot;last name&quot;</span>_s, <span class="stringliteral">&quot;Doe&quot;</span>s));</div>
+<div class="line"></div>
+<div class="line">std::string name = map[<span class="stringliteral">&quot;name&quot;</span>_s];</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(name == <span class="stringliteral">&quot;John&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">std::string last_name = map[<span class="stringliteral">&quot;last name&quot;</span>_s];</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(last_name == <span class="stringliteral">&quot;Doe&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> age = map[<span class="stringliteral">&quot;age&quot;</span>_s];</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(age == 30);</div>
+</div><!-- fragment --><p> Using the <code>BOOST_HANA_DEFINE_STRUCT</code> macro to adapt a <code>struct</code> is convenient, but sometimes one can't modify the type that needs to be adapted. In these cases, the <code>BOOST_HANA_ADAPT_STRUCT</code> macro can be used to adapt a <code>struct</code> in a ad-hoc manner:</p>
+<div class="fragment"><div class="line"><span class="keyword">namespace </span>not_my_namespace {</div>
+<div class="line">  <span class="keyword">struct </span>Person {</div>
+<div class="line">    std::string name;</div>
+<div class="line">    <span class="keywordtype">int</span> age;</div>
+<div class="line">  };</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">BOOST_HANA_ADAPT_STRUCT(not_my_namespace::Person,</div>
+<div class="line">  (std::string, name),</div>
+<div class="line">  (<span class="keywordtype">int</span>, age)</div>
+<div class="line">);</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The <code>BOOST_HANA_ADAPT_STRUCT</code> macro must be used at global scope.</dd></dl>
+<p>The effect is exactly the same as with the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, except you do not need to modify the type you want to adapt, which is sometimes useful. Before we move on to a concrete example of using these introspection features, it should also be mentioned that <code>struct</code>s can be adapted without using macros. This advanced interface for defining <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>s can be used to specify keys that are not compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code>s and to specify custom accessors for the members of the structure. The advanced interface is described in the documentation for the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept.</p>
 <h2><a class="anchor" id="tutorial-introspection-json"></a>
 Example: generating JSON</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd><ul>
-<li>Present the example of generating JSON. Should also support std::containers.</li>
-</ul>
-</dd></dl>
+<p>Let's now move on with a concrete example of using the introspection capabilities we just presented for printing custom objects as JSON. Our end goal is to have something like this:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Car {</div>
+<div class="line">  BOOST_HANA_DEFINE_STRUCT(Car,</div>
+<div class="line">    (std::string, brand),</div>
+<div class="line">    (std::string, model)</div>
+<div class="line">  );</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">  BOOST_HANA_DEFINE_STRUCT(Person,</div>
+<div class="line">    (std::string, name),</div>
+<div class="line">    (std::string, last_name),</div>
+<div class="line">    (<span class="keywordtype">int</span>, age)</div>
+<div class="line">  );</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">Car bmw{<span class="stringliteral">&quot;BMW&quot;</span>, <span class="stringliteral">&quot;Z3&quot;</span>}, audi{<span class="stringliteral">&quot;Audi&quot;</span>, <span class="stringliteral">&quot;A4&quot;</span>};</div>
+<div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, <span class="stringliteral">&quot;Doe&quot;</span>, 30};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> tuple = make_tuple(john, audi, bmw);</div>
+<div class="line">std::cout &lt;&lt; to_json(tuple) &lt;&lt; std::endl;</div>
+</div><!-- fragment --><p> And the output, after passing it through a JSON pretty-printer, should look like</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;[</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;  {</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;    &quot;name&quot;: &quot;John&quot;,</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    &quot;last_name&quot;: &quot;Doe&quot;,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    &quot;age&quot;: 30</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  },</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    &quot;brand&quot;: &quot;Audi&quot;,</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    &quot;model&quot;: &quot;A4&quot;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  },</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    &quot;brand&quot;: &quot;BMW&quot;,</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    &quot;model&quot;: &quot;Z3&quot;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;]</div>
+</div><!-- fragment --><p>First, let's define a couple of utility functions to make string manipulation easier:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs&gt;</div>
+<div class="line">std::string join(Xs&amp;&amp; xs, std::string sep) {</div>
+<div class="line">  <span class="keywordflow">return</span> fold(intersperse(std::forward&lt;Xs&gt;(xs), sep), <span class="stringliteral">&quot;&quot;</span>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">std::string quote(std::string s) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;\&quot;&quot;</span> + s + <span class="stringliteral">&quot;\&quot;&quot;</span>; }</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> to_json(T <span class="keyword">const</span>&amp; x) -&gt; decltype(std::to_string(x)) {</div>
+<div class="line">  <span class="keywordflow">return</span> std::to_string(x);</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">std::string to_json(<span class="keywordtype">char</span> c) { <span class="keywordflow">return</span> quote({c}); }</div>
+<div class="line">std::string to_json(std::string s) { <span class="keywordflow">return</span> quote(s); }</div>
+</div><!-- fragment --><p> The <code>quote</code> and the <code>to_json</code> overloads are pretty self-explanatory. The <code>join</code> function, however, might need a bit of explanation. Basically, the <code>intersperse</code> function takes a sequence and a separator, and returns a new sequence with the separator in between each pair of elements of the original sequence. In other words, we take a sequence of the form <code>[x1, ..., xn]</code> and turn it into a sequence of the form <code>[x1, seq, x2, sep, ..., sep, xn]</code>. Finally, we fold the resulting sequence with the <code>_ + _</code> function object, which is equivalent to <code>std::plus&lt;&gt;{}</code>. Since our sequence contains <code>std::string</code>s (we assume it does), this has the effect of concatenating all the strings of the sequence into one big string. Now, let's define how to print a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs&gt;</div>
+<div class="line">  std::enable_if_t&lt;models&lt;Sequence, Xs&gt;(),</div>
+<div class="line">std::string&gt; to_json(Xs <span class="keyword">const</span>&amp; xs) {</div>
+<div class="line">  <span class="keyword">auto</span> json = transform(xs, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">    <span class="keywordflow">return</span> to_json(x);</div>
+<div class="line">  });</div>
+<div class="line"></div>
+<div class="line">  <span class="keywordflow">return</span> <span class="stringliteral">&quot;[&quot;</span> + join(std::move(json), <span class="stringliteral">&quot;, &quot;</span>) + <span class="stringliteral">&quot;]&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> First, we use the <code>transform</code> algorithm to turn our sequence of objects into a sequence of <code>std::string</code>s in JSON format. Then, we join that sequence with commas and we enclose it with <code>[]</code> to denote a sequence in JSON notation. Simple enough? Let's now take a look at how to print user-defined types:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line">  std::enable_if_t&lt;models&lt;Struct, T&gt;(),</div>
+<div class="line">std::string&gt; to_json(T <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">  <span class="keyword">auto</span> json = transform(keys(x), [&amp;](<span class="keyword">auto</span> name) {</div>
+<div class="line">    <span class="keyword">auto</span> <span class="keyword">const</span>&amp; member = at_key(x, name);</div>
+<div class="line">    <span class="keywordflow">return</span> quote(to&lt;char const*&gt;(name)) + <span class="stringliteral">&quot; : &quot;</span> + to_json(member);</div>
+<div class="line">  });</div>
+<div class="line"></div>
+<div class="line">  <span class="keywordflow">return</span> <span class="stringliteral">&quot;{&quot;</span> + join(std::move(json), <span class="stringliteral">&quot;, &quot;</span>) + <span class="stringliteral">&quot;}&quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> Here, we use the <code>keys</code> method to retrieve a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> containing the names of the members of the user-defined type. Then, we <code>transform</code> that sequence into a sequence of <code>"name" : member</code> strings, which we then <code>join</code> and enclose with <code>{}</code>, which is used to denote objects in JSON notation. And that's it!</p>
 <h1><a class="anchor" id="tutorial-performance"></a>
 Performance considerations</h1>
 <hr/>
@@ -1366,7 +1485,7 @@ Runtime performance</h2>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h2><a class="anchor" id="tutorial-ext-std"></a>
 The standard library</h2>
 <h2><a class="anchor" id="tutorial-ext-fusion"></a>
@@ -1497,7 +1616,7 @@ Tag dispatching</h2>
 <div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-creating_concepts"></a>
 Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -1628,7 +1747,10 @@ Why leave container types unspecified?</h2>
 <div class="line"><span class="keyword">auto</span> f(Xs&amp;&amp; xs, Index i = size_t&lt;0&gt;) {</div>
 <div class="line">  <span class="comment">// same as before</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-rationales-why_Hana"></a>
+Why Hana?</h2>
+<p>No, it isn't the name of my girlfriend! I just needed a short and good looking name that people would easily remember, and Hana came up.</p>
+<h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
 Apendix I: Advanced constexpr</h1>
 <hr/>
 <p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++14. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. This section covers advanced concepts about to constant expressions; only readers with a good understanding of <code>constexpr</code> should attempt to read this.</p>
@@ -1672,7 +1794,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -1720,11 +1842,11 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-math"></a>
 Apendix II: The maths behind Hana</h1>
 <hr/>
- <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000018">Todo:</a></b></dt><dd>Write this section. </dd></dl>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Write this section. </dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix III: A minimal MPL</h1>
 <hr/>
