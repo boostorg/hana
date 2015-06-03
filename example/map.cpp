@@ -6,12 +6,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/functional/placeholder.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/maybe.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/set.hpp>
+#include <boost/hana/string.hpp>
 #include <boost/hana/type.hpp>
 
 #include <string>
@@ -100,8 +102,9 @@ auto m = make<Map>(
     make<Pair>(int_<1>, "foobar"s),
     make<Pair>(type<void>, 1234)
 );
+
+BOOST_HANA_CONSTANT_CHECK(is_a<Map>(m));
 //! [make<Map>]
-(void)m;
 
 }{
 
@@ -171,22 +174,44 @@ BOOST_HANA_RUNTIME_CHECK(
 //! [insert]
 using namespace std::literals;
 
-auto m = make<Map>(
-    make<Pair>(type<int>, "abcd"s),
-    make<Pair>(type<void>, 1234)
+auto m = make_map(
+    make_pair(type<int>, "abcd"s),
+    make_pair(type<void>, 1234)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    insert(m, make<Pair>(type<float>, 'x')) ==
-    make<Map>(
-        make<Pair>(type<int>, "abcd"s),
-        make<Pair>(type<void>, 1234),
-        make<Pair>(type<float>, 'x')
+    insert(m, make_pair(type<float>, 'x')) ==
+    make_map(
+        make_pair(type<int>, "abcd"s),
+        make_pair(type<void>, 1234),
+        make_pair(type<float>, 'x')
     )
 );
 
-BOOST_HANA_RUNTIME_CHECK(insert(m, make<Pair>(type<void>, 'x')) == m);
+BOOST_HANA_RUNTIME_CHECK(insert(m, make_pair(type<void>, 'x')) == m);
 //! [insert]
+
+}{
+
+//! [erase_key]
+using namespace std::literals;
+
+auto m = make_map(
+    make_pair(type<int>, "abcd"s),
+    make_pair(type<void>, 1234),
+    make_pair(BOOST_HANA_STRING("foobar!"), type<char>)
+);
+
+BOOST_HANA_RUNTIME_CHECK(
+    erase_key(m, BOOST_HANA_STRING("foobar!")) ==
+    make_map(
+        make_pair(type<int>, "abcd"s),
+        make_pair(type<void>, 1234)
+    )
+);
+
+BOOST_HANA_RUNTIME_CHECK(erase_key(m, type<char>) == m);
+//! [erase_key]
 
 }
 

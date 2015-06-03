@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAP_HPP
 #define BOOST_HANA_FWD_MAP_HPP
 
+#include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/keys_fwd.hpp>
 #include <boost/hana/fwd/core/make.hpp>
@@ -129,7 +130,7 @@ namespace boost { namespace hana {
     //!
     //! @param pair
     //! An arbitrary `Product` representing a `(key, value)` pair to insert
-    //! in the map.
+    //! in the map. The `key` must be compile-time `Comparable`.
     //!
     //!
     //! Example
@@ -137,6 +138,31 @@ namespace boost { namespace hana {
     //! @snippet example/map.cpp insert
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& map, auto&& pair) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#endif
+
+    //! Removes a key/value pair from a `Map`.
+    //! @relates Map
+    //!
+    //! Returns a new `Map` containing all the elements of the original,
+    //! except for the `(key, value)` pair whose `key` compares `equal`
+    //! to the given key. If the `Map` does not contain such an element,
+    //! a new `Map` equal to the original is returned.
+    //!
+    //!
+    //! @param map
+    //! The map in which to erase a `key`.
+    //!
+    //! @param key
+    //! A key to remove from the `Map`. It must be compile-time `Comparable`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/map.cpp erase_key
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto erase_key = [](auto&& map, auto&& key) -> decltype(auto) {
         return tag-dispatched;
     };
 #endif

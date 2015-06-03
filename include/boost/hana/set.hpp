@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/foldable.hpp>
@@ -150,6 +151,21 @@ namespace boost { namespace hana {
             return hana::eval_if(hana::contains(set, x),
                 hana::lazy(set),
                 hana::lazy(insert_helper{})(set, x)
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // erase_key
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct erase_key_impl<Set> {
+        template <typename S, typename X>
+        static constexpr decltype(auto) apply(S&& set, X&& x) {
+            return hana::unpack(
+                hana::remove(static_cast<S&&>(set).storage,
+                             static_cast<X&&>(x)),
+                make<Set>
             );
         }
     };

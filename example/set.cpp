@@ -96,6 +96,15 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 //! [insert]
 
+}{
+
+//! [erase_key]
+constexpr auto xs = set(int_<0>, type<int>, type<void>);
+
+BOOST_HANA_CONSTANT_CHECK(erase_key(xs, type<int>) == set(int_<0>, type<void>));
+BOOST_HANA_CONSTANT_CHECK(erase_key(xs, type<char>) == xs);
+//! [erase_key]
+
 }
 
 }

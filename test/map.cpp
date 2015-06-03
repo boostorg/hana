@@ -154,6 +154,55 @@ int main() {
         ));
     }
 
+    //////////////////////////////////////////////////////////////////////////
+    // erase_key
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(), undefined{}),
+            make<Map>()
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>()), key<1>()),
+            make<Map>()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>()), key<99>()),
+            make<Map>(p<1, 1>())
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>()), key<99>()),
+            make<Map>(p<1, 1>(), p<2, 2>())
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>()), key<1>()),
+            make<Map>(p<2, 2>())
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>()), key<2>()),
+            make<Map>(p<1, 1>())
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>(), p<3, 3>()), key<99>()),
+            make<Map>(p<1, 1>(), p<2, 2>(), p<3, 3>())
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>(), p<3, 3>()), key<1>()),
+            make<Map>(p<2, 2>(), p<3, 3>())
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>(), p<3, 3>()), key<2>()),
+            make<Map>(p<1, 1>(), p<3, 3>())
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make<Map>(p<1, 1>(), p<2, 2>(), p<3, 3>()), key<3>()),
+            make<Map>(p<1, 1>(), p<2, 2>())
+        ));
+    }
+
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
     // Conversions

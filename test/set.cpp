@@ -20,6 +20,7 @@ using namespace boost::hana;
 
 
 using test::ct_eq;
+struct undefined { };
 
 int main() {
     auto eqs = make<Tuple>(
@@ -101,6 +102,55 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(equal(
             insert(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<3>{}),
             set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // erase_key
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(), undefined{}),
+            set()
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}), ct_eq<0>{}),
+            set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}), ct_eq<99>{}),
+            set(ct_eq<0>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<0>{}),
+            set(ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
+            set(ct_eq<0>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<99>{}),
+            set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<0>{}),
+            set(ct_eq<1>{}, ct_eq<2>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<1>{}),
+            set(ct_eq<0>{}, ct_eq<2>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<2>{}),
+            set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<99>{}),
+            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 

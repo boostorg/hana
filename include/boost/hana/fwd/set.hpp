@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SET_HPP
 #define BOOST_HANA_FWD_SET_HPP
 
+#include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
@@ -108,6 +109,31 @@ namespace boost { namespace hana {
     //! @snippet example/set.cpp insert
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& set, auto&& element) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#endif
+
+    //! Remove an element from a `Set`.
+    //! @relates Set
+    //!
+    //! Returns a new `Set` containing all the elements of the original,
+    //! except the one comparing `equal` to the given element. If the set
+    //! does not contain such an element, a new set equal to the original
+    //! set is returned.
+    //!
+    //!
+    //! @param set
+    //! The set in which to remove a value.
+    //!
+    //! @param element
+    //! The value to remove. It must be compile-time `Comparable`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/set.cpp erase_key
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto erase_key = [](auto&& set, auto&& element) -> decltype(auto) {
         return tag-dispatched;
     };
 #endif
