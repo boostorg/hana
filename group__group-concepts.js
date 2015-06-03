@@ -152,6 +152,7 @@ var group__group_concepts =
       [ "take_until", "structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
       [ "take_while", "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff", null ],
       [ "unfold", "structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3", null ],
+      [ "unique", "structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590", null ],
       [ "unzip", "structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a", null ],
       [ "zip", "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ]
     ] ],

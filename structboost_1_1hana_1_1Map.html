@@ -232,6 +232,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a new key/value pair in a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
 <tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
+<tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key/value pair from a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
+<tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
 <a class="anchor" id="aa98dda24b823031a42e47897de220019"></a>
@@ -266,6 +269,8 @@ template&lt;&gt; </div>
 <div class="line">    make&lt;Pair&gt;(int_&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">    make&lt;Pair&gt;(type&lt;void&gt;, 1234)</div>
 <div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_a&lt;Map&gt;(m));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -401,28 +406,79 @@ template&lt;&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">map</td><td>The map in which to insert a <code>(key,value)</code> pair.</td></tr>
-    <tr><td class="paramname">pair</td><td>An arbitrary <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> representing a <code>(key, value)</code> pair to insert in the map.</td></tr>
+    <tr><td class="paramname">pair</td><td>An arbitrary <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> representing a <code>(key, value)</code> pair to insert in the map. The <code>key</code> must be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019">make&lt;Map&gt;</a>(</div>
-<div class="line">    make&lt;Pair&gt;(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
-<div class="line">    make&lt;Pair&gt;(type&lt;void&gt;, 1234)</div>
+<div class="line"><span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<div class="line">    make_pair(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
+<div class="line">    make_pair(type&lt;void&gt;, 1234)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(m, make&lt;Pair&gt;(type&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)) ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019">make&lt;Map&gt;</a>(</div>
-<div class="line">        make&lt;Pair&gt;(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
-<div class="line">        make&lt;Pair&gt;(type&lt;void&gt;, 1234),</div>
-<div class="line">        make&lt;Pair&gt;(type&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(m, make_pair(type&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)) ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<div class="line">        make_pair(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
+<div class="line">        make_pair(type&lt;void&gt;, 1234),</div>
+<div class="line">        make_pair(type&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">    )</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(m, make&lt;Pair&gt;(type&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(m, make_pair(type&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="af856f7bf77f69cdf1b8fd4e566eaef9b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto erase_key</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map, <span class="keyword">auto</span>&amp;&amp; key) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Removes a key/value pair from a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>. </p>
+<p>Returns a new <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> containing all the elements of the original, except for the <code>(key, value)</code> pair whose <code>key</code> compares <code>equal</code> to the given key. If the <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> does not contain such an element, a new <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code> equal to the original is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">map</td><td>The map in which to erase a <code>key</code>.</td></tr>
+    <tr><td class="paramname">key</td><td>A key to remove from the <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="A basic associative array requiring unique and Comparable keys. ">Map</a></code>. It must be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<div class="line">    make_pair(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
+<div class="line">    make_pair(type&lt;void&gt;, 1234),</div>
+<div class="line">    make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>), type&lt;char&gt;)</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(m, BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>)) ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<div class="line">        make_pair(type&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
+<div class="line">        make_pair(type&lt;void&gt;, 1234)</div>
+<div class="line">    )</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(m, type&lt;char&gt;) == m);</div>
 </div><!-- fragment -->
 </div>
 </div>

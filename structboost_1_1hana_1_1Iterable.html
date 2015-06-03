@@ -151,7 +151,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Iterable.html',
 <p><code>head</code>, <code>tail</code> and <code>is_empty</code></p>
 <h2>Superclasses </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (free model)<br />
 Any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, where the keys and the values are both the elements in the structure. Searching for a key is just doing a linear search through the elements of the structure. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    find_if(make&lt;Tuple&gt;(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait&lt;std::is_integral&gt;) == just(2)</div>
 <div class="line">);</div>

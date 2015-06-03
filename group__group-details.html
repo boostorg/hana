@@ -153,6 +153,10 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplParams" colspan="2">template&lt;typename Algorithm &gt; </td></tr>
+<tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = by_holder&lt; Algorithm &gt;</td></tr>
+<tr class="memdesc:ga1f92c27de855a682eebde5f7d0138d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.by</code> static constexpr function object.  <a href="#ga1f92c27de855a682eebde5f7d0138d18">More...</a><br /></td></tr>
+<tr class="separator:ga1f92c27de855a682eebde5f7d0138d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga69e96285beeb552b4cddc9f32336f5a2"><td class="memTemplParams" colspan="2">template&lt;typename... Xs&gt; </td></tr>
 <tr class="memitem:ga69e96285beeb552b4cddc9f32336f5a2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2">boost::hana::detail::closure</a> = typename make_closure_impl&lt; detail::std::make_index_sequence&lt; sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
 <tr class="memdesc:ga69e96285beeb552b4cddc9f32336f5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimalistic closure implemented through multiple inheritance.  <a href="#ga69e96285beeb552b4cddc9f32336f5a2">More...</a><br /></td></tr>
@@ -176,6 +180,28 @@ template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="separator:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="ga1f92c27de855a682eebde5f7d0138d18"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Algorithm &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = typedef by_holder&lt;Algorithm&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="by__fwd_8hpp.html">boost/hana/detail/by_fwd.hpp</a>&gt;</code></p>
+
+<p>Provides a <code>.by</code> static constexpr function object. </p>
+<p>When creating a binary function object of type <code>Algo</code> whose signature is <code>Object x Predicate -&gt; Return</code>, <code>by&lt;Algo&gt;</code> can be used as a base class to <code>Algo</code>. Doing so will provide a static constexpr member called <code>by</code>, which has the two following signatures: </p><div class="fragment"><div class="line">Predicate x Object -&gt; Return</div>
+<div class="line">Predicate -&gt; (Object -&gt; Return)</div>
+</div><!-- fragment --><p>In other words, <code>by</code> is a <code>curry</code>ed and <code>flip</code>ped version of <code>Algo</code>. Note that the function object <code>Algo</code> must be default-constructible, since the algorithm will be called as <code>Algo{}(arguments...)</code> by <code>by</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>This function object is especially useful because it takes care of avoiding ODR violations caused by the nested static constexpr member. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga69e96285beeb552b4cddc9f32336f5a2"></a>
 <div class="memitem">
 <div class="memproto">

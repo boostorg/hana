@@ -198,12 +198,12 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line">]</div>
 </div><!-- fragment --> This acts like a <code>std::tuple_cat</code> function, except it receives a sequence of sequences instead of a variadic pack of sequences to flatten.<br />
 <b>Example</b>: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    flatten(make&lt;Tuple&gt;(</div>
-<div class="line">        make&lt;Tuple&gt;(1, 2),</div>
-<div class="line">        make&lt;Tuple&gt;(3, 4),</div>
-<div class="line">        make&lt;Tuple&gt;(make&lt;Tuple&gt;(5, 6))</div>
+<div class="line">    flatten(make_tuple(</div>
+<div class="line">        make_tuple(1, 2),</div>
+<div class="line">        make_tuple(3, 4),</div>
+<div class="line">        make_tuple(make_tuple(5, 6))</div>
 <div class="line">    ))</div>
-<div class="line">    == make&lt;Tuple&gt;(1, 2, 3, 4, make&lt;Tuple&gt;(5, 6))</div>
+<div class="line">    == make_tuple(1, 2, 3, 4, make_tuple(5, 6))</div>
 <div class="line">);</div>
 </div><!-- fragment --> Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>chain</code>ing a sequence of values into such a function will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences.<br />
 <b>Example</b>: <div class="fragment"><div class="line"><span class="comment">// Using the Tuple Monad, we generate all the possible combinations of</span></div>
@@ -274,13 +274,15 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" tit
 <div class="line">    <span class="keywordflow">return</span> <span class="stringliteral">&quot;(&quot;</span> + to_string(x) + <span class="stringliteral">&quot; + &quot;</span> + to_string(y) + <span class="stringliteral">&quot;)&quot;</span>;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(fold.left(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    fold.left(make_tuple(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), <span class="stringliteral">&quot;1&quot;</span>, show) == <span class="stringliteral">&quot;(((1 + 2) + 3) + 4)&quot;</span></div>
+<div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
-The model of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(head(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(tail(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(make&lt;Tuple&gt;()));</div>
+The model of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(head(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(tail(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(make_tuple()));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (definition provided automatically)<br />
 Searching through a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> is equivalent to just searching through a list of the values it contains. The keys and the values on which the search is performed are both the elements of the sequence. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
@@ -346,7 +348,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95">cartesian_product</a> = see documentation</td></tr>
 <tr class="memdesc:a211a6ce41e4972cd7642b77a1afa8e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cartesian product of a sequence of sequences.  <a href="#a211a6ce41e4972cd7642b77a1afa8e95">More...</a><br /></td></tr>
 <tr class="separator:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a> = see documentation</td></tr>
+<tr class="memitem:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a></td></tr>
 <tr class="memdesc:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> adjacent elements of a sequence that all respect a binary predicate, by default equality.  <a href="#a83d9b8f0f293c6fe7cfccd2359dec330">More...</a><br /></td></tr>
 <tr class="separator:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
@@ -381,7 +383,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:afa204f71aac9f461d8574653295c67ba"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba">slice_c</a></td></tr>
 <tr class="memdesc:afa204f71aac9f461d8574653295c67ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>slice</code>; provided for convenience.  <a href="#afa204f71aac9f461d8574653295c67ba">More...</a><br /></td></tr>
 <tr class="separator:afa204f71aac9f461d8574653295c67ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58c1454689bf6d2264bc428dc1d039db"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a> = see documentation</td></tr>
+<tr class="memitem:a58c1454689bf6d2264bc428dc1d039db"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a></td></tr>
 <tr class="memdesc:a58c1454689bf6d2264bc428dc1d039db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a sequence, optionally based on a custom <code>predicate</code>.  <a href="#a58c1454689bf6d2264bc428dc1d039db">More...</a><br /></td></tr>
 <tr class="separator:a58c1454689bf6d2264bc428dc1d039db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab663fc84c23656a41d4dfcb586f0085c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a></td></tr>
@@ -407,6 +409,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3">unfold</a> = see documentation</td></tr>
 <tr class="memdesc:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dual operation to <code>fold</code> for sequences.  <a href="#a08bed7da3a1bc6d0e8d11e5440d879c3">More...</a><br /></td></tr>
 <tr class="separator:a08bed7da3a1bc6d0e8d11e5440d879c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00c9ad102df93f8e88c37afd92f34590"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a></td></tr>
+<tr class="memdesc:a00c9ad102df93f8e88c37afd92f34590"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all consecutive duplicate elements from a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>.  <a href="#a00c9ad102df93f8e88c37afd92f34590">More...</a><br /></td></tr>
+<tr class="separator:a00c9ad102df93f8e88c37afd92f34590"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5308d966fbf95d317511a706d6d20a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td></tr>
 <tr class="memdesc:abe5308d966fbf95d317511a706d6d20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unzip a sequence of sequences.  <a href="#abe5308d966fbf95d317511a706d6d20a">More...</a><br /></td></tr>
 <tr class="separator:abe5308d966fbf95d317511a706d6d20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -489,7 +494,7 @@ Synopsis of methods</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto group = see documentation</td>
+          <td class="memname">constexpr auto group</td>
         </tr>
       </table>
   </td>
@@ -498,7 +503,10 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; predicate]) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
 <p><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> adjacent elements of a sequence that all respect a binary predicate, by default equality. </p>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> and an optional predicate (by default <code>equal</code>), <code>group</code> returns a sequence of subsequences representing groups of adjacent elements that are "equal" with respect to the predicate. In other words, the groups are such that the predicate is satisfied when it is applied to any two adjacent elements in that group. The sequence returned by <code>group</code> is such that the concatenation of its elements is equal to the original sequence, which is equivalent to saying that the order of the elements is not changed.</p>
 <p>If no predicate is provided, adjacent elements in the sequence must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</p>
@@ -516,57 +524,58 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
-<h2>Syntactic sugar (<code>group.by</code>) </h2>
-<p><code>group</code> can be called in a third way, which provides a nice syntax especially when working with the <code>comparing</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(-, predicate)</div>
-</div><!-- fragment --><p>where <code>group(-, predicate)</code> denotes the partial application of <code>group</code> to <code>predicate</code>.</p>
-<h2>Tag dispatching </h2>
-<p>Both the non-predicated version and the predicated versions of <code>group</code> are tag-dispatched methods, and hence they can be customized independently. Here is how the different versions of <code>group</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">group_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
-<div class="line">group(xs, pred) -&gt; group_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
-</div><!-- fragment --><p>Also note that <code>group.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>group</code>.</p>
-<h2>Example </h2>
+<h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">// without a predicate</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(make&lt;Tuple&gt;(int_&lt;1&gt;, long_&lt;1&gt;, type&lt;int&gt;, char_&lt;&#39;x&#39;&gt;, char_&lt;&#39;x&#39;&gt;))</div>
-<div class="line">        == make&lt;Tuple&gt;(</div>
-<div class="line">            make&lt;Tuple&gt;(int_&lt;1&gt;, long_&lt;1&gt;),</div>
-<div class="line">            make&lt;Tuple&gt;(type&lt;int&gt;),</div>
-<div class="line">            make&lt;Tuple&gt;(char_&lt;&#39;x&#39;&gt;, char_&lt;&#39;x&#39;&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(make_tuple(int_&lt;1&gt;, long_&lt;1&gt;, type&lt;int&gt;, char_&lt;&#39;x&#39;&gt;, char_&lt;&#39;x&#39;&gt;))</div>
+<div class="line">        == make_tuple(</div>
+<div class="line">            make_tuple(int_&lt;1&gt;, long_&lt;1&gt;),</div>
+<div class="line">            make_tuple(type&lt;int&gt;),</div>
+<div class="line">            make_tuple(char_&lt;&#39;x&#39;&gt;, char_&lt;&#39;x&#39;&gt;)</div>
 <div class="line">        )</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// with a predicate</span></div>
-<div class="line"><span class="keyword">auto</span> tuples = make&lt;Tuple&gt;(</div>
+<div class="line"><span class="keyword">auto</span> tuples = make_tuple(</div>
 <div class="line">    range_c&lt;int, 0, 1&gt;,</div>
 <div class="line">    range_c&lt;int, 0, 2&gt;,</div>
 <div class="line">    range_c&lt;int, 1, 3&gt;,</div>
 <div class="line">    range_c&lt;int, 2, 6&gt;</div>
 <div class="line">);</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(tuples, comparing(length))</div>
-<div class="line">        == make&lt;Tuple&gt;(</div>
-<div class="line">            make&lt;Tuple&gt;(</div>
+<div class="line">        == make_tuple(</div>
+<div class="line">            make_tuple(</div>
 <div class="line">                range_c&lt;int, 0, 1&gt;</div>
 <div class="line">            ),</div>
-<div class="line">            make&lt;Tuple&gt;(</div>
+<div class="line">            make_tuple(</div>
 <div class="line">                range_c&lt;int, 0, 2&gt;,</div>
 <div class="line">                range_c&lt;int, 1, 3&gt;</div>
 <div class="line">            ),</div>
-<div class="line">            make&lt;Tuple&gt;(</div>
+<div class="line">            make_tuple(</div>
 <div class="line">                range_c&lt;int, 2, 6&gt;</div>
 <div class="line">            )</div>
 <div class="line">        )</div>
 <div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    group.by(comparing(decltype_), make&lt;Tuple&gt;(1, 2, 3, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, 4.4, 5.5))</div>
-<div class="line">        == make&lt;Tuple&gt;(</div>
-<div class="line">            make&lt;Tuple&gt;(1, 2, 3),</div>
-<div class="line">            make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>),</div>
-<div class="line">            make&lt;Tuple&gt;(4.4, 5.5)</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>group.by</code>) </h2>
+<p><code>group</code> can be called in a third way, which provides a nice syntax especially when working with the <code>comparing</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>group(-, predicate)</code> denotes the partial application of <code>group</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    group.by(comparing(decltype_), make_tuple(1, 2, 3, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, 4.4, 5.5))</div>
+<div class="line">        == make_tuple(</div>
+<div class="line">            make_tuple(1, 2, 3),</div>
+<div class="line">            make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>),</div>
+<div class="line">            make_tuple(4.4, 5.5)</div>
 <div class="line">        )</div>
 <div class="line">);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><h2>Tag dispatching </h2>
+<p>Both the non-predicated version and the predicated versions of <code>group</code> are tag-dispatched methods, and hence they can be customized independently. Here is how the different versions of <code>group</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">group_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
+<div class="line">group(xs, pred) -&gt; group_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
+</div><!-- fragment --><p>Also note that <code>group.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>group</code>. </p>
+
 </div>
 </div>
 <a class="anchor" id="a733fdb2e8686033466beea8323e53a26"></a>
@@ -593,9 +602,10 @@ Synopsis of methods</h2></td></tr>
 <p>Remove the last element of a non-empty sequence. </p>
 <p>If the sequence is empty, a compile-time assertion is triggered. Otherwise, a copy of the original sequence with its last element removed is returned.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make&lt;Tuple&gt;(1)) == make&lt;Tuple&gt;());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1)) == make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -631,9 +641,9 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, 3.3)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="charliteral">&#39;x&#39;</span>) == make_tuple(1, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;2&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, 3.3)</div>
 <div class="line">);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(make&lt;Tuple&gt;(), <span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(make_tuple(), <span class="charliteral">&#39;x&#39;</span>) == make_tuple());</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -660,6 +670,10 @@ Synopsis of methods</h2></td></tr>
 </div><!-- fragment -->
 <p>Partition a sequence based on a <code>predicate</code>. </p>
 <p>Specifically, returns an unspecified <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> whose first element is a sequence of the elements satisfying the predicate, and whose second element is a sequence of the elements that do not satisfy the predicate.</p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> <code>S(T)</code>, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code> and a predicate \( T \to Bool \), <code>partition</code> has the following signature: </p><p class="formulaDsp">
+\[ \mathrm{partition} : S(T) \times (T \to Bool) \to S(T) \times S(T) \]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The sequence to be partitioned.</td></tr>
@@ -667,7 +681,7 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
-<h2>Example </h2>
+<h3>Example</h3>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>(tuple_c&lt;int, 1, 2, 3, 4, 5, 6, 7&gt;, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> x % int_&lt;2&gt; != int_&lt;0&gt;;</div>
@@ -687,7 +701,20 @@ Synopsis of methods</h2></td></tr>
 <div class="line">        tuple_t&lt;void, int, char&gt;</div>
 <div class="line">    )</div>
 <div class="line">);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
+</div><!-- fragment --><h2>Syntactic sugar (<code>partition.by</code>) </h2>
+<p><code>partition</code> can be called in an alternate way, which provides a nice syntax in some cases where the predicate is short: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>partition(-, predicate)</code> denotes the partial application of <code>partition</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    partition.by(traits::is_floating_point, tuple_t&lt;void, int, float, char, double&gt;)</div>
+<div class="line">    ==</div>
+<div class="line">    make_pair(</div>
+<div class="line">        tuple_t&lt;float, double&gt;,</div>
+<div class="line">        tuple_t&lt;void, int, char&gt;</div>
+<div class="line">    )</div>
+<div class="line">);</div>
+</div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.partition.compile.json"> </div> 
 </div>
 </div>
@@ -721,15 +748,15 @@ Synopsis of methods</h2></td></tr>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    all_of(</div>
-<div class="line">        make&lt;Tuple&gt;(</div>
-<div class="line">            make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0),</div>
-<div class="line">            make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 3.0, 2),</div>
-<div class="line">            make&lt;Tuple&gt;(2, <span class="charliteral">&#39;1&#39;</span>, 3.0),</div>
-<div class="line">            make&lt;Tuple&gt;(2, 3.0, <span class="charliteral">&#39;1&#39;</span>),</div>
-<div class="line">            make&lt;Tuple&gt;(3.0, <span class="charliteral">&#39;1&#39;</span>, 2),</div>
-<div class="line">            make&lt;Tuple&gt;(3.0, 2, <span class="charliteral">&#39;1&#39;</span>)</div>
+<div class="line">        make_tuple(</div>
+<div class="line">            make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0),</div>
+<div class="line">            make_tuple(<span class="charliteral">&#39;1&#39;</span>, 3.0, 2),</div>
+<div class="line">            make_tuple(2, <span class="charliteral">&#39;1&#39;</span>, 3.0),</div>
+<div class="line">            make_tuple(2, 3.0, <span class="charliteral">&#39;1&#39;</span>),</div>
+<div class="line">            make_tuple(3.0, <span class="charliteral">&#39;1&#39;</span>, 2),</div>
+<div class="line">            make_tuple(3.0, 2, <span class="charliteral">&#39;1&#39;</span>)</div>
 <div class="line">        ),</div>
-<div class="line">        is_permutation_of(make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0))</div>
+<div class="line">        is_permutation_of(make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2, 3.0))</div>
 <div class="line">    )</div>
 <div class="line">);</div>
 </div><!-- fragment -->
@@ -767,7 +794,7 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(int_&lt;2&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u)) == make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(int_&lt;2&gt;, make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u)) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -900,7 +927,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// with initial state</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.left(make&lt;Tuple&gt;(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), 1, f) == make&lt;Tuple&gt;(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.left(make_tuple(2, <span class="stringliteral">&quot;3&quot;</span>, <span class="charliteral">&#39;4&#39;</span>), 1, f) == make_tuple(</div>
 <div class="line">    1,</div>
 <div class="line">    <span class="stringliteral">&quot;f(1, 2)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;f(f(1, 2), 3)&quot;</span>,</div>
@@ -908,7 +935,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// without initial state</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.left(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), f) == make&lt;Tuple&gt;(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.left(make_tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), f) == make_tuple(</div>
 <div class="line">    1,</div>
 <div class="line">    <span class="stringliteral">&quot;f(1, 2)&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;f(f(1, 2), 3)&quot;</span></div>
@@ -948,7 +975,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// with initial state</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.right(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), 4, f) == make&lt;Tuple&gt;(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.right(make_tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), 4, f) == make_tuple(</div>
 <div class="line">    <span class="stringliteral">&quot;f(1, f(2, f(3, 4)))&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;f(2, f(3, 4))&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;f(3, 4)&quot;</span>,</div>
@@ -956,7 +983,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// without initial state</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.right(make&lt;Tuple&gt;(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), f) == make&lt;Tuple&gt;(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(scan.right(make_tuple(1, <span class="stringliteral">&quot;2&quot;</span>, <span class="charliteral">&#39;3&#39;</span>), f) == make_tuple(</div>
 <div class="line">    <span class="stringliteral">&quot;f(1, f(2, 3))&quot;</span>,</div>
 <div class="line">    <span class="stringliteral">&quot;f(2, 3)&quot;</span>,</div>
 <div class="line">    <span class="charliteral">&#39;3&#39;</span></div>
@@ -997,9 +1024,9 @@ template&lt;std::size_t n&gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, type&lt;float&gt;), int_&lt;1&gt;, int_&lt;3&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, type&lt;float&gt;), int_&lt;1&gt;, int_&lt;3&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">    make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -1030,9 +1057,9 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <p>Equivalent to <code>slice</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    slice_c&lt;1, 3&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, type&lt;float&gt;))</div>
+<div class="line">    slice_c&lt;1, 3&gt;(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, type&lt;float&gt;))</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">    make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -1045,7 +1072,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto sort = see documentation</td>
+          <td class="memname">constexpr auto sort</td>
         </tr>
       </table>
   </td>
@@ -1054,16 +1081,19 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; predicate]) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
 <p>Sort a sequence, optionally based on a custom <code>predicate</code>. </p>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> and an optional predicate (by default <code>less</code>), <code>sort</code> returns a new sequence containing the same elements as the original, except they are ordered in such a way that if <code>x</code> comes before <code>y</code> in the sequence, then either <code>predicate(x, y)</code> is true, or both <code>predicate(x, y)</code> and <code>predicate(y, x)</code> are false.</p>
 <p>Also note that the sort is guaranteed to be stable. Hence, if <code>x</code> comes before <code>y</code> in the original sequence and both <code>predicate(x, y)</code> and <code>predicate(y, x)</code> are false, then <code>x</code> will come before <code>y</code> in the resulting sequence.</p>
 <p>If no predicate is provided, the elements in the sequence must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> <code>s</code> of data type <code>S(T)</code>, a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>sort</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S(T)</code>, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code> and a binary predicate \( T \times T \to Bool \), <code>sort</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathrm{sort} : S(T) \times (T \times T \to Bool) \to S(T) \]
 </p>
-<p>for the variant without a custom predicate, the <code>T</code> data type is required to be <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>. The signature is then </p><p class="formulaDsp">
+<p>for the variant without a custom predicate, the <code>T</code> data type is required to be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. The signature is then </p><p class="formulaDsp">
 \[ \mathrm{sort} : S(T) \to S(T) \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1073,41 +1103,44 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
   </table>
   </dd>
 </dl>
-<h2>Syntactic sugar (<code>sort.by</code>) </h2>
-<p><code>sort</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(-, predicate)</div>
-</div><!-- fragment --><p>where <code>sort(-, predicate)</code> denotes the partial application of <code>sort</code> to <code>predicate</code>.</p>
-<h2>Tag dispatching </h2>
-<p>Both the non-predicated version and the predicated versions of <code>sort</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>sort</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>sort</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">sort_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
-<div class="line">sort(xs, pred) -&gt; sort_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
-</div><!-- fragment --><p>Also note that <code>sort.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>sort</code>.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// without a predicate</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(make&lt;Tuple&gt;(1_c, -2_c, 3_c, 0_c)) ==</div>
-<div class="line">        make&lt;Tuple&gt;(-2_c, 0_c, 1_c, 3_c)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(make_tuple(1_c, -2_c, 3_c, 0_c)) ==</div>
+<div class="line">         make_tuple(-2_c, 0_c, 1_c, 3_c)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// with a predicate</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(make&lt;Tuple&gt;(1_c, -2_c, 3_c, 0_c), greater) ==</div>
-<div class="line">        make&lt;Tuple&gt;(3_c, 1_c, 0_c, -2_c)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(make_tuple(1_c, -2_c, 3_c, 0_c), greater) ==</div>
+<div class="line">         make_tuple(3_c, 1_c, 0_c, -2_c)</div>
 <div class="line">);</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>sort.by</code>) </h2>
+<p><code>sort</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>sort(-, predicate)</code> denotes the partial application of <code>sort</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> tuples = make&lt;Tuple&gt;(</div>
 <div class="line">    make&lt;Tuple&gt;(2_c, <span class="charliteral">&#39;x&#39;</span>, <span class="keyword">nullptr</span>),</div>
-<div class="line">    make&lt;Tuple&gt;(1_c, std::string{<span class="stringliteral">&quot;foobar&quot;</span>}, int_&lt;4&gt;)</div>
+<div class="line">    make&lt;Tuple&gt;(1_c, <span class="stringliteral">&quot;foobar&quot;</span>s, int_&lt;4&gt;)</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">    sort.by(ordering(head), tuples)</div>
 <div class="line">        == make&lt;Tuple&gt;(</div>
-<div class="line">            make&lt;Tuple&gt;(1_c, std::string{<span class="stringliteral">&quot;foobar&quot;</span>}, int_&lt;4&gt;),</div>
+<div class="line">            make&lt;Tuple&gt;(1_c, <span class="stringliteral">&quot;foobar&quot;</span>s, int_&lt;4&gt;),</div>
 <div class="line">            make&lt;Tuple&gt;(2_c, <span class="charliteral">&#39;x&#39;</span>, <span class="keyword">nullptr</span>)</div>
 <div class="line">        )</div>
 <div class="line">);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><h2>Tag dispatching </h2>
+<p>Both the non-predicated version and the predicated versions of <code>sort</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>sort</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>sort</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">sort_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
+<div class="line">sort(xs, pred) -&gt; sort_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
+</div><!-- fragment --><p>Also note that <code>sort.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>sort</code>. </p>
+
 </div>
 </div>
 <a class="anchor" id="ab663fc84c23656a41d4dfcb586f0085c"></a>
@@ -1135,31 +1168,48 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <p>The first component of the returned <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> is a sequence for which all elements satisfy the given predicate. The second component of the returned <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> is a sequence containing the remainder of the argument. Both or either sequences may be empty, depending on the input argument. More specifically, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, predicate) == make_pair(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(xs, predicate),</div>
 <div class="line">                                 drop_while(xs, predicate))</div>
 </div><!-- fragment --><p> except that <code>make_pair</code> may be an arbitrary <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>.</p>
+<h2>Signature </h2>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S(T)</code>, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code> and a predicate \( T \to Bool \), <code>span</code> has the following signature: </p><p class="formulaDsp">
+\[ \mathrm{span} : S(T) \times (T \to Bool) \to S(T) \times S(T) \]
+</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The sequence to break into two parts.</td></tr>
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code>, where <code>x</code> is an element of the sequence, and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>. In the current implementation of the library,</code>predicate<code>has to return a</code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> Logical`.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code>, where <code>x</code> is an element of the sequence, and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>. In the current implementation of the library,</code>predicate<code>has to return a compile-time</code>Logical`.</td></tr>
   </table>
   </dd>
 </dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;4&gt;);</div>
+<h3>Example</h3>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;4&gt;);</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; int_&lt;3&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make_pair(make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;2&gt;), make&lt;Tuple&gt;(int_&lt;3&gt;, int_&lt;4&gt;))</div>
+<div class="line">    make_pair(make_tuple(int_&lt;1&gt;, int_&lt;2&gt;), make_tuple(int_&lt;3&gt;, int_&lt;4&gt;))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; int_&lt;0&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make_pair(make&lt;Tuple&gt;(), xs)</div>
+<div class="line">    make_pair(make_tuple(), xs)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; int_&lt;5&gt;)</div>
 <div class="line">    ==</div>
-<div class="line">    make_pair(xs, make&lt;Tuple&gt;())</div>
+<div class="line">    make_pair(xs, make_tuple())</div>
+<div class="line">);</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>span.by</code>) </h2>
+<p><code>span</code> can be called in an alternate way, which provides a nice syntax in some cases where the predicate is short: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>span(-, predicate)</code> denotes the partial application of <code>span</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;4&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    span.by(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; int_&lt;3&gt;, xs)</div>
+<div class="line">    ==</div>
+<div class="line">    make_pair(make_tuple(int_&lt;1&gt;, int_&lt;2&gt;), make_tuple(int_&lt;3&gt;, int_&lt;4&gt;))</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -1245,7 +1295,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(0_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;());</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(1_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(2_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>));</div>
@@ -1314,7 +1365,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(tuple_c&lt;int, 3, 2, 1, 0&gt;, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; 2_c)</div>
 <div class="line">    ==</div>
@@ -1354,7 +1405,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(tuple_c&lt;int, 0, 1, 2, 3&gt;, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> &lt; 2_c)</div>
 <div class="line">    ==</div>
@@ -1439,6 +1490,76 @@ template&lt;typename S &gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a00c9ad102df93f8e88c37afd92f34590"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto unique</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; predicate]) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Removes all consecutive duplicate elements from a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>. </p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and an optional binary predicate, <code>unique</code> returns a new sequence containing only the first element of every subrange of the original sequence whose elements are all equal. In other words, it turns a sequence of the form <code>[a, a, b, c, c, c, d, d, d, a]</code> into a sequence <code>[a, b, c, d, a]</code>. The equality of two elements is determined by the provided <code>predicate</code>, or by <code>equal</code> if no <code>predicate</code> is provided.</p>
+<h2>Signature </h2>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S(T)</code>, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code> and a binary predicate \( T \times T \to Bool \), <code>unique</code> has the following signature: </p><p class="formulaDsp">
+\[ \mathrm{unique} : S(T) \times (T \times T \to Bool) \to S(T) \]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The sequence from which to remove consecutive duplicates.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x, y)</code>, where <code>x</code> and <code>y</code> are adjacent elements of the sequence, and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> and <code>y</code> should be considered equal. <code>predicate</code> should define an <a href="http://en.wikipedia.org/wiki/Equivalence_relation#Definition">equivalence relation</a> over the elements of the sequence. In the current implementation of the library, <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. This parameter is optional; it defaults to <code>equal</code> if it is not provided, which then requires the elements of the sequence to be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// without a predicate</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> types = tuple_t&lt;int, float, float, char, int, int, int, double&gt;;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(types) == tuple_t&lt;int, float, char, int, double&gt;</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// with a predicate</span></div>
+<div class="line"><span class="keyword">auto</span> objects = make_tuple(1, 2, <span class="stringliteral">&quot;abc&quot;</span>s, <span class="charliteral">&#39;d&#39;</span>, <span class="stringliteral">&quot;efg&quot;</span>s, <span class="stringliteral">&quot;hij&quot;</span>s, 3.4f);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(objects, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; t, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; u)</div>
+<div class="line">                    { <span class="keywordflow">return</span> decltype_(t) == decltype_(u); })</div>
+<div class="line">    ==</div>
+<div class="line">    make_tuple(1, <span class="stringliteral">&quot;abc&quot;</span>s, <span class="charliteral">&#39;d&#39;</span>, <span class="stringliteral">&quot;efg&quot;</span>s, 3.4f)</div>
+<div class="line">);</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>unique.by</code>) </h2>
+<p><code>unique</code> can be called in an alternate way, which provides a nice syntax, especially in conjunction with the <code>comparing</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>unique(-, predicate)</code> denotes the partial application of <code>unique</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> objects = make_tuple(1, 2, <span class="stringliteral">&quot;abc&quot;</span>s, <span class="charliteral">&#39;d&#39;</span>, <span class="stringliteral">&quot;efg&quot;</span>s, <span class="stringliteral">&quot;hij&quot;</span>s, 3.4f);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    unique.by(comparing(decltype_), objects) ==</div>
+<div class="line">        make_tuple(1, <span class="stringliteral">&quot;abc&quot;</span>s, <span class="charliteral">&#39;d&#39;</span>, <span class="stringliteral">&quot;efg&quot;</span>s, 3.4f)</div>
+<div class="line">);</div>
+</div><!-- fragment --><h2>Tag dispatching </h2>
+<p>Both the non-predicated version and the predicated versions of <code>unique</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>unique</code> when the <code>equal</code> predicate is used. Here is how the different versions of <code>unique</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">unique_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
+<div class="line">unique(xs, pred) -&gt; unique_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
+</div><!-- fragment --><p>Also note that <code>unique.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>unique</code>. </p>
+
+</div>
+</div>
 <a class="anchor" id="abe5308d966fbf95d317511a706d6d20a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1471,15 +1592,15 @@ template&lt;typename S &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make&lt;Tuple&gt;(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6)))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make_tuple(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make_tuple(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6)))</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;4&#39;</span>), make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 5.5), make&lt;Tuple&gt;(3.3, 6))</div>
+<div class="line">    make_tuple(make_tuple(1, <span class="charliteral">&#39;4&#39;</span>), make_tuple(<span class="charliteral">&#39;2&#39;</span>, 5.5), make_tuple(3.3, 6))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make&lt;Tuple&gt;(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6, <span class="stringliteral">&quot;ignored&quot;</span>)))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make_tuple(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make_tuple(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6, <span class="stringliteral">&quot;ignored&quot;</span>)))</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;4&#39;</span>), make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 5.5), make&lt;Tuple&gt;(3.3, 6))</div>
+<div class="line">    make_tuple(make_tuple(1, <span class="charliteral">&#39;4&#39;</span>), make_tuple(<span class="charliteral">&#39;2&#39;</span>, 5.5), make_tuple(3.3, 6))</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -1539,15 +1660,15 @@ template&lt;typename S &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>At least one sequence must be provided. Otherwise, it is an error.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;a&#39;</span>), make&lt;Tuple&gt;(2, 3.3))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3))</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(<span class="charliteral">&#39;a&#39;</span>, 3.3))</div>
+<div class="line">    make_tuple(make_tuple(1, 2), make_tuple(<span class="charliteral">&#39;a&#39;</span>, 3.3))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;a&#39;</span>), make&lt;Tuple&gt;(2, 3.3), make&lt;Tuple&gt;(3, <span class="charliteral">&#39;c&#39;</span>, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3), make_tuple(3, <span class="charliteral">&#39;c&#39;</span>, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2, 3), make&lt;Tuple&gt;(<span class="charliteral">&#39;a&#39;</span>, 3.3, <span class="charliteral">&#39;c&#39;</span>))</div>
+<div class="line">    make_tuple(make_tuple(1, 2, 3), make_tuple(<span class="charliteral">&#39;a&#39;</span>, 3.3, <span class="charliteral">&#39;c&#39;</span>))</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>

@@ -1,5 +1,10 @@
 var NAVTREEINDEX1 =
 {
+"index.html#tutorial-appendix-constexpr":[0,17],
+"index.html#tutorial-appendix-constexpr-effects":[0,17,2],
+"index.html#tutorial-appendix-constexpr-stripping":[0,17,0],
+"index.html#tutorial-appendix-math":[0,18],
+"index.html#tutorial-assert":[0,4],
 "index.html#tutorial-conclusion":[0,14],
 "index.html#tutorial-conclusion-glossary":[0,14,1],
 "index.html#tutorial-conclusion-reference":[0,14,0],
@@ -52,7 +57,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-type-working":[0,6,2],
 "infix_8hpp.html":[2,2,0,0,3,10],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[2,2,0,0,3,10,0],
-"insert__fwd_8hpp.html":[2,2,0,0,1,10],
+"insert__fwd_8hpp.html":[2,2,0,0,1,13],
 "integral__c_8hpp.html":[2,2,0,0,2,0,1,0],
 "integral__constant_8hpp.html":[2,2,0,0,19],
 "integral__domain_8hpp.html":[2,2,0,0,20],
@@ -67,7 +72,7 @@ var NAVTREEINDEX1 =
 "iterable_8hpp.html":[2,2,0,0,21],
 "iterate_8hpp.html":[2,2,0,0,3,11],
 "iterate_8hpp.html#gad1b8669c022d8675d68e5974451073d1":[2,2,0,0,3,11,0],
-"keys__fwd_8hpp.html":[2,2,0,0,1,11],
+"keys__fwd_8hpp.html":[2,2,0,0,1,14],
 "lazy_8hpp.html":[2,2,0,0,22],
 "list_8hpp.html":[2,2,0,0,2,0,0,2],
 "lockstep_8hpp.html":[2,2,0,0,3,12],
@@ -207,6 +212,7 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,1,3,4],
 "structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019":[1,1,3,0],
 "structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04":[1,1,3,1],
+"structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b":[1,1,3,5],
 "structboost_1_1hana_1_1Maybe.html":[1,1,4],
 "structboost_1_1hana_1_1Maybe.html#a0d8246013d58b0809b6f18d894525b6c":[1,1,4,2],
 "structboost_1_1hana_1_1Maybe.html#a1047a69893a62cd36eb0d2934f85e0e7":[1,1,4,4],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4":[1,0,12,3],
 "structboost_1_1hana_1_1Monoid.html":[1,0,13],
 "structboost_1_1hana_1_1Monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988":[1,0,13,1],
-"structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97":[1,0,13,0],
-"structboost_1_1hana_1_1Orderable.html":[1,0,14],
-"structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3":[1,0,14,3],
-"structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc":[1,0,14,2],
-"structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23":[1,0,14,1],
-"structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e":[1,0,14,5],
-"structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37":[1,0,14,6]
+"structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97":[1,0,13,0]
 };

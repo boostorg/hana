@@ -31,7 +31,8 @@ var group__group_datatypes =
       [ "make_map", "structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04", null ],
       [ "keys", "structboost_1_1hana_1_1Map.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "values", "structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ],
-      [ "insert", "structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ]
+      [ "insert", "structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
+      [ "erase_key", "structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],
     [ "Maybe", "structboost_1_1hana_1_1Maybe.html", [
       [ "just", "structboost_1_1hana_1_1Maybe.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
@@ -57,7 +58,8 @@ var group__group_datatypes =
       [ "make< Set >", "structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
       [ "make_set", "structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
       [ "set", "structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602", null ],
-      [ "insert", "structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ]
+      [ "insert", "structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
+      [ "erase_key", "structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],
     [ "String", "structboost_1_1hana_1_1String.html", [
       [ "string", "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9", null ],

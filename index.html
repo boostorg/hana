@@ -469,9 +469,9 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code>contains(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Returns whether a sequence contains the given object. </td></tr>
 <tr>
-<td align="left"><code>find_if(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
-<tr>
 <td align="left"><code>find(sequence, value)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence which compares equal to some value and return <code>just</code> it, or return nothing. See <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
+<tr>
+<td align="left"><code>find_if(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a>. </td></tr>
 <tr>
 <td align="left"><code>group(sequence[, predicate])</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. </td></tr>
 <tr>
@@ -485,13 +485,15 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code>slice(sequence, from, to)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
 <tr>
-<td align="left"><code>subsequence(sequence, indices)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at the <code>indices</code> in the given sequence. </td></tr>
-<tr>
 <td align="left"><code>sort(sequence[, predicate])</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if no predicate is provided. </td></tr>
+<tr>
+<td align="left"><code>subsequence(sequence, indices)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Returns the elements of a sequence at the <code>indices</code> in the given sequence. </td></tr>
 <tr>
 <td align="left"><code>take(number, sequence)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take the first n elements of a sequence. n must be an <code>integral_constant</code>. </td></tr>
 <tr>
 <td align="left"><code>take_{while,until}(sequence, predicate)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Take elements of a sequence while/until some predicate is satisfied, and return that. </td></tr>
+<tr>
+<td align="left"><code>unique(sequence[, predicate])</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Removes all consecutive duplicates from a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>. The predicate defaults to equality, in which case the elements must be <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. </td></tr>
 <tr>
 <td align="left"><code>zip(sequence1, ..., sequenceN)</code> </td><td align="left"><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> </td><td align="left">Zip <code>N</code> sequences into a sequence of tuples. </td></tr>
 <tr>
@@ -811,7 +813,7 @@ Benefits of this representation</h2>
 Working with this representation</h2>
 <p>So far, we can represent types as values and perform type-level computations on those objects using the usual C++ syntax. This is nice, but it is not very useful because we have no way to get back a normal C++ type from an object representation. For example, how could we declare a variable whose type is the result of a type computation?</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(type&lt;int&gt;); <span class="comment">// could be a complex type computation</span></div>
-<div class="line"><span class="keyword">using</span> T = the-type-represented-by-t;</div>
+<div class="line"><span class="keyword">using</span> T = the-type-represented-<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>-t;</div>
 <div class="line"></div>
 <div class="line">T var = ...;</div>
 </div><!-- fragment --><p>Right now, there is no easy way to do it. To make this easier to achieve, we enrich the interface of the <code>_type</code> container that we defined above. Instead of being an empty <code>struct</code>, we now define it as</p>
@@ -1823,7 +1825,7 @@ Side effects</h2>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n, <span class="keyword">false</span>); <span class="comment">// ok</span></div>
 <div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
 </div><!-- fragment --><p>The error given by Clang for the second invocation is</p>
-<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;j&#39;</span> must be initialized by a constant expression</div>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;j&#39;</span> must be initialized <a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
 <div class="line">              ^   ~~~~~~~~~~</div>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
@@ -1836,7 +1838,7 @@ Side effects</h2>
 <div class="line"><span class="keywordtype">int</span> n = 0;</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 </div><!-- fragment --><p>The only difference with our initial scenario is that <code>f</code> now takes its argument by value instead of by reference. However, this makes a world of difference. Indeed, we're now asking the compiler to make a copy of <code>n</code> and to pass this copy to <code>f</code>. However, <code>n</code> is not <code>constexpr</code>, so its value is only known at runtime. How could the compiler make a copy (at compile-time) of a variable whose value is only known at runtime? Of course, it can't. Indeed, the error message given by Clang is pretty explicit about what's happening:</p>
-<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;i&#39;</span> must be initialized by a constant expression</div>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;i&#39;</span> must be initialized <a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">              ^   ~~~~</div>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
@@ -1874,16 +1876,7 @@ Apendix III: A minimal MPL</h1>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span>hpl {</div>
 <div class="line"><span class="comment">// Utilities</span></div>
-<div class="line"><span class="comment">// Most of this will be abstracted and then lifted into Hana as time permits.</span></div>
-<div class="line"><span class="comment"></span></div>
-<div class="line"><span class="comment">// unique{_by} should be implemented in Hana. Also note that this can</span></div>
-<div class="line"><span class="comment">// certainly be made more efficient.</span></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Predicate, <span class="keyword">typename</span> Sequence&gt;</div>
-<div class="line">constexpr decltype(<span class="keyword">auto</span>) unique_by(Predicate predicate, Sequence sequence) {</div>
-<div class="line">    <span class="keywordflow">return</span> hana::transform(hana::group(sequence, predicate), hana::head);</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">namespace </span>detail {</div>
+<div class="line"><span class="comment"></span><span class="keyword">namespace </span>detail {</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Pred&gt;</div>
 <div class="line">    constexpr <span class="keyword">auto</span> mpl_predicate = hana::integral(hana::metafunction_class&lt;</div>
 <div class="line">        <span class="keyword">typename</span> mpl::lambda&lt;Pred&gt;::type</div>
@@ -2179,9 +2172,9 @@ Apendix III: A minimal MPL</h1>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>unique {</div>
-<div class="line">    <span class="keyword">using</span> type = decltype(unique_by(</div>
-<div class="line">        detail::mpl_predicate&lt;Pred&gt;,</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{})</div>
+<div class="line">    <span class="keyword">using</span> type = decltype(hana::unique(</div>
+<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>

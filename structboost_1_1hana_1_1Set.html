@@ -188,6 +188,9 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
 <tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
+<tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
+<tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
 <a class="anchor" id="ade2be766c8daa85306a8d9c29bf75dfe"></a>
@@ -308,6 +311,44 @@ template&lt;&gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, int_&lt;0&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;)</div>
 <div class="line">);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="af856f7bf77f69cdf1b8fd4e566eaef9b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto erase_key</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code>. </p>
+<p>Returns a new <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="A basic unordered container requiring Comparable elements. ">Set</a></code> containing all the elements of the original, except the one comparing <code>equal</code> to the given element. If the set does not contain such an element, a new set equal to the original set is returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">set</td><td>The set in which to remove a value.</td></tr>
+    <tr><td class="paramname">element</td><td>The value to remove. It must be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, type&lt;void&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(xs, type&lt;int&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;void&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(xs, type&lt;char&gt;) == xs);</div>
 </div><!-- fragment -->
 </div>
 </div>

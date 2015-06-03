@@ -181,10 +181,10 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a95d3fe103aa2ab8634a824562dd8390c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a> = <a class="el" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a></td></tr>
 <tr class="memdesc:a95d3fe103aa2ab8634a824562dd8390c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>length</code>; provided for consistency with the standard library.  <a href="#a95d3fe103aa2ab8634a824562dd8390c">More...</a><br /></td></tr>
 <tr class="separator:a95d3fe103aa2ab8634a824562dd8390c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aead74d4a75dd467873fcc9124d06b5f4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a> = see documentation</td></tr>
+<tr class="memitem:aead74d4a75dd467873fcc9124d06b5f4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a></td></tr>
 <tr class="memdesc:aead74d4a75dd467873fcc9124d06b5f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the least element of a non-empty structure with respect to a <code>predicate</code>, by default <code>less</code>.  <a href="#aead74d4a75dd467873fcc9124d06b5f4">More...</a><br /></td></tr>
 <tr class="separator:aead74d4a75dd467873fcc9124d06b5f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac49a8fde2d3de61959c99e755a81c0a1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a> = see documentation</td></tr>
+<tr class="memitem:ac49a8fde2d3de61959c99e755a81c0a1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a></td></tr>
 <tr class="memdesc:ac49a8fde2d3de61959c99e755a81c0a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the greatest element of a non-empty structure with respect to a <code>predicate</code>, by default <code>less</code>.  <a href="#ac49a8fde2d3de61959c99e755a81c0a1">More...</a><br /></td></tr>
 <tr class="separator:ac49a8fde2d3de61959c99e755a81c0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99a05a203907d1381a00d9e05425ab7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7">sum</a> = see documentation</td></tr>
@@ -670,7 +670,7 @@ template&lt;typename M &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto minimum = see documentation</td>
+          <td class="memname">constexpr auto minimum</td>
         </tr>
       </table>
   </td>
@@ -679,7 +679,10 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; predicate]) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
 <p>Return the least element of a non-empty structure with respect to a <code>predicate</code>, by default <code>less</code>. </p>
 <p>Given a non-empty structure and an optional binary predicate (<code>less</code> by default), <code>minimum</code> returns the least element of the structure, i.e. an element which is less than or equal to every other element in the structure, according to the predicate.</p>
 <p>If the structure contains heterogeneous objects, then the predicate must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. If no predicate is provided, the elements in the structure must be <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, or compile-time <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if the structure is heterogeneous.</p>
@@ -697,15 +700,7 @@ template&lt;typename M &gt; </div>
   </table>
   </dd>
 </dl>
-<h2>Syntactic sugar (<code>minimum.by</code>) </h2>
-<p><code>minimum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(-, predicate)</div>
-</div><!-- fragment --><p>where <code>minimum(-, predicate)</code> denotes the partial application of <code>minimum</code> to <code>predicate</code>.</p>
-<h2>Tag dispatching </h2>
-<p>Both the non-predicated version and the predicated versions of <code>minimum</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>minimum</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>minimum</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">minimum_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
-<div class="line">minimum(xs, pred) -&gt; minimum_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
-</div><!-- fragment --><p>Also note that <code>minimum.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>minimum</code>.</p>
-<h2>Example </h2>
+<h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">// without a predicate</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(tuple_c&lt;int, -1, 0, 2, -4, 6, 9&gt;) == int_&lt;-4&gt;</div>
@@ -717,16 +712,24 @@ template&lt;typename M &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x &gt; y;</div>
 <div class="line">    }) == int_&lt;9&gt;</div>
 <div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    minimum.by(ordering(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>), make&lt;Tuple&gt;(</div>
-<div class="line">        make&lt;Tuple&gt;(),</div>
-<div class="line">        make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>),</div>
-<div class="line">        make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>minimum.by</code>) </h2>
+<p><code>minimum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>minimum(-, predicate)</code> denotes the partial application of <code>minimum</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    minimum.by(ordering(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>), make_tuple(</div>
+<div class="line">        make_tuple(),</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">        make_tuple(3.3, <span class="keyword">nullptr</span>, 4)</div>
 <div class="line">    ))</div>
-<div class="line">    == make&lt;Tuple&gt;()</div>
+<div class="line">    == make_tuple()</div>
 <div class="line">);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><h2>Tag dispatching </h2>
+<p>Both the non-predicated version and the predicated versions of <code>minimum</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>minimum</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>minimum</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">minimum_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
+<div class="line">minimum(xs, pred) -&gt; minimum_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
+</div><!-- fragment --><p>Also note that <code>minimum.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>minimum</code>. </p>
+
 </div>
 </div>
 <a class="anchor" id="ac49a8fde2d3de61959c99e755a81c0a1"></a>
@@ -737,7 +740,7 @@ template&lt;typename M &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto maximum = see documentation</td>
+          <td class="memname">constexpr auto maximum</td>
         </tr>
       </table>
   </td>
@@ -746,7 +749,10 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; predicate]) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
 <p>Return the greatest element of a non-empty structure with respect to a <code>predicate</code>, by default <code>less</code>. </p>
 <p>Given a non-empty structure and an optional binary predicate (<code>less</code> by default), <code>maximum</code> returns the greatest element of the structure, i.e. an element which is greater than or equal to every other element in the structure, according to the predicate.</p>
 <p>If the structure contains heterogeneous objects, then the predicate must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. If no predicate is provided, the elements in the structure must be <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a>, or compile-time <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> if the structure is heterogeneous.</p>
@@ -764,15 +770,7 @@ template&lt;typename M &gt; </div>
   </table>
   </dd>
 </dl>
-<h2>Syntactic sugar (<code>maximum.by</code>) </h2>
-<p><code>maximum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(-, predicate)</div>
-</div><!-- fragment --><p>where <code>maximum(-, predicate)</code> denotes the partial application of <code>maximum</code> to <code>predicate</code>.</p>
-<h2>Tag dispatching </h2>
-<p>Both the non-predicated version and the predicated versions of <code>maximum</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>maximum</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>maximum</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">maximum_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
-<div class="line">maximum(xs, pred) -&gt; maximum_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
-</div><!-- fragment --><p>Also note that <code>maximum.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>maximum</code>.</p>
-<h2>Example </h2>
+<h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">// without a predicate</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(tuple_c&lt;int, -1, 0, 2, -4, 6, 9&gt;) == int_&lt;9&gt;</div>
@@ -784,16 +782,24 @@ template&lt;typename M &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x &gt; y;</div>
 <div class="line">    }) == int_&lt;-4&gt;</div>
 <div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    maximum.by(ordering(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>), make&lt;Tuple&gt;(</div>
-<div class="line">        make&lt;Tuple&gt;(),</div>
-<div class="line">        make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>),</div>
-<div class="line">        make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)</div>
+</div><!-- fragment --><h2>Syntactic sugar (<code>maximum.by</code>) </h2>
+<p><code>maximum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(xs, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(-, predicate)</div>
+</div><!-- fragment --><p>where <code>maximum(-, predicate)</code> denotes the partial application of <code>maximum</code> to <code>predicate</code>.</p>
+<h3>Example</h3>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    maximum.by(ordering(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>), make_tuple(</div>
+<div class="line">        make_tuple(),</div>
+<div class="line">        make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">        make_tuple(3.3, <span class="keyword">nullptr</span>, 4)</div>
 <div class="line">    ))</div>
-<div class="line">    == make&lt;Tuple&gt;(3.3, <span class="keyword">nullptr</span>, 4)</div>
+<div class="line">    == make_tuple(3.3, <span class="keyword">nullptr</span>, 4)</div>
 <div class="line">);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><h2>Tag dispatching </h2>
+<p>Both the non-predicated version and the predicated versions of <code>maximum</code> are tag-dispatched methods, and hence they can be customized independently. One reason for this is that some structures are able to provide a much more efficient implementation of <code>maximum</code> when the <code>less</code> predicate is used. Here is how the different versions of <code>maximum</code> are dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(xs) -&gt; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">maximum_impl&lt;data type of xs&gt;::apply</a>(xs)</div>
+<div class="line">maximum(xs, pred) -&gt; maximum_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
+</div><!-- fragment --><p>Also note that <code>maximum.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>maximum</code>. </p>
+
 </div>
 </div>
 <a class="anchor" id="ae99a05a203907d1381a00d9e05425ab7"></a>
