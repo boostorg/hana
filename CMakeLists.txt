@@ -31,7 +31,6 @@ macro(boost_hana_append_flag testname flag)
     endif()
 endmacro()
 
-boost_hana_append_flag(BOOST_HANA_HAS_FDEFINE_SIZED_DEALLOCATION "-Xclang -fdefine-sized-deallocation")
 boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
 boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
 boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
