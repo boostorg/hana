@@ -288,16 +288,20 @@ BOOST_HANA_CONSTANT_CHECK(
         return x > y;
     }) == int_<-4>
 );
-
-BOOST_HANA_CONSTEXPR_CHECK(
-    maximum.by(ordering(length), make<Tuple>(
-        make<Tuple>(),
-        make<Tuple>(1, '2'),
-        make<Tuple>(3.3, nullptr, 4)
-    ))
-    == make<Tuple>(3.3, nullptr, 4)
-);
 //! [maximum]
+
+}{
+
+//! [maximum.by]
+BOOST_HANA_CONSTEXPR_CHECK(
+    maximum.by(ordering(length), make_tuple(
+        make_tuple(),
+        make_tuple(1, '2'),
+        make_tuple(3.3, nullptr, 4)
+    ))
+    == make_tuple(3.3, nullptr, 4)
+);
+//! [maximum.by]
 
 }{
 
@@ -313,16 +317,20 @@ BOOST_HANA_CONSTANT_CHECK(
         return x > y;
     }) == int_<9>
 );
-
-BOOST_HANA_CONSTANT_CHECK(
-    minimum.by(ordering(length), make<Tuple>(
-        make<Tuple>(),
-        make<Tuple>(1, '2'),
-        make<Tuple>(3.3, nullptr, 4)
-    ))
-    == make<Tuple>()
-);
 //! [minimum]
+
+}{
+
+//! [minimum.by]
+BOOST_HANA_CONSTANT_CHECK(
+    minimum.by(ordering(length), make_tuple(
+        make_tuple(),
+        make_tuple(1, '2'),
+        make_tuple(3.3, nullptr, 4)
+    ))
+    == make_tuple()
+);
+//! [minimum.by]
 
 }
 

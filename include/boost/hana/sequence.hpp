@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/by.hpp> // needed by xxx.by
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -194,21 +195,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::group(static_cast<Xs&&>(xs), equal); }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // group.by
-    //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename Predicate, typename Xs>
-    constexpr decltype(auto) _group_by::operator()(Predicate&& pred, Xs&& xs) const {
-        return hana::group(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
-    }
-
-    template <typename Predicate>
-    constexpr decltype(auto) _group_by::operator()(Predicate&& pred) const {
-        return hana::partial(hana::flip(group), static_cast<Predicate&&>(pred));
-    }
-    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // init
@@ -632,21 +618,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::sort(static_cast<Xs&&>(xs), less); }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // sort.by
-    //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename Predicate, typename Xs>
-    constexpr decltype(auto) _sort_by::operator()(Predicate&& pred, Xs&& xs) const {
-        return hana::sort(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
-    }
-
-    template <typename Predicate>
-    constexpr decltype(auto) _sort_by::operator()(Predicate&& pred) const {
-        return hana::partial(hana::flip(sort), static_cast<Predicate&&>(pred));
-    }
-    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // span

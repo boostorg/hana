@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SEQUENCE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/by_fwd.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -324,6 +325,9 @@ namespace boost { namespace hana {
     //! equivalence relation as defined by the `Comparable` concept.
     //! When this predicate is not provided, it defaults to `equal`.
     //!
+    //! ### Example
+    //! @snippet example/sequence.cpp group
+    //!
     //!
     //! Syntactic sugar (`group.by`)
     //! ----------------------------
@@ -336,6 +340,9 @@ namespace boost { namespace hana {
     //!
     //! where `group(-, predicate)` denotes the partial application of
     //! `group` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/sequence.cpp group.by
     //!
     //!
     //! Tag dispatching
@@ -351,13 +358,10 @@ namespace boost { namespace hana {
     //!
     //! Also note that `group.by` is not tag-dispatched on its own, since it
     //! is just syntactic sugar for calling the corresponding `group`.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp group
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto group = see documentation;
+    constexpr auto group = [](auto&& xs[, auto&& predicate]) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
     struct group_impl;
@@ -365,16 +369,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct group_pred_impl;
 
-    struct _group_by {
-        template <typename Predicate, typename Xs>
-        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
-
-        template <typename Predicate>
-        constexpr decltype(auto) operator()(Predicate&&) const;
-    };
-
-    template <typename ...AvoidODRViolation>
-    struct _group {
+    struct _group : detail::by<_group> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -397,13 +392,9 @@ namespace boost { namespace hana {
                 static_cast<Predicate&&>(pred)
             );
         }
-
-        static constexpr _group_by by{};
     };
-    template <typename ...AvoidODRViolation>
-    constexpr _group_by _group<AvoidODRViolation...>::by;
 
-    constexpr _group<> group{};
+    constexpr _group group{};
 #endif
 
     //! Remove the last element of a non-empty sequence.
@@ -493,6 +484,14 @@ namespace boost { namespace hana {
     //! element is a sequence of the elements that do not satisfy the predicate.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a Sequence `S(T)`, a `Logical` `Bool` and a predicate
+    //! \f$ T \to Bool \f$, `partition` has the following signature:
+    //! \f[
+    //!     \mathrm{partition} : S(T) \times (T \to Bool) \to S(T) \times S(T)
+    //! \f]
+    //!
     //! @param xs
     //! The sequence to be partitioned.
     //!
@@ -503,10 +502,25 @@ namespace boost { namespace hana {
     //! component of the resulting `Product`. Otherwise, `x` is added to the
     //! sequence in the second component.
     //!
-    //!
-    //! Example
-    //! -------
+    //! ### Example
     //! @snippet example/sequence.cpp partition
+    //!
+    //!
+    //! Syntactic sugar (`partition.by`)
+    //! --------------------------------
+    //! `partition` can be called in an alternate way, which provides a nice
+    //! syntax in some cases where the predicate is short:
+    //! @code
+    //!     partition.by(predicate, xs) == partition(xs, predicate)
+    //!     partition.by(predicate) == partition(-, predicate)
+    //! @endcode
+    //!
+    //! where `partition(-, predicate)` denotes the partial application of
+    //! `partition` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/sequence.cpp partition.by
+    //!
     //!
     //! Benchmarks
     //! ----------
@@ -522,7 +536,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct partition_impl;
 
-    struct _partition {
+    struct _partition : detail::by<_partition> {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -994,15 +1008,15 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Sequence `s` of data type `S(T)`, a Logical `Bool` and a
-    //! predicate \f$ pred : T \times T \to Bool \f$, `sort` has the following
-    //! signatures. For the variant with a provided predicate,
+    //! Given a `Sequence` `S(T)`, a `Logical` `Bool` and a binary predicate
+    //! \f$ T \times T \to Bool \f$, `sort` has the following signatures.
+    //! For the variant with a provided predicate,
     //! \f[
     //!     \mathrm{sort} : S(T) \times (T \times T \to Bool) \to S(T)
     //! \f]
     //!
     //! for the variant without a custom predicate, the `T` data type is
-    //! required to be Orderable. The signature is then
+    //! required to be `Orderable`. The signature is then
     //! \f[
     //!     \mathrm{sort} : S(T) \to S(T)
     //! \f]
@@ -1020,6 +1034,9 @@ namespace boost { namespace hana {
     //! return a `Constant Logical` when called with any two elements of the
     //! sequence. When the predicate is not specified, this defaults to `less`.
     //!
+    //! ### Example
+    //! @snippet example/sequence.cpp sort
+    //!
     //!
     //! Syntactic sugar (`sort.by`)
     //! ---------------------------
@@ -1032,6 +1049,9 @@ namespace boost { namespace hana {
     //!
     //! where `sort(-, predicate)` denotes the partial application of
     //! `sort` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/sequence.cpp sort.by
     //!
     //!
     //! Tag dispatching
@@ -1050,14 +1070,11 @@ namespace boost { namespace hana {
     //! Also note that `sort.by` is not tag-dispatched on its own, since it
     //! is just syntactic sugar for calling the corresponding `sort`.
     //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp sort
-    //!
     //! [1]: http://en.wikipedia.org/wiki/Strict_weak_ordering
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto sort = see documentation;
+    constexpr auto sort = [](auto&& xs[, auto&& predicate]) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
     struct sort_impl;
@@ -1065,16 +1082,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct sort_pred_impl;
 
-    struct _sort_by {
-        template <typename Predicate, typename Xs>
-        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
-
-        template <typename Predicate>
-        constexpr decltype(auto) operator()(Predicate&&) const;
-    };
-
-    template <typename ...AvoidODRViolation>
-    struct _sort {
+    struct _sort : detail::by<_sort> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -1097,13 +1105,9 @@ namespace boost { namespace hana {
                 static_cast<Predicate&&>(pred)
             );
         }
-
-        static constexpr _sort_by by{};
     };
-    template <typename ...AvoidODRViolation>
-    constexpr _sort_by _sort<AvoidODRViolation...>::by;
 
-    constexpr _sort<> sort{};
+    constexpr _sort sort{};
 #endif
 
     //! Returns a `Product` containing the longest prefix of a sequence
@@ -1122,18 +1126,40 @@ namespace boost { namespace hana {
     //! except that `make_pair` may be an arbitrary `Product`.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a `Sequence` `S(T)`, a `Logical` `Bool` and a predicate
+    //! \f$ T \to Bool \f$, `span` has the following signature:
+    //! \f[
+    //!     \mathrm{span} : S(T) \times (T \to Bool) \to S(T) \times S(T)
+    //! \f]
+    //!
     //! @param xs
     //! The sequence to break into two parts.
     //!
     //! @param predicate
     //! A function called as `predicate(x)`, where `x` is an element of the
     //! sequence, and returning a `Logical. In the current implementation of
-    //! the library, `predicate` has to return a `Constant Logical`.
+    //! the library, `predicate` has to return a compile-time `Logical`.
     //!
-    //!
-    //! Example
-    //! -------
+    //! ### Example
     //! @snippet example/sequence.cpp span
+    //!
+    //!
+    //! Syntactic sugar (`span.by`)
+    //! ---------------------------
+    //! `span` can be called in an alternate way, which provides a nice syntax
+    //! in some cases where the predicate is short:
+    //! @code
+    //!     span.by(predicate, xs) == span(xs, predicate)
+    //!     span.by(predicate) == span(-, predicate)
+    //! @endcode
+    //!
+    //! where `span(-, predicate)` denotes the partial application of
+    //! `span` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/sequence.cpp span.by
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto span = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
@@ -1142,7 +1168,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct span_impl;
 
-    struct _span {
+    struct _span : detail::by<_span> {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS

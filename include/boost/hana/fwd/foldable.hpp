@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FOLDABLE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/by_fwd.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
@@ -785,6 +786,9 @@ namespace boost { namespace hana {
     //! elements of the structure and its return value should be a Logical,
     //! or a compile-time Logical if the structure is heterogeneous.
     //!
+    //! ### Example
+    //! @snippet example/foldable.cpp minimum
+    //!
     //!
     //! Syntactic sugar (`minimum.by`)
     //! ------------------------------
@@ -797,6 +801,9 @@ namespace boost { namespace hana {
     //!
     //! where `minimum(-, predicate)` denotes the partial application of
     //! `minimum` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/foldable.cpp minimum.by
     //!
     //!
     //! Tag dispatching
@@ -814,13 +821,10 @@ namespace boost { namespace hana {
     //!
     //! Also note that `minimum.by` is not tag-dispatched on its own, since it
     //! is just syntactic sugar for calling the corresponding `minimum`.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/foldable.cpp minimum
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto minimum = see documentation;
+    constexpr auto minimum = [](auto&& xs[, auto&& predicate]) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
     struct minimum_impl;
@@ -828,16 +832,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct minimum_pred_impl;
 
-    struct _minimum_by {
-        template <typename Predicate, typename Xs>
-        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
-
-        template <typename Predicate>
-        constexpr decltype(auto) operator()(Predicate&&) const;
-    };
-
-    template <typename ...AvoidODRViolation>
-    struct _minimum {
+    struct _minimum : detail::by<_minimum> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -860,13 +855,9 @@ namespace boost { namespace hana {
                 static_cast<Predicate&&>(pred)
             );
         }
-
-        static constexpr _minimum_by by{};
     };
-    template <typename ...AvoidODRViolation>
-    constexpr _minimum_by _minimum<AvoidODRViolation...>::by;
 
-    constexpr _minimum<> minimum{};
+    constexpr _minimum minimum{};
 #endif
 
     //! Return the greatest element of a non-empty structure with respect to
@@ -908,6 +899,9 @@ namespace boost { namespace hana {
     //! elements of the structure and its return value should be a Logical,
     //! or a compile-time Logical if the structure is heterogeneous.
     //!
+    //! ### Example
+    //! @snippet example/foldable.cpp maximum
+    //!
     //!
     //! Syntactic sugar (`maximum.by`)
     //! ------------------------------
@@ -920,6 +914,9 @@ namespace boost { namespace hana {
     //!
     //! where `maximum(-, predicate)` denotes the partial application of
     //! `maximum` to `predicate`.
+    //!
+    //! ### Example
+    //! @snippet example/foldable.cpp maximum.by
     //!
     //!
     //! Tag dispatching
@@ -937,13 +934,10 @@ namespace boost { namespace hana {
     //!
     //! Also note that `maximum.by` is not tag-dispatched on its own, since it
     //! is just syntactic sugar for calling the corresponding `maximum`.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/foldable.cpp maximum
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto maximum = see documentation;
+    constexpr auto maximum = [](auto&& xs[, auto&& predicate]) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
     struct maximum_impl;
@@ -951,16 +945,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct maximum_pred_impl;
 
-    struct _maximum_by {
-        template <typename Predicate, typename Xs>
-        constexpr decltype(auto) operator()(Predicate&&, Xs&&) const;
-
-        template <typename Predicate>
-        constexpr decltype(auto) operator()(Predicate&&) const;
-    };
-
-    template <typename ...AvoidODRViolation>
-    struct _maximum {
+    struct _maximum : detail::by<_maximum> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -983,13 +968,9 @@ namespace boost { namespace hana {
                 static_cast<Predicate&&>(pred)
             );
         }
-
-        static constexpr _maximum_by by{};
     };
-    template <typename ...AvoidODRViolation>
-    constexpr _maximum_by _maximum<AvoidODRViolation...>::by;
 
-    constexpr _maximum<> maximum{};
+    constexpr _maximum maximum{};
 #endif
 
     //! Compute the sum of the numbers of a structure.

@@ -554,56 +554,67 @@ namespace boost { namespace hana { namespace test {
             // span
             //////////////////////////////////////////////////////////////////
             {
-            auto z = eq<999>{};
-            auto prod = minimal_product;
+                auto z = eq<999>{};
+                auto prod = minimal_product;
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(), equal.to(z)),
-                prod(list(), list())
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(), equal.to(z)),
+                    prod(list(), list())
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(eq<0>{}), equal.to(z)),
-                prod(list(), list(eq<0>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(z), equal.to(z)),
-                prod(list(z), list())
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(eq<0>{}), equal.to(z)),
+                    prod(list(), list(eq<0>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(z), equal.to(z)),
+                    prod(list(z), list())
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(eq<0>{}, z), equal.to(z)),
-                prod(list(), list(eq<0>{}, z))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(z, eq<0>{}), equal.to(z)),
-                prod(list(z), list(eq<0>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(eq<0>{}, eq<1>{}), equal.to(z)),
-                prod(list(), list(eq<0>{}, eq<1>{}))
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(eq<0>{}, z), equal.to(z)),
+                    prod(list(), list(eq<0>{}, z))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(z, eq<0>{}), equal.to(z)),
+                    prod(list(z), list(eq<0>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(eq<0>{}, eq<1>{}), equal.to(z)),
+                    prod(list(), list(eq<0>{}, eq<1>{}))
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(eq<0>{}, eq<1>{}, eq<2>{}), equal.to(z)),
-                prod(list(), list(eq<0>{}, eq<1>{}, eq<2>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(z, eq<1>{}, eq<2>{}), equal.to(z)),
-                prod(list(z), list(eq<1>{}, eq<2>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(eq<0>{}, z, eq<2>{}), equal.to(z)),
-                prod(list(), list(eq<0>{}, z, eq<2>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(z, z, eq<2>{}), equal.to(z)),
-                prod(list(z, z), list(eq<2>{}))
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                span(list(z, z, z), equal.to(z)),
-                prod(list(z, z, z), list())
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(eq<0>{}, eq<1>{}, eq<2>{}), equal.to(z)),
+                    prod(list(), list(eq<0>{}, eq<1>{}, eq<2>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(z, eq<1>{}, eq<2>{}), equal.to(z)),
+                    prod(list(z), list(eq<1>{}, eq<2>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(eq<0>{}, z, eq<2>{}), equal.to(z)),
+                    prod(list(), list(eq<0>{}, z, eq<2>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(z, z, eq<2>{}), equal.to(z)),
+                    prod(list(z, z), list(eq<2>{}))
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span(list(z, z, z), equal.to(z)),
+                    prod(list(z, z, z), list())
+                ));
+
+                // span.by
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span.by(equal.to(z), list(eq<0>{}, eq<1>{}, eq<2>{})),
+                    span(list(eq<0>{}, eq<1>{}, eq<2>{}), equal.to(z))
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    span.by(equal.to(z))(list(eq<0>{}, eq<1>{}, eq<2>{})),
+                    span(list(eq<0>{}, eq<1>{}, eq<2>{}), equal.to(z))
+                ));
             }
 
 #endif
@@ -899,6 +910,17 @@ namespace boost { namespace hana { namespace test {
                     partition(list(eq<-1>{}, eq<2>{}, eq<-3>{}, eq<0>{}, eq<-3>{}, eq<4>{}), pred),
                     prod(list(eq<-1>{}, eq<-3>{}, eq<-3>{}),
                          list(eq<2>{}, eq<0>{}, eq<4>{}))
+                ));
+
+                // partition.by
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition.by(pred, list(eq<-1>{}, eq<0>{}, eq<2>{})),
+                    partition(list(eq<-1>{}, eq<0>{}, eq<2>{}), pred)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    partition.by(pred)(list(eq<-1>{}, eq<0>{}, eq<2>{})),
+                    partition(list(eq<-1>{}, eq<0>{}, eq<2>{}), pred)
                 ));
             }
 

@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/by.hpp> // needed by xxx.by
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
@@ -29,7 +30,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/curry.hpp>
-#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/sequence.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -481,21 +481,6 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // minimum.by
-    //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename Predicate, typename Xs>
-    constexpr decltype(auto) _minimum_by::operator()(Predicate&& pred, Xs&& xs) const {
-        return hana::minimum(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
-    }
-
-    template <typename Predicate>
-    constexpr decltype(auto) _minimum_by::operator()(Predicate&& pred) const {
-        return hana::partial(hana::flip(minimum), static_cast<Predicate&&>(pred));
-    }
-    //! @endcond
-
-    //////////////////////////////////////////////////////////////////////////
     // maximum (with a custom predicate)
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
@@ -558,21 +543,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::maximum(static_cast<Xs&&>(xs), less); }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // maximum.by
-    //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename Predicate, typename Xs>
-    constexpr decltype(auto) _maximum_by::operator()(Predicate&& pred, Xs&& xs) const {
-        return hana::maximum(static_cast<Xs&&>(xs), static_cast<Predicate&&>(pred));
-    }
-
-    template <typename Predicate>
-    constexpr decltype(auto) _maximum_by::operator()(Predicate&& pred) const {
-        return hana::partial(hana::flip(maximum), static_cast<Predicate&&>(pred));
-    }
-    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // sum

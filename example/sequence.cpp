@@ -72,7 +72,9 @@ auto show = [=](auto x, auto y) {
     return "(" + to_string(x) + " + " + to_string(y) + ")";
 };
 
-BOOST_HANA_RUNTIME_CHECK(fold.left(make<Tuple>(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)");
+BOOST_HANA_RUNTIME_CHECK(
+    fold.left(make_tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)"
+);
 //! [Foldable]
 
 }{
@@ -91,22 +93,22 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [Iterable]
-BOOST_HANA_CONSTEXPR_CHECK(head(make<Tuple>(1, '2', 3.3)) == 1);
-BOOST_HANA_CONSTEXPR_CHECK(tail(make<Tuple>(1, '2', 3.3)) == make<Tuple>('2', 3.3));
-BOOST_HANA_CONSTANT_CHECK(!is_empty(make<Tuple>(1, '2', 3.3)));
-BOOST_HANA_CONSTANT_CHECK(is_empty(make<Tuple>()));
+BOOST_HANA_CONSTEXPR_CHECK(head(make_tuple(1, '2', 3.3)) == 1);
+BOOST_HANA_CONSTEXPR_CHECK(tail(make_tuple(1, '2', 3.3)) == make_tuple('2', 3.3));
+BOOST_HANA_CONSTANT_CHECK(!is_empty(make_tuple(1, '2', 3.3)));
+BOOST_HANA_CONSTANT_CHECK(is_empty(make_tuple()));
 //! [Iterable]
 
 }{
 
 //! [Monad.ints]
 BOOST_HANA_CONSTEXPR_CHECK(
-    flatten(make<Tuple>(
-        make<Tuple>(1, 2),
-        make<Tuple>(3, 4),
-        make<Tuple>(make<Tuple>(5, 6))
+    flatten(make_tuple(
+        make_tuple(1, 2),
+        make_tuple(3, 4),
+        make_tuple(make_tuple(5, 6))
     ))
-    == make<Tuple>(1, 2, 3, 4, make<Tuple>(5, 6))
+    == make_tuple(1, 2, 3, 4, make_tuple(5, 6))
 );
 //! [Monad.ints]
 
@@ -273,69 +275,75 @@ static_assert(
 //! [group]
 // without a predicate
 BOOST_HANA_CONSTANT_CHECK(
-    group(make<Tuple>(int_<1>, long_<1>, type<int>, char_<'x'>, char_<'x'>))
-        == make<Tuple>(
-            make<Tuple>(int_<1>, long_<1>),
-            make<Tuple>(type<int>),
-            make<Tuple>(char_<'x'>, char_<'x'>)
+    group(make_tuple(int_<1>, long_<1>, type<int>, char_<'x'>, char_<'x'>))
+        == make_tuple(
+            make_tuple(int_<1>, long_<1>),
+            make_tuple(type<int>),
+            make_tuple(char_<'x'>, char_<'x'>)
         )
 );
 
 // with a predicate
-auto tuples = make<Tuple>(
+auto tuples = make_tuple(
     range_c<int, 0, 1>,
     range_c<int, 0, 2>,
     range_c<int, 1, 3>,
     range_c<int, 2, 6>
 );
+
 BOOST_HANA_CONSTANT_CHECK(
     group(tuples, comparing(length))
-        == make<Tuple>(
-            make<Tuple>(
+        == make_tuple(
+            make_tuple(
                 range_c<int, 0, 1>
             ),
-            make<Tuple>(
+            make_tuple(
                 range_c<int, 0, 2>,
                 range_c<int, 1, 3>
             ),
-            make<Tuple>(
+            make_tuple(
                 range_c<int, 2, 6>
             )
-        )
-);
-
-BOOST_HANA_CONSTEXPR_CHECK(
-    group.by(comparing(decltype_), make<Tuple>(1, 2, 3, 'x', 'y', 4.4, 5.5))
-        == make<Tuple>(
-            make<Tuple>(1, 2, 3),
-            make<Tuple>('x', 'y'),
-            make<Tuple>(4.4, 5.5)
         )
 );
 //! [group]
 
 }{
 
+//! [group.by]
+BOOST_HANA_CONSTEXPR_CHECK(
+    group.by(comparing(decltype_), make_tuple(1, 2, 3, 'x', 'y', 4.4, 5.5))
+        == make_tuple(
+            make_tuple(1, 2, 3),
+            make_tuple('x', 'y'),
+            make_tuple(4.4, 5.5)
+        )
+);
+//! [group.by]
+
+}{
+
 //! [init]
-using namespace literals;
-BOOST_HANA_CONSTANT_CHECK(init(make<Tuple>(1)) == make<Tuple>());
-BOOST_HANA_CONSTEXPR_CHECK(init(make<Tuple>(1, '2', 3.3, 4_c)) == make<Tuple>(1, '2', 3.3));
+using namespace boost::hana::literals;
+
+BOOST_HANA_CONSTANT_CHECK(init(make_tuple(1)) == make_tuple());
+BOOST_HANA_CONSTEXPR_CHECK(init(make_tuple(1, '2', 3.3, 4_c)) == make_tuple(1, '2', 3.3));
 //! [init]
 
 }{
 
 //! [intersperse]
 BOOST_HANA_CONSTEXPR_CHECK(
-    intersperse(make<Tuple>(1, '2', 3.3), 'x') == make<Tuple>(1, 'x', '2', 'x', 3.3)
+    intersperse(make_tuple(1, '2', 3.3), 'x') == make_tuple(1, 'x', '2', 'x', 3.3)
 );
-BOOST_HANA_CONSTANT_CHECK(intersperse(make<Tuple>(), 'x') == make<Tuple>());
+BOOST_HANA_CONSTANT_CHECK(intersperse(make_tuple(), 'x') == make_tuple());
 //! [intersperse]
 
 }{
 
 //! [make]
-BOOST_HANA_CONSTANT_CHECK(make<Tuple>() == make<Tuple>());
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, '2', 3.3) == make<Tuple>(1, '2', 3.3));
+BOOST_HANA_CONSTANT_CHECK(make<Tuple>() == make_tuple());
+BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, '2', 3.3) == make_tuple(1, '2', 3.3));
 //! [make]
 
 }{
@@ -347,15 +355,15 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto is_permutation_of = curry<2>([](auto xs, auto p
 
 BOOST_HANA_CONSTEXPR_CHECK(
     all_of(
-        make<Tuple>(
-            make<Tuple>('1', 2, 3.0),
-            make<Tuple>('1', 3.0, 2),
-            make<Tuple>(2, '1', 3.0),
-            make<Tuple>(2, 3.0, '1'),
-            make<Tuple>(3.0, '1', 2),
-            make<Tuple>(3.0, 2, '1')
+        make_tuple(
+            make_tuple('1', 2, 3.0),
+            make_tuple('1', 3.0, 2),
+            make_tuple(2, '1', 3.0),
+            make_tuple(2, 3.0, '1'),
+            make_tuple(3.0, '1', 2),
+            make_tuple(3.0, 2, '1')
         ),
-        is_permutation_of(make<Tuple>('1', 2, 3.0))
+        is_permutation_of(make_tuple('1', 2, 3.0))
     )
 );
 //! [permutations]
@@ -386,9 +394,22 @@ BOOST_HANA_CONSTANT_CHECK(
 
 }{
 
+//! [partition.by]
+BOOST_HANA_CONSTANT_CHECK(
+    partition.by(traits::is_floating_point, tuple_t<void, int, float, char, double>)
+    ==
+    make_pair(
+        tuple_t<float, double>,
+        tuple_t<void, int, char>
+    )
+);
+//! [partition.by]
+
+}{
+
 //! [remove_at]
 BOOST_HANA_CONSTEXPR_CHECK(
-    remove_at(int_<2>, make<Tuple>(0, '1', 2.2, 3u)) == make<Tuple>(0, '1', 3u)
+    remove_at(int_<2>, make_tuple(0, '1', 2.2, 3u)) == make_tuple(0, '1', 3u)
 );
 //! [remove_at]
 
@@ -420,7 +441,7 @@ auto f = [=](auto state, auto element) {
 };
 
 // with initial state
-BOOST_HANA_RUNTIME_CHECK(scan.left(make<Tuple>(2, "3", '4'), 1, f) == make<Tuple>(
+BOOST_HANA_RUNTIME_CHECK(scan.left(make_tuple(2, "3", '4'), 1, f) == make_tuple(
     1,
     "f(1, 2)",
     "f(f(1, 2), 3)",
@@ -428,7 +449,7 @@ BOOST_HANA_RUNTIME_CHECK(scan.left(make<Tuple>(2, "3", '4'), 1, f) == make<Tuple
 ));
 
 // without initial state
-BOOST_HANA_RUNTIME_CHECK(scan.left(make<Tuple>(1, "2", '3'), f) == make<Tuple>(
+BOOST_HANA_RUNTIME_CHECK(scan.left(make_tuple(1, "2", '3'), f) == make_tuple(
     1,
     "f(1, 2)",
     "f(f(1, 2), 3)"
@@ -449,7 +470,7 @@ auto f = [=](auto element, auto state) {
 };
 
 // with initial state
-BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), 4, f) == make<Tuple>(
+BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), 4, f) == make_tuple(
     "f(1, f(2, f(3, 4)))",
     "f(2, f(3, 4))",
     "f(3, 4)",
@@ -457,7 +478,7 @@ BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), 4, f) == make<Tupl
 ));
 
 // without initial state
-BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), f) == make<Tuple>(
+BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), f) == make_tuple(
     "f(1, f(2, 3))",
     "f(2, 3)",
     '3'
@@ -468,9 +489,9 @@ BOOST_HANA_RUNTIME_CHECK(scan.right(make<Tuple>(1, "2", '3'), f) == make<Tuple>(
 
 //! [slice]
 BOOST_HANA_CONSTEXPR_CHECK(
-    slice(make<Tuple>(1, '2', 3.3, type<float>), int_<1>, int_<3>)
+    slice(make_tuple(1, '2', 3.3, type<float>), int_<1>, int_<3>)
     ==
-    make<Tuple>('2', 3.3)
+    make_tuple('2', 3.3)
 );
 //! [slice]
 
@@ -478,64 +499,84 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [slice_c]
 BOOST_HANA_CONSTEXPR_CHECK(
-    slice_c<1, 3>(make<Tuple>(1, '2', 3.3, type<float>))
+    slice_c<1, 3>(make_tuple(1, '2', 3.3, type<float>))
     ==
-    make<Tuple>('2', 3.3)
+    make_tuple('2', 3.3)
 );
 //! [slice_c]
 
 }{
 
 //! [sort]
-using namespace literals;
+using namespace boost::hana::literals;
 
 // without a predicate
 BOOST_HANA_CONSTANT_CHECK(
-    sort(make<Tuple>(1_c, -2_c, 3_c, 0_c)) ==
-        make<Tuple>(-2_c, 0_c, 1_c, 3_c)
+    sort(make_tuple(1_c, -2_c, 3_c, 0_c)) ==
+         make_tuple(-2_c, 0_c, 1_c, 3_c)
 );
 
 // with a predicate
 BOOST_HANA_CONSTANT_CHECK(
-    sort(make<Tuple>(1_c, -2_c, 3_c, 0_c), greater) ==
-        make<Tuple>(3_c, 1_c, 0_c, -2_c)
-);
-
-auto tuples = make<Tuple>(
-    make<Tuple>(2_c, 'x', nullptr),
-    make<Tuple>(1_c, std::string{"foobar"}, int_<4>)
-);
-BOOST_HANA_RUNTIME_CHECK(
-    sort.by(ordering(head), tuples)
-        == make<Tuple>(
-            make<Tuple>(1_c, std::string{"foobar"}, int_<4>),
-            make<Tuple>(2_c, 'x', nullptr)
-        )
+    sort(make_tuple(1_c, -2_c, 3_c, 0_c), greater) ==
+         make_tuple(3_c, 1_c, 0_c, -2_c)
 );
 //! [sort]
 
 }{
 
+//! [sort.by]
+using namespace std::literals;
+using namespace boost::hana::literals;
+
+auto tuples = make<Tuple>(
+    make<Tuple>(2_c, 'x', nullptr),
+    make<Tuple>(1_c, "foobar"s, int_<4>)
+);
+BOOST_HANA_RUNTIME_CHECK(
+    sort.by(ordering(head), tuples)
+        == make<Tuple>(
+            make<Tuple>(1_c, "foobar"s, int_<4>),
+            make<Tuple>(2_c, 'x', nullptr)
+        )
+);
+//! [sort.by]
+
+}{
+
 //! [span]
-BOOST_HANA_CONSTEXPR_LAMBDA auto xs = make<Tuple>(int_<1>, int_<2>, int_<3>, int_<4>);
+constexpr auto xs = make_tuple(int_<1>, int_<2>, int_<3>, int_<4>);
+
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<3>)
     ==
-    make_pair(make<Tuple>(int_<1>, int_<2>), make<Tuple>(int_<3>, int_<4>))
+    make_pair(make_tuple(int_<1>, int_<2>), make_tuple(int_<3>, int_<4>))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<0>)
     ==
-    make_pair(make<Tuple>(), xs)
+    make_pair(make_tuple(), xs)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
     span(xs, _ < int_<5>)
     ==
-    make_pair(xs, make<Tuple>())
+    make_pair(xs, make_tuple())
 );
 //! [span]
+
+}{
+
+//! [span.by]
+constexpr auto xs = make_tuple(int_<1>, int_<2>, int_<3>, int_<4>);
+
+BOOST_HANA_CONSTANT_CHECK(
+    span.by(_ < int_<3>, xs)
+    ==
+    make_pair(make_tuple(int_<1>, int_<2>), make_tuple(int_<3>, int_<4>))
+);
+//! [span.by]
 
 }{
 
@@ -557,7 +598,8 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [take]
-using namespace literals;
+using namespace boost::hana::literals;
+
 BOOST_HANA_CONSTANT_CHECK(take(0_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>());
 BOOST_HANA_CONSTEXPR_CHECK(take(1_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1));
 BOOST_HANA_CONSTEXPR_CHECK(take(2_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1, '2'));
@@ -574,7 +616,7 @@ BOOST_HANA_CONSTEXPR_CHECK(take_c<2>(make<Tuple>(1, '2', 3.3)) == make<Tuple>(1,
 }{
 
 //! [take_until]
-using namespace literals;
+using namespace boost::hana::literals;
 BOOST_HANA_CONSTANT_CHECK(
     take_until(tuple_c<int, 3, 2, 1, 0>, _ < 2_c)
     ==
@@ -585,7 +627,7 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [take_while]
-using namespace literals;
+using namespace boost::hana::literals;
 BOOST_HANA_CONSTANT_CHECK(
     take_while(tuple_c<int, 0, 1, 2, 3>, _ < 2_c)
     ==
