@@ -27,7 +27,7 @@ int main() {
         >{}, "");
 
         static_assert(std::is_same<
-            typename decltype(+at(int_<1>, types))::type, U
+            typename decltype(+at(types, int_<1>))::type, U
         >{}, "");
 
         static_assert(std::is_same<

@@ -148,21 +148,21 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<sandbox::LambdaTuple> {
-        template <typename Index, typename Xs>
-        static constexpr decltype(auto) apply(Index n, Xs&& xs) {
+        template <typename Xs, typename Index>
+        static constexpr decltype(auto) apply(Xs&& xs, Index const&) {
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::at<value(n)>
+                detail::variadic::at<hana::value<Index>()>
             );
         }
     };
 
     template <>
     struct drop_at_most_impl<sandbox::LambdaTuple> {
-        template <typename Index, typename Xs>
-        static constexpr decltype(auto) apply(Index n, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::drop_into<value(m)>(sandbox::lambda_tuple)
+                detail::variadic::drop_into<hana::value(m)>(sandbox::lambda_tuple)
             );
         }
     };
@@ -243,7 +243,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs) {
             return unpack(range(_size_t<0>{}, pred(length(xs))),
                 on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
-                    return at(index, static_cast<Xs&&>(xs));
+                    return at(static_cast<Xs&&>(xs), index);
                 })
             );
         }
@@ -265,7 +265,7 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xss>
         static constexpr auto apply(F f, Xss ...tuples) {
             auto go = [=](auto index, auto ...nothing) {
-                return always(f)(nothing...)(at(index, tuples)...);
+                return always(f)(nothing...)(at(tuples, index)...);
             };
             auto zip_length = minimum(sandbox::lambda_tuple(length(tuples)...));
             return unpack(range(_size_t<0>{}, zip_length),

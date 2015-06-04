@@ -96,7 +96,7 @@ int main() {
     using boost::hana::size_t;
     BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
     BOOST_HANA_CONSTEXPR_CHECK(head(repeat_(1)) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(at(size_t<10>, repeat_(1)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_t<10>) == 1);
 
     BOOST_HANA_CONSTEXPR_CHECK(take(size_t<2>, repeat_('x')) == make<Tuple>('x', 'x'));
 }

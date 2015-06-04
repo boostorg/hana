@@ -179,8 +179,8 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<ext::std::Tuple> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr detail::std::size_t index = hana::value<N>();
             return ::std::get<index>(static_cast<Xs&&>(xs));
         }

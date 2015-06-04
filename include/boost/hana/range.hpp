@@ -271,8 +271,8 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<Range> {
-        template <typename N, typename R>
-        static constexpr auto apply(N const&, R const&) {
+        template <typename R, typename N>
+        static constexpr auto apply(R const&, N const&) {
             using U = typename R::underlying;
             constexpr auto n = hana::value<N>();
             constexpr auto from = R::from;
@@ -292,8 +292,8 @@ namespace boost { namespace hana {
 
     template <>
     struct drop_at_most_impl<Range> {
-        template <typename N, typename R>
-        static constexpr auto apply(N const&, R const&) {
+        template <typename R, typename N>
+        static constexpr auto apply(R const&, N const&) {
             constexpr auto n = hana::value<N>();
             using U = typename R::underlying;
             return _range<U,
@@ -305,8 +305,8 @@ namespace boost { namespace hana {
 
     template <>
     struct drop_exactly_impl<Range> {
-        template <typename N, typename R>
-        static constexpr auto apply(N const&, R const&) {
+        template <typename R, typename N>
+        static constexpr auto apply(R const&, N const&) {
             constexpr auto n = hana::value<N>();
             using U = typename R::underlying;
             return _range<U, R::from + n, R::to>{};

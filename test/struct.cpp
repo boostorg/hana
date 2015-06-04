@@ -57,7 +57,8 @@ namespace boost { namespace hana {
             return unpack(range_c<int, 0, N>, [](auto ...k) {
                 return make_tuple(make_pair(k,
                     [=](auto&& strct) -> decltype(auto) {
-                        return at(k, static_cast<decltype(strct)&&>(strct).members);
+                        using Strct = decltype(strct);
+                        return at(static_cast<Strct&&>(strct).members, k);
                     }
                 )...);
             });

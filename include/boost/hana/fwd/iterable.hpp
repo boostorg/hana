@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     //! [linearization](@ref Foldable-lin). For any finite `Iterable` `xs`
     //! with linearization `[x1, ..., xn]`, the following must be satisfied:
     //! @code
-    //!     at(i, xs) == xi
+    //!     at(xs, i) == xi
     //!     is_empty(xs) <=> n == 0
     //! @endcode
     //! An equivalent way of writing this is
@@ -242,14 +242,14 @@ namespace boost { namespace hana {
     //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
     //! `tail(xs)` is an Iterable of the same data type whose linearization is
     //! `[x2, ..., xN]`. In particular, `tail(xs)` is functionally equivalent
-    //! to `drop(size_t<1>, xs)`.
+    //! to `drop(xs, size_t<1>)`.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/iterable.cpp tail
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto tail = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto tail = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -310,21 +310,21 @@ namespace boost { namespace hana {
     //! Returns the `n`th element of an iterable.
     //! @relates Iterable
     //!
-    //! Given a `Constant` index and an iterable, `at` returns the
-    //! element located at the index in the linearization of the iterable.
+    //! Given an `Iterable` and a `Constant` index, `at` returns the element
+    //! located at the index in the linearization of the iterable.
     //! Specifically, given an iterable `xs` with a linearization of
-    //! `[x1, ..., xN]`, `at(k, xs)` is equivalent to `xk`.
+    //! `[x1, ..., xN]`, `at(xs, k)` is equivalent to `xk`.
     //!
+    //!
+    //! @param xs
+    //! The iterable in which an element is retrieved. The iterable must
+    //! contain at least `n + 1` elements.
     //!
     //! @param n
     //! A (non-negative) `Constant` of an unsigned integral type representing
     //! the 0-based index of the element to return. It is an error to call
     //! `at` with an index that is either out of bounds for the iterable,
-    //! not of an unsigned type or not a Constant.
-    //!
-    //! @param iterable
-    //! The iterable in which an element is retrieved. The iterable must
-    //! contain at least `n + 1` elements.
+    //! not of an unsigned type or not a `Constant`.
     //!
     //!
     //! Operator-form
@@ -333,7 +333,7 @@ namespace boost { namespace hana {
     //! that support it by using the `[]` operator. Hence, if `xs`
     //! supports the operator,
     //! @code
-    //!     xs[n] == at(n, xs)
+    //!     xs[n] == at(xs, n)
     //! @endcode
     //!
     //! To take advantage of this operator for a type `T`, `T` must inherit
@@ -357,7 +357,7 @@ namespace boost { namespace hana {
     //!      data-dataset="benchmark.at.compile.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto at = [](auto&& n, auto&& iterable) -> decltype(auto) {
+    constexpr auto at = [](auto&& xs, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -365,15 +365,15 @@ namespace boost { namespace hana {
     struct at_impl;
 
     struct _at {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::at(n, xs) requires xs to be an Iterable");
+            "hana::at(xs, n) requires xs to be an Iterable");
 #endif
             return at_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             );
         }
     };
@@ -390,8 +390,8 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp at_c
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
-    constexpr auto at_c = [](auto&& iterable) -> decltype(auto) {
-        return at(size_t<n>, forwarded(iterable));
+    constexpr auto at_c = [](auto&& xs) -> decltype(auto) {
+        return at(forwarded(xs), size_t<n>);
     };
 #else
     template <detail::std::size_t n>
@@ -438,18 +438,18 @@ namespace boost { namespace hana {
     //! Drops the first `n` elements of an iterable and returns the rest.
     //! @relates Iterable
     //!
-    //! Given an (non-negative) `Constant` `n` of an unsigned integral type
-    //! and an iterable `xs` with a linearization of `[x1, x2, ...]`,
-    //! `drop(n, xs)` is an iterable of the same data type whose
-    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that
-    //! this method does not mutate the original iterable in any way.
+    //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
+    //! a (non-negative) `Constant` `n` of an unsigned integral type,
+    //! `drop(xs, n)` is an iterable of the same data type whose linearization
+    //! is `[xn+1, xn+2, ...]`. In particular, note that this method does not
+    //! mutate the original iterable in any way.
     //!
     //! There are two different ways of calling `drop`, which correspond to
     //! different policies in case the length of the iterable is less than `n`:
     //! @code
-    //!     drop(n, xs)         = drop.at_most(n, xs)
-    //!     drop.at_most(n, xs) = see below
-    //!     drop.exactly(n, xs) = see below
+    //!     drop(xs, n)         = drop.at_most(xs, n)
+    //!     drop.at_most(xs, n) = see below
+    //!     drop.exactly(xs, n) = see below
     //! @endcode
     //!
     //! In case `length(xs) < n`, the `drop.at_most` variant will simply drop
@@ -466,19 +466,19 @@ namespace boost { namespace hana {
     //! `drop` is not tag dispatched, because it is just an alias to
     //! `drop.at_most`.
     //!
+    //! @param xs
+    //! The iterable from which elements are dropped.
+    //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of elements to be dropped from the iterable.
-    //!
-    //! @param iterable
-    //! The iterable from which elements are dropped.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/iterable.cpp drop
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop = [](auto&& n, auto&& iterable) -> decltype(auto) {
+    constexpr auto drop = [](auto&& xs, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -489,32 +489,32 @@ namespace boost { namespace hana {
     struct drop_at_most_impl;
 
     struct _drop_exactly {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
             using DropExactly = drop_exactly_impl<It>;
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::drop.exactly(n, xs) requires xs to be an Iterable");
+            "hana::drop.exactly(xs, n) requires xs to be an Iterable");
         #endif
 
-            return DropExactly::apply(static_cast<N&&>(n), static_cast<Xs&&>(xs));
+            return DropExactly::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
     struct _drop_at_most {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
             using DropAtMost = drop_at_most_impl<It>;
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::drop.at_most(n, xs) requires xs to be an Iterable");
+            "hana::drop.at_most(xs, n) requires xs to be an Iterable");
         #endif
 
-            return DropAtMost::apply(static_cast<N&&>(n), static_cast<Xs&&>(xs));
+            return DropAtMost::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
@@ -539,8 +539,8 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp drop_c
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
-    constexpr auto drop_c = [](auto&& iterable) -> decltype(auto) {
-        return drop(size_t<n>, forwarded(iterable));
+    constexpr auto drop_c = [](auto&& xs) -> decltype(auto) {
+        return drop(forwarded(xs), size_t<n>);
     };
 #else
     template <detail::std::size_t n>

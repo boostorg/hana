@@ -473,12 +473,12 @@ function                                    | description
 <code>{[all](@ref Searchable::all),[any](@ref Searchable::any),[none](@ref Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
 <code>{[all](@ref Searchable::all_of),[any](@ref Searchable::any_of),[none](@ref Searchable::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
 <code>[append](@ref MonadPlus::append)(sequence, value)</code>                    | Append an element to a sequence.
-<code>[at](@ref Iterable::at)(index, sequence)</code>                             | Returns the n-th element of a sequence. The index must be an IntegralConstant.
+<code>[at](@ref Iterable::at)(sequence, index)</code>                             | Returns the n-th element of a sequence. The index must be an IntegralConstant.
 <code>[concat](@ref MonadPlus::concat)(sequence1, sequence2)</code>               | Concatenate two sequences.
 <code>[contains](@ref Searchable::contains)(sequence, value)</code>               | Returns whether a sequence contains the given object.
 <code>[count](@ref Foldable::count)(sequence, value)</code>                       | Returns the number of elements that compare equal to the given value.
 <code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>             | Returns the number of elements that satisfy the predicate.
-<code>[drop](@ref Iterable::drop)(number, sequence)</code>                        | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
+<code>[drop](@ref Iterable::drop)(sequence, n)</code>                             | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
 <code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>         | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>         | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref Functor::fill)(sequence, value)</code>                          | Replace all the elements of a sequence with some value.

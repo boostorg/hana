@@ -122,7 +122,7 @@ struct next
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence, typename N>
 struct at
-    : decltype(hana::at(N{}, Sequence{}))
+    : decltype(hana::at(Sequence{}, N{}))
 { };
 
 template <typename Sequence, long n>

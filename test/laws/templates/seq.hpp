@@ -112,7 +112,7 @@ int main() {
             {
                 auto lvalue = iterable(test::ct_eq<0>{});
 
-                auto const& result = at(size_t<0>, lvalue);
+                auto const& result = at(lvalue, size_t<0>);
                 (void)result;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
@@ -125,7 +125,7 @@ int main() {
             {
                 auto const const_lvalue = iterable(test::ct_eq<0>{});
 
-                auto const& result = at(size_t<0>, const_lvalue);
+                auto const& result = at(const_lvalue, size_t<0>);
                 (void)result;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
@@ -138,12 +138,12 @@ int main() {
             {
                 auto rvalue = [=] { return iterable(test::ct_eq<0>{}); };
 
-                auto&& result = at(size_t<0>, rvalue());
+                auto&& result = at(rvalue(), size_t<0>);
                 (void)result;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     rvalue()[size_t<0>],
-                    at(size_t<0>, rvalue())
+                    at(rvalue(), size_t<0>)
                 ));
             }
         }

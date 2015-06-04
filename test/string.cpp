@@ -265,37 +265,37 @@ int main() {
         // at
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<0>, BOOST_HANA_STRING("a")),
+                at(BOOST_HANA_STRING("a"), int_<0>),
                 char_<'a'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<0>, BOOST_HANA_STRING("ab")),
+                at(BOOST_HANA_STRING("ab"), int_<0>),
                 char_<'a'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<0>, BOOST_HANA_STRING("abc")),
+                at(BOOST_HANA_STRING("abc"), int_<0>),
                 char_<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<1>, BOOST_HANA_STRING("ab")),
+                at(BOOST_HANA_STRING("ab"), int_<1>),
                 char_<'b'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<1>, BOOST_HANA_STRING("abc")),
+                at(BOOST_HANA_STRING("abc"), int_<1>),
                 char_<'b'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<1>, BOOST_HANA_STRING("abcd")),
+                at(BOOST_HANA_STRING("abcd"), int_<1>),
                 char_<'b'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<2>, BOOST_HANA_STRING("abc")),
+                at(BOOST_HANA_STRING("abc"), int_<2>),
                 char_<'c'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(int_<2>, BOOST_HANA_STRING("abcd")),
+                at(BOOST_HANA_STRING("abcd"), int_<2>),
                 char_<'c'>
             ));
         }

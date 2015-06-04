@@ -548,7 +548,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         apply(Xs&& xs, From const& from, To const& to) {
             return hana::take(hana::minus(to, from),
-                    hana::drop(from, static_cast<Xs&&>(xs)));
+                    hana::drop(static_cast<Xs&&>(xs), from));
         }
     };
 

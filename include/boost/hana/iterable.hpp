@@ -47,8 +47,8 @@ namespace boost { namespace hana {
             template <typename I>
             constexpr decltype(auto) operator[](I&& i) const& {
                 return hana::at(
-                    static_cast<I&&>(i),
-                    static_cast<Derived const&>(*this)
+                    static_cast<Derived const&>(*this),
+                    static_cast<I&&>(i)
                 );
             }
 
@@ -56,8 +56,8 @@ namespace boost { namespace hana {
             template <typename I>
             constexpr decltype(auto) operator[](I&& i) & {
                 return hana::at(
-                    static_cast<I&&>(i),
-                    static_cast<Derived&>(*this)
+                    static_cast<Derived&>(*this),
+                    static_cast<I&&>(i)
                 );
             }
 #endif
@@ -65,8 +65,8 @@ namespace boost { namespace hana {
             template <typename I>
             constexpr decltype(auto) operator[](I&& i) && {
                 return hana::at(
-                    static_cast<I&&>(i),
-                    static_cast<Derived&&>(*this)
+                    static_cast<Derived&&>(*this),
+                    static_cast<I&&>(i)
                 );
             }
         };
@@ -114,18 +114,19 @@ namespace boost { namespace hana {
     template <typename It, bool condition>
     struct at_impl<It, when<condition>> : default_ {
         struct next {
-            template <typename Index, typename Xs>
-            constexpr decltype(auto) operator()(Index&& n, Xs&& xs) const {
-                return at_impl::apply(hana::pred(n), hana::tail(xs));
+            template <typename Xs, typename Index>
+            constexpr decltype(auto) operator()(Xs&& xs, Index&& n) const {
+                return at_impl::apply(hana::tail(static_cast<Xs&&>(xs)),
+                                      hana::pred(n));
             }
         };
 
-        template <typename Index, typename Xs>
-        static constexpr decltype(auto) apply(Index&& n, Xs&& xs) {
+        template <typename Xs, typename Index>
+        static constexpr decltype(auto) apply(Xs&& xs, Index&& n) {
             using I = typename datatype<Index>::type;
             return hana::eval_if(hana::equal(n, zero<I>()),
                 hana::lazy(head)(xs),
-                hana::lazy(next{})(n, xs)
+                hana::lazy(next{})(xs, n)
             );
         }
     };
@@ -137,7 +138,7 @@ namespace boost { namespace hana {
     struct _at_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::at(size_t<n>, static_cast<Xs&&>(xs)); }
+        { return hana::at(static_cast<Xs&&>(xs), size_t<n>); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -165,13 +166,13 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct drop_at_most_impl<It, when<condition>> : default_ {
-        template <typename N, typename Xs>
-        static constexpr auto apply(N n, Xs xs) {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N&& n) {
             using I = typename datatype<N>::type;
             return hana::eval_if(
                 hana::or_(hana::equal(n, zero<I>()), hana::is_empty(xs)),
                 hana::always(xs),
-                hana::lazy(hana::lockstep(drop.at_most)(pred, tail))(n, xs)
+                hana::lazy(hana::lockstep(drop.at_most)(tail, pred))(xs, n)
             );
         }
     };
@@ -184,8 +185,8 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct drop_exactly_impl<It, when<condition>> : default_ {
-        template <typename N, typename Xs>
-        static constexpr auto apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
             constexpr auto n = hana::value<N>();
             return hana::iterate<n>(hana::tail)(static_cast<Xs&&>(xs));
         }
@@ -198,7 +199,7 @@ namespace boost { namespace hana {
     struct _drop_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::drop(size_t<n>, static_cast<Xs&&>(xs)); }
+        { return hana::drop(static_cast<Xs&&>(xs), size_t<n>); }
     };
 
     //////////////////////////////////////////////////////////////////////////

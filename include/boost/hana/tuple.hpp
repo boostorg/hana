@@ -411,8 +411,8 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<Tuple> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr detail::std::size_t index = hana::value<N>();
             return detail::get<index>(static_cast<Xs&&>(xs));
         }
@@ -470,12 +470,11 @@ namespace boost { namespace hana {
         template <Size n, typename Xs, Size ...i>
         static constexpr decltype(auto)
         drop_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return hana::make<Tuple>(
-                        detail::get<n + i>(static_cast<Xs&&>(xs))...);
+            return hana::make<Tuple>(detail::get<n + i>(static_cast<Xs&&>(xs))...);
         }
 
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr Size n = hana::value<N>();
             constexpr Size size = tuple_detail::size<Xs>{}();
             constexpr Size drop_size = n > size ? size : n;
@@ -493,8 +492,8 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(hana::size_t<k-1>,
-                                          static_cast<Xs&&>(xs));
+                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                                          hana::size_t<k-1>);
             }
 
             template <typename Xs, typename Pred>
@@ -512,15 +511,15 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(hana::size_t<Len - 1>,
-                                          static_cast<Xs&&>(xs));
+                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                                          hana::size_t<Len - 1>);
             }
 
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(true_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(hana::size_t<Len>,
-                                          static_cast<Xs&&>(xs));
+                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                                          hana::size_t<Len>);
             }
         };
 

@@ -53,7 +53,7 @@ namespace cppcon {
 
         template <typename I, typename J>
         constexpr decltype(auto) at(I i, J j) const
-        { return boost::hana::at(j, boost::hana::at(i, rows_)); }
+        { return boost::hana::at(boost::hana::at(rows_, i), j); }
     };
 
     auto row = boost::hana::make_tuple;

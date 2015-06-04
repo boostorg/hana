@@ -16,6 +16,6 @@ int main() {
     constexpr auto tuple = boost::hana::make_tuple(
         <%= (1..input_size).map { |n| "x<#{n}>{}" }.join(', ') %>
     );
-    constexpr auto result = boost::hana::at(hana::size_t<<%= input_size-1 %>>, tuple);
+    constexpr auto result = boost::hana::at(tuple, hana::size_t<<%= input_size-1 %>>);
     (void)result;
 }

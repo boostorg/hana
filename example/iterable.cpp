@@ -49,47 +49,48 @@ BOOST_HANA_CONSTANT_CHECK(
 {
 
 //! [at]
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<0>, make<Tuple>(0, '1', 2.0)) == 0);
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<1>, make<Tuple>(0, '1', 2.0)) == '1');
-BOOST_HANA_CONSTEXPR_CHECK(at(int_<2>, make<Tuple>(0, '1', 2.0)) == 2.0);
+BOOST_HANA_CONSTEXPR_CHECK(at(make_tuple(0, '1', 2.0), int_<0>) == 0);
+BOOST_HANA_CONSTEXPR_CHECK(at(make_tuple(0, '1', 2.0), int_<1>) == '1');
+BOOST_HANA_CONSTEXPR_CHECK(at(make_tuple(0, '1', 2.0), int_<2>) == 2.0);
 //! [at]
 
 }{
 
 //! [at_c]
-BOOST_HANA_CONSTEXPR_CHECK(at_c<0>(make<Tuple>(0, '1', 2.0)) == 0);
-BOOST_HANA_CONSTEXPR_CHECK(at_c<1>(make<Tuple>(0, '1', 2.0)) == '1');
-BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make<Tuple>(0, '1', 2.0)) == 2.0);
+BOOST_HANA_CONSTEXPR_CHECK(at_c<0>(make_tuple(0, '1', 2.0)) == 0);
+BOOST_HANA_CONSTEXPR_CHECK(at_c<1>(make_tuple(0, '1', 2.0)) == '1');
+BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make_tuple(0, '1', 2.0)) == 2.0);
 //! [at_c]
 
 }{
 
 //! [drop]
-constexpr auto xs = make<Tuple>(0, '1', 2.0);
+constexpr auto xs = make_tuple(0, '1', 2.0);
 
 // drop (equivalent to drop.at_most)
-BOOST_HANA_CONSTEXPR_CHECK(drop(int_<0>, xs) == xs);
-BOOST_HANA_CONSTEXPR_CHECK(drop(int_<1>, xs) == make<Tuple>('1', 2.0));
-BOOST_HANA_CONSTEXPR_CHECK(drop(int_<2>, xs) == make<Tuple>(2.0));
-BOOST_HANA_CONSTANT_CHECK(drop(int_<3>, xs) == make<Tuple>());
-BOOST_HANA_CONSTANT_CHECK(drop(int_<4>, xs) == make<Tuple>());
-BOOST_HANA_CONSTANT_CHECK(drop.at_most(int_<4>, xs) == make<Tuple>());
+static_assert(drop(xs, int_<0>) == xs, "");
+static_assert(drop(xs, int_<1>) == make_tuple('1', 2.0), "");
+static_assert(drop(xs, int_<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop(xs, int_<3>) == make_tuple());
+BOOST_HANA_CONSTANT_CHECK(drop(xs, int_<4>) == make_tuple());
+BOOST_HANA_CONSTANT_CHECK(drop.at_most(xs, int_<4>) == make_tuple());
 
 // drop.exactly
-static_assert(drop.exactly(int_<2>, xs) == make<Tuple>(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(drop.exactly(int_<3>, xs) == make<Tuple>());
+static_assert(drop.exactly(xs, int_<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop.exactly(xs, int_<3>) == make_tuple());
 //! [drop]
 
 }{
 
 //! [drop_c]
-BOOST_HANA_CONSTEXPR_CHECK(drop_c<2>(make<Tuple>(0, '1', 2.0)) == make<Tuple>(2.0));
+static_assert(drop_c<2>(make_tuple(0, '1', 2.0)) == make_tuple(2.0), "");
 //! [drop_c]
 
 }{
 
 //! [drop_until]
-using namespace literals;
+using namespace boost::hana::literals;
+
 BOOST_HANA_CONSTEXPR_LAMBDA auto positive = [](auto x) {
     return x > int_<0>;
 };

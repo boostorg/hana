@@ -191,8 +191,8 @@ namespace boost { namespace hana {
 
     template <>
     struct at_impl<String> {
-        template <typename N, char ...s>
-        static constexpr auto apply(N const&, _string<s...> const&) {
+        template <char ...s, typename N>
+        static constexpr auto apply(_string<s...> const&, N const&) {
             // We put a '\0' at the end to avoid an empty array.
             constexpr char characters[] = {s..., '\0'};
             constexpr auto n = hana::value<N>();
