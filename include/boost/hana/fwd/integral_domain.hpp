@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -155,7 +156,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Quot = quot_impl<T, U>;
+            using Quot = BOOST_HANA_DISPATCH_IF(decltype(quot_impl<T, U>{}),
+                _models<IntegralDomain, T>{}() &&
+                _models<IntegralDomain, U>{}() &&
+                !is_default<quot_impl<T, U>>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<IntegralDomain, T>{},
@@ -164,7 +169,7 @@ namespace boost { namespace hana {
             static_assert(_models<IntegralDomain, U>{},
             "hana::quot(x, y) requires y to be an IntegralDomain");
 
-            static_assert(!is_default<quot_impl<T, U>>{},
+            static_assert(!is_default<quot_impl<T, U>>{}(),
             "hana::quot(x, y) requires x and y to be embeddable "
             "in a common IntegralDomain");
         #endif
@@ -216,7 +221,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Rem = rem_impl<T, U>;
+            using Rem = BOOST_HANA_DISPATCH_IF(decltype(rem_impl<T, U>{}),
+                _models<IntegralDomain, T>{}() &&
+                _models<IntegralDomain, U>{}() &&
+                !is_default<rem_impl<T, U>>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<IntegralDomain, T>{},

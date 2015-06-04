@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_LOGICAL_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
@@ -208,15 +209,19 @@ namespace boost { namespace hana {
     struct _if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Logical, typename datatype<Cond>::type>{},
-            "hana::if_(cond, then, else) requires cond to be a Logical");
-#endif
-            return if_impl<typename datatype<Cond>::type>::apply(
-                static_cast<Cond&&>(cond),
-                static_cast<Then&&>(then),
-                static_cast<Else&&>(else_)
+            using Bool = typename datatype<Cond>::type;
+            using If = BOOST_HANA_DISPATCH_IF(if_impl<Bool>,
+                _models<Logical, Bool>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Logical, Bool>{},
+            "hana::if_(cond, then, else) requires cond to be a Logical");
+        #endif
+
+            return If::apply(static_cast<Cond&&>(cond),
+                             static_cast<Then&&>(then),
+                             static_cast<Else&&>(else_));
         }
     };
 
@@ -324,15 +329,19 @@ namespace boost { namespace hana {
     struct _eval_if {
         template <typename Cond, typename Then, typename Else>
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Logical, typename datatype<Cond>::type>{},
-            "hana::eval_if(cond, then, else) requires cond to be a Logical");
-#endif
-            return eval_if_impl<typename datatype<Cond>::type>::apply(
-                static_cast<Cond&&>(cond),
-                static_cast<Then&&>(then),
-                static_cast<Else&&>(else_)
+            using Bool = typename datatype<Cond>::type;
+            using EvalIf = BOOST_HANA_DISPATCH_IF(eval_if_impl<Bool>,
+                _models<Logical, Bool>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Logical, Bool>{},
+            "hana::eval_if(cond, then, else) requires cond to be a Logical");
+        #endif
+
+            return EvalIf::apply(static_cast<Cond&&>(cond),
+                                 static_cast<Then&&>(then),
+                                 static_cast<Else&&>(else_));
         }
     };
 
@@ -391,16 +400,19 @@ namespace boost { namespace hana {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
             using Cond = decltype(pred(state));
-
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Logical, typename datatype<Cond>::type>{},
-            "hana::while_(pred, state, f) requires pred(state) to be a Logical");
-#endif
-            return while_impl<typename datatype<Cond>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
+            using Bool = typename datatype<Cond>::type;
+            using While = BOOST_HANA_DISPATCH_IF(while_impl<Bool>,
+                _models<Logical, Bool>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Logical, Bool>{},
+            "hana::while_(pred, state, f) requires pred(state) to be a Logical");
+        #endif
+
+            return While::apply(static_cast<Pred&&>(pred),
+                                static_cast<State&&>(state),
+                                static_cast<F&&>(f));
         }
     };
 
@@ -452,16 +464,19 @@ namespace boost { namespace hana {
         template <typename Pred, typename State, typename F>
         constexpr decltype(auto) operator()(Pred&& pred, State&& state, F&& f) const {
             using Cond = decltype(pred(state));
-
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Logical, typename datatype<Cond>::type>{},
-            "hana::until(pred, state, f) requires pred(state) to be a Logical");
-#endif
-            return until_impl<typename datatype<Cond>::type>::apply(
-                static_cast<Pred&&>(pred),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
+            using Bool = typename datatype<Cond>::type;
+            using Until = BOOST_HANA_DISPATCH_IF(until_impl<Bool>,
+                _models<Logical, Bool>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Logical, Bool>{},
+            "hana::until(pred, state, f) requires pred(state) to be a Logical");
+        #endif
+
+            return Until::apply(static_cast<Pred&&>(pred),
+                                static_cast<State&&>(state),
+                                static_cast<F&&>(f));
         }
     };
 
@@ -491,9 +506,17 @@ namespace boost { namespace hana {
     struct _not {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return not_impl<typename datatype<X>::type>::apply(
-                static_cast<X&&>(x)
+            using Bool = typename datatype<X>::type;
+            using Not = BOOST_HANA_DISPATCH_IF(not_impl<Bool>,
+                _models<Logical, Bool>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Logical, Bool>{},
+            "hana::not_(cond) requires cond to be a Logical");
+        #endif
+
+            return Not::apply(static_cast<X&&>(x));
         }
     };
 

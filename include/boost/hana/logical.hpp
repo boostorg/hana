@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/std/declval.hpp>
 #include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/detail/std/integral_constant.hpp>
@@ -133,10 +134,18 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) _and::operator()(X&& x, Y&& y) const {
-        return and_impl<typename datatype<X>::type>::apply(
-            static_cast<X&&>(x),
-            static_cast<Y&&>(y)
+        using Bool = typename datatype<X>::type;
+        using And = BOOST_HANA_DISPATCH_IF(
+            and_impl<Bool>,
+            _models<Logical, Bool>{}()
         );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Logical, Bool>{},
+        "hana::and_(x, y) requires x to be a Logical");
+    #endif
+
+        return And::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
     }
 
     template <typename X, typename ...Y>
@@ -167,10 +176,18 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) _or::operator()(X&& x, Y&& y) const {
-        return or_impl<typename datatype<X>::type>::apply(
-            static_cast<X&&>(x),
-            static_cast<Y&&>(y)
+        using Bool = typename datatype<X>::type;
+        using Or = BOOST_HANA_DISPATCH_IF(
+            or_impl<Bool>,
+            _models<Logical, Bool>{}()
         );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Logical, Bool>{},
+        "hana::or_(x, y) requires x to be a Logical");
+    #endif
+
+        return Or::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
     }
 
     template <typename X, typename ...Y>

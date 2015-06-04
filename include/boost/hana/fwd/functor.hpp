@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_FUNCTOR_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -170,15 +171,17 @@ namespace boost { namespace hana {
     struct _transform {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::transform(xs, f) requires xs to be a Functor");
-#endif
-
-            return transform_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
+            using S = typename datatype<Xs>::type;
+            using Transform = BOOST_HANA_DISPATCH_IF(transform_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::transform(xs, f) requires xs to be a Functor");
+        #endif
+
+            return Transform::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
@@ -224,15 +227,19 @@ namespace boost { namespace hana {
     struct _adjust_if {
         template <typename Xs, typename Pred, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, F&& f) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::adjust_if(xs, pred, f) requires xs to be a Functor");
-#endif
-            return adjust_if_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred),
-                static_cast<F&&>(f)
+            using S = typename datatype<Xs>::type;
+            using AdjustIf = BOOST_HANA_DISPATCH_IF(adjust_if_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::adjust_if(xs, pred, f) requires xs to be a Functor");
+        #endif
+
+            return AdjustIf::apply(static_cast<Xs&&>(xs),
+                                   static_cast<Pred&&>(pred),
+                                   static_cast<F&&>(f));
         }
     };
 
@@ -279,15 +286,19 @@ namespace boost { namespace hana {
     struct _adjust {
         template <typename Xs, typename Value, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value, F&& f) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::adjust(xs, value, f) requires xs to be a Functor");
-#endif
-            return adjust_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Value&&>(value),
-                static_cast<F&&>(f)
+            using S = typename datatype<Xs>::type;
+            using Adjust = BOOST_HANA_DISPATCH_IF(adjust_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::adjust(xs, value, f) requires xs to be a Functor");
+        #endif
+
+            return Adjust::apply(static_cast<Xs&&>(xs),
+                                 static_cast<Value&&>(value),
+                                 static_cast<F&&>(f));
         }
     };
 
@@ -333,15 +344,19 @@ namespace boost { namespace hana {
     struct _replace_if {
         template <typename Xs, typename Pred, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred, Value&& value) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::replace_if(xs, pred, value) requires xs to be a Functor");
-#endif
-            return replace_if_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred),
-                static_cast<Value&&>(value)
+            using S = typename datatype<Xs>::type;
+            using ReplaceIf = BOOST_HANA_DISPATCH_IF(replace_if_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::replace_if(xs, pred, value) requires xs to be a Functor");
+        #endif
+
+            return ReplaceIf::apply(static_cast<Xs&&>(xs),
+                                    static_cast<Pred&&>(pred),
+                                    static_cast<Value&&>(value));
         }
     };
 
@@ -388,15 +403,19 @@ namespace boost { namespace hana {
     struct _replace {
         template <typename Xs, typename OldVal, typename NewVal>
         constexpr decltype(auto) operator()(Xs&& xs, OldVal&& oldval, NewVal&& newval) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::replace(xs, oldval, newval) requires xs to be a Functor");
-#endif
-            return replace_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<OldVal&&>(oldval),
-                static_cast<NewVal&&>(newval)
+            using S = typename datatype<Xs>::type;
+            using Replace = BOOST_HANA_DISPATCH_IF(replace_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::replace(xs, oldval, newval) requires xs to be a Functor");
+        #endif
+
+            return Replace::apply(static_cast<Xs&&>(xs),
+                                  static_cast<OldVal&&>(oldval),
+                                  static_cast<NewVal&&>(newval));
         }
     };
 
@@ -436,14 +455,18 @@ namespace boost { namespace hana {
     struct _fill {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Functor, typename datatype<Xs>::type>{},
-            "hana::fill(xs, value) requires xs to be a Functor");
-#endif
-            return fill_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Value&&>(value)
+            using S = typename datatype<Xs>::type;
+            using Fill = BOOST_HANA_DISPATCH_IF(fill_impl<S>,
+                _models<Functor, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Functor, S>{},
+            "hana::fill(xs, value) requires xs to be a Functor");
+        #endif
+
+            return Fill::apply(static_cast<Xs&&>(xs),
+                               static_cast<Value&&>(value));
         }
     };
 

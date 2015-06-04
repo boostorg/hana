@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
@@ -281,54 +282,68 @@ namespace boost { namespace hana {
     struct _fold_left {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::fold.left(xs, state, f) requires xs to be Foldable");
         #endif
-            return fold_left_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
-            );
+
+            return FoldLeft::apply(static_cast<Xs&&>(xs),
+                                   static_cast<State&&>(state),
+                                   static_cast<F&&>(f));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_nostate_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::fold.left(xs, f) requires xs to be Foldable");
         #endif
-            return fold_left_nostate_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
-            );
+
+            return FoldLeft::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
     struct _fold_right {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::fold.right(xs, state, f) requires xs to be Foldable");
         #endif
-            return fold_right_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<State&&>(state),
-                static_cast<F&&>(f)
-            );
+
+            return FoldRight::apply(static_cast<Xs&&>(xs),
+                                    static_cast<State&&>(state),
+                                    static_cast<F&&>(f));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_nostate_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::fold.right(xs, f) requires xs to be Foldable");
         #endif
-            return fold_right_nostate_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
-            );
+
+            return FoldRight::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
@@ -532,29 +547,37 @@ namespace boost { namespace hana {
     struct _monadic_fold_left {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::monadic_fold<M>.left(xs, state, f) requires xs to be Foldable");
         #endif
-            return monadic_fold_left_impl<typename datatype<Xs>::type>::
-                template apply<M>(
-                    static_cast<Xs&&>(xs),
-                    static_cast<State&&>(state),
-                    static_cast<F&&>(f)
-                );
+
+            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
+                                                      static_cast<State&&>(state),
+                                                      static_cast<F&&>(f));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_left_nostate_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::monadic_fold<M>.left(xs, f) requires xs to be Foldable");
         #endif
-            return monadic_fold_left_nostate_impl<typename datatype<Xs>::type>::
-                template apply<M>(
-                    static_cast<Xs&&>(xs),
-                    static_cast<F&&>(f)
-                );
+
+            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
+                                                      static_cast<F&&>(f));
         }
     };
 
@@ -562,29 +585,36 @@ namespace boost { namespace hana {
     struct _monadic_fold_right {
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldRight = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_right_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::monadic_fold<M>.right(xs, state, f) requires xs to be Foldable");
         #endif
-            return monadic_fold_right_impl<typename datatype<Xs>::type>::
-                template apply<M>(
-                    static_cast<Xs&&>(xs),
-                    static_cast<State&&>(state),
-                    static_cast<F&&>(f)
-                );
+
+            return MonadicFoldRight::template apply<M>(static_cast<Xs&&>(xs),
+                                                       static_cast<State&&>(state),
+                                                       static_cast<F&&>(f));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldRight = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_right_nostate_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::monadic_fold<M>.right(xs, f) requires xs to be Foldable");
         #endif
-            return monadic_fold_right_nostate_impl<typename datatype<Xs>::type>::
-                template apply<M>(
-                    static_cast<Xs&&>(xs),
-                    static_cast<F&&>(f)
-                );
+            return MonadicFoldRight::template apply<M>(static_cast<Xs&&>(xs),
+                                                       static_cast<F&&>(f));
         }
     };
 
@@ -683,14 +713,18 @@ namespace boost { namespace hana {
     struct _for_each {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::for_each(xs, f) requires xs to be Foldable");
-#endif
-            return for_each_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
+            using S = typename datatype<Xs>::type;
+            using ForEach = BOOST_HANA_DISPATCH_IF(
+                for_each_impl<S>,
+                _models<Foldable, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::for_each(xs, f) requires xs to be Foldable");
+        #endif
+
+            return ForEach::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
@@ -720,13 +754,18 @@ namespace boost { namespace hana {
     struct _length {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+            using S = typename datatype<Xs>::type;
+            using Length = BOOST_HANA_DISPATCH_IF(
+                length_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::length(xs) requires xs to be Foldable");
         #endif
-            return length_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+
+            return Length::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -835,25 +874,35 @@ namespace boost { namespace hana {
     struct _minimum : detail::by<_minimum> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+            using S = typename datatype<Xs>::type;
+            using Minimum = BOOST_HANA_DISPATCH_IF(
+                minimum_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::minimum(xs) requires xs to be Foldable");
         #endif
-            return minimum_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+
+            return Minimum::apply(static_cast<Xs&&>(xs));
         }
 
         template <typename Xs, typename Predicate>
         constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+            using S = typename datatype<Xs>::type;
+            using Minimum = BOOST_HANA_DISPATCH_IF(
+                minimum_pred_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::minimum(xs, predicate) requires xs to be Foldable");
         #endif
-            return minimum_pred_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Predicate&&>(pred)
-            );
+
+            return Minimum::apply(static_cast<Xs&&>(xs),
+                                  static_cast<Predicate&&>(pred));
         }
     };
 
@@ -948,25 +997,33 @@ namespace boost { namespace hana {
     struct _maximum : detail::by<_maximum> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+            using S = typename datatype<Xs>::type;
+            using Maximum = BOOST_HANA_DISPATCH_IF(maximum_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::maximum(xs) requires xs to be Foldable");
         #endif
-            return maximum_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
-            );
+
+            return Maximum::apply(static_cast<Xs&&>(xs));
         }
 
         template <typename Xs, typename Predicate>
         constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const {
+            using S = typename datatype<Xs>::type;
+            using Maximum = BOOST_HANA_DISPATCH_IF(maximum_pred_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::maximum(xs, predicate) requires xs to be Foldable");
         #endif
-            return maximum_pred_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Predicate&&>(pred)
-            );
+
+            return Maximum::apply(static_cast<Xs&&>(xs),
+                                  static_cast<Predicate&&>(pred));
         }
     };
 
@@ -1032,13 +1089,17 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
+            using S = typename datatype<Xs>::type;
+            using Sum = BOOST_HANA_DISPATCH_IF(sum_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
+            static_assert(_models<Foldable, S>{},
             "hana::sum<M>(xs) requires xs to be Foldable");
         #endif
-            return sum_impl<typename datatype<Xs>::type>::template apply<M>(
-                static_cast<Xs&&>(xs)
-            );
+
+            return Sum::template apply<M>(static_cast<Xs&&>(xs));
         }
     };
 
@@ -1108,13 +1169,17 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::product<R>(xs) requires xs to be Foldable");
-#endif
-            return product_impl<typename datatype<Xs>::type>::template apply<R>(
-                static_cast<Xs&&>(xs)
+            using S = typename datatype<Xs>::type;
+            using Product = BOOST_HANA_DISPATCH_IF(product_impl<S>,
+                _models<Foldable, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::product<R>(xs) requires xs to be Foldable");
+        #endif
+
+            return Product::template apply<R>(static_cast<Xs&&>(xs));
         }
     };
 
@@ -1161,14 +1226,18 @@ namespace boost { namespace hana {
     struct _count_if {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::count_if(xs, pred) requires xs to be Foldable");
-#endif
-            return count_if_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
+            using S = typename datatype<Xs>::type;
+            using CountIf = BOOST_HANA_DISPATCH_IF(count_if_impl<S>,
+                _models<Foldable, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::count_if(xs, pred) requires xs to be Foldable");
+        #endif
+
+            return CountIf::apply(static_cast<Xs&&>(xs),
+                                  static_cast<Pred&&>(pred));
         }
     };
 
@@ -1208,14 +1277,17 @@ namespace boost { namespace hana {
     struct _count {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::count(xs, value) requires xs to be Foldable");
-#endif
-            return count_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Value&&>(value)
+            using S = typename datatype<Xs>::type;
+            using Count = BOOST_HANA_DISPATCH_IF(count_impl<S>,
+                _models<Foldable, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::count(xs, value) requires xs to be Foldable");
+        #endif
+
+            return Count::apply(static_cast<Xs&&>(xs), static_cast<Value&&>(value));
         }
     };
 
@@ -1293,14 +1365,17 @@ namespace boost { namespace hana {
     struct _unpack {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, typename datatype<Xs>::type>{},
-            "hana::unpack(xs, f) requires xs to be Foldable");
-#endif
-            return unpack_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f)
+            using S = typename datatype<Xs>::type;
+            using Unpack = BOOST_HANA_DISPATCH_IF(unpack_impl<S>,
+                _models<Foldable, S>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::unpack(xs, f) requires xs to be Foldable");
+        #endif
+
+            return Unpack::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 

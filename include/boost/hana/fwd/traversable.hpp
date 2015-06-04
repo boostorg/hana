@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TRAVERSABLE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/applicative.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -164,13 +165,17 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using T = typename datatype<Xs>::type;
+            using SequenceImpl = BOOST_HANA_DISPATCH_IF(sequence_impl<T>,
+                _models<Applicative, A>{}() &&
+                _models<Traversable, T>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Traversable, T>{},
-            "hana::sequence<A>(xs) requires xs to be a Traversable");
+            "hana::sequence<A>(xs) requires 'xs' to be a Traversable");
         #endif
 
-            return sequence_impl<T>::template apply<A>(static_cast<Xs&&>(xs));
+            return SequenceImpl::template apply<A>(static_cast<Xs&&>(xs));
         }
     };
 
@@ -227,11 +232,14 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
             using T = typename datatype<Xs>::type;
-            using Traverse = traverse_impl<T>;
+            using Traverse = BOOST_HANA_DISPATCH_IF(traverse_impl<T>,
+                _models<Applicative, A>{}() &&
+                _models<Traversable, T>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Traversable, T>{},
-            "hana::traverse<A>(xs, f) requires xs to be a Traversable");
+            "hana::traverse<A>(xs, f) requires 'xs' to be a Traversable");
         #endif
 
             return Traverse::template apply<A>(static_cast<Xs&&>(xs),

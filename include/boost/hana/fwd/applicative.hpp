@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_APPLICATIVE_HPP
 #define BOOST_HANA_FWD_APPLICATIVE_HPP
 
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
 
@@ -221,7 +222,12 @@ namespace boost { namespace hana {
 
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
-            return lift_impl<A>::apply(static_cast<X&&>(x));
+            using Lift = BOOST_HANA_DISPATCH_IF(
+                lift_impl<A>,
+                _models<Applicative, A>{}()
+            );
+
+            return Lift::apply(static_cast<X&&>(x));
         }
     };
 

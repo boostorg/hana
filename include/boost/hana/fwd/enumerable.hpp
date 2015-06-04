@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ENUMERABLE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -81,7 +82,9 @@ namespace boost { namespace hana {
         template <typename N>
         constexpr decltype(auto) operator()(N&& n) const {
             using E = typename datatype<N>::type;
-            using Succ = succ_impl<E>;
+            using Succ = BOOST_HANA_DISPATCH_IF(
+                succ_impl<E>, _models<Enumerable, E>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Enumerable, E>{},
@@ -114,7 +117,9 @@ namespace boost { namespace hana {
         template <typename N>
         constexpr decltype(auto) operator()(N&& n) const {
             using E = typename datatype<N>::type;
-            using Pred = pred_impl<E>;
+            using Pred = BOOST_HANA_DISPATCH_IF(
+                pred_impl<E>, _models<Enumerable, E>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Enumerable, E>{},

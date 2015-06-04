@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_GROUP_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
@@ -163,7 +164,10 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Minus = minus_impl<T, U>;
+            using Minus = BOOST_HANA_DISPATCH_IF(decltype(minus_impl<T, U>{}),
+                _models<Group, T>{}() &&
+                _models<Group, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Group, T>{},
@@ -199,13 +203,16 @@ namespace boost { namespace hana {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             using G = typename datatype<X>::type;
+            using Negate = BOOST_HANA_DISPATCH_IF(negate_impl<G>,
+                _models<Group, G>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Group, G>{},
             "hana::negate(x) requires x to be in a Group");
         #endif
 
-            return negate_impl<G>::apply(static_cast<X&&>(x));
+            return Negate::apply(static_cast<X&&>(x));
         }
     };
 

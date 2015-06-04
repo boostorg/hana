@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -117,11 +118,13 @@ namespace boost { namespace hana {
         template <typename Pair>
         constexpr decltype(auto) operator()(Pair&& pair) const {
             using P = typename datatype<Pair>::type;
-            using First = first_impl<P>;
+            using First = BOOST_HANA_DISPATCH_IF(first_impl<P>,
+                _models<Product, P>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Product, P>{},
-            "hana::first(pair) requires pair to be a Product");
+            "hana::first(pair) requires 'pair' to be a Product");
         #endif
 
             return First::apply(static_cast<Pair&&>(pair));
@@ -150,11 +153,13 @@ namespace boost { namespace hana {
         template <typename Pair>
         constexpr decltype(auto) operator()(Pair&& pair) const {
             using P = typename datatype<Pair>::type;
-            using Second = second_impl<P>;
+            using Second = BOOST_HANA_DISPATCH_IF(second_impl<P>,
+                _models<Product, P>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Product, P>{},
-            "hana::second(pair) requires pair to be a Product");
+            "hana::second(pair) requires 'pair' to be a Product");
         #endif
 
             return Second::apply(static_cast<Pair&&>(pair));

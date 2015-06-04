@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONOID_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -149,17 +150,21 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Plus = plus_impl<T, U>;
+            using Plus = BOOST_HANA_DISPATCH_IF(decltype(plus_impl<T, U>{}),
+                _models<Monoid, T>{}() &&
+                _models<Monoid, U>{}() &&
+                !is_default<plus_impl<T, U>>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Monoid, T>{},
-            "hana::plus(x, y) requires x to be a Monoid");
+            "hana::plus(x, y) requires 'x' to be a Monoid");
 
             static_assert(_models<Monoid, U>{},
-            "hana::plus(x, y) requires y to be a Monoid");
+            "hana::plus(x, y) requires 'y' to be a Monoid");
 
-            static_assert(!is_default<plus_impl<T, U>>{},
-            "hana::plus(x, y) requires x and y to be embeddable "
+            static_assert(!is_default<plus_impl<T, U>>{}(),
+            "hana::plus(x, y) requires 'x' and 'y' to be embeddable "
             "in a common Monoid");
         #endif
 
@@ -197,8 +202,13 @@ namespace boost { namespace hana {
         "hana::zero<M>() requires M to be a Monoid");
     #endif
 
-        constexpr decltype(auto) operator()() const
-        { return zero_impl<M>::apply(); }
+        constexpr decltype(auto) operator()() const {
+            using Zero = BOOST_HANA_DISPATCH_IF(zero_impl<M>,
+                _models<Monoid, M>{}()
+            );
+
+            return Zero::apply();
+        }
     };
 
     template <typename M>

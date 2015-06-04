@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functor.hpp>
@@ -39,17 +40,23 @@ namespace boost { namespace hana {
     //! @cond
     template <typename F, typename X>
     constexpr decltype(auto) _ap::operator()(F&& f, X&& x) const {
+        using Function = typename datatype<F>::type;
+        using Value = typename datatype<X>::type;
+        using Ap = BOOST_HANA_DISPATCH_IF(
+            ap_impl<Function>,
+            _models<Applicative, Function>{}() &&
+            _models<Applicative, Value>{}()
+        );
+
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Applicative, typename datatype<F>::type>{},
+        static_assert(_models<Applicative, Function>{},
         "hana::ap(f, x) requires f to be an Applicative");
 
-        static_assert(_models<Applicative, typename datatype<X>::type>{},
+        static_assert(_models<Applicative, Value>{},
         "hana::ap(f, x) requires x to be an Applicative");
     #endif
 
-        return ap_impl<typename datatype<F>::type>::apply(
-            static_cast<F&&>(f), static_cast<X&&>(x)
-        );
+        return Ap::apply(static_cast<F&&>(f), static_cast<X&&>(x));
     }
 
     template <typename F, typename ...Xs>
@@ -94,8 +101,8 @@ namespace boost { namespace hana {
     template <typename A>
     struct models_impl<Applicative, A>
         : _integral_constant<bool,
-            !is_default<ap_impl<A>>{} &&
-            !is_default<lift_impl<A>>{}
+            !is_default<ap_impl<A>>{}() &&
+            !is_default<lift_impl<A>>{}()
         >
     { };
 }} // end namespace boost::hana

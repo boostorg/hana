@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MONAD_PLUS_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -118,19 +119,21 @@ namespace boost { namespace hana {
     struct _concat {
         template <typename Xs, typename Ys>
         constexpr decltype(auto) operator()(Xs&& xs, Ys&& ys) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::std::is_same<
-                typename datatype<Xs>::type, typename datatype<Ys>::type
-            >{},
-            "hana::concat(xs, ys) requires xs and ys to have the same data type");
-
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::concat(xs, ys) requires xs and ys to be a MonadPlus");
-#endif
-            return concat_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Ys&&>(ys)
+            using M = typename datatype<Xs>::type;
+            using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
+                _models<MonadPlus, M>{}() &&
+                detail::std::is_same<typename datatype<Ys>::type, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(detail::std::is_same<typename datatype<Ys>::type, M>{}(),
+            "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same data type");
+
+            static_assert(_models<MonadPlus, M>{},
+            "hana::concat(xs, ys) requires 'xs' and 'ys' to be a MonadPlus");
+        #endif
+
+            return Concat::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
         }
     };
 
@@ -164,12 +167,17 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _empty {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<MonadPlus, M>{},
         "hana::empty<M>() requires M to be a MonadPlus");
-#endif
+    #endif
+
         constexpr decltype(auto) operator()() const {
-            return empty_impl<M>::apply();
+            using Empty = BOOST_HANA_DISPATCH_IF(empty_impl<M>,
+                _models<MonadPlus, M>{}()
+            );
+
+            return Empty::apply();
         }
     };
 
@@ -226,14 +234,17 @@ namespace boost { namespace hana {
     struct _prepend {
         template <typename X, typename Xs>
         constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::prepend(x, xs) requires xs to be a MonadPlus");
-#endif
-            return prepend_impl<typename datatype<Xs>::type>::apply(
-                static_cast<X&&>(x),
-                static_cast<Xs&&>(xs)
+            using M = typename datatype<Xs>::type;
+            using Prepend = BOOST_HANA_DISPATCH_IF(prepend_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::prepend(x, xs) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Prepend::apply(static_cast<X&&>(x), static_cast<Xs&&>(xs));
         }
     };
 
@@ -285,14 +296,17 @@ namespace boost { namespace hana {
     struct _append {
         template <typename Xs, typename X>
         constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::append(xs, x) requires xs to be a MonadPlus");
-#endif
-            return append_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<X&&>(x)
+            using M = typename datatype<Xs>::type;
+            using Append = BOOST_HANA_DISPATCH_IF(append_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::append(xs, x) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Append::apply(static_cast<Xs&&>(xs), static_cast<X&&>(x));
         }
     };
 
@@ -322,7 +336,7 @@ namespace boost { namespace hana {
     //!         pred(xn) ? [xn] : []
     //!     ]
     //! @endcode
-    //! , and we then `flatten` that.
+    //! and we then `flatten` that.
     //!
     //!
     //! Signature
@@ -361,14 +375,18 @@ namespace boost { namespace hana {
     struct _filter {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::filter(xs, pred) requires xs to be a MonadPlus");
-#endif
-            return filter_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
+            using M = typename datatype<Xs>::type;
+            using Filter = BOOST_HANA_DISPATCH_IF(filter_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::filter(xs, pred) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Filter::apply(static_cast<Xs&&>(xs),
+                                 static_cast<Pred&&>(pred));
         }
     };
 
@@ -427,14 +445,17 @@ namespace boost { namespace hana {
     struct _cycle {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::cycle(xs, n) requires xs to be a MonadPlus");
-        #endif
-            return cycle_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<N&&>(n)
+            using M = typename datatype<Xs>::type;
+            using Cycle = BOOST_HANA_DISPATCH_IF(cycle_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::cycle(xs, n) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Cycle::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
@@ -486,14 +507,18 @@ namespace boost { namespace hana {
     struct _remove_if {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-                static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-                "hana::remove_if(xs, predicate) requires xs to be a MonadPlus");
-            #endif
-            return remove_if_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
+            using M = typename datatype<Xs>::type;
+            using RemoveIf = BOOST_HANA_DISPATCH_IF(remove_if_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+                static_assert(_models<MonadPlus, M>{},
+                "hana::remove_if(xs, predicate) requires 'xs' to be a MonadPlus");
+            #endif
+
+            return RemoveIf::apply(static_cast<Xs&&>(xs),
+                                   static_cast<Pred&&>(pred));
         }
     };
 
@@ -546,14 +571,18 @@ namespace boost { namespace hana {
     struct _remove {
         template <typename Xs, typename Value>
         constexpr decltype(auto) operator()(Xs&& xs, Value&& value) const {
-            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-                static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-                "hana::remove(xs, value) requires xs to be a MonadPlus");
-            #endif
-            return remove_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Value&&>(value)
+            using M = typename datatype<Xs>::type;
+            using Remove = BOOST_HANA_DISPATCH_IF(remove_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+            #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+                static_assert(_models<MonadPlus, M>{},
+                "hana::remove(xs, value) requires 'xs' to be a MonadPlus");
+            #endif
+
+            return Remove::apply(static_cast<Xs&&>(xs),
+                                 static_cast<Value&&>(value));
         }
     };
 
@@ -611,14 +640,18 @@ namespace boost { namespace hana {
 
     template <typename M>
     struct _repeat {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<MonadPlus, M>{},
         "hana::repeat<M>(x, n) requires M to be a MonadPlus");
-#endif
+    #endif
+
         template <typename X, typename N>
         constexpr decltype(auto) operator()(X&& x, N&& n) const {
-            return repeat_impl<M>::apply(static_cast<X&&>(x),
-                                         static_cast<N&&>(n));
+            using Repeat = BOOST_HANA_DISPATCH_IF(repeat_impl<M>,
+                _models<MonadPlus, M>{}()
+            );
+
+            return Repeat::apply(static_cast<X&&>(x), static_cast<N&&>(n));
         }
     };
 
@@ -674,14 +707,17 @@ namespace boost { namespace hana {
     struct _prefix {
         template <typename Z, typename Xs>
         constexpr decltype(auto) operator()(Z&& z, Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::prefix(z, xs) requires xs to be a MonadPlus");
-#endif
-            return prefix_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Z&&>(z),
-                static_cast<Xs&&>(xs)
+            using M = typename datatype<Xs>::type;
+            using Prefix = BOOST_HANA_DISPATCH_IF(prefix_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::prefix(z, xs) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Prefix::apply(static_cast<Z&&>(z), static_cast<Xs&&>(xs));
         }
     };
 
@@ -736,14 +772,17 @@ namespace boost { namespace hana {
     struct _suffix {
         template <typename Xs, typename Z>
         constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::suffix(z, xs) requires xs to be a MonadPlus");
-#endif
-            return suffix_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Z&&>(z)
+            using M = typename datatype<Xs>::type;
+            using Suffix = BOOST_HANA_DISPATCH_IF(suffix_impl<M>,
+                _models<MonadPlus, M>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<MonadPlus, M>{},
+            "hana::suffix(z, xs) requires 'xs' to be a MonadPlus");
+        #endif
+
+            return Suffix::apply(static_cast<Xs&&>(xs), static_cast<Z&&>(z));
         }
     };
 

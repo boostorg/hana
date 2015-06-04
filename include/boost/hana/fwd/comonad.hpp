@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_COMONAD_HPP
 #define BOOST_HANA_FWD_COMONAD_HPP
 
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -131,15 +132,20 @@ namespace boost { namespace hana {
     struct extract_impl;
 
     struct _extract {
-        template <typename W>
-        constexpr decltype(auto) operator()(W&& w) const {
+        template <typename W_>
+        constexpr decltype(auto) operator()(W_&& w) const {
+            using W = typename datatype<W_>::type;
+            using Extract = BOOST_HANA_DISPATCH_IF(
+                extract_impl<W>,
+                _models<Comonad, W>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Comonad, typename datatype<W>::type>{},
+            static_assert(_models<Comonad, W>{},
             "hana::extract(w) requires w to be a Comonad");
         #endif
-            return extract_impl<typename datatype<W>::type>::apply(
-                static_cast<W&&>(w)
-            );
+
+            return Extract::apply(static_cast<W_&&>(w));
         }
     };
 
@@ -177,15 +183,20 @@ namespace boost { namespace hana {
     struct duplicate_impl;
 
     struct _duplicate {
-        template <typename W>
-        constexpr decltype(auto) operator()(W&& w) const {
+        template <typename W_>
+        constexpr decltype(auto) operator()(W_&& w) const {
+            using W = typename datatype<W_>::type;
+            using Duplicate = BOOST_HANA_DISPATCH_IF(
+                duplicate_impl<W>,
+                _models<Comonad, W>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Comonad, typename datatype<W>::type>{},
+            static_assert(_models<Comonad, W>{},
             "hana::duplicate(w) requires w to be a Comonad");
         #endif
-            return duplicate_impl<typename datatype<W>::type>::apply(
-                static_cast<W&&>(w)
-            );
+
+            return Duplicate::apply(static_cast<W_&&>(w));
         }
     };
 
@@ -228,16 +239,20 @@ namespace boost { namespace hana {
     struct extend_impl;
 
     struct _extend {
-        template <typename W, typename F>
-        constexpr decltype(auto) operator()(W&& w, F&& f) const {
+        template <typename W_, typename F>
+        constexpr decltype(auto) operator()(W_&& w, F&& f) const {
+            using W = typename datatype<W_>::type;
+            using Extend = BOOST_HANA_DISPATCH_IF(
+                extend_impl<W>,
+                _models<Comonad, W>{}()
+            );
+
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Comonad, typename datatype<W>::type>{},
+            static_assert(_models<Comonad, W>{},
             "hana::extend(w, f) requires w to be a Comonad");
         #endif
-            return extend_impl<typename datatype<W>::type>::apply(
-                static_cast<W&&>(w),
-                static_cast<F&&>(f)
-            );
+
+            return Extend::apply(static_cast<W_&&>(w), static_cast<F&&>(f));
         }
     };
 

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -245,17 +246,21 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Less = less_impl<T, U>;
+            using Less = BOOST_HANA_DISPATCH_IF(decltype(less_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}() &&
+                !is_default<less_impl<T, U>>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::less(x, y) requires x to be Orderable");
+            "hana::less(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::less(x, y) requires y to be Orderable");
+            "hana::less(x, y) requires 'y' to be Orderable");
 
-            static_assert(!is_default<less_impl<T, U>>{},
-            "hana::less(x, y) requires x and y to be embeddable "
+            static_assert(!is_default<less_impl<T, U>>{}(),
+            "hana::less(x, y) requires 'x' and 'y' to be embeddable "
             "in a common Orderable");
         #endif
 
@@ -307,14 +312,18 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using LessEqual = less_equal_impl<T, U>;
+            using LessEqual = BOOST_HANA_DISPATCH_IF(
+                decltype(less_equal_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::less_equal(x, y) requires x to be Orderable");
+            "hana::less_equal(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::less_equal(x, y) requires y to be Orderable");
+            "hana::less_equal(x, y) requires 'y' to be Orderable");
         #endif
 
             return LessEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
@@ -364,14 +373,17 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Greater = greater_impl<T, U>;
+            using Greater = BOOST_HANA_DISPATCH_IF(decltype(greater_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::greater(x, y) requires x to be Orderable");
+            "hana::greater(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::greater(x, y) requires y to be Orderable");
+            "hana::greater(x, y) requires 'y' to be Orderable");
         #endif
 
             return Greater::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
@@ -422,14 +434,18 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using GreaterEqual = greater_equal_impl<T, U>;
+            using GreaterEqual = BOOST_HANA_DISPATCH_IF(
+                decltype(greater_equal_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::greater_equal(x, y) requires x to be Orderable");
+            "hana::greater_equal(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::greater_equal(x, y) requires y to be Orderable");
+            "hana::greater_equal(x, y) requires 'y' to be Orderable");
         #endif
 
             return GreaterEqual::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
@@ -472,14 +488,17 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Min = min_impl<T, U>;
+            using Min = BOOST_HANA_DISPATCH_IF(decltype(min_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::min(x, y) requires x to be Orderable");
+            "hana::min(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::min(x, y) requires y to be Orderable");
+            "hana::min(x, y) requires 'y' to be Orderable");
         #endif
 
             return Min::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
@@ -511,14 +530,17 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Max = max_impl<T, U>;
+            using Max = BOOST_HANA_DISPATCH_IF(decltype(max_impl<T, U>{}),
+                _models<Orderable, T>{}() &&
+                _models<Orderable, U>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Orderable, T>{},
-            "hana::max(x, y) requires x to be Orderable");
+            "hana::max(x, y) requires 'x' to be Orderable");
 
             static_assert(_models<Orderable, U>{},
-            "hana::max(x, y) requires y to be Orderable");
+            "hana::max(x, y) requires 'y' to be Orderable");
         #endif
 
             return Max::apply(static_cast<X&&>(x), static_cast<Y&&>(y));

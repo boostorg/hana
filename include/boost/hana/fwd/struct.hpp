@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_STRUCT_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/keys_fwd.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -177,8 +178,13 @@ namespace boost { namespace hana {
         "hana::accessors<S> requires S to be a Struct");
     #endif
 
-        constexpr decltype(auto) operator()() const
-        { return accessors_impl<S>::apply(); }
+        constexpr decltype(auto) operator()() const {
+            using Accessors = BOOST_HANA_DISPATCH_IF(accessors_impl<S>,
+                _models<Struct, S>{}()
+            );
+
+            return Accessors::apply();
+        }
     };
 
     template <typename S>
@@ -226,13 +232,16 @@ namespace boost { namespace hana {
         template <typename Object>
         constexpr decltype(auto) operator()(Object&& object) const {
             using S = typename datatype<Object>::type;
+            using Members = BOOST_HANA_DISPATCH_IF(members_impl<S>,
+                _models<Struct, S>{}()
+            );
 
             #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
                 static_assert(_models<Struct, S>{},
                 "hana::members(object) requires object to be a Struct");
             #endif
 
-            return members_impl<S>::apply(static_cast<Object&&>(object));
+            return Members::apply(static_cast<Object&&>(object));
         }
     };
 

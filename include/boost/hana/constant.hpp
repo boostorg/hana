@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/std/remove_cv.hpp>
 #include <boost/hana/detail/std/remove_reference.hpp>
 
@@ -43,13 +44,17 @@ namespace boost { namespace hana {
         using RawT = typename detail::std::remove_cv<
             typename detail::std::remove_reference<T>::type
         >::type;
+        using C = typename datatype<RawT>::type;
+        using Value = BOOST_HANA_DISPATCH_IF(
+            value_impl<C>, _models<Constant, C>{}()
+        );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Constant, typename datatype<RawT>::type>{},
+        static_assert(_models<Constant, C>{},
         "hana::value<T>() requires T to be a Constant");
     #endif
 
-        return value_impl<typename datatype<RawT>::type>::template apply<RawT>();
+        return Value::template apply<RawT>();
     }
 
     //////////////////////////////////////////////////////////////////////////

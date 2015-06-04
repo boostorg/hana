@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_RING_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -154,17 +155,21 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(X&& x, Y&& y) const {
             using T = typename datatype<X>::type;
             using U = typename datatype<Y>::type;
-            using Mult = mult_impl<T, U>;
+            using Mult = BOOST_HANA_DISPATCH_IF(decltype(mult_impl<T, U>{}),
+                _models<Ring, T>{}() &&
+                _models<Ring, U>{}() &&
+                !is_default<mult_impl<T, U>>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Ring, T>{},
-            "hana::mult(x, y) requires x to be a Ring");
+            "hana::mult(x, y) requires 'x' to be a Ring");
 
             static_assert(_models<Ring, U>{},
-            "hana::mult(x, y) requires y to be a Ring");
+            "hana::mult(x, y) requires 'y' to be a Ring");
 
-            static_assert(!is_default<mult_impl<T, U>>{},
-            "hana::mult(x, y) requires x and y to be embeddable "
+            static_assert(!is_default<mult_impl<T, U>>{}(),
+            "hana::mult(x, y) requires 'x' and 'y' to be embeddable "
             "in a common Ring");
         #endif
 
@@ -202,8 +207,13 @@ namespace boost { namespace hana {
         "hana::one<R>() requires R to be a Ring");
     #endif
 
-        constexpr decltype(auto) operator()() const
-        { return one_impl<R>::apply(); }
+        constexpr decltype(auto) operator()() const {
+            using One = BOOST_HANA_DISPATCH_IF(one_impl<R>,
+                _models<Ring, R>{}()
+            );
+
+            return One::apply();
+        }
     };
 
     template <typename R>
@@ -243,11 +253,13 @@ namespace boost { namespace hana {
         template <typename X, typename N>
         constexpr decltype(auto) operator()(X&& x, N&& n) const {
             using R = typename datatype<X>::type;
-            using Power = power_impl<R>;
+            using Power = BOOST_HANA_DISPATCH_IF(power_impl<R>,
+                _models<Ring, R>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Ring, R>{},
-            "hana::power(x, n) requires x to be in a Ring");
+            "hana::power(x, n) requires 'x' to be in a Ring");
         #endif
 
             return Power::apply(static_cast<X&&>(x), static_cast<N&&>(n));

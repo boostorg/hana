@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_ITERABLE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
@@ -221,7 +222,10 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using It = typename datatype<Xs>::type;
-            using Head = head_impl<It>;
+            using Head = BOOST_HANA_DISPATCH_IF(
+                head_impl<It>,
+                _models<Iterable, It>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
@@ -259,13 +263,18 @@ namespace boost { namespace hana {
     struct _tail {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::tail(xs) requires xs to be an Iterable");
-#endif
-            return tail_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
+            using It = typename datatype<Xs>::type;
+            using Tail = BOOST_HANA_DISPATCH_IF(
+                tail_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::tail(xs) requires xs to be an Iterable");
+        #endif
+
+            return Tail::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -293,14 +302,18 @@ namespace boost { namespace hana {
     struct _is_empty {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::is_empty(xs) requires xs to be an Iterable");
-#endif
-
-            return is_empty_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
+            using It = typename datatype<Xs>::type;
+            using IsEmpty = BOOST_HANA_DISPATCH_IF(
+                is_empty_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::is_empty(xs) requires xs to be an Iterable");
+        #endif
+
+            return IsEmpty::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -367,14 +380,18 @@ namespace boost { namespace hana {
     struct _at {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::at(xs, n) requires xs to be an Iterable");
-#endif
-            return at_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<N&&>(n)
+            using It = typename datatype<Xs>::type;
+            using At = BOOST_HANA_DISPATCH_IF(
+                at_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::at(xs, n) requires xs to be an Iterable");
+        #endif
+
+            return At::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
@@ -422,13 +439,18 @@ namespace boost { namespace hana {
     struct _last {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::last(xs) requires xs to be an Iterable");
-#endif
-            return last_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs)
+            using It = typename datatype<Xs>::type;
+            using Last = BOOST_HANA_DISPATCH_IF(
+                last_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::last(xs) requires xs to be an Iterable");
+        #endif
+
+            return Last::apply(static_cast<Xs&&>(xs));
         }
     };
 
@@ -492,7 +514,10 @@ namespace boost { namespace hana {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
-            using DropExactly = drop_exactly_impl<It>;
+            using DropExactly = BOOST_HANA_DISPATCH_IF(
+                drop_exactly_impl<It>,
+                _models<Iterable, It>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
@@ -507,7 +532,10 @@ namespace boost { namespace hana {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
-            using DropAtMost = drop_at_most_impl<It>;
+            using DropAtMost = BOOST_HANA_DISPATCH_IF(
+                drop_at_most_impl<It>,
+                _models<Iterable, It>{}()
+            );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
@@ -586,14 +614,18 @@ namespace boost { namespace hana {
     struct _drop_while {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::drop_while(xs, pred) requires xs to be an Iterable");
-#endif
-            return drop_while_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
+            using It = typename datatype<Xs>::type;
+            using DropWhile = BOOST_HANA_DISPATCH_IF(
+                drop_while_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::drop_while(xs, pred) requires xs to be an Iterable");
+        #endif
+
+            return DropWhile::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
         }
     };
 
@@ -641,14 +673,19 @@ namespace boost { namespace hana {
     struct _drop_until {
         template <typename Xs, typename Pred>
         constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-#ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, typename datatype<Xs>::type>{},
-            "hana::drop_until(xs, pred) requires xs to be an Iterable");
-#endif
-            return drop_until_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Xs&&>(xs),
-                static_cast<Pred&&>(pred)
+            using It = typename datatype<Xs>::type;
+            using DropUntil = BOOST_HANA_DISPATCH_IF(
+                drop_until_impl<It>,
+                _models<Iterable, It>{}()
             );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::drop_until(xs, pred) requires xs to be an Iterable");
+        #endif
+
+            return DropUntil::apply(static_cast<Xs&&>(xs),
+                                    static_cast<Pred&&>(pred));
         }
     };
 
