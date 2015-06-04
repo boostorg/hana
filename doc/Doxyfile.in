@@ -15,8 +15,7 @@ OUTPUT_DIRECTORY        =
 INPUT                   = @Boost.Hana_SOURCE_DIR@/include
 FILE_PATTERNS           = *.hpp
 RECURSIVE               = YES
-EXCLUDE                 = @Boost.Hana_SOURCE_DIR@/include/boost/hana/sandbox \
-                          @Boost.Hana_SOURCE_DIR@/include/boost/hana/detail/sandbox
+EXCLUDE                 =
 EXAMPLE_PATH            = @Boost.Hana_SOURCE_DIR@/example \
                           @Boost.Hana_SOURCE_DIR@/test
 EXAMPLE_RECURSIVE       = YES

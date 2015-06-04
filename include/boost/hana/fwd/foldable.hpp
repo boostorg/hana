@@ -1234,8 +1234,7 @@ namespace boost { namespace hana {
     //! arguments it is called with, which has to be known at compile-time.
     //!
     //! To create a function that accepts a foldable instead of variadic
-    //! arguments, see `fuse`, which is roughly equivalent to
-    //! `boost::fusion::make_fused`.
+    //! arguments, see `fuse` instead.
     //!
     //!
     //! @param foldable
@@ -1249,6 +1248,40 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @snippet example/foldable.cpp unpack
+    //!
+    //!
+    //! Rationale: `unpack`'s name and parameter order
+    //! ----------------------------------------------
+    //! It has been suggested a couple of times that `unpack` be called
+    //! `apply` instead, and that the parameter order be reversed to match
+    //! that of the [proposed std::apply function][1]. However, the name
+    //! `apply` is already used to denote normal function application, an use
+    //! which is consistent with the Boost MPL library and with the rest of
+    //! the world, especially the functional programming community.
+    //! Furthermore, the author of this library considers the proposed
+    //! `std::apply` to have both an unfortunate name and an unfortunate
+    //! parameter order. Indeed, taking the function as the first argument
+    //! means that using `std::apply` with a lambda function looks like
+    //! @code
+    //! std::apply([](auto ...args) {
+    //!     use(args...);
+    //! }, tuple);
+    //! @endcode
+    //!
+    //! which is undeniably ugly because of the trailing `, tuple)` part
+    //! on the last line. On the other hand, taking the function as a
+    //! second argument allows one to write
+    //! @code
+    //! hana::unpack(tuple, [](auto ...args) {
+    //!     use(args...);
+    //! });
+    //! @endcode
+    //!
+    //! which looks much nicer. Because of these observations, the author
+    //! of this library feels justified to use `unpack` instead of `apply`,
+    //! and to use a sane parameter order.
+    //!
+    //! [1]: http://en.cppreference.com/w/cpp/experimental/apply
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
         return tag-dispatched;

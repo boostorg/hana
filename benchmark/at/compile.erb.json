@@ -4,6 +4,7 @@
   mpl = hana
   meta = hana
   mpl11 = hana
+  std = (1...50).step(5).to_a + (50..100).step(25).to_a
 %>
 
 {
@@ -14,6 +15,9 @@
     {
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
+    },{
+      "name": "std::tuple",
+      "data": <%= time_compilation('compile.std.tuple.erb.cpp', std) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>

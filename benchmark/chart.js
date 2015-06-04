@@ -23,6 +23,10 @@ Distributed under the Boost Software License, Version 1.0.
       };
     }
 
+    if (options.subtitle == undefined) {
+      options.subtitle = { text: "(smaller is better)" };
+    }
+
     if (options.chart == undefined) {
       options.chart = { zoomType: 'xy' };
     }

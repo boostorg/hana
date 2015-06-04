@@ -1739,6 +1739,10 @@ namespace boost { namespace hana {
     //! sequences are of the same size. In Hana, all these different ways of
     //! zipping are provided, except for the "up to the longest sequence" one.
     //!
+    //! @note
+    //! At least one sequence must always be provided.
+    //! Otherwise, it is an error.
+    //!
     //! > #### Rationale for not providing a `zip.longest` variant
     //! > It would require either (1) padding the shortest sequences with
     //! > an arbitrary object, or (2) pad the shortest sequences with an
@@ -1790,6 +1794,9 @@ namespace boost { namespace hana {
     //!                        ]
     //! @endcode
     //!
+    //!
+    //! Tag-dispatching
+    //! ---------------
     //! All of the different zipping variants are tag-dispatched methods that
     //! can be overridden. Here is how each variant is tag-dispatched:
     //! @code
@@ -1802,9 +1809,6 @@ namespace boost { namespace hana {
     //! just aliases to `zip.shortest` and `zip.shortest.with`, respectively.
     //! Also note that all the sequences must have the same data type, and
     //! only the data type of the first one is used for tag-dispatching.
-    //!
-    //! @note
-    //! At least one sequence must be provided. Otherwise, it is an error.
     //!
     //!
     //! Example

@@ -9,27 +9,18 @@
 The reference documentation is split into logical modules, as documented in
 the user manual."/>
 
-    <tab type="usergroup" visible="yes" title="Indexes">
-      <tab type="classmembers" visible="yes"
-                               title="Methods"
-                               intro="
-This is an index of all the methods with links to the
-corresponding documentation."/>
+    <tab type="user" visible="yes" url="functions.html" title="Alphabetical index"/>
+    <!-- The intro of "classmembers" controls what appears on the functions.html
+         page, which we're using as our index. So it's basically controlling the
+         intro of our "Index".
+    -->
+    <tab type="classmembers" visible="no" title="" intro="
+Alphabetical index of everything provided in the library."/>
 
-      <tab type="classlist" visible="yes"
-                            title="Concepts and data types"
-                            intro="
-This is a list of all the concepts and data types with links to the
-corresponding documentation. Note that other classes are also included
-in this list because of Doxygen limitations, but you won't even notice. :-)"/>
-
-      <tab type="filelist" visible="yes"
-                           title="Files"
-                           intro=""/>
-    </tab>
+    <tab type="filelist" visible="yes" title="Headers" intro="
+This is a list of all the headers provided by the library."/>
 
     <tab type="pages" visible="yes" title="" intro=""/>
-
 
     <!-- We don't use what's below -->
     <tab type="namespaces" visible="no" title="">
@@ -40,7 +31,8 @@ in this list because of Doxygen limitations, but you won't even notice. :-)"/>
     <tab type="examples" visible="no" title="" intro=""/>
 
     <tab type="classes" visible="no" title="">
-      <tab type="classindex" visible="$ALPHABETICAL_INDEX" title=""/>
+      <tab type="classlist" visible="no" title="" intro=""/>
+      <tab type="classindex" visible="no" title=""/>
       <tab type="hierarchy" visible="no" title="" intro=""/>
     </tab>
 

@@ -4,6 +4,7 @@
   mpl = hana
   meta = (0...50).step(5).to_a + (50..200).step(25).to_a
   mpl11 = hana
+  std = (0...50).step(5).to_a + (50..100).step(25).to_a
 %>
 
 {
@@ -12,26 +13,30 @@
   },
   "series": [
     {
-      "name": "Heterogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.heterogeneous.erb.cpp', hana) %>
+      "name": "hana::tuple",
+      "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
     }, {
-      "name": "Homogeneous hana::tuple",
-      "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
-    }, {
-      "name": "hana::tuple_t",
-      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', hana) %>
-    }, {
-      "name": "hana::tuple_c",
-      "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', hana) %>
+      "name": "std::tuple",
+      "data": <%= time_compilation('compile.std.tuple.erb.cpp', std) %>
     }
+
+    <%# Right now, the representations of tuple_t and tuple_c are not
+        optimized, so there's really nothing to show.
+    %>
+    <% if false %>
+    , {
+        "name": "hana::tuple_t",
+        "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', hana) %>
+      }, {
+        "name": "hana::tuple_c",
+        "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', hana) %>
+      }
+    <% end %>
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
-      "name": "Heterogeneous fusion::vector",
-      "data": <%= time_compilation('compile.fusion.vector.heterogeneous.erb.cpp', fusion) %>
-    }, {
-      "name": "Homogeneous fusion::vector",
-      "data": <%= time_compilation('compile.fusion.vector.homogeneous.erb.cpp', fusion) %>
+      "name": "fusion::vector",
+      "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
     }, {
       "name": "mpl::vector",
       "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>

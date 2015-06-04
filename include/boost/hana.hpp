@@ -90,23 +90,26 @@ namespace boost { namespace hana {
 @tableofcontents
 
 
-@section tutorial-preface Preface
+
+
+
+
+
+
+
+
+@section tutorial-description Description
 
 ------------------------------------------------------------------------------
-The seed that became this library was planted in late 2012, when I first
-started to reimplement the [Boost.MPL][] using C++11 in a project named
-[MPL11][]. In spring 2014, I applied to [Google Summer of Code][GSoC] with
-that project for the Boost organization and got in. The goal was to polish
-the MPL11 and get it in Boost by the end of the summer. In May, before GSoC
-was started full steam, I presented the project at [C++Now][] and had
-insightful conversations with several attendees. The idea that it was
-possible to unify the [Boost.Fusion][] and the [Boost.MPL][] libraries
-made its way and I became convinced of it after writing the first prototype
-for what is now Hana. After working on Hana and polishing many rough edges
-during several months, Hana will be going through formal review for inclusion
-in Boost from June 10 2015 to June 24 2015.
-
-Let the fun begin!
+Hana is a header-only library for C++ metaprogramming suited for computations
+on both types and values. The functionality it provides is a superset of what
+is provided by the well established [Boost.MPL][] and [Boost.Fusion][]
+libraries. By leveraging C++11/14 implementation techniques and idioms,
+Hana boasts faster compilation times and runtime performance on par or better
+than previous metaprogramming libraries, while noticeably increasing the level
+of expressiveness in the process. Hana is easy to extend in a ad-hoc manner
+and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL
+and the standard library.
 
 
 
@@ -120,19 +123,6 @@ Let the fun begin!
 @section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
-Hana is a header-only library for C++ metaprogramming suited for computations
-on both types and values. The functionality it provides is a superset of what
-is provided by the well established Boost.MPL and Boost.Fusion libraries. By
-leveraging C++11/14 implementation techniques and idioms, Hana boasts faster
-compilation times and runtime performance on par or better than previous
-metaprogramming libraries, while noticeably increasing the level of
-expressiveness in the process. Hana is easy to extend in a ad-hoc manner
-and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL
-and the standard library.
-
-
-@subsection tutorial-introduction-motivation Motivation
-
 When Boost.MPL first appeared, it provided C++ programmers with a huge relief
 by abstracting tons of template hackery behind a workable interface. This
 breakthrough greatly contributed to making C++ template metaprogramming more
@@ -146,6 +136,103 @@ came by itself in the form of a library; Hana. The key insight to Hana is that
 the manipulation of types and values are nothing but two sides of the same
 coin. By unifying both concepts, metaprogramming becomes easier and new
 exciting possibilities open before us.
+
+
+@subsection tutorial-introduction-quadrants C++ computational quadrants
+
+But to really understand what is Hana all about, it is essential to understand
+the different types of computations in C++. We will focus our attention on
+four different kinds of computations, even though a finer grained separation
+would be possible. First, we have runtime computations, which are the usual
+computations we use in C++. In that world, we have runtime containers,
+runtime functions and runtime algorithms:
+
+@snippet example/tutorial/introduction.cpp runtime
+
+The usual toolbox for programming within this quadrant is the C++ standard
+library, which provides reusable algorithms and containers operating at
+runtime. Since C++11, a second kind of computation is possible: `constexpr`
+computations. There, we have `constexpr` containers, `constexpr` functions
+and `constexpr` algorithms:
+
+@code
+constexpr int factorial(int n) {
+  return n == 0 ? 1 : n * factorial(n - 1);
+}
+
+template <typename T, std::size_t N, typename F>
+  constexpr std::array<std::result_of_t<F(T)>, N>
+transform(std::array<T, N> array, F f) {
+  // ...
+}
+
+constexpr std::array<int, 4> ints{{1, 2, 3, 4}};
+constexpr std::array<int, 4> facts = transform(ints, factorial);
+static_assert(facts == std::array<int, 4>{{1, 2, 6, 24}}, "");
+@endcode
+
+@note
+For the above code to actually work, `std::array`'s `operator==` would have to
+be marked `constexpr`, which is not the case (even in C++14).
+
+Basically, a `constexpr` computation is different from a runtime computation
+in that it is simple enough to be evaluated (interpreted, really) by the
+compiler. In general, any function that does not perform anything too
+_unfriendly_ to the compiler's evaluator (like throwing or allocating memory)
+can be marked `constexpr` without any further change. This makes `constexpr`
+computations very similar to runtime computations, except `constexpr`
+computations are more restricted and they gain the ability to be evaluated
+at compile-time. Unfortunately, there is no commonly used toolbox for
+`constexpr`-programming, i.e. there is no widely adopted "standard library"
+for `constexpr` programming. However, the [Sprout][] library may be worth
+checking out for those with some interest in `constexpr` computations.
+
+The third kind of computations are heterogeneous computations. Heterogeneous
+computations differ from normal computations in that instead of having
+containers holding homogeneous objects (all objects having the same type),
+the containers may hold objects with different types. Furthermore, functions
+in this quadrant of computation are _heterogeneous_ functions, which is a
+complicated way of talking about template functions. Similarly, we have
+heterogeneous algorithms that manipulate heterogeneous containers and
+functions:
+
+@snippet example/tutorial/introduction.cpp heterogeneous
+
+If manipulating heterogeneous containers seems overly weird to you, just think
+of it as glorified `std::tuple` manipulation. In a C++03 world, the go-to
+library for doing this kind of computation is [Boost.Fusion][], which provides
+several data structures and algorithms to manipulate heterogeneous collections
+of data. The fourth and last quadrant of computation that we'll be considering
+here is the quadrant of type-level computations. In this quadrant, we have
+type-level containers, type-level functions (usually called metafunctions)
+and type-level algorithms. Here, everything operates on types: containers hold
+types and metafunctions take types as arguments and return types as results.
+
+@snippet example/tutorial/introduction.cpp type-level
+
+The realm of type-level computations has been explored quite extensively, and
+the de-facto solution for type-level computations in C++03 is a library named
+[Boost.MPL][], which provides type-level containers and algorithms. For
+low-level type transformations, the metafunctions provided by the
+`<type_traits>` standard header can also be used since C++11.
+
+
+@subsection tutorial-quadrants-about What is this library about?
+
+So all is good, but what is this library actually about? Now that we have set
+the table by clarifying the kinds of computations available to us in C++, the
+answer might strike you as very simple. __The purpose of Hana is to merge the
+3rd and the 4th quadrants of computation__. More specifically, Hana is a
+(long-winded) constructive proof that heterogeneous computations are strictly
+more powerful than type-level computations, and that we can therefore express
+any type-level computation by an equivalent heterogeneous computation. This
+construction is done in two steps. First, Hana is a fully featured library of
+heterogeneous algorithms and containers, a bit like a modernized Boost.Fusion.
+Secondly, Hana provides a way of translating any type-level computation into its
+equivalent heterogeneous computation and back, which allows the full machinery
+of heterogeneous computations to be reused for type-level computations without
+any code duplication. Of course, the biggest advantage of this unification is
+seen by the user, as you will witness by yourself.
 
 
 
@@ -365,176 +452,74 @@ of 42 lines:
 @snippet example/tutorial/quickstart.cpp full
 
 That's it for the quick start! This example only introduced a couple of useful
-algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers (`Tuple`,
-`Maybe`), but rest assured that there is much more. All the algorithms are
-documented by the concept to which they belong (`Foldable`, `Iterable`,
-`Searchable`, `Sequence`, etc...), which is similar to the way most generic
-libraries are documented (e.g. the [SGI STL][SGI.Container]). Apart from tuples
-and optional values, there are also other kinds of containers provided by Hana;
-they are documented in their respective page (`Range`, `Set`, `Map`, etc..). The
-next sections of the tutorial gradually introduce general concepts pertaining to
+algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
+(`Tuple`, `Maybe`), but rest assured that there is much more. The next
+sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
-reference if you want to start coding right away. For the record, always keep
-in mind that the algorithms return their result as a new container and no
-in-place mutation is ever performed, which is detailed in the section on
-[algorithms](@ref tutorial-algorithms).
+reference if you want to start coding right away. This cheatsheet contains
+the most frequently used algorithms, along with a short description of what
+it each algorithm does. For the record, always keep in mind that the
+algorithms return their result as a new container and no in-place mutation
+is ever performed, which is detailed in the section on [algorithms]
+(@ref tutorial-algorithms).
 
 
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
 
-function                                     |  concept   | description
-:------------------------------------------  | :--------  | :----------
-`transform(sequence, f)`                     | Functor    | Apply a function to each element of a sequence and return the result.
-`adjust_if(sequence, predicate, f)`          | Functor    | Apply a function to each element of a sequence satisfying some predicate and return the result.
-`adjust(sequence, value, f)`                 | Functor    | Apply a function to each element of a sequence that compares equal to some value and return the result.
-`replace_if(sequence, predicate, newval)`    | Functor    | Replace the elements of a sequence that satisfy some predicate by some value.
-`replace(sequence, oldval, newval)`          | Functor    | Replace the elements of a sequence that compare equal to some value by some other value.
-`fill(sequence, value)`                      | Functor    | Replace all the elements of a sequence with some value.
-`fold.{left,right}(sequence[, state], f)`    | Foldable   | Accumulates the elements of a sequence from the left or right, and optionally with a provided initial state.
-`for_each(sequence, f)`                      | Foldable   | Call a function on each element of a sequence. Returns `void`.
-`{length, size}(sequence)`                   | Foldable   | Returns the length of a sequence as an IntegralConstant.
-`{minimum, maximum}(sequence[, predicate])`  | Foldable   | Returns the smallest/greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
-`count_if(sequence, predicate)`              | Foldable   | Returns the number of elements that satisfy the predicate.
-`count(sequence, value)`                     | Foldable   | Returns the number of elements that compare equal to the given value.
-`unpack(sequence, f)`                        | Foldable   | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
-`head(sequence)`                             | Iterable   | Returns the first element of a sequence.
-`tail(sequence)`                             | Iterable   | Returns all the elements except the first one. Analogous to `pop_front`.
-`is_empty(sequence)`                         | Iterable   | Returns whether a sequence is empty as an IntegralConstant.
-`at(index, sequence)`                        | Iterable   | Returns the n-th element of a sequence. The index must be an IntegralConstant.
-`last(sequence)`                             | Iterable   | Returns the last element of a sequence.
-`drop(number, sequence)`                     | Iterable   | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
-`drop_{while,until}(sequence, predicate)`    | Iterable   | Drops elements from a sequence while/until a predicate is satisfied. The predicate must return an IntegralConstant.
-`flatten(sequence)`                          | Monad      | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-`prepend(value, sequence)`                   | MonadPlus  | Prepend an element to a sequence.
-`append(sequence, value)`                    | MonadPlus  | Append an element to a sequence.
-`concat(sequence1, sequence2)`               | MonadPlus  | Concatenate two sequences.
-`filter(sequence, predicate)`                | MonadPlus  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
-`remove_if(sequence, predicate)`             | MonadPlus  | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
-`remove(sequence, value)`                    | MonadPlus  | Remove all the elements that are equal to a given value.
-`{any,none,all}_of(sequence, predicate)`     | Searchable | Returns whether any/none/all of the elements of the sequence satisfy some predicate.
-`{any,none,all}(sequence)`                   | Searchable | Returns whether any/non/all of the elements of a sequence are true-valued.
-`contains(sequence, value)`                  | Searchable | Returns whether a sequence contains the given object.
-`find(sequence, value)`                      | Searchable | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
-`find_if(sequence, predicate)`               | Searchable | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
-`group(sequence[, predicate])`               | Sequence   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
-`init(sequence)`                             | Sequence   | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
-`partition(sequence, predicate)`             | Sequence   | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
-`remove_at(index, sequence)`                 | Sequence   | Remove the element at the given index. The index must be an `integral_constant`.
-`reverse(sequence)`                          | Sequence   | Reverse the order of the elements in a sequence.
-`slice(sequence, from, to)`                  | Sequence   | Returns the elements of a sequence at indices contained in `[from, to)`.
-`sort(sequence[, predicate])`                | Sequence   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
-`subsequence(sequence, indices)`             | Sequence   | Returns the elements of a sequence at the `indices` in the given sequence.
-`take(number, sequence)`                     | Sequence   | Take the first n elements of a sequence. n must be an `integral_constant`.
-`take_{while,until}(sequence, predicate)`    | Sequence   | Take elements of a sequence while/until some predicate is satisfied, and return that.
-`unique(sequence[, predicate])`              | Sequence   | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
-`zip(sequence1, ..., sequenceN)`             | Sequence   | Zip `N` sequences into a sequence of tuples.
-`zip.with(f, sequence1, ..., sequenceN)`     | Sequence   | Zip `N` sequences with a `N`-ary function.
-
-
-
-
-
-
-
-
-
-
-@section tutorial-quadrants C++ computational quadrants
-
-------------------------------------------------------------------------------
-To really understand what is Hana all about, it is essential to understand the
-different types of computations in C++. We will focus our attention on four
-different kinds of computations, even though a finer grained separation would
-be possible. First, we have runtime computations, which are the usual
-computations we use in C++. In that world, we have runtime containers,
-runtime functions and runtime algorithms:
-
-@snippet example/tutorial/quadrants.cpp runtime
-
-The usual toolbox for programming within this quadrant is the C++ standard
-library, which provides reusable algorithms and containers operating at
-runtime. Since C++11, a second kind of computation is possible: `constexpr`
-computations. There, we have `constexpr` containers, `constexpr` functions
-and `constexpr` algorithms:
-
-@code
-constexpr int factorial(int n) {
-  return n == 0 ? 1 : n * factorial(n - 1);
-}
-
-template <typename T, std::size_t N, typename F>
-  constexpr std::array<std::result_of_t<F(T)>, N>
-transform(std::array<T, N> array, F f) {
-  // ...
-}
-
-constexpr std::array<int, 4> ints{{1, 2, 3, 4}};
-constexpr std::array<int, 4> facts = transform(ints, factorial);
-static_assert(facts == std::array<int, 4>{{1, 2, 6, 24}}, "");
-@endcode
-
-@note
-For the above code to actually work, `std::array`'s `operator==` would have to
-be marked `constexpr`, which is not the case (even in C++14).
-
-Basically, a `constexpr` computation is different from a runtime computation
-in that it is simple enough to be evaluated (interpreted, really) by the
-compiler. In general, any function that does not perform anything too
-_unfriendly_ to the compiler's evaluator (like throwing or allocating memory)
-can be marked `constexpr` without any further change. This makes `constexpr`
-computations very similar to runtime computations, except `constexpr`
-computations are more restricted and they gain the ability to be evaluated
-at compile-time. Unfortunately, there is no commonly used toolbox for
-`constexpr`-programming, i.e. there is no widely adopted "standard library"
-for `constexpr` programming. However, the [Sprout][] library may be worth
-checking out for those with some interest in `constexpr` computations.
-
-The third kind of computations are heterogeneous computations. Heterogeneous
-computations differ from normal computations in that instead of having
-containers holding homogeneous objects (all objects having the same type),
-the containers may hold objects with different types. Furthermore, functions
-in this quadrant of computation are _heterogeneous_ functions, which is a
-complicated way of talking about template functions. Similarly, we have
-heterogeneous algorithms that manipulate heterogeneous containers and
-functions:
-
-@snippet example/tutorial/quadrants.cpp heterogeneous
-
-If manipulating heterogeneous containers seems overly weird to you, just think
-of it as glorified `std::tuple` manipulation. In a C++03 world, the go-to
-library for doing this kind of computation is [Boost.Fusion][], which provides
-several data structures and algorithms to manipulate heterogeneous collections
-of data. The fourth and last quadrant of computation that we'll be considering
-here is the quadrant of type-level computations. In this quadrant, we have
-type-level containers, type-level functions (usually called metafunctions)
-and type-level algorithms. Here, everything operates on types: containers hold
-types and metafunctions take types as arguments and return types as results.
-
-@snippet example/tutorial/quadrants.cpp type-level
-
-The realm of type-level computations has been explored quite extensively, and
-the de-facto solution for type-level computations in C++03 is a library named
-[Boost.MPL][], which provides type-level containers and algorithms. For
-low-level type transformations, the metafunctions provided by the
-`<type_traits>` standard header can also be used since C++11.
-
-
-@subsection tutorial-quadrants-about What is this library about?
-
-So all is good, but what is this library actually about? Now that we have set
-the table by clarifying the kinds of computations available to us in C++, the
-answer might strike you as very simple. __The purpose of Hana is to merge the
-3rd and the 4th quadrants of computation__. More specifically, Hana is a
-(long-winded) constructive proof that heterogeneous computations are strictly
-more powerful than type-level computations, and that we can therefore express
-any type-level computation by an equivalent heterogeneous computation. This
-construction is done in two steps. First, Hana is a fully featured library of
-heterogeneous algorithms and containers, a bit like a modernized Boost.Fusion.
-Secondly, Hana provides a way of translating any type-level computation into its
-equivalent heterogeneous computation and back, which allows the full machinery
-of heterogeneous computations to be reused for type-level computations without
-any code duplication. Of course, the biggest advantage of this unification is
-seen by the user, as you will witness by yourself.
+function                                    | description
+:------------------------------------------ | :----------
+<code>[adjust](@ref Functor::adjust)(sequence, value, f)</code>                   | Apply a function to each element of a sequence that compares equal to some value and return the result.
+<code>[adjust_if](@ref Functor::adjust_if)(sequence, predicate, f)</code>         | Apply a function to each element of a sequence satisfying some predicate and return the result.
+<code>{[all](@ref Searchable::all),[any](@ref Searchable::any),[none](@ref Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
+<code>{[all](@ref Searchable::all_of),[any](@ref Searchable::any_of),[none](@ref Searchable::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
+<code>[append](@ref MonadPlus::append)(sequence, value)</code>                    | Append an element to a sequence.
+<code>[at](@ref Iterable::at)(index, sequence)</code>                             | Returns the n-th element of a sequence. The index must be an IntegralConstant.
+<code>[concat](@ref MonadPlus::concat)(sequence1, sequence2)</code>               | Concatenate two sequences.
+<code>[contains](@ref Searchable::contains)(sequence, value)</code>               | Returns whether a sequence contains the given object.
+<code>[count](@ref Foldable::count)(sequence, value)</code>                       | Returns the number of elements that compare equal to the given value.
+<code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>             | Returns the number of elements that satisfy the predicate.
+<code>[drop](@ref Iterable::drop)(number, sequence)</code>                        | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
+<code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>         | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
+<code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>         | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
+<code>[fill](@ref Functor::fill)(sequence, value)</code>                          | Replace all the elements of a sequence with some value.
+<code>[filter](@ref MonadPlus::filter)(sequence, predicate)</code>                | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
+<code>[find](@ref Searchable::find)(sequence, value)</code>                       | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
+<code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>             | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
+<code>[flatten](@ref Monad::flatten)(sequence)</code>                             | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
+<code>[fold.left](@ref Foldable::fold)(sequence[, state], f)</code>               | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
+<code>[fold.right](@ref Foldable::fold)(sequence[, state], f)</code>              | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
+<code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                    | Equivalent to `fold.left`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                     | Call a function on each element of a sequence. Returns `void`.
+<code>[group](@ref Sequence::group)(sequence[, predicate])</code>                 | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
+<code>[head](@ref Iterable::head)(sequence)</code>                                | Returns the first element of a sequence.
+<code>[init](@ref Sequence::init)(sequence)</code>                                | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
+<code>[is_empty](@ref Iterable::is_empty)(sequence)</code>                        | Returns whether a sequence is empty as an IntegralConstant.
+<code>[last](@ref Iterable::last)(sequence)</code>                                | Returns the last element of a sequence.
+<code>[length](@ref Foldable::length)(sequence)</code>                            | Returns the length of a sequence as an IntegralConstant.
+<code>[maximum](@ref Foldable::maximum)(sequence[, predicate])</code>             | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[minimum](@ref Foldable::minimum)(sequence[, predicate])</code>             | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[partition](@ref Sequence::partition)(sequence, predicate)</code>           | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
+<code>[prepend](@ref MonadPlus::prepend)(value, sequence)</code>                  | Prepend an element to a sequence.
+<code>[remove](@ref MonadPlus::remove)(sequence, value)</code>                    | Remove all the elements that are equal to a given value.
+<code>[remove_at](@ref Sequence::remove_at)(index, sequence)</code>               | Remove the element at the given index. The index must be an `integral_constant`.
+<code>[remove_if](@ref MonadPlus::remove_if)(sequence, predicate)</code>          | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
+<code>[replace](@ref Functor::replace)(sequence, oldval, newval)</code>           | Replace the elements of a sequence that compare equal to some value by some other value.
+<code>[replace_if](@ref Functor::replace_if)(sequence, predicate, newval)</code>  | Replace the elements of a sequence that satisfy some predicate by some value.
+<code>[reverse](@ref Sequence::reverse)(sequence)</code>                          | Reverse the order of the elements in a sequence.
+<code>[reverse_fold](@ref Foldable::reverse_fold)(sequence[, state], f)</code>    | Equivalent to `fold.right`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[size](@ref Foldable::size)(sequence)</code>                                | Equivalent to `length`; provided for consistency with the C++ standard library.
+<code>[slice](@ref Sequence::slice)(sequence, from, to)</code>                    | Returns the elements of a sequence at indices contained in `[from, to)`.
+<code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[subsequence](@ref Sequence::subsequence)(sequence, indices)</code>         | Returns the elements of a sequence at the `indices` in the given sequence.
+<code>[tail](@ref Iterable::tail)(sequence)</code>                                | Returns all the elements except the first one. Analogous to `pop_front`.
+<code>[take](@ref Sequence::take)(number, sequence)</code>                        | Take the first n elements of a sequence. n must be an `integral_constant`.
+<code>[take_until](@ref Sequence::take_until)(sequence, predicate)</code>         | Take elements of a sequence until some predicate is satisfied, and return that.
+<code>[take_while](@ref Sequence::take_while)(sequence, predicate)</code>         | Take elements of a sequence while some predicate is satisfied, and return that.
+<code>[transform](@ref Functor::transform)(sequence, f)</code>                    | Apply a function to each element of a sequence and return the result.
+<code>[unique](@ref Sequence::unique)(sequence[, predicate])</code>               | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
+<code>[unpack](@ref Foldable::unpack)(sequence, f)</code>                         | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
+<code>[zip.with](@ref Sequence::zip)(f, sequence1, ..., sequenceN)</code>         | Zip `N` sequences with a `N`-ary function.
+<code>[zip](@ref Sequence::zip)(sequence1, ..., sequenceN)</code>                 | Zip `N` sequences into a sequence of tuples.
 
 
 
@@ -1182,438 +1167,6 @@ reimplementation of the MPL presented in the [appendices]
 
 
 
-@section tutorial-containers Generalities on containers
-
-------------------------------------------------------------------------------
-This section explains several important notions about Hana's containers: how
-to create them, the lifetime of their elements and other concerns.
-
-
-@subsection tutorial-containers-creating Container creation
-
-Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
-can be created with `hana::make_tuple`. However, in general, containers in
-Hana may be created with the `make` function:
-
-@snippet example/tutorial/containers.cpp make<Tuple>
-
-Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
-have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
-Hana's namespace. Simply put, `make<...>` is is used all around the library
-to create different types of objects, thus generalizing the `std::make_xxx`
-family of functions. For example, one can create a `Range` of compile-time
-integers with `make<Range>`:
-
-@snippet example/tutorial/containers.cpp make<Range>
-
-For convenience, whenever a component of Hana provides a `make<XXX>` function,
-it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
-point that can be raised in this example is the fact that `r` is `constexpr`.
-In general, whenever a container is initialized with constant expressions only
-(which is the case for `r`), that container may be marked as `constexpr`.
-
-
-@subsection tutorial-containers-elements Container elements
-
-In Hana, containers own their elements. When a container is created, it makes
-a _copy_ of the elements used to initialize it and stores them inside the
-container. Of course, unnecessary copies are avoided by using move semantics.
-Because of those owning semantics, the lifetime of the objects inside the
-container is the same as that of the container.
-
-@snippet example/tutorial/containers.cpp lifetime
-
-Much like containers in the standard library, containers in Hana expect their
-elements to be objects. For this reason, references _may not_ be stored in
-them. When references must be stored inside a container, one should use a
-`std::reference_wrapper` instead:
-
-@snippet example/tutorial/containers.cpp reference_wrapper
-
-
-@subsection tutorial-containers-types Container types
-
-So far, we have only created containers with the `make_xxx` family of
-functions, and we always let the compiler deduce the actual type of the
-container by using `auto`. We will now clarify what can be expected from
-the types of Hana's containers:
-
-@snippet example/tutorial/containers.cpp types
-
-The answer is quite simple, actually. In general, you can't expect anything
-from the type of a container in Hana. This is indicated by the documentation
-of the `make` function for that container, which will return an
-[unspecified-type](@ref tutorial-glossary-unspecified_type) if the type is,
-well, unspecified. Otherwise, if the type of the container is specified, it
-will be documented properly by the return type of the `make` function for that
-container. There are several reasons for leaving the type of a container
-unspecified; they are explained in the [rationales]
-(@ref tutorial-rationales-container_types). However, leaving the type of
-containers completely unspecified makes some things very difficult to achieve,
-like overloading functions on heterogeneous containers:
-
-@code
-template <typename T>
-void f(std::vector<T> xs) {
-  // ...
-}
-
-template <typename ...T>
-void f(unspecified-tuple-type<T...> xs) {
-  // ...
-}
-@endcode
-
-The `is_a` utility is provided for this reason (and others). `is_a` allows
-checking whether a type is a precise kind of container, regardless of the
-actual type of the container. For example, the above example could be
-rewritten as
-
-@snippet example/tutorial/containers.cpp overloading
-
-This way, the second overload of `f` will only match when `Xs` represents a
-Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
-`is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
-
-
-
-
-
-
-
-
-
-
-@section tutorial-algorithms Generalities on algorithms
-
-------------------------------------------------------------------------------
-Much like the previous section introduced general but important notions about
-heterogeneous containers, this section introduces general notions about
-heterogeneous algorithms.
-
-
-@subsection tutorial-algorithms-value By-value semantics
-
-Algorithms in Hana always return a new container holding the result. This
-allows one to easily chain algorithms by simply using the result of the first
-as the input of the second. For example, to apply a function to every element
-of a tuple and then reverse the result, one simply has to connect the `reverse`
-and `transform` algorithms:
-
-@snippet example/tutorial/algorithms.cpp reverse_transform
-
-This is different from the algorithms of the standard library, where one has
-to provide iterators to the underlying sequence. For reasons documented in the
-[rationales](@ref tutorial-rationales-iterators), an iterator-based design was
-considered but was quickly dismissed in favor of composable and efficient
-abstractions better suited to the very particular context of heterogeneous
-programming.
-
-One might also think that returning full sequences that own their elements
-from an algorithm would lead to tons of undesirable copies. For example, when
-using `reverse` and `transform`, one could think that an intermediate copy is
-made after the call to `transform`:
-
-@snippet example/tutorial/algorithms.cpp reverse_transform_copy
-
-To make sure this does not happen, Hana uses perfect forwarding and move
-semantics heavily so it can provide an almost optimal runtime performance.
-So instead of doing a copy, a move occurs between `reverse` and `transform`:
-
-@snippet example/tutorial/algorithms.cpp reverse_transform_move
-
-Ultimately, the goal is that code written using Hana should be equivalent to
-clever hand-written code, except it should be enjoyable to write. Performance
-considerations are explained in depth in their own [section]
-(@ref tutorial-performance).
-
-
-@subsection tutorial-algorithms-laziness (Non-)Laziness
-
-Algorithms in Hana are not lazy. When an algorithm is called, it does its
-job and returns a new sequence containing the result, end of the story.
-For example, calling the `permutations` algorithm on a large sequence is
-a stupid idea, because Hana will actually compute all the permutations:
-
-@code
-    auto perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-    // perms has 3 628 800 elements, and your compiler just crashed
-@endcode
-
-To contrast, algorithms in Boost.Fusion return views which hold the original
-sequence by reference and apply the algorithm on demand, as the elements of
-the sequence are accessed. This leads to subtle lifetime issues, like having
-a view that refers to a sequence that was destroyed. Hana's design assumes
-that most of the time, we want to access all or almost all the elements in a
-sequence anyway, and hence performance is not a big argument in favor of
-laziness.
-
-
-@subsection tutorial-algorithms-codegen What is generated?
-
-Algorithms in Hana are a bit special with respect to the runtime code they are
-expanded into. The goal of this subsection is not to explain exactly what code
-is generated, which depends on the compiler anyway, but to give a feel for
-things. Basically, a Hana algorithm is like an unrolled version of an
-equivalent classical algorithm. Indeed, since the bounds of the processed
-sequence are known at compile-time, it makes sense that we can unroll the
-loop over the sequence. For example, let's consider the `for_each` algorithm:
-
-@code
-auto xs = make_tuple(0, 1, 2, 3);
-for_each(xs, f);
-@endcode
-
-If `xs` was a runtime sequence instead of a tuple, its length would only be
-known at runtime and the above code would have to be implemented as a loop:
-
-@code
-for (int i = 0; i < xs.size(); ++i) {
-  f(xs[i]);
-}
-@endcode
-
-However, in our case, the length of the sequence is known at compile-time and
-so we don't have to check the index at each iteration. Hence, we can just
-write:
-
-@code
-f(xs[0_c]);
-f(xs[1_c]);
-f(xs[2_c]);
-f(xs[3_c]);
-@endcode
-
-The main difference here is that no bound checking and index increment is done
-at each step, because there is no index anymore; the loop was effectively
-unrolled. In some cases, this can be desirable for performance reasons. In
-other cases, this can be detrimental to performance because it causes the
-code size to grow. As always, performance is a tricky subject and whether
-you actually want loop unrolling to happen should be tackled on a case-by-case
-basis. As a rule of thumb, algorithms processing all (or a subset) of the
-elements of a container are unrolled. In fact, if you think about it, this
-unrolling is the only way to go for heterogeneous sequences, because different
-elements of the sequence may have different types. As you might have noticed,
-we're not using normal indices into the tuple, but compile-time indices, which
-can't be generated by a normal `for` loop. In other words, the following does
-not make sense:
-
-@code
-for (??? i = 0_c; i < xs.size(); ++i) {
-  f(xs[i]);
-}
-@endcode
-
-
-@subsection tutorial-algorithms-effects Side effects and purity
-
-By default, Hana assumes functions to be pure. A pure function is a function
-that has no side-effects at all. In other words, it is a function whose effect
-on the program is solely determined by its return value. In particular, such a
-function may not access any state that outlives a single invocation of the
-function. These functions have very nice properties, like the ability to
-reason mathematically about them, to reorder or even eliminate calls, and
-so on. Except where specified otherwise, all functions used with Hana (i.e.
-used in higher order algorithms) should be pure. In particular, functions
-passed to higher order algorithms are not guaranteed to be called any
-specific number of times. Furthermore, the order of execution is generally
-not specified and should therefore not be taken for granted. If this lack of
-guarantees about function invocations seems crazy, consider the following use
-of the `any_of` algorithm:
-
-@snippet example/tutorial/algorithms.cpp effects
-
-@note
-For this to work, the external adapters for `std::integral_constant` contained
-in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
-
-According to the previous section on unrolling, this algorithm should be
-expanded into something like:
-
-@code
-auto xs = make_tuple("hello"s, 1.2, 3);
-auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
-
-auto r = bool_<
-  pred(xs[0_c]) ? true :
-  pred(xs[1_c]) ? true :
-  pred(xs[2_c]) ? true :
-  false
->;
-
-BOOST_HANA_CONSTANT_CHECK(r);
-@endcode
-
-Of course, the above code can't work as-is, because we're calling `pred` inside
-something that would have to be a constant expression, but `pred` is a lambda
-(and lambdas can't be called in constant expressions). However, whether any of
-these objects has an integral type is clearly known at compile-time, and hence
-we would expect that computing the answer only involves compile-time
-computations. In fact, this is exactly what Hana does, and the above
-algorithm is expanded into something like:
-
-@snippet example/tutorial/algorithms.cpp effects.codegen
-
-@note
-As you will be able to deduce from the next section on cross-phase computations,
-the implementation of `any_of` must actually be more general than this. However,
-this [lie-to-children][] is perfect for educational purposes.
-
-As you can see, the predicate is never even executed; only its result type on
-a particular object is used. Regarding the order of evaluation, consider the
-`transform` algorithm, which is specified (for `Tuple`s) as:
-
-@code
-transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
-@endcode
-
-Since `make_tuple` is a function, and since the evaluation order for the
-arguments of a function is unspecified, the order in which `f` is called
-on each element of the tuple is unspecified too. If one sticks to pure
-functions, everything works fine and the resulting code is often easier
-to understand. However, some exceptional algorithms like `for_each` do
-expect impure functions, and they guarantee an order of evaluation. Indeed,
-a `for_each` algorithm that would only take pure functions would be pretty
-much useless. When an algorithm can accept an impure function or guarantees
-some order of evaluation, the documentation for that algorithm will mention
-it explicitly. However, by default, no guarantees may be taken for granted.
-
-
-@subsection tutorial-algorithms-cross_phase Cross-phase algorithms
-
-This section introduces the notion of cross-phase computations and algorithms.
-In fact, we have already used cross-phase algorithms in the [quick start]
-(@ref tutorial-quickstart), for example with `filter`, but we did not explain
-exactly what was happening at that time. But before we introduce cross-phase
-algorithms, let's define what we mean by _cross-phase_. The phases we're
-referring to here are the compilation and the execution of a program. In C++
-as in most statically typed languages, there is a clear distinction between
-compile-time and runtime; this is called phase distinction. When we speak of
-a cross-phase computation, we mean a computation that is somehow performed
-across those phases; i.e. that is partly executed at compile-time and partly
-executed at runtime.
-
-Like we saw in earlier examples, some functions are able to return something
-that can be used at compile-time even when they are called on a runtime value.
-For example, let's consider the `length` function applied to a non-`constexpr`
-container:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.setup
-
-Obviously, the tuple can't be made `constexpr`, since it contains runtime
-`std::string`s. Still, even though it is not called on a constant expression,
-`length` returns something that can be used at compile-time. If you think of
-it, the size of the tuple is known at compile-time regardless of its content,
-and hence it would only make sense for this information to be available to us
-at compile-time. If that seems surprising, think about `std::tuple` and
-`std::tuple_size`:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.std::tuple_size
-
-Since the size of the tuple is encoded in its type, it is always available
-at compile-time regardless of whether the tuple is `constexpr` or not. In Hana,
-this is implemented by having `length` return an `IntegralConstant`. Since an
-`IntegralConstant`'s value is encoded in its type, the result of `length` is
-contained in the type of the object it returns, and the length is therefore
-known at compile-time. Because `length` goes from a runtime value (the
-container) to a compile-time value (the `IntegralConstant`), `length` is a
-trivial example of a cross-phase algorithm (trivial because it does not really
-manipulate the tuple). Another algorithm that is very similar to `length` is
-the `is_empty` algorithm, which returns whether a container is empty:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.is_empty
-
-More generally, any algorithm that takes a container whose value is known at
-runtime but queries something that can be known at compile-time should be able
-to return an `IntegralConstant` or another similar compile-time value. Let's
-make things slightly more complicated by considering the `any_of` algorithm,
-which we already encountered in the previous section:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.any_of_runtime
-
-In this example, the result can't be known at compile-time, because the
-predicate returns a `bool` that is the result of comparing two `std::string`s.
-Since `std::string`s can't be compared at compile-time, the predicate must
-operate at runtime, and the overall result of the algorithm can then only be
-known at runtime too. However, let's say we used `any_of` with the following
-predicate instead:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.any_of_compile_time
-
-@note
-For this to work, the external adapters for `std::integral_constant` contained
-in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
-
-First, since the predicate is only querying information about the type of each
-element of the tuple, it is clear that its result can be known at compile-time.
-Since the number of elements in the tuple is also known at compile-time, the
-overall result of the algorithm can, in theory, be known at compile-time. More
-precisely, what happens is that the predicate returns a value initialized
-`std::is_same<...>`, which inherits from `std::integral_constant`. Hana
-recognizes these objects, and the algorithm is written in such a way that it
-preserves the `compile-time`ness of the predicate's result. In the end,
-`any_of` hence returns an `IntegralConstant` holding the result of the
-algorithm, and we use the compiler's type deduction in a clever way to make
-it look easy. Hence, it would be equivalent to write (but then you would need
-to already know the result of the algorithm!):
-
-@snippet example/tutorial/algorithms.cpp cross_phase.any_of_explicit
-
-Ok, so some algorithms are able to return compile-time values when their input
-satisfies some constraints with respect to `compile-time`ness. However, other
-algorithms are more restrictive and they _require_ their inputs to satisfy some
-constraints regarding `compile-time`ness, without which they are not able to
-operate at all. An example of this is `filter`, which takes a sequence and a
-predicate, and returns a new sequence containing only those elements for which
-the predicate is satisfied. `filter` requires the predicate to return an
-`IntegralConstant`. While this requirement may seem stringent, it really makes
-sense if you think about it. Indeed, since we're removing some elements from
-the heterogeneous sequence, the type of the resulting sequence depends on the
-result of the predicate. Hence, the result of the predicate has to be known at
-compile-time for the compiler to be able to assign a type to the returned
-sequence. For example, consider what happens when we try to filter a
-heterogeneous sequence as follows:
-
-@code
-auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
-
-auto no_garfield = filter(animals, [](auto animal) {
-  return animal.name != "Garfield"s;
-});
-@endcode
-
-Clearly, we know that the predicate will only return false on the second
-element, and hence the result _should be_ a `[Fish, Dog]` tuple. However,
-the compiler has no way of knowing this since the predicate's result is the
-result of a runtime computation, which happens way after the compiler has
-finished its job. Hence, the compiler does not have enough information to
-determine the return type of the algorithm. However, we could `filter` the
-same sequence with any predicate whose result is available at compile-time:
-
-@snippet example/tutorial/algorithms.cpp cross_phase.filter
-
-Since the predicate returns an `IntegralConstant`, we know which elements
-of the heterogeneous sequence we'll be keeping at compile-time. Hence, the
-compiler is able to figure out the return type of the algorithm. Other
-algorithms like `partition` and `sort` work similarly; special algorithm
-requirements are always documented, just read the reference documentation
-of an algorithm before using it to avoid surprises.
-
-This is the end of the section on algorithms. While this constitutes a fairly
-complete explanation of phase interaction inside algorithms, a deeper
-understanding can be gained by reading the [advanced section]
-(@ref tutorial-appendix-constexpr) on `constexpr` and the reference
-for `Constant` and `IntegralConstant`.
-
-
-
-
-
-
-
-
-
-
 @section tutorial-introspection Introspection
 
 ------------------------------------------------------------------------------
@@ -2050,6 +1603,438 @@ a sequence of `"name" : member` strings, which we then `join` and enclose with
 
 
 
+@section tutorial-containers Generalities on containers
+
+------------------------------------------------------------------------------
+This section explains several important notions about Hana's containers: how
+to create them, the lifetime of their elements and other concerns.
+
+
+@subsection tutorial-containers-creating Container creation
+
+Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
+can be created with `hana::make_tuple`. However, in general, containers in
+Hana may be created with the `make` function:
+
+@snippet example/tutorial/containers.cpp make<Tuple>
+
+Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
+have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
+Hana's namespace. Simply put, `make<...>` is is used all around the library
+to create different types of objects, thus generalizing the `std::make_xxx`
+family of functions. For example, one can create a `Range` of compile-time
+integers with `make<Range>`:
+
+@snippet example/tutorial/containers.cpp make<Range>
+
+For convenience, whenever a component of Hana provides a `make<XXX>` function,
+it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
+point that can be raised in this example is the fact that `r` is `constexpr`.
+In general, whenever a container is initialized with constant expressions only
+(which is the case for `r`), that container may be marked as `constexpr`.
+
+
+@subsection tutorial-containers-elements Container elements
+
+In Hana, containers own their elements. When a container is created, it makes
+a _copy_ of the elements used to initialize it and stores them inside the
+container. Of course, unnecessary copies are avoided by using move semantics.
+Because of those owning semantics, the lifetime of the objects inside the
+container is the same as that of the container.
+
+@snippet example/tutorial/containers.cpp lifetime
+
+Much like containers in the standard library, containers in Hana expect their
+elements to be objects. For this reason, references _may not_ be stored in
+them. When references must be stored inside a container, one should use a
+`std::reference_wrapper` instead:
+
+@snippet example/tutorial/containers.cpp reference_wrapper
+
+
+@subsection tutorial-containers-types Container types
+
+So far, we have only created containers with the `make_xxx` family of
+functions, and we always let the compiler deduce the actual type of the
+container by using `auto`. We will now clarify what can be expected from
+the types of Hana's containers:
+
+@snippet example/tutorial/containers.cpp types
+
+The answer is quite simple, actually. In general, you can't expect anything
+from the type of a container in Hana. This is indicated by the documentation
+of the `make` function for that container, which will return an
+[unspecified-type](@ref tutorial-glossary-unspecified_type) if the type is,
+well, unspecified. Otherwise, if the type of the container is specified, it
+will be documented properly by the return type of the `make` function for that
+container. There are several reasons for leaving the type of a container
+unspecified; they are explained in the [rationales]
+(@ref tutorial-rationales-container_types). However, leaving the type of
+containers completely unspecified makes some things very difficult to achieve,
+like overloading functions on heterogeneous containers:
+
+@code
+template <typename T>
+void f(std::vector<T> xs) {
+  // ...
+}
+
+template <typename ...T>
+void f(unspecified-tuple-type<T...> xs) {
+  // ...
+}
+@endcode
+
+The `is_a` utility is provided for this reason (and others). `is_a` allows
+checking whether a type is a precise kind of container, regardless of the
+actual type of the container. For example, the above example could be
+rewritten as
+
+@snippet example/tutorial/containers.cpp overloading
+
+This way, the second overload of `f` will only match when `Xs` represents a
+Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
+`is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-algorithms Generalities on algorithms
+
+------------------------------------------------------------------------------
+Much like the previous section introduced general but important notions about
+heterogeneous containers, this section introduces general notions about
+heterogeneous algorithms.
+
+
+@subsection tutorial-algorithms-value By-value semantics
+
+Algorithms in Hana always return a new container holding the result. This
+allows one to easily chain algorithms by simply using the result of the first
+as the input of the second. For example, to apply a function to every element
+of a tuple and then reverse the result, one simply has to connect the `reverse`
+and `transform` algorithms:
+
+@snippet example/tutorial/algorithms.cpp reverse_transform
+
+This is different from the algorithms of the standard library, where one has
+to provide iterators to the underlying sequence. For reasons documented in the
+[rationales](@ref tutorial-rationales-iterators), an iterator-based design was
+considered but was quickly dismissed in favor of composable and efficient
+abstractions better suited to the very particular context of heterogeneous
+programming.
+
+One might also think that returning full sequences that own their elements
+from an algorithm would lead to tons of undesirable copies. For example, when
+using `reverse` and `transform`, one could think that an intermediate copy is
+made after the call to `transform`:
+
+@snippet example/tutorial/algorithms.cpp reverse_transform_copy
+
+To make sure this does not happen, Hana uses perfect forwarding and move
+semantics heavily so it can provide an almost optimal runtime performance.
+So instead of doing a copy, a move occurs between `reverse` and `transform`:
+
+@snippet example/tutorial/algorithms.cpp reverse_transform_move
+
+Ultimately, the goal is that code written using Hana should be equivalent to
+clever hand-written code, except it should be enjoyable to write. Performance
+considerations are explained in depth in their own [section]
+(@ref tutorial-performance).
+
+
+@subsection tutorial-algorithms-laziness (Non-)Laziness
+
+Algorithms in Hana are not lazy. When an algorithm is called, it does its
+job and returns a new sequence containing the result, end of the story.
+For example, calling the `permutations` algorithm on a large sequence is
+a stupid idea, because Hana will actually compute all the permutations:
+
+@code
+    auto perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    // perms has 3 628 800 elements, and your compiler just crashed
+@endcode
+
+To contrast, algorithms in Boost.Fusion return views which hold the original
+sequence by reference and apply the algorithm on demand, as the elements of
+the sequence are accessed. This leads to subtle lifetime issues, like having
+a view that refers to a sequence that was destroyed. Hana's design assumes
+that most of the time, we want to access all or almost all the elements in a
+sequence anyway, and hence performance is not a big argument in favor of
+laziness.
+
+
+@subsection tutorial-algorithms-codegen What is generated?
+
+Algorithms in Hana are a bit special with respect to the runtime code they are
+expanded into. The goal of this subsection is not to explain exactly what code
+is generated, which depends on the compiler anyway, but to give a feel for
+things. Basically, a Hana algorithm is like an unrolled version of an
+equivalent classical algorithm. Indeed, since the bounds of the processed
+sequence are known at compile-time, it makes sense that we can unroll the
+loop over the sequence. For example, let's consider the `for_each` algorithm:
+
+@code
+auto xs = make_tuple(0, 1, 2, 3);
+for_each(xs, f);
+@endcode
+
+If `xs` was a runtime sequence instead of a tuple, its length would only be
+known at runtime and the above code would have to be implemented as a loop:
+
+@code
+for (int i = 0; i < xs.size(); ++i) {
+  f(xs[i]);
+}
+@endcode
+
+However, in our case, the length of the sequence is known at compile-time and
+so we don't have to check the index at each iteration. Hence, we can just
+write:
+
+@code
+f(xs[0_c]);
+f(xs[1_c]);
+f(xs[2_c]);
+f(xs[3_c]);
+@endcode
+
+The main difference here is that no bound checking and index increment is done
+at each step, because there is no index anymore; the loop was effectively
+unrolled. In some cases, this can be desirable for performance reasons. In
+other cases, this can be detrimental to performance because it causes the
+code size to grow. As always, performance is a tricky subject and whether
+you actually want loop unrolling to happen should be tackled on a case-by-case
+basis. As a rule of thumb, algorithms processing all (or a subset) of the
+elements of a container are unrolled. In fact, if you think about it, this
+unrolling is the only way to go for heterogeneous sequences, because different
+elements of the sequence may have different types. As you might have noticed,
+we're not using normal indices into the tuple, but compile-time indices, which
+can't be generated by a normal `for` loop. In other words, the following does
+not make sense:
+
+@code
+for (??? i = 0_c; i < xs.size(); ++i) {
+  f(xs[i]);
+}
+@endcode
+
+
+@subsection tutorial-algorithms-effects Side effects and purity
+
+By default, Hana assumes functions to be pure. A pure function is a function
+that has no side-effects at all. In other words, it is a function whose effect
+on the program is solely determined by its return value. In particular, such a
+function may not access any state that outlives a single invocation of the
+function. These functions have very nice properties, like the ability to
+reason mathematically about them, to reorder or even eliminate calls, and
+so on. Except where specified otherwise, all functions used with Hana (i.e.
+used in higher order algorithms) should be pure. In particular, functions
+passed to higher order algorithms are not guaranteed to be called any
+specific number of times. Furthermore, the order of execution is generally
+not specified and should therefore not be taken for granted. If this lack of
+guarantees about function invocations seems crazy, consider the following use
+of the `any_of` algorithm:
+
+@snippet example/tutorial/algorithms.cpp effects
+
+@note
+For this to work, the external adapters for `std::integral_constant` contained
+in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
+
+According to the previous section on unrolling, this algorithm should be
+expanded into something like:
+
+@code
+auto xs = make_tuple("hello"s, 1.2, 3);
+auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
+
+auto r = bool_<
+  pred(xs[0_c]) ? true :
+  pred(xs[1_c]) ? true :
+  pred(xs[2_c]) ? true :
+  false
+>;
+
+BOOST_HANA_CONSTANT_CHECK(r);
+@endcode
+
+Of course, the above code can't work as-is, because we're calling `pred` inside
+something that would have to be a constant expression, but `pred` is a lambda
+(and lambdas can't be called in constant expressions). However, whether any of
+these objects has an integral type is clearly known at compile-time, and hence
+we would expect that computing the answer only involves compile-time
+computations. In fact, this is exactly what Hana does, and the above
+algorithm is expanded into something like:
+
+@snippet example/tutorial/algorithms.cpp effects.codegen
+
+@note
+As you will be able to deduce from the next section on cross-phase computations,
+the implementation of `any_of` must actually be more general than this. However,
+this [lie-to-children][] is perfect for educational purposes.
+
+As you can see, the predicate is never even executed; only its result type on
+a particular object is used. Regarding the order of evaluation, consider the
+`transform` algorithm, which is specified (for `Tuple`s) as:
+
+@code
+transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
+@endcode
+
+Since `make_tuple` is a function, and since the evaluation order for the
+arguments of a function is unspecified, the order in which `f` is called
+on each element of the tuple is unspecified too. If one sticks to pure
+functions, everything works fine and the resulting code is often easier
+to understand. However, some exceptional algorithms like `for_each` do
+expect impure functions, and they guarantee an order of evaluation. Indeed,
+a `for_each` algorithm that would only take pure functions would be pretty
+much useless. When an algorithm can accept an impure function or guarantees
+some order of evaluation, the documentation for that algorithm will mention
+it explicitly. However, by default, no guarantees may be taken for granted.
+
+
+@subsection tutorial-algorithms-cross_phase Cross-phase algorithms
+
+This section introduces the notion of cross-phase computations and algorithms.
+In fact, we have already used cross-phase algorithms in the [quick start]
+(@ref tutorial-quickstart), for example with `filter`, but we did not explain
+exactly what was happening at that time. But before we introduce cross-phase
+algorithms, let's define what we mean by _cross-phase_. The phases we're
+referring to here are the compilation and the execution of a program. In C++
+as in most statically typed languages, there is a clear distinction between
+compile-time and runtime; this is called phase distinction. When we speak of
+a cross-phase computation, we mean a computation that is somehow performed
+across those phases; i.e. that is partly executed at compile-time and partly
+executed at runtime.
+
+Like we saw in earlier examples, some functions are able to return something
+that can be used at compile-time even when they are called on a runtime value.
+For example, let's consider the `length` function applied to a non-`constexpr`
+container:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.setup
+
+Obviously, the tuple can't be made `constexpr`, since it contains runtime
+`std::string`s. Still, even though it is not called on a constant expression,
+`length` returns something that can be used at compile-time. If you think of
+it, the size of the tuple is known at compile-time regardless of its content,
+and hence it would only make sense for this information to be available to us
+at compile-time. If that seems surprising, think about `std::tuple` and
+`std::tuple_size`:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.std::tuple_size
+
+Since the size of the tuple is encoded in its type, it is always available
+at compile-time regardless of whether the tuple is `constexpr` or not. In Hana,
+this is implemented by having `length` return an `IntegralConstant`. Since an
+`IntegralConstant`'s value is encoded in its type, the result of `length` is
+contained in the type of the object it returns, and the length is therefore
+known at compile-time. Because `length` goes from a runtime value (the
+container) to a compile-time value (the `IntegralConstant`), `length` is a
+trivial example of a cross-phase algorithm (trivial because it does not really
+manipulate the tuple). Another algorithm that is very similar to `length` is
+the `is_empty` algorithm, which returns whether a container is empty:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.is_empty
+
+More generally, any algorithm that takes a container whose value is known at
+runtime but queries something that can be known at compile-time should be able
+to return an `IntegralConstant` or another similar compile-time value. Let's
+make things slightly more complicated by considering the `any_of` algorithm,
+which we already encountered in the previous section:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_runtime
+
+In this example, the result can't be known at compile-time, because the
+predicate returns a `bool` that is the result of comparing two `std::string`s.
+Since `std::string`s can't be compared at compile-time, the predicate must
+operate at runtime, and the overall result of the algorithm can then only be
+known at runtime too. However, let's say we used `any_of` with the following
+predicate instead:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_compile_time
+
+@note
+For this to work, the external adapters for `std::integral_constant` contained
+in `<boost/hana/ext/std/integral_constant.hpp>` must be included.
+
+First, since the predicate is only querying information about the type of each
+element of the tuple, it is clear that its result can be known at compile-time.
+Since the number of elements in the tuple is also known at compile-time, the
+overall result of the algorithm can, in theory, be known at compile-time. More
+precisely, what happens is that the predicate returns a value initialized
+`std::is_same<...>`, which inherits from `std::integral_constant`. Hana
+recognizes these objects, and the algorithm is written in such a way that it
+preserves the `compile-time`ness of the predicate's result. In the end,
+`any_of` hence returns an `IntegralConstant` holding the result of the
+algorithm, and we use the compiler's type deduction in a clever way to make
+it look easy. Hence, it would be equivalent to write (but then you would need
+to already know the result of the algorithm!):
+
+@snippet example/tutorial/algorithms.cpp cross_phase.any_of_explicit
+
+Ok, so some algorithms are able to return compile-time values when their input
+satisfies some constraints with respect to `compile-time`ness. However, other
+algorithms are more restrictive and they _require_ their inputs to satisfy some
+constraints regarding `compile-time`ness, without which they are not able to
+operate at all. An example of this is `filter`, which takes a sequence and a
+predicate, and returns a new sequence containing only those elements for which
+the predicate is satisfied. `filter` requires the predicate to return an
+`IntegralConstant`. While this requirement may seem stringent, it really makes
+sense if you think about it. Indeed, since we're removing some elements from
+the heterogeneous sequence, the type of the resulting sequence depends on the
+result of the predicate. Hence, the result of the predicate has to be known at
+compile-time for the compiler to be able to assign a type to the returned
+sequence. For example, consider what happens when we try to filter a
+heterogeneous sequence as follows:
+
+@code
+auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+
+auto no_garfield = filter(animals, [](auto animal) {
+  return animal.name != "Garfield"s;
+});
+@endcode
+
+Clearly, we know that the predicate will only return false on the second
+element, and hence the result _should be_ a `[Fish, Dog]` tuple. However,
+the compiler has no way of knowing this since the predicate's result is the
+result of a runtime computation, which happens way after the compiler has
+finished its job. Hence, the compiler does not have enough information to
+determine the return type of the algorithm. However, we could `filter` the
+same sequence with any predicate whose result is available at compile-time:
+
+@snippet example/tutorial/algorithms.cpp cross_phase.filter
+
+Since the predicate returns an `IntegralConstant`, we know which elements
+of the heterogeneous sequence we'll be keeping at compile-time. Hence, the
+compiler is able to figure out the return type of the algorithm. Other
+algorithms like `partition` and `sort` work similarly; special algorithm
+requirements are always documented, just read the reference documentation
+of an algorithm before using it to avoid surprises.
+
+This is the end of the section on algorithms. While this constitutes a fairly
+complete explanation of phase interaction inside algorithms, a deeper
+understanding can be gained by reading the [advanced section]
+(@ref tutorial-appendix-constexpr) on `constexpr` and the reference
+for `Constant` and `IntegralConstant`.
+
+
+
+
+
+
+
+
+
+
 @section tutorial-performance Performance considerations
 
 ------------------------------------------------------------------------------
@@ -2120,8 +2105,8 @@ the algorithms, we will have a look at the compile-time cost of creating
 heterogeneous sequences. Indeed, since we will be presenting algorithms that
 work on sequences, we must be aware of the cost of creating the sequences
 themselves, since that will influence the benchmarks for the algorithms.
-The following chart presents the compile-time cost of creating sequences
-of `n` elements.
+The following chart presents the compile-time cost of creating a sequence
+of `n` heterogeneous elements.
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -2133,23 +2118,25 @@ You can zoom on the chart by selecting an area to zoom into. Also, you can
 hide a series of points by clicking on it in the legend on the right.
 
 The benchmark methodology is to always create the sequences in the most
-efficient way possible. For Hana, this simply means using the `make<Tuple>`
-function. However, for the MPL, this means creating a `mpl::vectorN` of size
-up to 20, and then using `mpl::push_back` to create larger vectors. We use a
-similar technique for Fusion sequences. The reason for doing so is that
-Fusion and MPL sequences have fixed size limits, and the techniques used
-here have been found to be the fastest way to create longer sequences.
+efficient way possible. For Hana, and `std::tuple`, this simply means using
+the appropriate `make_tuple` function. However, for the MPL, this means
+creating a `mpl::vectorN` of size up to 20, and then using `mpl::push_back`
+to create larger vectors. We use a similar technique for Fusion sequences.
+The reason for doing so is that Fusion and MPL sequences have fixed size
+limits, and the techniques used here have been found to be the fastest way
+to create longer sequences.
 
-As you can see, Hana's compile-time _complexity_ is better than the alternatives.
-However, if you look closer at the curves, you will see that the MPL has lower
-compile-times for small numbers of elements. This is because including Hana's
-`Tuple` takes more time than including `mpl::vector`, and you are witnessing
-that slowdown by a constant amount. The reason why including Hana's `Tuple` is
-slower than including `mpl::vector` is that Hana's `Tuple` includes all the
-algorithms it can be used with, while `mpl::vector` only includes the strict
-minimum. Considering you need to include most of them manually when using the
-MPL, this constant slowdown will be nonexistent in real code and Hana's
-approach just makes it less painful for the programmer.
+As you can see, Hana's compile-time _complexity_ is better than the
+alternatives, because its curve is flatter. However, if you look closer
+at the curves, you will see that the MPL has lower compile-times for small
+numbers of elements. This is because including Hana's `Tuple` takes more
+time than including `mpl::vector`, and you are witnessing that slowdown by
+a constant amount. The reason why including Hana's `Tuple` is slower than
+including `mpl::vector` is that Hana's `Tuple` includes all the algorithms
+it can be used with, while `mpl::vector` only includes the strict minimum.
+Considering you need to include most of them manually when using the MPL,
+this constant slowdown will be nonexistent in real code and Hana's approach
+just makes it less painful for the programmer.
 
 You can also see that creating sequences has a non-negligible cost. Actually,
 this is really the most expensive part, as you will see in the following charts
@@ -2163,7 +2150,10 @@ not only types, comparing their algorithms with type-only libraries like MPL
 is not really fair. Indeed, Hana and Fusion algorithms are more powerful since
 they also allow runtime effects to be performed. However, the comparison
 between Fusion and Hana is fair, because both libraries are just as powerful
-(strictly speaking).
+(strictly speaking). Finally, we can't show benchmarks of the algorithms for
+`std::tuple`, because the standard does not provide equivalent algorithms.
+Of course, we could use Hana's external adapters, but that would not be a
+faithful comparison.
 
 The first algorithm which is ubiquitous in metaprogramming is `transform`.
 It takes a sequence and a function, and returns a new sequence containing the
@@ -2527,6 +2517,9 @@ ability to be used in higher order algorithms or as variables:
 The library is designed to be modular while keeping the number of headers that
 must be included to get basic functionality reasonably low. The structure of
 the library was also intentionally kept simple, because we all love simplicity.
+What follows is a general overview of the header organization. A list of all
+the headers provided by the library is also available in the panel on the left
+(under the [Headers](files.html) label) in case you need more details.
 
 - `boost/hana.hpp`\n
   This is the master header of the library. It includes the whole public
@@ -2587,53 +2580,69 @@ needs better; go ahead, the library was designed to be used that way.
 
 @subsection tutorial-conclusion-reference Structure of the reference
 
-The structure of the reference (available in the menu to the left) goes as
-follow:
-  - @ref group-core\n
-    Documentation for the core module, which contains everything needed to
-    create concepts, data types and related utilities. This is relevant
-    if you need to extend the library, but otherwise you can probably
-    ignore this.
+As for most generic libraries, algorithms in Hana are documented by the
+concept to which they belong (`Foldable`, `Iterable`, `Searchable`, `Sequence`,
+etc...). The different containers are then documented on their own page, and
+the concepts that they model are documented there. The concepts modeled by
+some container defines what algorithms can be used with such a container.
 
-  - @ref group-functional\n
-    General purpose function objects that are generally useful in a purely
-    functional setting. These are currently not tied to any concept or data
-    type.
+More specifically, the structure of the reference (available in the menu to
+the left) goes as follow:
 
-  - @ref group-concepts\n
-    Documentation for all the concepts provided with the library. Each concept:
-    - Documents laws that are internal to this concept
-    - Documents the concept(s) it is derived from, if any. In the documentation,
-      we usually call those base concepts _superclasses_. Sometimes, a concept
-      is powerful enough to provide a model of its superclass, or at least the
-      implementation for some of its methods. When this is the case, the
-      concept will document which superclass methods it provides, and how
-      it does so. Also, it is sometimes possible that the model for a
-      superclass is unique, in which case it can be provided automatically.
-      When this happens, it will be documented but you don't have to do
-      anything special to get that model.
-    - Documents which methods must be implemented absolutely in order to
-      model that concept.
+- @ref group-core\n
+  Documentation for the core module, which contains everything needed to
+  create concepts, data types and related utilities. This is relevant
+  if you need to extend the library, but otherwise you can probably
+  ignore this.
 
-  - @ref group-datatypes\n
-    Documentation for all the data types provided with the library. Each
-    data type documents the concept(s) it models, and how it does so. It
-    also documents the methods tied to that data type but not to any concept,
-    for example `make<Tuple>`.
+- @ref group-functional\n
+  General purpose function objects that are generally useful in a purely
+  functional setting. These are currently not tied to any concept or data
+  type.
 
-  - @ref group-ext\n
-    Documentation for all the adapters for external libraries. Basically, we
-    assign a data type to some objects in external libraries and we document
-    them as if they were normal data types provided by Hana.
+- @ref group-concepts\n
+  Documentation for all the concepts provided with the library. Each concept:
+  - Documents semantic constraints that any model of that concept must satisfy.
+    These constraints are usually called laws and they are expressed in a
+    semi-formal mathematical language. Of course, those laws can't be checked
+    automatically but you should still make sure you satisfy them.
+  - Documents the concept(s) it is derived from, if any. In the documentation,
+    we usually call those base concepts _superclasses_. Sometimes, a concept
+    is powerful enough to provide a model of its superclass, or at least the
+    implementation for some of its methods. When this is the case, the
+    concept will document which superclass methods it provides, and how
+    it does so. Also, it is sometimes possible that the model for a
+    superclass is unique, in which case it can be provided automatically.
+    When this happens, it will be documented but you don't have to do
+    anything special to get that model.
+  - Documents which methods must be implemented absolutely in order to
+    model that concept.
 
-  - @ref group-config\n
-    Macros that can be used to tweak the global behavior of the library.
+- @ref group-datatypes\n
+  Documentation for all the data types provided with the library. Each
+  data type documents the concept(s) it models, and how it does so. It
+  also documents the methods tied to that data type but not to any concept,
+  for example `make<Tuple>`.
 
-  - @ref group-assertions\n
-    Macros to perform various types of assertions.
+- @ref group-ext\n
+  Documentation for all the adapters for external libraries. Basically, we
+  assign a data type to some objects in external libraries and we document
+  them as if they were normal data types provided by Hana.
 
-  - @ref group-details\n
-    Implementation details. Don't go there.
+- @ref group-config\n
+  Macros that can be used to tweak the global behavior of the library.
+
+- @ref group-assertions\n
+  Macros to perform various types of assertions.
+
+- @ref group-details\n
+  Implementation details. Don't go there.
+
+- [<b>Alphabetical index</b>](functions.html)\n
+  Alphabetical index of everything provided in the library.
+
+- [<b>Headers</b>](files.html)\n
+  A list of all the headers provided by the library.
 
 After you get to know Hana a bit better, it will probably happen that you just
 want to find the reference for a precise function, concept or container. If
@@ -3234,7 +3243,6 @@ modified as little as possible to work with this reimplementation.
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType
-[SGI.Container]: https://www.sgi.com/tech/stl/Container.html
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
 [Sprout]: https://github.com/bolero-MURAKAMI/Sprout

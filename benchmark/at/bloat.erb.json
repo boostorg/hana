@@ -18,6 +18,9 @@
     {
       "name": "hana::tuple",
       "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
+    },{
+      "name": "std::tuple",
+      "data": <%= measure(:bloat, 'execute.std.tuple.erb.cpp', exec) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
