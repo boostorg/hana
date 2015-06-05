@@ -246,27 +246,107 @@ seen by the user, as you will witness by yourself.
 @section tutorial-quickstart Quick start
 
 ------------------------------------------------------------------------------
-This tutorial assumes the reader is already familiar with basic metaprogramming
+The goal of this section is to introduce the main concepts of the library
+from a very high level and at a fairly rapid pace; don't worry if you don't
+understand everything that's about to be thrown at you. However, this tutorial
+assumes the reader is already at least _familiar_ with basic metaprogramming
 and the [C++14 standard][C++14]. First, let's include the library:
 
 @snippet example/tutorial/quickstart.cpp includes
 
-Unless specified otherwise, the documentation assumes that the above lines
-are present before examples and code snippets. Also note that finer grained
+Unless specified otherwise, the documentation assumes the above lines to be
+present before examples and code snippets. Also note that finer grained
 headers are provided and will be explained in the [Header organization]
-(@ref tutorial-header_organization) section. The goal of this section is to
-introduce the main concepts of the library from a very high level. To do so,
-we will proceed by example and implement a kind of `switch` statement able to
-process `boost::any`s. Given a `boost::any`, the goal is to dispatch to the
-function associated to the dynamic type of the `any`:
+(@ref tutorial-header_organization) section. If you are reading this
+documentation, chances are you already know `std::tuple` and `std::make_tuple`.
+Hana provides its own tuple and `make_tuple`:
 
-@snippet example/tutorial/quickstart.cpp usage
+@snippet example/tutorial/quickstart.cpp animals
+
+This creates a tuple, which is like an array, except that it can hold elements
+with different types. Containers that can hold elements with different types
+such as this are called heterogeneous containers. While the standard library
+provides very few operations to manipulate `std::tuple`s, Hana provides several
+operations and algorithms to manipulate its own tuples:
+
+@snippet example/tutorial/quickstart.cpp algorithms
+
+@note
+`1_c` is a [C++14 user-defined literal][C++14.udl] creating a
+[compile-time number](@ref tutorial-integral).
+
+Notice how we pass a [C++14 generic lambda][C++14.glambda] to `transform`;
+this is required because the lambda will first be called with a `Fish`, then
+a `Cat`, and finally a `Dog`, which all have different types. Hana provides
+most of the algorithms provided by the C++ standard library, except they work
+on tuples and related heterogeneous containers instead of `std::vector` &
+friends. In addition to working with heterogeneous values, Hana makes it
+possible to perform type-level computations with a natural syntax, all at
+compile-time and with no overhead whatsoever. This compiles and does just
+what you would expect:
+
+@snippet example/tutorial/quickstart.cpp type-level
+
+@note
+`type<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
+yielding an object representing a type for Hana. This is explained in the
+section on [type computations](@ref tutorial-type).
+
+In addition to heterogeneous and compile-time sequences, Hana provides several
+features to make your metaprogramming nightmares a thing of the past. For
+example, one can check for the existence of a struct member with one easy
+line instead of relying on [clunky SFINAE hacks][SO.sfinae]:
+
+@snippet example/tutorial/quickstart.cpp has_name
+
+Writing a serialization library? Stop crying, we've got you covered.
+Reflection can be added to user-defined types very easily. This allows
+iterating over the members of a user-defined type, querying members with
+a programmatic interface and much more, without any runtime overhead:
+
+@snippet example/tutorial/quickstart.cpp serialization
+
+That's cool, but I can already hear you complaining about incomprehensible
+error messages. However, it turns out Hana was built for humans, not
+professional template metaprogrammers, and this shows. Let's intentionally
+screw up and see what kind of mess is thrown at us. First, the mistake:
+
+@snippet example/tutorial/quickstart.cpp screw_up
+
+Now, the punishment:
+
+@code
+error: static_assert failed "hana::for_each(xs, f) requires xs to be Foldable"
+            static_assert(_models<Foldable, S>{},
+            ^             ~~~~~~~~~~~~~~~~~~~~~~
+note: in instantiation of function template specialization
+      'boost::hana::_for_each::operator()<
+        std::__1::basic_ostream<char, std::__1::char_traits<char> > &,
+        (lambda at [snip]/example/tutorial/quickstart.cpp:70:16)>' requested here
+  for_each(os, [&](auto member) {
+  ^
+note: in instantiation of function template specialization
+      'main()::(anonymous class)::operator()<Person>' requested here
+serialize(std::cout, john);
+         ^
+@endcode
+
+Not that bad, right? However, since small examples are very good to show off
+without actually doing something useful, let's examine a real world example.
+
+
+@subsection tutorial-quickstart-any A real world example
+
+In this section our goal will be to implement a kind of `switch` statement
+able to process `boost::any`s. Given a `boost::any`, the goal is to dispatch
+to the function associated to the dynamic type of the `any`:
+
+@snippet example/tutorial/quickstart.switchAny.cpp usage
 
 @note
 In the documentation, we will often use the `s` suffix on string literals to
 create `std::string`s without syntactic overhead. This is a standard-defined
 [C++14 user-defined literal][C++14.udl].
-
 
 Since the any holds a `char`, the second function is called with the `char`
 inside it. If the `any` had held an `int` instead, the first function would
@@ -276,7 +356,7 @@ instead. Finally, the result of the `switch` is the result of calling the
 function associated to the `any`'s dynamic type. The type of that result is
 inferred to be the common type of the result of all the provided functions:
 
-@snippet example/tutorial/quickstart.cpp result_inference
+@snippet example/tutorial/quickstart.switchAny.cpp result_inference
 
 We'll now look at how this utility can be implemented using Hana. The first
 step is to associate each type to a function. To do so, we represent each
@@ -284,12 +364,7 @@ step is to associate each type to a function. To do so, we represent each
 is a function. Furthermore, we (arbitrarily) decide to represent the `%default_`
 case as a `std::pair` mapping a dummy type to a function:
 
-@snippet example/tutorial/quickstart.cpp cases
-
-@note
-`type<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
-yielding an object representing a type for Hana. The details are explained in
-the section on [type computations](@ref tutorial-type).
+@snippet example/tutorial/quickstart.switchAny.cpp cases
 
 To provide the interface we showed above, `switch_` will have to return a
 function taking the cases. In other words, `switch_(a)` must be a function
@@ -306,10 +381,8 @@ auto switch_(Any& a) {
 }
 @endcode
 
-Since parameter packs are not very flexible, we put the cases into a tuple. If
-you are reading this documentation, chances are you already know `std::tuple`
-and `std::make_tuple`. Hana provides its own `tuple` and `make_tuple`, and
-this is what we're using here:
+However, since parameter packs are not very flexible, we'll put the cases
+into a tuple so we can manipulate them:
 
 @code
 template <typename Any>
@@ -383,8 +456,8 @@ Notice how we can use `static_assert` on the result of the comparison with
 makes sure that no information that's known at compile-time is lost to the
 runtime, which is clearly the case of the presence of a `%default_` case.
 The next step is to gather the set of non-default cases. To achieve this, we
-use the `filter` algorithm, effectively filters a sequence with a given
-predicate, keeping only the elements satisfying the predicate:
+use the `filter` algorithm, which keeps only the elements of the sequence
+satisfying the predicate:
 
 @code
 template <typename Any>
@@ -415,7 +488,7 @@ sometimes the best way to do something is to write it from scratch using basic
 techniques. To do so, we'll call an implementation function with the contents
 of the `rest` tuple by using the `unpack` function:
 
-@snippet example/tutorial/quickstart.cpp switch_
+@snippet example/tutorial/quickstart.switchAny.cpp switch_
 
 `unpack` takes a `tuple` and a function, and calls the function with the content
 of the `tuple` as arguments. The result of `unpack` is the result of calling that
@@ -432,7 +505,7 @@ what we're doing is simply pass the function associated to the default case to
 the `process` function. We're now ready for the final step, which is the
 implementation of the `process` function:
 
-@snippet example/tutorial/quickstart.cpp process
+@snippet example/tutorial/quickstart.switchAny.cpp process
 
 There are two overloads of this function: an overload for when there is at least
 one case to process, and the base case overload for when there's only the default
@@ -449,7 +522,7 @@ Otherwise, we simply call `process` recursively with the rest of the cases.
 Pretty simple, wasn't it? Here's the final solution, which spans a big total
 of 42 lines:
 
-@snippet example/tutorial/quickstart.cpp full
+@snippet example/tutorial/quickstart.switchAny.cpp full
 
 That's it for the quick start! This example only introduced a couple of useful
 algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
@@ -458,13 +531,19 @@ sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
 the most frequently used algorithms, along with a short description of what
-it each algorithm does. For the record, always keep in mind that the
-algorithms return their result as a new container and no in-place mutation
-is ever performed, which is detailed in the section on [algorithms]
-(@ref tutorial-algorithms).
+each algorithm does.
 
 
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
+
+### Remarks
+- Algorithms work on both types and values (see the section on
+  [type computations](@ref tutorial-type))
+- Algorithms always return their result as a new container; no in-place
+  mutation is ever performed (see the section on [algorithms]
+  (@ref tutorial-algorithms))
+- All algorithms are `constexpr` function objects
+
 
 function                                    | description
 :------------------------------------------ | :----------
@@ -2126,34 +2205,46 @@ The reason for doing so is that Fusion and MPL sequences have fixed size
 limits, and the techniques used here have been found to be the fastest way
 to create longer sequences.
 
-As you can see, Hana's compile-time _complexity_ is better than the
-alternatives, because its curve is flatter. However, if you look closer
-at the curves, you will see that the MPL has lower compile-times for small
-numbers of elements. This is because including Hana's `Tuple` takes more
-time than including `mpl::vector`, and you are witnessing that slowdown by
-a constant amount. The reason why including Hana's `Tuple` is slower than
-including `mpl::vector` is that Hana's `Tuple` includes all the algorithms
-it can be used with, while `mpl::vector` only includes the strict minimum.
-Considering you need to include most of them manually when using the MPL,
-this constant slowdown will be nonexistent in real code and Hana's approach
-just makes it less painful for the programmer.
+For completeness, we also present the compile-time cost of creating a
+`std::array` with `n` elements. However, note that `std::array` can only
+hold elements with a single type, so we're comparing apples and oranges
+here. As you can see, the cost of creating a `std::array` is constant and
+essentially inexistent. Hence, while Hana provides improved compile-times
+over other heterogeneous containers, please stick with normal homogeneous
+containers if that's all you need for your application; your compile-times
+will be much faster that way.
+
+Now, as you can see, Hana's compile-time _complexity_ is better than the
+other heterogeneous alternatives, because its curve is flatter. However,
+if you look closer at the curves, you will see that the MPL and `std::tuple`
+have lower compile-times for small numbers of elements. This is because
+including Hana's `Tuple` takes more time than including `mpl::vector` or
+`std::tuple`, and you are witnessing that slowdown by a constant amount.
+The reason why including Hana's `Tuple` is slower than including `std::tuple`
+or `mpl::vector` is because they both include no functionality whatsoever
+besides the container itself, while Hana's `Tuple` includes all the algorithms
+it can be used with. For `std::tuple`, there's also no way of getting more
+functionality because the standard does not provide it. For `mpl::vector`,
+however, you often end up manually including a bunch headers to get the
+functionality you need, which makes this constant slowdown inexistent in
+real code and forces you to write huge numbers of includes.
 
 You can also see that creating sequences has a non-negligible cost. Actually,
-this is really the most expensive part, as you will see in the following charts
-showing the compile-time performance of algorithms. When you look at the charts
-here and elsewhere in the library, keep in mind the cost of merely creating the
-sequences. Also note that only the most important algorithms will be presented
-here, but micro benchmarks for compile-time performance are scattered in the
-reference documentation. Also, the benchmarks we present compare several
-different libraries. However, since Hana and Fusion can work with values and
-not only types, comparing their algorithms with type-only libraries like MPL
-is not really fair. Indeed, Hana and Fusion algorithms are more powerful since
-they also allow runtime effects to be performed. However, the comparison
-between Fusion and Hana is fair, because both libraries are just as powerful
-(strictly speaking). Finally, we can't show benchmarks of the algorithms for
-`std::tuple`, because the standard does not provide equivalent algorithms.
-Of course, we could use Hana's external adapters, but that would not be a
-faithful comparison.
+this is really the most expensive part of doing heterogeneous computations, as
+you will see in the following charts showing the compile-time performance of
+algorithms. When you look at the charts here and elsewhere in the library,
+keep in mind the cost of merely creating the sequences. Also note that only
+the most important algorithms will be presented here, but micro benchmarks for
+compile-time performance are scattered in the reference documentation. Also,
+the benchmarks we present compare several different libraries. However, since
+Hana and Fusion can work with values and not only types, comparing their
+algorithms with type-only libraries like MPL is not really fair. Indeed,
+Hana and Fusion algorithms are more powerful since they also allow runtime
+effects to be performed. However, the comparison between Fusion and Hana is
+fair, because both libraries are just as powerful (strictly speaking).
+Finally, we can't show benchmarks of the algorithms for `std::tuple`, because
+the standard does not provide equivalent algorithms. Of course, we could use
+Hana's external adapters, but that would not be a faithful comparison.
 
 The first algorithm which is ubiquitous in metaprogramming is `transform`.
 It takes a sequence and a function, and returns a new sequence containing the
@@ -3245,6 +3336,7 @@ modified as little as possible to work with this reimplementation.
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
+[SO.sfinae]: http://stackoverflow.com/a/257382/627587
 [Sprout]: https://github.com/bolero-MURAKAMI/Sprout
 [video.inst_must_go]: https://www.youtube.com/watch?v=x7UmrRzKAXU
 

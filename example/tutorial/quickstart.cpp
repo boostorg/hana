@@ -9,109 +9,95 @@ Distributed under the Boost Software License, Version 1.0.
 #   undef NDEBUG
 #endif
 
-#include <boost/any.hpp>
 #include <cassert>
+#include <iostream>
 #include <string>
-#include <typeindex>
-#include <typeinfo>
-#include <utility>
+
+#include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/struct_macros.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>
 using namespace boost::hana;
 //! [includes]
-
-
-//////////////////////////////////////////////////////////////////////////////
-// IMPORTANT:
-// Any change in this file must be acommpanied by matching changes in the
-// quickstart section of the tutorial.
-//////////////////////////////////////////////////////////////////////////////
-
-//! [full]
-//! [cases]
-template <typename T>
-auto case_ = [](auto f) {
-  return std::make_pair(type<T>, f);
-};
-
-struct _default;
-auto default_ = case_<_default>;
-//! [cases]
-
-//! [process]
-template <typename Any, typename Default>
-auto process(Any&, std::type_index const&, Default& default_) {
-  return default_();
-}
-
-template <typename Any, typename Default, typename Case, typename ...Rest>
-auto process(Any& a, std::type_index const& t, Default& default_,
-             Case& case_, Rest& ...rest)
-{
-  using T = typename decltype(case_.first)::type;
-  return t == typeid(T) ? case_.second(*boost::unsafe_any_cast<T>(&a))
-                        : process(a, t, default_, rest...);
-}
-//! [process]
-
-//! [switch_]
-template <typename Any>
-auto switch_(Any& a) {
-  return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
-
-    auto default_ = find_if(cases, [](auto const& c) {
-      return c.first == type<_default>;
-    });
-    static_assert(default_ != nothing,
-      "switch is missing a default_ case");
-
-    auto rest = filter(cases, [](auto const& c) {
-      return c.first != type<_default>;
-    });
-
-    return unpack(rest, [&](auto& ...rest) {
-      return process(a, a.type(), default_->second, rest...);
-    });
-  };
-}
-//! [switch_]
-//! [full]
+using namespace boost::hana::literals;
 
 
 int main() {
-using namespace std::literals;
-using ::default_; // disambiguate with boost::hana::default_
 
-{
+//! [animals]
+struct Fish { std::string name; };
+struct Cat  { std::string name; };
+struct Dog  { std::string name; };
 
-//! [usage]
-boost::any a = 'x';
-std::string r = switch_(a)(
-  case_<int>([](auto i) { return "int: "s + std::to_string(i); }),
-  case_<char>([](auto c) { return "char: "s + std::string{c}; }),
-  default_([] { return "unknown"s; })
-);
+auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+//! [animals]
 
-assert(r == "char: x"s);
-//! [usage]
+//! [algorithms]
+// Access tuple elements with operator[] instead of std::get.
+Cat garfield = animals[1_c];
 
-}{
+// Perform high level algorithms on tuples (this is like std::transform)
+auto names = transform(animals, [](auto a) {
+  return a.name;
+});
 
-//! [result_inference]
-boost::any a = 'x';
-auto r = switch_(a)(
-  case_<int>([](auto) -> int { return 1; }),
-  case_<char>([](auto) -> long { return 2l; }),
-  default_([]() -> long long { return 3ll; })
-);
+assert(reverse(names) == make_tuple("Snoopy", "Garfield", "Nemo"));
+//! [algorithms]
 
-// r is inferred to be a long long
-static_assert(std::is_same<decltype(r), long long>{}, "");
-assert(r == 2ll);
-//! [result_inference]
 
-}
+//! [type-level]
+auto animal_types = make_tuple(type<Fish*>, type<Cat&>, type<Dog>);
+
+auto no_pointers = remove_if(animal_types, [](auto a) {
+  return traits::is_pointer(a);
+});
+
+static_assert(no_pointers == make_tuple(type<Cat&>, type<Dog>), "");
+//! [type-level]
+
+
+//! [has_name]
+auto has_name = is_valid([](auto&& x) -> decltype((void)x.name) { });
+
+static_assert(has_name(garfield), "");
+static_assert(!has_name(1), "");
+//! [has_name]
+
+#if 0
+//! [screw_up]
+auto serialize = [](std::ostream& os, auto const& object) {
+  for_each(os, [&](auto member) {
+    //     ^^ oopsie daisy!
+    os << member << std::endl;
+  });
+};
+//! [screw_up]
+#endif
+
+//! [serialization]
+// 1. Give introspection capabilities to 'Person'
+struct Person {
+  BOOST_HANA_DEFINE_STRUCT(Person,
+    (std::string, name),
+    (int, age)
+  );
+};
+
+// 2. Write a generic serializer (bear with std::ostream for the example)
+auto serialize = [](std::ostream& os, auto const& object) {
+  for_each(members(object), [&](auto member) {
+    os << member << std::endl;
+  });
+};
+
+// 3. Use it
+Person john{"John", 30};
+serialize(std::cout, john);
+
+// output:
+// John
+// 30
+//! [serialization]
 
 }

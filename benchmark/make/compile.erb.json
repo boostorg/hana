@@ -15,6 +15,9 @@
     {
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
+    }, {
+      "name": "std::array",
+      "data": <%= time_compilation('compile.std.array.erb.cpp', hana) %>
     }
 
     <% if not ("@CMAKE_CXX_COMPILER_ID@" == "Clang" &&

@@ -54,6 +54,7 @@ if (NOT Boost_FOUND)
         "tutorial/mpl_cheatsheet.cpp"
         "tutorial/quadrants.cpp"
         "tutorial/quickstart.cpp"
+        "tutorial/quickstart.switchAny.cpp"
         "tutorial/type.cpp"
     )
 endif()
