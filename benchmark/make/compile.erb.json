@@ -15,10 +15,15 @@
     {
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
-    }, {
+    }
+
+    <% if not ("@CMAKE_CXX_COMPILER_ID@" == "Clang" &&
+               "@CMAKE_CXX_COMPILER_VERSION@" == "3.5.0") %>
+    , {
       "name": "std::tuple",
       "data": <%= time_compilation('compile.std.tuple.erb.cpp', std) %>
     }
+    <% end %>
 
     <%# Right now, the representations of tuple_t and tuple_c are not
         optimized, so there's really nothing to show.

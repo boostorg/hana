@@ -18,10 +18,15 @@
     {
       "name": "hana::tuple",
       "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
-    },{
+    }
+
+    <% if not ("@CMAKE_CXX_COMPILER_ID@" == "Clang" &&
+               "@CMAKE_CXX_COMPILER_VERSION@" == "3.5.0") %>
+    , {
       "name": "std::tuple",
       "data": <%= measure(:bloat, 'execute.std.tuple.erb.cpp', exec) %>
     }
+    <% end %>
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
