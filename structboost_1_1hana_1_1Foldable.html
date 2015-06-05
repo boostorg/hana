@@ -52,7 +52,7 @@
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.5.0/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.6.1/";
       $(".benchmark-chart").each(function(index, div) {
         var dataset = div.getAttribute("data-dataset");
         $.getJSON(repo + dataset, function(options) {
@@ -997,7 +997,7 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 </div><!-- fragment -->
 <p>Invoke a function with the elements of a structure as arguments. </p>
 <p>Given a function and a foldable structure whose length can be known at compile-time, <code>unpack</code> invokes the function with the contents of that structure. In other words, <code>unpack(foldable, f)</code> is equivalent to <code>f(x...)</code>, where <code>x...</code> are the elements of the structure. The length of the structure must be known at compile-time, because the version of <code>f</code>'s <code>operator()</code> that will be compiled depends on the number of arguments it is called with, which has to be known at compile-time.</p>
-<p>To create a function that accepts a foldable instead of variadic arguments, see <code>fuse</code>, which is roughly equivalent to <code>boost::fusion::make_fused</code>.</p>
+<p>To create a function that accepts a foldable instead of variadic arguments, see <code>fuse</code> instead.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">foldable</td><td>The structure to expand into the function.</td></tr>
@@ -1011,7 +1011,15 @@ See the documentation for <code>sum</code> to understand why the <a class="el" h
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(make_tuple(1, 2, 3), add) == 6);</div>
-</div><!-- fragment -->
+</div><!-- fragment --><h2>Rationale: <code>unpack</code>'s name and parameter order </h2>
+<p>It has been suggested a couple of times that <code>unpack</code> be called <code>apply</code> instead, and that the parameter order be reversed to match that of the <a href="http://en.cppreference.com/w/cpp/experimental/apply">proposed std::apply function</a>. However, the name <code>apply</code> is already used to denote normal function application, an use which is consistent with the Boost MPL library and with the rest of the world, especially the functional programming community. Furthermore, the author of this library considers the proposed <code>std::apply</code> to have both an unfortunate name and an unfortunate parameter order. Indeed, taking the function as the first argument means that using <code>std::apply</code> with a lambda function looks like </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">std::apply</a>([](<span class="keyword">auto</span> ...args) {</div>
+<div class="line">    use(args...);</div>
+<div class="line">}, tuple);</div>
+</div><!-- fragment --><p>which is undeniably ugly because of the trailing <code>, tuple)</code> part on the last line. On the other hand, taking the function as a second argument allows one to write </p><div class="fragment"><div class="line">hana::unpack(tuple, [](<span class="keyword">auto</span> ...args) {</div>
+<div class="line">    use(args...);</div>
+<div class="line">});</div>
+</div><!-- fragment --><p>which looks much nicer. Because of these observations, the author of this library feels justified to use <code>unpack</code> instead of <code>apply</code>, and to use a sane parameter order. </p>
+
 </div>
 </div>
 <a class="anchor" id="a0840e48f29a87467e23d801ca0ca122a"></a>

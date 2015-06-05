@@ -2,15 +2,13 @@ var NAVTREE =
 [
   [ "Hana", "index.html", [
     [ "User Manual", "index.html", [
-      [ "Preface", "index.html#tutorial-preface", null ],
+      [ "Description", "index.html#tutorial-description", null ],
       [ "Introduction", "index.html#tutorial-introduction", [
-        [ "Motivation", "index.html#tutorial-introduction-motivation", null ]
+        [ "C++ computational quadrants", "index.html#tutorial-introduction-quadrants", null ],
+        [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
       ] ],
       [ "Quick start", "index.html#tutorial-quickstart", [
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
-      ] ],
-      [ "C++ computational quadrants", "index.html#tutorial-quadrants", [
-        [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
       ] ],
       [ "Assertions", "index.html#tutorial-assert", null ],
       [ "Compile-time numbers", "index.html#tutorial-integral", [
@@ -24,6 +22,17 @@ var NAVTREE =
         [ "Working with this representation", "index.html#tutorial-type-working", null ],
         [ "The generic lifting process", "index.html#tutorial-type-lifting", null ]
       ] ],
+      [ "Introspection", "index.html#tutorial-introspection", [
+        [ "Checking expression validity", "index.html#tutorial-introspection-is_valid", [
+          [ "Non-static members", "index.html#tutorial-introspection-is_valid-non_static", null ],
+          [ "Static members", "index.html#tutorial-introspection-is_valid-static", null ],
+          [ "Nested type names", "index.html#tutorial-introspection-is_valid-typename", null ],
+          [ "Nested templates", "index.html#tutorial-introspection-is_valid-template", null ]
+        ] ],
+        [ "Taking control of SFINAE", "index.html#tutorial-introspection-sfinae", null ],
+        [ "Introspecting user-defined types", "index.html#tutorial-introspection-adapting", null ],
+        [ "Example: generating JSON", "index.html#tutorial-introspection-json", null ]
+      ] ],
       [ "Generalities on containers", "index.html#tutorial-containers", [
         [ "Container creation", "index.html#tutorial-containers-creating", null ],
         [ "Container elements", "index.html#tutorial-containers-elements", null ],
@@ -35,17 +44,6 @@ var NAVTREE =
         [ "What is generated?", "index.html#tutorial-algorithms-codegen", null ],
         [ "Side effects and purity", "index.html#tutorial-algorithms-effects", null ],
         [ "Cross-phase algorithms", "index.html#tutorial-algorithms-cross_phase", null ]
-      ] ],
-      [ "Introspection", "index.html#tutorial-introspection", [
-        [ "Checking expression validity", "index.html#tutorial-introspection-is_valid", [
-          [ "Non-static members", "index.html#tutorial-introspection-is_valid-non_static", null ],
-          [ "Static members", "index.html#tutorial-introspection-is_valid-static", null ],
-          [ "Nested type names", "index.html#tutorial-introspection-is_valid-typename", null ],
-          [ "Nested templates", "index.html#tutorial-introspection-is_valid-template", null ]
-        ] ],
-        [ "Taking control of SFINAE", "index.html#tutorial-introspection-sfinae", null ],
-        [ "Introspecting user-defined types", "index.html#tutorial-introspection-adapting", null ],
-        [ "Example: generating JSON", "index.html#tutorial-introspection-json", null ]
       ] ],
       [ "Performance considerations", "index.html#tutorial-performance", [
         [ "Compile-time performance", "index.html#tutorial-performance-compile", null ],
@@ -82,16 +80,8 @@ var NAVTREE =
       [ "Apendix III: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
-    [ "Indexes", "usergroup0.html", [
-      [ "Methods", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Related Functions", "functions_rela.html", null ]
-      ] ],
-      [ "Concepts and data types", "annotated.html", "annotated" ],
-      [ "Files", "files.html", "files" ]
-    ] ],
+    [ "Alphabetical index", "functions.html", null ],
+    [ "Headers", "files.html", "files" ],
     [ "Todo List", "todo.html", null ],
     [ "Bug List", "bug.html", null ]
   ] ]
@@ -99,9 +89,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-".html",
-"index.html#tutorial-appendix-constexpr",
-"structboost_1_1hana_1_1Orderable.html"
+"add__rvalue__reference_8hpp.html",
+"index.html#tutorial-containers-types",
+"structboost_1_1hana_1_1Range.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

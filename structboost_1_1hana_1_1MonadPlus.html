@@ -52,7 +52,7 @@
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.5.0/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.6.1/";
       $(".benchmark-chart").each(function(index, div) {
         var dataset = div.getAttribute("data-dataset");
         $.getJSON(repo + dataset, function(options) {
@@ -229,10 +229,10 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>), make&lt;Tuple&gt;(3.3, 4_c)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
+<div class="line">                     make_tuple(3.3, 4_c)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -269,7 +269,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Tuple&gt;() == make&lt;Tuple&gt;());</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Tuple&gt;() == make_tuple());</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Maybe&gt;() == nothing);</div>
 </div><!-- fragment -->
 </div>
@@ -312,11 +312,11 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make&lt;Tuple&gt;()) == make&lt;Tuple&gt;(1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(<span class="charliteral">&#39;2&#39;</span>, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(3.3, make&lt;Tuple&gt;()))) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make_tuple()) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(<span class="charliteral">&#39;2&#39;</span>, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(3.3, make_tuple()))) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -358,11 +358,11 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make&lt;Tuple&gt;(), 1) == make&lt;Tuple&gt;(1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>), 3.3) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make&lt;Tuple&gt;(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -408,7 +408,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(make&lt;Tuple&gt;(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make&lt;Tuple&gt;(1, 3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(make_tuple(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make_tuple(1, 3), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3), trait&lt;std::is_integral&gt;) == just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3.0), trait&lt;std::is_integral&gt;) == nothing);</div>
 </div><!-- fragment --> <h2>Benchmarks </h2>
@@ -432,27 +432,27 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Combine a monadic structure with itself <code>n</code> times. </p>
-<p>Given a non-negative number <code>n</code> and a monadic structure <code>xs</code>, <code>cycle</code> returns a new monadic structure which is the result of combining <code>xs</code> with itself <code>n</code> times using the <code>concat</code> operation. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(n, xs) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, ... <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, xs)))</div>
+<p>Given a monadic structure <code>xs</code> and a non-negative number <code>n</code>, <code>cycle</code> returns a new monadic structure which is the result of combining <code>xs</code> with itself <code>n</code> times using the <code>concat</code> operation. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(xs, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, ... <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, xs)))</div>
 <div class="line">                                  <span class="comment">// ^^^^^ n times total</span></div>
-</div><!-- fragment --><p>Also note that since <code>concat</code> is required to be associative, we could also have written </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(n, xs) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(... <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, xs), xs), xs)</div>
+</div><!-- fragment --><p>Also note that since <code>concat</code> is required to be associative, we could also have written </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(xs, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(... <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(xs, xs), xs), xs)</div>
 <div class="line">                          <span class="comment">// ^^^^^ n times total</span></div>
-</div><!-- fragment --><p>If <code>n</code> is zero, then the identity of <code>concat</code>, <code>empty</code>, is returned. In the case of sequences, this boils down to returning a sequence which containes <code>n</code> copies of itself; for other models it might differ.</p>
+</div><!-- fragment --><p>If <code>n</code> is zero, then the identity of <code>concat</code>, <code>empty</code>, is returned. In the case of sequences, this boils down to returning a sequence containing <code>n</code> copies of itself; for other models it might differ.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{cycle} : C \times M(T) \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{cycle} : M(T) \times C \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
     <tr><td class="paramname">xs</td><td>A monadic structure to combine with itself a certain number of times.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(size_t&lt;2&gt;, make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), size_t&lt;2&gt;) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -489,7 +489,7 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(make&lt;Tuple&gt;(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make&lt;Tuple&gt;(2.0, 4.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(make_tuple(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make_tuple(2.0, 4.0), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3.0), trait&lt;std::is_integral&gt;) == just(3.0), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3), trait&lt;std::is_integral&gt;) == nothing);</div>
 </div><!-- fragment -->
@@ -553,15 +553,15 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a monadic structure by combining a lifted value with itself <code>n</code> times. </p>
-<p>Given a non-negative number <code>n</code>, a value <code>x</code> and a monadic data type <code>M</code>, <code>repeat</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>repeat</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">repeat&lt;M&gt;(n, x) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(n, lift&lt;M&gt;(x))</div>
+<p>Given a value <code>x</code>, a non-negative number <code>n</code> and a monadic data type <code>M</code>, <code>repeat</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>repeat</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">repeat&lt;M&gt;(x, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(lift&lt;M&gt;(x), n)</div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of the <code>concat</code> operation is returned. In the case of sequences, this corresponds to creating a new sequence holding <code>n</code> copies of <code>x</code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{repeat}_M : C \times T \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{repeat}_M : T \times C \to M(T) \).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The data type of the returned monadic structure. It must be a model of the <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept.</td></tr>
@@ -570,16 +570,16 @@ template&lt;typename M &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>repeat</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
     <tr><td class="paramname">x</td><td>The value to lift into a monadic structure and then combine with itself.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>repeat</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(repeat&lt;Tuple&gt;(size_t&lt;2&gt;, <span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="fragment"><div class="line">static_assert(repeat&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in a Maybe.</span></div>
-<div class="line">static_assert(repeat&lt;Maybe&gt;(size_t&lt;2&gt;, <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(repeat&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -621,9 +621,10 @@ template&lt;typename M &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(<span class="stringliteral">&quot;my&quot;</span>s, make&lt;Tuple&gt;(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s)) ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;house&quot;</span>)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(<span class="stringliteral">&quot;my&quot;</span>s, make_tuple(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s)) ==</div>
+<div class="line">    make_tuple(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;house&quot;</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -645,29 +646,29 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; z, <span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; z) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Inserts a value after each element of a monadic structure. </p>
-<p>Given a value (called the suffix) <code>z</code> and a monadic structure <code>xs</code>, <code>suffix</code> returns a new monadic structure which is equivalent to </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a>(z, xs) == flatten(transform(xs, [](<span class="keyword">auto</span> x) {</div>
+<p>Given a monadic structure <code>xs</code> and a value <code>z</code> (called the suffix), <code>suffix</code> returns a new monadic structure such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a>(xs, z) == flatten(transform(xs, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(lift&lt;M&gt;(x), lift&lt;M&gt;(z));</div>
 <div class="line">}))</div>
 </div><!-- fragment --><p>For sequences, this simply corresponds to inserting the suffix after each element of the sequence. For example, given a sequence <code>[x1, ..., xn]</code>, <code>suffix</code> will return </p><div class="fragment"><div class="line">[x1, z, x2, z, ..., xn, z]</div>
 </div><!-- fragment --><p> As explained above, this can be generalized to other <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> models, with various levels of interest.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{suffix} : T \times M(T) \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{suffix} : M(T) \times T \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">z</td><td>A value (the suffix) to insert after each element of a monadic structure.</td></tr>
     <tr><td class="paramname">xs</td><td>A monadic structure.</td></tr>
+    <tr><td class="paramname">z</td><td>A value (the suffix) to insert after each element of a monadic structure.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a>(0, make&lt;Tuple&gt;(1, 2, 3, 4)) == make&lt;Tuple&gt;(1, 0, 2, 0, 3, 0, 4, 0)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a>(make_tuple(1, 2, 3, 4), 0) == make_tuple(1, 0, 2, 0, 3, 0, 4, 0)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

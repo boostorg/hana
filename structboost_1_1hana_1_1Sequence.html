@@ -52,7 +52,7 @@
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.5.0/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.6.1/";
       $(".benchmark-chart").each(function(index, div) {
         var dataset = div.getAttribute("data-dataset");
         $.getJSON(repo + dataset, function(options) {
@@ -779,22 +779,22 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Remove the element at a given index from a sequence. </p>
-<p><code>remove_at</code> returns a new sequence identical to the original, except that the element at the given index is removed. Specifically, <code>remove_at(n, [x0, ..., xn-1, xn, xn+1, ..., xm])</code> is a new sequence equivalent to <code>[x0, ..., xn-1, xn+1, ..., xm]</code>.</p>
+<p><code>remove_at</code> returns a new sequence identical to the original, except that the element at the given index is removed. Specifically, <code>remove_at([x0, ..., xn-1, xn, xn+1, ..., xm], n)</code> is a new sequence equivalent to <code>[x0, ..., xn-1, xn+1, ..., xm]</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>An non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the index of the element to be removed from the sequence.</td></tr>
     <tr><td class="paramname">xs</td><td>A sequence from which an element is to be removed.</td></tr>
+    <tr><td class="paramname">n</td><td>An non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the index of the element to be removed from the sequence.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(int_&lt;2&gt;, make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u)) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u), int_&lt;2&gt;) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -819,13 +819,13 @@ template&lt;std::size_t n&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(size_t&lt;n&gt;, forwarded(xs));</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(forwarded(xs), size_t&lt;n&gt;);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Equivalent to <code>remove_at</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    remove_at_c&lt;2&gt;(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u)) == make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
+<div class="line">    remove_at_c&lt;2&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u)) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 3u)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -860,7 +860,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(3.3, <span class="charliteral">&#39;2&#39;</span>, 1));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(3.3, <span class="charliteral">&#39;2&#39;</span>, 1));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1280,28 +1280,28 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the first <code>n</code> elements of a sequence. </p>
-<p>Broadly speaking, <code>take(n, xs)</code> is a new sequence containing the first <code>n</code> elements of <code>xs</code>, in the same order. <code>n</code> must be a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> of an unsigned integral type. However, there are different ways of calling <code>take</code>, which correspond to different policies in case the length of the sequence is less than <code>n</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(n, xs)         = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.at_most(n, xs)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.at_most(n, xs) = see below</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.exactly(n, xs) = see below</div>
+<p>Broadly speaking, <code>take(xs, n)</code> is a new sequence containing the first <code>n</code> elements of <code>xs</code>, in the same order. <code>n</code> must be a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> of an unsigned integral type. However, there are different ways of calling <code>take</code>, which correspond to different policies in case the length of the sequence is less than <code>n</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(xs, n)         = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.at_most(xs, n)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.at_most(xs, n) = see below</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.exactly(xs, n) = see below</div>
 </div><!-- fragment --><p>In case <code>length(xs) &lt; n</code>, the <code>take.at_most</code> variant will simply take the whole sequence, without failing. In contrast, the <code>take.exactly</code> variant assumes that <code>length(xs) &gt;= n</code>, which makes it possible to perform some optimizations.</p>
 <p>All of the different variants are tag-dispatched methods that can be overriden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.at_most       -&gt;  take_at_most_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>.exactly       -&gt;  take_exactly_impl</div>
 </div><!-- fragment --><p> <code>take</code> is not tag dispatched, because it is just an alias to <code>take.at_most</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to keep in the resulting sequence. If <code>length(xs) &lt; n</code>, the exact behavior is determined by the chosen policy (either <code>take.at_most</code> or <code>take.exactly</code>).</td></tr>
     <tr><td class="paramname">xs</td><td>The sequence to take the elements from.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to keep in the resulting sequence. If <code>length(xs) &lt; n</code>, the exact behavior is determined by the chosen policy (either <code>take.at_most</code> or <code>take.exactly</code>).</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(0_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(1_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(2_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(3_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(4_c, make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), 0_c) == make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), 1_c) == make_tuple(1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), 2_c) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), 3_c) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), 4_c) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1325,12 +1325,12 @@ template&lt;std::size_t n&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(size_t&lt;n&gt;, forwarded(xs));</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(forwarded(xs), size_t&lt;n&gt;);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Equivalent to <code>take</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(take_c&lt;2&gt;(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>));</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(take_c&lt;2&gt;(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1631,6 +1631,7 @@ template&lt;typename S &gt; </div>
 <div class="line">    f(s1[M], ..., sn[M])</div>
 <div class="line">]</div>
 </div><!-- fragment --><p> , where <code>M</code> is usually the length of the shortest sequence. As this suggests, there are several different ways of zipping that one might want; zip with a function, zip without a function, zip up to the shortest sequence, zip up to the longest sequence or assume all the sequences are of the same size. In Hana, all these different ways of zipping are provided, except for the "up to the longest sequence" one.</p>
+<dl class="section note"><dt>Note</dt><dd>At least one sequence must always be provided. Otherwise, it is an error.</dd></dl>
 <blockquote class="doxtable">
 <h4>Rationale for not providing a <code>zip.longest</code> variant</h4>
 <p>It would require either (1) padding the shortest sequences with an arbitrary object, or (2) pad the shortest sequences with an object provided by the user when calling <code>zip.longest</code>. Since there is no requirement that all the zipped sequences have elements of similar types, there is no way to provide a single consistent padding object in all cases. A tuple of padding objects should be provided, but I find it perhaps too complicated to be worth it for now. If you need this functionality, open a GitHub issue. </p>
@@ -1652,12 +1653,12 @@ template&lt;typename S &gt; </div>
 <div class="line">                        ...</div>
 <div class="line">                        make&lt;Tuple&gt;(s1[M], ..., sn[M])</div>
 <div class="line">                   ]</div>
-</div><!-- fragment --><p>All of the different zipping variants are tag-dispatched methods that can be overridden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest       -&gt;  zip_shortest_impl</div>
+</div><!-- fragment --><h2>Tag-dispatching </h2>
+<p>All of the different zipping variants are tag-dispatched methods that can be overridden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest       -&gt;  zip_shortest_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest.with  -&gt;  zip_shortest_with_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe         -&gt;  zip_unsafe_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe.with    -&gt;  zip_unsafe_with_impl</div>
 </div><!-- fragment --><p> <code>zip</code> and <code>zip.with</code> are not tag dispatched, because they are just aliases to <code>zip.shortest</code> and <code>zip.shortest.with</code>, respectively. Also note that all the sequences must have the same data type, and only the data type of the first one is used for tag-dispatching.</p>
-<dl class="section note"><dt>Note</dt><dd>At least one sequence must be provided. Otherwise, it is an error.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3))</div>

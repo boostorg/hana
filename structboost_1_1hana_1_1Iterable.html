@@ -52,7 +52,7 @@
     var github = new Github({});
     var hana = github.getRepo('ldionne', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.5.0/";
+      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.6.1/";
       $(".benchmark-chart").each(function(index, div) {
         var dataset = div.getAttribute("data-dataset");
         $.getJSON(repo + dataset, function(options) {
@@ -167,7 +167,7 @@ Any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The I
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s (free model)<br />
-Every finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. Hence, finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must satisfy additional laws to make sure that external iteration in <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and internal iteration in <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> are consistent. These laws are expressed in terms of the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>'s <a class="el" href="structboost_1_1hana_1_1Foldable.html#Foldable-lin">linearization</a>. For any finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with linearization <code>[x1, ..., xn]</code>, the following must be satisfied: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(i, xs) == xi</div>
+Every finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. Hence, finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must satisfy additional laws to make sure that external iteration in <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and internal iteration in <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> are consistent. These laws are expressed in terms of the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>'s <a class="el" href="structboost_1_1hana_1_1Foldable.html#Foldable-lin">linearization</a>. For any finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with linearization <code>[x1, ..., xn]</code>, the following must be satisfied: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(xs, i) == xi</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs) &lt;=&gt; n == 0</div>
 </div><!-- fragment --> An equivalent way of writing this is <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(xs) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#adc2675aeee1174a9b337e94f39506bec">head</a>(linearization(xs))</div>
 <div class="line">         == x1</div>
@@ -274,12 +274,12 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a new iterable containing all but the first element of a non-empty iterable. </p>
-<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>tail(xs)</code> is an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> of the same data type whose linearization is <code>[x2, ..., xN]</code>. In particular, <code>tail(xs)</code> is functionally equivalent to <code>drop(size_t&lt;1&gt;, xs)</code>.</p>
+<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>tail(xs)</code> is an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> of the same data type whose linearization is <code>[x2, ..., xN]</code>. In particular, <code>tail(xs)</code> is functionally equivalent to <code>drop(xs, size_t&lt;1&gt;)</code>.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == make&lt;Tuple&gt;(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
@@ -333,27 +333,27 @@ Synopsis of methods</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the <code>n</code>th element of an iterable. </p>
-<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> index and an iterable, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(k, xs)</code> is equivalent to <code>xk</code>.</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> index, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(xs, k)</code> is equivalent to <code>xk</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">n</td><td>A (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that is either out of bounds for the iterable, not of an unsigned type or not a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>.</td></tr>
-    <tr><td class="paramname">iterable</td><td>The iterable in which an element is retrieved. The iterable must contain at least <code>n + 1</code> elements.</td></tr>
+    <tr><td class="paramname">xs</td><td>The iterable in which an element is retrieved. The iterable must contain at least <code>n + 1</code> elements.</td></tr>
+    <tr><td class="paramname">n</td><td>A (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that is either out of bounds for the iterable, not of an unsigned type or not a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Operator-form </h2>
-<p>For convenience, the <code>at</code> method can be applied to <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s that support it by using the <code>[]</code> operator. Hence, if <code>xs</code> supports the operator, </p><div class="fragment"><div class="line">xs[n] == <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(n, xs)</div>
+<p>For convenience, the <code>at</code> method can be applied to <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s that support it by using the <code>[]</code> operator. Hence, if <code>xs</code> supports the operator, </p><div class="fragment"><div class="line">xs[n] == <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(xs, n)</div>
 </div><!-- fragment --><p>To take advantage of this operator for a type <code>T</code>, <code>T</code> must inherit <code>hana::operators::Iterable_ops&lt;T&gt;</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>The same operator is provided for the <code>find</code> method of the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept. When a data type is a model of both <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, which operator is used should be documented properly.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;0&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;1&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(int_&lt;2&gt;, make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;0&gt;) == 0);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;1&gt;) == <span class="charliteral">&#39;1&#39;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;2&gt;) == 2.0);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.at.compile.json"> </div> 
 </div>
@@ -377,15 +377,15 @@ template&lt;std::size_t n&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(size_t&lt;n&gt;, forwarded(iterable));</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(forwarded(xs), size_t&lt;n&gt;);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Equivalent to <code>at</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;0&gt;(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;1&gt;(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;2&gt;(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;0&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;1&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;2&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -434,40 +434,40 @@ template&lt;std::size_t n&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Drops the first <code>n</code> elements of an iterable and returns the rest. </p>
-<p>Given an (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type and an iterable <code>xs</code> with a linearization of <code>[x1, x2, ...]</code>, <code>drop(n, xs)</code> is an iterable of the same data type whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
-<p>There are two different ways of calling <code>drop</code>, which correspond to different policies in case the length of the iterable is less than <code>n</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(n, xs)         = <a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(n, xs)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(n, xs) = see below</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(n, xs) = see below</div>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> of an unsigned integral type, <code>drop(xs, n)</code> is an iterable of the same data type whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this method does not mutate the original iterable in any way.</p>
+<p>There are two different ways of calling <code>drop</code>, which correspond to different policies in case the length of the iterable is less than <code>n</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, n)         = <a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(xs, n)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(xs, n) = see below</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(xs, n) = see below</div>
 </div><!-- fragment --><p>In case <code>length(xs) &lt; n</code>, the <code>drop.at_most</code> variant will simply drop the whole iterable, without failing. In contrast, the <code>drop.exactly</code> variant assumes that <code>length(xs) &gt;= n</code>, which makes it possible to perform some optimizations.</p>
 <p>Both variants are tag-dispatched methods that can be overriden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most  -&gt;  drop_at_most_impl</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly  -&gt;  drop_exactly_impl</div>
 </div><!-- fragment --><p> <code>drop</code> is not tag dispatched, because it is just an alias to <code>drop.at_most</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">xs</td><td>The iterable from which elements are dropped.</td></tr>
     <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of elements to be dropped from the iterable.</td></tr>
-    <tr><td class="paramname">iterable</td><td>The iterable from which elements are dropped.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// drop (equivalent to drop.at_most)</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;0&gt;, xs) == xs);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;1&gt;, xs) == make&lt;Tuple&gt;(<span class="charliteral">&#39;1&#39;</span>, 2.0));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;2&gt;, xs) == make&lt;Tuple&gt;(2.0));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;3&gt;, xs) == make&lt;Tuple&gt;());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(int_&lt;4&gt;, xs) == make&lt;Tuple&gt;());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(int_&lt;4&gt;, xs) == make&lt;Tuple&gt;());</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, int_&lt;0&gt;) == xs, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, int_&lt;1&gt;) == make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, int_&lt;2&gt;) == make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, int_&lt;3&gt;) == make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(xs, int_&lt;4&gt;) == make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.at_most(xs, int_&lt;4&gt;) == make_tuple());</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// drop.exactly</span></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(int_&lt;2&gt;, xs) == make&lt;Tuple&gt;(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(int_&lt;3&gt;, xs) == make&lt;Tuple&gt;());</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(xs, int_&lt;2&gt;) == make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>.exactly(xs, int_&lt;3&gt;) == make_tuple());</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -490,13 +490,13 @@ template&lt;std::size_t n&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(size_t&lt;n&gt;, forwarded(iterable));</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(forwarded(xs), size_t&lt;n&gt;);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Equivalent to <code>drop</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(drop_c&lt;2&gt;(make&lt;Tuple&gt;(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == make&lt;Tuple&gt;(2.0));</div>
+<div class="fragment"><div class="line">static_assert(drop_c&lt;2&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -578,7 +578,8 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> positive = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x &gt; int_&lt;0&gt;;</div>
 <div class="line">};</div>
