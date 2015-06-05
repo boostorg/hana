@@ -96,10 +96,10 @@ env:
   # otherwise we end up with a job that has no environment variables at all in
   # the matrix.
   matrix:
-    - CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 DOCUMENTATION=true
+    - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 DOCUMENTATION=true
 
 # Those addons are just for the documentation job.
-addons: *clang37
+addons: *clang36
 
 
 install:
@@ -124,7 +124,6 @@ install:
   # Install a recent CMake
   ############################################################################
   - CMAKE_URL=http://www.cmake.org/files/v3.2/cmake-3.2.1-Linux-x86_64.tar.gz
-
   - mkdir cmake
   - travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
   - export PATH=${PWD}/cmake/bin:${PATH}
@@ -153,10 +152,13 @@ install:
   ############################################################################
   # Install a more recent Doxygen via Linuxbrew
   ############################################################################
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)" </dev/null; fi
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then export PATH=${HOME}/.linuxbrew/bin:${PATH}; fi
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then brew install doxygen; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz"; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen; fi
+  - if [[ "${DOCUMENTATION}" == "true" ]]; then export PATH=${PWD}/doxygen/bin:${PATH}; fi
 
+  ############################################################################
+  # Install and use a more recent Ruby and install the gems for the benchmarks
+  ############################################################################
   - if [[ "${BENCHMARKS}" == "true" ]]; then rvm use 2.1 --install --binary --fuzzy; fi
   - if [[ "${BENCHMARKS}" == "true" ]]; then gem install ruby-progressbar tilt; fi
 
@@ -198,23 +200,26 @@ script:
 
   ############################################################################
   # We only run the full benchmarks on `master` when we're not in a pull
-  # request, because otherwise it takes too much Travis resources. Otherwise,
-  # we only run partial benchmarks to make sure they compile/run properly.
-  ############################################################################
-  - if [[ "${BENCHMARKS}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make check.benchmarks -k; fi
-
-  ############################################################################
-  # When we run the benchmarks, we pre-clone the datasets branch, so the next
-  # datasets.clone will just pull, which is pretty quick. This reduces the
-  # risk of push conflicts when these jobs all run at the same time. When we
-  # push, we use travis_retry to try again if we encounter a push conflict,
+  # request, because otherwise it takes too much Travis resources.
+  # Otherwise, partial benchmarks are run automatically as part of the
+  # tests to make sure they compile and run properly.
+  #
+  # When we run the full benchmarks, we pre-clone the datasets branch so the
+  # next datasets.clone will just pull, which is pretty quick. This reduces
+  # the risk of push conflicts when these jobs all run at the same time. When
+  # we push, we use travis_retry to try again if we encounter a push conflict,
   # and we disable the output to avoid leaking the GitHub token.
   ############################################################################
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make benchmarks; fi
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make datasets.clone; fi
   - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
 
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make headers examples -k -j2 &>/dev/null; fi
+  ############################################################################
+  # Build and run the unit tests and examples.
+  ############################################################################
+  - export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests.quick examples -k -j2 &>/dev/null; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests -k -j2; fi
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make check -k; fi
 
 

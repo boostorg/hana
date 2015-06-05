@@ -5,15 +5,15 @@
 ##############################################################################
 # Setup custom functions, master targets and file lists for the unit tests
 ##############################################################################
-add_custom_target(headers
+add_custom_target(test.headers
     COMMENT "Build all the header-inclusion unit tests.")
 
 add_custom_target(tests
-    DEPENDS headers
+    DEPENDS test.headers
     COMMENT "Build all the unit tests.")
 
 add_custom_target(tests.quick
-    DEPENDS headers
+    DEPENDS test.headers
     COMMENT "Build a subset of all the unit tests to finish faster.")
 
 #   boost_hana_add_unit_test(<name> ...)
@@ -46,11 +46,11 @@ function(boost_hana_add_header_test header)
             int main() { }
         ")
     endif()
-    boost_hana_add_executable(header.${_target} EXCLUDE_FROM_ALL
+    boost_hana_add_executable(test.header.${_target} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-    boost_hana_add_test(header.${_target}
-                                ${CMAKE_CURRENT_BINARY_DIR}/header.${_target})
-    add_dependencies(headers header.${_target})
+    boost_hana_add_test(test.header.${_target}
+                            ${CMAKE_CURRENT_BINARY_DIR}/test.header.${_target})
+    add_dependencies(test.headers test.header.${_target})
 endfunction()
 
 # A list of all the test files

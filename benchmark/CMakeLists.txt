@@ -71,8 +71,6 @@ add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
 # Add the benchmarks
 ##############################################################################
 add_custom_target(benchmarks COMMENT "Generate all the benchmarks.")
-add_custom_target(check.benchmarks
-    COMMENT "Partially generate the benchmarks, just to check they compile/run.")
 
 # The list of all the benchmark targets; it is filled just below.
 set(BOOST_HANA_BENCHMARKS "")
@@ -94,19 +92,17 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
         WORKING_DIRECTORY ${_template_dir}
         DEPENDS "${_conf_template}"
         VERBATIM
-        COMMENT "Generating benchmarks for ${_target}"
-    )
+        COMMENT "Generating benchmarks for ${_target}")
     add_custom_target(${_target} DEPENDS "${_output_file}")
     add_dependencies(benchmarks ${_target})
 
-    add_custom_target(check.${_target}
+    add_test(NAME ${_target}
         COMMAND ${CMAKE_COMMAND} -E env check.benchmarks=true
         ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
             -e "Tilt::ERBTemplate.new('${_conf_template}').render"
-        WORKING_DIRECTORY ${_template_dir}
-        VERBATIM
-    )
-    add_dependencies(check.benchmarks check.${_target})
+        WORKING_DIRECTORY ${_template_dir})
+    set_tests_properties(${_target} PROPERTIES
+        RESOURCE_LOCK ${CMAKE_CURRENT_SOURCE_DIR}/measure.cpp)
 endforeach()
 
 
