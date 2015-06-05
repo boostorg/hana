@@ -597,23 +597,23 @@ namespace boost { namespace hana {
     //!
     //! `remove_at` returns a new sequence identical to the original, except
     //! that the element at the given index is removed. Specifically,
-    //! `remove_at(n, [x0, ..., xn-1, xn, xn+1, ..., xm])` is a new
+    //! `remove_at([x0, ..., xn-1, xn, xn+1, ..., xm], n)` is a new
     //! sequence equivalent to `[x0, ..., xn-1, xn+1, ..., xm]`.
     //!
+    //!
+    //! @param xs
+    //! A sequence from which an element is to be removed.
     //!
     //! @param n
     //! An non-negative `Constant` of an unsigned integral type representing
     //! the index of the element to be removed from the sequence.
-    //!
-    //! @param xs
-    //! A sequence from which an element is to be removed.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/sequence.cpp remove_at
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto remove_at = [](auto&& n, auto&& xs) -> decltype(auto) {
+    constexpr auto remove_at = [](auto&& xs, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -621,15 +621,15 @@ namespace boost { namespace hana {
     struct remove_at_impl;
 
     struct _remove_at {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
             "hana::remove_at(n, xs) requires xs to be a Sequence");
 #endif
             return remove_at_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             );
         }
     };
@@ -647,7 +647,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto remove_at_c = [](auto&& xs) -> decltype(auto) {
-        return remove_at(size_t<n>, forwarded(xs));
+        return remove_at(forwarded(xs), size_t<n>);
     };
 #else
     template <detail::std::size_t n>
@@ -1245,15 +1245,15 @@ namespace boost { namespace hana {
     //! Returns the first `n` elements of a sequence.
     //! @relates Sequence
     //!
-    //! Broadly speaking, `take(n, xs)` is a new sequence containing the first
+    //! Broadly speaking, `take(xs, n)` is a new sequence containing the first
     //! `n` elements of `xs`, in the same order. `n` must be a Constant of an
     //! unsigned integral type. However, there are different ways of calling
     //! `take`, which correspond to different policies in case the length of
     //! the sequence is less than `n`:
     //! @code
-    //!     take(n, xs)         = take.at_most(n, xs)
-    //!     take.at_most(n, xs) = see below
-    //!     take.exactly(n, xs) = see below
+    //!     take(xs, n)         = take.at_most(xs, n)
+    //!     take.at_most(xs, n) = see below
+    //!     take.exactly(xs, n) = see below
     //! @endcode
     //!
     //! In case `length(xs) < n`, the `take.at_most` variant will simply take
@@ -1271,14 +1271,14 @@ namespace boost { namespace hana {
     //! `take.at_most`.
     //!
     //!
+    //! @param xs
+    //! The sequence to take the elements from.
+    //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of elements to keep in the resulting sequence. If
     //! `length(xs) < n`, the exact behavior is determined by the chosen
     //! policy (either `take.at_most` or `take.exactly`).
-    //!
-    //! @param xs
-    //! The sequence to take the elements from.
     //!
     //!
     //! Example
@@ -1290,15 +1290,15 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct take_exactly_impl;
     struct _take_exactly {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::take.exactly(n, xs) requires xs to be a Sequence");
+            "hana::take.exactly(xs, n) requires xs to be a Sequence");
 #endif
             return take_exactly_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             );
         }
     };
@@ -1306,15 +1306,15 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct take_at_most_impl;
     struct _take_at_most {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, typename datatype<Xs>::type>{},
-            "hana::take.at_most(n, xs) requires xs to be a Sequence");
+            "hana::take.at_most(xs, n) requires xs to be a Sequence");
 #endif
             return take_at_most_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             );
         }
     };
@@ -1341,7 +1341,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto take_c = [](auto&& xs) -> decltype(auto) {
-        return take(size_t<n>, forwarded(xs));
+        return take(forwarded(xs), size_t<n>);
     };
 #else
     template <detail::std::size_t n>

@@ -824,8 +824,8 @@ namespace boost { namespace hana {
         repeat_helper(_type<T>, detail::std::index_sequence<i...>)
         { return make_tuple_t<tuple_detail::expand<!!i, T>...>(); }
 
-        template <typename N, typename X>
-        static constexpr decltype(auto) apply(N const&, X&& x) {
+        template <typename X, typename N>
+        static constexpr decltype(auto) apply(X&& x, N const&) {
             constexpr detail::std::size_t n = hana::value<N>();
             return repeat_helper(static_cast<X&&>(x),
                                  detail::std::make_index_sequence<n>{});
@@ -834,11 +834,11 @@ namespace boost { namespace hana {
 
     template <>
     struct cycle_impl<Tuple> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N&& n) {
             return hana::flatten(hana::repeat<Tuple>(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             ));
         }
     };
@@ -1094,8 +1094,8 @@ namespace boost { namespace hana {
             );
         }
 
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr Size index = hana::value<N>();
             constexpr Size size = tuple_detail::size<Xs>{}();
             return remove_at_helper(static_cast<Xs&&>(xs),
@@ -1218,12 +1218,11 @@ namespace boost { namespace hana {
         template <typename Xs, detail::std::size_t ...n>
         static constexpr decltype(auto)
         take_helper(Xs&& xs, detail::std::index_sequence<n...>) {
-            return hana::make<Tuple>(detail::get<n>(
-                                            static_cast<Xs&&>(xs))...);
+            return hana::make<Tuple>(detail::get<n>(static_cast<Xs&&>(xs))...);
         }
 
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr detail::std::size_t n = hana::value<N>();
             constexpr detail::std::size_t size = tuple_detail::size<Xs>{}();
             return take_helper(static_cast<Xs&&>(xs),

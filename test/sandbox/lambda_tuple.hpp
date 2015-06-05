@@ -251,11 +251,11 @@ namespace boost { namespace hana {
 
     template <>
     struct take_at_most_impl<sandbox::LambdaTuple> {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::take<value(m)>
+                detail::variadic::take<hana::value(m)>
             )(sandbox::lambda_tuple);
         }
     };

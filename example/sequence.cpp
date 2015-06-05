@@ -409,7 +409,7 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [remove_at]
 BOOST_HANA_CONSTEXPR_CHECK(
-    remove_at(int_<2>, make_tuple(0, '1', 2.2, 3u)) == make_tuple(0, '1', 3u)
+    remove_at(make_tuple(0, '1', 2.2, 3u), int_<2>) == make_tuple(0, '1', 3u)
 );
 //! [remove_at]
 
@@ -417,14 +417,14 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [remove_at_c]
 BOOST_HANA_CONSTEXPR_CHECK(
-    remove_at_c<2>(make<Tuple>(0, '1', 2.2, 3u)) == make<Tuple>(0, '1', 3u)
+    remove_at_c<2>(make_tuple(0, '1', 2.2, 3u)) == make_tuple(0, '1', 3u)
 );
 //! [remove_at_c]
 
 }{
 
 //! [reverse]
-BOOST_HANA_CONSTEXPR_CHECK(reverse(make<Tuple>(1, '2', 3.3)) == make<Tuple>(3.3, '2', 1));
+BOOST_HANA_CONSTEXPR_CHECK(reverse(make_tuple(1, '2', 3.3)) == make_tuple(3.3, '2', 1));
 //! [reverse]
 
 }{
@@ -600,17 +600,17 @@ BOOST_HANA_CONSTANT_CHECK(
 //! [take]
 using namespace boost::hana::literals;
 
-BOOST_HANA_CONSTANT_CHECK(take(0_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>());
-BOOST_HANA_CONSTEXPR_CHECK(take(1_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1));
-BOOST_HANA_CONSTEXPR_CHECK(take(2_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1, '2'));
-BOOST_HANA_CONSTEXPR_CHECK(take(3_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1, '2', 3.3));
-BOOST_HANA_CONSTEXPR_CHECK(take(4_c, make<Tuple>(1, '2', 3.3)) == make<Tuple>(1, '2', 3.3));
+BOOST_HANA_CONSTANT_CHECK( take(make_tuple(1, '2', 3.3), 0_c) == make_tuple());
+BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 1_c) == make_tuple(1));
+BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 2_c) == make_tuple(1, '2'));
+BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 3_c) == make_tuple(1, '2', 3.3));
+BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 4_c) == make_tuple(1, '2', 3.3));
 //! [take]
 
 }{
 
 //! [take_c]
-BOOST_HANA_CONSTEXPR_CHECK(take_c<2>(make<Tuple>(1, '2', 3.3)) == make<Tuple>(1, '2'));
+BOOST_HANA_CONSTEXPR_CHECK(take_c<2>(make_tuple(1, '2', 3.3)) == make_tuple(1, '2'));
 //! [take_c]
 
 }{

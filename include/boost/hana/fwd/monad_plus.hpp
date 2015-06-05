@@ -378,47 +378,46 @@ namespace boost { namespace hana {
     //! Combine a monadic structure with itself `n` times.
     //! @relates MonadPlus
     //!
-    //! Given a non-negative number `n` and a monadic structure `xs`,
+    //! Given a monadic structure `xs` and a non-negative number `n`,
     //! `cycle` returns a new monadic structure which is the result of
     //! combining `xs` with itself `n` times using the `concat` operation.
     //! In other words,
     //! @code
-    //!     cycle(n, xs) == concat(xs, concat(xs, ... concat(xs, xs)))
+    //!     cycle(xs, n) == concat(xs, concat(xs, ... concat(xs, xs)))
     //!                                       // ^^^^^ n times total
     //! @endcode
     //!
     //! Also note that since `concat` is required to be associative, we
     //! could also have written
     //! @code
-    //!     cycle(n, xs) == concat(concat(... concat(xs, xs), xs), xs)
+    //!     cycle(xs, n) == concat(concat(... concat(xs, xs), xs), xs)
     //!                               // ^^^^^ n times total
     //! @endcode
     //!
     //! If `n` is zero, then the identity of `concat`, `empty`, is returned.
     //! In the case of sequences, this boils down to returning a sequence
-    //! which containes `n` copies of itself; for other models it might
-    //! differ.
+    //! containing `n` copies of itself; for other models it might differ.
     //!
     //!
     //! Signature
     //! ---------
     //! Given a Constant `C` and a MonadPlus `M`, the signature is
-    //! @f$ \mathrm{cycle} : C \times M(T) \to M(T) @f$.
+    //! @f$ \mathrm{cycle} : M(T) \times C \to M(T) @f$.
+    //!
+    //! @param xs
+    //! A monadic structure to combine with itself a certain number of times.
     //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of times to combine the monadic structure with itself.
     //! If `n` is zero, `cycle` returns `empty`.
     //!
-    //! @param xs
-    //! A monadic structure to combine with itself a certain number of times.
-    //!
     //!
     //! Example
     //! -------
     //! @snippet example/monad_plus.cpp cycle
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto cycle = [](auto&& n, auto&& xs) -> decltype(auto) {
+    constexpr auto cycle = [](auto&& xs, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -426,15 +425,15 @@ namespace boost { namespace hana {
     struct cycle_impl;
 
     struct _cycle {
-        template <typename N, typename Xs>
-        constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
-            "hana::cycle(n, xs) requires xs to be a MonadPlus");
+            "hana::cycle(xs, n) requires xs to be a MonadPlus");
         #endif
             return cycle_impl<typename datatype<Xs>::type>::apply(
-                static_cast<N&&>(n),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<N&&>(n)
             );
         }
     };
@@ -565,13 +564,13 @@ namespace boost { namespace hana {
     //! `n` times.
     //! @relates MonadPlus
     //!
-    //! Given a non-negative number `n`, a value `x` and a monadic data type
+    //! Given a value `x`, a non-negative number `n` and a monadic data type
     //! `M`, `repeat` creates a new monadic structure which is the result of
     //! combining `x` with itself `n` times inside the monadic structure.
     //! In other words, `repeat` simply `lift`s `x` into the monadic structure,
     //! and then combines that with itself `n` times:
     //! @code
-    //!     repeat<M>(n, x) == cycle(n, lift<M>(x))
+    //!     repeat<M>(x, n) == cycle(lift<M>(x), n)
     //! @endcode
     //!
     //! If `n` is zero, then the identity of the `concat` operation is returned.
@@ -582,20 +581,20 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a Constant `C` and MonadPlus `M`, the signature is
-    //! @f$ \mathrm{repeat}_M : C \times T \to M(T) @f$.
+    //! @f$ \mathrm{repeat}_M : T \times C \to M(T) @f$.
     //!
     //! @tparam M
     //! The data type of the returned monadic structure. It must be a
     //! model of the MonadPlus concept.
     //!
+    //! @param x
+    //! The value to lift into a monadic structure and then combine with
+    //! itself.
+    //!
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of times to combine `lift<M>(x)` with itself. If `n == 0`,
     //! then `repeat` returns `empty<M>()`.
-    //!
-    //! @param x
-    //! The value to lift into a monadic structure and then combine with
-    //! itself.
     //!
     //!
     //! Example
@@ -603,7 +602,7 @@ namespace boost { namespace hana {
     //! @snippet example/monad_plus.cpp repeat
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto repeat = [](auto&& n, auto&& x) -> decltype(auto) {
+    constexpr auto repeat = [](auto&& x, auto&& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -614,12 +613,12 @@ namespace boost { namespace hana {
     struct _repeat {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<MonadPlus, M>{},
-        "hana::repeat<M>(n, x) requires M to be a MonadPlus");
+        "hana::repeat<M>(x, n) requires M to be a MonadPlus");
 #endif
-        template <typename N, typename X>
-        constexpr decltype(auto) operator()(N&& n, X&& x) const {
-            return repeat_impl<M>::apply(static_cast<N&&>(n),
-                                         static_cast<X&&>(x));
+        template <typename X, typename N>
+        constexpr decltype(auto) operator()(X&& x, N&& n) const {
+            return repeat_impl<M>::apply(static_cast<X&&>(x),
+                                         static_cast<N&&>(n));
         }
     };
 
@@ -692,10 +691,10 @@ namespace boost { namespace hana {
     //! Inserts a value after each element of a monadic structure.
     //! @relates MonadPlus
     //!
-    //! Given a value (called the suffix) `z` and a monadic structure `xs`,
-    //! `suffix` returns a new monadic structure which is equivalent to
+    //! Given a monadic structure `xs` and a value `z` (called the suffix),
+    //! `suffix` returns a new monadic structure such that
     //! @code
-    //!     suffix(z, xs) == flatten(transform(xs, [](auto x) {
+    //!     suffix(xs, z) == flatten(transform(xs, [](auto x) {
     //!         return concat(lift<M>(x), lift<M>(z));
     //!     }))
     //! @endcode
@@ -713,21 +712,21 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a MonadPlus `M`, the signature is
-    //! @f$ \mathrm{suffix} : T \times M(T) \to M(T) @f$.
+    //! @f$ \mathrm{suffix} : M(T) \times T \to M(T) @f$.
+    //!
+    //! @param xs
+    //! A monadic structure.
     //!
     //! @param z
     //! A value (the suffix) to insert after each element of a monadic
     //! structure.
-    //!
-    //! @param xs
-    //! A monadic structure.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/monad_plus.cpp suffix
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto suffix = [](auto&& z, auto&& xs) -> decltype(auto) {
+    constexpr auto suffix = [](auto&& xs, auto&& z) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -735,15 +734,15 @@ namespace boost { namespace hana {
     struct suffix_impl;
 
     struct _suffix {
-        template <typename Z, typename Xs>
-        constexpr decltype(auto) operator()(Z&& z, Xs&& xs) const {
+        template <typename Xs, typename Z>
+        constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<MonadPlus, typename datatype<Xs>::type>{},
             "hana::suffix(z, xs) requires xs to be a MonadPlus");
 #endif
             return suffix_impl<typename datatype<Xs>::type>::apply(
-                static_cast<Z&&>(z),
-                static_cast<Xs&&>(xs)
+                static_cast<Xs&&>(xs),
+                static_cast<Z&&>(z)
             );
         }
     };

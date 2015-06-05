@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/fix.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functional/placeholder.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
@@ -31,25 +31,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace cppcon {
-    namespace detail {
-        auto remove_at = [](auto n, auto xs) {
-            using namespace boost::hana;
-            using boost::hana::size_t;
-            using L = datatype_t<decltype(xs)>;
-            auto with_indices = zip(xs, to<L>(range(size_t<0>, length(xs))));
-            auto removed = filter(with_indices, compose(n != _, last));
-            return transform(removed, head);
-        };
-    }
-
     auto det = boost::hana::fix([](auto det, auto&& m) -> decltype(auto) {
         using namespace boost::hana;
         using boost::hana::size_t;
         auto matrix_minor = [=](auto&& m, auto i, auto j) -> decltype(auto) {
             return det(unpack(
                 transform(
-                    detail::remove_at(i, rows(std::forward<decltype(m)>(m))),
-                    partial(detail::remove_at, j)
+                    remove_at(rows(std::forward<decltype(m)>(m)), i),
+                    partial(flip(remove_at), j)
                 ),
                 matrix
             ));

@@ -35,15 +35,15 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Applicatives>
         TestApplicative(Applicatives applicatives) {
-            auto functions1 = hana::take.at_most(hana::int_<3>,
+            auto functions1 = hana::take.at_most(
             hana::transform(applicatives, [](auto xs) {
                 return hana::transform(xs, hana::curry<2>(test::_injection<0>{}));
-            }));
+            }), hana::int_<3>);
 
-            auto functions2 = hana::take.at_most(hana::int_<3>,
+            auto functions2 = hana::take.at_most(
             hana::transform(applicatives, [](auto xs) {
                 return hana::transform(xs, hana::curry<2>(test::_injection<1>{}));
-            }));
+            }), hana::int_<3>);
 
             // identity
             {

@@ -366,21 +366,21 @@ namespace boost { namespace hana {
     template <typename S, bool condition>
     struct remove_at_impl<S, when<condition>> : default_ {
         struct remove_at_helper {
-            template <typename N, typename Xs>
-            constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            template <typename Xs, typename N>
+            constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
                 return hana::prepend(
                     hana::head(xs),
-                    remove_at_impl::apply(hana::pred(n), hana::tail(xs))
+                    remove_at_impl::apply(hana::tail(xs), hana::pred(n))
                 );
             }
         };
 
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N&& n, Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N&& n) {
             using I = typename datatype<N>::type;
             return hana::eval_if(hana::equal(n, zero<I>()),
                 hana::lazy(hana::tail)(xs),
-                hana::lazy(remove_at_helper{})(n, xs)
+                hana::lazy(remove_at_helper{})(xs, n)
             );
         }
     };
@@ -392,7 +392,7 @@ namespace boost { namespace hana {
     struct _remove_at_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::remove_at(size_t<n>, static_cast<Xs&&>(xs)); }
+        { return hana::remove_at(static_cast<Xs&&>(xs), size_t<n>); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -547,8 +547,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename From, typename To>
         static constexpr decltype(auto)
         apply(Xs&& xs, From const& from, To const& to) {
-            return hana::take(hana::minus(to, from),
-                    hana::drop(static_cast<Xs&&>(xs), from));
+            return hana::take(hana::drop(static_cast<Xs&&>(xs), from),
+                              hana::minus(to, from));
         }
     };
 
@@ -695,12 +695,12 @@ namespace boost { namespace hana {
     namespace sequence_detail {
         template <typename TakeHelper>
         struct take_helper {
-            template <typename N, typename Xs>
-            constexpr decltype(auto) operator()(N&& n, Xs&& xs) const {
+            template <typename Xs, typename N>
+            constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
                 return hana::prepend(hana::head(xs),
                         TakeHelper::apply(
-                            hana::pred(static_cast<N&&>(n)),
-                            hana::tail(xs)));
+                            hana::tail(xs),
+                            hana::pred(static_cast<N&&>(n))));
             }
         };
     }
@@ -710,11 +710,13 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct take_exactly_impl<S, when<condition>> : default_ {
-        template <typename N, typename Xs>
-        static constexpr auto apply(N n, Xs xs) {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const& n) {
             return hana::eval_if(hana::equal(n, size_t<0>),
                 hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::take_helper<take_exactly_impl>{})(n, xs)
+                hana::lazy(sequence_detail::take_helper<take_exactly_impl>{})(
+                    static_cast<Xs&&>(xs), n
+                )
             );
         }
     };
@@ -727,12 +729,12 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct take_at_most_impl<S, when<condition>> : default_ {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N n, Xs xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             return hana::eval_if(
                 hana::or_(hana::equal(n, size_t<0>), hana::is_empty(xs)),
                 hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::take_helper<take_at_most_impl>{})(n, xs)
+                hana::lazy(sequence_detail::take_helper<take_at_most_impl>{})(xs, n)
             );
         }
     };
@@ -744,7 +746,7 @@ namespace boost { namespace hana {
     struct _take_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            return hana::take(size_t<n>, static_cast<Xs&&>(xs));
+            return hana::take(static_cast<Xs&&>(xs), size_t<n>);
         }
     };
 
@@ -962,7 +964,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(F&& f, Xs&& ...xs) {
             auto min = hana::minimum(hana::make<Tuple>(hana::length(xs)...));
             return zip.unsafe.with(static_cast<F&&>(f),
-                hana::take(min, static_cast<Xs&&>(xs))...
+                hana::take(static_cast<Xs&&>(xs), min)...
             );
         }
     };

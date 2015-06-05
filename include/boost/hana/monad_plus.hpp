@@ -141,8 +141,8 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct cycle_impl<M, when<condition>> : default_ {
-        template <typename N, typename Xs>
-        static constexpr decltype(auto) apply(N const&, Xs const& xs) {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs const& xs, N const&) {
             constexpr detail::std::size_t n = hana::value<N>();
             return mdetail::cycle_helper<M, n>::apply(xs);
         }
@@ -186,10 +186,10 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct repeat_impl<M, when<condition>> : default_ {
-        template <typename N, typename X>
-        static constexpr decltype(auto) apply(N&& n, X&& x) {
-            return hana::cycle(static_cast<N&&>(n),
-                               hana::lift<M>(static_cast<X&&>(x)));
+        template <typename X, typename N>
+        static constexpr decltype(auto) apply(X&& x, N&& n) {
+            return hana::cycle(hana::lift<M>(static_cast<X&&>(x)),
+                               static_cast<N&&>(n));
         }
     };
 
@@ -216,8 +216,8 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct suffix_impl<M, when<condition>> : default_ {
-        template <typename Z, typename Xs>
-        static constexpr decltype(auto) apply(Z&& z, Xs&& xs) {
+        template <typename Xs, typename Z>
+        static constexpr decltype(auto) apply(Xs&& xs, Z&& z) {
             return hana::chain(static_cast<Xs&&>(xs),
                 hana::partial(hana::flip(prepend),
                               hana::lift<M>(static_cast<Z&&>(z))));

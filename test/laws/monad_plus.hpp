@@ -300,73 +300,73 @@ namespace boost { namespace hana { namespace test {
             // cycle
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<0>, list()),
+                cycle(list(), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<1>, list()),
+                cycle(list(), size_t<1>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<2>, list()),
+                cycle(list(), size_t<2>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<3>, list()),
+                cycle(list(), size_t<3>),
                 list()
             ));
 
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<0>, list(eq<0>{})),
+                cycle(list(eq<0>{}), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<1>, list(eq<0>{})),
+                cycle(list(eq<0>{}), size_t<1>),
                 list(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<2>, list(eq<0>{})),
+                cycle(list(eq<0>{}), size_t<2>),
                 list(eq<0>{}, eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<3>, list(eq<0>{})),
+                cycle(list(eq<0>{}), size_t<3>),
                 list(eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<0>, list(eq<0>{}, eq<1>{})),
+                cycle(list(eq<0>{}, eq<1>{}), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<1>, list(eq<0>{}, eq<1>{})),
+                cycle(list(eq<0>{}, eq<1>{}), size_t<1>),
                 list(eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<2>, list(eq<0>{}, eq<1>{})),
+                cycle(list(eq<0>{}, eq<1>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{}, eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<3>, list(eq<0>{}, eq<1>{})),
+                cycle(list(eq<0>{}, eq<1>{}), size_t<3>),
                 list(eq<0>{}, eq<1>{}, eq<0>{}, eq<1>{}, eq<0>{}, eq<1>{})
             ));
 
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<0>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                cycle(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<1>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                cycle(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<1>),
                 list(eq<0>{}, eq<1>{}, eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<2>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                cycle(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<0>{}, eq<1>{}, eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                cycle(size_t<3>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                cycle(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<3>),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<0>{}, eq<1>{}, eq<2>{}, eq<0>{}, eq<1>{}, eq<2>{})
             ));
 
@@ -501,32 +501,32 @@ namespace boost { namespace hana { namespace test {
             // repeat
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<0>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<0>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<1>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<1>),
                 list(eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<2>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<2>),
                 list(eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<3>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<3>),
                 list(eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<4>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<4>),
                 list(eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(size_t<5>, eq<0>{}),
+                repeat<S>(eq<0>{}, size_t<5>),
                 list(eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
@@ -564,27 +564,27 @@ namespace boost { namespace hana { namespace test {
             // suffix
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                suffix(z, list()),
+                suffix(list(), z),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                suffix(z, list(eq<0>{})),
+                suffix(list(eq<0>{}), z),
                 list(eq<0>{}, z)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                suffix(z, list(eq<0>{}, eq<1>{})),
+                suffix(list(eq<0>{}, eq<1>{}), z),
                 list(eq<0>{}, z, eq<1>{}, z)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                suffix(z, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                suffix(list(eq<0>{}, eq<1>{}, eq<2>{}), z),
                 list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                suffix(z, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                suffix(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), z),
                 list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{}, z)
             ));
         }

@@ -266,54 +266,55 @@ namespace boost { namespace hana { namespace test {
             auto take = hana::take.at_most;
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<0>, list()),
+                take(list(), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<1>, list()),
+                take(list(), size_t<1>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<2>, list()),
+                take(list(), size_t<2>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<0>, list(eq<0>{})),
+                take(list(eq<0>{}), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<1>, list(eq<0>{})),
+                take(list(eq<0>{}), size_t<1>),
                 list(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<2>, list(eq<0>{})),
+                take(list(eq<0>{}), size_t<2>),
                 list(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<3>, list(eq<0>{})),
+                take(list(eq<0>{}), size_t<3>),
                 list(eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<0>, list(eq<0>{}, eq<1>{})),
+                take(list(eq<0>{}, eq<1>{}), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<1>, list(eq<0>{}, eq<1>{})),
+                take(list(eq<0>{}, eq<1>{}), size_t<1>),
                 list(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<2>, list(eq<0>{}, eq<1>{})),
+                take(list(eq<0>{}, eq<1>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<3>, list(eq<0>{}, eq<1>{})),
+                take(list(eq<0>{}, eq<1>{}), size_t<3>),
                 list(eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                take(size_t<10>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{},  eq<4>{},  eq<5>{},  eq<6>{},
-                                      eq<7>{}, eq<8>{}, eq<9>{}, eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{})),
+                take(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{},  eq<4>{},  eq<5>{},  eq<6>{},
+                          eq<7>{}, eq<8>{}, eq<9>{}, eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
+                    size_t<10>),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
             ));
             }
@@ -325,37 +326,37 @@ namespace boost { namespace hana { namespace test {
                 auto take = hana::take.exactly;
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<0>, list()),
+                    take(list(), size_t<0>),
                     list()
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<0>, list(eq<0>{})),
+                    take(list(eq<0>{}), size_t<0>),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<1>, list(eq<0>{})),
+                    take(list(eq<0>{}), size_t<1>),
                     list(eq<0>{})
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<0>, list(eq<0>{}, eq<1>{})),
+                    take(list(eq<0>{}, eq<1>{}), size_t<0>),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<1>, list(eq<0>{}, eq<1>{})),
+                    take(list(eq<0>{}, eq<1>{}), size_t<1>),
                     list(eq<0>{})
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<2>, list(eq<0>{}, eq<1>{})),
+                    take(list(eq<0>{}, eq<1>{}), size_t<2>),
                     list(eq<0>{}, eq<1>{})
                 ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(size_t<10>,
-                        list(eq<0>{},  eq<1>{},  eq<2>{},  eq<3>{}, eq<4>{},
-                             eq<5>{},  eq<6>{},  eq<7>{},  eq<8>{}, eq<9>{},
-                             eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{})),
+                    take(list(eq<0>{},  eq<1>{},  eq<2>{},  eq<3>{}, eq<4>{},
+                              eq<5>{},  eq<6>{},  eq<7>{},  eq<8>{}, eq<9>{},
+                              eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
+                         size_t<10>),
                     list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{},
                          eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
                 ));
@@ -365,67 +366,67 @@ namespace boost { namespace hana { namespace test {
             // remove_at
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<0>, list(eq<0>{})),
+                remove_at(list(eq<0>{}), size_t<0>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<0>, list(eq<0>{}, eq<1>{})),
+                remove_at(list(eq<0>{}, eq<1>{}), size_t<0>),
                 list(eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<1>, list(eq<0>{}, eq<1>{})),
+                remove_at(list(eq<0>{}, eq<1>{}), size_t<1>),
                 list(eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<0>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<0>),
                 list(eq<1>{}, eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<1>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<1>),
                 list(eq<0>{}, eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<2>, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<0>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<0>),
                 list(eq<1>{}, eq<2>{}, eq<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<1>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<1>),
                 list(eq<0>{}, eq<2>{}, eq<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<2>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{}, eq<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<3>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<3>),
                 list(eq<0>{}, eq<1>{}, eq<2>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<0>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<0>),
                 list(eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<1>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<1>),
                 list(eq<0>{}, eq<2>{}, eq<3>{}, eq<4>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<2>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<2>),
                 list(eq<0>{}, eq<1>{}, eq<3>{}, eq<4>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<3>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<3>),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<4>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                remove_at(size_t<4>, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})),
+                remove_at(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<4>),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
             ));
 

@@ -117,7 +117,7 @@ int main() {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     lvalue[size_t<0>],
-                    at(size_t<0>, lvalue)
+                    at(lvalue, size_t<0>)
                 ));
             }
 
@@ -130,7 +130,7 @@ int main() {
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     const_lvalue[size_t<0>],
-                    at(size_t<0>, const_lvalue)
+                    at(const_lvalue, size_t<0>)
                 ));
             }
 
