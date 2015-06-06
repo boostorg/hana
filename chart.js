@@ -31,6 +31,10 @@ Distributed under the Boost Software License, Version 1.0.
       options.chart = { zoomType: 'xy' };
     }
 
+    options.plotOptions = options.plotOptions || {};
+    options.plotOptions.series = options.plotOptions.series || {};
+    options.plotOptions.series.marker = options.plotOptions.series.marker || { enabled: false };
+
     if (options.title.x == undefined) {
       options.title.x = -20; // center
     }

@@ -8,6 +8,7 @@ var NAVTREE =
         [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
       ] ],
       [ "Quick start", "index.html#tutorial-quickstart", [
+        [ "A real world example", "index.html#tutorial-quickstart-any", null ],
         [ "Cheatsheet", "index.html#tutorial-quickstart-cheatsheet", null ]
       ] ],
       [ "Assertions", "index.html#tutorial-assert", null ],
@@ -90,8 +91,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "add__rvalue__reference_8hpp.html",
-"index.html#tutorial-containers-types",
-"structboost_1_1hana_1_1Range.html"
+"index.html#tutorial-containers",
+"structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

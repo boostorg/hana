@@ -139,7 +139,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-quadrants-about">What is this library about?</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-quickstart">Quick start</a><ul><li class="level2"><a href="#tutorial-quickstart-cheatsheet">Cheatsheet</a></li>
+<li class="level1"><a href="#tutorial-quickstart">Quick start</a><ul><li class="level2"><a href="#tutorial-quickstart-any">A real world example</a></li>
+<li class="level2"><a href="#tutorial-quickstart-cheatsheet">Cheatsheet</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-assert">Assertions</a></li>
@@ -280,10 +281,88 @@ What is this library about?</h2>
 <h1><a class="anchor" id="tutorial-quickstart"></a>
 Quick start</h1>
 <hr/>
-<p> This tutorial assumes the reader is already familiar with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
+<p> The goal of this section is to introduce the main concepts of the library from a very high level and at a fairly rapid pace; don't worry if you don't understand everything that's about to be thrown at you. However, this tutorial assumes the reader is already at least <em>familiar</em> with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes that the above lines are present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. The goal of this section is to introduce the main concepts of the library from a very high level. To do so, we will proceed by example and implement a kind of <code>switch</code> statement able to process <code>boost::any</code>s. Given a <code>boost::any</code>, the goal is to dispatch to the function associated to the dynamic type of the <code>any</code>:</p>
+</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes the above lines to be present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own tuple and <code>make_tuple</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> animals = make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
+</div><!-- fragment --><p> This creates a tuple, which is like an array, except that it can hold elements with different types. Containers that can hold elements with different types such as this are called heterogeneous containers. While the standard library provides very few operations to manipulate <code>std::tuple</code>s, Hana provides several operations and algorithms to manipulate its own tuples:</p>
+<div class="fragment"><div class="line"><span class="comment">// Access tuple elements with operator[] instead of std::get.</span></div>
+<div class="line">Cat garfield = animals[1_c];</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Perform high level algorithms on tuples (this is like std::transform)</span></div>
+<div class="line"><span class="keyword">auto</span> names = transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">  <span class="keywordflow">return</span> a.name;</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line">assert(reverse(names) == make_tuple(<span class="stringliteral">&quot;Snoopy&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Nemo&quot;</span>));</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>1_c</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user-defined literal</a> creating a <a class="el" href="index.html#tutorial-integral">compile-time number</a>.</dd></dl>
+<p>Notice how we pass a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambda</a> to <code>transform</code>; this is required because the lambda will first be called with a <code>Fish</code>, then a <code>Cat</code>, and finally a <code>Dog</code>, which all have different types. Hana provides most of the algorithms provided by the C++ standard library, except they work on tuples and related heterogeneous containers instead of <code>std::vector</code> &amp; friends. In addition to working with heterogeneous values, Hana makes it possible to perform type-level computations with a natural syntax, all at compile-time and with no overhead whatsoever. This compiles and does just what you would expect:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> animal_types = make_tuple(type&lt;Fish*&gt;, type&lt;Cat&amp;&gt;, type&lt;Dog&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> no_pointers = remove_if(animal_types, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">  <span class="keywordflow">return</span> traits::is_pointer(a);</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line">static_assert(no_pointers == make_tuple(type&lt;Cat&amp;&gt;, type&lt;Dog&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>type&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding an object representing a type for Hana. This is explained in the section on <a class="el" href="index.html#tutorial-type">type computations</a>.</dd></dl>
+<p>In addition to heterogeneous and compile-time sequences, Hana provides several features to make your metaprogramming nightmares a thing of the past. For example, one can check for the existence of a struct member with one easy line instead of relying on <a href="http://stackoverflow.com/a/257382/627587">clunky SFINAE hacks</a>:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_name = is_valid([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.name) { });</div>
+<div class="line"></div>
+<div class="line">static_assert(has_name(garfield), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> Writing a serialization library? Stop crying, we've got you covered. Reflection can be added to user-defined types very easily. This allows iterating over the members of a user-defined type, querying members with a programmatic interface and much more, without any runtime overhead:</p>
+<div class="fragment"><div class="line"><span class="comment">// 1. Give introspection capabilities to &#39;Person&#39;</span></div>
+<div class="line"><span class="keyword">struct </span>Person {</div>
+<div class="line">  BOOST_HANA_DEFINE_STRUCT(Person,</div>
+<div class="line">    (std::string, name),</div>
+<div class="line">    (<span class="keywordtype">int</span>, age)</div>
+<div class="line">  );</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// 2. Write a generic serializer (bear with std::ostream for the example)</span></div>
+<div class="line"><span class="keyword">auto</span> serialize = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; object) {</div>
+<div class="line">  for_each(members(<span class="keywordtype">object</span>), [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">    os &lt;&lt; member &lt;&lt; std::endl;</div>
+<div class="line">  });</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// 3. Use it</span></div>
+<div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
+<div class="line">serialize(std::cout, john);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// output:</span></div>
+<div class="line"><span class="comment">// John</span></div>
+<div class="line"><span class="comment">// 30</span></div>
+</div><!-- fragment --><p> That's cool, but I can already hear you complaining about incomprehensible error messages. However, it turns out Hana was built for humans, not professional template metaprogrammers, and this shows. Let's intentionally screw up and see what kind of mess is thrown at us. First, the mistake:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> serialize = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; object) {</div>
+<div class="line">  for_each(os, [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">    <span class="comment">//     ^^ oopsie daisy!</span></div>
+<div class="line">    os &lt;&lt; member &lt;&lt; std::endl;</div>
+<div class="line">  });</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> Now, the punishment:</p>
+<div class="fragment"><div class="line">error: static_assert failed <span class="stringliteral">&quot;hana::for_each(xs, f) requires xs to be Foldable&quot;</span></div>
+<div class="line">            static_assert(_models&lt;Foldable, S&gt;{},</div>
+<div class="line">            ^             ~~~~~~~~~~~~~~~~~~~~~~</div>
+<div class="line">note: in instantiation of <span class="keyword">function</span> <span class="keyword">template</span> specialization</div>
+<div class="line">      <span class="stringliteral">&#39;boost::hana::_for_each::operator()&lt;</span></div>
+<div class="line"><span class="stringliteral">        std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt; &amp;,</span></div>
+<div class="line"><span class="stringliteral">        (lambda at [snip]/example/tutorial/quickstart.cpp:70:16)&gt;&#39;</span> requested here</div>
+<div class="line">  for_each(os, [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">  ^</div>
+<div class="line">note: in instantiation of <span class="keyword">function</span> <span class="keyword">template</span> specialization</div>
+<div class="line">      <span class="stringliteral">&#39;main()::(anonymous class)::operator()&lt;Person&gt;&#39;</span> requested here</div>
+<div class="line">serialize(std::cout, john);</div>
+<div class="line">         ^</div>
+</div><!-- fragment --><p>Not that bad, right? However, since small examples are very good to show off without actually doing something useful, let's examine a real world example.</p>
+<h2><a class="anchor" id="tutorial-quickstart-any"></a>
+A real world example</h2>
+<p>In this section our goal will be to implement a kind of <code>switch</code> statement able to process <code>boost::any</code>s. Given a <code>boost::any</code>, the goal is to dispatch to the function associated to the dynamic type of the <code>any</code>:</p>
 <div class="fragment"><div class="line">boost::any a = <span class="charliteral">&#39;x&#39;</span>;</div>
 <div class="line">std::string r = switch_(a)(</div>
 <div class="line">  case_&lt;int&gt;([](<span class="keyword">auto</span> i) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;int: &quot;</span>s + std::to_string(i); }),</div>
@@ -312,15 +391,14 @@ Quick start</h1>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>_default;</div>
 <div class="line"><span class="keyword">auto</span> default_ = case_&lt;_default&gt;;</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>type&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding an object representing a type for Hana. The details are explained in the section on <a class="el" href="index.html#tutorial-type">type computations</a>.</dd></dl>
-<p>To provide the interface we showed above, <code>switch_</code> will have to return a function taking the cases. In other words, <code>switch_(a)</code> must be a function taking any number of cases (which are <code>std::pair</code>s), and performing the logic to dispatch <code>a</code> to the right function. This can easily be achieved by having <code>switch_</code> return a C++14 generic lambda:</p>
+</div><!-- fragment --><p> To provide the interface we showed above, <code>switch_</code> will have to return a function taking the cases. In other words, <code>switch_(a)</code> must be a function taking any number of cases (which are <code>std::pair</code>s), and performing the logic to dispatch <code>a</code> to the right function. This can easily be achieved by having <code>switch_</code> return a C++14 generic lambda:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
 <div class="line">    <span class="comment">// ...</span></div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Since parameter packs are not very flexible, we put the cases into a tuple. If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own <code>tuple</code> and <code>make_tuple</code>, and this is what we're using here:</p>
+</div><!-- fragment --><p>However, since parameter packs are not very flexible, we'll put the cases into a tuple so we can manipulate them:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
@@ -356,7 +434,7 @@ Quick start</h1>
 <div class="line">    <span class="comment">// ...</span></div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Notice how we can use <code>static_assert</code> on the result of the comparison with <code>nothing</code>, even though <code>default_</code> is a non-<code>constexpr</code> object? Boldly, Hana makes sure that no information that's known at compile-time is lost to the runtime, which is clearly the case of the presence of a <code>default_</code> case. The next step is to gather the set of non-default cases. To achieve this, we use the <code>filter</code> algorithm, effectively filters a sequence with a given predicate, keeping only the elements satisfying the predicate:</p>
+</div><!-- fragment --><p>Notice how we can use <code>static_assert</code> on the result of the comparison with <code>nothing</code>, even though <code>default_</code> is a non-<code>constexpr</code> object? Boldly, Hana makes sure that no information that's known at compile-time is lost to the runtime, which is clearly the case of the presence of a <code>default_</code> case. The next step is to gather the set of non-default cases. To achieve this, we use the <code>filter</code> algorithm, which keeps only the elements of the sequence satisfying the predicate:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
@@ -453,9 +531,15 @@ Quick start</h1>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> That's it for the quick start! This example only introduced a couple of useful algorithms (<code>find_if</code>, <code>filter</code>, <code>unpack</code>) and heterogeneous containers (<code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>), but rest assured that there is much more. The next sections of the tutorial gradually introduce general concepts pertaining to Hana in a friendly way, but you may use the following cheatsheet for quick reference if you want to start coding right away. This cheatsheet contains the most frequently used algorithms, along with a short description of what it each algorithm does. For the record, always keep in mind that the algorithms return their result as a new container and no in-place mutation is ever performed, which is detailed in the section on <a class="el" href="index.html#tutorial-algorithms">algorithms</a>.</p>
+</div><!-- fragment --><p> That's it for the quick start! This example only introduced a couple of useful algorithms (<code>find_if</code>, <code>filter</code>, <code>unpack</code>) and heterogeneous containers (<code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Represents an optional value. ">Maybe</a></code>), but rest assured that there is much more. The next sections of the tutorial gradually introduce general concepts pertaining to Hana in a friendly way, but you may use the following cheatsheet for quick reference if you want to start coding right away. This cheatsheet contains the most frequently used algorithms, along with a short description of what each algorithm does.</p>
 <h2><a class="anchor" id="tutorial-quickstart-cheatsheet"></a>
 Cheatsheet</h2>
+<h3>Remarks</h3>
+<ul>
+<li>Algorithms work on both types and values (see the section on <a class="el" href="index.html#tutorial-type">type computations</a>)</li>
+<li>Algorithms always return their result as a new container; no in-place mutation is ever performed (see the section on <a class="el" href="index.html#tutorial-algorithms">algorithms</a>)</li>
+<li>All algorithms are <code>constexpr</code> function objects</li>
+</ul>
 <table class="doxtable">
 <tr>
 <th align="left">function </th><th align="left">description  </th></tr>
@@ -1466,8 +1550,9 @@ Compile-time performance</h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.including.compile.json"> </div><p>In addition to reduced preprocessing times, Hana uses modern techniques to implement heterogeneous sequences and algorithms in the most compile-time efficient way possible. Before jumping to the compile-time performance of the algorithms, we will have a look at the compile-time cost of creating heterogeneous sequences. Indeed, since we will be presenting algorithms that work on sequences, we must be aware of the cost of creating the sequences themselves, since that will influence the benchmarks for the algorithms. The following chart presents the compile-time cost of creating a sequence of <code>n</code> heterogeneous elements.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.make.compile.json"> </div><dl class="section note"><dt>Note</dt><dd>You can zoom on the chart by selecting an area to zoom into. Also, you can hide a series of points by clicking on it in the legend on the right.</dd></dl>
 <p>The benchmark methodology is to always create the sequences in the most efficient way possible. For Hana, and <code>std::tuple</code>, this simply means using the appropriate <code>make_tuple</code> function. However, for the MPL, this means creating a <code>mpl::vectorN</code> of size up to 20, and then using <code>mpl::push_back</code> to create larger vectors. We use a similar technique for Fusion sequences. The reason for doing so is that Fusion and MPL sequences have fixed size limits, and the techniques used here have been found to be the fastest way to create longer sequences.</p>
-<p>As you can see, Hana's compile-time <em>complexity</em> is better than the alternatives, because its curve is flatter. However, if you look closer at the curves, you will see that the MPL has lower compile-times for small numbers of elements. This is because including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> takes more time than including <code>mpl::vector</code>, and you are witnessing that slowdown by a constant amount. The reason why including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> is slower than including <code>mpl::vector</code> is that Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> includes all the algorithms it can be used with, while <code>mpl::vector</code> only includes the strict minimum. Considering you need to include most of them manually when using the MPL, this constant slowdown will be nonexistent in real code and Hana's approach just makes it less painful for the programmer.</p>
-<p>You can also see that creating sequences has a non-negligible cost. Actually, this is really the most expensive part, as you will see in the following charts showing the compile-time performance of algorithms. When you look at the charts here and elsewhere in the library, keep in mind the cost of merely creating the sequences. Also note that only the most important algorithms will be presented here, but micro benchmarks for compile-time performance are scattered in the reference documentation. Also, the benchmarks we present compare several different libraries. However, since Hana and Fusion can work with values and not only types, comparing their algorithms with type-only libraries like MPL is not really fair. Indeed, Hana and Fusion algorithms are more powerful since they also allow runtime effects to be performed. However, the comparison between Fusion and Hana is fair, because both libraries are just as powerful (strictly speaking). Finally, we can't show benchmarks of the algorithms for <code>std::tuple</code>, because the standard does not provide equivalent algorithms. Of course, we could use Hana's external adapters, but that would not be a faithful comparison.</p>
+<p>For completeness, we also present the compile-time cost of creating a <code>std::array</code> with <code>n</code> elements. However, note that <code>std::array</code> can only hold elements with a single type, so we're comparing apples and oranges here. As you can see, the cost of creating a <code>std::array</code> is constant and essentially inexistent. Hence, while Hana provides improved compile-times over other heterogeneous containers, please stick with normal homogeneous containers if that's all you need for your application; your compile-times will be much faster that way.</p>
+<p>Now, as you can see, Hana's compile-time <em>complexity</em> is better than the other heterogeneous alternatives, because its curve is flatter. However, if you look closer at the curves, you will see that the MPL and <code>std::tuple</code> have lower compile-times for small numbers of elements. This is because including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> takes more time than including <code>mpl::vector</code> or <code>std::tuple</code>, and you are witnessing that slowdown by a constant amount. The reason why including Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> is slower than including <code>std::tuple</code> or <code>mpl::vector</code> is because they both include no functionality whatsoever besides the container itself, while Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> includes all the algorithms it can be used with. For <code>std::tuple</code>, there's also no way of getting more functionality because the standard does not provide it. For <code>mpl::vector</code>, however, you often end up manually including a bunch headers to get the functionality you need, which makes this constant slowdown inexistent in real code and forces you to write huge numbers of includes.</p>
+<p>You can also see that creating sequences has a non-negligible cost. Actually, this is really the most expensive part of doing heterogeneous computations, as you will see in the following charts showing the compile-time performance of algorithms. When you look at the charts here and elsewhere in the library, keep in mind the cost of merely creating the sequences. Also note that only the most important algorithms will be presented here, but micro benchmarks for compile-time performance are scattered in the reference documentation. Also, the benchmarks we present compare several different libraries. However, since Hana and Fusion can work with values and not only types, comparing their algorithms with type-only libraries like MPL is not really fair. Indeed, Hana and Fusion algorithms are more powerful since they also allow runtime effects to be performed. However, the comparison between Fusion and Hana is fair, because both libraries are just as powerful (strictly speaking). Finally, we can't show benchmarks of the algorithms for <code>std::tuple</code>, because the standard does not provide equivalent algorithms. Of course, we could use Hana's external adapters, but that would not be a faithful comparison.</p>
 <p>The first algorithm which is ubiquitous in metaprogramming is <code>transform</code>. It takes a sequence and a function, and returns a new sequence containing the result of applying the function to each element. The following chart presents the compile-time performance of applying <code>transform</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. Also note that we're using the <code>transform</code> equivalent in each library; we're not using the <code>transform</code> algorithm from Hana through the Boost.Fusion adapters, for example, which would probably be less efficient.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.compile.json"> </div><p>You probably also noticed how there are two slightly different curves for Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>. Those curves measure slightly different usage patterns of the <code>transform</code> algorithm. We benchmark the algorithm both on a standard Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> and on a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code> created through <code>hana::tuple_t</code>, and mapping a Hana <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> instead of a regular function. The reason is that it is possible to optimize some algorithms (like <code>transform</code>) when we know we're actually mapping a metafunction on a type sequence. Basically, we can do the whole algorithm at the type level behind the scenes, which is more efficient, but you still get the nice value-level interface.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code>tuple_t</code> is not really optimized right now, so there is no difference between using it and not using it. You should still use <code>tuple_t</code> to create type-only <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">Tuple</a></code>s, as some nice optimizations will be implemented.</dd></dl>

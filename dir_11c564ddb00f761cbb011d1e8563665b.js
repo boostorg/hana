@@ -10,6 +10,7 @@ var dir_11c564ddb00f761cbb011d1e8563665b =
     [ "concepts.hpp", "concepts_8hpp.html", null ],
     [ "create.hpp", "create_8hpp.html", null ],
     [ "dependent_on.hpp", "dependent__on_8hpp.html", null ],
+    [ "dispatch_if.hpp", "dispatch__if_8hpp.html", "dispatch__if_8hpp" ],
     [ "erase_key_fwd.hpp", "erase__key__fwd_8hpp.html", null ],
     [ "generate_integer_sequence.hpp", "generate__integer__sequence_8hpp.html", "generate__integer__sequence_8hpp" ],
     [ "has_common_embedding.hpp", "has__common__embedding_8hpp.html", "has__common__embedding_8hpp" ],

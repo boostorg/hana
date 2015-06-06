@@ -3,6 +3,7 @@ var group__group_details =
     [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "array", "structboost_1_1hana_1_1detail_1_1constexpr___1_1array.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
+    [ "BOOST_HANA_DISPATCH_IF", "group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e", null ],
     [ "by", "group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18", null ],
     [ "closure", "group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2", null ],
     [ "generate_integer_sequence", "group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774", null ],

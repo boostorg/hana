@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"index.html#tutorial-containers":[0,7],
+"index.html#tutorial-containers-creating":[0,7,0],
+"index.html#tutorial-containers-elements":[0,7,1],
 "index.html#tutorial-containers-types":[0,7,2],
 "index.html#tutorial-description":[0,0],
 "index.html#tutorial-ext":[0,10],
@@ -30,7 +33,8 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-performance-runtime":[0,9,1],
 "index.html#tutorial-quadrants-about":[0,1,1],
 "index.html#tutorial-quickstart":[0,2],
-"index.html#tutorial-quickstart-cheatsheet":[0,2,0],
+"index.html#tutorial-quickstart-any":[0,2,0],
+"index.html#tutorial-quickstart-cheatsheet":[0,2,1],
 "index.html#tutorial-rationales":[0,15],
 "index.html#tutorial-rationales-container_types":[0,15,2],
 "index.html#tutorial-rationales-dependencies":[0,15,0],
@@ -44,7 +48,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-type-working":[0,5,2],
 "infix_8hpp.html":[3,0,0,3,10],
 "infix_8hpp.html#ga7bdafba6dc801f1d2d83731ad9714557":[3,0,0,3,10,0],
-"insert__fwd_8hpp.html":[3,0,0,1,13],
+"insert__fwd_8hpp.html":[3,0,0,1,14],
 "integral__c_8hpp.html":[3,0,0,2,0,1,0],
 "integral__constant_8hpp.html":[3,0,0,19],
 "integral__domain_8hpp.html":[3,0,0,20],
@@ -59,7 +63,7 @@ var NAVTREEINDEX1 =
 "iterable_8hpp.html":[3,0,0,21],
 "iterate_8hpp.html":[3,0,0,3,11],
 "iterate_8hpp.html#gad1b8669c022d8675d68e5974451073d1":[3,0,0,3,11,0],
-"keys__fwd_8hpp.html":[3,0,0,1,14],
+"keys__fwd_8hpp.html":[3,0,0,1,15],
 "lazy_8hpp.html":[3,0,0,22],
 "list_8hpp.html":[3,0,0,2,0,0,2],
 "lockstep_8hpp.html":[3,0,0,3,12],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5":[1,0,14,0],
 "structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa":[1,0,14,4],
 "structboost_1_1hana_1_1Pair.html":[1,1,5],
-"structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1],
-"structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682":[1,1,5,0],
-"structboost_1_1hana_1_1Product.html":[1,0,15],
-"structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae":[1,0,15,1],
-"structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9":[1,0,15,0]
+"structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1]
 };

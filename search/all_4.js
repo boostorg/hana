@@ -15,6 +15,7 @@ var searchData=
   ['demux_2ehpp',['demux.hpp',['../demux_8hpp.html',1,'']]],
   ['dependent_5fon_2ehpp',['dependent_on.hpp',['../dependent__on_8hpp.html',1,'']]],
   ['deque_2ehpp',['deque.hpp',['../deque_8hpp.html',1,'']]],
+  ['dispatch_5fif_2ehpp',['dispatch_if.hpp',['../dispatch__if_8hpp.html',1,'']]],
   ['drop',['drop',['../structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2',1,'boost::hana::Iterable']]],
   ['drop_5fc',['drop_c',['../structboost_1_1hana_1_1Iterable.html#a102d3b758946ac60cec3004d70920cab',1,'boost::hana::Iterable']]],
   ['drop_5finto_2ehpp',['drop_into.hpp',['../drop__into_8hpp.html',1,'']]],

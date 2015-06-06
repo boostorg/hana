@@ -16,6 +16,7 @@ var searchData=
   ['boost_5fhana_5fconstexpr_5fassert',['BOOST_HANA_CONSTEXPR_ASSERT',['../group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fcheck',['BOOST_HANA_CONSTEXPR_CHECK',['../group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a',1,'assert.hpp']]],
   ['boost_5fhana_5fdefine_5fstruct',['BOOST_HANA_DEFINE_STRUCT',['../structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fdispatch_5fif',['BOOST_HANA_DISPATCH_IF',['../group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e',1,'dispatch_if.hpp']]],
   ['boost_5fhana_5fruntime_5fassert',['BOOST_HANA_RUNTIME_ASSERT',['../group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2',1,'assert.hpp']]],
   ['boost_5fhana_5fruntime_5fcheck',['BOOST_HANA_RUNTIME_CHECK',['../group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101',1,'assert.hpp']]],
   ['boost_5fhana_5fstring',['BOOST_HANA_STRING',['../structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84',1,'boost::hana::String']]],

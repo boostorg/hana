@@ -131,6 +131,7 @@ $(document).ready(function(){initNavTree('group__group-details.html','');});
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">Details</div>  </div>
@@ -150,6 +151,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1create.html">boost::hana::detail::create&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the generic <code>std::make_xxx</code> pattern for arbitrary <code>xxx</code>s.  <a href="structboost_1_1hana_1_1detail_1_1create.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e">BOOST_HANA_DISPATCH_IF</a>(IMPL, ...)</td></tr>
+<tr class="memdesc:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch to the given implementation method only when a condition is satisfied.  <a href="#ga5de7a0132a80e37c73d544ece1e6dd4e">More...</a><br /></td></tr>
+<tr class="separator:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -179,6 +186,45 @@ template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="memdesc:ga30deee39211913d4f4c2f527b19d8dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="#ga30deee39211913d4f4c2f527b19d8dd2">More...</a><br /></td></tr>
 <tr class="separator:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ga5de7a0132a80e37c73d544ece1e6dd4e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_DISPATCH_IF</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">IMPL, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="dispatch__if_8hpp.html">boost/hana/detail/dispatch_if.hpp</a>&gt;</code></p>
+<b>Value:</b><div class="fragment"><div class="line">::boost::hana::detail::std::conditional_t&lt;                          \</div>
+<div class="line">            (__VA_ARGS__),                                                  \</div>
+<div class="line">            IMPL,                                                           \</div>
+<div class="line">            ::boost::hana::deleted_implementation                           \</div>
+<div class="line">        &gt;                                                                   \</div>
+</div><!-- fragment -->
+<p>Dispatch to the given implementation method only when a condition is satisfied. </p>
+<p>If the condition is satisfied, this macro is equivalent to the type <code>IMPL</code>. Otherwise, it is equivalent to a type with a deleted static function named <code>apply</code>. When a tag-dispatching error happens, the condition should be false and the deleted static function <code>apply</code> will prevent the compiler from generating too much garbage.</p>
+<dl class="section note"><dt>Note</dt><dd>When <code>BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</code> is defined, the condition is always ignored and this macro expands to the implementation only.</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>This must be implemented as a macro, because we don't want the condition to be evaluated at all when <code>BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</code> is defined. </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga1f92c27de855a682eebde5f7d0138d18"></a>
 <div class="memitem">
