@@ -150,17 +150,17 @@ install:
   - (cd llvm/build && cmake .. -DCMAKE_CXX_COMPILER=clang++ && make cxx -j2)
 
   ############################################################################
-  # Install a more recent Doxygen via Linuxbrew
+  # Install a recent Doxygen
   ############################################################################
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz"; fi
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen; fi
-  - if [[ "${DOCUMENTATION}" == "true" ]]; then export PATH=${PWD}/doxygen/bin:${PATH}; fi
+  - DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.9.1.linux.bin.tar.gz"
+  - mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
+  - export PATH=${PWD}/doxygen/bin:${PATH}
 
   ############################################################################
   # Install and use a more recent Ruby and install the gems for the benchmarks
   ############################################################################
-  - if [[ "${BENCHMARKS}" == "true" ]]; then rvm use 2.1 --install --binary --fuzzy; fi
-  - if [[ "${BENCHMARKS}" == "true" ]]; then gem install ruby-progressbar tilt; fi
+  - rvm use 2.1 --install --binary --fuzzy
+  - gem install ruby-progressbar tilt
 
 
 before_script:
