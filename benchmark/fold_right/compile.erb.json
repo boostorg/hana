@@ -20,8 +20,8 @@
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
-      <%# Boost.Fusion 1.58.0 has a bug in reverse_fold %>
-      <% if "@Boost_VERSION@" != "105800" %>
+      <%# Boost.Fusion >= 1.58.0 has a bug in reverse_fold %>
+      <% if "@Boost_VERSION@" == "105700" %>
       , {
         "name": "fusion::vector",
         "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
