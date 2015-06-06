@@ -73,7 +73,7 @@ namespace boost { namespace hana {
     //! - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`
     //! - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
     //! - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
-    //! - Logical: `||`, `&&`, `!`
+    //! - %Logical: `||`, `&&`, `!`
     //! - Member access: `*` (dereference)
     //!
     //!
@@ -216,7 +216,7 @@ namespace boost { namespace hana {
     //! Creates an `IntegralConstant` holding the given compile-time value.
     //! @relates IntegralConstant
     //!
-    //! Specifically, `integral_constant<T, v` is an `IntegralConstant`
+    //! Specifically, `integral_constant<T, v>` is an `IntegralConstant`
     //! holding the compile-time value `v` of an integral type `T`.
     //!
     //!
@@ -288,7 +288,7 @@ namespace boost { namespace hana {
 
     namespace literals {
         //! Creates an `IntegralConstant` from a literal.
-        //! @relates boost::hana::IntegralConstant
+        //! @relatesalso boost::hana::IntegralConstant
         //!
         //! The literal is parsed at compile-time and the result is returned
         //! as a `llong<...>`.

@@ -84,6 +84,9 @@ namespace boost { namespace hana {
 //! @defgroup group-details Details
 //! Implementation details.
 
+//! Namespace containing C++14 user-defined literals provided by Hana.
+namespace literals { }
+
 /*!
 @mainpage User Manual
 

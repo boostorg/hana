@@ -80,7 +80,7 @@ int_<3>.times.with_index([xs](auto index) {
 }{
 
 //! [literals]
-using namespace literals; // contains the _c suffix
+using namespace boost::hana::literals; // contains the _c suffix
 
 BOOST_HANA_CONSTANT_CHECK(1234_c == llong<1234>);
 BOOST_HANA_CONSTANT_CHECK(-1234_c == llong<-1234>);

@@ -126,7 +126,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
     namespace literals {
         //! Creates a compile-time `String` from a string literal.
-        //! @relates boost::hana::String
+        //! @relatesalso boost::hana::String
         //!
         //! The string literal is parsed at compile-time and the result is
         //! returned as a Hana compile-time `string<...>`. This feature is
