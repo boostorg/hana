@@ -143,11 +143,11 @@ $(document).ready(function(){initNavTree('namespaceboost_1_1hana_1_1literals.htm
 Functions</h2></td></tr>
 <tr class="memitem:a85ac3c47d02722a334181aab540e732c"><td class="memTemplParams" colspan="2">template&lt;char... c&gt; </td></tr>
 <tr class="memitem:a85ac3c47d02722a334181aab540e732c"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboost_1_1hana_1_1literals.html#a85ac3c47d02722a334181aab540e732c">operator&quot;&quot;_c</a> ()</td></tr>
-<tr class="memdesc:a85ac3c47d02722a334181aab540e732c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> from a literal.  <a href="#a85ac3c47d02722a334181aab540e732c">More...</a><br /></td></tr>
+<tr class="memdesc:a85ac3c47d02722a334181aab540e732c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> from a literal.  <a href="#a85ac3c47d02722a334181aab540e732c">More...</a><br /></td></tr>
 <tr class="separator:a85ac3c47d02722a334181aab540e732c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a325859c7db2c3f8e6a4bfab5a81a6dcb"><td class="memTemplParams" colspan="2">template&lt;typename CharT , CharT... s&gt; </td></tr>
 <tr class="memitem:a325859c7db2c3f8e6a4bfab5a81a6dcb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceboost_1_1hana_1_1literals.html#a325859c7db2c3f8e6a4bfab5a81a6dcb">operator&quot;&quot;_s</a> ()</td></tr>
-<tr class="memdesc:a325859c7db2c3f8e6a4bfab5a81a6dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code> from a string literal.  <a href="#a325859c7db2c3f8e6a4bfab5a81a6dcb">More...</a><br /></td></tr>
+<tr class="memdesc:a325859c7db2c3f8e6a4bfab5a81a6dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> from a string literal.  <a href="#a325859c7db2c3f8e6a4bfab5a81a6dcb">More...</a><br /></td></tr>
 <tr class="separator:a325859c7db2c3f8e6a4bfab5a81a6dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -168,7 +168,7 @@ template&lt;char... c&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Creates an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> from a literal. </p>
+<p>Creates an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> from a literal. </p>
 <p>The literal is parsed at compile-time and the result is returned as a <code>llong&lt;...&gt;</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>We use <code>llong&lt;...&gt;</code> instead of <code>ullong&lt;...&gt;</code> because using an unsigned type leads to unexpected behavior when doing stuff like <code>-1_c</code>. If we used an unsigned type, <code>-1_c</code> would be something like <code>ullong&lt;-1&gt;</code> which is actually <code>ullong&lt;something huge&gt;</code>.</dd></dl>
 <h2>Example </h2>
@@ -195,7 +195,7 @@ template&lt;typename CharT , CharT... s&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Creates a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Represents a compile-time string. ">String</a></code> from a string literal. </p>
+<p>Creates a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> from a string literal. </p>
 <p>The string literal is parsed at compile-time and the result is returned as a Hana compile-time <code>string&lt;...&gt;</code>. This feature is an extension that is enabled by default; see below for details.</p>
 <dl class="section note"><dt>Note</dt><dd>Only narrow string literals are supported right now; support for fancier types of string literals like wide or UTF-XX might be added in the future if there is a demand for it. See <a href="https://github.com/ldionne/hana/issues/80">this issue</a> if you need this.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This user-defined literal is an extension which requires a special string literal operator that is not part of the standard yet. That operator is supported by both Clang and GCC, and several proposals were made for it to enter C++17. However, since it is not standard, it is disabled by default and defining the <code>BOOST_HANA_CONFIG_ENABLE_STRING_UDL</code> config macro is required to get this operator. Hence, if you want to stay safe, just use the <code>BOOST_HANA_STRING</code> macro instead. If you want to be fast and furious (I do), define <code>BOOST_HANA_CONFIG_ENABLE_STRING_UDL</code>.</dd></dl>

@@ -196,7 +196,7 @@ The minimal complete definition for being a <a class="el" href="structboost_1_1h
 <p>The <code>not_</code> method can not be implemented in a meaningful way for all of those types. For example, one can not cast a pointer type <code>T*</code> to bool and then back again to <code>T*</code> in a meaningful way. With an arithmetic type <code>T</code>, however, it is possible to cast from <code>T</code> to bool and then to <code>T</code> again; the result will be <code>0</code> or <code>1</code> depending on the truth value. If you want to use a pointer type or something similar in a conditional, it is suggested to explicitly convert it to bool by using <code>to&lt;bool&gt;</code>. </p>
 </blockquote>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Operators </h2>
 <p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&amp;&amp;  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a></div>
 <div class="line">||  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a></div>

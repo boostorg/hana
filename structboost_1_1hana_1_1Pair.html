@@ -137,8 +137,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Pair.html','');
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Generic container of two elements. </p>
-<p>A <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> is essentially equivalent to a <code>std::pair</code>, which can also be seen as a 2-element tuple. <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code>s are useful in some contexts where a tuple would be too much, like returning two elements from a function.</p>
+<div class="textblock"><p>Tag representing a generic container of two elements. </p>
+<p>A <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code> is essentially equivalent to a <code>std::pair</code>, which can also be seen as a 2-element tuple. <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code>s are useful in some contexts where a tuple would be too much, like returning two elements from a function.</p>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
@@ -152,7 +152,7 @@ Pairs are ordered as-if they were 2-element tuples, using a lexicographical orde
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, <span class="charliteral">&#39;y&#39;</span>) &lt; <a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(10, <span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Folding a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> is equivalent to folding a 2-element tuple. In other words: <div class="fragment"><div class="line">fold.left(<a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(x, y), s, f) == f(f(s, x), y)</div>
+Folding a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code> is equivalent to folding a 2-element tuple. In other words: <div class="fragment"><div class="line">fold.left(<a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(x, y), s, f) == f(f(s, x), y)</div>
 <div class="line">fold.right(<a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(x, y), s, f) == f(x, f(y, s))</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.left(<a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, 3), 0, plus) == 4);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.right(<a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, 3), 0, minus) == -2);</div>
@@ -167,10 +167,10 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Product.html" titl
 Synopsis of methods</h2></td></tr>
 <tr class="memitem:acee1d72b1cd90c086252939258b59682"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:acee1d72b1cd90c086252939258b59682"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt; Pair &gt;</a></td></tr>
-<tr class="memdesc:acee1d72b1cd90c086252939258b59682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> with the given elements.  <a href="#acee1d72b1cd90c086252939258b59682">More...</a><br /></td></tr>
+<tr class="memdesc:acee1d72b1cd90c086252939258b59682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code> with the given elements.  <a href="#acee1d72b1cd90c086252939258b59682">More...</a><br /></td></tr>
 <tr class="separator:acee1d72b1cd90c086252939258b59682"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bc322b45af2148a413ba45ee8097045"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html">Pair</a>&gt;</td></tr>
-<tr class="memdesc:a1bc322b45af2148a413ba45ee8097045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a>&gt;</code>; provided for convenience.  <a href="#a1bc322b45af2148a413ba45ee8097045">More...</a><br /></td></tr>
+<tr class="memdesc:a1bc322b45af2148a413ba45ee8097045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a>&gt;</code>; provided for convenience.  <a href="#a1bc322b45af2148a413ba45ee8097045">More...</a><br /></td></tr>
 <tr class="separator:a1bc322b45af2148a413ba45ee8097045"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Methods</h2>
@@ -199,7 +199,7 @@ template&lt;&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> {forwarded(first), forwarded(second)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a></code> with the given elements. </p>
+<p>Creates a <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code> with the given elements. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(first(<a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, <span class="charliteral">&#39;x&#39;</span>)) == 1);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(second(<a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
@@ -224,7 +224,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Generic container of two elements. ">Pair</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(1, <span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">make&lt;Pair&gt;</a>(1, <span class="charliteral">&#39;x&#39;</span>));</div>
 </div><!-- fragment -->
