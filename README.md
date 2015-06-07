@@ -207,7 +207,7 @@ Please see [LICENSE.md](LICENSE.md).
 
 <!-- Links -->
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
-[badge.semver]: https://img.shields.io/badge/semver-0.2.0-brightgreen.svg
+[badge.semver]: https://img.shields.io/badge/semver-0.3.0-brightgreen.svg
 [badge.Travis]: https://travis-ci.org/ldionne/hana.svg?branch=master
 [C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org
