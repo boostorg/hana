@@ -172,7 +172,7 @@ struct boost::hana::IntegralConstant&lt; T &gt;</h3>
 <li>Arithmetic: binary <code>+</code>, binary <code>-</code>, <code>/</code>, <code>*</code>, <code>%</code>, unary <code>+</code>, unary <code>-</code></li>
 <li>Bitwise: <code>~</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
 <li>Comparison: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></li>
-<li><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a>: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
+<li>Logical: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
 <li>Member access: <code>*</code> (dereference)</li>
 </ul>
 <h2><code>times</code> function </h2>
@@ -205,7 +205,7 @@ struct boost::hana::IntegralConstant&lt; T &gt;</h3>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[index] == index);</div>
 <div class="line">});</div>
 </div><!-- fragment --><h2>Construction with user-defined literals </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s of type <code>long long</code> can be created with the <code>_c</code> user-defined literal, which is contained in the <code>literals</code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals; <span class="comment">// contains the _c suffix</span></div>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>s of type <code>long long</code> can be created with the <code>_c</code> user-defined literal, which is contained in the <code>literals</code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>; <span class="comment">// contains the _c suffix</span></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == llong&lt;-1234&gt;);</div>
@@ -294,7 +294,7 @@ template&lt;typename T , T v&gt; </div>
 </div><div class="memdoc">
 
 <p>Creates an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> holding the given compile-time value. </p>
-<p>Specifically, <code>integral_constant&lt;T, v</code> is an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> holding the compile-time value <code>v</code> of an integral type <code>T</code>.</p>
+<p>Specifically, <code>integral_constant&lt;T, v&gt;</code> is an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code> holding the compile-time value <code>v</code> of an integral type <code>T</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of the value to hold in the <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Represents a compile-time value of an integral type. ">IntegralConstant</a></code>. It must be an integral type.</td></tr>
@@ -647,7 +647,7 @@ template&lt;char... c&gt; </div>
 <p>The literal is parsed at compile-time and the result is returned as a <code>llong&lt;...&gt;</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>We use <code>llong&lt;...&gt;</code> instead of <code>ullong&lt;...&gt;</code> because using an unsigned type leads to unexpected behavior when doing stuff like <code>-1_c</code>. If we used an unsigned type, <code>-1_c</code> would be something like <code>ullong&lt;-1&gt;</code> which is actually <code>ullong&lt;something huge&gt;</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>literals; <span class="comment">// contains the _c suffix</span></div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>; <span class="comment">// contains the _c suffix</span></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == llong&lt;1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == llong&lt;-1234&gt;);</div>

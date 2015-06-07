@@ -24,5 +24,6 @@ var searchData=
   ['by',['by',['../group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18',1,'boost::hana::detail']]],
   ['by_2ehpp',['by.hpp',['../by_8hpp.html',1,'']]],
   ['by_5ffwd_2ehpp',['by_fwd.hpp',['../by__fwd_8hpp.html',1,'']]],
+  ['literals',['literals',['../namespaceboost_1_1hana_1_1literals.html',1,'boost::hana']]],
   ['operators',['operators',['../namespaceboost_1_1hana_1_1operators.html',1,'boost::hana']]]
 ];

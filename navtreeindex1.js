@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"index.html#tutorial-conclusion-glossary":[0,13,1],
+"index.html#tutorial-conclusion-reference":[0,13,0],
+"index.html#tutorial-conclusion-warning":[0,13,2],
 "index.html#tutorial-containers":[0,7],
 "index.html#tutorial-containers-creating":[0,7,0],
 "index.html#tutorial-containers-elements":[0,7,1],
@@ -107,6 +110,7 @@ var NAVTREEINDEX1 =
 "std_2vector_8hpp.html":[3,0,0,2,1,8],
 "std_8hpp.html":[3,0,0,2,3],
 "string_8hpp.html":[3,0,0,37],
+"string_8hpp.html#a325859c7db2c3f8e6a4bfab5a81a6dcb":[3,0,0,37,0],
 "struct_8hpp.html":[3,0,0,38],
 "struct__macros_8hpp.html":[3,0,0,39],
 "structboost_1_1hana_1_1Applicative.html":[1,0,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc":[1,0,14,2],
 "structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23":[1,0,14,1],
 "structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e":[1,0,14,5],
-"structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37":[1,0,14,6],
-"structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5":[1,0,14,0],
-"structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa":[1,0,14,4],
-"structboost_1_1hana_1_1Pair.html":[1,1,5],
-"structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1]
+"structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37":[1,0,14,6]
 };

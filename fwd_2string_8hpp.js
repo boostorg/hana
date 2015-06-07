@@ -1,4 +1,4 @@
 var fwd_2string_8hpp =
 [
-    [ "BOOST_HANA_STRING", "fwd_2string_8hpp.html#a7f15faa77e126e1c2b08a2224ceefb84", null ]
+    [ "operator\"\"_s", "fwd_2string_8hpp.html#a325859c7db2c3f8e6a4bfab5a81a6dcb", null ]
 ];
