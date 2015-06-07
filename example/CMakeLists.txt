@@ -55,6 +55,7 @@ if (NOT Boost_FOUND)
         "tutorial/quadrants.cpp"
         "tutorial/quickstart.cpp"
         "tutorial/quickstart.switchAny.cpp"
+        "tutorial/rationale.container.cpp"
         "tutorial/type.cpp"
     )
 endif()

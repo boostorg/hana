@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Compile-time half-open interval of `Constant`s.
+    //! Tag representing a compile-time half-open interval of `Constant`s.
     //!
     //! A `Range` represents a half-open interval of the form `[from, to)`
     //! containing `Constant`s of an integral type. The notation `[from, to)`
@@ -68,10 +68,11 @@ namespace boost { namespace hana {
     struct _range;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Creates a `Range` representing the half-open interval of
-    //! `Constant`s `[from, to)`.
+    //! Creates a `Range` representing a half-open interval of `Constant`s.
     //! @relates Range
     //!
+    //! Given two `Constant`s `from` and `to`, `make<Range>` returns a `Range`
+    //! representing the half-open interval of `Constant`s `[from, to)`.
     //! `from` and `to` must be `Constant`s of an integral type and such that 
     //! `from <= to`. Otherwise, a compilation error is triggered. Also note
     //! that if `from` and `to` are `Constant`s with different underlying

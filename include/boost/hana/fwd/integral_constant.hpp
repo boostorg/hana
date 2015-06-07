@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Represents a compile-time value of an integral type.
+    //! Tag representing a compile-time value of an integral type.
     //!
     //! An `IntegralConstant` is an object that represents a compile-time
     //! integral value. In fact, as the name suggests, an `IntegralConstant`

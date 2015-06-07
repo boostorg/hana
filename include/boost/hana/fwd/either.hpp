@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Represents a value with two possibilities.
+    //! Tag representing a value with two possibilities.
     //!
     //! An `Either` contains either a left value or a right value, both of
     //! which may have different data types. An `Either` containing a left

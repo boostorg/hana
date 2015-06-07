@@ -17,11 +17,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! General purpose index-based heterogeneous sequence with a fixed length.
+    //! Tag representing a general purpose index-based heterogeneous sequence
+    //! with a fixed length.
     //!
     //! `Tuple` is the bread and butter for static metaprogramming.
-    //! Conceptually, it is exactly the same as a `std::tuple`; it is just
-    //! a sequence able of holding objects of different types and whose size
+    //! Conceptually, an object of this kind is like a `std::tuple`; it is
+    //! a container able of holding objects of different types and whose size
     //! is fixed at compile-time. However, Hana's tuple provides much more
     //! functionality than its `std` counterpart, and it is also much more
     //! efficient than all standard library implementations tested so far.
@@ -46,12 +47,13 @@ namespace boost { namespace hana {
     struct _tuple;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Create a `Tuple` containing the given objects.
+    //! Function object for creating a `Tuple`.
     //! @relates Tuple
     //!
-    //! This is analoguous to `std::make_tuple` for creating Hana tuples.
-    //! The elements are held by value inside the resulting tuple, and hence
-    //! they are copied or moved in.
+    //! Given zero or more objects `xs...`, `make<Tuple>` returns a new `Tuple`
+    //! containing those objects. The elements are held by value inside the
+    //! resulting tuple, and they are hence copied or moved in. This is
+    //! analogous to `std::make_tuple` for creating Hana tuples.
     //!
     //!
     //! Example
@@ -59,7 +61,7 @@ namespace boost { namespace hana {
     //! @snippet example/tuple.cpp make<Tuple>
     template <>
     constexpr auto make<Tuple> = [](auto&& ...xs)
-        -> _tuple<std::decay_t(decltype(xs))...>
+        -> _tuple<std::decay_t<decltype(xs)>...>
     {
         return {forwarded(xs)...};
     };

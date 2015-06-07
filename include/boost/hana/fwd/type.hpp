@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Represents a C++ type.
+    //! Tag representing a C++ type in value-level representation.
     //!
     //! A `Type` is a special kind of object representing a C++ type like
     //! `int`, `void`, `std::vector<float>` or anything else you can imagine.

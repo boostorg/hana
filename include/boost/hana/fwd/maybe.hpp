@@ -16,7 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Represents an optional value.
+    //! Tag representing an optional value whose optional-ness is known at
+    //! compile-time.
     //!
     //! A `Maybe` either contains a value (represented as `just(x)`), or it
     //! is empty (represented as `nothing`). In essence, `Maybe` is pretty

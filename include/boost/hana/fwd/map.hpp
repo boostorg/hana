@@ -18,7 +18,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! A basic associative array requiring unique and `Comparable` keys.
+    //! Tag representing a basic associative array requiring unique and
+    //! `Comparable` keys.
     //!
     //! The order of the elements of the map is unspecified. Also, all the
     //! keys must be comparable with each other and that comparison must
@@ -57,18 +58,18 @@ namespace boost { namespace hana {
     template <typename ...Pairs>
     struct _map;
 
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Create a `Map` with the given key/value associations.
+    //! Function object for creating a `Map`.
     //! @relates Map
     //!
-    //! Given zero `Product`s or more representing key/value associations,
-    //! `make<Map>` returns a Map associating these keys to these values.
+    //! Given zero or more`Product`s representing key/value associations,
+    //! `make<Map>` returns a `Map` associating these keys to these values.
     //! All the keys must be unique.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/map.cpp make<Map>
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<Map> = [](auto&& ...pairs) {
         return unspecified-type{forwarded(pairs)...};

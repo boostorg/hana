@@ -1778,6 +1778,18 @@ This way, the second overload of `f` will only match when `Xs` represents a
 Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
 `is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
 
+But what are these types with a capital letter that have popped up a couple of
+times in the tutorial? These types are simply tags __representing__ a given
+container. For example, `Map` is actually an empty `struct` representing the
+"conceptual type" of an object returned by `make_map`, while the actual type
+of such an object is left unspecified. Having these tags to represent different
+kinds of containers is very useful. For example, it allows us to dispatch
+algorithms differently for different kinds of containers by looking at the
+tag associated to them, which is explained in the section on [tag-dispatching]
+(@ref tutorial-extending-tag_dispatching). It also allows us to document a
+container whose type is unspecified by simply documenting the tag representing
+that kind of container.
+
 
 
 
@@ -2352,7 +2364,7 @@ or branch misprediction could turn a theoretically efficient algorithm into a
 slowpoke, especially for small inputs. Since Hana causes a lot of unrolling to
 happen, these factors must be considered even more carefully and any analytical
 approach would probably only comfort us into thinking we're efficient. Instead,
-we want hard data (and pretty charts to display it)!
+we want hard data, and pretty charts to display it!
 
 There are a couple of different aspects we will want to benchmark. First, we
 will obviously want to benchmark the execution time of the algorithms.
@@ -2382,9 +2394,9 @@ different kinds of sequences:
 
 As you can see, Hana and Fusion are pretty much on the same line. `std::array`
 is slightly slower for larger collections data sets, and `std::vector` is
-slower for larger collections. Since we also want to look out for code bloat,
-let's take a look at the size of the executable generated for the exact same
-scenario:
+noticeably slower for larger collections. Since we also want to look out for
+code bloat, let's take a look at the size of the executable generated for the
+exact same scenario:
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -2400,9 +2412,9 @@ the `fold` algorithm, which is used very frequently:
      data-dataset="benchmark.fold_left.execute.json">
 </div>
 
-Here, you can see that Fusion, Hana and `std::array` perform pretty much the
-same, while `std::vector` is slower for larger inputs. Again, let's look at
-the executable size:
+Here, you can see that everybody is performing pretty much the same, which
+is a good sign that Hana is at least not screwing things up.
+Again, let's look at the executable size:
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -2890,43 +2902,43 @@ First, it gives much more wiggle room for the implementation to perform
 compile-time and runtime optimizations by using clever representations for
 specific containers. For example, a tuple containing homogeneous objects of
 type `T` could be implemented as an array of type `T` instead, which is more
-efficient at compile-time. Secondly, it turns out that knowing the type of a
-_heterogeneous_ container is not as useful as you would think. Indeed, the
-main motivation for wanting well-specified container types is function
-overloading to process tuples recursively:
+efficient at compile-time. Secondly, and most importantly, it turns out that
+knowing the type of a _heterogeneous_ container is not as useful as you would
+think. Indeed, in the context of heterogeneous programming, the type of the
+object returned by a computation is usually part of the computation too. In
+other words, there is no way to know the type of the object returned by an
+algorithm without actually performing the algorithm. For example, consider
+the `find_if` algorithm:
 
-@code
-template <typename T1, typename ...Tn>
-auto f(tuple<T1, Tn...> xs) {
-  // ...
-}
+@snippet example/tutorial/rationale.container.cpp hana
 
-auto f(tuple<> xs) {
-  // base case
-}
-@endcode
+If the predicate is satisfied for some element of the tuple, result will be
+equal to `just(x)`. Otherwise, `result` will be equal to `nothing`. However,
+the `nothing`ness of the result is known at compile-time, which requires
+`just(x)` and `nothing` to have different types. Now, say you wanted to
+explicitly write the type of the result:
 
-However, this code is very inefficient both at compile-time and at runtime.
-It is inefficent at compile-time because it requires the instantiation of a
-new `tuple<...>` specialization at each step, which is expensive (see the
-[section](@ref tutorial-performance-compile) on compile-time performance).
-It is inefficient at runtime because it requires the whole tail of the tuple
-to be copied (or moved) at each iteration, which could be expensive. In most
-cases, the above function should be rewritten using Hana algorithms instead
-of a recursive approach. In the rare cases where it is not possible to do so
-(when `f`'s recursion pattern is not captured by an algorithm), the following
-index-based approach can be used instead:
+@snippet example/tutorial/rationale.container.cpp hana-explicit
 
-@snippet example/tutorial/rationales.cpp index_based_recursion
+In order to possess the knowledge of what `some_type` is, you would need to
+actually perform the algorithm, because `some_type` depends on whether the
+predicate is satisfied or not for some element in the container. In other
+words, if you were able to write the above, then you would already know what
+the result of the algorithm is and you would not need to perform the algorithm
+in the first place. In Boost.Fusion, this problem is addressed by having a
+separate `result_of` namespace, which contains a metafunction computing the
+result type of any algorithm given the types of the arguments passed to it.
+For example, the above example could be rewritten with Fusion as:
 
-While slightly ugly, this approach at least has the advantage of not copying
-the tuple around, because it is always passed by reference. However, this
-approach has the disadvantage that `f` is now a completely unconstrained
-template and it will therefore match on nonsensical inputs like `f(1)`.
-This can easily be solved by enabling the template only when the type
-`Xs` is a `Tuple`:
+@snippet example/tutorial/rationale.container.cpp fusion
 
-@snippet example/tutorial/rationales.cpp constrained_index_based_recursion
+Notice that we're basically doing the computation twice; once in the `result_of`
+namespace and once in the normal `fusion` namespace, which is highly redundant.
+Before the days of `auto` and `decltype`, such techniques were necessary to
+perform heterogeneous computations. However, since the advent of modern C++,
+the need for explicit return types in the context of heterogeneous programming
+is largely obsolete, and knowing the actual type of containers is usually not
+that useful.
 
 
 @subsection tutorial-rationales-why_Hana Why Hana?

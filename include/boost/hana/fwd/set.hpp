@@ -16,7 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! A basic unordered container requiring `Comparable` elements.
+    //! Tag representing a basic unordered container requiring `Comparable`
+    //! elements.
     //!
     //! Modeled concepts
     //! ----------------
@@ -55,13 +56,14 @@ namespace boost { namespace hana {
     //! @snippet example/set.cpp from_Foldable
     struct Set { };
 
-    //! Creates a `Set` containing the given elements.
+    //! Function object for creating a `Set`.
     //! @relates Set
     //!
-    //! Given zero or more values, `make<Set>` returns a `Set` containing
-    //! those values. The values must all be compile-time `Comparable`, and
-    //! no duplicate values must be provided. To create a `Set` from a
-    //! sequence with possible duplicates, use `to<Set>` instead.
+    //! Given zero or more values `xs...`, `make<Set>` returns a `Set`
+    //! containing those values. The values must all be compile-time
+    //! `Comparable`, and no duplicate values may be provided. To create
+    //! a `Set` from a sequence with possible duplicates, use `to<Set>`
+    //! instead.
     //!
     //!
     //! Example
@@ -69,8 +71,8 @@ namespace boost { namespace hana {
     //! @snippet example/set.cpp make<Set>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Set> = [](auto&& ...elements) {
-        return unspecified-type{forwarded(elements)...};
+    constexpr auto make<Set> = [](auto&& ...xs) {
+        return unspecified-type{forwarded(xs)...};
     };
 #endif
 

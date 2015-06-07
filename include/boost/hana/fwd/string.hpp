@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Represents a compile-time string.
+    //! Tag representing a compile-time string.
     //!
     //! Conceptually, a `String` is like a `Tuple` holding `IntegralConstant`s
     //! of type `char`. However, the interface of a `String` is not as rich as

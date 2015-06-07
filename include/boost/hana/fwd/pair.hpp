@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Generic container of two elements.
+    //! Tag representing a generic container of two elements.
     //!
     //! A `Pair` is essentially equivalent to a `std::pair`, which can also
     //! be seen as a 2-element tuple. `Pair`s are useful in some contexts
