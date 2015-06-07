@@ -189,14 +189,33 @@ BOOST_HANA_RUNTIME_CHECK(just(std::string{"abcd"})->size() == 4);
 
 //! [nothing]
 constexpr auto x = nothing;
+BOOST_HANA_CONSTANT_CHECK(is_nothing(x));
 //! [nothing]
 
 //! [just]
 constexpr auto just_x = just('x');
+BOOST_HANA_CONSTANT_CHECK(is_just(just_x));
 //! [just]
 
-(void)x;
-(void)just_x;
+}{
+
+//! [make<Maybe>]
+constexpr auto x = make<Maybe>();
+BOOST_HANA_CONSTANT_CHECK(is_nothing(x));
+
+constexpr auto just_x = make<Maybe>('x');
+BOOST_HANA_CONSTANT_CHECK(is_just(just_x));
+//! [make<Maybe>]
+
+}{
+
+//! [make_maybe]
+constexpr auto x = make_maybe();
+BOOST_HANA_CONSTANT_CHECK(is_nothing(x));
+
+constexpr auto just_x = make_maybe('x');
+BOOST_HANA_CONSTANT_CHECK(is_just(just_x));
+//! [make_maybe]
 
 }{
 

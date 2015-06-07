@@ -244,6 +244,32 @@ int main() {
             _just<int> j1{1};       (void)j1;
             _just<int> j2 = {1};    (void)j2;
         }
+
+        // make<Maybe>
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make<Maybe>(),
+                nothing
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make<Maybe>(ct_eq<0>{}),
+                just(ct_eq<0>{})
+            ));
+        }
+
+        // make_maybe
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make_maybe(),
+                make<Maybe>()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                make_maybe(ct_eq<0>{}),
+                make<Maybe>(ct_eq<0>{})
+            ));
+        }
     }
 
 #elif BOOST_HANA_TEST_PART == 2

@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/detail/std/declval.hpp>
@@ -84,6 +85,19 @@ namespace boost { namespace hana {
         );
     }
     //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // make<Maybe>
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct make_impl<Maybe> {
+        template <typename X>
+        static constexpr auto apply(X&& x)
+        { return hana::just(static_cast<X&&>(x)); }
+
+        static constexpr auto apply()
+        { return hana::nothing; }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Operators

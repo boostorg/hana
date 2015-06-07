@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/move.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -125,6 +126,33 @@ namespace boost { namespace hana {
     //! Example:
     //! @snippet example/maybe.cpp searchable
     struct Maybe { };
+
+    //! Create an optional value.
+    //! @relates Maybe
+    //!
+    //! Specifically, `make<Maybe>()` is equivalent to `nothing`, and
+    //! `make<Maybe>(x)` is equivalent to `just(x)`. This is provided
+    //! for consistency with the other `make<...>` functions.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/maybe.cpp make<Maybe>
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <>
+    constexpr auto make<Maybe> = []([auto&& x]) {
+        return unspecified-type{forwarded(x)};
+    };
+#endif
+
+    //! Alias to `make<Maybe>`; provided for convenience.
+    //! @relates Maybe
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/maybe.cpp make_maybe
+    constexpr auto make_maybe = make<Maybe>;
 
     //! Create an optional value containing `x`.
     //! @relates Maybe
