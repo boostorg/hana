@@ -332,6 +332,28 @@ BOOST_HANA_CONSTEXPR_CHECK(init(make_tuple(1, '2', 3.3, 4_c)) == make_tuple(1, '
 
 }{
 
+//! [insert]
+using namespace boost::hana::literals;
+using namespace std::literals;
+
+auto xs = make_tuple("Hello"s, "world!"s);
+BOOST_HANA_RUNTIME_CHECK(insert(xs, 1_c, " "s) == make_tuple("Hello"s, " "s, "world!"s));
+//! [insert]
+
+}{
+
+//! [insert_range]
+using namespace boost::hana::literals;
+using namespace std::literals;
+
+auto xs = make_tuple("Hello"s, "world!"s);
+BOOST_HANA_RUNTIME_CHECK(
+    insert_range(xs, 1_c, make_tuple(1, 2, 3)) == make_tuple("Hello"s, 1, 2, 3, "world!"s)
+);
+//! [insert_range]
+
+}{
+
 //! [intersperse]
 BOOST_HANA_CONSTEXPR_CHECK(
     intersperse(make_tuple(1, '2', 3.3), 'x') == make_tuple(1, 'x', '2', 'x', 3.3)

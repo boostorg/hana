@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/by.hpp> // needed by xxx.by
+#include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -221,6 +222,39 @@ namespace boost { namespace hana {
                 hana::compose(not_, is_empty, tail),
                 tail
             )(sequence_detail::init_helper{})(empty<S>());
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // insert
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S>
+    struct insert_impl<S, when<_models<Sequence, S>{}()>> {
+        template <typename Xs, typename N, typename Element>
+        static constexpr decltype(auto) apply(Xs&& xs, N const& n, Element&& e) {
+            return hana::concat(hana::append(hana::take(xs, n),
+                                             static_cast<Element&&>(e)),
+                                hana::drop(xs, n));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // insert_range
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct insert_range_impl : insert_range_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct insert_range_impl<S, when<condition>> {
+        template <typename Xs, typename N, typename Elements>
+        static constexpr decltype(auto) apply(Xs&& xs, N const& n, Elements&& e) {
+            return hana::concat(
+                    hana::concat(
+                        hana::take(xs, n),
+                        hana::to<S>(static_cast<Elements&&>(e))
+                    ),
+                    hana::drop(xs, n)
+                );
         }
     };
 

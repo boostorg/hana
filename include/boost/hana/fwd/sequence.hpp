@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/by_fwd.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
@@ -447,6 +448,89 @@ namespace boost { namespace hana {
     };
 
     constexpr _init init{};
+#endif
+
+    //! Insert a value at a given index in a sequence.
+    //! @relates Sequence
+    //!
+    //! Given a sequence, an index and an element to insert, `insert` inserts
+    //! the element at the given index.
+    //!
+    //! @param xs
+    //! The sequence in which a value should be inserted.
+    //!
+    //! @param n
+    //! The index at which an element should be inserted. This must be a
+    //! non-negative `Constant` of an integral type, and it must also be
+    //! true that `n < length(xs)` if `xs` is a finite sequence.
+    //!
+    //! @param element
+    //! The element to insert in the sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp insert
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto insert = [](auto&& xs, auto&& n, auto&& element) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#endif
+
+    //! Insert several values at a given index in a sequence.
+    //! @relates Sequence
+    //!
+    //! Given a sequence, an index and any `Foldable` containing elements to
+    //! insert, `insert_range` inserts the elements in the `Foldable` at the
+    //! given index of the sequence.
+    //!
+    //! @param xs
+    //! The sequence in which values should be inserted.
+    //!
+    //! @param n
+    //! The index at which elements should be inserted. This must be a
+    //! non-negative `Constant` of an integral type, and it must also be
+    //! true that `n < length(xs)` if `xs` is a finite sequence.
+    //!
+    //! @param elements
+    //! A `Foldable` containing elements to insert in the sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp insert_range
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto insert_range = [](auto&& xs, auto&& n, auto&& elements) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct insert_range_impl;
+
+    struct _insert_range {
+        template <typename Xs, typename N, typename Elements>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n, Elements&& elements) const {
+            using S = typename datatype<Xs>::type;
+            using InsertRange = BOOST_HANA_DISPATCH_IF(insert_range_impl<S>,
+                _models<Sequence, Xs>{}() &&
+                _models<Foldable, Elements>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Sequence, Xs>{},
+            "hana::insert_range(xs, n, elements) requires 'xs' to be a Sequence");
+
+            static_assert(_models<Foldable, Elements>{},
+            "hana::insert_range(xs, n, elements) requires 'elements' to be a Foldable");
+        #endif
+
+            return InsertRange::apply(static_cast<Xs&&>(xs),
+                                      static_cast<N&&>(n),
+                                      static_cast<Elements&&>(elements));
+        }
+    };
+
+    constexpr _insert_range insert_range{};
 #endif
 
     //! Insert a value between each pair of elements in a sequence.

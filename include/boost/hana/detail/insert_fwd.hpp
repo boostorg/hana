@@ -22,11 +22,11 @@ namespace boost { namespace hana {
     struct insert_impl : insert_impl<T, when<true>> { };
 
     struct _insert {
-        template <typename Set, typename X>
-        constexpr decltype(auto) operator()(Set&& set, X&& x) const {
-            return insert_impl<typename datatype<Set>::type>::apply(
-                static_cast<Set&&>(set),
-                static_cast<X&&>(x)
+        template <typename Xs, typename ...Args>
+        constexpr decltype(auto) operator()(Xs&& xs, Args&& ...args) const {
+            return insert_impl<typename datatype<Xs>::type>::apply(
+                static_cast<Xs&&>(xs),
+                static_cast<Args&&>(args)...
             );
         }
     };

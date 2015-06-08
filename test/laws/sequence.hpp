@@ -176,39 +176,171 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
+            // insert
+            //////////////////////////////////////////////////////////////////
+            {
+                auto z = eq<999>{};
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}), size_t<0>, z),
+                    list(z, eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}), size_t<1>, z),
+                    list(eq<0>{}, z)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}), size_t<0>, z),
+                    list(z, eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}), size_t<1>, z),
+                    list(eq<0>{}, z, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}), size_t<2>, z),
+                    list(eq<0>{}, eq<1>{}, z)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<0>, z),
+                    list(z, eq<0>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<1>, z),
+                    list(eq<0>{}, z, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<2>, z),
+                    list(eq<0>{}, eq<1>{}, z, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<3>, z),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, z)
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<0>, z),
+                    list(z, eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<1>, z),
+                    list(eq<0>{}, z, eq<1>{}, eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<2>, z),
+                    list(eq<0>{}, eq<1>{}, z, eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<3>, z),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, z, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<4>, z),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, z)
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // insert_range
+            //////////////////////////////////////////////////////////////////
+            {
+                auto foldable = test::seq;
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}), size_t<0>,
+                                 foldable()),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}), size_t<0>,
+                                 foldable(eq<-1>{})),
+                    list(eq<-1>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}), size_t<0>,
+                                 foldable(eq<-1>{}, eq<-2>{})),
+                    list(eq<-1>{}, eq<-2>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}), size_t<0>,
+                                 foldable(eq<-1>{}, eq<-2>{}, eq<-3>{})),
+                    list(eq<-1>{}, eq<-2>{}, eq<-3>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<0>,
+                                 foldable()),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<0>,
+                                 foldable(eq<-1>{})),
+                    list(eq<-1>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<0>,
+                                 foldable(eq<-1>{}, eq<-2>{})),
+                    list(eq<-1>{}, eq<-2>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<1>,
+                                 foldable()),
+                    list(eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<1>,
+                                 foldable(eq<-1>{})),
+                    list(eq<1>{}, eq<-1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}), size_t<1>,
+                                 foldable(eq<-1>{}, eq<-2>{})),
+                    list(eq<1>{}, eq<-1>{}, eq<-2>{}, eq<2>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    insert_range(list(eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), size_t<2>,
+                                 foldable(eq<-1>{}, eq<-2>{})),
+                    list(eq<1>{}, eq<2>{}, eq<-1>{}, eq<-2>{}, eq<3>{}, eq<4>{})
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
             // intersperse
             //////////////////////////////////////////////////////////////////
             {
-            auto z = eq<999>{};
+                auto z = eq<999>{};
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(), undefined{}),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}), undefined{}),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}, eq<1>{}), z),
-                list(eq<0>{}, z, eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}), z),
-                list(eq<0>{}, z, eq<1>{}, z, eq<2>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), z),
-                list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), z),
-                list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{}, z, eq<4>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{}), z),
-                list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{}, z, eq<4>{}, z, eq<5>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(), undefined{}),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}), undefined{}),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}, eq<1>{}), z),
+                    list(eq<0>{}, z, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}), z),
+                    list(eq<0>{}, z, eq<1>{}, z, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), z),
+                    list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}), z),
+                    list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{}, z, eq<4>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    intersperse(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{}), z),
+                    list(eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{}, z, eq<4>{}, z, eq<5>{})
+                ));
             }
 
             //////////////////////////////////////////////////////////////////
