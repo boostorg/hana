@@ -81,6 +81,11 @@ namespace boost { namespace hana {
 
 //! @defgroup group-ext External adapters
 //! Adapters for external libraries.
+//!
+//! @warning
+//! This section of the reference documentation is not finished yet. Please
+//! refer to the section of the tutorial on [external adapters](@ref tutorial-ext)
+//! for a summary of what's supported right now.
 
 //! @defgroup group-config Configuration options
 //! Configurable options to tweak the global behavior of the library.
@@ -2485,7 +2490,47 @@ so the problem can be addressed.
 
 ------------------------------------------------------------------------------
 
-@todo Write this section.
+Hana provides out-of-the-box integration with some existing libraries.
+Specifically, this means that you can use some containers from these
+libraries in Hana's algorithms by simply including the appropriate header
+making the bridge between Hana and the external component.
+
+For a component named `xxx` in a namespace `ns`, the external adapter lives
+in the `boost/hana/ext/ns/xxx.hpp` header. For example, the external adapter
+for `std::tuple` lives in the `boost/hana/ext/std/tuple.hpp` header, while
+the external adapter for `boost::mpl::vector` is in
+`boost/hana/ext/boost/mpl/vector.hpp`.
+
+@todo
+This section has not been written yet for lack of time. Also note that
+the reference documentation for external adapters is currently incomplete.
+However, for reference and until the documentation is updated, here is a list
+of the external adapters that are currently supported:
+- `std::tuple`\n
+  Models `Sequence` and all its superclasses. It can basically be used like
+  a Hana `Tuple`. However, please be aware that libc++'s tuple has a couple
+  of bugs (they were reported) that make this adapter buggy.
+- `std::integral_constant`\n
+  Model of `Constant`, and all the free models it provides.
+- `std::ratio`\n
+  Model of `Orderable`, `Comparable`, `IntegralDomain` and its superclasses.
+- `std::integer_sequence`\n
+  Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
+  be using Hana's `Range` if you want speed, though.
+- `std::pair`\n
+  Model of `Product`. This is essentially equivalent to Hana's `Pair`.
+- `boost::mpl::vector`\n
+  See `boost::hana::ext::boost::mpl::Vector`.
+- `boost::mpl::integral_c`\n
+  See `boost::hana::ext::boost::mpl::IntegralC`.
+- `boost::fusion::{deque,list,tuple,vector}`\n
+  They are models of `Sequence` and all its superclasses, and hence can be
+  used like Hana's `Tuple` in algorithms. However, Fusion has several bugs
+  that make these adapters slightly explosive to use (sometimes things may
+  fail without apparent reason).
+- `boost::tuple`\n
+  Model of `Sequence` and all its superclasses. It can be used like Hana's
+  `Tuple` in algorithms.
 
 
 @subsection tutorial-ext-std The standard library
