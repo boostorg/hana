@@ -557,58 +557,60 @@ each algorithm does.
 
 function                                    | description
 :------------------------------------------ | :----------
-<code>[adjust](@ref Functor::adjust)(sequence, value, f)</code>                   | Apply a function to each element of a sequence that compares equal to some value and return the result.
-<code>[adjust_if](@ref Functor::adjust_if)(sequence, predicate, f)</code>         | Apply a function to each element of a sequence satisfying some predicate and return the result.
+<code>[adjust](@ref Functor::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
+<code>[adjust_if](@ref Functor::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
 <code>{[all](@ref Searchable::all),[any](@ref Searchable::any),[none](@ref Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
 <code>{[all](@ref Searchable::all_of),[any](@ref Searchable::any_of),[none](@ref Searchable::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
-<code>[append](@ref MonadPlus::append)(sequence, value)</code>                    | Append an element to a sequence.
-<code>[at](@ref Iterable::at)(sequence, index)</code>                             | Returns the n-th element of a sequence. The index must be an IntegralConstant.
-<code>[concat](@ref MonadPlus::concat)(sequence1, sequence2)</code>               | Concatenate two sequences.
-<code>[contains](@ref Searchable::contains)(sequence, value)</code>               | Returns whether a sequence contains the given object.
-<code>[count](@ref Foldable::count)(sequence, value)</code>                       | Returns the number of elements that compare equal to the given value.
-<code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>             | Returns the number of elements that satisfy the predicate.
-<code>[drop](@ref Iterable::drop)(sequence, n)</code>                             | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
-<code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>         | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
-<code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>         | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
-<code>[fill](@ref Functor::fill)(sequence, value)</code>                          | Replace all the elements of a sequence with some value.
-<code>[filter](@ref MonadPlus::filter)(sequence, predicate)</code>                | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
-<code>[find](@ref Searchable::find)(sequence, value)</code>                       | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Optional.
-<code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>             | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Optional.
-<code>[flatten](@ref Monad::flatten)(sequence)</code>                             | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-<code>[fold.left](@ref Foldable::fold)(sequence[, state], f)</code>               | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
-<code>[fold.right](@ref Foldable::fold)(sequence[, state], f)</code>              | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
-<code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                    | Equivalent to `fold.left`; provided for consistency with Boost.MPL and Boost.Fusion.
-<code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                     | Call a function on each element of a sequence. Returns `void`.
-<code>[group](@ref Sequence::group)(sequence[, predicate])</code>                 | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
-<code>[head](@ref Iterable::head)(sequence)</code>                                | Returns the first element of a sequence.
-<code>[init](@ref Sequence::init)(sequence)</code>                                | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
-<code>[is_empty](@ref Iterable::is_empty)(sequence)</code>                        | Returns whether a sequence is empty as an IntegralConstant.
-<code>[last](@ref Iterable::last)(sequence)</code>                                | Returns the last element of a sequence.
-<code>[length](@ref Foldable::length)(sequence)</code>                            | Returns the length of a sequence as an IntegralConstant.
-<code>[maximum](@ref Foldable::maximum)(sequence[, predicate])</code>             | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
-<code>[minimum](@ref Foldable::minimum)(sequence[, predicate])</code>             | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
-<code>[partition](@ref Sequence::partition)(sequence, predicate)</code>           | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
-<code>[prepend](@ref MonadPlus::prepend)(value, sequence)</code>                  | Prepend an element to a sequence.
-<code>[remove](@ref MonadPlus::remove)(sequence, value)</code>                    | Remove all the elements that are equal to a given value.
-<code>[remove_at](@ref Sequence::remove_at)(sequence, index)</code>               | Remove the element at the given index. The index must be an `integral_constant`.
-<code>[remove_if](@ref MonadPlus::remove_if)(sequence, predicate)</code>          | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
-<code>[replace](@ref Functor::replace)(sequence, oldval, newval)</code>           | Replace the elements of a sequence that compare equal to some value by some other value.
-<code>[replace_if](@ref Functor::replace_if)(sequence, predicate, newval)</code>  | Replace the elements of a sequence that satisfy some predicate by some value.
-<code>[reverse](@ref Sequence::reverse)(sequence)</code>                          | Reverse the order of the elements in a sequence.
-<code>[reverse_fold](@ref Foldable::reverse_fold)(sequence[, state], f)</code>    | Equivalent to `fold.right`; provided for consistency with Boost.MPL and Boost.Fusion.
-<code>[size](@ref Foldable::size)(sequence)</code>                                | Equivalent to `length`; provided for consistency with the C++ standard library.
-<code>[slice](@ref Sequence::slice)(sequence, from, to)</code>                    | Returns the elements of a sequence at indices contained in `[from, to)`.
-<code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                   | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
-<code>[subsequence](@ref Sequence::subsequence)(sequence, indices)</code>         | Returns the elements of a sequence at the `indices` in the given sequence.
-<code>[tail](@ref Iterable::tail)(sequence)</code>                                | Returns all the elements except the first one. Analogous to `pop_front`.
-<code>[take](@ref Sequence::take)(sequence, number)</code>                        | Take the first n elements of a sequence. n must be an `integral_constant`.
-<code>[take_until](@ref Sequence::take_until)(sequence, predicate)</code>         | Take elements of a sequence until some predicate is satisfied, and return that.
-<code>[take_while](@ref Sequence::take_while)(sequence, predicate)</code>         | Take elements of a sequence while some predicate is satisfied, and return that.
-<code>[transform](@ref Functor::transform)(sequence, f)</code>                    | Apply a function to each element of a sequence and return the result.
-<code>[unique](@ref Sequence::unique)(sequence[, predicate])</code>               | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
-<code>[unpack](@ref Foldable::unpack)(sequence, f)</code>                         | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
-<code>[zip.with](@ref Sequence::zip)(f, sequence1, ..., sequenceN)</code>         | Zip `N` sequences with a `N`-ary function.
-<code>[zip](@ref Sequence::zip)(sequence1, ..., sequenceN)</code>                 | Zip `N` sequences into a sequence of tuples.
+<code>[append](@ref MonadPlus::append)(sequence, value)</code>                      | Append an element to a sequence.
+<code>[at](@ref Iterable::at)(sequence, index)</code>                               | Returns the n-th element of a sequence. The index must be an IntegralConstant.
+<code>[concat](@ref MonadPlus::concat)(sequence1, sequence2)</code>                 | Concatenate two sequences.
+<code>[contains](@ref Searchable::contains)(sequence, value)</code>                 | Returns whether a sequence contains the given object.
+<code>[count](@ref Foldable::count)(sequence, value)</code>                         | Returns the number of elements that compare equal to the given value.
+<code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>               | Returns the number of elements that satisfy the predicate.
+<code>[drop](@ref Iterable::drop)(sequence, n)</code>                               | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
+<code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>           | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
+<code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
+<code>[fill](@ref Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
+<code>[filter](@ref MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
+<code>[find](@ref Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Optional.
+<code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Optional.
+<code>[flatten](@ref Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
+<code>[fold.left](@ref Foldable::fold)(sequence[, state], f)</code>                 | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
+<code>[fold.right](@ref Foldable::fold)(sequence[, state], f)</code>                | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
+<code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold.left`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                       | Call a function on each element of a sequence. Returns `void`.
+<code>[group](@ref Sequence::group)(sequence[, predicate])</code>                   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
+<code>[head](@ref Iterable::head)(sequence)</code>                                  | Returns the first element of a sequence.
+<code>[init](@ref Sequence::init)(sequence)</code>                                  | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
+<code>[insert](@ref Sequence::insert)(sequence, index, element)</code>              | Insert an element at a given index. The index must be an `IntegralConstant`.
+<code>[insert_range](@ref Sequence::insert_range)(sequence, index, elements)</code> | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
+<code>[is_empty](@ref Iterable::is_empty)(sequence)</code>                          | Returns whether a sequence is empty as an IntegralConstant.
+<code>[last](@ref Iterable::last)(sequence)</code>                                  | Returns the last element of a sequence.
+<code>[length](@ref Foldable::length)(sequence)</code>                              | Returns the length of a sequence as an IntegralConstant.
+<code>[maximum](@ref Foldable::maximum)(sequence[, predicate])</code>               | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[minimum](@ref Foldable::minimum)(sequence[, predicate])</code>               | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[partition](@ref Sequence::partition)(sequence, predicate)</code>             | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
+<code>[prepend](@ref MonadPlus::prepend)(value, sequence)</code>                    | Prepend an element to a sequence.
+<code>[remove](@ref MonadPlus::remove)(sequence, value)</code>                      | Remove all the elements that are equal to a given value.
+<code>[remove_at](@ref Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `integral_constant`.
+<code>[remove_if](@ref MonadPlus::remove_if)(sequence, predicate)</code>            | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
+<code>[replace](@ref Functor::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
+<code>[replace_if](@ref Functor::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
+<code>[reverse](@ref Sequence::reverse)(sequence)</code>                            | Reverse the order of the elements in a sequence.
+<code>[reverse_fold](@ref Foldable::reverse_fold)(sequence[, state], f)</code>      | Equivalent to `fold.right`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[size](@ref Foldable::size)(sequence)</code>                                  | Equivalent to `length`; provided for consistency with the C++ standard library.
+<code>[slice](@ref Sequence::slice)(sequence, from, to)</code>                      | Returns the elements of a sequence at indices contained in `[from, to)`.
+<code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
+<code>[subsequence](@ref Sequence::subsequence)(sequence, indices)</code>           | Returns the elements of a sequence at the `indices` in the given sequence.
+<code>[tail](@ref Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
+<code>[take](@ref Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence. n must be an `integral_constant`.
+<code>[take_until](@ref Sequence::take_until)(sequence, predicate)</code>           | Take elements of a sequence until some predicate is satisfied, and return that.
+<code>[take_while](@ref Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
+<code>[transform](@ref Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
+<code>[unique](@ref Sequence::unique)(sequence[, predicate])</code>                 | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
+<code>[unpack](@ref Foldable::unpack)(sequence, f)</code>                           | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
+<code>[zip.with](@ref Sequence::zip)(f, sequence1, ..., sequenceN)</code>           | Zip `N` sequences with a `N`-ary function.
+<code>[zip](@ref Sequence::zip)(sequence1, ..., sequenceN)</code>                   | Zip `N` sequences into a sequence of tuples.
 
 
 
