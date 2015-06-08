@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_EITHER_HPP
 
 namespace boost { namespace hana {
-    //! @ingroup group-datatypes
+    //! @ingroup group-details
     //! Tag representing a value with two possibilities.
     //!
     //! An `Either` contains either a left value or a right value, both of

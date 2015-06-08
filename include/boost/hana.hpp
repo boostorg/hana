@@ -67,7 +67,14 @@ namespace boost { namespace hana {
 //! General purpose data types provided by the library.
 
 //! @defgroup group-functional Functional
+//! @ingroup group-details
 //! General purpose function objects.
+//!
+//! @warning
+//! This module is currently considered as an implementation detail because
+//! it might be replaced by the [Fit][1] library in the future.
+//!
+//! [1]: https://github.com/pfultz2/Fit
 
 //! @defgroup group-core Core
 //! Core utilities of the library.
@@ -2648,10 +2655,6 @@ the headers provided by the library is also available in the panel on the left
     Also note that forward declarations for headers in `boost/hana/ext/`
     and `boost/hana/functional/` are not provided.
 
-  - `boost/hana/functional/`\n
-    This subdirectory contains various function objects that are often useful,
-    but that do not necessarily belong to a concept.
-
   - `boost/hana/ext/`\n
     This directory contains adapters for external libraries. Only the strict
     minimum required to adapt the external components is included in these
@@ -2701,11 +2704,6 @@ the left) goes as follow:
   if you need to extend the library, but otherwise you can probably
   ignore this.
 
-- @ref group-functional\n
-  General purpose function objects that are generally useful in a purely
-  functional setting. These are currently not tied to any concept or data
-  type.
-
 - @ref group-concepts\n
   Documentation for all the concepts provided with the library. Each concept:
   - Documents semantic constraints that any model of that concept must satisfy.
@@ -2725,10 +2723,12 @@ the left) goes as follow:
     model that concept.
 
 - @ref group-datatypes\n
-  Documentation for all the data types provided with the library. Each
-  data type documents the concept(s) it models, and how it does so. It
-  also documents the methods tied to that data type but not to any concept,
-  for example `make<Tuple>`.
+  Documentation for all the data structures provided with the library. Since
+  most of these data structures have an unspecified type, they are documented
+  by the tag representing them (`Tuple`, `Optional`, etc.). Each data type
+  documents the concept(s) it models, and how it does so. It also documents
+  the methods tied to that data type but not to any concept, for example
+  `from_just` for `Optional`.
 
 - @ref group-ext\n
   Documentation for all the adapters for external libraries. Basically, we
@@ -2741,14 +2741,15 @@ the left) goes as follow:
 - @ref group-assertions\n
   Macros to perform various types of assertions.
 
-- @ref group-details\n
-  Implementation details. Don't go there.
-
 - [<b>Alphabetical index</b>](functions.html)\n
   Alphabetical index of everything provided in the library.
 
 - [<b>Headers</b>](files.html)\n
   A list of all the headers provided by the library.
+
+- @ref group-details\n
+  Implementation details; don't go there. Anything not documented at all or
+  documented in this group is not guaranteed to be stable.
 
 After you get to know Hana a bit better, it will probably happen that you just
 want to find the reference for a precise function, concept or container. If
