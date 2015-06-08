@@ -58,8 +58,8 @@ namespace boost { namespace hana {
 
     template <typename M, bool condition>
     struct prepend_impl<M, when<condition>> : default_ {
-        template <typename X, typename Xs>
-        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::concat(hana::lift<M>(static_cast<X&&>(x)),
                                 static_cast<Xs&&>(xs));
         }
