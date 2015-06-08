@@ -67,8 +67,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct prepend_impl<ext::boost::fusion::Vector> {
-        template <typename X, typename Xs>
-        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return ::boost::fusion::as_vector(
                 ::boost::fusion::push_front(
                     static_cast<Xs&&>(xs),

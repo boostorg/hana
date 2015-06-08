@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         // Note: that would be better handled by a set data structure, but
         // whatever for now.
         return fold.left(transform(domain(f), f), make<Tuple>(), [](auto xs, auto x) {
-            return if_(contains(xs, x), xs, prepend(x, xs));
+            return if_(contains(xs, x), xs, prepend(xs, x));
         });
     };
 

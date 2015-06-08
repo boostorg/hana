@@ -97,8 +97,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct prepend_impl<ext::boost::Tuple> {
-        template <typename X, typename Xs>
-        static constexpr auto apply(X x, Xs xs) {
+        template <typename Xs, typename X>
+        static constexpr auto apply(Xs xs, X x) {
             return ::boost::tuples::cons<X, Xs>{
                 detail::std::move(x),
                 detail::std::move(xs)

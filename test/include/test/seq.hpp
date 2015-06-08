@@ -152,9 +152,9 @@ namespace boost { namespace hana {
 #else
     template <>
     struct prepend_impl<test::Seq> {
-        template <typename X, typename Xs>
-        static constexpr auto apply(X x, Xs xs) {
-            return hana::unpack(hana::prepend(x, xs.storage), test::seq);
+        template <typename Xs, typename X>
+        static constexpr auto apply(Xs xs, X x) {
+            return hana::unpack(hana::prepend(xs.storage, x), test::seq);
         }
     };
 #endif

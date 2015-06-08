@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //! Note that it is always possible to produce such a linearization
     //! for a finite `Foldable` by setting
     //! @code
-    //!     linearization(xs) = fold.left(xs, [], prepend)
+    //!     linearization(xs) = fold.left(xs, [], flip(prepend))
     //! @endcode
     //! for an appropriate definition of `[]` and `prepend`. The notion of
     //! linearization is useful for expressing various properties of

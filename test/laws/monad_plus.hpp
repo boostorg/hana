@@ -242,31 +242,34 @@ namespace boost { namespace hana { namespace test {
             // prepend
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(eq<0>{}, list()),
+                prepend(list(), eq<0>{}),
                 list(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(eq<0>{}, list(eq<1>{})),
+                prepend(list(eq<1>{}), eq<0>{}),
                 list(eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(eq<0>{}, list(eq<1>{}, eq<2>{})),
+                prepend(list(eq<1>{}, eq<2>{}), eq<0>{}),
                 list(eq<0>{}, eq<1>{}, eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(eq<0>{}, list(eq<1>{}, eq<2>{}, eq<3>{})),
+                prepend(list(eq<1>{}, eq<2>{}, eq<3>{}), eq<0>{}),
                 list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
             ));
 
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                prepend(1, list()), list(1)
+                prepend(list(), 1),
+                list(1)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                prepend(1, list('2')), list(1, '2')
+                prepend(list('2'), 1),
+                list(1, '2')
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                prepend(1, list('2', 3.3)), list(1, '2', 3.3)
+                prepend(list('2', 3.3), 1),
+                list(1, '2', 3.3)
             ));
 
             //////////////////////////////////////////////////////////////////
@@ -535,27 +538,27 @@ namespace boost { namespace hana { namespace test {
             // prefix
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prefix(z, list()),
+                prefix(list(), z),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prefix(z, list(eq<0>{})),
+                prefix(list(eq<0>{}), z),
                 list(z, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prefix(z, list(eq<0>{}, eq<1>{})),
+                prefix(list(eq<0>{}, eq<1>{}), z),
                 list(z, eq<0>{}, z, eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prefix(z, list(eq<0>{}, eq<1>{}, eq<2>{})),
+                prefix(list(eq<0>{}, eq<1>{}, eq<2>{}), z),
                 list(z, eq<0>{}, z, eq<1>{}, z, eq<2>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prefix(z, list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})),
+                prefix(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), z),
                 list(z, eq<0>{}, z, eq<1>{}, z, eq<2>{}, z, eq<3>{})
             ));
 

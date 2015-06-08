@@ -37,11 +37,8 @@ BOOST_HANA_CONSTANT_CHECK(empty<Optional>() == nothing);
 }{
 
 //! [prepend]
-static_assert(prepend(1, make_tuple()) == make_tuple(1), "");
-static_assert(prepend(1, make_tuple('2', 3.3)) == make_tuple(1, '2', 3.3), "");
-static_assert(
-    prepend(1, prepend('2', prepend(3.3, make_tuple()))) == make_tuple(1, '2', 3.3)
-, "");
+static_assert(prepend(make_tuple(), 1) == make_tuple(1), "");
+static_assert(prepend(make_tuple('2', 3.3), 1) == make_tuple(1, '2', 3.3), "");
 //! [prepend]
 
 }{
@@ -49,9 +46,7 @@ static_assert(
 //! [append]
 static_assert(append(make_tuple(), 1) == make_tuple(1), "");
 static_assert(append(make_tuple(1, '2'), 3.3) == make_tuple(1, '2', 3.3), "");
-static_assert(
-    append(append(append(make_tuple(), 1), '2'), 3.3) == make_tuple(1, '2', 3.3)
-, "");
+static_assert(append(append(append(make_tuple(), 1), '2'), 3.3) == make_tuple(1, '2', 3.3), "");
 //! [append]
 
 }{
@@ -100,7 +95,7 @@ static_assert(repeat<Optional>('x', size_t<2>) == just('x'), "");
 using namespace std::literals;
 
 BOOST_HANA_RUNTIME_CHECK(
-    prefix("my"s, make_tuple("dog"s, "car"s, "house"s)) ==
+    prefix(make_tuple("dog"s, "car"s, "house"s), "my"s) ==
     make_tuple("my", "dog", "my", "car", "my", "house")
 );
 //! [prefix]

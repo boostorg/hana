@@ -194,8 +194,8 @@ namespace boost { namespace hana {
 
     template <>
     struct prepend_impl<sandbox::LambdaTuple> {
-        template <typename X, typename Xs>
-        static constexpr decltype(auto) apply(X&& x, Xs&& xs) {
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return static_cast<Xs&&>(xs).storage(
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(

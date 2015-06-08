@@ -666,19 +666,19 @@ int main() {
         // prepend
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(long_<0>, tuple_c<long>),
+                prepend(tuple_c<long>, long_<0>),
                 tuple_c<long, 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(uint<0>, tuple_c<unsigned int, 1>),
+                prepend(tuple_c<unsigned int, 1>, uint<0>),
                 tuple_c<unsigned int, 0, 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(llong<0>, tuple_c<long long, 1, 2>),
+                prepend(tuple_c<long long, 1, 2>, llong<0>),
                 tuple_c<long long, 0, 1, 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(ulong<0>, tuple_c<unsigned long, 1, 2, 3>),
+                prepend(tuple_c<unsigned long, 1, 2, 3>, ulong<0>),
                 tuple_c<unsigned long, 0, 1, 2, 3>
             ));
         }

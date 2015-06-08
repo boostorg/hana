@@ -846,10 +846,10 @@ namespace boost { namespace hana {
     template <>
     struct prepend_impl<Tuple> {
         #define BOOST_HANA_PP_PREPEND(REF)                                      \
-            template <typename X, typename ...Xs>                               \
+            template <typename ...Xs, typename X>                               \
             static constexpr _tuple<                                            \
                 typename detail::std::decay<X>::type, typename Xs::get_type...  \
-            > apply(X&& x, detail::closure_impl<Xs...> REF xs) {                \
+            > apply(detail::closure_impl<Xs...> REF xs, X&& x) {                \
                 return {                                                        \
                     static_cast<X&&>(x), static_cast<Xs REF>(xs).get...  \
                 };                                                              \

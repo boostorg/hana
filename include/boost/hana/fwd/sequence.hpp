@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     //! For any `Sequence` `S`, the `make<S>` method is defined
     //! automatically as
     //! @code
-    //!     make<S>(x1, ..., xn) == fold.right(make<Tuple>(x1, ..., xn), prepend, empty<S>())
+    //!     make<S>(x1, ..., xn) == fold.right(make<Tuple>(x1, ..., xn), empty<S>(), flip(prepend))
     //!                          == [x1, ..., xn] // of data type S
     //! @endcode
     //!

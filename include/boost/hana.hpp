@@ -590,7 +590,7 @@ function                                    | description
 <code>[maximum](@ref Foldable::maximum)(sequence[, predicate])</code>               | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 <code>[minimum](@ref Foldable::minimum)(sequence[, predicate])</code>               | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 <code>[partition](@ref Sequence::partition)(sequence, predicate)</code>             | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
-<code>[prepend](@ref MonadPlus::prepend)(value, sequence)</code>                    | Prepend an element to a sequence.
+<code>[prepend](@ref MonadPlus::prepend)(sequence, value)</code>                    | Prepend an element to a sequence.
 <code>[remove](@ref MonadPlus::remove)(sequence, value)</code>                      | Remove all the elements that are equal to a given value.
 <code>[remove_at](@ref Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `integral_constant`.
 <code>[remove_if](@ref MonadPlus::remove_if)(sequence, predicate)</code>            | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.

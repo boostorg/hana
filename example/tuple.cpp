@@ -62,7 +62,7 @@ constexpr auto numbers = tuple_c<int, 5, -1, 0, -7, -2, 0, -5, 4>;
 constexpr auto negatives = tuple_c<int, -1, -7, -2, -5>;
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto keep_negatives = [](auto n, auto acc) {
-    return if_(n < 0_c, prepend(n, acc), acc);
+    return if_(n < 0_c, prepend(acc, n), acc);
 };
 
 BOOST_HANA_CONSTANT_CHECK(fold.right(numbers, tuple_c<int>, keep_negatives) == negatives);

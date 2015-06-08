@@ -71,8 +71,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct prepend_impl<LazyList> {
-        template <typename X, typename Xs>
-        static constexpr auto apply(X x, Xs xs)
+        template <typename Xs, typename X>
+        static constexpr auto apply(Xs xs, X x)
         { return lazy_cons(x, lazy(xs)); }
     };
 

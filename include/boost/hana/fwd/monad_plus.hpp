@@ -188,12 +188,12 @@ namespace boost { namespace hana {
     //! Prepend an element to a monadic structure.
     //! @relates MonadPlus
     //!
-    //! Given an element `x` and a monadic structure `xs`, `prepend` returns
+    //! Given a monadic structure `xs` and an element `x`, `prepend` returns
     //! a new monadic structure which is the result of lifting `x` into the
     //! monadic structure and then combining that (to the left) with `xs`.
     //! In other words,
     //! @code
-    //!     prepend(x, xs) == concat(lift<Xs>(x), xs)
+    //!     prepend(xs, x) == concat(lift<Xs>(x), xs)
     //! @endcode
     //!
     //! For sequences, this has the intuitive behavior of simply prepending
@@ -211,20 +211,20 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a MonadPlus `M`, the signature is
-    //! @f$ \mathrm{prepend} : T \times M(T) \to M(T) @f$.
-    //!
-    //! @param x
-    //! An element to combine to the left of the monadic structure.
+    //! @f$ \mathrm{prepend} : M(T) \times T \to M(T) @f$.
     //!
     //! @param xs
     //! A monadic structure that will be combined to the right of the element.
+    //!
+    //! @param x
+    //! An element to combine to the left of the monadic structure.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/monad_plus.cpp prepend
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto prepend = [](auto&& x, auto&& xs) -> decltype(auto) {
+    constexpr auto prepend = [](auto&& xs, auto&& x) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -232,8 +232,8 @@ namespace boost { namespace hana {
     struct prepend_impl;
 
     struct _prepend {
-        template <typename X, typename Xs>
-        constexpr decltype(auto) operator()(X&& x, Xs&& xs) const {
+        template <typename Xs, typename X>
+        constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
             using M = typename datatype<Xs>::type;
             using Prepend = BOOST_HANA_DISPATCH_IF(prepend_impl<M>,
                 _models<MonadPlus, M>{}()
@@ -241,10 +241,10 @@ namespace boost { namespace hana {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<MonadPlus, M>{},
-            "hana::prepend(x, xs) requires 'xs' to be a MonadPlus");
+            "hana::prepend(xs, x) requires 'xs' to be a MonadPlus");
         #endif
 
-            return Prepend::apply(static_cast<X&&>(x), static_cast<Xs&&>(xs));
+            return Prepend::apply(static_cast<Xs&&>(xs), static_cast<X&&>(x));
         }
     };
 
@@ -662,10 +662,10 @@ namespace boost { namespace hana {
     //! Inserts a value before each element of a monadic structure.
     //! @relates MonadPlus
     //!
-    //! Given a value (called the prefix) `z` and a monadic structure `xs`,
-    //! `prefix` returns a new monadic structure which is equivalent to
+    //! Given a monadic structure `xs` and a value `z` called the prefix,
+    //! `prefix` returns a new monadic structure. `prefix` satisfies
     //! @code
-    //!     prefix(z, xs) == flatten(transform(xs, [](auto x) {
+    //!     prefix(xs, z) == flatten(transform(xs, [](auto x) {
     //!         return concat(lift<M>(z), lift<M>(x));
     //!     }))
     //! @endcode
@@ -683,21 +683,21 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a MonadPlus `M`, the signature is
-    //! @f$ \mathrm{prefix} : T \times M(T) \to M(T) @f$.
+    //! @f$ \mathrm{prefix} : M(T) \times T \to M(T) @f$.
+    //!
+    //! @param xs
+    //! A monadic structure.
     //!
     //! @param z
     //! A value (the prefix) to insert before each element of a monadic
     //! structure.
-    //!
-    //! @param xs
-    //! A monadic structure.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/monad_plus.cpp prefix
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto prefix = [](auto&& z, auto&& xs) -> decltype(auto) {
+    constexpr auto prefix = [](auto&& xs, auto&& z) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -705,8 +705,8 @@ namespace boost { namespace hana {
     struct prefix_impl;
 
     struct _prefix {
-        template <typename Z, typename Xs>
-        constexpr decltype(auto) operator()(Z&& z, Xs&& xs) const {
+        template <typename Xs, typename Z>
+        constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
             using M = typename datatype<Xs>::type;
             using Prefix = BOOST_HANA_DISPATCH_IF(prefix_impl<M>,
                 _models<MonadPlus, M>{}()
@@ -714,10 +714,10 @@ namespace boost { namespace hana {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<MonadPlus, M>{},
-            "hana::prefix(z, xs) requires 'xs' to be a MonadPlus");
+            "hana::prefix(xs, z) requires 'xs' to be a MonadPlus");
         #endif
 
-            return Prefix::apply(static_cast<Z&&>(z), static_cast<Xs&&>(xs));
+            return Prefix::apply(static_cast<Xs&&>(xs), static_cast<Z&&>(z));
         }
     };
 

@@ -46,7 +46,7 @@ constexpr auto format(Tokens ...tokens_) {
 
     auto format_string = fold.left(format_string_tokens, string<>, concat_strings{});
     auto variables = filter(tokens, compose(not_, is_a<String>));
-    return prepend(format_string, variables);
+    return prepend(variables, format_string);
 }
 
 int main() {

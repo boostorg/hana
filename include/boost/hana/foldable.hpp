@@ -30,6 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/for_each.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/sequence.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -696,8 +697,11 @@ namespace boost { namespace hana {
         : embedding<_models<Sequence, F>{}()>
     {
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), prepend); }
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            return hana::fold.right(static_cast<Xs&&>(xs),
+                                    hana::empty<S>(),
+                                    hana::flip(hana::prepend));
+        }
     };
 }} // end namespace boost::hana
 

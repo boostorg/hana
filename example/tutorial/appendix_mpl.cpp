@@ -160,7 +160,7 @@ struct push_back {
 
 template <typename Sequence, typename T>
 struct push_front {
-    using type = decltype(hana::prepend(hana::type<T>, Sequence{}));
+    using type = decltype(hana::prepend(Sequence{}, hana::type<T>));
 };
 
 template <typename Sequence>
