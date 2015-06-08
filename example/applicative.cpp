@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/functional.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
@@ -41,7 +41,7 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [lift]
 BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == make<Tuple>('x'));
-BOOST_HANA_CONSTEXPR_CHECK(lift<Maybe>('x') == just('x'));
+BOOST_HANA_CONSTEXPR_CHECK(lift<Optional>('x') == just('x'));
 //! [lift]
 
 }

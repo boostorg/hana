@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Either`, `Lazy`, `Maybe`, `Tuple`
+    //! `Either`, `Lazy`, `Optional`, `Tuple`
     //!
     //!
     //! Structure-preserving functions for Functors
@@ -117,9 +117,10 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! There are several examples of such transformations, like `to<Tuple>`
-    //! when applied to a Maybe. Indeed, for any function `g` and Maybe `m`,
+    //! when applied to an Optional. Indeed, for any function `g` and
+    //! `Optional` `opt`,
     //! @code
-    //!     to<Tuple>(transform(m, g)) == transform(to<Tuple>(m), g)
+    //!     to<Tuple>(transform(opt, g)) == transform(to<Tuple>(opt), g)
     //! @endcode
     //!
     //! Of course, natural transformations are not limited to the `to<...>`

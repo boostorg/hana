@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::Maybe`.
+Defines `boost::hana::Optional`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_MAYBE_HPP
-#define BOOST_HANA_MAYBE_HPP
+#ifndef BOOST_HANA_OPTIONAL_HPP
+#define BOOST_HANA_OPTIONAL_HPP
 
-#include <boost/hana/fwd/maybe.hpp>
+#include <boost/hana/fwd/optional.hpp>
 
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/bool.hpp>
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     struct _just : operators::adl, maybe_detail::nested_type<T> {
         T val;
         static constexpr bool is_just = true;
-        struct hana { using datatype = Maybe; };
+        struct hana { using datatype = Optional; };
 
         _just() = default;
         _just(_just const&) = default;
@@ -87,10 +87,10 @@ namespace boost { namespace hana {
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Maybe>
+    // make<Optional>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<Maybe> {
+    struct make_impl<Optional> {
         template <typename X>
         static constexpr auto apply(X&& x)
         { return hana::just(static_cast<X&&>(x)); }
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
         template <>
-        struct of<Maybe>
+        struct of<Optional>
             : operators::of<Comparable, Orderable, Monad>
         { };
     }
@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<Maybe, Maybe> {
+    struct equal_impl<Optional, Optional> {
         template <typename T, typename U>
         static constexpr decltype(auto) apply(_just<T> const& t, _just<U> const& u)
         { return hana::equal(t.val, u.val); }
@@ -206,7 +206,7 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct less_impl<Maybe, Maybe> {
+    struct less_impl<Optional, Optional> {
         template <typename T>
         static constexpr auto apply(_nothing const&, _just<T> const&)
         { return true_; }
@@ -227,7 +227,7 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct transform_impl<Maybe> {
+    struct transform_impl<Optional> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f) {
             return hana::maybe(
@@ -242,14 +242,14 @@ namespace boost { namespace hana {
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct lift_impl<Maybe> {
+    struct lift_impl<Optional> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
         { return hana::just(static_cast<X&&>(x)); }
     };
 
     template <>
-    struct ap_impl<Maybe> {
+    struct ap_impl<Optional> {
         template <typename F, typename X>
         static constexpr decltype(auto) apply_impl(F&& f, X&& x, decltype(true_)) {
             return hana::just(static_cast<F&&>(f).val(static_cast<X&&>(x).val));
@@ -274,7 +274,7 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct flatten_impl<Maybe> {
+    struct flatten_impl<Optional> {
         template <typename MMX>
         static constexpr decltype(auto) apply(MMX&& mmx) {
             return hana::maybe(nothing, id, static_cast<MMX&&>(mmx));
@@ -285,7 +285,7 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct concat_impl<Maybe> {
+    struct concat_impl<Optional> {
         template <typename Y>
         static constexpr auto apply(_nothing&, Y&& y)
         { return static_cast<Y&&>(y); }
@@ -304,7 +304,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct empty_impl<Maybe> {
+    struct empty_impl<Optional> {
         static constexpr auto apply()
         { return nothing; }
     };
@@ -313,7 +313,7 @@ namespace boost { namespace hana {
     // Traversable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct traverse_impl<Maybe> {
+    struct traverse_impl<Optional> {
         template <typename A, typename F>
         static constexpr decltype(auto) apply(_nothing const&, F&& /*f*/)
         { return lift<A>(nothing); }
@@ -337,7 +337,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<Maybe> {
+    struct unpack_impl<Optional> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f)
         { return static_cast<F&&>(f)(static_cast<M&&>(m).val); }
@@ -359,7 +359,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_if_impl<Maybe> {
+    struct find_if_impl<Optional> {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& pred) {
             return hana::only_when(static_cast<Pred&&>(pred), id,
@@ -380,7 +380,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_of_impl<Maybe> {
+    struct any_of_impl<Optional> {
         template <typename M, typename Pred>
         static constexpr decltype(auto) apply(M&& m, Pred&& p) {
             return hana::maybe(false_,
@@ -391,4 +391,4 @@ namespace boost { namespace hana {
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_MAYBE_HPP
+#endif // !BOOST_HANA_OPTIONAL_HPP

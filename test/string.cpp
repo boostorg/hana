@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>

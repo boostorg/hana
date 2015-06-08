@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
@@ -73,7 +73,7 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Maybe interface
+    // Optional interface
     //////////////////////////////////////////////////////////////////////////
     {
         test::_injection<0> f{};
@@ -245,15 +245,15 @@ int main() {
             _just<int> j2 = {1};    (void)j2;
         }
 
-        // make<Maybe>
+        // make<Optional>
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make<Maybe>(),
+                make<Optional>(),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make<Maybe>(ct_eq<0>{}),
+                make<Optional>(ct_eq<0>{}),
                 just(ct_eq<0>{})
             ));
         }
@@ -262,12 +262,12 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 make_maybe(),
-                make<Maybe>()
+                make<Optional>()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 make_maybe(ct_eq<0>{}),
-                make<Maybe>(ct_eq<0>{})
+                make<Optional>(ct_eq<0>{})
             ));
         }
     }
@@ -290,7 +290,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<Maybe>{eqs};
+        test::TestComparable<Optional>{eqs};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -328,7 +328,7 @@ int main() {
         }
 
         // laws
-        test::TestOrderable<Maybe>{ords};
+        test::TestOrderable<Optional>{ords};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -351,7 +351,7 @@ int main() {
         }
 
         // laws
-        test::TestFunctor<Maybe>{eqs, eq_values};
+        test::TestFunctor<Optional>{eqs, eq_values};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -383,13 +383,13 @@ int main() {
         // lift
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<Maybe>(ct_eq<3>{}),
+                lift<Optional>(ct_eq<3>{}),
                 just(ct_eq<3>{})
             ));
         }
 
         // laws
-        test::TestApplicative<Maybe>{eqs};
+        test::TestApplicative<Optional>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -413,7 +413,7 @@ int main() {
         }
 
         // laws
-        test::TestMonad<Maybe>{eqs, nested_eqs};
+        test::TestMonad<Optional>{eqs, nested_eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -423,7 +423,7 @@ int main() {
         // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<Maybe>(),
+                empty<Optional>(),
                 nothing
             ));
         }
@@ -471,7 +471,7 @@ int main() {
         }
 
         // laws
-        test::TestMonadPlus<Maybe>{eqs, predicates, eq_values};
+        test::TestMonadPlus<Optional>{eqs, predicates, eq_values};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -498,7 +498,7 @@ int main() {
         }
 
         // laws
-        test::TestTraversable<Maybe>{};
+        test::TestTraversable<Optional>{};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -539,9 +539,9 @@ int main() {
         }
 
         // laws
-        test::TestSearchable<Maybe>{eqs, eq_values};
+        test::TestSearchable<Optional>{eqs, eq_values};
 
-        test::TestSearchable<Maybe>{
+        test::TestSearchable<Optional>{
             make<Tuple>(just(true_), just(false_), nothing),
             make<Tuple>(true_, false_)
         };
@@ -579,7 +579,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<Maybe>{eqs};
+        test::TestFoldable<Optional>{eqs};
     }
 #endif
 }

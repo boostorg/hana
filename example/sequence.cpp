@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/type_traits.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
@@ -116,7 +116,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
 
 //! [Monad.types]
 // Using the Tuple Monad, we generate all the possible combinations of
-// cv-qualifiers and reference qualifiers. Then, we use the Maybe Monad
+// cv-qualifiers and reference qualifiers. Then, we use the Optional Monad
 // to make sure that our generic function can be called with arguments
 // of any of those types.
 
@@ -223,13 +223,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto half = [](auto x) {
 };
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
+    traverse<Optional>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
     ==
     just(make<Tuple>(int_<1>, int_<2>, int_<3>))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
+    traverse<Optional>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
     ==
     nothing
 );

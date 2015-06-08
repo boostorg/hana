@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/map.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/set.hpp>
@@ -421,7 +421,7 @@ auto switch_(Any& a) {
 
 `find_if` takes a `tuple` and a predicate, and returns the first element of
 the tuple which satisfies the predicate. The result is returned as an optional
-value called a `Maybe`, which is very similar to a `std::optional`, except
+value called an `Optional`, which is very similar to a `std::optional`, except
 whether that optional value is empty or not is known at compile-time. If the
 predicate is not satisfied for any element of the `tuple`, `find_if` returns
 `nothing` (an empty value). Otherwise, it returns `just(x)` (a non-empty value),
@@ -529,7 +529,7 @@ of 42 lines:
 
 That's it for the quick start! This example only introduced a couple of useful
 algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
-(`Tuple`, `Maybe`), but rest assured that there is much more. The next
+(`Tuple`, `Optional`), but rest assured that there is much more. The next
 sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
@@ -565,8 +565,8 @@ function                                    | description
 <code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>         | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref Functor::fill)(sequence, value)</code>                          | Replace all the elements of a sequence with some value.
 <code>[filter](@ref MonadPlus::filter)(sequence, predicate)</code>                | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
-<code>[find](@ref Searchable::find)(sequence, value)</code>                       | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Maybe.
-<code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>             | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Maybe.
+<code>[find](@ref Searchable::find)(sequence, value)</code>                       | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Optional.
+<code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>             | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Optional.
 <code>[flatten](@ref Monad::flatten)(sequence)</code>                             | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
 <code>[fold.left](@ref Foldable::fold)(sequence[, state], f)</code>               | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
 <code>[fold.right](@ref Foldable::fold)(sequence[, state], f)</code>              | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
@@ -1500,7 +1500,7 @@ Here, we create a `maybe_add` function, which is simply a generic lambda
 wrapped with Hana's `sfinae` function. `maybe_add` is a function which takes
 two inputs and returns `just` the result of the generic lambda if that call
 is well-formed, and `nothing` otherwise. `just(...)` and `nothing` both belong
-to a type of container called `Maybe`, which is essentially a compile-time
+to a type of container called `Optional`, which is essentially a compile-time
 `std::optional`. All in all, `maybe_add` is morally equivalent to the
 following function returning a `std::optional`, except that the check is
 done at compile-time:
@@ -1514,7 +1514,7 @@ auto maybe_add = [](auto x, auto y) {
 };
 @endcode
 
-It turns out that we can take advantage of `sfinae` and `Maybe` to implement
+It turns out that we can take advantage of `sfinae` and `Optional` to implement
 the `optionalToString` function as follows:
 
 @snippet example/tutorial/introspection.sfinae.cpp optionalToString.sfinae
@@ -1527,7 +1527,7 @@ an optional value. If the optional value is `nothing`, `from_maybe` returns
 the default value; otherwise, it returns the value inside the `just` (here
 `x.toString()`). This way of seeing SFINAE as a special case of computations
 that might fail is very clean and powerful, especially since `sfinae`'d
-functions can be combined through the `Maybe` `Monad`, which is left to
+functions can be combined through the `Optional` `Monad`, which is left to
 the reference documentation.
 
 

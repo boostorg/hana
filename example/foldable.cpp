@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -101,26 +101,26 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
 
 // with an initial state
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
+    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
         ==
     just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
+    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
         ==
     nothing
 );
 
 // without an initial state
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4, 2>, safediv)
+    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4, 2>, safediv)
         ==
     just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Maybe>.right(tuple_c<int, 1000, 8, 4, 0>, safediv)
+    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4, 0>, safediv)
         ==
     nothing
 );

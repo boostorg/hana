@@ -118,7 +118,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Map`, `Maybe`, `Range`, `Set`, `String`, `Tuple`
+    //! `Map`, `Optional`, `Range`, `Set`, `String`, `Tuple`
     //!
     //!
     //! Structure preserving functions

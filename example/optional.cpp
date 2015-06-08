@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/ext/std/utility.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <string>
@@ -81,7 +81,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
     concat(just('x'), just('y')) == just('x')
 );
 
-BOOST_HANA_CONSTANT_CHECK(empty<Maybe>() == nothing);
+BOOST_HANA_CONSTANT_CHECK(empty<Optional>() == nothing);
 //! [monad_plus]
 
 }{
@@ -199,13 +199,13 @@ BOOST_HANA_CONSTANT_CHECK(is_just(just_x));
 
 }{
 
-//! [make<Maybe>]
-constexpr auto x = make<Maybe>();
+//! [make<Optional>]
+constexpr auto x = make<Optional>();
 BOOST_HANA_CONSTANT_CHECK(is_nothing(x));
 
-constexpr auto just_x = make<Maybe>('x');
+constexpr auto just_x = make<Optional>('x');
 BOOST_HANA_CONSTANT_CHECK(is_just(just_x));
-//! [make<Maybe>]
+//! [make<Optional>]
 
 }{
 

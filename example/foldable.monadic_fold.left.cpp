@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/ext/std/utility.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -32,7 +32,7 @@ struct common_type<T, U>
 
 template <typename T1, typename ...Tn>
 struct common_type<T1, Tn...>
-    : decltype(monadic_fold<Maybe>.left(
+    : decltype(monadic_fold<Optional>.left(
         tuple_t<Tn...>,
         type<std::decay_t<T1>>,
         sfinae(metafunction<common_type>)

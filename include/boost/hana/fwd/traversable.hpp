@@ -83,7 +83,7 @@ namespace boost { namespace hana {
 
     Concrete models
     ---------------
-    `Either`, `Maybe`, `Tuple`
+    `Either`, `Optional`, `Tuple`
 
 
     Laws

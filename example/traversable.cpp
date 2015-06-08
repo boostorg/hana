@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
@@ -18,12 +18,12 @@ int main() {
 
 //! [sequence]
 BOOST_HANA_CONSTEXPR_CHECK(
-    sequence<Maybe>(make<Tuple>(just(1), just('2'), just(3.3))) ==
+    sequence<Optional>(make<Tuple>(just(1), just('2'), just(3.3))) ==
     just(make<Tuple>(1, '2', 3.3))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    sequence<Maybe>(make<Tuple>(just(1), nothing, just(3.3))) == nothing
+    sequence<Optional>(make<Tuple>(just(1), nothing, just(3.3))) == nothing
 );
 
 // This is a generalized Cartesian product.
@@ -51,13 +51,13 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto half = [](auto x) {
 };
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
+    traverse<Optional>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
     ==
     just(make<Tuple>(int_<1>, int_<2>, int_<3>))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    traverse<Maybe>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
+    traverse<Optional>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
     ==
     nothing
 );

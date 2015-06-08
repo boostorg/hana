@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 using namespace boost::hana;
 
 
@@ -44,6 +44,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(evaluate<'1', '+', '?'> == nothing);
     BOOST_HANA_CONSTANT_CHECK(evaluate<'?', '?', '?'> == nothing);
 
-    BOOST_HANA_CONSTEXPR_CHECK(lift<Maybe>(123) == just(123));
+    BOOST_HANA_CONSTEXPR_CHECK(lift<Optional>(123) == just(123));
 }
 //! [applicative]

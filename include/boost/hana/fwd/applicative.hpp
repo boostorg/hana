@@ -97,7 +97,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Either`, `Lazy`, `Maybe`, `Tuple`
+    //! `Either`, `Lazy`, `Optional`, `Tuple`
     //!
     //!
     //! @anchor applicative-transformation

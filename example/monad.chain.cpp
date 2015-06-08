@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 using namespace boost::hana;
 
 

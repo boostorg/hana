@@ -111,7 +111,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Either`, `IntegralConstant`, `Maybe`, `Pair`, `String`, `Tuple`
+    //! `Either`, `IntegralConstant`, `Optional`, `Pair`, `String`, `Tuple`
     //!
     //!
     //! Operators

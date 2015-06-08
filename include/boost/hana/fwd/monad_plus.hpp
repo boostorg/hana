@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Maybe`, `Tuple`
+    //! `Optional`, `Tuple`
     //!
     //!
     //! Laws
@@ -205,7 +205,7 @@ namespace boost { namespace hana {
     //! > is not the case here. The author also finds that `push_front`
     //! > suggests too strongly the sole interpretation of putting an
     //! > element to the front of a sequence, whereas `prepend` is slightly
-    //! > more nuanced and bears its name better for e.g. `Maybe`.
+    //! > more nuanced and bears its name better for e.g. `Optional`.
     //!
     //!
     //! Signature

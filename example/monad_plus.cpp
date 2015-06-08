@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/maybe.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -31,7 +31,7 @@ static_assert(concat(make_tuple(1, '2'),
 
 //! [empty]
 BOOST_HANA_CONSTANT_CHECK(empty<Tuple>() == make_tuple());
-BOOST_HANA_CONSTANT_CHECK(empty<Maybe>() == nothing);
+BOOST_HANA_CONSTANT_CHECK(empty<Optional>() == nothing);
 //! [empty]
 
 }{
@@ -90,8 +90,8 @@ BOOST_HANA_CONSTANT_CHECK(remove(just(type<int>), type<int>) == nothing);
 //! [repeat]
 static_assert(repeat<Tuple>('x', size_t<2>) == make_tuple('x', 'x'), "");
 
-// Of course, there can't be more than one element in a Maybe.
-static_assert(repeat<Maybe>('x', size_t<2>) == just('x'), "");
+// Of course, there can't be more than one element in an Optional.
+static_assert(repeat<Optional>('x', size_t<2>) == just('x'), "");
 //! [repeat]
 
 }{
