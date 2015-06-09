@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/std/integer_sequence.hpp>
 #include <boost/hana/detail/std/size_t.hpp>
@@ -32,25 +33,21 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // _range
     //////////////////////////////////////////////////////////////////////////
-    template <typename IntegralConstant,
-              typename IntegralConstant::value_type From,
-              typename IntegralConstant::value_type To>
+    template <typename T, T From, T To>
     struct _range
         : operators::adl
-        , operators::Iterable_ops<_range<IntegralConstant, From, To>>
+        , operators::Iterable_ops<_range<T, From, To>>
     {
-        using underlying = IntegralConstant;
         static_assert(From <= To,
         "invalid usage of boost::hana::range(from, to) with from > to");
 
-        static constexpr auto from = From;
-        static constexpr auto to = To;
+        using value_type = T;
+        static constexpr value_type from = From;
+        static constexpr value_type to = To;
     };
 
-    template <typename IntegralConstant,
-              typename IntegralConstant::value_type From,
-              typename IntegralConstant::value_type To>
-    struct datatype<_range<IntegralConstant, From, To>> {
+    template <typename T, T From, T To>
+    struct datatype<_range<T, From, To>> {
         using type = Range;
     };
 
@@ -60,12 +57,23 @@ namespace boost { namespace hana {
     template <>
     struct make_impl<Range> {
         template <typename From, typename To>
-        static constexpr auto apply(From const& from, To const& to) {
-            using C = typename common<typename datatype<From>::type,
-                                      typename datatype<To>::type>::type;
-            auto cfrom = hana::to<C>(from);
-            auto cto = hana::to<C>(to);
-            return _range<C, hana::value(cfrom), hana::value(cto)>{};
+        static constexpr auto apply(From const&, To const&) {
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Constant, From>{}(),
+            "hana::make<Range>(from, to) requires 'from' to be a Constant");
+
+            static_assert(_models<Constant, To>{}(),
+            "hana::make<Range>(from, to) requires 'to' to be a Constant");
+        #endif
+
+            using T = typename common<
+                typename datatype<From>::type::value_type,
+                typename datatype<To>::type::value_type
+            >::type;
+            constexpr T from = hana::to<T>(hana::value<From>());
+            constexpr T to = hana::to<T>(hana::value<To>());
+            return _range<T, from, to>{};
         }
     };
 
@@ -98,46 +106,38 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct unpack_impl<Range> {
-        template <typename R, typename F, typename T, T ...v>
+        template <typename T, T from, typename F, T ...v>
         static constexpr decltype(auto)
-        unpack_helper(R const&, F&& f, detail::std::integer_sequence<T, v...>) {
-            using U = typename R::underlying;
-            return static_cast<F&&>(f)(
-                to<U>(_integral_constant<T, R::from + v>{})...
-            );
+        unpack_helper(F&& f, detail::std::integer_sequence<T, v...>) {
+            return static_cast<F&&>(f)(_integral_constant<T, from + v>{}...);
         }
 
-        template <typename R, typename F>
-        static constexpr decltype(auto) apply(R const& r, F&& f) {
-            constexpr auto size = R::to - R::from;
-            return unpack_helper(r, static_cast<F&&>(f),
-                detail::std::make_integer_sequence<decltype(size), size>{});
+        template <typename T, T from, T to, typename F>
+        static constexpr decltype(auto) apply(_range<T, from, to> const&, F&& f) {
+            return unpack_helper<T, from>(static_cast<F&&>(f),
+                detail::std::make_integer_sequence<T, to - from>{});
         }
     };
 
     template <>
     struct length_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&)
-        { return size_t<R::to - R::from>; }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return size_t<static_cast<detail::std::size_t>(to - from)>; }
     };
 
     template <>
     struct minimum_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            return hana::to<U>(_integral_constant<decltype(R::from), R::from>{});
-        }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return integral_constant<T, from>; }
     };
 
     template <>
     struct maximum_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            return hana::to<U>(_integral_constant<decltype(R::to-1), R::to-1>{});
-        }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return integral_constant<T, to-1>; }
     };
 
     template <>
@@ -165,13 +165,9 @@ namespace boost { namespace hana {
                 return -sum_helper(-n, -m);
         }
 
-        template <typename T, typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            constexpr auto from = R::from;
-            constexpr auto to = R::to;
-            constexpr auto s = from == to ? 0 : sum_helper(from, to-1);
-            return hana::to<U>(_integral_constant<decltype(s), s>{});
+        template <typename, typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&) {
+            return integral_constant<T, from == to ? 0 : sum_helper(from, to-1)>;
         }
     };
 
@@ -190,12 +186,9 @@ namespace boost { namespace hana {
             }
         }
 
-        template <typename T, typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            constexpr auto p = product_helper(R::from, R::to);
-            return hana::to<U>(_integral_constant<decltype(p), p>{});
-        }
+        template <typename, typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return integral_constant<T, product_helper(from, to)>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -213,30 +206,29 @@ namespace boost { namespace hana {
 
     template <>
     struct find_impl<Range> {
-        template <typename U, typename N>
-        static constexpr auto find_helper(N const&, decltype(true_)) {
-            constexpr auto n = hana::value<N>();
-            return hana::just(hana::to<U>(integral_constant<decltype(n), n>));
+        template <typename T, T from, typename N>
+        static constexpr auto find_helper(decltype(true_)) {
+            constexpr auto n = static_cast<T>(hana::value<N>());
+            return hana::just(integral_constant<T, n>);
         }
 
-        template <typename U, typename N>
-        static constexpr auto find_helper(N const&, decltype(false_))
+        template <typename T, T from, typename N>
+        static constexpr auto find_helper(decltype(false_))
         { return nothing; }
 
-        template <typename R, typename N>
-        static constexpr auto apply(R const&, N const& n_) {
+        template <typename T, T from, T to, typename N>
+        static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            return find_helper<typename R::underlying>(n_,
-                                        bool_<(n >= R::from && n < R::to)>);
+            return find_helper<T, from, N>(bool_<(n >= from && n < to)>);
         }
     };
 
     template <>
     struct contains_impl<Range> {
-        template <typename R, typename N>
-        static constexpr auto apply(R const&, N const&) {
+        template <typename T, T from, T to, typename N>
+        static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            return bool_<(n >= R::from && n < R::to)>;
+            return bool_<(n >= from && n < to)>;
         }
     };
 
@@ -245,71 +237,56 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct head_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            constexpr auto from = R::from;
-            return hana::to<U>(_integral_constant<decltype(from), from>{});
-        }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return integral_constant<T, from>; }
     };
 
     template <>
     struct tail_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            return _range<U, R::from + 1, R::to>{};
-        }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return _range<T, from + 1, to>{}; }
     };
 
     template <>
     struct is_empty_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&)
-        { return bool_<R::from == R::to>; }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return bool_<from == to>; }
     };
 
     template <>
     struct at_impl<Range> {
-        template <typename R, typename N>
-        static constexpr auto apply(R const&, N const&) {
-            using U = typename R::underlying;
+        template <typename T, T from, T to, typename N>
+        static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            constexpr auto from = R::from;
-            return to<U>(_integral_constant<decltype(from + n), from + n>{});
+            return integral_constant<T, from + n>;
         }
     };
 
     template <>
     struct last_impl<Range> {
-        template <typename R>
-        static constexpr auto apply(R const&) {
-            using U = typename R::underlying;
-            constexpr auto to = R::to;
-            return hana::to<U>(_integral_constant<decltype(to-1), to-1>{});
-        }
+        template <typename T, T from, T to>
+        static constexpr auto apply(_range<T, from, to> const&)
+        { return integral_constant<T, to - 1>; }
     };
 
     template <>
     struct drop_at_most_impl<Range> {
-        template <typename R, typename N>
-        static constexpr auto apply(R const&, N const&) {
+        template <typename T, T from, T to, typename N>
+        static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            using U = typename R::underlying;
-            return _range<U,
-                (R::to < R::from + n ? R::to : R::from + n),
-                R::to
-            >{};
+            return _range<T, (to < from + n ? to : from + n), to>{};
         }
     };
 
     template <>
     struct drop_exactly_impl<Range> {
-        template <typename R, typename N>
-        static constexpr auto apply(R const&, N const&) {
+        template <typename T, T from, T to, typename N>
+        static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            using U = typename R::underlying;
-            return _range<U, R::from + n, R::to>{};
+            return _range<T, from + n, to>{};
         }
     };
 }} // end namespace boost::hana
