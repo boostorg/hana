@@ -70,6 +70,13 @@ namespace boost { namespace hana {
     struct make_impl<Map> {
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            constexpr bool are_pairs[] = {true, _models<Product, Pairs>{}()...};
+
+            static_assert(hana::all(are_pairs),
+            "hana::make<Map>(pairs...) requires all the 'pairs' to be Products");
+        #endif
+
             return _map<typename detail::std::decay<Pairs>::type...>{
                 static_cast<Pairs&&>(pairs)...
             };
