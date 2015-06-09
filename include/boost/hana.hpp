@@ -2158,6 +2158,16 @@ push to the repository. If you notice results that do not withstand the
 claims made here, open a [GitHub issue][Hana.issues]; it could be a
 performance regression.
 
+@warning
+As of writing this, not all of Hana's containers are optimized. Implementing
+Hana was a big enough challenge that containers were initially written naively
+and are now in the process of being rigorously optimized. In particular, the
+associative containers (`Map` and `Set`) have a pretty bad compile-time
+behavior because of their naive implementation, and their runtime behavior
+also seems to be problematic in some cases. Improving this situation is my
+Google Summer of Code project for 2015, so you should expect these issues to
+be resolved over the course of the summer.
+
 
 @subsection tutorial-performance-compile Compile-time performance
 
