@@ -109,23 +109,29 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<Map> {
-        struct insert_helper {
-            template <typename M, typename P>
-            constexpr decltype(auto) operator()(M&& map, P&& pair) const {
-                return hana::unpack(
-                    hana::append(static_cast<M&&>(map).storage,
-                                 static_cast<P&&>(pair)),
-                    hana::make<Map>
-                );
-            }
-        };
+        template <typename M, typename P>
+        static constexpr typename detail::std::decay<M>::type
+        insert_helper(M&& map, P&&, decltype(true_))
+        { return static_cast<M&&>(map); }
+
+        template <typename M, typename P>
+        static constexpr decltype(auto)
+        insert_helper(M&& map, P&& pair, decltype(false_)) {
+            return hana::unpack(
+                hana::append(static_cast<M&&>(map).storage,
+                             static_cast<P&&>(pair)),
+                hana::make<Map>
+            );
+        }
 
         template <typename M, typename P>
         static constexpr decltype(auto) apply(M&& map, P&& pair) {
-            return hana::eval_if(hana::contains(map, hana::first(pair)),
-                hana::lazy(map),
-                hana::lazy(insert_helper{})(map, pair)
-            );
+            constexpr bool contains = hana::value<decltype(
+                hana::contains(map, hana::first(pair))
+            )>();
+            return insert_helper(static_cast<M&&>(map),
+                                 static_cast<P&&>(pair),
+                                 hana::bool_<contains>);
         }
     };
 
@@ -155,14 +161,24 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Map, Map> {
         template <typename M1, typename M2>
+        static constexpr auto equal_helper(M1 const&, M2 const&, decltype(false_)) {
+            return false_;
+        }
+
+        template <typename M1, typename M2>
+        static constexpr auto equal_helper(M1 const& m1, M2 const& m2, decltype(true_)) {
+            return hana::all_of(hana::keys(m1), hana::demux(equal)(
+                hana::partial(find, m1),
+                hana::partial(find, m2)
+            ));
+        }
+
+        template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
-            return hana::and_(
-                hana::equal(hana::length(m1.storage), hana::length(m2.storage)),
-                hana::all_of(hana::keys(m1), hana::demux(equal)(
-                    hana::partial(find, m1),
-                    hana::partial(find, m2)
-                ))
-            );
+            constexpr bool same_length = hana::value<decltype(
+                hana::equal(hana::length(m1.storage), hana::length(m2.storage))
+            )>();
+            return equal_helper(m1, m2, hana::bool_<same_length>);
         }
     };
 
