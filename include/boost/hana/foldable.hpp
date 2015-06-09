@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/by.hpp> // needed by xxx.by
@@ -697,11 +698,8 @@ namespace boost { namespace hana {
         : embedding<_models<Sequence, F>{}()>
     {
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.right(static_cast<Xs&&>(xs),
-                                    hana::empty<S>(),
-                                    hana::flip(hana::prepend));
-        }
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::unpack(static_cast<Xs&&>(xs), hana::make<S>); }
     };
 }} // end namespace boost::hana
 
