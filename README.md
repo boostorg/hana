@@ -1,4 +1,4 @@
-# Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a> <a href="http://semver.org" target="_blank">![Version][badge.semver]</a>
+# Hana <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a> <a href="http://semver.org" target="_blank">![Version][badge.version]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -207,8 +207,8 @@ Please see [LICENSE.md](LICENSE.md).
 
 <!-- Links -->
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg
-[badge.semver]: https://img.shields.io/badge/semver-0.3.0-brightgreen.svg
 [badge.Travis]: https://travis-ci.org/ldionne/hana.svg?branch=master
+[badge.version]: https://badge.fury.io/gh/ldionne%2Fhana.svg
 [C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org
 [CppCon]: http://cppcon.org
