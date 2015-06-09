@@ -11,7 +11,7 @@ var searchData=
   ['flip',['flip',['../group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094',1,'boost::hana']]],
   ['fold',['fold',['../structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1',1,'boost::hana::Foldable']]],
   ['for_5feach',['for_each',['../structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d',1,'boost::hana::Foldable']]],
-  ['from_5fjust',['from_just',['../structboost_1_1hana_1_1Maybe.html#a2ebdc9b916940e038e6f2e3043e4f796',1,'boost::hana::Maybe']]],
-  ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1Maybe.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::Maybe']]],
+  ['from_5fjust',['from_just',['../structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796',1,'boost::hana::Optional']]],
+  ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::Optional']]],
   ['fuse',['fuse',['../structboost_1_1hana_1_1Foldable.html#a0840e48f29a87467e23d801ca0ca122a',1,'boost::hana::Foldable']]]
 ];

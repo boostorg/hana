@@ -207,7 +207,7 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line">);</div>
 </div><!-- fragment --> Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>chain</code>ing a sequence of values into such a function will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences.<br />
 <b>Example</b>: <div class="fragment"><div class="line"><span class="comment">// Using the Tuple Monad, we generate all the possible combinations of</span></div>
-<div class="line"><span class="comment">// cv-qualifiers and reference qualifiers. Then, we use the Maybe Monad</span></div>
+<div class="line"><span class="comment">// cv-qualifiers and reference qualifiers. Then, we use the Optional Monad</span></div>
 <div class="line"><span class="comment">// to make sure that our generic function can be called with arguments</span></div>
 <div class="line"><span class="comment">// of any of those types.</span></div>
 <div class="line"></div>
@@ -324,20 +324,20 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Traversable.html" 
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    traverse&lt;Maybe&gt;(make&lt;Tuple&gt;(int_&lt;2&gt;, int_&lt;4&gt;, int_&lt;6&gt;), half)</div>
+<div class="line">    traverse&lt;Optional&gt;(make&lt;Tuple&gt;(int_&lt;2&gt;, int_&lt;4&gt;, int_&lt;6&gt;), half)</div>
 <div class="line">    ==</div>
 <div class="line">    just(make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;2&gt;, int_&lt;3&gt;))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    traverse&lt;Maybe&gt;(make&lt;Tuple&gt;(int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;6&gt;), half)</div>
+<div class="line">    traverse&lt;Optional&gt;(make&lt;Tuple&gt;(int_&lt;2&gt;, int_&lt;3&gt;, int_&lt;6&gt;), half)</div>
 <div class="line">    ==</div>
 <div class="line">    nothing</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Free <code>make</code> method </h2>
-<p>For any <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S</code>, the <code>make&lt;S&gt;</code> method is defined automatically as </p><div class="fragment"><div class="line">make&lt;S&gt;(x1, ..., xn) == fold.right(make&lt;Tuple&gt;(x1, ..., xn), prepend, empty&lt;S&gt;())</div>
+<p>For any <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S</code>, the <code>make&lt;S&gt;</code> method is defined automatically as </p><div class="fragment"><div class="line">make&lt;S&gt;(x1, ..., xn) == fold.right(make&lt;Tuple&gt;(x1, ..., xn), empty&lt;S&gt;(), <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(prepend))</div>
 <div class="line">                     == [x1, ..., xn] <span class="comment">// of data type S</span></div>
 </div><!-- fragment --><p>While this definition is correct, it can be compile-time inefficient. Hence, implementers of new sequences are encouraged to override this default definition.</p>
 <h2>Concrete models </h2>
@@ -354,6 +354,12 @@ Synopsis of methods</h2></td></tr>
 <tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
 <tr class="memdesc:a733fdb2e8686033466beea8323e53a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the last element of a non-empty sequence.  <a href="#a733fdb2e8686033466beea8323e53a26">More...</a><br /></td></tr>
 <tr class="separator:a733fdb2e8686033466beea8323e53a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
+<tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a value at a given index in a sequence.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
+<tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c12b49d0683af43f766a0093e413cea"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea">insert_range</a></td></tr>
+<tr class="memdesc:a3c12b49d0683af43f766a0093e413cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert several values at a given index in a sequence.  <a href="#a3c12b49d0683af43f766a0093e413cea">More...</a><br /></td></tr>
+<tr class="separator:a3c12b49d0683af43f766a0093e413cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a></td></tr>
 <tr class="memdesc:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a value between each pair of elements in a sequence.  <a href="#ab6e88c5dd3f638a60c0a451ad6db95ec">More...</a><br /></td></tr>
 <tr class="separator:ab6e88c5dd3f638a60c0a451ad6db95ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -606,6 +612,88 @@ Synopsis of methods</h2></td></tr>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1)) == make_tuple());</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a5791e6dc0e27d8e3a113e4d94482550f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto insert</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Insert a value at a given index in a sequence. </p>
+<p>Given a sequence, an index and an element to insert, <code>insert</code> inserts the element at the given index.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The sequence in which a value should be inserted.</td></tr>
+    <tr><td class="paramname">n</td><td>The index at which an element should be inserted. This must be a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an integral type, and it must also be true that <code>n &lt; length(xs)</code> if <code>xs</code> is a finite sequence.</td></tr>
+    <tr><td class="paramname">element</td><td>The element to insert in the sequence.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> xs = make_tuple(<span class="stringliteral">&quot;Hello&quot;</span>s, <span class="stringliteral">&quot;world!&quot;</span>s);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, 1_c, <span class="stringliteral">&quot; &quot;</span>s) == make_tuple(<span class="stringliteral">&quot;Hello&quot;</span>s, <span class="stringliteral">&quot; &quot;</span>s, <span class="stringliteral">&quot;world!&quot;</span>s));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a3c12b49d0683af43f766a0093e413cea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto insert_range</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n, <span class="keyword">auto</span>&amp;&amp; elements) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Insert several values at a given index in a sequence. </p>
+<p>Given a sequence, an index and any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing elements to insert, <code>insert_range</code> inserts the elements in the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> at the given index of the sequence.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The sequence in which values should be inserted.</td></tr>
+    <tr><td class="paramname">n</td><td>The index at which elements should be inserted. This must be a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an integral type, and it must also be true that <code>n &lt; length(xs)</code> if <code>xs</code> is a finite sequence.</td></tr>
+    <tr><td class="paramname">elements</td><td>A <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing elements to insert in the sequence.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> xs = make_tuple(<span class="stringliteral">&quot;Hello&quot;</span>s, <span class="stringliteral">&quot;world!&quot;</span>s);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea">insert_range</a>(xs, 1_c, make_tuple(1, 2, 3)) == make_tuple(<span class="stringliteral">&quot;Hello&quot;</span>s, 1, 2, 3, <span class="stringliteral">&quot;world!&quot;</span>s)</div>
+<div class="line">);</div>
 </div><!-- fragment -->
 </div>
 </div>

@@ -133,7 +133,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Either.html',''
 <a href="#related">Synopsis of methods</a> &#124;
 <a href="structboost_1_1hana_1_1Either-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Either Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::Either Struct Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
@@ -164,7 +164,7 @@ Since <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag r
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(f(x))</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="keyword">auto</span> safe_div = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> eval_if(y == int_&lt;0&gt;,</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;division by zero&quot;</span>s)),</div>
+<div class="line">        [] { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;division by zero&quot;</span>s); },</div>
 <div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(y)); }</div>
 <div class="line">    );</div>
 <div class="line">});</div>
@@ -227,14 +227,14 @@ The instance of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" tit
 <div class="line">flatten(anything else) == anything else</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="keyword">auto</span> safe_div = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> eval_if(y == int_&lt;0&gt;,</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;division by zero&quot;</span>s)),</div>
+<div class="line">        [] { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;division by zero&quot;</span>s); },</div>
 <div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(y)); }</div>
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> safe_dec = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> eval_if(x == int_&lt;0&gt;,</div>
-<div class="line">        <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;negative value&quot;</span>s)),</div>
+<div class="line">        [] { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;negative value&quot;</span>s); },</div>
 <div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(x) - int_&lt;1&gt;); }</div>
 <div class="line">    );</div>
 <div class="line">};</div>

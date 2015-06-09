@@ -92,7 +92,7 @@ var NAVTREEINDEX =
 [
 "add__rvalue__reference_8hpp.html",
 "index.html#tutorial-conclusion-glossary",
-"structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5"
+"structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

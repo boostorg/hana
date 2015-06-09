@@ -1,10 +1,5 @@
 var group__group_datatypes =
 [
-    [ "Either", "structboost_1_1hana_1_1Either.html", [
-      [ "left", "structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d", null ],
-      [ "right", "structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb", null ],
-      [ "either", "structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36", null ]
-    ] ],
     [ "IntegralConstant", "structboost_1_1hana_1_1IntegralConstant.html", [
       [ "integral_constant", "structboost_1_1hana_1_1IntegralConstant.html#a3548ddeed18cbfe945b7de9cb65f873b", null ],
       [ "bool_", "structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87", null ],
@@ -34,16 +29,18 @@ var group__group_datatypes =
       [ "insert", "structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "erase_key", "structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],
-    [ "Maybe", "structboost_1_1hana_1_1Maybe.html", [
-      [ "just", "structboost_1_1hana_1_1Maybe.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
-      [ "nothing", "structboost_1_1hana_1_1Maybe.html#aaede0403a5f0093e82a7346b5cae0bc4", null ],
-      [ "only_when", "structboost_1_1hana_1_1Maybe.html#a0d8246013d58b0809b6f18d894525b6c", null ],
-      [ "maybe", "structboost_1_1hana_1_1Maybe.html#a6529e11cb228e99a05e81071752807d5", null ],
-      [ "is_just", "structboost_1_1hana_1_1Maybe.html#a1047a69893a62cd36eb0d2934f85e0e7", null ],
-      [ "is_nothing", "structboost_1_1hana_1_1Maybe.html#a4eb266d123883c23853f7731a6c5953f", null ],
-      [ "from_maybe", "structboost_1_1hana_1_1Maybe.html#afb98884a58d911687bf2aa64a411d623", null ],
-      [ "from_just", "structboost_1_1hana_1_1Maybe.html#a2ebdc9b916940e038e6f2e3043e4f796", null ],
-      [ "sfinae", "structboost_1_1hana_1_1Maybe.html#aa4c8c0b1ef3d8206974734b93646c9fd", null ]
+    [ "Optional", "structboost_1_1hana_1_1Optional.html", [
+      [ "make< Optional >", "structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7", null ],
+      [ "make_maybe", "structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b", null ],
+      [ "just", "structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
+      [ "nothing", "structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4", null ],
+      [ "only_when", "structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c", null ],
+      [ "maybe", "structboost_1_1hana_1_1Optional.html#a6529e11cb228e99a05e81071752807d5", null ],
+      [ "is_just", "structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7", null ],
+      [ "is_nothing", "structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f", null ],
+      [ "from_maybe", "structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623", null ],
+      [ "from_just", "structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796", null ],
+      [ "sfinae", "structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd", null ]
     ] ],
     [ "Pair", "structboost_1_1hana_1_1Pair.html", [
       [ "make< Pair >", "structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682", null ],

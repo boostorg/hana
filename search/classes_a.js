@@ -13,5 +13,6 @@ var searchData=
   ['of_3c_20monad_20_3e',['of&lt; Monad &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
   ['of_3c_20rest_20_3e',['of&lt; Rest &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
   ['of_3c_20searchable_2c_20comparable_20_3e',['of&lt; Searchable, Comparable &gt;',['../structboost_1_1hana_1_1operators_1_1of.html',1,'boost::hana::operators']]],
+  ['optional',['Optional',['../structboost_1_1hana_1_1Optional.html',1,'boost::hana']]],
   ['orderable',['Orderable',['../structboost_1_1hana_1_1Orderable.html',1,'boost::hana']]]
 ];

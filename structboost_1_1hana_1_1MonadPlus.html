@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1MonadPlus.html'
 <h2>Minimal complete definition </h2>
 <p><code>concat</code> and <code>empty</code></p>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Maybe</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
 <h2>Laws </h2>
 <p>First, a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> is required to have a monoidal structure. Hence, it is no surprise that for any <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, we require <code>M(T)</code> to be a valid monoid. However, we do not enforce that <code>M(T)</code> actually models the <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> concept provided by Hana. Further, for all objects <code>a, b, c</code> of data type <code>M(T)</code>, </p><div class="fragment"><div class="line"><span class="comment">// identity</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a91ad3cf817440c20f200f91d4fa4e789">empty</a>&lt;M(T)&gt;(), a) == a</div>
@@ -270,7 +270,7 @@ template&lt;typename M &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Tuple&gt;() == make_tuple());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Maybe&gt;() == nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Optional&gt;() == nothing);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -291,32 +291,29 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Prepend an element to a monadic structure. </p>
-<p>Given an element <code>x</code> and a monadic structure <code>xs</code>, <code>prepend</code> returns a new monadic structure which is the result of lifting <code>x</code> into the monadic structure and then combining that (to the left) with <code>xs</code>. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(x, xs) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(lift&lt;Xs&gt;(x), xs)</div>
+<p>Given a monadic structure <code>xs</code> and an element <code>x</code>, <code>prepend</code> returns a new monadic structure which is the result of lifting <code>x</code> into the monadic structure and then combining that (to the left) with <code>xs</code>. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(xs, x) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(lift&lt;Xs&gt;(x), xs)</div>
 </div><!-- fragment --><p>For sequences, this has the intuitive behavior of simply prepending an element to the beginning of the sequence, hence the name.</p>
 <blockquote class="doxtable">
 <h4>Rationale for not calling this <code>push_front</code></h4>
-<p>While <code>push_front</code> is the de-facto name used in the standard library, it also strongly suggests mutation of the underlying sequence, which is not the case here. The author also finds that <code>push_front</code> suggests too strongly the sole interpretation of putting an element to the front of a sequence, whereas <code>prepend</code> is slightly more nuanced and bears its name better for e.g. <code><a class="el" href="structboost_1_1hana_1_1Maybe.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Maybe</a></code>. </p>
+<p>While <code>push_front</code> is the de-facto name used in the standard library, it also strongly suggests mutation of the underlying sequence, which is not the case here. The author also finds that <code>push_front</code> suggests too strongly the sole interpretation of putting an element to the front of a sequence, whereas <code>prepend</code> is slightly more nuanced and bears its name better for e.g. <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>. </p>
 </blockquote>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{prepend} : T \times M(T) \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{prepend} : M(T) \times T \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">x</td><td>An element to combine to the left of the monadic structure.</td></tr>
     <tr><td class="paramname">xs</td><td>A monadic structure that will be combined to the right of the element.</td></tr>
+    <tr><td class="paramname">x</td><td>An element to combine to the left of the monadic structure.</td></tr>
   </table>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make_tuple()) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(1, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(<span class="charliteral">&#39;2&#39;</span>, <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(3.3, make_tuple()))) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
-<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(make_tuple(), 1) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3), 1) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -360,9 +357,7 @@ template&lt;typename M &gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
-<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -578,8 +573,8 @@ template&lt;typename M &gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line">static_assert(repeat&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in a Maybe.</span></div>
-<div class="line">static_assert(repeat&lt;Maybe&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an Optional.</span></div>
+<div class="line">static_assert(repeat&lt;Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -600,22 +595,22 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; z, <span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; z) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Inserts a value before each element of a monadic structure. </p>
-<p>Given a value (called the prefix) <code>z</code> and a monadic structure <code>xs</code>, <code>prefix</code> returns a new monadic structure which is equivalent to </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(z, xs) == flatten(transform(xs, [](<span class="keyword">auto</span> x) {</div>
+<p>Given a monadic structure <code>xs</code> and a value <code>z</code> called the prefix, <code>prefix</code> returns a new monadic structure. <code>prefix</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(xs, z) == flatten(transform(xs, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(lift&lt;M&gt;(z), lift&lt;M&gt;(x));</div>
 <div class="line">}))</div>
 </div><!-- fragment --><p>For sequences, this simply corresponds to inserting the prefix before each element of the sequence. For example, given a sequence <code>[x1, ..., xn]</code>, <code>prefix</code> will return </p><div class="fragment"><div class="line">[z, x1, z, x2, ..., z, xn]</div>
 </div><!-- fragment --><p> As explained above, this can be generalized to other <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> models, with various levels of interest.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{prefix} : T \times M(T) \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{prefix} : M(T) \times T \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">z</td><td>A value (the prefix) to insert before each element of a monadic structure.</td></tr>
     <tr><td class="paramname">xs</td><td>A monadic structure.</td></tr>
+    <tr><td class="paramname">z</td><td>A value (the prefix) to insert before each element of a monadic structure.</td></tr>
   </table>
   </dd>
 </dl>
@@ -623,7 +618,7 @@ template&lt;typename M &gt; </div>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(<span class="stringliteral">&quot;my&quot;</span>s, make_tuple(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s)) ==</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(make_tuple(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s), <span class="stringliteral">&quot;my&quot;</span>s) ==</div>
 <div class="line">    make_tuple(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;house&quot;</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment -->

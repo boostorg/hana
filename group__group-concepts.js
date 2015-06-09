@@ -135,6 +135,8 @@ var group__group_concepts =
       [ "cartesian_product", "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95", null ],
       [ "group", "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
       [ "init", "structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26", null ],
+      [ "insert", "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
+      [ "insert_range", "structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea", null ],
       [ "intersperse", "structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec", null ],
       [ "partition", "structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816", null ],
       [ "permutations", "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1", null ],
