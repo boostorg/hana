@@ -96,21 +96,6 @@ BOOST_HANA_CONSTEXPR_CHECK(unpack(right('x'), make<Tuple>) == make<Tuple>('x'));
 
 }{
 
-//! [traversable]
-BOOST_HANA_CONSTEXPR_LAMBDA auto duplicate = [](auto x) {
-    return make<Tuple>(x, x);
-};
-
-BOOST_HANA_CONSTEXPR_CHECK(
-    traverse<Tuple>(left(1), duplicate) == make<Tuple>(left(1))
-);
-BOOST_HANA_CONSTEXPR_CHECK(
-    traverse<Tuple>(right(1), duplicate) == make<Tuple>(right(1), right(1))
-);
-//! [traversable]
-
-}{
-
 //! [either]
 BOOST_HANA_CONSTEXPR_CHECK(either(succ, pred, left(1)) == 2);
 BOOST_HANA_CONSTEXPR_CHECK(either(succ, pred, right(1)) == 0);

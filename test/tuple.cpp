@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
 #include <laws/sequence.hpp>
-#include <laws/traversable.hpp>
 
 #include <string>
 #include <type_traits>
@@ -477,13 +476,6 @@ int main() {
         }
 
         test::TestIterable<Tuple>{eq_tuples};
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    {
-        test::TestTraversable<Tuple>{};
     }
 
 #elif BOOST_HANA_TEST_PART == 5

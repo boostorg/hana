@@ -37,7 +37,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/pair.hpp>
 #include <boost/hana/product.hpp>
 #include <boost/hana/searchable.hpp>
-#include <boost/hana/traversable.hpp>
 #include <boost/hana/tuple.hpp>
 
 
@@ -1351,41 +1350,6 @@ namespace boost { namespace hana {
     template <typename S>
     struct any_of_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::any_of_impl<S>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Automatic model of Traversable
-    //////////////////////////////////////////////////////////////////////////
-    namespace sequence_detail {
-        struct traverse_helper {
-            template <typename F, typename X, typename Ys>
-            constexpr decltype(auto) operator()(F&& f, X&& x, Ys&& ys) const {
-                return hana::ap(
-                    hana::transform(
-                        static_cast<F&&>(f)(static_cast<X&&>(x)),
-                        hana::curry<2>(hana::flip(prepend))
-                    ),
-                    static_cast<Ys&&>(ys)
-                );
-            }
-        };
-    }
-
-    template <typename S>
-    struct Sequence::traverse_impl {
-        template <typename A, typename Xs, typename F>
-        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::fold.right(
-                static_cast<Xs&&>(xs),
-                hana::lift<A>(empty<S>()),
-                hana::partial(sequence_detail::traverse_helper{},
-                              static_cast<F&&>(f)));
-        }
-    };
-
-    template <typename S>
-    struct traverse_impl<S, when<_models<Sequence, S>{}()>>
-        : Sequence::traverse_impl<S>
     { };
 }} // end namespace boost::hana
 

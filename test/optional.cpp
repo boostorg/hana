@@ -23,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/monad_plus.hpp>
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
-#include <laws/traversable.hpp>
 #include <test/identity.hpp>
 
 #include <type_traits>
@@ -475,32 +474,6 @@ int main() {
     }
 
 #elif BOOST_HANA_TEST_PART == 5
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    {
-        test::_injection<0> f{};
-
-        auto applicative = test::identity;
-        using A = test::Identity;
-
-        // traverse
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<A>(just(ct_eq<3>{}), compose(applicative, f)),
-                applicative(just(f(ct_eq<3>{})))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<A>(nothing, compose(applicative, f)),
-                applicative(nothing)
-            ));
-        }
-
-        // laws
-        test::TestTraversable<Optional>{};
-    }
-
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////

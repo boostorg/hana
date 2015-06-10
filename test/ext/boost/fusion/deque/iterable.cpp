@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/foldable.hpp>
 #include <laws/iterable.hpp>
-#include <laws/traversable.hpp>
 
 #include <boost/fusion/container/generation/make_deque.hpp>
 #include <boost/fusion/container/deque.hpp>
@@ -33,9 +32,8 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable, Iterable, Traversable
+    // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<ext::boost::fusion::Deque>{eq_deques};
     test::TestIterable<ext::boost::fusion::Deque>{eq_deques};
-    test::TestTraversable<ext::boost::fusion::Deque>{};
 }

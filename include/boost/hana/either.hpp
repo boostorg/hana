@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/orderable.hpp>
-#include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
@@ -222,36 +221,6 @@ namespace boost { namespace hana {
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>&& x, F&& f)
         { return static_cast<F&&>(f)(detail::std::move(x.value)); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct traverse_impl<Either> {
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T> const& e, F&& /*f*/)
-        { return lift<A>(e); }
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T>& e, F&& /*f*/)
-        { return lift<A>(e); }
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_left<T>&& e, F&& /*f*/)
-        { return lift<A>(detail::std::move(e)); }
-
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_right<T> const& e, F&& f) {
-            return hana::transform(static_cast<F&&>(f)(e.value), right);
-        }
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_right<T>& e, F&& f) {
-            return hana::transform(static_cast<F&&>(f)(e.value), right);
-        }
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_right<T>&& e, F&& f) {
-            return hana::transform(static_cast<F&&>(f)(
-                                        detail::std::move(e.value)), right);
-        }
     };
 }} // end namespace boost::hana
 

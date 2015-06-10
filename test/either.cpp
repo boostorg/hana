@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/functor.hpp>
 #include <laws/monad.hpp>
 #include <laws/orderable.hpp>
-#include <laws/traversable.hpp>
 #include <test/identity.hpp>
 
 #include <type_traits>
@@ -238,27 +237,6 @@ int main() {
 
         // laws
         test::TestFoldable<Either>{big_eqs};
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    {
-        test::_injection<0> f{};
-        auto f_ = compose(lift<test::Identity>, f);
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            traverse<test::Identity>(left(ct_eq<0>{}), f_),
-            test::identity(left(ct_eq<0>{}))
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            traverse<test::Identity>(right(ct_eq<0>{}), f_),
-            test::identity(right(f(ct_eq<0>{})))
-        ));
-
-        // laws
-        test::TestTraversable<Either>{};
     }
 
 #elif BOOST_HANA_TEST_PART == 4

@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/sequence.hpp>
-#include <boost/hana/traversable.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <utility>
@@ -144,23 +143,6 @@ namespace boost { namespace hana {
                             f
                         );
                     }
-                )
-            );
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct traverse_impl<Tree> {
-        template <typename A, typename N, typename F>
-        static constexpr decltype(auto) apply(N&& n, F&& f) {
-            return hana::ap(
-                hana::transform(f(std::forward<N>(n).value), curry<2>(node)),
-                traverse<A>(
-                    std::forward<N>(n).subforest,
-                    hana::partial(hana::flip(traverse<A>), f)
                 )
             );
         }

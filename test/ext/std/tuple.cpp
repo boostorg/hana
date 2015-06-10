@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/monad_plus.hpp>
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
-#include <laws/traversable.hpp>
 
 #define BOOST_HANA_TEST_SEQUENCE_KNOWN_PARTS 3
 #if BOOST_HANA_TEST_PART == 6
@@ -125,11 +124,10 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
-    // Foldable, Iterable, Traversable
+    // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<ext::std::Tuple>{big_eq_tuples};
     test::TestIterable<ext::std::Tuple>{big_eq_tuples};
-    test::TestTraversable<ext::std::Tuple>{};
 
 #elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////

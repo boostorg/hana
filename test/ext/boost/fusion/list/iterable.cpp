@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/foldable.hpp>
 #include <laws/iterable.hpp>
-#include <laws/traversable.hpp>
 
 #include <boost/fusion/container/generation/make_list.hpp>
 #include <boost/fusion/container/list.hpp>
@@ -33,9 +32,8 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable, Iterable, Traversable
+    // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<ext::boost::fusion::List>{eq_lists};
     test::TestIterable<ext::boost::fusion::List>{eq_lists};
-    test::TestTraversable<ext::boost::fusion::List>{};
 }

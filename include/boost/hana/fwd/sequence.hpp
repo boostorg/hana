@@ -178,11 +178,6 @@ namespace boost { namespace hana {
     //! the search is performed are both the elements of the sequence.
     //! @snippet example/sequence.cpp Searchable
     //!
-    //! 10. `Traversable` (definition provided automatically)\n
-    //! The model of `Traversable` for `Sequence`s allows turning a sequence
-    //! of `Applicative`s into an `Applicative` containing a sequence.
-    //! @snippet example/sequence.cpp Traversable
-    //!
     //!
     //! Free `make` method
     //! ------------------
@@ -213,7 +208,6 @@ namespace boost { namespace hana {
         template <typename S> struct ap_impl;
         template <typename S> struct flatten_impl;
         template <typename S> struct concat_impl;
-        template <typename S> struct traverse_impl;
     };
 
     //! Computes the cartesian product of a sequence of sequences.

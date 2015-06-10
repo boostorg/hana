@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 #include <laws/functor.hpp>
 #include <laws/monad.hpp>
-#include <laws/traversable.hpp>
 #include <test/cnumeric.hpp>
 using namespace boost::hana;
 
@@ -164,35 +163,6 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 monad(ct_eq<1>{}) | f | g,
                 chain(chain(monad(ct_eq<1>{}), f), g)
-            ));
-        }
-    }
-
-    // Traversable
-    {
-        // traverse
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<test::Identity>(test::identity(ct_eq<0>{}), compose(test::identity, f)),
-                test::identity(test::identity(f(ct_eq<0>{})))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                traverse<Tuple>(test::identity(ct_eq<0>{}), compose(make<Tuple>, f)),
-                make<Tuple>(test::identity(f(ct_eq<0>{})))
-            ));
-        }
-
-        // sequence
-        {
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sequence<test::Identity>(test::identity(test::identity(ct_eq<0>{}))),
-                test::identity(test::identity(ct_eq<0>{}))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                sequence<Tuple>(test::identity(make<Tuple>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}))),
-                make<Tuple>(test::identity(ct_eq<0>{}), test::identity(ct_eq<1>{}), test::identity(ct_eq<2>{}))
             ));
         }
     }

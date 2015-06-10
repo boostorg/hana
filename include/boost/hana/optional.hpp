@@ -38,7 +38,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
-#include <boost/hana/traversable.hpp>
 
 
 namespace boost { namespace hana {
@@ -307,30 +306,6 @@ namespace boost { namespace hana {
     struct empty_impl<Optional> {
         static constexpr auto apply()
         { return nothing; }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Traversable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct traverse_impl<Optional> {
-        template <typename A, typename F>
-        static constexpr decltype(auto) apply(_nothing const&, F&& /*f*/)
-        { return lift<A>(nothing); }
-
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_just<T> const& x, F&& f)
-        { return hana::transform(static_cast<F&&>(f)(x.val), just); }
-
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_just<T>& x, F&& f)
-        { return hana::transform(static_cast<F&&>(f)(x.val), just); }
-
-        template <typename A, typename T, typename F>
-        static constexpr decltype(auto) apply(_just<T>&& x, F&& f) {
-            return hana::transform(static_cast<F&&>(f)(
-                                        detail::std::move(x.val)), just);
-        }
     };
 
     //////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/foldable.hpp>
 #include <laws/iterable.hpp>
-#include <laws/traversable.hpp>
 
 #include <boost/fusion/container/generation/make_vector.hpp>
 #include <boost/fusion/container/vector.hpp>
@@ -34,9 +33,8 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable, Iterable, Traversable
+    // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<ext::boost::fusion::Vector>{eq_vectors};
     test::TestIterable<ext::boost::fusion::Vector>{eq_vectors};
-    test::TestTraversable<ext::boost::fusion::Vector>{};
 }

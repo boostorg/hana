@@ -84,20 +84,8 @@ namespace boost { namespace hana {
     //! For the purpose of being folded, an `Either` is considered empty if
     //! it is a `left`, and it is considered equivalent to a one element list
     //! if it is a `right`.
-    //! @snippet example/either.cpp foldable
-    //!
-    //! 7. `Traversable`\n
-    //! Traversing a `left` with an `Applicative A` just lifts the `left` into
-    //! the `Applicative`. Traversing a `right` will apply the function to the
-    //! value inside the `right`, which effectively lifts the value into the
-    //! `Applicative`, and then put back the value inside an `right` with
-    //! `transform`. In other words,
-    //! @code
-    //!     traverse<A>(left(x), f) == lift<A>(left(x))
-    //!     traverse<A>(right(y), f) == transform(f(y), right)
-    //! @endcode
     //! Example:
-    //! @snippet example/either.cpp traversable
+    //! @snippet example/either.cpp foldable
     struct Either { };
 
     //! Create an `Either` containing the given left value.

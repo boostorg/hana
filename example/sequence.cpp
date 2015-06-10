@@ -192,49 +192,6 @@ BOOST_HANA_RUNTIME_CHECK(
 );
 //! [Searchable]
 
-}{
-
-//! [Traversable]
-using namespace std::string_literals;
-
-BOOST_HANA_RUNTIME_CHECK(
-    sequence<Tuple>(
-        make<Tuple>(make<Tuple>("a1"s, "a2"s),
-                    make<Tuple>("b1"s),
-                    make<Tuple>("c1"s, "c2"s, "c3"s))
-    )
-    ==
-    make<Tuple>(
-        make<Tuple>("a1"s, "b1"s, "c1"s),
-        make<Tuple>("a1"s, "b1"s, "c2"s),
-        make<Tuple>("a1"s, "b1"s, "c3"s),
-
-        make<Tuple>("a2"s, "b1"s, "c1"s),
-        make<Tuple>("a2"s, "b1"s, "c2"s),
-        make<Tuple>("a2"s, "b1"s, "c3"s)
-    )
-);
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto half = [](auto x) {
-    return if_(x % int_<2> == int_<0>,
-        just(x / int_<2>),
-        nothing
-    );
-};
-
-BOOST_HANA_CONSTANT_CHECK(
-    traverse<Optional>(make<Tuple>(int_<2>, int_<4>, int_<6>), half)
-    ==
-    just(make<Tuple>(int_<1>, int_<2>, int_<3>))
-);
-
-BOOST_HANA_CONSTANT_CHECK(
-    traverse<Optional>(make<Tuple>(int_<2>, int_<3>, int_<6>), half)
-    ==
-    nothing
-);
-//! [Traversable]
-
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/foldable.hpp>
 #include <laws/iterable.hpp>
-#include <laws/traversable.hpp>
 
 #include <boost/fusion/tuple.hpp>
 using namespace boost::hana;
@@ -33,9 +32,8 @@ int main() {
     );
 
     //////////////////////////////////////////////////////////////////////////
-    // Foldable, Iterable, Traversable
+    // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<ext::boost::fusion::Tuple>{eq_tuples};
     test::TestIterable<ext::boost::fusion::Tuple>{eq_tuples};
-    test::TestTraversable<ext::boost::fusion::Tuple>{};
 }

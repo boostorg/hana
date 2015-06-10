@@ -32,7 +32,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/sequence.hpp>
 #include <boost/hana/struct.hpp>
-#include <boost/hana/traversable.hpp>
 
 // Data types
 #include <boost/hana/bool.hpp>
