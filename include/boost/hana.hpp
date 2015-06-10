@@ -1557,11 +1557,6 @@ you may define the members of your user-defined type with the
 
 @snippet example/tutorial/introspection.adapt.cpp BOOST_HANA_DEFINE_STRUCT
 
-@note
-This macro (and `BOOST_HANA_ADAPT_STRUCT` presented below) live in
-the `<boost/hana/struct_macros.hpp>` header, and they require the
-Boost.Preprocessor library.
-
 This macro defines two members (`name` and `age`) with the given types. Then,
 it defines some boilerplate inside a `Person::hana` nested `struct`, which is
 required to make `Person` a model of the `Struct` concept. No constructors are

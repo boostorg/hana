@@ -784,7 +784,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct concat_impl<Tuple> {
-        #define BOOST_HANA_PP_CONCAT(REF1, REF2)                            \
+        #define BOOST_HANA_PP_CONCAT_METHOD(REF1, REF2)                     \
             template <typename ...Xs, typename ...Ys>                       \
             static constexpr _tuple<                                        \
                 typename Xs::get_type..., typename Ys::get_type...          \
@@ -795,8 +795,8 @@ namespace boost { namespace hana {
                         static_cast<Ys REF2>(ys).get...};                   \
             }                                                               \
         /**/
-        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_CONCAT)
-        #undef BOOST_HANA_PP_CONCAT
+        BOOST_HANA_PP_FOR_EACH_REF2(BOOST_HANA_PP_CONCAT_METHOD)
+        #undef BOOST_HANA_PP_CONCAT_METHOD
     };
 
     template <>

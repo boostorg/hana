@@ -262,12 +262,6 @@ namespace boost { namespace hana {
     //! `Struct` concept for that user-defined type. This macro is often the
     //! easiest way to define a model of the `Struct` concept.
     //!
-    //! @remark
-    //! This macro is defined in the `boost/hana/struct_macros.hpp` header.
-    //! It is not included in `boost/hana/struct.hpp` because it depends on
-    //! the Boost.Preprocessor library. It is not included by the master
-    //! header of the library for the same reason.
-    //!
     //! @note
     //! This macro only works if the data type (generalized type) of the
     //! user-defined type `T` is `T` itself. This is the case unless you
@@ -282,7 +276,7 @@ namespace boost { namespace hana {
     auto BOOST_HANA_DEFINE_STRUCT(...) = ;
     #define BOOST_HANA_DEFINE_STRUCT(Name, ...) see documentation
 #else
-    // defined in boost/hana/struct_macros.hpp
+    // defined in <boost/hana/detail/struct_macros.hpp>
 #endif
 
     //! Defines a model of `Struct` with the given members.
@@ -291,12 +285,6 @@ namespace boost { namespace hana {
     //! Using this macro at _global scope_ will define a model of the `Struct`
     //! concept for the given type. This can be used to easily adapt existing
     //! user-defined types in a ad-hoc manner.
-    //!
-    //! @remark
-    //! This macro is defined in the `boost/hana/struct_macros.hpp` header.
-    //! It is not included in `boost/hana/struct.hpp` because it depends on
-    //! the Boost.Preprocessor library. It is not included by the master
-    //! header of the library for the same reason.
     //!
     //! @note
     //! This macro only works if the data type (generalized type) of the
@@ -312,7 +300,7 @@ namespace boost { namespace hana {
     auto BOOST_HANA_ADAPT_STRUCT(...) = ;
     #define BOOST_HANA_ADAPT_STRUCT(Name, ...) see documentation
 #else
-    // defined in boost/hana/struct_macros.hpp
+    // defined in <boost/hana/detail/struct_macros.hpp>
 #endif
 }} // end namespace boost::hana
 

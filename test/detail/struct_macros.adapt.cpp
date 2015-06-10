@@ -4,12 +4,11 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/struct_macros.hpp>
+#include <boost/hana/struct.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/struct.hpp>
 
 #include <laws/base.hpp>
 using namespace boost::hana;

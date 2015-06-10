@@ -87,15 +87,13 @@ endif()
 # of public headers and the tests that require Boost from the list of tests.
 if (NOT Boost_FOUND)
     boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
-        "ext/boost/*.cpp"
-        "struct_macros.*.cpp")
+        "ext/boost/*.cpp")
 
     boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB_RECURSE
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/struct_macros.hpp")
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp")
 
 # Boost.Fusion is broken in several way. Because of this, we disable
 # several unit tests that break because of Fusion bugs.

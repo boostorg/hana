@@ -5,7 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana.hpp>
-#include <boost/hana/struct_macros.hpp>
 
 #include <iostream>
 #include <string>

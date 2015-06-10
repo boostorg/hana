@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <string>
 
 #include <boost/hana/ext/std/type_traits.hpp>
-#include <boost/hana/struct_macros.hpp>
 
 //! [includes]
 #include <boost/hana.hpp>
