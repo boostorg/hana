@@ -29,11 +29,10 @@ namespace boost { namespace hana {
     //! Since each `g` is invoked on its corresponding argument in lockstep,
     //! the number of arguments must match the number of `g`s.
     //!
-    //! ### Example
-    //! @snippet example/functional.cpp lockstep
     //!
-    //! @todo
-    //! I think this is equivalent to `<*>` for `((->) r)`.
+    //! Example
+    //! -------
+    //! @snippet example/functional.cpp lockstep
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lockstep = [](auto&& f, auto&& ...g) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {
