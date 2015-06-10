@@ -3001,7 +3001,12 @@ that useful.
 @subsection tutorial-rationales-why_Hana Why Hana?
 
 No, it isn't the name of my girlfriend! I just needed a short and good looking
-name that people would easily remember, and Hana came up.
+name that people would easily remember, and Hana came up. It also came to my
+attention that Hana means _flower_ in Japanese, and _one_ in Korean. Since
+Hana is pretty and it unifies type-level and heterogeneous programming under
+a single paradigm, the name appears to be quite well chosen in retrospect :-).
+
+
 
 
 
