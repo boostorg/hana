@@ -117,6 +117,13 @@ namespace boost { namespace hana {
     //! like indexing inside a tuple:
     //! @snippet example/integral_constant.cpp times_with_index_compile_time
     //!
+    //! @note
+    //! `times.with_index(f)` guarantees that the calls to `f` will be done in
+    //! order of ascending index. In other words, `f` will be called as `f(0)`,
+    //! `f(1)`, `f(2)`, etc., but with `IntegralConstant`s instead of normal
+    //! integers. Side effects can also be done in the function passed to
+    //! `.times` and `.times.with_index`.
+    //!
     //!
     //! Construction with user-defined literals
     //! ---------------------------------------

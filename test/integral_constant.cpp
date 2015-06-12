@@ -123,6 +123,13 @@ int main() {
 
             // make sure xxx.times.with_index can be used as a function object
             auto z = int_<5>.times.with_index; (void)z;
+
+            // make sure we're calling the function in the right order
+            int current = 0;
+            int_<5>.times.with_index([&](auto i) {
+                BOOST_HANA_RUNTIME_CHECK(i == current);
+                ++current;
+            });
         }
 
         // Arithmetic operators
