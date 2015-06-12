@@ -172,8 +172,8 @@ The project is organized in a couple of subdirectories.
   code is written mostly in the form of [eRuby][] templates. The templates
   are used to generate C++ files which are then compiled while gathering
   compilation and execution statistics.
-- The [cmake](cmake) directory contains various CMake modules needed by the
-  build system.
+- The [cmake](cmake) directory contains various CMake modules and other
+  scripts needed by the build system.
 - The [doc](doc) directory contains configuration files needed to generate
   the documentation. The `doc/gh-pages` subdirectory is automatically ignored
   by git; you can conveniently store a local copy of the documentation by
