@@ -80,7 +80,7 @@ namespace boost { namespace hana {
 
         template <typename H, typename T>
         static constexpr auto apply(::boost::tuples::cons<H, T>&& xs)
-        { return std::move(xs.get_tail()); }
+        { return std::move(xs).get_tail(); }
     };
 
     template <>
