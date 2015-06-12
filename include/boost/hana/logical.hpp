@@ -22,14 +22,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/lazy.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -37,21 +36,21 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(and_)>{}() ||
             _has_operator<datatype_t<Y>, decltype(and_)>{}()
         >>
         constexpr decltype(auto) operator&&(X&& x, Y&& y)
         { return hana::and_(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(or_)>{}() ||
             _has_operator<datatype_t<Y>, decltype(or_)>{}()
         >>
         constexpr decltype(auto) operator||(X&& x, Y&& y)
         { return hana::or_(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename = detail::std::enable_if_t<
+        template <typename X, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(not_)>{}()
         >>
         constexpr decltype(auto) operator!(X&& x)
@@ -230,7 +229,7 @@ namespace boost { namespace hana {
     // Model for arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename L>
-    struct eval_if_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
+    struct eval_if_impl<L, when<std::is_arithmetic<L>{}()>> {
         template <typename Cond, typename T, typename E>
         static constexpr auto apply(Cond const& cond, T&& t, E&& e) {
             return cond ? hana::eval(static_cast<T&&>(t))
@@ -239,14 +238,14 @@ namespace boost { namespace hana {
     };
 
     template <typename L>
-    struct not_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
+    struct not_impl<L, when<std::is_arithmetic<L>{}()>> {
         template <typename Cond>
         static constexpr Cond apply(Cond const& cond)
         { return static_cast<Cond>(cond ? false : true); }
     };
 
     template <typename L>
-    struct while_impl<L, when<detail::std::is_arithmetic<L>{}()>> {
+    struct while_impl<L, when<std::is_arithmetic<L>{}()>> {
         template <typename Pred, typename State, typename F>
         static auto apply(Pred&& pred, State&& state, F&& f)
             -> decltype(

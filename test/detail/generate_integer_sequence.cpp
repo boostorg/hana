@@ -5,10 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/generate_integer_sequence.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
 
 #include <cstddef>
 #include <type_traits>
+#include <utility>
 using namespace boost::hana;
 
 
@@ -18,7 +18,7 @@ template <std::size_t i>
 struct without_function {
     static_assert(std::is_same<
         detail::generate_integer_sequence<int, i>,
-        detail::std::make_integer_sequence<int, i>
+        std::make_integer_sequence<int, i>
     >::value, "");
 };
 template struct without_function<0>;
@@ -42,27 +42,27 @@ struct ones {
 };
 static_assert(std::is_same<
     detail::generate_integer_sequence<int, 0, ones>,
-    detail::std::integer_sequence<int>
+    std::integer_sequence<int>
 >::value, "");
 
 static_assert(std::is_same<
     detail::generate_integer_sequence<int, 1, ones>,
-    detail::std::integer_sequence<int, 1>
+    std::integer_sequence<int, 1>
 >::value, "");
 
 static_assert(std::is_same<
     detail::generate_integer_sequence<int, 2, ones>,
-    detail::std::integer_sequence<int, 1, 1>
+    std::integer_sequence<int, 1, 1>
 >::value, "");
 
 static_assert(std::is_same<
     detail::generate_integer_sequence<int, 3, ones>,
-    detail::std::integer_sequence<int, 1, 1, 1>
+    std::integer_sequence<int, 1, 1, 1>
 >::value, "");
 
 static_assert(std::is_same<
     detail::generate_integer_sequence<int, 4, ones>,
-    detail::std::integer_sequence<int, 1, 1, 1, 1>
+    std::integer_sequence<int, 1, 1, 1, 1>
 >::value, "");
 
 int main() {

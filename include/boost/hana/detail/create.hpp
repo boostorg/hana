@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_CREATE_HPP
 #define BOOST_HANA_DETAIL_CREATE_HPP
 
-#include <boost/hana/detail/std/decay.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana { namespace detail {
@@ -20,9 +20,9 @@ namespace boost { namespace hana { namespace detail {
     template <template <typename ...> class T>
     struct create {
         template <typename ...X>
-        constexpr T<typename detail::std::decay<X>::type...>
+        constexpr T<typename std::decay<X>::type...>
         operator()(X&& ...x) const {
-            return T<typename detail::std::decay<X>::type...>{
+            return T<typename std::decay<X>::type...>{
                 static_cast<X&&>(x)...
             };
         }

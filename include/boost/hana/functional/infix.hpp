@@ -11,12 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_INFIX_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/remove_cv.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functional/reverse_partial.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -99,13 +98,13 @@ namespace boost { namespace hana {
 
             template <typename ...X>
             constexpr decltype(auto) operator()(X&& ...x) &&
-            { return detail::std::move(f)(static_cast<X&&>(x)...); }
+            { return std::move(f)(static_cast<X&&>(x)...); }
         };
 
         template <bool left, bool right>
         struct make_infix {
             template <typename F>
-            constexpr _infix<left, right, typename detail::std::decay<F>::type>
+            constexpr _infix<left, right, typename std::decay<F>::type>
             operator()(F&& f) const { return {static_cast<F&&>(f)}; }
         };
 
@@ -167,8 +166,8 @@ namespace boost { namespace hana {
         };
 
         template <typename T>
-        using strip = typename detail::std::remove_cv<
-            typename detail::std::remove_reference<T>::type
+        using strip = typename std::remove_cv<
+            typename std::remove_reference<T>::type
         >::type;
 
         template <typename X, typename Y>

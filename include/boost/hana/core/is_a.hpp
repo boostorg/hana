@@ -14,7 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -24,9 +25,7 @@ namespace boost { namespace hana {
     template <typename DataType, typename T>
     struct _is_a<DataType, T>
         : _integral_constant<bool,
-            detail::std::is_same<
-                DataType, typename datatype<T>::type
-            >{}
+            std::is_same<DataType, typename datatype<T>::type>::value
         >
     { };
 

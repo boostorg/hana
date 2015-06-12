@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Pair; }}
 
     template <typename First, typename Second>
-    struct datatype< ::std::pair<First, Second>> {
+    struct datatype<std::pair<First, Second>> {
         using type = ext::std::Pair;
     };
 
@@ -32,8 +32,8 @@ namespace boost { namespace hana {
     struct make_impl<ext::std::Pair> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return ::std::make_pair(static_cast<X&&>(x),
-                                    static_cast<Y&&>(y));
+            return std::make_pair(static_cast<X&&>(x),
+                                  static_cast<Y&&>(y));
         }
     };
 

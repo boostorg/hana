@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/move.hpp>
+
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -78,7 +79,7 @@ namespace boost { namespace hana {
 
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) && {
-            return detail::create<_lockstep>{}(detail::std::move(f),
+            return detail::create<_lockstep>{}(std::move(f),
                 detail::create<detail::closure>{}(static_cast<G&&>(g)...)
             );
         }

@@ -31,7 +31,8 @@ namespace boost { namespace hana { namespace detail {
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_integral.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -47,15 +48,18 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<detail::CanonicalConstant<T>, C, when<
-        _models<Constant, C>{} && is_convertible<typename C::value_type, T>{}
+        _models<Constant, C>{}() &&
+        is_convertible<typename C::value_type, T>{}()
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}>
+        : embedding<is_embedded<typename C::value_type, T>{}()>
     {
         template <typename X>
         struct _constant {
             static constexpr decltype(auto) get()
             { return to<T>(boost::hana::value<X>()); }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+
+            using hana = _constant;
+            using datatype = detail::CanonicalConstant<T>;
         };
         template <typename X>
         static constexpr _constant<X> apply(X const&)

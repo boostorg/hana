@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
 #include <boost/hana/monoid.hpp>
@@ -26,13 +25,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <cstdint>
 #include <ratio>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
     namespace ext { namespace std { struct Ratio; }}
 
-    template < ::std::intmax_t num, ::std::intmax_t den>
-    struct datatype< ::std::ratio<num, den>> {
+    template <std::intmax_t num, std::intmax_t den>
+    struct datatype<std::ratio<num, den>> {
         using type = ext::std::Ratio;
     };
 
@@ -42,12 +42,12 @@ namespace boost { namespace hana {
     template <typename C>
     struct to_impl<ext::std::Ratio, C, when<
         _models<Constant, C>{}() &&
-        detail::std::is_integral<typename C::value_type>{}
+        std::is_integral<typename C::value_type>{}()
     >> {
         template <typename N>
         static constexpr auto apply(N const&) {
             constexpr auto v = hana::value<N>();
-            return ::std::ratio<v>{};
+            return std::ratio<v>{};
         }
     };
 
@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return bool_< ::std::ratio_equal<R1, R2>::value>; }
+        { return bool_<std::ratio_equal<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return bool_< ::std::ratio_less<R1, R2>::value>; }
+        { return bool_<std::ratio_less<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -77,13 +77,13 @@ namespace boost { namespace hana {
     template <>
     struct plus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_add<R1, R2> apply(R1 const&, R2 const&)
+        static constexpr std::ratio_add<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
     template <>
     struct zero_impl<ext::std::Ratio> {
-        static constexpr ::std::ratio<0> apply()
+        static constexpr std::ratio<0> apply()
         { return {}; }
     };
 
@@ -93,7 +93,7 @@ namespace boost { namespace hana {
     template <>
     struct minus_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_subtract<R1, R2> apply(R1 const&, R2 const&)
+        static constexpr std::ratio_subtract<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
@@ -103,13 +103,13 @@ namespace boost { namespace hana {
     template <>
     struct mult_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_multiply<R1, R2> apply(R1 const&, R2 const&)
+        static constexpr std::ratio_multiply<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
     template <>
     struct one_impl<ext::std::Ratio> {
-        static constexpr ::std::ratio<1> apply()
+        static constexpr std::ratio<1> apply()
         { return {}; }
     };
 
@@ -119,14 +119,14 @@ namespace boost { namespace hana {
     template <>
     struct quot_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio_divide<R1, R2> apply(R1 const&, R2 const&)
+        static constexpr std::ratio_divide<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
     template <>
     struct rem_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
-        static constexpr ::std::ratio<0> apply(R1 const&, R2 const&)
+        static constexpr std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }
     };
 }} // end namespace boost::hana

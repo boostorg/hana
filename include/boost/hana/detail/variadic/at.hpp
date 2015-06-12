@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_AT_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_AT_HPP
 
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {

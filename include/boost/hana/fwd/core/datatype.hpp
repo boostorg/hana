@@ -5,7 +5,7 @@ Forward declares `boost::hana::datatype` and `boost::hana::datatype_t`.
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
- FWD_*/
+ */
 
 #ifndef BOOST_HANA_FWD_CORE_DATATYPE_HPP
 #define BOOST_HANA_FWD_CORE_DATATYPE_HPP

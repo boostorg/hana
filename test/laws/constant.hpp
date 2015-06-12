@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/logical.hpp>
 
@@ -26,6 +25,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
 #include <laws/ring.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana { namespace test {
@@ -52,7 +53,7 @@ namespace boost { namespace hana { namespace test {
                 (void)must_be_constexpr2;
 
                 // consistency of C::value_type
-                static_assert(detail::std::is_same<
+                static_assert(std::is_same<
                     T,
                     datatype_t<decltype(hana::value(c))>
                 >{}, "");
@@ -85,17 +86,17 @@ namespace boost { namespace hana { namespace test {
                     static_assert(is_embedded<C, U>{}() ^iff^ is_embedded<T, U>{}(), "");
 
                     // common data type
-                    static_assert(detail::std::is_same<
+                    static_assert(std::is_same<
                         common_t<C, detail::CanonicalConstant<U>>,
                         detail::CanonicalConstant<common_t<T, U>>
                     >{}, "");
 
-                    static_assert(detail::std::is_same<
+                    static_assert(std::is_same<
                         common_t<detail::CanonicalConstant<U>, C>,
                         detail::CanonicalConstant<common_t<T, U>>
                     >{}, "");
 
-                    static_assert(detail::std::is_same<
+                    static_assert(std::is_same<
                         common_t<C, U>,
                         common_t<typename C::value_type, U>
                     >{}, "");

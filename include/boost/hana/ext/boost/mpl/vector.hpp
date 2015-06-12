@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/iterable.hpp>
@@ -27,6 +26,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/sequence_tag.hpp>
 #include <boost/mpl/vector.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -85,7 +86,7 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct datatype<T, when<
-        detail::std::is_same<
+        std::is_same<
             typename ::boost::mpl::sequence_tag<T>::type,
             ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type
         >::value

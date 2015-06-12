@@ -6,7 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/move.hpp>
+
+#include <utility>
 using namespace boost::hana;
 
 
@@ -34,17 +35,17 @@ struct accumulator {
 
     template <typename X>
     constexpr decltype(auto) operator+(X&& x) && {
-        decltype(auto) result = f(detail::std::move(state),
+        decltype(auto) result = f(std::move(state),
                                   static_cast<X&&>(x));
         return detail::create< ::accumulator>{}(
-            detail::std::move(f),
+            std::move(f),
             static_cast<decltype(result)&&>(result)
         );
     }
 
     constexpr State const& get() const& { return state; }
     constexpr State & get() & { return state; }
-    constexpr State get() && { return detail::std::move(state); }
+    constexpr State get() && { return std::move(state); }
 };
 
 struct _foldl {

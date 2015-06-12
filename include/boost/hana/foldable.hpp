@@ -21,11 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/by.hpp> // needed by xxx.by
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/detail/variadic/for_each.hpp>
@@ -41,6 +36,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/ring.hpp>
+
+#include <cstddef>
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -107,7 +106,7 @@ namespace boost { namespace hana {
                     fold1_helper<F>{static_cast<F&&>(f)}
                 );
 
-                static_assert(!detail::std::is_same<decltype(result), end>{},
+                static_assert(!std::is_same<decltype(result), end>{},
                 "hana::fold.left(xs, f) requires xs to be non-empty");
                 return result;
             }
@@ -167,7 +166,7 @@ namespace boost { namespace hana {
                     fold1_helper<F>{static_cast<F&&>(f)}
                 );
 
-                static_assert(!detail::std::is_same<decltype(result), end>{},
+                static_assert(!std::is_same<decltype(result), end>{},
                 "hana::fold.right(xs, f) requires xs to be non-empty");
                 return result;
             }
@@ -241,14 +240,14 @@ namespace boost { namespace hana {
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using namespace foldable_detail;
-            using G = monadic_fold1_helper<M, typename detail::std::decay<F>::type>;
+            using G = monadic_fold1_helper<M, typename std::decay<F>::type>;
             decltype(auto) result = hana::monadic_fold<M>.left(
                 static_cast<Xs&&>(xs),
                 end{},
                 G{static_cast<F&&>(f)}
             );
 
-            static_assert(!detail::std::is_same<
+            static_assert(!std::is_same<
                 decltype(result),
                 decltype(hana::lift<M>(end{}))
             >{},
@@ -305,14 +304,14 @@ namespace boost { namespace hana {
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using namespace foldable_detail;
-            using G = monadic_fold1_helper<M, typename detail::std::decay<F>::type>;
+            using G = monadic_fold1_helper<M, typename std::decay<F>::type>;
             decltype(auto) result = hana::monadic_fold<M>.right(
                 static_cast<Xs&&>(xs),
                 end{},
                 G{static_cast<F&&>(f)}
             );
 
-            static_assert(!detail::std::is_same<
+            static_assert(!std::is_same<
                 decltype(result),
                 decltype(hana::lift<M>(end{}))
             >{},
@@ -345,7 +344,7 @@ namespace boost { namespace hana {
 #endif
             template <typename X>
             constexpr int operator()(int /*ignore*/, X&& x) && {
-                detail::std::move(f)(static_cast<X&&>(x));
+                std::move(f)(static_cast<X&&>(x));
                 return 0;
             }
         };
@@ -445,7 +444,7 @@ namespace boost { namespace hana {
 #endif
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
-                decltype(auto) r = detail::std::move(pred)(x, y);
+                decltype(auto) r = std::move(pred)(x, y);
                 return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<X&&>(x),
                     static_cast<Y&&>(y)
@@ -509,7 +508,7 @@ namespace boost { namespace hana {
 #endif
             template <typename X, typename Y>
             constexpr decltype(auto) operator()(X&& x, Y&& y) && {
-                decltype(auto) r = detail::std::move(pred)(x, y);
+                decltype(auto) r = std::move(pred)(x, y);
                 return hana::if_(static_cast<decltype(r)&&>(r),
                     static_cast<Y&&>(y),
                     static_cast<X&&>(x)
@@ -599,7 +598,7 @@ namespace boost { namespace hana {
 #endif
             template <typename Counter, typename X>
             constexpr decltype(auto) operator()(Counter&& counter, X&& x) && {
-                return hana::if_(detail::std::move(pred)(static_cast<X&&>(x)),
+                return hana::if_(std::move(pred)(static_cast<X&&>(x)),
                     hana::succ(counter),
                     counter
                 );
@@ -669,11 +668,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for builtin arrays
     //////////////////////////////////////////////////////////////////////////
-    template <typename T, detail::std::size_t N>
+    template <typename T, std::size_t N>
     struct unpack_impl<T[N]> {
-        template <typename Xs, typename F, detail::std::size_t ...i>
+        template <typename Xs, typename F, std::size_t ...i>
         static constexpr decltype(auto)
-        unpack_helper(Xs&& xs, F&& f, detail::std::index_sequence<i...>) {
+        unpack_helper(Xs&& xs, F&& f, std::index_sequence<i...>) {
             return static_cast<F&&>(f)(
                 static_cast<Xs&&>(xs)[i]...
             );
@@ -684,7 +683,7 @@ namespace boost { namespace hana {
             return unpack_helper(
                 static_cast<Xs&&>(xs),
                 static_cast<F&&>(f),
-                detail::std::make_index_sequence<N>{}
+                std::make_index_sequence<N>{}
             );
         }
     };

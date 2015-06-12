@@ -22,9 +22,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/is_arithmetic.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -32,7 +31,7 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(plus)>{}() ||
             _has_operator<datatype_t<Y>, decltype(plus)>{}()
         >>
@@ -91,8 +90,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct plus_impl<T, T, when<
-        detail::std::is_arithmetic<T>{}() &&
-        !detail::std::is_same<T, bool>{}()
+        std::is_arithmetic<T>{}() &&
+        !std::is_same<T, bool>{}()
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
@@ -101,8 +100,8 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct zero_impl<T, when<
-        detail::std::is_arithmetic<T>{}() &&
-        !detail::std::is_same<T, bool>{}()
+        std::is_arithmetic<T>{}() &&
+        !std::is_same<T, bool>{}()
     >> {
         static constexpr T apply()
         { return static_cast<T>(0); }

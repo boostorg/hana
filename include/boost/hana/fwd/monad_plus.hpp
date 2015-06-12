@@ -12,9 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -122,11 +123,11 @@ namespace boost { namespace hana {
             using M = typename datatype<Xs>::type;
             using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
                 _models<MonadPlus, M>{}() &&
-                detail::std::is_same<typename datatype<Ys>::type, M>{}()
+                std::is_same<typename datatype<Ys>::type, M>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::std::is_same<typename datatype<Ys>::type, M>{}(),
+            static_assert(std::is_same<typename datatype<Ys>::type, M>{}(),
             "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same data type");
 
             static_assert(_models<MonadPlus, M>{},

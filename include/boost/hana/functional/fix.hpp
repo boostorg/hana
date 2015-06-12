@@ -12,7 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/move.hpp>
+
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -76,7 +77,7 @@ namespace boost { namespace hana {
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) &&
-        { return detail::std::move(f)(fix(f), static_cast<X&&>(x)...); }
+        { return std::move(f)(fix(f), static_cast<X&&>(x)...); }
     };
 #endif
 }} // end namespace boost::hana

@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ARG_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
+
+#include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -56,7 +57,7 @@ namespace boost { namespace hana {
         return forwarded(xn);
     };
 #else
-    template <detail::std::size_t n, typename = void>
+    template <std::size_t n, typename = void>
     struct _arg;
 
     template <>
@@ -95,7 +96,7 @@ namespace boost { namespace hana {
         { return static_cast<X5&&>(x5); }
     };
 
-    template <detail::std::size_t n, typename>
+    template <std::size_t n, typename>
     struct _arg {
         static_assert(n > 0,
         "invalid usage of boost::hana::arg<n> with n == 0");
@@ -114,8 +115,8 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
-    struct _arg<n, detail::std::enable_if_t<(n > 25)>> {
+    template <std::size_t n>
+    struct _arg<n, std::enable_if_t<(n > 25)>> {
         template <
             typename X1,  typename X2,  typename X3,  typename X4,  typename X5,
             typename X6,  typename X7,  typename X8,  typename X9,  typename X10,
@@ -132,7 +133,7 @@ namespace boost { namespace hana {
         { return _arg<n - 25>{}(static_cast<Xn&&>(xn)...); }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _arg<n> arg{};
 #endif
 }} // end namespace boost::hana

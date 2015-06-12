@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
-#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -28,6 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/logical.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -64,7 +65,7 @@ namespace boost { namespace hana {
     struct make_impl<Set> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
-            return _set<typename detail::std::decay<Xs>::type...>{
+            return _set<typename std::decay<Xs>::type...>{
                 static_cast<Xs&&>(xs)...
             };
         }

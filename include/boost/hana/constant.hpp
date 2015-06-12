@@ -22,8 +22,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/detail/std/remove_cv.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -41,8 +41,8 @@ namespace boost { namespace hana {
 
     template <typename T>
     constexpr decltype(auto) value() {
-        using RawT = typename detail::std::remove_cv<
-            typename detail::std::remove_reference<T>::type
+        using RawT = typename std::remove_cv<
+            typename std::remove_reference<T>::type
         >::type;
         using C = typename datatype<RawT>::type;
         using Value = BOOST_HANA_DISPATCH_IF(

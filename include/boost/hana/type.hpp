@@ -16,9 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/integral_constant.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -43,14 +44,14 @@ namespace boost { namespace hana {
     namespace detail {
         template <typename T, typename = Type>
         struct _decltype {
-            using type = typename detail::std::remove_reference<T>::type;
+            using type = typename std::remove_reference<T>::type;
         };
 
         template <typename T>
         struct _decltype<T,
-            typename detail::std::remove_reference<T>::type::hana::datatype
+            typename std::remove_reference<T>::type::hana::datatype
         > {
-            using type = typename detail::std::remove_reference<T>::type::type;
+            using type = typename std::remove_reference<T>::type::type;
         };
     }
 
@@ -93,7 +94,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace type_detail {
         template <typename F, typename ...Args, typename = decltype(
-            detail::std::declval<F&&>()(detail::std::declval<Args&&>()...)
+            std::declval<F&&>()(std::declval<Args&&>()...)
         )>
         constexpr auto is_valid_impl(int) { return true_; }
 

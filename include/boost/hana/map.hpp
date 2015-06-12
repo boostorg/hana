@@ -22,8 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/keys_fwd.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
@@ -34,6 +32,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/product.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
             "hana::make<Map>(pairs...) requires all the 'pairs' to be Products");
         #endif
 
-            return _map<typename detail::std::decay<Pairs>::type...>{
+            return _map<typename std::decay<Pairs>::type...>{
                 static_cast<Pairs&&>(pairs)...
             };
         }
@@ -110,7 +110,7 @@ namespace boost { namespace hana {
     template <>
     struct insert_impl<Map> {
         template <typename M, typename P>
-        static constexpr typename detail::std::decay<M>::type
+        static constexpr typename std::decay<M>::type
         insert_helper(M&& map, P&&, decltype(true_))
         { return static_cast<M&&>(map); }
 

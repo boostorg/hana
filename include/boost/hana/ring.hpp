@@ -22,11 +22,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/is_arithmetic.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/functional/partial.hpp>
+
+#include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -34,10 +34,10 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = typename std::enable_if<
             _has_operator<datatype_t<X>, decltype(mult)>{}() ||
             _has_operator<datatype_t<Y>, decltype(mult)>{}()
-        >>
+        >::type>
         constexpr decltype(auto) operator*(X&& x, Y&& y)
         { return hana::mult(static_cast<X&&>(x), static_cast<Y&&>(y)); }
     }
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     struct power_impl<R, when<condition>> : default_ {
         template <typename X, typename N>
         static constexpr decltype(auto) apply(X&& x, N const&) {
-            constexpr detail::std::size_t n = hana::value<N>();
+            constexpr std::size_t n = hana::value<N>();
             return hana::iterate<n>(
                 hana::partial(hana::mult, static_cast<X&&>(x)),
                 hana::one<R>()
@@ -110,14 +110,16 @@ namespace boost { namespace hana {
     // Model for non-boolean arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct mult_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
+    struct mult_impl<T, T, when<std::is_arithmetic<T>{}() &&
+                                !std::is_same<bool, T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) * static_cast<Y&&>(y); }
     };
 
     template <typename T>
-    struct one_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
+    struct one_impl<T, when<std::is_arithmetic<T>{}() &&
+                            !std::is_same<bool, T>{}()>> {
         static constexpr T apply()
         { return static_cast<T>(1); }
     };

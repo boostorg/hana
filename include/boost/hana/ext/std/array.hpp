@@ -13,20 +13,20 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/sequence.hpp>
 
 #include <array>
 #include <cstddef>
+#include <type_traits>
+#include <utility>
+
 
 namespace boost { namespace hana {
     namespace ext { namespace std { struct Array; }}
 
     template <typename T, std::size_t N>
-    struct datatype< ::std::array<T, N>> {
+    struct datatype<std::array<T, N>> {
         using type = ext::std::Array;
     };
 
@@ -88,35 +88,35 @@ namespace boost { namespace hana {
     template <>
     struct head_impl<ext::std::Array> {
         template <typename T, std::size_t n>
-        static constexpr T const& apply(::std::array<T, n> const& xs)
+        static constexpr T const& apply(std::array<T, n> const& xs)
         { return xs[0]; }
 
         template <typename T, std::size_t n>
-        static constexpr T& apply(::std::array<T, n>& xs)
+        static constexpr T& apply(std::array<T, n>& xs)
         { return xs[0]; }
 
         template <typename T, std::size_t n>
-        static constexpr T apply(::std::array<T, n>&& xs)
-        { return detail::std::move(xs[0]); }
+        static constexpr T apply(std::array<T, n>&& xs)
+        { return std::move(xs[0]); }
     };
 
     template <>
     struct tail_impl<ext::std::Array> {
         template <typename T, std::size_t N, typename Xs, std::size_t ...index>
-        static constexpr auto tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
-            return ::std::array<T, N - 1>{{
+        static constexpr auto tail_helper(Xs&& xs, std::index_sequence<index...>) {
+            return std::array<T, N - 1>{{
                 static_cast<Xs&&>(xs)[index + 1]...
             }};
         }
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using RawArray = typename detail::std::remove_reference<Xs>::type;
-            constexpr auto N = ::std::tuple_size<RawArray>::value;
+            using RawArray = typename std::remove_reference<Xs>::type;
+            constexpr auto N =std::tuple_size<RawArray>::value;
             using T = typename RawArray::value_type;
             return tail_helper<T, N>(
                 static_cast<Xs&&>(xs),
-                detail::std::make_index_sequence<N - 1>{}
+                std::make_index_sequence<N - 1>{}
             );
         }
     };
@@ -125,7 +125,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<ext::std::Array> {
         template <typename T, std::size_t N>
         static constexpr _integral_constant<bool, N == 0>
-        apply(::std::array<T, N> const&) { return {}; }
+        apply(std::array<T, N> const&) { return {}; }
     };
 }} // end namespace boost::hana
 

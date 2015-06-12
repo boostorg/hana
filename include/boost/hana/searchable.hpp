@@ -21,13 +21,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/optional.hpp>
+
+#include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -126,7 +127,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::not_(hana::any_of(static_cast<Xs&&>(xs),
-                                        static_cast<Pred&&>(pred)));
+                                           static_cast<Pred&&>(pred)));
         }
     };
 
@@ -140,7 +141,7 @@ namespace boost { namespace hana {
     struct none_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::none_of(static_cast<Xs&&>(xs), id); }
+        { return hana::none_of(static_cast<Xs&&>(xs), hana::id); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -246,12 +247,12 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for builtin arrays
     //////////////////////////////////////////////////////////////////////////
-    template <typename T, detail::std::size_t N>
+    template <typename T, std::size_t N>
     struct any_of_impl<T[N]> {
         template <typename Xs, typename Pred>
         static constexpr bool any_of_helper(bool cond, Xs&& xs, Pred&& pred) {
             if (cond) return true;
-            for (detail::std::size_t i = 1; i < N; ++i)
+            for (std::size_t i = 1; i < N; ++i)
                 if (pred(static_cast<Xs&&>(xs)[i]))
                     return true;
             return false;
@@ -281,9 +282,9 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, detail::std::size_t N>
+    template <typename T, std::size_t N>
     struct find_if_impl<T[N]> {
-        using Size = detail::std::size_t;
+        using Size = std::size_t;
 
         template <typename Xs, typename Pred, Size i>
         static constexpr decltype(auto)

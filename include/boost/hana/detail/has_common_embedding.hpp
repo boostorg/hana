@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana { namespace detail {
@@ -25,7 +25,7 @@ namespace boost { namespace hana { namespace detail {
     //! If `T` and `U` do not have a common-type, a SFINAE-friendly failure
     //! happens when instantiating this alias.
     template <typename Concept, typename T, typename U>
-    using has_common_embedding = detail::std::integral_constant<bool,
+    using has_common_embedding = std::integral_constant<bool,
         _models<Concept, T>{}() &&
         _models<Concept, U>{}() &&
         _models<Concept, typename common<T, U>::type>{}() &&
@@ -40,8 +40,8 @@ namespace boost { namespace hana { namespace detail {
     //! If `T` and `U` do not have a common-type, a SFINAE-friendly failure
     //! happens when instantiating this alias.
     template <typename Concept, typename T, typename U>
-    using has_nontrivial_common_embedding = detail::std::integral_constant<bool,
-        !detail::std::is_same<T, U>{} &&
+    using has_nontrivial_common_embedding = std::integral_constant<bool,
+        !std::is_same<T, U>{} &&
         has_common_embedding<Concept, T, U>{}
     >;
 }}} // end namespace boost::hana::detail

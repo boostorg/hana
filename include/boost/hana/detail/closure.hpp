@@ -10,13 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_CLOSURE_HPP
 #define BOOST_HANA_DETAIL_CLOSURE_HPP
 
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana { namespace detail {
-    template <detail::std::size_t n, typename Xn>
+    template <std::size_t n, typename Xn>
     struct element { Xn get; using get_type = Xn; };
 
     void swallow(...);
@@ -37,7 +36,7 @@ namespace boost { namespace hana { namespace detail {
 
         // Make sure the constructor is SFINAE-friendly.
         template <typename ...Ys, typename = decltype(swallow(
-            (Xs{detail::std::declval<Ys>()}, void(), 0)...
+            (Xs{std::declval<Ys>()}, void(), 0)...
         ))>
         constexpr closure_impl(Ys&& ...y)
             : Xs{static_cast<Ys&&>(y)}...
@@ -50,8 +49,8 @@ namespace boost { namespace hana { namespace detail {
     template <typename Indices, typename ...Xs>
     struct make_closure_impl;
 
-    template <detail::std::size_t ...n, typename ...Xn>
-    struct make_closure_impl<detail::std::index_sequence<n...>, Xn...> {
+    template <std::size_t ...n, typename ...Xn>
+    struct make_closure_impl<std::index_sequence<n...>, Xn...> {
         using type = closure_impl<element<n, Xn>...>;
     };
 
@@ -82,22 +81,22 @@ namespace boost { namespace hana { namespace detail {
     //! that `Xn` without having to do pattern matching.
     template <typename ...Xs>
     using closure = typename make_closure_impl<
-        detail::std::make_index_sequence<sizeof...(Xs)>, Xs...
+        std::make_index_sequence<sizeof...(Xs)>, Xs...
     >::type;
 
     //! @ingroup group-details
     //! Get the nth element of a `closure`.
-    template <detail::std::size_t n, typename Xn>
+    template <std::size_t n, typename Xn>
     static constexpr Xn const&
     get(element<n, Xn> const& x)
     { return x.get; }
 
-    template <detail::std::size_t n, typename Xn>
+    template <std::size_t n, typename Xn>
     static constexpr Xn&
     get(element<n, Xn>& x)
     { return x.get; }
 
-    template <detail::std::size_t n, typename Xn>
+    template <std::size_t n, typename Xn>
     static constexpr Xn&&
     get(element<n, Xn>&& x)
     { return static_cast<element<n, Xn>&&>(x).get; }

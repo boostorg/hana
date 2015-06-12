@@ -10,9 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP
 #define BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP
 
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/placeholder.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana { namespace detail { namespace constexpr_ {
@@ -20,7 +21,7 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
     constexpr void swap(T& x, T& y) {
         auto tmp = x;
         x = y;
-        y = detail::std::move(tmp);
+        y = std::move(tmp);
     }
 
     template <typename BidirIter>
@@ -143,9 +144,9 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
     }
 
     template<class InputIt, class T>
-    constexpr detail::std::size_t
+    constexpr std::size_t
     count(InputIt first, InputIt last, T const& value) {
-        detail::std::size_t n = 0;
+        std::size_t n = 0;
         for (; first != last; ++first)
             if (*first == value)
                 ++n;

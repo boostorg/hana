@@ -15,9 +15,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/decay.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/product.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -32,8 +34,8 @@ namespace boost { namespace hana {
         constexpr _pair() : first{}, second{} { }
 
         template <typename F, typename S, typename = decltype(
-            ((void)First(detail::std::declval<F>())),
-            ((void)Second(detail::std::declval<S>()))
+            ((void)First(std::declval<F>())),
+            ((void)Second(std::declval<S>()))
         )>
         constexpr _pair(F&& f, S&& s)
             : first(static_cast<F&&>(f))
@@ -61,8 +63,8 @@ namespace boost { namespace hana {
     struct make_impl<Pair> {
         template <typename F, typename S>
         static constexpr _pair<
-            typename detail::std::decay<F>::type,
-            typename detail::std::decay<S>::type
+            typename std::decay<F>::type,
+            typename std::decay<S>::type
         > apply(F&& f, S&& s) {
             return {static_cast<F&&>(f), static_cast<S&&>(s)};
         }

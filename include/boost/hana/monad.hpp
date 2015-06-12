@@ -20,12 +20,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -33,7 +32,7 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename Xs, typename F, typename = detail::std::enable_if_t<
+        template <typename Xs, typename F, typename = std::enable_if_t<
             _has_operator<datatype_t<Xs>, decltype(chain)>{}()
         >>
         constexpr decltype(auto) operator|(Xs&& xs, F&& f)

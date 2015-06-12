@@ -25,9 +25,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/concepts.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -35,14 +36,14 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(equal)>{}() ||
             _has_operator<datatype_t<Y>, decltype(equal)>{}()
         >>
         constexpr decltype(auto) operator==(X&& x, Y&& y)
         { return hana::equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(not_equal)>{}() ||
             _has_operator<datatype_t<Y>, decltype(not_equal)>{}()
         >>

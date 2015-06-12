@@ -13,13 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integer_sequence.hpp>
 #include <boost/hana/ext/std/pair.hpp>
 
-#include <boost/hana/detail/std/add_rvalue_reference.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana { namespace traits {
     struct _declval {
         template <typename T>
-        typename detail::std::add_rvalue_reference<
+        typename std::add_rvalue_reference<
             typename T::type
         >::type operator()(T const&) const;
     };

@@ -239,7 +239,7 @@ namespace boost { namespace hana {
             template <typename ...X>
             constexpr auto operator()(X&& ...x) const {
                 return injection_result<i,
-                    typename hana::detail::std::decay<X>::type...
+                    typename std::decay<X>::type...
                 >{static_cast<X&&>(x)...};
             }
         };
@@ -390,7 +390,7 @@ namespace boost { namespace hana {
     struct to_impl<test::Integer<policy>, C, when<
         (policy & test::Policy::Constant) &&
         _models<Constant, C>{}() &&
-        detail::std::is_integral<typename C::value_type>{}
+        std::is_integral<typename C::value_type>{}
     >>
         : embedding<is_embedded<typename C::value_type, int>{}>
     {

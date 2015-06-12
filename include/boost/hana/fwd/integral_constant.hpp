@@ -11,7 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/fwd/core/operators.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -210,8 +211,8 @@ namespace boost { namespace hana {
     template <unsigned long long i>
     using _ullong = _integral_constant<unsigned long long, i>;
 
-    template <detail::std::size_t i>
-    using _size_t = _integral_constant<detail::std::size_t, i>;
+    template <std::size_t i>
+    using _size_t = _integral_constant<std::size_t, i>;
 
     //! Creates an `IntegralConstant` holding the given compile-time value.
     //! @relates IntegralConstant
@@ -283,8 +284,8 @@ namespace boost { namespace hana {
     constexpr _integral_constant<unsigned long long, i> ullong{};
 
     //! @relates IntegralConstant
-    template <detail::std::size_t i>
-    constexpr _integral_constant<detail::std::size_t, i> size_t{};
+    template <std::size_t i>
+    constexpr _integral_constant<std::size_t, i> size_t{};
 
     namespace literals {
         //! Creates an `IntegralConstant` from a literal.

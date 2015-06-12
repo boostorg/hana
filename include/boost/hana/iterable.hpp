@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -35,6 +34,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monoid.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/searchable.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -134,7 +135,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // at_c
     //////////////////////////////////////////////////////////////////////////
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _at_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
@@ -195,7 +196,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // drop_c
     //////////////////////////////////////////////////////////////////////////
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _drop_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const

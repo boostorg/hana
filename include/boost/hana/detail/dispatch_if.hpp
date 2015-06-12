@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_DISPATCH_IF_HPP
 #define BOOST_HANA_DETAIL_DISPATCH_IF_HPP
 
-#include <boost/hana/detail/std/conditional.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! `BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS` is defined.
 #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
     #define BOOST_HANA_DISPATCH_IF(IMPL, ...)                               \
-        ::boost::hana::detail::std::conditional_t<                          \
+        ::std::conditional_t<                                               \
             (__VA_ARGS__),                                                  \
             IMPL,                                                           \
             ::boost::hana::deleted_implementation                           \

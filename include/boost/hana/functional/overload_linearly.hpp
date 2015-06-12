@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP
 #define BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP
 
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/declval.hpp>
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -46,15 +46,15 @@ namespace boost { namespace hana {
 
     private:
         template <typename ...Args, typename =
-            decltype(detail::std::declval<F const&>()(detail::std::declval<Args>()...))>
+            decltype(std::declval<F const&>()(std::declval<Args>()...))>
         constexpr F const& which(int) const& { return f; }
 
         template <typename ...Args, typename =
-            decltype(detail::std::declval<F&>()(detail::std::declval<Args>()...))>
+            decltype(std::declval<F&>()(std::declval<Args>()...))>
         constexpr F& which(int) & { return f; }
 
         template <typename ...Args, typename =
-            decltype(detail::std::declval<F&&>()(detail::std::declval<Args>()...))>
+            decltype(std::declval<F&&>()(std::declval<Args>()...))>
         constexpr F which(int) && { return static_cast<F&&>(f); }
 
         template <typename ...Args>
@@ -83,8 +83,8 @@ namespace boost { namespace hana {
     struct _make_overload_linearly {
         template <typename F, typename G>
         constexpr _overload_linearly<
-            typename detail::std::decay<F>::type,
-            typename detail::std::decay<G>::type
+            typename std::decay<F>::type,
+            typename std::decay<G>::type
         > operator()(F&& f, G&& g) const {
             return {static_cast<F&&>(f), static_cast<G&&>(g)};
         }

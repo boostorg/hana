@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_ITERATE_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/partial.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -74,7 +75,7 @@ namespace boost { namespace hana {
         };
     };
 #else
-    template <detail::std::size_t n, typename = when<true>>
+    template <std::size_t n, typename = when<true>>
     struct _iterate;
 
     template <>
@@ -124,7 +125,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _iterate<n, when<(n >= 6) && (n < 12)>> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
@@ -134,7 +135,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _iterate<n, when<(n >= 12) && (n < 24)>> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
@@ -146,7 +147,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _iterate<n, when<(n >= 24) && (n < 48)>> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
@@ -160,7 +161,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _iterate<n, when<(n >= 48)>> {
         template <typename F, typename X>
         constexpr decltype(auto) operator()(F&& f, X&& x) const {
@@ -178,7 +179,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _make_iterate {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const
@@ -191,7 +192,7 @@ namespace boost { namespace hana {
         }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _make_iterate<n> iterate{};
 #endif
 }} // end namespace boost::hana

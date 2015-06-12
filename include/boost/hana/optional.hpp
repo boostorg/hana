@@ -19,12 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -38,6 +32,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -63,14 +60,14 @@ namespace boost { namespace hana {
         _just(_just&&) = default;
         _just(_just&) = default;
 
-        template <typename U, typename = decltype(T(detail::std::declval<U>()))>
+        template <typename U, typename = decltype(T(std::declval<U>()))>
         constexpr _just(U&& u)
             : val(static_cast<U&&>(u))
         { }
 
         constexpr T& operator*() & { return this->val; }
         constexpr T const& operator*() const& { return this->val; }
-        constexpr T operator*() && { return detail::std::move(this->val); }
+        constexpr T operator*() && { return std::move(this->val); }
 
         constexpr T* operator->() & { return &this->val; }
         constexpr T const* operator->() const& { return &this->val; }
@@ -79,7 +76,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     constexpr auto _make_just::operator()(T&& t) const {
-        return _just<typename detail::std::decay<T>::type>(
+        return _just<typename std::decay<T>::type>(
             static_cast<T&&>(t)
         );
     }
@@ -133,7 +130,7 @@ namespace boost { namespace hana {
 
     template <typename M>
     constexpr decltype(auto) _from_just::operator()(M&& m) const {
-        static_assert(detail::std::remove_reference<M>::type::is_just,
+        static_assert(std::remove_reference<M>::type::is_just,
         "trying to extract the value inside a boost::hana::nothing "
         "with boost::hana::from_just");
         return hana::id(static_cast<M&&>(m).val);
@@ -158,10 +155,10 @@ namespace boost { namespace hana {
     namespace maybe_detail {
         struct sfinae_impl {
             template <typename F, typename ...X, typename = decltype(
-                detail::std::declval<F>()(detail::std::declval<X>()...)
+                std::declval<F>()(std::declval<X>()...)
             )>
             constexpr decltype(auto) operator()(int, F&& f, X&& ...x) const {
-                constexpr bool returns_void = detail::std::is_same<
+                constexpr bool returns_void = std::is_same<
                     void,
                     decltype(static_cast<F&&>(f)(static_cast<X&&>(x)...))
                 >{}();

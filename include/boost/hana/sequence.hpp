@@ -39,6 +39,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/tuple.hpp>
 
+#include <cstddef>
+#include <type_traits>
+
 
 namespace boost { namespace hana {
     namespace sequence_detail {
@@ -421,7 +424,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // remove_at_c
     //////////////////////////////////////////////////////////////////////////
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _remove_at_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
@@ -587,7 +590,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // slice_c
     //////////////////////////////////////////////////////////////////////////
-    template <detail::std::size_t from, detail::std::size_t to>
+    template <std::size_t from, std::size_t to>
     struct _slice_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -778,7 +781,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // take_c
     //////////////////////////////////////////////////////////////////////////
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _take_c {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
@@ -829,14 +832,14 @@ namespace boost { namespace hana {
 
             template <typename Pred, typename Xs>
             static constexpr decltype(auto)
-            helper(Pred&& pred, Xs&& xs, detail::std::false_type) {
+            helper(Pred&& pred, Xs&& xs, std::false_type) {
                 return static_cast<Pred&&>(pred)(
                         hana::head(static_cast<Xs&&>(xs)));
             }
 
             template <typename Pred, typename Xs>
             static constexpr decltype(auto)
-            helper(Pred&& /*pred*/, Xs&& /*xs*/, detail::std::true_type)
+            helper(Pred&& /*pred*/, Xs&& /*xs*/, std::true_type)
             { return false_; }
 
             template <typename Pred, typename Xs>
@@ -845,8 +848,8 @@ namespace boost { namespace hana {
                     static_cast<Pred&&>(pred),
                     static_cast<Xs&&>(xs),
                     hana::if_(hana::is_empty(xs),
-                        detail::std::true_type{},
-                        detail::std::false_type{}));
+                        std::true_type{},
+                        std::false_type{}));
             }
         };
     }

@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/sequence.hpp>
 
 #include <boost/tuple/tuple.hpp>
+
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -54,7 +55,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto apply(Xs&& tuple)
-        { return detail::std::move(tuple.get_head()); }
+        { return std::move(tuple.get_head()); }
     };
 
     template <>
@@ -79,7 +80,7 @@ namespace boost { namespace hana {
 
         template <typename H, typename T>
         static constexpr auto apply(::boost::tuples::cons<H, T>&& xs)
-        { return detail::std::move(xs.get_tail()); }
+        { return std::move(xs.get_tail()); }
     };
 
     template <>
@@ -100,8 +101,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename X>
         static constexpr auto apply(Xs xs, X x) {
             return ::boost::tuples::cons<X, Xs>{
-                detail::std::move(x),
-                detail::std::move(xs)
+                std::move(x),
+                std::move(xs)
             };
         }
     };

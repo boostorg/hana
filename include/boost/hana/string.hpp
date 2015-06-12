@@ -21,10 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
@@ -32,6 +28,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
+
+#include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -53,15 +52,15 @@ namespace boost { namespace hana {
     // BOOST_HANA_STRING
     //////////////////////////////////////////////////////////////////////////
     namespace string_detail {
-        template <typename S, detail::std::size_t ...N>
+        template <typename S, std::size_t ...N>
         constexpr _string<S::get()[N]...>
-        prepare_impl(S, detail::std::index_sequence<N...>)
+        prepare_impl(S, std::index_sequence<N...>)
         { return {}; }
 
         template <typename S>
         constexpr decltype(auto) prepare(S s) {
             return prepare_impl(s,
-                detail::std::make_index_sequence<sizeof(S::get()) - 1>{});
+                std::make_index_sequence<sizeof(S::get()) - 1>{});
         }
     }
 
@@ -81,7 +80,7 @@ namespace boost { namespace hana {
     namespace literals {
         template <typename CharT, CharT ...s>
         constexpr auto operator"" _s() {
-            static_assert(detail::std::is_same<CharT, char>::value,
+            static_assert(std::is_same<CharT, char>::value,
             "Hana String: Only narrow string literals are supported with "
             "the _s string literal right now. See https://goo.gl/fBbKD7 "
             "if you need support for fancier types of compile-time Strings.");

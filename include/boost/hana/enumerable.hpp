@@ -19,8 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_arithmetic.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename E>
     struct succ_impl<E, when<
-        detail::std::is_arithmetic<E>{}() && !detail::std::is_same<E, bool>{}()
+        std::is_arithmetic<E>{}() && !std::is_same<E, bool>{}()
     >> {
         template <typename X>
         static constexpr auto apply(X /* by value */ x)
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
 
     template <typename E>
     struct pred_impl<E, when<
-        detail::std::is_arithmetic<E>{}() && !detail::std::is_same<E, bool>{}()
+        std::is_arithmetic<E>{}() && !std::is_same<E, bool>{}()
     >> {
         template <typename X>
         static constexpr auto apply(X /* by value */ x)
@@ -83,7 +83,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct succ_impl<C, when<
-        _models<Constant, C>{}() && _models<Enumerable, typename C::value_type>{}()
+        _models<Constant, C>{}() &&
+        _models<Enumerable, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X>
@@ -99,7 +100,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct pred_impl<C, when<
-        _models<Constant, C>{}() && _models<Enumerable, typename C::value_type>{}()
+        _models<Constant, C>{}() &&
+        _models<Enumerable, typename C::value_type>{}()
     >> {
         using T = typename C::value_type;
         template <typename X>

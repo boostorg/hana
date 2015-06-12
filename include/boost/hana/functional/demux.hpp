@@ -13,7 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/std/move.hpp>
+
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -180,7 +181,7 @@ namespace boost { namespace hana {
 
         template <typename ...G>
         constexpr decltype(auto) operator()(G&& ...g) && {
-            return detail::create<_demux>{}(detail::std::move(f),
+            return detail::create<_demux>{}(std::move(f),
                 detail::create<detail::closure>{}(static_cast<G&&>(g)...)
             );
         }
@@ -206,7 +207,7 @@ namespace boost { namespace hana {
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
             // Not moving from G cause we would double-move.
-            return detail::std::move(f)(static_cast<G&>(g).get(x...)...);
+            return std::move(f)(static_cast<G&>(g).get(x...)...);
         }
     };
 

@@ -13,19 +13,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/sequence.hpp>
 
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
 #include <boost/fusion/sequence/intrinsic/front.hpp>
 
+#include <type_traits>
+#include <utility>
+
 
 namespace boost { namespace hana {
     namespace detail {
         template <typename T>
         struct is_fusion_sequence
-            : detail::std::false_type
+            : std::false_type
         { };
     }
 
@@ -44,7 +46,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto apply(Xs&& xs)
-        { return detail::std::move(::boost::fusion::front(xs)); }
+        { return std::move(::boost::fusion::front(xs)); }
     };
 
     template <typename S>

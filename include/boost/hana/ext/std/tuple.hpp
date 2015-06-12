@@ -16,16 +16,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/remove_reference.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
 #include <boost/hana/sequence.hpp>
 
+#include <cstddef>
 #include <tuple>
+#include <type_traits>
 
 
 #ifdef BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
@@ -38,7 +37,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Tuple; }}
 
     template <typename ...Xs>
-    struct datatype< ::std::tuple<Xs...>> {
+    struct datatype<std::tuple<Xs...>> {
         using type = ext::std::Tuple;
     };
 
@@ -49,7 +48,7 @@ namespace boost { namespace hana {
     struct make_impl<ext::std::Tuple> {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return ::std::make_tuple(static_cast<Xs&&>(xs)...);
+            return std::make_tuple(static_cast<Xs&&>(xs)...);
         }
     };
 
@@ -58,22 +57,22 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct transform_impl<ext::std::Tuple> {
-        template <typename Xs, typename F, detail::std::size_t ...index>
+        template <typename Xs, typename F, std::size_t ...index>
         static constexpr decltype(auto)
-        transform_helper(Xs&& xs, F&& f, detail::std::index_sequence<index...>) {
-            return ::std::make_tuple(
-                f(::std::get<index>(static_cast<Xs&&>(xs)))...
+        transform_helper(Xs&& xs, F&& f, std::index_sequence<index...>) {
+            return std::make_tuple(
+                f(std::get<index>(static_cast<Xs&&>(xs)))...
             );
         }
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using Raw = typename detail::std::remove_reference<Xs>::type;
-            constexpr auto N = ::std::tuple_size<Raw>::value;
+            using Raw = typename std::remove_reference<Xs>::type;
+            constexpr auto N = std::tuple_size<Raw>::value;
             return transform_helper(
                 static_cast<Xs&&>(xs),
                 static_cast<F&&>(f),
-                detail::std::make_index_sequence<N>{}
+                std::make_index_sequence<N>{}
             );
         }
     };
@@ -85,7 +84,7 @@ namespace boost { namespace hana {
     struct lift_impl<ext::std::Tuple> {
         template <typename X>
         static constexpr auto apply(X&& x) {
-            return ::std::tuple<typename detail::std::decay<X>::type>{
+            return std::tuple<typename std::decay<X>::type>{
                                                 static_cast<X&&>(x)};
         }
     };
@@ -95,10 +94,10 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct flatten_impl<ext::std::Tuple> {
-        template <typename Xs, detail::std::size_t ...i>
+        template <typename Xs, std::size_t ...i>
         static constexpr decltype(auto)
-        flatten_helper(Xs&& xs, detail::std::index_sequence<i...>) {
-            return ::std::tuple_cat(::std::get<i>(
+        flatten_helper(Xs&& xs, std::index_sequence<i...>) {
+            return std::tuple_cat(std::get<i>(
 #ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
                     static_cast<Xs&&>(xs)
 #else
@@ -109,10 +108,10 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs xs) {
-            using Raw = typename detail::std::remove_reference<Xs>::type;
-            constexpr detail::std::size_t len = ::std::tuple_size<Raw>::value;
+            using Raw = typename std::remove_reference<Xs>::type;
+            constexpr std::size_t len = std::tuple_size<Raw>::value;
             return flatten_helper(xs,
-                    detail::std::make_index_sequence<len>{});
+                    std::make_index_sequence<len>{});
         }
     };
 
@@ -124,10 +123,10 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
 #ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
-            return ::std::tuple_cat(static_cast<Xs&&>(xs),
+            return std::tuple_cat(static_cast<Xs&&>(xs),
                                     static_cast<Ys&&>(ys));
 #else
-            return ::std::tuple_cat(xs, ys);
+            return std::tuple_cat(xs, ys);
 #endif
         }
     };
@@ -135,7 +134,7 @@ namespace boost { namespace hana {
     template <>
     struct empty_impl<ext::std::Tuple> {
         static constexpr auto apply()
-        { return ::std::tuple<>{}; }
+        { return std::tuple<>{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -145,27 +144,27 @@ namespace boost { namespace hana {
     struct head_impl<ext::std::Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return ::std::get<0>(static_cast<Xs&&>(xs));
+            return std::get<0>(static_cast<Xs&&>(xs));
         }
     };
 
     template <>
     struct tail_impl<ext::std::Tuple> {
-        template <typename Xs, detail::std::size_t ...index>
+        template <typename Xs, std::size_t ...index>
         static constexpr decltype(auto)
-        tail_helper(Xs&& xs, detail::std::index_sequence<index...>) {
-            return ::std::make_tuple(
-                ::std::get<index + 1>(static_cast<Xs&&>(xs))...
+        tail_helper(Xs&& xs, std::index_sequence<index...>) {
+            return std::make_tuple(
+                std::get<index + 1>(static_cast<Xs&&>(xs))...
             );
         }
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using Raw = typename detail::std::remove_reference<Xs>::type;
-            constexpr auto N = ::std::tuple_size<Raw>::value;
+            using Raw = typename std::remove_reference<Xs>::type;
+            constexpr auto N = std::tuple_size<Raw>::value;
             return tail_helper(
                 static_cast<Xs&&>(xs),
-                detail::std::make_index_sequence<N - 1>{}
+                std::make_index_sequence<N - 1>{}
             );
         }
     };
@@ -173,7 +172,7 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<ext::std::Tuple> {
         template <typename ...Xs>
-        static constexpr auto apply(::std::tuple<Xs...> const&)
+        static constexpr auto apply(std::tuple<Xs...> const&)
         { return bool_<sizeof...(Xs) == 0>; }
     };
 
@@ -181,8 +180,8 @@ namespace boost { namespace hana {
     struct at_impl<ext::std::Tuple> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
-            constexpr detail::std::size_t index = hana::value<N>();
-            return ::std::get<index>(static_cast<Xs&&>(xs));
+            constexpr std::size_t index = hana::value<N>();
+            return std::get<index>(static_cast<Xs&&>(xs));
         }
     };
 

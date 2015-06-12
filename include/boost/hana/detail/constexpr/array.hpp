@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_CONSTEXPR_ARRAY_HPP
 
 #include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/placeholder.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana { namespace detail {
@@ -31,17 +32,17 @@ namespace constexpr_ {
     //! We also provide some algorithms from the `constexpr/algorithm.hpp`
     //! header as member functions to make them easier to use in constexpr
     //! contexts, since a `constexpr` `array` can't be mutated in place.
-    template <typename T, detail::std::size_t Size>
+    template <typename T, std::size_t Size>
     struct array {
         T elems_[Size > 0 ? Size : 1];
 
-        constexpr T& operator[](detail::std::size_t n)
+        constexpr T& operator[](std::size_t n)
         { return elems_[n]; }
 
-        constexpr T const& operator[](detail::std::size_t n) const
+        constexpr T const& operator[](std::size_t n) const
         { return elems_[n]; }
 
-        constexpr detail::std::size_t size() const noexcept
+        constexpr std::size_t size() const noexcept
         { return Size; }
 
         constexpr T* begin() noexcept             { return elems_; }
@@ -90,11 +91,11 @@ namespace constexpr_ {
         }
     };
 
-    template <typename T, detail::std::size_t M, typename U, detail::std::size_t N>
+    template <typename T, std::size_t M, typename U, std::size_t N>
     constexpr bool operator==(array<T, M> a, array<U, N> b)
     { return M == N && constexpr_::equal(a.begin(), a.end(), b.begin(), b.end()); }
 
-    template <typename T, detail::std::size_t M, typename U, detail::std::size_t N>
+    template <typename T, std::size_t M, typename U, std::size_t N>
     constexpr bool operator<(array<T, M> a, array<U, N> b) {
         return M < N || constexpr_::lexicographical_compare(
                                     a.begin(), a.end(), b.begin(), b.end());

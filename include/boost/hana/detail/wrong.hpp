@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_WRONG_HPP
 #define BOOST_HANA_DETAIL_WRONG_HPP
 
-#include <boost/hana/detail/std/integral_constant.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana { namespace detail {
@@ -25,7 +25,7 @@ namespace boost { namespace hana { namespace detail {
     //! -------
     //! @snippet example/detail/wrong.cpp wrong
     template <typename ...>
-    struct wrong : detail::std::false_type { };
+    struct wrong : std::false_type { };
 }}} // end namespace boost::hana::detail
 
 #endif // !BOOST_HANA_DETAIL_WRONG_HPP

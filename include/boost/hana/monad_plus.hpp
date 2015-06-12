@@ -19,12 +19,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -114,7 +115,7 @@ namespace boost { namespace hana {
     struct cycle_impl : cycle_impl<M, when<true>> { };
 
     namespace mdetail {
-        template <typename M, detail::std::size_t n, bool = n % 2 == 0>
+        template <typename M, std::size_t n, bool = n % 2 == 0>
         struct cycle_helper;
 
         template <typename M>
@@ -124,14 +125,14 @@ namespace boost { namespace hana {
             { return empty<M>(); }
         };
 
-        template <typename M, detail::std::size_t n>
+        template <typename M, std::size_t n>
         struct cycle_helper<M, n, true> {
             template <typename Xs>
             static constexpr decltype(auto) apply(Xs const& xs)
             { return cycle_helper<M, n/2>::apply(hana::concat(xs, xs)); }
         };
 
-        template <typename M, detail::std::size_t n>
+        template <typename M, std::size_t n>
         struct cycle_helper<M, n, false> {
             template <typename Xs>
             static constexpr decltype(auto) apply(Xs const& xs)
@@ -143,7 +144,7 @@ namespace boost { namespace hana {
     struct cycle_impl<M, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs const& xs, N const&) {
-            constexpr detail::std::size_t n = hana::value<N>();
+            constexpr std::size_t n = hana::value<N>();
             return mdetail::cycle_helper<M, n>::apply(xs);
         }
     };

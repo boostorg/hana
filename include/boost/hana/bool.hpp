@@ -18,9 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/lazy.hpp>
 
 // provided models; the rest is included in <boost/hana/integral_constant.hpp>
@@ -34,6 +31,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/orderable.hpp>
 #include <boost/hana/fwd/ring.hpp>
 
+#include <cstddef>
+#include <type_traits>
+
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
@@ -41,11 +41,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     namespace ic_detail {
-        template <typename T, T N, typename = detail::std::make_integer_sequence<T, N>>
+        template <typename T, T N, typename = std::make_integer_sequence<T, N>>
         struct go;
 
         template <typename T, T N, T ...i>
-        struct go<T, N, detail::std::integer_sequence<T, i...>> {
+        struct go<T, N, std::integer_sequence<T, i...>> {
             using swallow = T[];
 
             template <typename F>
@@ -132,10 +132,10 @@ namespace boost { namespace hana {
         constexpr int to_int(char c)
         { return static_cast<int>(c) - 48; }
 
-        template <detail::std::size_t N>
+        template <std::size_t N>
         constexpr long long parse(const char (&arr)[N]) {
             long long number = 0, base = 1;
-            for (detail::std::size_t i = 0; i < N; ++i) {
+            for (std::size_t i = 0; i < N; ++i) {
                 number += to_int(arr[N - 1 - i]) * base;
                 base *= 10;
             }
@@ -162,11 +162,11 @@ namespace boost { namespace hana {
     template <typename T, typename C>
     struct to_impl<IntegralConstant<T>, C, when<
         _models<Constant, C>{} &&
-        detail::std::is_integral<typename C::value_type>{}
+        std::is_integral<typename C::value_type>{}
     >>
         : embedding<is_embedded<typename C::value_type, T>{}>
     {
-        static_assert(detail::std::is_integral<T>{},
+        static_assert(std::is_integral<T>{},
         "trying to convert a Constant to an IntegralConstant of a non-integral "
         "type; boost::hana::IntegralConstant may only hold integral types");
 

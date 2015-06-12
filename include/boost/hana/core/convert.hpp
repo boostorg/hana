@@ -14,9 +14,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/integral_constant.hpp>
 #include <boost/hana/detail/wrong.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -44,7 +45,7 @@ namespace boost { namespace hana {
 
     template <typename To, typename From>
     struct to_impl<To, From, when<convert_detail::is_valid<
-        decltype(static_cast<To>(detail::std::declval<From>()))
+        decltype(static_cast<To>(std::declval<From>()))
     >::value>> {
         template <typename X>
         static constexpr To apply(X&& x)
@@ -106,23 +107,23 @@ namespace boost { namespace hana {
     // is_convertible
     //////////////////////////////////////////////////////////////////////////
     template <typename From, typename To, typename>
-    struct is_convertible : detail::std::true_type { };
+    struct is_convertible : std::true_type { };
 
     template <typename From, typename To>
     struct is_convertible<From, To, decltype((void)
         static_cast<convert_detail::no_conversion>(*(to_impl<To, From>*)0)
-    )> : detail::std::false_type { };
+    )> : std::false_type { };
 
     //////////////////////////////////////////////////////////////////////////
     // is_embedded
     //////////////////////////////////////////////////////////////////////////
     template <typename From, typename To, typename>
-    struct is_embedded : detail::std::false_type { };
+    struct is_embedded : std::false_type { };
 
     template <typename From, typename To>
     struct is_embedded<From, To, decltype((void)
         static_cast<embedding<true>>(*(to_impl<To, From>*)0)
-    )> : detail::std::true_type { };
+    )> : std::true_type { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_CONVERT_HPP

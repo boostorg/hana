@@ -16,8 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_integral.hpp>
-#include <boost/hana/detail/std/is_same.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/integral_domain.hpp>
@@ -28,6 +26,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/mpl/integral_c.hpp>
 #include <boost/mpl/integral_c_tag.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -48,7 +48,7 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct datatype<T, when<
-        detail::std::is_same<
+        std::is_same<
             typename T::tag,
             ::boost::mpl::integral_c_tag
         >::value
@@ -71,11 +71,11 @@ namespace boost { namespace hana {
     template <typename T, typename C>
     struct to_impl<ext::boost::mpl::IntegralC<T>, C, when<
         _models<Constant, C>{}() &&
-        detail::std::is_integral<typename C::value_type>{}
+        std::is_integral<typename C::value_type>{}()
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}>
+        : embedding<is_embedded<typename C::value_type, T>{}()>
     {
-        static_assert(detail::std::is_integral<T>{},
+        static_assert(std::is_integral<T>{},
         "trying to convert a Constant to a Boost.MPL IntegralConstant of a "
         "non-integral type; Boost.MPL IntegralConstants may only hold "
         "integral types");

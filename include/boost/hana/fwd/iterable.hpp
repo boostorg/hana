@@ -12,10 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/operators.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -411,10 +412,10 @@ namespace boost { namespace hana {
         return at(forwarded(xs), size_t<n>);
     };
 #else
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _at_c;
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _at_c<n> at_c{};
 #endif
 
@@ -571,10 +572,10 @@ namespace boost { namespace hana {
         return drop(forwarded(xs), size_t<n>);
     };
 #else
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _drop_c;
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _drop_c<n> drop_c{};
 #endif
 

@@ -11,18 +11,19 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_GENERATE_INTEGER_SEQUENCE_HPP
 
 #include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/id.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana { namespace detail {
-    template <typename T, typename F, detail::std::size_t ...i>
-    constexpr auto generate_integer_sequence_impl(detail::std::index_sequence<i...>) {
+    template <typename T, typename F, std::size_t ...i>
+    constexpr auto generate_integer_sequence_impl(std::index_sequence<i...>) {
         constexpr array<T, sizeof...(i)> a = {{static_cast<T>(i)...}};
         constexpr auto sequence = F{}(a);
         (void)sequence; // remove GCC warning about `sequence` being unused
-        return detail::std::integer_sequence<T, sequence[i]...>{};
+        return std::integer_sequence<T, sequence[i]...>{};
     }
 
     //! @ingroup group-details
@@ -39,15 +40,15 @@ namespace boost { namespace hana { namespace detail {
     //!
     //! By default, when no generator function is given,
     //! `generate_integer_sequence` is equivalent to `make_integer_sequence`.
-    template <typename T, detail::std::size_t N, typename F = decltype(id)>
+    template <typename T, std::size_t N, typename F = decltype(id)>
     using generate_integer_sequence = decltype(generate_integer_sequence_impl<T, F>(
-        detail::std::make_index_sequence<N>{}
+        std::make_index_sequence<N>{}
     ));
 
     //! @ingroup group-details
     //! Equivalent to `generate_integer_sequence<std::size_t, N, F>`.
-    template <detail::std::size_t N, typename F = decltype(id)>
-    using generate_index_sequence = generate_integer_sequence<detail::std::size_t, N, F>;
+    template <std::size_t N, typename F = decltype(id)>
+    using generate_index_sequence = generate_integer_sequence<std::size_t, N, F>;
 }}} // end namespace boost::hana::detail
 
 #endif // !BOOST_HANA_DETAIL_GENERATE_INTEGER_SEQUENCE_HPP

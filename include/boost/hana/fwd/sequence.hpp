@@ -14,11 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/by_fwd.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/foldable.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -763,10 +764,10 @@ namespace boost { namespace hana {
         return remove_at(forwarded(xs), size_t<n>);
     };
 #else
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _remove_at_c;
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _remove_at_c<n> remove_at_c{};
 #endif
 
@@ -1117,10 +1118,10 @@ namespace boost { namespace hana {
         return slice(forwarded(xs), size_t<from>, size_t<to>);
     };
 #else
-    template <detail::std::size_t from, detail::std::size_t to>
+    template <std::size_t from, std::size_t to>
     struct _slice_c;
 
-    template <detail::std::size_t from, detail::std::size_t to>
+    template <std::size_t from, std::size_t to>
     constexpr _slice_c<from, to> slice_c{};
 #endif
 
@@ -1499,10 +1500,10 @@ namespace boost { namespace hana {
         return take(forwarded(xs), size_t<n>);
     };
 #else
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _take_c;
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _take_c<n> take_c{};
 #endif
 

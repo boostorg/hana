@@ -23,10 +23,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/std/enable_if.hpp>
-#include <boost/hana/detail/std/is_arithmetic.hpp>
 #include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/monoid.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -34,14 +34,14 @@ namespace boost { namespace hana {
     // Operators
     //////////////////////////////////////////////////////////////////////////
     namespace operators {
-        template <typename X, typename Y, typename = detail::std::enable_if_t<
+        template <typename X, typename Y, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(minus)>{}() ||
             _has_operator<datatype_t<Y>, decltype(minus)>{}()
         >>
         constexpr decltype(auto) operator-(X&& x, Y&& y)
         { return hana::minus(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
-        template <typename X, typename = detail::std::enable_if_t<
+        template <typename X, typename = std::enable_if_t<
             _has_operator<datatype_t<X>, decltype(negate)>{}()
         >>
         constexpr decltype(auto) operator-(X&& x)
@@ -109,14 +109,16 @@ namespace boost { namespace hana {
     // Model for arithmetic data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct minus_impl<T, T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
+    struct minus_impl<T, T, when<std::is_arithmetic<T>{}() &&
+                                 !std::is_same<bool, T>{}()>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) - static_cast<Y&&>(y); }
     };
 
     template <typename T>
-    struct negate_impl<T, when<detail::std::is_non_boolean_arithmetic<T>{}()>> {
+    struct negate_impl<T, when<std::is_arithmetic<T>{}() &&
+                               !std::is_same<bool, T>{}()>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
         { return -static_cast<X&&>(x); }

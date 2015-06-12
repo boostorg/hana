@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/detail/variadic/take.hpp>
@@ -35,6 +34,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/sequence.hpp>
 
+#include <utility>
+
 
 namespace boost { namespace hana { namespace sandbox {
     struct LambdaTuple {
@@ -53,7 +54,7 @@ namespace boost { namespace hana { namespace sandbox {
           operators::Iterable_ops<_lambda_tuple<Storage>>
     {
         explicit constexpr _lambda_tuple(Storage&& s)
-            : storage(boost::hana::detail::std::move(s))
+            : storage(std::move(s))
         { }
 
         struct hana { using datatype = LambdaTuple; };
@@ -62,7 +63,7 @@ namespace boost { namespace hana { namespace sandbox {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
         auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
-        return _lambda_tuple<decltype(storage)>{hana::detail::std::move(storage)};
+        return _lambda_tuple<decltype(storage)>{std::move(storage)};
     };
 }}} // end namespace boost::hana::sandbox
 
@@ -87,7 +88,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F f) {
             return static_cast<Xs&&>(xs).storage(
-                [f(detail::std::move(f))](auto&& ...xs) -> decltype(auto) {
+                [f(std::move(f))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(f(static_cast<decltype(xs)&&>(xs))...);
                 }
             );
@@ -176,13 +177,13 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return static_cast<Xs&&>(xs).storage(
                 [ys(static_cast<Ys&&>(ys))](auto&& ...xs) -> decltype(auto) {
-                    return detail::std::move(ys).storage(
+                    return std::move(ys).storage(
                         // We can't initialize the capture with perfect
                         // forwarding since that's not supported by the
                         // language.
                         [=](auto&& ...ys) -> decltype(auto) {
                             return sandbox::lambda_tuple(
-                                detail::std::move(xs)...,
+                                std::move(xs)...,
                                 static_cast<decltype(ys)&&>(ys)...
                             );
                         }
@@ -199,7 +200,7 @@ namespace boost { namespace hana {
             return static_cast<Xs&&>(xs).storage(
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
-                        detail::std::move(x),
+                        std::move(x),
                         static_cast<decltype(xs)&&>(xs)...
                     );
                 }
@@ -215,7 +216,7 @@ namespace boost { namespace hana {
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
                     return sandbox::lambda_tuple(
                         static_cast<decltype(xs)&&>(xs)...,
-                        detail::std::move(x)
+                        std::move(x)
                     );
                 }
             );

@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_OPTIONAL_HPP
 
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -279,7 +280,7 @@ namespace boost { namespace hana {
 
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, _just<T>&& m) const
-        { return static_cast<F&&>(f)(detail::std::move(m).val); }
+        { return static_cast<F&&>(f)(std::move(m).val); }
 
         template <typename Def, typename F>
         constexpr Def operator()(Def&& def, F&&, _nothing) const

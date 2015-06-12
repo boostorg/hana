@@ -17,15 +17,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/declval.hpp>
-#include <boost/hana/detail/std/move.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/orderable.hpp>
+
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -42,7 +42,7 @@ namespace boost { namespace hana {
         _left(_left const&) = default;
         _left(_left&&) = default;
         _left(_left&) = default;
-        template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
+        template <typename Y, typename = decltype(X(std::declval<Y>()))>
         constexpr _left(Y&& y)
             : value(static_cast<Y&&>(y))
         { }
@@ -59,13 +59,13 @@ namespace boost { namespace hana {
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) &&
-        { return static_cast<F&&>(f)(detail::std::move(value)); }
+        { return static_cast<F&&>(f)(std::move(value)); }
     };
 
     //! @cond
     template <typename T>
     constexpr auto _make_left::operator()(T&& t) const {
-        return _left<typename detail::std::decay<T>::type>{
+        return _left<typename std::decay<T>::type>{
             static_cast<T&&>(t)
         };
     }
@@ -84,7 +84,7 @@ namespace boost { namespace hana {
         _right(_right const&) = default;
         _right(_right&&) = default;
         _right(_right&) = default;
-        template <typename Y, typename = decltype(X(detail::std::declval<Y>()))>
+        template <typename Y, typename = decltype(X(std::declval<Y>()))>
         constexpr _right(Y&& y)
             : value(static_cast<Y&&>(y))
         { }
@@ -101,13 +101,13 @@ namespace boost { namespace hana {
 
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &&
-        { return static_cast<G&&>(g)(detail::std::move(value)); }
+        { return static_cast<G&&>(g)(std::move(value)); }
     };
 
     //! @cond
     template <typename T>
     constexpr auto _make_right::operator()(T&& t) const {
-        return _right<typename detail::std::decay<T>::type>{
+        return _right<typename std::decay<T>::type>{
             static_cast<T&&>(t)
         };
     }
@@ -220,7 +220,7 @@ namespace boost { namespace hana {
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>&& x, F&& f)
-        { return static_cast<F&&>(f)(detail::std::move(x.value)); }
+        { return static_cast<F&&>(f)(std::move(x.value)); }
     };
 }} // end namespace boost::hana
 

@@ -12,18 +12,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/core/default.hpp>
 
-#include <boost/hana/detail/std/integral_constant.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
     template <typename Method, typename>
-    struct is_default : detail::std::false_type { };
+    struct is_default : std::false_type { };
 
     template <typename Method>
     struct is_default<Method, decltype((void)
         static_cast<default_>(*(Method*)0)
     )>
-        : detail::std::true_type
+        : std::true_type
     { };
 }} // end namespace boost::hana
 

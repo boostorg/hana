@@ -14,9 +14,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/std/is_integral.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/orderable.hpp>
+
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -50,12 +51,12 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<test::CNumeric<T>, C, when<
-        _models<Constant, C>{} &&
-        detail::std::is_integral<typename C::value_type>{}
+        _models<Constant, C>{}() &&
+        std::is_integral<typename C::value_type>{}()
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}>
+        : embedding<is_embedded<typename C::value_type, T>{}()>
     {
-        static_assert(detail::std::is_integral<T>{},
+        static_assert(std::is_integral<T>{},
         "trying to convert a Constant to a test::CNumeric of a non-integral "
         "type; test::CNumeric may only hold integral types");
 

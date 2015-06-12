@@ -11,11 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/std/decay.hpp>
-#include <boost/hana/detail/std/move.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/partial.hpp>
+
+#include <cstddef>
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -97,28 +98,28 @@ namespace boost { namespace hana {
         };
     };
 #else
-    template <detail::std::size_t n, typename F>
+    template <std::size_t n, typename F>
     struct _curry;
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     struct _make_curry {
         template <typename F>
-        constexpr _curry<n, typename detail::std::decay<F>::type>
+        constexpr _curry<n, typename std::decay<F>::type>
         operator()(F&& f) const { return {static_cast<F&&>(f)}; }
     };
 
-    template <detail::std::size_t n>
+    template <std::size_t n>
     constexpr _make_curry<n> curry{};
 
     namespace curry_detail {
-        template <detail::std::size_t n>
+        template <std::size_t n>
         constexpr _make_curry<n> curry_or_call{};
 
         template <>
         constexpr auto curry_or_call<0> = apply;
     }
 
-    template <detail::std::size_t n, typename F>
+    template <std::size_t n, typename F>
     struct _curry {
         F f;
 
@@ -147,7 +148,7 @@ namespace boost { namespace hana {
             static_assert(sizeof...(x) <= n,
             "too many arguments provided to boost::hana::curry");
             return curry_detail::curry_or_call<n - sizeof...(x)>(
-                partial(detail::std::move(f), static_cast<X&&>(x)...)
+                partial(std::move(f), static_cast<X&&>(x)...)
             );
         }
     };
@@ -165,7 +166,7 @@ namespace boost { namespace hana {
 #endif
 
         constexpr decltype(auto) operator()() &&
-        { return detail::std::move(f)(); }
+        { return std::move(f)(); }
     };
 #endif
 }} // end namespace boost::hana

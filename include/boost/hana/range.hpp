@@ -20,13 +20,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/operators.hpp>
-#include <boost/hana/detail/std/integer_sequence.hpp>
-#include <boost/hana/detail/std/size_t.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/searchable.hpp>
+
+#include <cstddef>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -108,14 +109,14 @@ namespace boost { namespace hana {
     struct unpack_impl<Range> {
         template <typename T, T from, typename F, T ...v>
         static constexpr decltype(auto)
-        unpack_helper(F&& f, detail::std::integer_sequence<T, v...>) {
+        unpack_helper(F&& f, std::integer_sequence<T, v...>) {
             return static_cast<F&&>(f)(_integral_constant<T, from + v>{}...);
         }
 
         template <typename T, T from, T to, typename F>
         static constexpr decltype(auto) apply(_range<T, from, to> const&, F&& f) {
             return unpack_helper<T, from>(static_cast<F&&>(f),
-                detail::std::make_integer_sequence<T, to - from>{});
+                std::make_integer_sequence<T, to - from>{});
         }
     };
 
@@ -123,7 +124,7 @@ namespace boost { namespace hana {
     struct length_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(_range<T, from, to> const&)
-        { return size_t<static_cast<detail::std::size_t>(to - from)>; }
+        { return size_t<static_cast<std::size_t>(to - from)>; }
     };
 
     template <>
