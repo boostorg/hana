@@ -17,7 +17,11 @@ enable_testing()
 include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler supports it." ON)
-option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found" OFF)
+option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
+option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
+option(BOOST_HANA_ENABLE_STRING_UDL
+"Enable the GNU extension allowing the special string literal operator\
+ template, which enables the _s suffix for creating compile-time Strings." ON)
 
 
 ##############################################################################
@@ -31,15 +35,7 @@ macro(boost_hana_append_flag testname flag)
     endif()
 endmacro()
 
-boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
-boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
-boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
-boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
-boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
-boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
-boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
-
+# Compiler flags controlled by CMake options above
 if (BOOST_HANA_ENABLE_WERROR)
     boost_hana_append_flag(BOOST_HANA_HAS_WERROR -Werror)
     boost_hana_append_flag(BOOST_HANA_HAS_WX -WX)
@@ -49,13 +45,25 @@ if (BOOST_HANA_ENABLE_LIBCXX)
     boost_hana_append_flag(BOOST_HANA_HAS_STDLIB_LIBCXX -stdlib=libc++)
 endif()
 
-# By default, we enable the GNU extension allowing the special string literal
-# operator template, which enables the _s suffix for creating compile-time
-# Strings. We do so to allow testing this operator. We also suppress warnings
-# pertaining to this operator.
-add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
-                       -Wno-gnu-string-literal-operator-template)
+if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
+    add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
+endif()
+
+if (BOOST_HANA_ENABLE_STRING_UDL)
+    add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
+    boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
+                           -Wno-gnu-string-literal-operator-template)
+endif()
+
+# Other compiler flags
+boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
+boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
+boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
+boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
+boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
+boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
+boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
 
 
 ##############################################################################

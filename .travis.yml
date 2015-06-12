@@ -43,7 +43,11 @@ matrix:
     - env: CLANG_VERSION=3.6 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang36
 
-    # clang 3.7
+    # clang 3.6, with concept checks disabled
+    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
+      addons: *clang36
+
+    # clang 3.7 (trunk)
     - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang37
         apt:
@@ -187,6 +191,7 @@ before_script:
   - mkdir build
   - cd build
   - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/llvm/build -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_MEMCHECK=ON -DBOOST_HANA_ENABLE_WERROR=ON
+  - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
 
 
 script:
