@@ -31,10 +31,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename F>
     struct TestApplicative<F, laws> {
-        static_assert(_models<Applicative, F>{}, "");
-
         template <typename Applicatives>
         TestApplicative(Applicatives applicatives) {
+            hana::for_each(applicatives, [](auto const& a) {
+                static_assert(_models<Applicative, decltype(a)>{}, "");
+            });
+
             auto functions1 = hana::take.at_most(
             hana::transform(applicatives, [](auto xs) {
                 return hana::transform(xs, hana::curry<2>(test::_injection<0>{}));

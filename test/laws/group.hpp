@@ -27,10 +27,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename G>
     struct TestGroup<G, laws> {
-        static_assert(_models<Group, G>{}, "");
-
         template <typename Xs>
         TestGroup(Xs xs) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<Group, decltype(x)>{}, "");
+            });
+
             foreach2(xs, [](auto x, auto y) {
 
                 // left inverse

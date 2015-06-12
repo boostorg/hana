@@ -26,10 +26,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename T>
     struct TestOrderable<T, laws> {
-        static_assert(_models<Orderable, T>{}, "");
-
         template <typename Xs>
         TestOrderable(Xs xs) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<Orderable, decltype(x)>{}, "");
+            });
+
             foreach2(xs, [](auto a, auto b) {
 
                 // antisymmetry

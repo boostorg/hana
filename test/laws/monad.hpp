@@ -28,13 +28,13 @@ namespace boost { namespace hana { namespace test {
 
     template <typename M>
     struct TestMonad<M, laws> {
-        static_assert(_models<Monad, M>{}, "");
-
         // Xs are Monads over something
         // XXs are Monads over Monads over something
         template <typename Xs, typename XXs>
         TestMonad(Xs xs, XXs xxs) {
             hana::for_each(xs, [](auto m) {
+                static_assert(_models<Monad, decltype(m)>{}, "");
+
                 auto f = hana::compose(lift<M>, test::_injection<0>{});
                 auto g = hana::compose(lift<M>, test::_injection<1>{});
                 auto h = hana::compose(lift<M>, test::_injection<2>{});

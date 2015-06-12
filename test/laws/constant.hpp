@@ -32,7 +32,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace test {
     template <typename C, typename = when<true>>
     struct TestConstant {
-        static_assert(_models<Constant, C>{}, "");
         using T = typename C::value_type;
 
         template <typename X>
@@ -44,6 +43,10 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs, typename Convertibles>
         TestConstant(Xs xs, Convertibles types) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<Constant, decltype(x)>{}, "");
+            });
+
             hana::for_each(xs, hana::capture(types)([](auto types, auto c) {
 
                 // constexpr-ness of hana::value(c)

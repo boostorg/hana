@@ -28,11 +28,11 @@ namespace boost { namespace hana { namespace test {
 
     template <typename M>
     struct TestMonadPlus<M, laws> {
-        static_assert(_models<MonadPlus, M>{}, "");
-
         template <typename Xs, typename Predicates, typename Values>
         TestMonadPlus(Xs xs, Predicates predicates, Values values) {
             hana::for_each(xs, [](auto a) {
+                static_assert(_models<MonadPlus, decltype(a)>{}, "");
+
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
                     hana::concat(empty<M>(), a),

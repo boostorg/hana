@@ -27,10 +27,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename D>
     struct TestIntegralDomain<D, laws> {
-        static_assert(_models<IntegralDomain, D>{}, "");
-
         template <typename Xs>
         TestIntegralDomain(Xs xs) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<IntegralDomain, decltype(x)>{}, "");
+            });
+
             foreach2(xs, [](auto a, auto b) {
 
                 // commutativity

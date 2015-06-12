@@ -26,10 +26,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename T>
     struct TestComparable<T, laws> {
-        static_assert(_models<Comparable, T>{}, "");
-
         template <typename Xs>
         TestComparable(Xs xs) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<Comparable, decltype(x)>{}, "");
+            });
+
             foreach2(xs, [](auto a, auto b) {
 
                 // reflexivity

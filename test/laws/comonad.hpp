@@ -26,11 +26,11 @@ namespace boost { namespace hana { namespace test {
 
     template <typename W>
     struct TestComonad<W, laws> {
-        static_assert(_models<Comonad, W>{}, "");
-
         template <typename Ws>
         TestComonad(Ws ws) {
             hana::for_each(ws, [](auto w) {
+                static_assert(_models<Comonad, decltype(w)>{}, "");
+
                 // extract(duplicate(w)) == w
                 BOOST_HANA_CHECK(hana::equal(
                     hana::extract(hana::duplicate(w)),

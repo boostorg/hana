@@ -35,11 +35,11 @@ namespace boost { namespace hana { namespace test {
 
     template <typename F>
     struct TestFoldable<F, laws> {
-        static_assert(_models<Foldable, F>{}, "");
-
         template <typename Foldables>
         TestFoldable(Foldables foldables) {
             hana::for_each(foldables, [](auto xs) {
+                static_assert(_models<Foldable, decltype(xs)>{}, "");
+
                 _injection<0> f{};
                 ct_eq<999> s{};
 

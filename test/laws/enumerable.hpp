@@ -24,11 +24,10 @@ namespace boost { namespace hana { namespace test {
 
     template <typename E>
     struct TestEnumerable<E, laws> {
-        static_assert(_models<Enumerable, E>{}, "");
-
         template <typename Xs>
         TestEnumerable(Xs xs) {
             hana::for_each(xs, [](auto n) {
+                static_assert(_models<Enumerable, decltype(n)>{}, "");
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::succ(hana::pred(n)),

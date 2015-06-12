@@ -58,8 +58,6 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestSequence<S, laws> {
-        static_assert(_models<Sequence, S>{}, "");
-
         template <int i>
         using eq = integer<i,
               Policy::Comparable
@@ -85,6 +83,14 @@ namespace boost { namespace hana { namespace test {
             constexpr auto foldable = seq; (void)foldable;
 
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
+            //////////////////////////////////////////////////////////////////
+            // Check for models<...>
+            //////////////////////////////////////////////////////////////////
+            static_assert(_models<Sequence, decltype(list())>{}, "");
+            static_assert(_models<Sequence, decltype(list(1))>{}, "");
+            static_assert(_models<Sequence, decltype(list(1, '2'))>{}, "");
+            static_assert(_models<Sequence, decltype(list(1, '2', 3.4))>{}, "");
+
             //////////////////////////////////////////////////////////////////
             // Check for basic data type consistency
             //////////////////////////////////////////////////////////////////

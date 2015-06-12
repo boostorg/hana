@@ -28,8 +28,6 @@ namespace boost { namespace hana { namespace test {
 
     template <typename L>
     struct TestLogical<L, laws> {
-        static_assert(_models<Logical, L>{}, "");
-
         template <typename Xs, typename Pred, typename F>
         static void for_each_such_that(Xs xs, Pred pred, F f) {
             hana::for_each(xs, [&pred, &f](auto x) {
@@ -42,6 +40,10 @@ namespace boost { namespace hana { namespace test {
 
         template <typename Xs>
         TestLogical(Xs xs) {
+            hana::for_each(xs, [](auto x) {
+                static_assert(_models<Logical, decltype(x)>{}, "");
+            });
+
             foreach3(xs, hana::capture(xs)([](auto xs, auto a, auto b, auto c) {
                 auto true_valued = [](auto x) {
                     return hana::if_(x, true_, false_);

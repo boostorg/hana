@@ -26,11 +26,11 @@ namespace boost { namespace hana { namespace test {
 
     template <typename P>
     struct TestProduct<P, laws> {
-        static_assert(_models<Product, P>{}, "");
-
         template <typename Elements>
         TestProduct(Elements elements) {
             foreach2(elements, [](auto x, auto y) {
+                static_assert(_models<Product, decltype(hana::make<P>(x, y))>{}, "");
+
                 BOOST_HANA_CHECK(hana::equal(
                     hana::first(hana::make<P>(x, y)),
                     x

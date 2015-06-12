@@ -31,10 +31,12 @@ namespace boost { namespace hana { namespace test {
 
     template <typename S>
     struct TestSearchable<S, laws> {
-        static_assert(_models<Searchable, S>{}, "");
-
         template <typename Searchables, typename Keys>
         TestSearchable(Searchables searchables, Keys keys) {
+            hana::for_each(searchables, [](auto xs) {
+                static_assert(_models<Searchable, decltype(xs)>{}, "");
+            });
+
             auto predicates = hana::concat(
                 hana::to<hana::Tuple>(hana::transform(keys, equal.to)),
                 hana::make_tuple(

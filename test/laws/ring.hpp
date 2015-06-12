@@ -29,11 +29,10 @@ namespace boost { namespace hana { namespace test {
 
     template <typename R>
     struct TestRing<R, laws> {
-        static_assert(_models<Ring, R>{}, "");
-
         template <typename Xs>
         TestRing(Xs xs) {
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
+                static_assert(_models<Ring, decltype(x)>{}, "");
 
                 foreach2(xs, hana::capture(x)([](auto x, auto y, auto z) {
                     // associativity
