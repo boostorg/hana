@@ -69,6 +69,7 @@ find_package(Doxygen)
 find_package(Git)
 find_package(Meta)
 find_package(MPL11)
+find_package(PythonInterp 2.7)
 find_package(Ruby 2.1)
 
 if (BOOST_HANA_ENABLE_MEMCHECK)

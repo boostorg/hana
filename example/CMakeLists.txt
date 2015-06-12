@@ -57,6 +57,21 @@ endif()
 
 
 ##############################################################################
+# Setup the `wandbox` target, which uploads the whole library along with the
+# example/wandbox.cpp example to http://melpon.org/wandbox, and prints a
+# permlink to it.
+##############################################################################
+if (PYTHONINTERP_FOUND)
+    add_custom_target(wandbox COMMAND
+        ${PYTHON_EXECUTABLE} ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
+                             ${Boost.Hana_SOURCE_DIR}/include
+                             ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp
+        SOURCES ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
+                ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp)
+endif()
+
+
+##############################################################################
 # Add all the examples
 ##############################################################################
 foreach(_file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
