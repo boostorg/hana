@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
+#include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
@@ -65,6 +66,23 @@ namespace boost { namespace hana {
     struct make_impl<Set> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            constexpr bool are_Comparable[] = {true,
+                _models<Comparable, Xs>{}()...
+            };
+
+            static_assert(hana::all(are_Comparable),
+            "hana::make<Set>(xs...) requires all the 'xs' to be Comparable");
+
+            constexpr bool are_compile_time_Comparable[] = {true,
+                _models<Constant, decltype(hana::equal(xs, xs))>{}()...
+            };
+
+            static_assert(hana::all(are_compile_time_Comparable),
+            "hana::make<Set>(xs...) requires all the 'xs' to be "
+            "Comparable at compile-time");
+        #endif
+
             return _set<typename std::decay<Xs>::type...>{
                 static_cast<Xs&&>(xs)...
             };

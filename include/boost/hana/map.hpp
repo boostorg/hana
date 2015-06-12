@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/product.hpp>
@@ -75,6 +76,23 @@ namespace boost { namespace hana {
 
             static_assert(hana::all(are_pairs),
             "hana::make<Map>(pairs...) requires all the 'pairs' to be Products");
+
+            constexpr bool are_Comparable[] = {true,
+                _models<Comparable, decltype(hana::first(pairs))>{}()...
+            };
+
+            static_assert(hana::all(are_Comparable),
+            "hana::make<Map>(pairs...) requires all the keys to be Comparable");
+
+            constexpr bool are_compile_time_Comparable[] = {true,
+                _models<Constant, decltype(
+                    hana::equal(hana::first(pairs), hana::first(pairs))
+                )>{}()...
+            };
+
+            static_assert(hana::all(are_compile_time_Comparable),
+            "hana::make<Map>(pairs...) requires all the keys to be "
+            "Comparable at compile-time");
         #endif
 
             return _map<typename std::decay<Pairs>::type...>{

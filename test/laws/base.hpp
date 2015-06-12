@@ -97,6 +97,13 @@ namespace boost { namespace hana {
                 static_assert(detail::wrong<X>{},
                 "this constructor must not be instantiated");
             }
+
+            // We use this type inside a Set in the unit tests, which requires
+            // compile-time Comparable keys, hence this dummy comparison.
+            constexpr auto operator==(trap_construct const&) const
+            { return false_; }
+            constexpr auto operator!=(trap_construct const&) const
+            { return true_; }
         };
 
         // A non-copyable type. Useful for testing containers.

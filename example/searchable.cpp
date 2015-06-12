@@ -33,22 +33,22 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(all_of(make<Tuple>(1, 3), odd));
-BOOST_HANA_CONSTANT_CHECK(!all_of(make<Tuple>(3_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(all_of(make_tuple(1, 3), odd));
+BOOST_HANA_CONSTANT_CHECK(!all_of(make_tuple(3_c, 4_c), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    !all_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    !all_of(make_tuple(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    all_of(make<Tuple>(type<int>, type<char>), trait<std::is_integral>)
+    all_of(make_tuple(type<int>, type<char>), trait<std::is_integral>)
 );
 //! [all_of]
 
 }{
 
 //! [all]
-BOOST_HANA_CONSTEXPR_CHECK(all(make<Tuple>(true_, true, true_)));
-BOOST_HANA_CONSTANT_CHECK(!all(make<Tuple>(true, false_, true_)));
+BOOST_HANA_CONSTEXPR_CHECK(all(make_tuple(true_, true, true_)));
+BOOST_HANA_CONSTANT_CHECK(!all(make_tuple(true, false_, true_)));
 //! [all]
 
 }{
@@ -60,14 +60,14 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTEXPR_CHECK(any_of(make<Tuple>(1, 2), odd));
-BOOST_HANA_CONSTANT_CHECK(!any_of(make<Tuple>(2_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(any_of(make_tuple(1, 2), odd));
+BOOST_HANA_CONSTANT_CHECK(!any_of(make_tuple(2_c, 4_c), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    any_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    any_of(make_tuple(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    !any_of(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
+    !any_of(make_tuple(type<void>, type<char&>), trait<std::is_integral>)
 );
 //! [any_of]
 
@@ -83,7 +83,8 @@ BOOST_HANA_CONSTEXPR_CHECK(!any(make_tuple(false, false_, false_)));
 
 //! [contains]
 BOOST_HANA_CONSTANT_CHECK(contains(make_tuple(2, int_<2>, int_<3>, 'x'), int_<3>));
-BOOST_HANA_CONSTANT_CHECK(contains(make_set(1, '2', type<int>, "foobar"), type<int>));
+
+BOOST_HANA_CONSTANT_CHECK(contains(make_set(int_<3>, type<void>), type<void>));
 //! [contains]
 
 }{
@@ -123,18 +124,18 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [find]
 BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, type<int>, '3'), type<int>) == just(type<int>)
+    find(make_tuple(int_<1>, type<int>, '3'), type<int>) == just(type<int>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, type<int>, '3'), type<void>) == nothing
+    find(make_tuple(int_<1>, type<int>, '3'), type<void>) == nothing
 );
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto m = make<Map>(
-    make<Pair>(1, 'x'),
-    make<Pair>(type<float>, 3.3),
-    make<Pair>(type<char>, type<int>)
+constexpr auto m = make_map(
+    make_pair(int_<2>, 2),
+    make_pair(type<float>, 3.3),
+    make_pair(type<char>, type<int>)
 );
-BOOST_HANA_CONSTEXPR_CHECK(find(m, type<float>) == just(3.3));
+static_assert(find(m, type<float>) == just(3.3), "");
 //! [find]
 
 }{
@@ -161,23 +162,23 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto odd = [](auto x) {
     return x % 2_c != 0_c;
 };
 
-BOOST_HANA_CONSTANT_CHECK(none_of(make<Tuple>(2_c, 4_c), odd));
-BOOST_HANA_CONSTEXPR_CHECK(!none_of(make<Tuple>(1, 2), odd));
+BOOST_HANA_CONSTANT_CHECK(none_of(make_tuple(2_c, 4_c), odd));
+BOOST_HANA_CONSTEXPR_CHECK(!none_of(make_tuple(1, 2), odd));
 
 BOOST_HANA_CONSTANT_CHECK(
-    !none_of(make<Tuple>(type<void>, type<char&>), trait<std::is_void>)
+    !none_of(make_tuple(type<void>, type<char&>), trait<std::is_void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    none_of(make<Tuple>(type<void>, type<char&>), trait<std::is_integral>)
+    none_of(make_tuple(type<void>, type<char&>), trait<std::is_integral>)
 );
 //! [none_of]
 
 }{
 
 //! [none]
-BOOST_HANA_CONSTEXPR_CHECK(none(make<Tuple>(false, false_, false_)));
-BOOST_HANA_CONSTEXPR_CHECK(!none(make<Tuple>(false, false_, true)));
-BOOST_HANA_CONSTANT_CHECK(!none(make<Tuple>(false, false_, true_)));
+BOOST_HANA_CONSTEXPR_CHECK(none(make_tuple(false, false_, false_)));
+BOOST_HANA_CONSTEXPR_CHECK(!none(make_tuple(false, false_, true)));
+BOOST_HANA_CONSTANT_CHECK(!none(make_tuple(false, false_, true_)));
 //! [none]
 
 }{

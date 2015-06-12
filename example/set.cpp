@@ -26,8 +26,7 @@ BOOST_HANA_CONSTANT_CHECK(
     set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
 );
 
-BOOST_HANA_CONSTEXPR_CHECK(set(1, '2', 3.3) == set('2', 1, 3.3));
-BOOST_HANA_CONSTANT_CHECK(set(1, '2', 3.3) != set('2', 1));
+BOOST_HANA_CONSTANT_CHECK(set(int_<0>, type<char>) != set(int_<1>));
 //! [Comparable]
 
 }{
