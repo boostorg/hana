@@ -6,7 +6,8 @@ sudo: false
 
 matrix:
   allow_failures:
-    - env: BOOST_VERSION=trunk CLANG_VERSION=3.7
+    - env: BOOST_VERSION=trunk
+    - env: CLANG_VERSION=3.7
 
   include:
     # clang 3.5
