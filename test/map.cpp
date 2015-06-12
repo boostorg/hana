@@ -55,7 +55,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         auto expr = make<Map>(
-            test::minimal_product(1, test::trap_construct{})
+            test::minimal_product(test::trap_construct{}, test::trap_construct{})
         );
         auto implicit_copy = expr;          (void)implicit_copy;
         decltype(expr) explicit_copy(expr); (void)explicit_copy;
