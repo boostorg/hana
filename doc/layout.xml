@@ -50,7 +50,7 @@ This is a list of all the headers provided by the library."/>
     <inheritancegraph visible="$CLASS_GRAPH"/>
     <collaborationgraph visible="$COLLABORATION_GRAPH"/>
     <memberdecl>
-      <related title="Synopsis of methods" subtitle=" "/>
+      <related title="Synopsis of associated functions" subtitle=" "/>
       <nestedclasses visible="no" title=""/>
       <friends title=""/>
       <membergroups visible="yes"/>
@@ -86,7 +86,7 @@ This is a list of all the headers provided by the library."/>
       <privatestaticattributes title=""/>
     </memberdecl>
     <memberdef>
-      <related title="Methods"/>
+      <related title="Associated functions"/>
       <functions title=""/>
       <variables title=""/>
       <inlineclasses title=""/>
