@@ -3002,6 +3002,19 @@ Hana is pretty and it unifies type-level and heterogeneous programming under
 a single paradigm, the name appears to be quite well chosen in retrospect :-).
 
 
+@subsection tutorial-rationales-tuple Why define our own tuple?
+
+Since Hana defines a lot of algorithms on tuples, a possible way to go would
+have been to simply use `std::tuple` and provide the algorithms only, instead
+of also providing our own tuple. The reason for providing our own tuple is
+principally performance. Indeed, all the `std::tuple` implementations tested
+so far have a very bad compile-time performance. Also, to get truly amazing
+compile-time performance, we need to take advantage of the tuple's internal
+representation in some algorithms, which requires defining our own. Finally,
+some sugar like `operator[]` could not be provided if we were using a
+`std::tuple`, since that operator must be defined as a member function.
+
+
 
 
 
