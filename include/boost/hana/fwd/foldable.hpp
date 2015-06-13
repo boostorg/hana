@@ -98,14 +98,15 @@ namespace boost { namespace hana {
     //! runtime `Foldable`s too, doing so efficiently requires more research.
     //!
     //!
-    //! Provided conversion to any `Sequence`
-    //! -------------------------------------
-    //! In the spirit of the notion of linearization presented above, any
-    //! `Foldable` can be converted to a `Sequence`. The result is, as one
-    //! might expect, simply the linearization of the `Foldable` structure.
-    //! More specifically, given a `Foldable` `xs` with a linearization of
-    //! `[x1, ..., xn]` and a `Sequence` `S`, `to<S>(xs)` is equivalent to
-    //! `make<S>(x1, ..., xn)`.
+    //! Provided conversion to `Sequence`s
+    //! ----------------------------------
+    //! Given a tag `S` which is a `Sequence`, an object whose tag is a model
+    //! of the `Foldable` concept can be converted to an object of tag `S`.
+    //! In other words, a `Foldable` can be converted to a `Sequence` `S`, by
+    //! simply taking the linearization of the `Foldable` and creating the
+    //! sequence with that. More specifically, given a `Foldable` `xs` with a
+    //! linearization of `[x1, ..., xn]` and a `Sequence` tag `S`, `to<S>(xs)`
+    //! is equivalent to `make<S>(x1, ..., xn)`.
     //! @snippet example/foldable.cpp conversion
     //!
     //!
@@ -1060,11 +1061,13 @@ namespace boost { namespace hana {
     //! concept.
     //!
     //!
-    //! Why must the Monoid be specified sometimes?
-    //! -------------------------------------------
+    //! Why must we sometimes specify the `Monoid` by using `sum<M>`?
+    //! -------------------------------------------------------------
     //! This is because sequences like Tuple are not parameterized data
     //! types (by design). Hence, we do not know what kind of objects are
-    //! in the sequence, and so that must be specified explicitly. Other
+    //! in the sequence, so we can't know a `0` value of which type should
+    //! be returned when the sequence is empty. Therefore, the type of the
+    //! `0` to return in the empty case must be specified explicitly. Other
     //! foldable structures like Ranges will ignore the suggested Monoid
     //! because they know the data type of the objects they contain. This
     //! inconsistent behavior is a limitation of the current design of data
