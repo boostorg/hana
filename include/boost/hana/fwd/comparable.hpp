@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //! ----
     //! `equal` must define an [equivalence relation][1], and `not_equal` must
     //! be its complement. In other words, for all objects `a`, `b`, `c` of a
-    //! `Comparable` data type, the following must be true (where `x == y` and
+    //! `Comparable` tag, the following must be true (where `x == y` and
     //! `x != y` denote `equal(x, y)` and `not_equal(x, y)`, respectively):
     //! @code
     //!     a == a                          // Reflexivity
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //! ---------------------------
     //! 1. `equal`\n
     //! When `equal` is defined, `not_equal` is implemented by default as its
-    //! complement. For all objects `x`, `y` of a `Comparable` data type,
+    //! complement. For all objects `x`, `y` of a `Comparable` tag,
     //! @code
     //!     not_equal(x, y) == not_(equal(x, y))
     //! @endcode
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     //!
     //! Free model for `EqualityComparable` data types
     //! ----------------------------------------------
-    //! Two data types `T` and `U` that model the cross-type EqualityComparable
+    //! Two tags `T` and `U` that model the cross-type EqualityComparable
     //! concept presented in [N3351][2] automatically model the `Comparable`
     //! concept by setting
     //! @code
@@ -91,10 +91,10 @@ namespace boost { namespace hana {
     //!
     //! Equality-preserving functions
     //! -----------------------------
-    //! Let `A` and `B` be two `Comparable` data types. A function
-    //! @f$ f : A \to B @f$ is said to be equality-preserving if it preserves
-    //! the structure of the `Comparable` concept, which can be rigorously
-    //! stated as follows. For all objects `x`, `y` of data type `A`,
+    //! Let `A` and `B` be two `Comparable` tags. A function @f$f : A \to B@f$
+    //! is said to be equality-preserving if it preserves the structure of the
+    //! `Comparable` concept, which can be rigorously stated as follows. For
+    //! all objects `x`, `y` of tag `A`,
     //! @code
     //!     if  equal(x, y)  then  equal(f(x), f(y))
     //! @endcode
@@ -122,17 +122,16 @@ namespace boost { namespace hana {
     //! Cross-type version of the methods
     //! ---------------------------------
     //! The `equal` and `not_equal` methods are "overloaded" to handle
-    //! distinct data types with certain properties. Specifically, they
-    //! are defined for _distinct_ data types `A` and `B` such that
-    //! 1. `A` and `B` share a common data type `C`, as determined by the
+    //! distinct tags with certain properties. Specifically, they are
+    //! defined for _distinct_ tags `A` and `B` such that
+    //! 1. `A` and `B` share a common tag `C`, as determined by the
     //!    `common` metafunction
     //! 2. `A`, `B` and `C` are all `Comparable` when taken individually
-    //! 3. @f$ \mathrm{to<C>} : A \to C @f$ and @f$\mathrm{to<C>} : B \to C@f$
+    //! 3. @f$ \mathtt{to<C>} : A \to C @f$ and @f$\mathtt{to<C>} : B \to C@f$
     //!    are both equality-preserving and injective (i.e. they are embeddings),
     //!    as determined by the `is_embedding` metafunction.
     //!
-    //! The method definitions for data types satisfying the above
-    //! properties are
+    //! The method definitions for tags satisfying the above properties are
     //! @code
     //!     equal(x, y)     = equal(to<C>(x), to<C>(y))
     //!     not_equal(x, y) = not_equal(to<C>(x), to<C>(y))
@@ -144,21 +143,21 @@ namespace boost { namespace hana {
     //! In the context of programming with heterogeneous values, it is useful
     //! to have unrelated objects compare `false` instead of triggering an
     //! error. For this reason, `equal` adopts a special behavior for
-    //! unrelated objects of data types `T` and `U` that do not satisfy the
-    //! above requirements for the cross-type overloads. Specifically, when
-    //! `T` and `U` are unrelated (i.e. `T` can't be converted to `U` and
-    //! vice-versa), comparing objects of those data types yields a
-    //! compile-time false value. This has the effect that unrelated objects
-    //! like `float` and `std::string` will compare false, while comparing
-    //! related objects that can not be safely embedded into the same super
-    //! structure (like `long long` and `float` because of the precision loss)
-    //! will trigger a compile-time assertion. Also note that for any data type
-    //! `T` for which the minimial complete definition of `Comparable` is not
-    //! provided, a compile-time assertion will also be triggered because `T`
-    //! and `T` trivially share the common data type `T`, which is the expected
-    //! behavior. This design choice aims to provide more flexibility for
-    //! comparing objects, while still rejecting usage patterns that are
-    //! most likely programming errors.
+    //! unrelated objects of tags `T` and `U` that do not satisfy the above
+    //! requirements for the cross-type overloads. Specifically, when `T` and
+    //! `U` are unrelated (i.e. `T` can't be converted to `U` and vice-versa),
+    //! comparing objects with those tags yields a compile-time false value.
+    //! This has the effect that unrelated objects like `float` and
+    //! `std::string` will compare false, while comparing related objects that
+    //! can not be safely embedded into the same super structure (like
+    //! `long long` and `float` because of the precision loss) will trigger a
+    //! compile-time assertion. Also note that for any tag `T` for which the
+    //! minimal complete definition of `Comparable` is not provided, a
+    //! compile-time assertion will also be triggered because `T` and `T`
+    //! trivially share the common tag `T`, which is the expected behavior.
+    //! This design choice aims to provide more flexibility for comparing
+    //! objects, while still rejecting usage patterns that are most likely
+    //! programming errors.
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Equivalence_relation#Definition

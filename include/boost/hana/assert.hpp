@@ -26,9 +26,9 @@ Distributed under the Boost Software License, Version 1.0.
     //! Expands to a runtime assertion.
     //!
     //! This macro may only be used at function scope. Its argument must be
-    //! explicitly convertible to a boolean and its data type must not be a
-    //! `Constant`. If the expression is a `Constant`, a static assertion is
-    //! triggered; use `BOOST_HANA_CONSTANT_ASSERT` instead.
+    //! explicitly convertible to a boolean and it must not be a `Constant`.
+    //! If the expression is a `Constant`, a static assertion is triggered;
+    //! use `BOOST_HANA_CONSTANT_ASSERT` instead.
 #   define BOOST_HANA_RUNTIME_ASSERT(...) unspecified
 
     //! @ingroup group-assertions
@@ -61,9 +61,9 @@ Distributed under the Boost Software License, Version 1.0.
     //! expression if constexpr lambdas were supported.
     //!
     //! This macro may only be used at function scope. Its argument must be
-    //! explicitly convertible to a boolean and its data type must not be a
-    //! `Constant`. If the expression is a `Constant`, a static assertion is
-    //! triggered; use `BOOST_HANA_CONSTANT_ASSERT` instead.
+    //! explicitly convertible to a boolean and it must not be a `Constant`.
+    //! If the expression is a `Constant`, a static assertion is triggered;
+    //! use `BOOST_HANA_CONSTANT_ASSERT` instead.
 #   define BOOST_HANA_CONSTEXPR_ASSERT(...) unspecified
 
     //! @ingroup group-assertions

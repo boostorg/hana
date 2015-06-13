@@ -64,10 +64,10 @@ namespace boost { namespace hana {
             using T_ = detail::dependent_on_t<sizeof(X) == 1, T>;
             static_assert(!is_convertible<T_, U>{} && !is_convertible<U, T_>{},
             "No default implementation of hana::equal is provided for related "
-            "data types that can't be safely embedded into a common type, "
-            "because those are most likely programming errors. If this is "
-            "really what you want, you can manually convert both objects to "
-            "a common Comparable data type before performing the comparison.");
+            "types that can't be safely embedded into a common type, because "
+            "those are most likely programming errors. If this is really what "
+            "you want, you can manually convert both objects to a common "
+            "Comparable type before performing the comparison.");
 
             return false_;
         }

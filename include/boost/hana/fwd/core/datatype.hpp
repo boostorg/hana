@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-core
-    //! %Metafunction returning the generalized type associated to `T`.
+    //! %Metafunction returning the tag associated to `T`.
     //!
     //! There are several ways to specify the data type of a C++ type. If it's
     //! a user-defined type, one can define a nested `hana::dataype` alias

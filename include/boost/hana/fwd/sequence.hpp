@@ -235,7 +235,7 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a `Sequence` `S` and a generalized type `T`, the signature is
+    //! Given a `Sequence` `S(T)`, the signature is
     //! \f[
     //!     \mathrm{cartesian\_product} : S(S(T)) \to S(S(T))
     //! \f]

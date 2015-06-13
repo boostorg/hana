@@ -19,8 +19,8 @@ namespace boost { namespace hana {
     //!
     //! Conceptually, a `String` is like a `Tuple` holding `IntegralConstant`s
     //! of type `char`. However, the interface of a `String` is not as rich as
-    //! that of a `Tuple`, because a `String` can only hold objects of a
-    //! single generalized type.
+    //! that of a `Tuple`, because a `String` can only hold compile-time
+    //! characters.
     //!
     //! `String`s are used for simple purposes like being keys in a `Map` or
     //! tagging the members of a `Struct`. However, you might find that

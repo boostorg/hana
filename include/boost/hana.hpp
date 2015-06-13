@@ -1723,6 +1723,15 @@ point that can be raised in this example is the fact that `r` is `constexpr`.
 In general, whenever a container is initialized with constant expressions only
 (which is the case for `r`), that container may be marked as `constexpr`.
 
+But what are these types with a capital letter that have popped up a couple of
+times in the tutorial? These types are simply tags __representing__ a given
+container. For example, `Range` is actually an empty `struct` representing the
+"conceptual type" of an object returned by `make_range`, while the actual type
+of such an object is left unspecified. These tags are very useful because they
+represent families of C++ types that are strongly related, but that are not
+required to have the same representation. These tags are documented in the
+section on [Hana's core](@ref tutorial-core-tags).
+
 
 @subsection tutorial-containers-elements Container elements
 
@@ -1785,18 +1794,6 @@ rewritten as
 This way, the second overload of `f` will only match when `Xs` represents a
 Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
 `is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
-
-But what are these types with a capital letter that have popped up a couple of
-times in the tutorial? These types are simply tags __representing__ a given
-container. For example, `Map` is actually an empty `struct` representing the
-"conceptual type" of an object returned by `make_map`, while the actual type
-of such an object is left unspecified. Having these tags to represent different
-kinds of containers is very useful. For example, it allows us to dispatch
-algorithms differently for different kinds of containers by looking at the
-tag associated to them, which is explained in the section on [tag-dispatching]
-(@ref tutorial-extending-tag_dispatching). It also allows us to document a
-container whose type is unspecified by simply documenting the tag representing
-that kind of container.
 
 
 
@@ -2552,15 +2549,52 @@ of the external adapters that are currently supported:
 
 
 
-@section tutorial-extending Extending the library
+@section tutorial-core Hana's core
 
 ------------------------------------------------------------------------------
-Because of its modular design, Hana can be extended in a ad-hoc manner very
-easily. Actually, all the functionality of the library is provided through
-this ad-hoc customization mechanism.
+The goal of this section is to give a high-level overview of Hana's core.
+This core is based on the notion of _tag_, which is borrowed from the
+Boost.Fusion and Boost.MPL libraries but taken much further by Hana. These
+tags are then used for several purposes, like algorithm customization,
+documentation grouping, improving error messages and converting containers
+into other containers. Because of its modular design, Hana can be extended
+in a ad-hoc manner very easily. In fact, all the functionality of the library
+is provided through an ad-hoc customization mechanism, which is explained here.
 
 
-@subsection tutorial-extending-tag_dispatching Tag dispatching
+@subsection tutorial-core-tags Tags
+
+Heterogeneous programming is basically programming with objects having
+different types. However, it is clear that some families of objects, while
+having different representations (C++ types), are strongly related. For
+example, the `std::integral_constant<int, n>` types are different for each
+different `n`, but conceptually they all represent the same thing; a
+compile-time number. The fact that `std::integral_constant<int, 1>{}` and
+`std::integral_constant<int, 2>{}` have different types is just a side effect
+of the fact that we're using their type to encode the _value_ of these objects.
+Indeed, when manipulating a sequence of `std::integral_constant<int, ...>`s,
+chances are that you actually think of it as a homogeneous sequence of an
+imaginary `integral_constant` type, disregarding the actual types of the
+objects and pretending they are all just `integral_constant`s with different
+values.
+
+To reflect this reality, Hana provides _tags_ representing its heterogeneous
+containers and other compile-time entities. For example, all of Hana's
+`integral_constant<int, ...>`s have different types, but they all share
+the same tag, `IntegralConstant<int>`. This allows the programmer to think
+in terms of that single tag instead of trying to think in terms of the actual
+types of the objects. Furthermore, Hana adopts the convention of naming these
+tags with a capital letter, to make them stand out and differentiate them from
+actual types. Since we mostly reason in terms of tags instead of specific types,
+we sometimes (ab)use the word _data type_ to mean the same thing as _tag_ in
+the documentation, always referring to the family of related types.
+
+@note
+The tag of an object of type `T` can be obtained by using `datatype<T>::%type`,
+or equivalently `datatype_t<T>`.
+
+
+@subsection tutorial-core-tag_dispatching Tag dispatching
 
 Tag dispatching is a generic programming technique for picking the right
 implementation of a function depending on the type of the arguments passed
@@ -2618,7 +2652,7 @@ implementation that can be specialized:
 
 @snippet example/tutorial/tag_dispatching.cpp setup
 
-Now, let's define a type that needs tag-dispatching to customize the behavior
+Now, let's define a type that needs tag dispatching to customize the behavior
 of `print`. While some C++14 examples exist, they are too complicated to show
 in this tutorial and we will therefore use a C++03 tuple implemented as several
 different types to illustrate the technique:
@@ -2641,7 +2675,7 @@ tag and specialize only the `print_impl` struct instead:
 One upside is that all `vectorN`s can now be treated uniformly by the `print`
 function, at the cost of some boilerplate when creating the data structure
 (to specify the tag of each `vectorN`) and when creating the initial `print`
-function (to setup the tag-dispatching system with `print_impl`). There are
+function (to setup the tag dispatching system with `print_impl`). There are
 also other advantages to this technique, like the ability to check for
 preconditions in the interface function without having to do it in each
 custom implementation, which would be tedious:
@@ -2662,7 +2696,7 @@ ability to be used in higher order algorithms or as variables:
 @snippet example/tutorial/tag_dispatching.cpp function_objects
 
 
-@subsection tutorial-extending-creating_concepts Creating new concepts
+@subsection tutorial-core-creating_concepts Creating new concepts
 
 @todo Write this section.
 
@@ -2696,7 +2730,7 @@ the headers provided by the library is also available in the panel on the left
   the definition for the concept or data type named `XXX`.
 
   - `boost/hana/core/`\n
-    This subdirectory contains the machinery for tag-dispatching and other
+    This subdirectory contains the machinery for tag dispatching and other
     related utilities like `make` and `to`.
 
   - `boost/hana/fwd/`\n
@@ -2737,9 +2771,37 @@ done by looking at the reference documentation. At some point, you will
 probably also want to create your own concepts and data types that fit your
 needs better; go ahead, the library was designed to be used that way.
 
+@subsection tutorial-conclusion-warning Fair warning: functional programming ahead
 
-@subsection tutorial-conclusion-reference Structure of the reference
+Programming with heterogeneous objects is inherently functional -- since it is
+impossible to modify the type of an object, a new object must be introduced
+instead, which rules out mutation. Unlike previous metaprogramming libraries
+whose design was modeled on the STL, Hana uses a functional style of
+programming which is the source for a good portion of its expressiveness.
+However, as a result, many concepts presented in the reference will be
+unfamiliar to C++ programmers without a knowledge of functional programming.
+The reference attempts to make these concepts approachable by using intuition
+whenever possible, but bear in mind that the highest rewards are usually the
+fruit of some effort.
 
+This finishes the tutorial part of the documentation. I hope you enjoy using
+the library, and please consider [contributing][Hana.contributing] to make it
+even better!
+
+-- Louis
+
+
+
+
+
+
+
+
+
+
+@section tutorial-reference Using the reference
+
+------------------------------------------------------------------------------
 As for most generic libraries, algorithms in Hana are documented by the
 concept to which they belong (`Foldable`, `Iterable`, `Searchable`, `Sequence`,
 etc...). The different containers are then documented on their own page, and
@@ -2783,8 +2845,8 @@ the left) goes as follow:
 
 - @ref group-ext\n
   Documentation for all the adapters for external libraries. Basically, we
-  assign a data type to some objects in external libraries and we document
-  them as if they were normal data types provided by Hana.
+  assign a tag to some objects in external libraries and we document them as
+  if they were normal data types provided by Hana.
 
 - @ref group-config\n
   Macros that can be used to tweak the global behavior of the library.
@@ -2810,65 +2872,81 @@ personal experience is that this is by far the quickest way of finding
 what you want when you already know its name.
 
 
-@subsection tutorial-conclusion-glossary Pseudo-code glossary
+@subsection tutorial-reference-signatures Function signatures
 
-In the documentation, a simplified implementation of the documented object
-is sometimes provided in pseudo-code. The reason is that the actual
-implementation is sometimes contrived because of unimportant details
-or language limitations. Here is an explanation of some terms that
-appear in the pseudo-code:
+As you will see in the reference, several functions provide signatures
+documented in a semi-formal mathematical language. We are in the process
+of documenting all functions in this way, but this may take a while. The
+notation used is the usual mathematical notation for defining functions.
+Specifically, a function `Return f(Arg1, ..., ArgN);` can be defined
+equivalently using mathematical notation as
 
-@anchor tutorial-glossary-forwarded
-#### `forwarded(x)`
-Means that the object is forwarded optimally. This means that if `x` is a
-parameter, it is `std::forward`ed, and if it is a captured variable, it is
-moved from whenever the enclosing lambda is an rvalue.
+@f[
+  \mathtt{f} : \mathtt{Arg}_1 \times \dots \times \mathtt{Arg}_n
+                  \to \mathtt{Return}
+@f]
 
-Also note that when `x` can be moved from, the statement `return forwarded(x);`
-in a function with `decltype(auto)` does not mean that an rvalue reference to
-`x` will be returned, which would create a dangling reference. Rather, it
-means that `x` is returned by value, the value being constructed with the
-`std::forward`ed `x`.
+However, instead of documenting the actual argument and return types of
+functions, those signatures are written in terms of argument and return tags.
+This is done because of the heterogeneous setting, where the actual type of
+an object is usually pretty meaningless and does not help to reason about
+what's being returned or taken by a function. For example, instead of
+documenting the `equal` function for `IntegralConstant`s as
 
-@anchor tutorial-glossary-perfect_capture
-#### `perfect-capture`
-This is used in lambdas to signify that the captured variables are
-initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
-had been used.
+@f[
+  \mathtt{equal} : \mathtt{decltype(integral\_constant<T, n>)} \times
+                   \mathtt{decltype(integral\_constant<T, m>)}
+                      \to \mathtt{decltype(bool\_<n == m>)}
+@f]
 
-@anchor tutorial-glossary-tag_dispatched
-#### `tag-dispatched`
-This means that the documented method uses tag-dispatching, and hence
-the exact implementation depends on the model of the concept associated
-to the method.
+which is not really helpful, it is instead documented using the
+`IntegralConstant` tag. Note that since `equal` is part of the `Comparable`
+concept, it is not _actually_ documented for `IntegralConstant` specifically,
+but the idea is there:
 
-@anchor tutorial-glossary-unspecified_type
-#### `unspecified-type`
-This is used to express the fact that the return-type of a function is
-unspecified, and hence you should not rely on it being anything special
-beyond what is documented. Normally, the concepts satisfied by the returned
-object will be specified, because otherwise that function wouldn't be very
-useful.
+@f[
+  \mathtt{equal} : \mathtt{IntegralConstant<T>} \times
+                   \mathtt{IntegralConstant<T>}
+                      \to \mathtt{IntegralConstant<bool>}
+@f]
 
+This clearly conveys the intention that comparing two `IntegralConstant`s
+gives back another `IntegralConstant` holding a `bool`. In general, this
+abstraction of the actual representation of objects makes it possible for
+us to reason in a high level manner about functions, even though their
+actual return and argument types are heterogeneous and not helpful. Finally,
+most functions expect container elements to have some properties. For example,
+this is the case of the `sort` algorithm, which obviously requires the
+container elements to be `Orderable`. Normally, we would write the signature
+for the non-predicated version of `sort` as
 
-@subsection tutorial-conclusion-warning Fair warning: functional programming ahead
+@f[
+  \mathtt{sort} : \mathtt{S} \to \mathtt{S} \\
+    \text{where S is a Sequence}
+@f]
 
-Programming with heterogeneous objects is inherently functional -- since it is
-impossible to modify the type of an object, a new object must be introduced
-instead, which rules out mutation. Unlike previous metaprogramming libraries
-whose design was modeled on the STL, Hana uses a functional style of
-programming which is the source for a good portion of its expressiveness.
-However, as a result, many concepts presented in the reference will be
-unfamiliar to C++ programmers without a knowledge of functional programming.
-The reference attempts to make these concepts approachable by using intuition
-whenever possible, but bear in mind that the highest rewards are usually the
-fruit of some effort.
+However, this fails to express the requirement that the contents of `S` are
+`Orderable`. To express this, we use the following notation:
 
-This finishes the tutorial part of the documentation. I hope you enjoy using
-the library, and please consider [contributing][Hana.contributing] to make it
-even better!
+@f[
+  \mathtt{sort} : \mathtt{S(T)} \to \mathtt{S(T)} \\
+    \text{where S is a Sequence and T is Orderable}
+@f]
 
--- Louis
+One way to see this is to pretend that `S`, the sequence tag, is actually
+parameterized by the tag of the sequence's elements, `T`. We're also pretending
+that the elements all have the same tag `T`, which is not the case in general.
+Now, by stating that `T` must be `Orderable`, we're expressing the fact that
+the sequence's elements must be `Orderable`. This notation is used in different
+flavors to express different kinds of requirements. For example, the
+`cartesian_product` algorithm takes a sequence of sequences and returns the
+cartesian product of those sequences as a sequence of sequences. Using our
+notation, this can be conveyed very easily:
+
+@f[
+  \mathtt{cartesian\_product} : \mathtt{S(S(T))} \to \mathtt{S(S(T))} \\
+    \text{where S is a Sequence}
+@f]
 
 
 
@@ -2899,6 +2977,57 @@ Hana in one way or another:
 - Several [C++Now][] attendees and members of the [Boost mailing list]
   [Boost.Devel] for insightful conversations, comments and questions
   about the project.
+
+
+
+
+
+
+
+
+
+
+@section tutorial-glossary Glossary
+
+------------------------------------------------------------------------------
+The reference documentation uses a couple of terms that are specific to this
+library. Also, a simplified implementation of functions is sometimes provided
+in pseudo-code, the actual implementation sometimes being slightly hard to
+understand. This section defines terms used in the reference and in the
+pseudo-code used to describe some functions.
+
+@anchor tutorial-glossary-forwarded
+#### `forwarded(x)`
+Means that the object is forwarded optimally. This means that if `x` is a
+parameter, it is `std::forward`ed, and if it is a captured variable, it is
+moved from whenever the enclosing lambda is an rvalue.
+
+Also note that when `x` can be moved from, the statement `return forwarded(x);`
+in a function with `decltype(auto)` does not mean that an rvalue reference to
+`x` will be returned, which would create a dangling reference. Rather, it
+means that `x` is returned by value, the value being constructed with the
+`std::forward`ed `x`.
+
+@anchor tutorial-glossary-perfect_capture
+#### `perfect-capture`
+This is used in lambdas to signify that the captured variables are
+initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
+had been used.
+
+@anchor tutorial-glossary-tag_dispatched
+#### `tag-dispatched`
+This means that the documented function uses [tag dispatching]
+(@ref tutorial-core-tag_dispatching), and hence the exact
+implementation depends on the model of the concept associated
+to the function.
+
+@anchor tutorial-glossary-unspecified_type
+#### `unspecified-type`
+This is used to express the fact that the return-type of a function is
+unspecified, and hence you should not rely on it being anything special
+beyond what is documented. Normally, the concepts satisfied by the returned
+object will be specified, because otherwise that function wouldn't be very
+useful.
 
 
 
@@ -3278,99 +3407,7 @@ non-`constexpr` variable to do the copying, and that could hide side-effects.
 
 
 
-@section tutorial-appendix-math Apendix II: The maths behind Hana
-
-------------------------------------------------------------------------------
-@todo Write this section.
-<!----------------------------------------------------------------------------
-The purpose of Hana is to manipulate heterogeneous objects. However, there's
-a fundamental question that we have not asked yet: does it even make sense to
-manipulate heterogeneous objects?
-
-For the sake of the explanation, let me make the following claim: a function
-template that compiles with an argument of every possible type must have a
-trivial implementation, in the sense that it must do nothing with its argument
-except perhaps return it. Hence, for a function template to do something
-interesting, it must fail to compile for some set of arguments. While I won't
-try to prove that claim formally -- it might be false in some corner cases --,
-think about it for a moment. Let's say I want to apply a function to each
-element of an heterogeneous sequence:
-
-@code
-    for_each([x, y, z], f)
-@endcode
-
-The first observation is that `f` must have a templated call operator because
-`x`, `y` and `z` have different types. The second observation is that without
-knowing anything specific about the types of `x`, `y` and `z`, it is impossible
-for `f` to do anything meaningful. For example, could it print its argument?
-Of course not, since it does not know whether `std::cout << x` is well-formed!
-In order to do something meaningful, the function has to put constraints on
-its arguments; it has to define a domain which is more specific that the set
-of all types, and hence it can't be _fully_ polymorphic, even if we do not have
-a way to express this in C++ (right now). So while we're manipulating types
-that are technically heterogeneous, they still conceptually need something in
-common, or it wouldn't be possible to do anything meaningful with them. We'll
-still say that we're manipulating heterogeneous objects, but always keep in
-mind that the objects we manipulate share something, and are hence homogeneous
-in _some way_.
-
-Pushing this to the extreme, some type families represent exactly the same
-entity, except they must have a different C++ type because the language
-requires them to. For example, this is the case of `_tuple<...>`. In our
-context, we would like to see `_tuple<int, int>` and `_tuple<int, long, float>`
-as different representations for the same data structure (a "tuple"), but the
-C++ language requires us to give them different types. In Hana, we associate
-what we call a _generalized type_ (we also say _data type_ and sometimes
-_gtype_) to each type family. A generalized type is simply a tag (like in
-MPL or Fusion) which is associated to all the types in a family through the
-`datatype` metafunction. For `_tuple<...>`, this generalized type is `Tuple`;
-other constructs in Hana also follow this convention of naming their
-generalized type with a capital letter.
-
-Just like C++ templates are families of types that are parameterized by some
-other type, it makes sense to speak of parameterized generalized types. A
-parameterized _gtype_ is simply a _gtype_ which depends on other generalized
-types. You might have seen it coming, but this is actually the case for
-`_tuple`, whose _gtype_ can be seen as depending on the _gtype_ of the objects
-it contains. However, take good note that __parameterized generalized types in
-Hana only live at the documentation level__. While enforcing proper
-parametricity would make the library more mathematically correct, I fear it
-would also make it less usable given the lack of language support. Given a
-parametric _gtype_ `F`, we use `F(T)` to denote the "application" of `F` to
-another _gtype_ `T`. While this is analogous to "applying" a C++ template to
-a type, we purposefully do not use the `F<T>` notation because parametric
-gtypes are not necessarily templates in Hana and that would be more confusing
-than helpful.
-
-As an example, `_tuple<int, int>` conceptually has a gtype of `Tuple(int)`,
-but its actual gtype (outside of the documentation) is just `Tuple`. What
-about `_tuple<int, long>`? Well, `int` and `long` are embedded in the same
-mathematical universe, so we could say that it's a `Tuple(Number)`, where
-`Number` is some generalized type containing all the numeric types. What
-about `_tuple<int, void>`? First, that won't compile. But why would you
-create a sequence of objects that have nothing in common? What can you do
-with that?
-
-These generalized types are useful for several purposes, for example creating
-a tuple with `make<Tuple>` and documenting pseudo-signatures for the functions
-provided in this library. Another important role is to customize algorithms;
-see the section on [tag-dispatching](@ref tutorial-extending-tag_dispatching)
-for more information. Finally, you can also consult the reference of the
-[datatype](@ref datatype) metafunction for details on how to specify the
-generalized type of a family of types.
------------------------------------------------------------------------------>
-
-
-
-
-
-
-
-
-
-
-@section tutorial-appendix-MPL Apendix III: A minimal MPL
+@section tutorial-appendix-MPL Apendix II: A minimal MPL
 
 ------------------------------------------------------------------------------
 This section presents a mini reimplementation of the MPL library. The goal is

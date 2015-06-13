@@ -263,10 +263,9 @@ namespace boost { namespace hana {
     //! easiest way to define a model of the `Struct` concept.
     //!
     //! @note
-    //! This macro only works if the data type (generalized type) of the
-    //! user-defined type `T` is `T` itself. This is the case unless you
-    //! specifically asked for something different; see `datatype`'s
-    //! documentation.
+    //! This macro only works if the tag of the user-defined type `T` is `T`
+    //! itself. This is the case unless you specifically asked for something
+    //! different; see `datatype`'s documentation.
     //!
     //!
     //! Example
@@ -287,10 +286,9 @@ namespace boost { namespace hana {
     //! user-defined types in a ad-hoc manner.
     //!
     //! @note
-    //! This macro only works if the data type (generalized type) of the
-    //! user-defined type `T` is `T` itself. This is the case unless you
-    //! specifically asked for something different; see `datatype`'s
-    //! documentation.
+    //! This macro only works if the tag of the user-defined type `T` is `T`
+    //! itself. This is the case unless you specifically asked for something
+    //! different; see `datatype`'s documentation.
     //!
     //!
     //! Example

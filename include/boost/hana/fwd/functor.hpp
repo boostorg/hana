@@ -111,7 +111,7 @@ namespace boost { namespace hana {
     //! category theory). A natural transformation is a function `f`
     //! from a functor `F` to a functor `G` such that for every other
     //! function `g` with an appropriate signature and for every object
-    //! `xs` of generalized type `F(X)`,
+    //! `xs` of tag `F(X)`,
     //! @code
     //!     f(transform(xs, g)) == transform(f(xs), g)
     //! @endcode

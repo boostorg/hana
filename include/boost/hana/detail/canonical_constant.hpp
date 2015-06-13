@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail {
     //! @ingroup group-details
-    //! Data type representing a canonical `Constant`.
+    //! Tag representing a canonical `Constant`.
     //!
     //! This is an implementation detail used to provide many models for
     //! stuff like `Monoid`, `Group`, etc. To create a `CanonicalConstant`,

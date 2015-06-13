@@ -39,7 +39,7 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr auto apply(X const&) {
             static_assert(detail::wrong<to_impl<To, From>, X>{},
-            "no conversion is available between the provided data types");
+            "no conversion is available between the provided types");
         }
     };
 

@@ -35,13 +35,13 @@ namespace boost { namespace hana {
     //! Given an Applicative `F`, the following laws must be satisfied:
     //!
     //! 1. Identity\n
-    //! For all objects `xs` of data type `F(A)`,
+    //! For all objects `xs` of tag `F(A)`,
     //! @code
     //!     ap(lift<F>(id), xs) == xs
     //! @endcode
     //!
     //! 2. Composition\n
-    //! For all objects `xs` of data type `F(A)` and functions-in-an-applicative
+    //! For all objects `xs` of tag `F(A)` and functions-in-an-applicative
     //! @f$ fs : F(B \to C) @f$,
     //! @f$ gs : F(A \to B) @f$,
     //! @code
@@ -49,13 +49,13 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! 3. Homomorphism\n
-    //! For all objects `x` of data type `A` and functions @f$ f : A \to B @f$,
+    //! For all objects `x` of tag `A` and functions @f$ f : A \to B @f$,
     //! @code
     //!     ap(lift<F>(f), lift<F>(x)) == lift<F>(f(x))
     //! @endcode
     //!
     //! 4. Interchange\n
-    //! For all objects `x` of data type `A` and functions-in-an-applicative
+    //! For all objects `x` of tag `A` and functions-in-an-applicative
     //! @f$ fs : F(A \to B) @f$,
     //! @code
     //!     ap(fs, lift<F>(x)) == ap(lift<F>(apply(-, x)), fs)
@@ -64,8 +64,8 @@ namespace boost { namespace hana {
     //! function from the @ref group-functional module to the `x` argument.
     //!
     //! As a consequence of these laws, the model of `Functor` for `F` will
-    //! satisfy the following for all objects `xs` of data type `F(A)` and
-    //! functions @f$ f : A \to B @f$:
+    //! satisfy the following for all objects `xs` of tag `F(A)` and functions
+    //! @f$ f : A \to B @f$:
     //! @code
     //!     transform(xs, f) == ap(lift<F>(f), xs)
     //! @endcode
@@ -104,10 +104,10 @@ namespace boost { namespace hana {
     //! Structure-preserving functions
     //! ------------------------------
     //! An _applicative transformation_ is a function @f$ t : F(X) \to G(X) @f$
-    //! between two Applicatives `F` and `G`, where `X` can be any data type,
-    //! and which preserves the operations of an Applicative. In other words,
-    //! for all objects `x` of data type `X`, functions-in-an-applicative
-    //! @f$ fs : F(X \to Y) @f$ and objects `xs` of data type `F(X)`,
+    //! between two Applicatives `F` and `G`, where `X` can be any tag, and
+    //! which preserves the operations of an Applicative. In other words, for
+    //! all objects `x` of tag `X`, functions-in-an-applicative
+    //! @f$ fs : F(X \to Y) @f$ and objects `xs` of tag `F(X)`,
     //! @code
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
@@ -195,7 +195,7 @@ namespace boost { namespace hana {
     //! @f$ \mathrm{lift}_A : T \to A(T) @f$.
     //!
     //! @tparam A
-    //! The data type (an `Applicative`) into which the value is lifted.
+    //! A tag representing the `Applicative` into which the value is lifted.
     //!
     //! @param x
     //! The value to lift into the applicative.
