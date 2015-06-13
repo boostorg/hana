@@ -85,8 +85,8 @@ namespace boost { namespace hana {
     is just one that was picked arbitrarily for simplicity.
 
 
-    Superclass
-    ----------
+    Refined concept
+    ---------------
     1. Functor\n
     Every Comonad is also required to be a Functor. At first, one might think
     that it should instead be some imaginary concept CoFunctor. However, it

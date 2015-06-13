@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! `Sequence`, and all its superclasses
+    //! `Sequence`, and all the concepts it refines
     //!
     //!
     //! Provided operators

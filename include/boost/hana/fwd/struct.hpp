@@ -116,8 +116,8 @@ namespace boost { namespace hana {
     //! must be move-independent, as defined above.
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! 1. `Comparable` (free model)\n
     //! `Struct`s are required to be `Comparable`. Specifically, two `Struct`s
     //! of the same data type `S` must be equal if and only if all of their

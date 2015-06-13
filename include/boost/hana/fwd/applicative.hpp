@@ -76,8 +76,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Superclass
-    //! ----------
+    //! Refined concept
+    //! ---------------
     //! 1. `Functor` (free model)\n
     //! As a consequence of the laws, any `Applicative F` can be made a
     //! `Functor` by setting

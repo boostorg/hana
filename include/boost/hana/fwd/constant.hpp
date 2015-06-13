@@ -93,8 +93,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! In certain cases, a `Constant` can automatically be made a model of
     //! another concept. In particular, if a `Constant` `C` is holding an
     //! object of type `T`, and if `T` models a concept `X`, then `C` may
@@ -105,11 +105,10 @@ namespace boost { namespace hana {
     //! More specifically, if a `Constant` `C` has an underlying value
     //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
     //! `Enumerable`, `Logical`, or `Monoid` up to `IntegralDomain`, then
-    //! all of those concepts become superclasses of `Constant` for `C`.
-    //! In other words, when `C::value_type` models one of the listed
-    //! concepts, `C` itself must also model that concept. However, note
-    //! that free models are provided for those concepts, so no additional
-    //! work must be done.
+    //! `C` must also be a model of those concepts. In other words, when
+    //! `C::value_type` models one of the listed concepts, `C` itself must
+    //! also model that concept. However, note that free models are provided
+    //! for all of those concepts, so no additional work must be done.
     //!
     //! While it would be possible in theory to provide models for concepts
     //! like `Foldable` too, only a couple of concepts are useful to have as

@@ -71,8 +71,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! `Functor`, `Applicative` and `Monad`
     //!
     //!

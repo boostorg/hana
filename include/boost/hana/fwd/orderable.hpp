@@ -68,8 +68,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Superclass
-    //! ----------
+    //! Refined concept
+    //! ---------------
     //! 1. `Comparable` (free model)\n
     //! Since `Orderable` requires `less_equal` to be a total order, a model
     //! of `Comparable` may always be obtained by setting

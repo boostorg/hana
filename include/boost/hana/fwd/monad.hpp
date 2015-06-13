@@ -168,8 +168,8 @@ namespace boost { namespace hana {
     //! where the neutral element is `lift`.
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! 1. `Functor`
     //! 2. `Applicative` (free implementation of `ap`)\n
     //! When the minimal complete definition for `Monad` and `Functor` are

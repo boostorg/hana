@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //! A few concepts (like Sequence) do not introduce methods that suffice
     //! to provide a minimal complete definition. They provide semantic
-    //! guarantees through laws and superclasses, and they usually also
+    //! guarantees through laws and refined concepts, and they usually also
     //! provide methods that do useful things with existing methods and
     //! those additional guarantees. In this case, it is usually necessary
     //! to explicitly specialize `models_impl` in the `boost::hana` namespace.

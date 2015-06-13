@@ -62,8 +62,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Superclass
-    //! ----------
+    //! Refined concept
+    //! ---------------
     //! `Monoid`
     //!
     //!

@@ -2508,13 +2508,13 @@ the reference documentation for external adapters is currently incomplete.
 However, for reference and until the documentation is updated, here is a list
 of the external adapters that are currently supported:
 - `std::tuple`\n
-  Models `Sequence` and all its superclasses. It can basically be used like
-  a Hana `Tuple`. However, please be aware that libc++'s tuple has a couple
-  of bugs (they were reported) that make this adapter buggy.
+  Models `Sequence`. It can basically be used like a Hana `Tuple`. However,
+  please be aware that libc++'s tuple has a couple of bugs (they were
+  reported) that make this adapter buggy.
 - `std::integral_constant`\n
   Model of `Constant`, and all the free models it provides.
 - `std::ratio`\n
-  Model of `Orderable`, `Comparable`, `IntegralDomain` and its superclasses.
+  Model of `Orderable`, `Comparable` and `IntegralDomain`.
 - `std::integer_sequence`\n
   Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
   be using Hana's `Range` if you want speed, though.
@@ -2525,13 +2525,11 @@ of the external adapters that are currently supported:
 - `boost::mpl::integral_c`\n
   See `boost::hana::ext::boost::mpl::IntegralC`.
 - `boost::fusion::{deque,list,tuple,vector}`\n
-  They are models of `Sequence` and all its superclasses, and hence can be
-  used like Hana's `Tuple` in algorithms. However, Fusion has several bugs
-  that make these adapters slightly explosive to use (sometimes things may
-  fail without apparent reason).
+  They are models of `Sequence`, and hence can be used like Hana's `Tuple`
+  in algorithms. However, Fusion has several bugs that make these adapters
+  slightly explosive to use (sometimes things may fail without apparent reason).
 - `boost::tuple`\n
-  Model of `Sequence` and all its superclasses. It can be used like Hana's
-  `Tuple` in algorithms.
+  Model of `Sequence`. It can be used like Hana's `Tuple` in algorithms.
 
 
 @subsection tutorial-ext-std The standard library
@@ -2819,21 +2817,21 @@ the left) goes as follow:
 
 - @ref group-concepts\n
   Documentation for all the concepts provided with the library. Each concept:
+  - Documents which functions must be implemented absolutely in order to
+    model that concept. The set of functions that must be provided is called
+    a _minimal complete definition_.
   - Documents semantic constraints that any model of that concept must satisfy.
     These constraints are usually called laws and they are expressed in a
     semi-formal mathematical language. Of course, those laws can't be checked
     automatically but you should still make sure you satisfy them.
-  - Documents the concept(s) it is derived from, if any. In the documentation,
-    we usually call those base concepts _superclasses_. Sometimes, a concept
-    is powerful enough to provide a model of its superclass, or at least the
-    implementation for some of its methods. When this is the case, the
-    concept will document which superclass methods it provides, and how
-    it does so. Also, it is sometimes possible that the model for a
-    superclass is unique, in which case it can be provided automatically.
-    When this happens, it will be documented but you don't have to do
-    anything special to get that model.
-  - Documents which methods must be implemented absolutely in order to
-    model that concept.
+  - Documents the concept(s) it refines, if any. Sometimes, a concept is
+    powerful enough to provide a model of a concept it refines, or at least
+    the implementation for some of its associated functions. When this is the
+    case, the concept will document which functions of the refined concept it
+    provides, and how it does so. Also, it is sometimes possible that the
+    model for a refined concept is unique, in which case it can be provided
+    automatically. When this happens, it will be documented but you don't have
+    to do anything special to get that model.
 
 - @ref group-datatypes\n
   Documentation for all the data structures provided with the library. Since

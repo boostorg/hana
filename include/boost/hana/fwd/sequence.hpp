@@ -73,11 +73,11 @@ namespace boost { namespace hana {
     //! Then, information organization is preserved by requiring `to<Tuple>`
     //! to be the unique natural MonadPlus isomorphism between `Tuple` and
     //! `S`. Since everything in Sequence is implemented in terms of MonadPlus,
-    //! Iterable and other superclasses, this effectively gives us laws that
-    //! must be respected for the methods of Sequence. The result is that for
-    //! any Sequence `xs` of data type `S` and any n-ary function `f` (suppose
-    //! without loss of generality that `f` takes its Sequence argument in the
-    //! first parameter),
+    //! Iterable and other refined concepts, this effectively gives us laws
+    //! that must be respected for the methods of Sequence. The result is that
+    //! for any Sequence `xs` of data type `S` and any n-ary function `f`
+    //! (suppose without loss of generality that `f` takes its Sequence
+    //! argument in the first parameter),
     //! @code
     //!     to<Tuple>(f(xs, -, ..., -)) == f(to<Tuple>(xs), -, ..., -)
     //! @endcode
@@ -94,8 +94,8 @@ namespace boost { namespace hana {
     //! as good as a `Tuple` for an external observer (the function `f`).
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! 1. `Comparable` (definition provided automatically)\n
     //! Two `Sequence`s are equal if and only if they contain the same number
     //! of elements and their elements at any given index are equal.

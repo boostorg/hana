@@ -76,8 +76,8 @@ namespace boost { namespace hana {
     //! copies.
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! 1. `Comparable` (free model)\n
     //! Two products `x` and `y` are equal iff they are equal element-wise,
     //! by comparing the first element before the second element.

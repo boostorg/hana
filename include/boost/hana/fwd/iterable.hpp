@@ -117,8 +117,8 @@ namespace boost { namespace hana {
     //! or `nothing` if no such `xi` exists.
     //!
     //!
-    //! Superclasses
-    //! ------------
+    //! Refined concepts
+    //! ----------------
     //! 1. `Searchable` (free model)\n
     //! Any `Iterable` gives rise to a model of `Searchable`, where the keys
     //! and the values are both the elements in the structure. Searching for
