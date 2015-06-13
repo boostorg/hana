@@ -48,7 +48,8 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! __Define the `accessors` method__\n
+    //! `accessors`
+    //!
     //! A model of `Struct` is created by specifying a sequence of key/value
     //! pairs with the `accessors` function. The first element of a pair in
     //! this sequence represents the "name" of a member of the `Struct`, while

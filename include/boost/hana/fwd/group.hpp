@@ -37,21 +37,6 @@ namespace boost { namespace hana {
     //! exactly this model.
     //!
     //!
-    //! Superclass
-    //! ----------
-    //! `Monoid`
-    //!
-    //!
-    //! Laws
-    //! ----
-    //! For all objects `x` of a `Group` `G`, the following laws must be
-    //! satisfied:
-    //! @code
-    //!     plus(x, negate(x)) == zero<G>() // right inverse
-    //!     plus(negate(x), x) == zero<G>() // left inverse
-    //! @endcode
-    //!
-    //!
     //! Minimal complete definitions
     //! ----------------------------
     //! 1. `minus`\n
@@ -67,6 +52,26 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
+    //! Laws
+    //! ----
+    //! For all objects `x` of a `Group` `G`, the following laws must be
+    //! satisfied:
+    //! @code
+    //!     plus(x, negate(x)) == zero<G>() // right inverse
+    //!     plus(negate(x), x) == zero<G>() // left inverse
+    //! @endcode
+    //!
+    //!
+    //! Superclass
+    //! ----------
+    //! `Monoid`
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
+    //!
+    //!
     //! Free model for non-boolean arithmetic data types
     //! ------------------------------------------------
     //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
@@ -80,11 +85,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Group model for `bool` is the same
     //! as for not providing a `Monoid` model.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! Operators

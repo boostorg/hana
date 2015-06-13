@@ -37,11 +37,22 @@ namespace boost { namespace hana {
     //! from.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `first`, `second` and `make`
+    //!
+    //! `first` and `second` must obviously return the first and the second
+    //! element of the pair, respectively. `make` must take two arguments `x`
+    //! and `y` representing the first and the second element of the pair,
+    //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
+    //! @snippet example/product.cpp make
+    //!
+    //!
     //! Laws
     //! ----
     //! For a model `P` of `Product`, the following laws must be satisfied.
     //! For every data types `X` and `Y`, there must be a unique function
-    //! @f$ make : X \times Y \to P @f$ such that for every `x`, `y`,
+    //! @f$ \mathtt{make} : X \times Y \to P @f$ such that for every `x`, `y`,
     //! @code
     //!     x == first(make<P>(x, y))
     //!     y == second(make<P>(x, y))
@@ -63,16 +74,6 @@ namespace boost { namespace hana {
     //! that of @ref move-independence, which ensures that we can optimally
     //! decompose a `Product` into its two members without making redundant
     //! copies.
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! __Definitions of `first`, `second` and `make` satisfying the laws__\n
-    //! `first` and `second` must obviously return the first and the second
-    //! element of the pair, respectively. `make` must take two arguments `x`
-    //! and `y` representing the first and the second element of the pair,
-    //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
-    //! @snippet example/product.cpp make
     //!
     //!
     //! Superclasses

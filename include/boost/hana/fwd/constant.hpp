@@ -46,6 +46,11 @@ namespace boost { namespace hana {
     //! following laws.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `value`, satisfying the laws below.
+    //!
+    //!
     //! Laws
     //! ----
     //! Let `c` be an object of a data type `C`, which represents a `Constant`
@@ -88,9 +93,44 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `value`, satisfying the laws above.
+    //! Superclasses
+    //! ------------
+    //! In certain cases, a `Constant` can automatically be made a model of
+    //! another concept. In particular, if a `Constant` `C` is holding an
+    //! object of type `T`, and if `T` models a concept `X`, then `C` may
+    //! in most cases model `X` by simply performing whatever operation is
+    //! required on its underlying value, and then wrapping the result back
+    //! in a `C`.
+    //!
+    //! More specifically, if a `Constant` `C` has an underlying value
+    //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
+    //! `Enumerable`, `Logical`, or `Monoid` up to `IntegralDomain`, then
+    //! all of those concepts become superclasses of `Constant` for `C`.
+    //! In other words, when `C::value_type` models one of the listed
+    //! concepts, `C` itself must also model that concept. However, note
+    //! that free models are provided for those concepts, so no additional
+    //! work must be done.
+    //!
+    //! While it would be possible in theory to provide models for concepts
+    //! like `Foldable` too, only a couple of concepts are useful to have as
+    //! `Constant` in practice. Providing free models for the concepts listed
+    //! above is useful because it allows various types of integral constants
+    //! (`std::integral_constant`, `mpl::integral_c`, etc...) to easily have
+    //! models for them just by defining the `Constant` concept.
+    //!
+    //! @remark
+    //! An interesting observation is that `Constant` is actually the
+    //! canonical embedding of the subcategory of `constexpr` things
+    //! into the Hana category, which contains everything in this library.
+    //! Hence, whatever is true in that subcategory is also true here, via
+    //! this functor. This is why we can provide models of any concept that
+    //! works on `constexpr` things for Constants, by simply passing them
+    //! through that embedding.
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Provided conversion to the data type of the underlying value
@@ -160,46 +200,6 @@ namespace boost { namespace hana {
     //! definition of a common type, because there must be an embedding
     //! to the common type, which is not always the case. For the same
     //! reasons as explained above, this common type is still provided.
-    //!
-    //!
-    //! Superclasses
-    //! ------------
-    //! In certain cases, a `Constant` can automatically be made a model of
-    //! another concept. In particular, if a `Constant` `C` is holding an
-    //! object of type `T`, and if `T` models a concept `X`, then `C` may
-    //! in most cases model `X` by simply performing whatever operation is
-    //! required on its underlying value, and then wrapping the result back
-    //! in a `C`.
-    //!
-    //! More specifically, if a `Constant` `C` has an underlying value
-    //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
-    //! `Enumerable`, `Logical`, or `Monoid` up to `IntegralDomain`, then
-    //! all of those concepts become superclasses of `Constant` for `C`.
-    //! In other words, when `C::value_type` models one of the listed
-    //! concepts, `C` itself must also model that concept. However, note
-    //! that free models are provided for those concepts, so no additional
-    //! work must be done.
-    //!
-    //! While it would be possible in theory to provide models for concepts
-    //! like `Foldable` too, only a couple of concepts are useful to have as
-    //! `Constant` in practice. Providing free models for the concepts listed
-    //! above is useful because it allows various types of integral constants
-    //! (`std::integral_constant`, `mpl::integral_c`, etc...) to easily have
-    //! models for them just by defining the `Constant` concept.
-    //!
-    //! @note
-    //! An interesting observation is that `Constant` is actually the
-    //! canonical embedding of the subcategory of `constexpr` things
-    //! into the Hana category, which contains everything in this library.
-    //! Hence, whatever is true in that subcategory is also true here, via
-    //! this functor. This is why we can provide models of any concept that
-    //! works on `constexpr` things for Constants, by simply passing them
-    //! through that embedding.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType

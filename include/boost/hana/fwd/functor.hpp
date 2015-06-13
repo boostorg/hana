@@ -48,6 +48,23 @@ namespace boost { namespace hana {
     //! abstract structures and transformations between those structures.
     //!
     //!
+    //! Minimal complete definitions
+    //! ----------------------------
+    //! 1. `transform`\n
+    //! When `transform` is specified, `adjust_if` is defined analogously to
+    //! @code
+    //!     adjust_if(xs, pred, f) = transform(xs, [](x){
+    //!         if pred(x) then f(x) else x
+    //!     })
+    //! @endcode
+    //!
+    //! 2. `adjust_if`\n
+    //! When `adjust_if` is specified, `transform` is defined analogously to
+    //! @code
+    //!     transform(xs, f) = adjust_if(xs, always(true), f)
+    //! @endcode
+    //!
+    //!
     //! Laws
     //! ----
     //! Let `xs` be a Functor of data type `F(A)`,
@@ -80,23 +97,6 @@ namespace boost { namespace hana {
     //!     fill(xs, value)             == replace_if(xs, always(true), value)
     //! @endcode
     //! The default definition of the methods will satisfy these equations.
-    //!
-    //!
-    //! Minimal complete definitions
-    //! ----------------------------
-    //! 1. `transform`\n
-    //! When `transform` is specified, `adjust_if` is defined analogously to
-    //! @code
-    //!     adjust_if(xs, pred, f) = transform(xs, [](x){
-    //!         if pred(x) then f(x) else x
-    //!     })
-    //! @endcode
-    //!
-    //! 2. `adjust_if`\n
-    //! When `adjust_if` is specified, `transform` is defined analogously to
-    //! @code
-    //!     transform(xs, f) = adjust_if(xs, always(true), f)
-    //! @endcode
     //!
     //!
     //! Concrete models

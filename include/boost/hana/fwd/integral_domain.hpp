@@ -61,9 +61,9 @@ namespace boost { namespace hana {
     //! the usual addition and multiplication.
     //!
     //!
-    //! Superclasses
-    //! ------------
-    //! `Monoid`, `Group`, `Ring`
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `quot` and `rem` satisfying the laws below
     //!
     //!
     //! Laws
@@ -80,9 +80,14 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definitions
-    //! ----------------------------
-    //! `quot` and `rem` satisfying the above laws
+    //! Superclasses
+    //! ------------
+    //! `Monoid`, `Group`, `Ring`
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Free model for non-boolean integral data types
@@ -99,11 +104,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing an IntegralDomain model for `bool` is
     //! the same as for not providing Monoid, Group and Ring models.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! Operators

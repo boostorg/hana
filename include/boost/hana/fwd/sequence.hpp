@@ -39,6 +39,20 @@ namespace boost { namespace hana {
     //! to an external observer.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `Iterable`, `empty`, `prepend`, `models`
+    //!
+    //! The `Sequence` concept does not provide basic methods that could be
+    //! used as a minimal complete definition; instead, it borrows methods from
+    //! other concepts and add laws to them. For this reason, it is necessary
+    //! to specialize the `models` metafunction in the `boost::hana` namespace
+    //! in addition to defining the above methods. Explicitly specializing the
+    //! `models` metafunction can be seen like a seal saying "this data type
+    //! satisfies the additional laws of a `Sequence`", since those can't be
+    //! checked by Hana automatically.
+    //!
+    //!
     //! Laws
     //! ----
     //! For any Sequence data type `S`, the `to<Tuple>` conversion from `S`
@@ -78,19 +92,6 @@ namespace boost { namespace hana {
     //! left unbound. Hence, these comparisons are comparisons between
     //! functions, and they express the fact that any Sequence is just
     //! as good as a `Tuple` for an external observer (the function `f`).
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! 1. `Iterable`, `empty`, `prepend`, `models`\n
-    //! The `Sequence` concept does not provide basic methods that could be
-    //! used as a minimal complete definition; instead, it borrows methods from
-    //! other concepts and add laws to them. For this reason, it is necessary
-    //! to specialize the `models` metafunction in the `boost::hana` namespace
-    //! in addition to defining the above methods. Explicitly specializing the
-    //! `models` metafunction can be seen like a seal saying "this data type
-    //! satisfies the additional laws of a `Sequence`", since those can't be
-    //! checked by Hana automatically.
     //!
     //!
     //! Superclasses
@@ -180,6 +181,11 @@ namespace boost { namespace hana {
     //! @snippet example/sequence.cpp Searchable
     //!
     //!
+    //! Concrete models
+    //! ---------------
+    //! `Tuple`
+    //!
+    //!
     //! Free `make` method
     //! ------------------
     //! For any `Sequence` `S`, the `make<S>` method is defined
@@ -192,11 +198,6 @@ namespace boost { namespace hana {
     //! While this definition is correct, it can be compile-time inefficient.
     //! Hence, implementers of new sequences are encouraged to override this
     //! default definition.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Tuple`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism

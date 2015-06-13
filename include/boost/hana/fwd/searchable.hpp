@@ -62,6 +62,21 @@ namespace boost { namespace hana {
     //! > can not be folded; think for example of an infinite set.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `find_if` and `any_of`
+    //!
+    //! When `find_if` and `any_of` are provided, the other functions are
+    //! implemented according to the laws explained below.
+    //!
+    //! @note
+    //! We could implement `any_of(xs, pred)` as `is_just(find_if(xs, pred))`,
+    //! and then reduce the minimal complete definition to `find_if`. However,
+    //! this is not done because that implementation requires the predicate
+    //! of `any_of` to return a compile-time `Logical`, which is more
+    //! restrictive than what we have right now.
+    //!
+    //!
     //! Laws
     //! ----
     //! In order for the semantics of the methods to be consistent, some
@@ -89,20 +104,9 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `find_if` and `any_of`\n
-    //! According to the above laws, it is possible to implement all the
-    //! methods pertaining to this concept using only `find_if` and `any_of`.
-    //! When `find_if` and `any_of` are provided, the other methods are
-    //! implemented according to the laws above.
-    //!
-    //! @note
-    //! We could implement `any_of(xs, pred)` as `is_just(find_if(xs, pred))`,
-    //! and then reduce the minimal complete definition to `find_if`. However,
-    //! this is not done because that implementation requires the predicate
-    //! of `any_of` to return a compile-time `Logical`, which is more
-    //! restrictive than what we have right now.
+    //! Concrete models
+    //! ---------------
+    //! `Map`, `Optional`, `Range`, `Set`, `String`, `Tuple`
     //!
     //!
     //! Free model for builtin arrays
@@ -116,17 +120,12 @@ namespace boost { namespace hana {
     //! compile-time efficient.
     //!
     //!
-    //! Concrete models
-    //! ---------------
-    //! `Map`, `Optional`, `Range`, `Set`, `String`, `Tuple`
-    //!
-    //!
     //! Structure preserving functions
     //! ------------------------------
     //! Given two `Searchables` `S1` and `S2`, a function
     //! @f$ f : S_1(X) \to S_2(X) @f$ is said to preserve the `Searchable`
     //! structure if for all `xs` of data type `S1(X)` and predicates
-    //! @f$ pred : X \to Bool @f$ (for a `Logical` `Bool`),
+    //! @f$ \mathtt{pred} : X \to Bool @f$ (for a `Logical` `Bool`),
     //! @code
     //!     any_of(xs, pred)  if and only if  any_of(f(xs), pred)
     //!     find_if(xs, pred) == find_if(f(xs), pred)

@@ -69,6 +69,19 @@ namespace boost { namespace hana {
     //! true-valued when (and only when) `q` is true-valued.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `eval_if`, `not_` and `while_`
+    //!
+    //! All the other functions can be defined in those terms:
+    //! @code
+    //!     if_(cond, x, y) = eval_if(cond, lazy(x), lazy(y))
+    //!     and_(x, y) = if_(x, y, x)
+    //!     or_(x, y) = if_(x, x, y)
+    //!     etc...
+    //! @endcode
+    //!
+    //!
     //! Laws
     //! ----
     //! As outlined above, the `Logical` concept almost represents a boolean
@@ -119,18 +132,9 @@ namespace boost { namespace hana {
     //! >    left-identity laws
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! 1. `eval_if`, `not_` and `while_`\n
-    //! The minimal complete definition for being a Logical is `eval_if`,
-    //! `not_` and `while_`. All the other methods can be defined in those
-    //! terms:
-    //! @code
-    //!     if_(cond, x, y) = eval_if(cond, lazy(x), lazy(y))
-    //!     and_(x, y) = if_(x, y, x)
-    //!     or_(x, y) = if_(x, x, y)
-    //!     etc...
-    //! @endcode
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Free model for arithmetic data types
@@ -155,11 +159,6 @@ namespace boost { namespace hana {
     //! > on the truth value. If you want to use a pointer type or something
     //! > similar in a conditional, it is suggested to explicitly convert it
     //! > to bool by using `to<bool>`.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! Operators

@@ -30,10 +30,15 @@ namespace boost { namespace hana {
     //! values.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `lift` and `ap` satisfying the laws below. An `Applicative` must
+    //! also be a `Functor`.
+    //!
+    //!
     //! Laws
     //! ----
-    //! Given an Applicative `F`, the following laws must be satisfied:
-    //!
+    //! Given an `Applicative` `F`, the following laws must be satisfied:
     //! 1. Identity\n
     //! For all objects `xs` of tag `F(A)`,
     //! @code
@@ -74,7 +79,7 @@ namespace boost { namespace hana {
     //! Superclass
     //! ----------
     //! 1. `Functor` (free model)\n
-    //! As a consequence of the above laws, any `Applicative F` can be made a
+    //! As a consequence of the laws, any `Applicative F` can be made a
     //! `Functor` by setting
     //! @code
     //!     transform(xs, f) = ap(lift<F>(f), xs)
@@ -88,11 +93,6 @@ namespace boost { namespace hana {
     //!         : Applicative::transform_impl<YourApplicative>
     //!     { };
     //! @endcode
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `lift` and `ap` satisfying the above laws
     //!
     //!
     //! Concrete models

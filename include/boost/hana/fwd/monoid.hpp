@@ -42,6 +42,11 @@ namespace boost { namespace hana {
     //! operation and `zero` is the identity element of that operation.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `plus` and `zero` satisfying the laws
+    //!
+    //!
     //! Laws
     //! ----
     //! For all objects `x`, `y` and `z` of a `Monoid` `M`, the following
@@ -53,9 +58,9 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `plus` and `zero` satisfying the above laws
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Free model for non-boolean arithmetic data types
@@ -75,11 +80,6 @@ namespace boost { namespace hana {
     //! > to be added, and the method names of this concept really suggest
     //! > addition. In line with the principle of least surprise, no model
     //! > is provided by default.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! Operators

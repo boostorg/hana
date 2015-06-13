@@ -34,7 +34,17 @@ namespace boost { namespace hana {
     //!
     //! Moreover, `equal` must exhibit properties that make it intuitive to
     //! use for determining the equivalence of objects, which is formalized
-    //! by the following laws.
+    //! by the laws for `Comparable`.
+    //!
+    //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! 1. `equal`\n
+    //! When `equal` is defined, `not_equal` is implemented by default as its
+    //! complement. For all objects `x`, `y` of a `Comparable` tag,
+    //! @code
+    //!     not_equal(x, y) == not_(equal(x, y))
+    //! @endcode
     //!
     //!
     //! Laws
@@ -51,14 +61,10 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! 1. `equal`\n
-    //! When `equal` is defined, `not_equal` is implemented by default as its
-    //! complement. For all objects `x`, `y` of a `Comparable` tag,
-    //! @code
-    //!     not_equal(x, y) == not_(equal(x, y))
-    //! @endcode
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `IntegralConstant`, `Map`, `Optional`, `Pair`, `Range`,
+    //! `Set`, `String`, `Tuple`, `Type`
     //!
     //!
     //! Free model for `EqualityComparable` data types
@@ -71,22 +77,6 @@ namespace boost { namespace hana {
     //! @endcode
     //! Note that this also makes EqualityComparable types in the
     //! [usual sense][3] models of `Comparable` in the same way.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Either`, `IntegralConstant`, `Map`, `Optional`, `Pair`, `Range`,
-    //! `Set`, `String`, `Tuple`, `Type`
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     ==  ->  equal
-    //!     !=  ->  not_equal
-    //! @endcode
     //!
     //!
     //! Equality-preserving functions
@@ -117,6 +107,16 @@ namespace boost { namespace hana {
     //! because programming has evolved differently and as a result
     //! programmers are used to work with functions that do not preserve
     //! equality.
+    //!
+    //!
+    //! Operators
+    //! ---------
+    //! For convenience, the following operators are provided as an
+    //! equivalent way of calling the corresponding method:
+    //! @code
+    //!     ==  ->  equal
+    //!     !=  ->  not_equal
+    //! @endcode
     //!
     //!
     //! Cross-type version of the methods

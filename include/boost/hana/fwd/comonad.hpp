@@ -65,29 +65,15 @@ namespace boost { namespace hana {
     what we mean by Comonad being the _dual_ of Monad.
 
 
-    Superclass
-    ----------
-    1. Functor\n
-    Every Comonad is also required to be a Functor. A good observation
-    would be that it might instead be a Cofunctor, but one soon realizes
-    that a Cofunctor and a Functor are the same thing, and hence Comonad
-    also requires Functor, just like Monad (and Applicative). The model
-    of Functor is bound by the laws explained below.
-
-
     Minimal complete definition
     ---------------------------
     `extract` and (`extend` or `duplicate`) satisfying the laws below.
-
-
-    Concrete models
-    ---------------
-    `Lazy`
+    A `Comonad` must also be a `Functor`.
 
 
     Laws
     ----
-    For all Comonads `w`, the following laws must be satisfied
+    For all Comonads `w`, the following laws must be satisfied:
     @code
         extract(duplicate(w)) == w
         transform(duplicate(w), extract) == w
@@ -97,6 +83,21 @@ namespace boost { namespace hana {
     @note
     There are several equivalent ways of defining Comonads, and this one
     is just one that was picked arbitrarily for simplicity.
+
+
+    Superclass
+    ----------
+    1. Functor\n
+    Every Comonad is also required to be a Functor. At first, one might think
+    that it should instead be some imaginary concept CoFunctor. However, it
+    turns out that a CoFunctor is the same as a `Functor`, hence the
+    requirement that a `Comonad` also is a `Functor`.
+
+
+    Concrete models
+    ---------------
+    `Lazy`
+
     */
     struct Comonad { };
 

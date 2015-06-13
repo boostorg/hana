@@ -41,6 +41,14 @@ namespace boost { namespace hana {
     //! equivalently using the strict order.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `less`
+    //!
+    //! When `less` is defined, the other methods are defined from it using
+    //! the same definition as mandated in the laws below.
+    //!
+    //!
     //! Laws
     //! ----
     //! Rigorously speaking, a [total order][1] `<=` on a set `S` is a binary
@@ -79,11 +87,9 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! 1. `less`\n
-    //! When `less` is defined, the other methods are defined from it using
-    //! the same definition as mandated in the laws above.
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `IntegralConstant`, `Optional`, `Pair`, `String`, `Tuple`
     //!
     //!
     //! Free model for `LessThanComparable` data types
@@ -107,11 +113,6 @@ namespace boost { namespace hana {
     //! but this is debatable and so the design choice of providing a model
     //! for LessThanComparable data types is open to debate. Waiting for
     //! some user input.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Either`, `IntegralConstant`, `Optional`, `Pair`, `String`, `Tuple`
     //!
     //!
     //! Operators

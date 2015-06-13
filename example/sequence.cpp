@@ -32,15 +32,15 @@ int main() {
 {
 
 //! [Applicative]
-static_assert(lift<Tuple>('x') == make<Tuple>('x'), "");
+static_assert(lift<Tuple>('x') == make_tuple('x'), "");
 static_assert(equal(lift<ext::std::Tuple>('x'), std::make_tuple('x')), "");
 
 constexpr auto f = make_pair;
 constexpr auto g = flip(make_pair);
 static_assert(
-    ap(make<Tuple>(f, g), make<Tuple>(1, 2, 3), make<Tuple>('a', 'b'))
+    ap(make_tuple(f, g), make_tuple(1, 2, 3), make_tuple('a', 'b'))
         ==
-    make<Tuple>(
+    make_tuple(
         f(1, 'a'), f(1, 'b'), f(2, 'a'), f(2, 'b'), f(3, 'a'), f(3, 'b'),
         g(1, 'a'), g(1, 'b'), g(2, 'a'), g(2, 'b'), g(3, 'a'), g(3, 'b')
     )
@@ -50,15 +50,15 @@ static_assert(
 }{
 
 //! [Comparable]
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, 2, 3) == make<Tuple>(1, 2, 3));
-BOOST_HANA_CONSTANT_CHECK(make<Tuple>(1, 2, 3) != make<Tuple>(1, 2, 3, 4));
+static_assert(make_tuple(1, 2, 3) == make_tuple(1, 2, 3), "");
+BOOST_HANA_CONSTANT_CHECK(make_tuple(1, 2, 3) != make_tuple(1, 2, 3, 4));
 //! [Comparable]
 
 }{
 
 //! [Orderable]
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, 2, 3) < make<Tuple>(2, 3, 4));
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, 2, 3) < make<Tuple>(1, 2, 3, 4));
+static_assert(make_tuple(1, 2, 3) < make_tuple(2, 3, 4), "");
+static_assert(make_tuple(1, 2, 3) < make_tuple(1, 2, 3, 4), "");
 //! [Orderable]
 
 }{
@@ -85,8 +85,8 @@ auto to_string = [](auto x) {
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    transform(make<Tuple>(1, '2', "345", std::string{"67"}), to_string) ==
-    make<Tuple>("1", "2", "345", "67")
+    transform(make_tuple(1, '2', "345", std::string{"67"}), to_string) ==
+    make_tuple("1", "2", "345", "67")
 );
 //! [Functor]
 
@@ -141,7 +141,7 @@ auto ref_qualifiers = [](auto t) {
 auto possible_args = cv_qualifiers(type<int>) | ref_qualifiers;
 
 BOOST_HANA_CONSTANT_CHECK(
-    possible_args == make<Tuple>(
+    possible_args == make_tuple(
                         type<int&>,
                         type<int&&>,
                         type<int const&>,
@@ -167,14 +167,14 @@ for_each(possible_args, [=](auto t) {
 //! [MonadPlus]
 using namespace std::string_literals;
 
-BOOST_HANA_CONSTANT_CHECK(empty<Tuple>() == make<Tuple>());
-BOOST_HANA_CONSTEXPR_CHECK(
-    append(make<Tuple>(1, '2', 3.3), nullptr) == make<Tuple>(1, '2', 3.3, nullptr)
-);
+BOOST_HANA_CONSTANT_CHECK(empty<Tuple>() == make_tuple());
 
-BOOST_HANA_CONSTEXPR_CHECK(
-    concat(make<Tuple>(1, '2', 3.3), make<Tuple>("abcdef"s)) ==
-    make<Tuple>(1, '2', 3.3, "abcdef"s)
+static_assert(append(make_tuple(1, '2', 3.3), nullptr)
+                        == make_tuple(1, '2', 3.3, nullptr), "");
+
+BOOST_HANA_RUNTIME_CHECK(
+    concat(make_tuple(1, '2', 3.3), make_tuple("abcdef"s)) ==
+    make_tuple(1, '2', 3.3, "abcdef"s)
 );
 //! [MonadPlus]
 
@@ -184,11 +184,11 @@ BOOST_HANA_CONSTEXPR_CHECK(
 using namespace std::string_literals;
 
 BOOST_HANA_RUNTIME_CHECK(
-    find_if(make<Tuple>(1, '2', 3.3, "abc"s), is_a<std::string>) == just("abc"s)
+    find_if(make_tuple(1, '2', 3.3, "abc"s), is_a<std::string>) == just("abc"s)
 );
 
 BOOST_HANA_RUNTIME_CHECK(
-    "abc"s ^in^ make<Tuple>(1, '2', 3.3, "abc"s)
+    "abc"s ^in^ make_tuple(1, '2', 3.3, "abc"s)
 );
 //! [Searchable]
 
@@ -508,15 +508,15 @@ BOOST_HANA_CONSTANT_CHECK(
 using namespace std::literals;
 using namespace boost::hana::literals;
 
-auto tuples = make<Tuple>(
-    make<Tuple>(2_c, 'x', nullptr),
-    make<Tuple>(1_c, "foobar"s, int_<4>)
+auto tuples = make_tuple(
+    make_tuple(2_c, 'x', nullptr),
+    make_tuple(1_c, "foobar"s, int_<4>)
 );
 BOOST_HANA_RUNTIME_CHECK(
     sort.by(ordering(head), tuples)
-        == make<Tuple>(
-            make<Tuple>(1_c, "foobar"s, int_<4>),
-            make<Tuple>(2_c, 'x', nullptr)
+        == make_tuple(
+            make_tuple(1_c, "foobar"s, int_<4>),
+            make_tuple(2_c, 'x', nullptr)
         )
 );
 //! [sort.by]
@@ -561,7 +561,7 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [subsequence]
 constexpr auto letters = to<Tuple>(range_c<char, 'a', 'z'>);
-constexpr auto indices = to<Tuple>(make<Range>(int_<0>, length(letters)));
+constexpr auto indices = to<Tuple>(make_range(int_<0>, length(letters)));
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto even_indices = filter(indices, [](auto n) {
     return n % uint<2> == uint<0>;

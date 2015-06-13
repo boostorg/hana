@@ -29,6 +29,11 @@ namespace boost { namespace hana {
     //! [countable][2] (in its mathematical sense).
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `succ` and `pred` satisfying the laws below
+    //!
+    //!
     //! Laws
     //! ----
     //! For any `Enumerable x`, the following laws must be satisfied:
@@ -38,9 +43,9 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `succ` and `pred` satisfying the above laws
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Free model for non-boolean arithmetic data types
@@ -52,11 +57,6 @@ namespace boost { namespace hana {
     //!     succ(x) = ++x
     //!     pred(x) = --x
     //! @endcode
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Successor_function

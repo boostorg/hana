@@ -46,6 +46,16 @@ namespace boost { namespace hana {
     //! infinite data structure, see the `Searchable` concept.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! (`fold.left` and `fold.right`) or `unpack`
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Either`, `Map`, `Optional`, `Pair`, `Set`, `Range`, `Tuple`
+    //!
+    //!
     //! @anchor Foldable-lin
     //! The linearization of a `Foldable`
     //! ---------------------------------
@@ -68,17 +78,6 @@ namespace boost { namespace hana {
     //! of this allowing for infinite structures.
     //!
     //!
-    //! Provided conversion to any `Sequence`
-    //! -------------------------------------
-    //! In the spirit of the notion of linearization presented above, any
-    //! `Foldable` can be converted to a `Sequence`. The result is, as one
-    //! might expect, simply the linearization of the `Foldable` structure.
-    //! More specifically, given a `Foldable` `xs` with a linearization of
-    //! `[x1, ..., xn]` and a `Sequence` `S`, `to<S>(xs)` is equivalent to
-    //! `make<S>(x1, ..., xn)`.
-    //! @snippet example/foldable.cpp conversion
-    //!
-    //!
     //! Compile-time Foldables
     //! ----------------------
     //! A compile-time `Foldable` is a `Foldable` whose total length is known
@@ -99,9 +98,15 @@ namespace boost { namespace hana {
     //! runtime `Foldable`s too, doing so efficiently requires more research.
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! (`fold.left` and `fold.right`) or `unpack`
+    //! Provided conversion to any `Sequence`
+    //! -------------------------------------
+    //! In the spirit of the notion of linearization presented above, any
+    //! `Foldable` can be converted to a `Sequence`. The result is, as one
+    //! might expect, simply the linearization of the `Foldable` structure.
+    //! More specifically, given a `Foldable` `xs` with a linearization of
+    //! `[x1, ..., xn]` and a `Sequence` `S`, `to<S>(xs)` is equivalent to
+    //! `make<S>(x1, ..., xn)`.
+    //! @snippet example/foldable.cpp conversion
     //!
     //!
     //! Free model for builtin arrays
@@ -110,11 +115,6 @@ namespace boost { namespace hana {
     //! homogeneous tuples. However, note that builtin arrays can't be
     //! made more than `Foldable` (e.g. `Iterable`) because they can't
     //! be empty and they also can't be returned from functions.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Either`, `Map`, `Optional`, `Pair`, `Set`, `Range`, `Tuple`
     struct Foldable { };
 
     //! Fold a structure using a binary operation and (optionally) an initial

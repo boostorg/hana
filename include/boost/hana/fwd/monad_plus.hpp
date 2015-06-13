@@ -40,19 +40,9 @@ namespace boost { namespace hana {
     //! and `filter`.
     //!
     //!
-    //! Superclasses
-    //! ------------
-    //! `Functor`, `Applicative` and `Monad`
-    //!
-    //!
     //! Minimal complete definition
     //! ---------------------------
     //! `concat` and `empty`
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Optional`, `Tuple`
     //!
     //!
     //! Laws
@@ -79,6 +69,16 @@ namespace boost { namespace hana {
     //!     chain(empty<M(T)>(), f)         == empty<M(U)>()
     //!     chain(a, always(empty<M(T)>())) == empty<M(U)>()
     //! @endcode
+    //!
+    //!
+    //! Superclasses
+    //! ------------
+    //! `Functor`, `Applicative` and `Monad`
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `Optional`, `Tuple`
     struct MonadPlus { };
 
     //! Combine two monadic structures together.

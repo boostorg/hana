@@ -43,6 +43,11 @@ namespace boost { namespace hana {
     //! never finish.
     //!
     //!
+    //! Minimal complete definition
+    //! ---------------------------
+    //! `head`, `tail` and `is_empty`
+    //!
+    //!
     //! @anchor Iterable-lin
     //! The linearization of an `Iterable`
     //! ----------------------------------
@@ -83,9 +88,33 @@ namespace boost { namespace hana {
     //! status of runtime `Iterable`s.
     //!
     //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `head`, `tail` and `is_empty`
+    //! Laws
+    //! ----
+    //! First, we require the equality of two `Iterable`s to be related to the
+    //! equality of the elements in their linearizations. More specifically,
+    //! if `xs` and `ys` are two non-empty `Iterable`s of data type `It`, then
+    //! @code
+    //!     xs == ys  =>  head(xs) == head(ys) && tail(xs) == tail(ys)
+    //! @endcode
+    //! which conveys that two `Iterable`s must have the same linearization
+    //! in order to have the chance of being considered equal. We then handle
+    //! the empty case by saying that if any of `xs` and `ys` is empty, then
+    //! @code
+    //!     xs == ys  =>  is_empty(xs) && is_empty(ys)
+    //! @endcode
+    //!
+    //! Second, since every `Iterable` is also a `Searchable`, we require the
+    //! models of `Iterable` and `Searchable` to be consistent. This is made
+    //! precise by the following laws. For any `Iterable` `xs` with a
+    //! linearization of `[x1, x2, x3, ...]`,
+    //! @code
+    //!     any_of(xs, equal.to(z))  <=>  xi == z
+    //! @endcode
+    //! for some finite index `i`. Furthermore,
+    //! @code
+    //!     find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)
+    //! @endcode
+    //! or `nothing` if no such `xi` exists.
     //!
     //!
     //! Superclasses
@@ -158,35 +187,6 @@ namespace boost { namespace hana {
     //! Concrete models
     //! ---------------
     //! `Tuple`, `String`, `Range`
-    //!
-    //!
-    //! Laws
-    //! ----
-    //! First, we require the equality of two `Iterable`s to be related to the
-    //! equality of the elements in their linearizations. More specifically,
-    //! if `xs` and `ys` are two non-empty `Iterable`s of data type `It`, then
-    //! @code
-    //!     xs == ys  =>  head(xs) == head(ys) && tail(xs) == tail(ys)
-    //! @endcode
-    //! which conveys that two `Iterable`s must have the same linearization
-    //! in order to have the chance of being considered equal. We then handle
-    //! the empty case by saying that if any of `xs` and `ys` is empty, then
-    //! @code
-    //!     xs == ys  =>  is_empty(xs) && is_empty(ys)
-    //! @endcode
-    //!
-    //! Second, since every `Iterable` is also a `Searchable`, we require the
-    //! models of `Iterable` and `Searchable` to be consistent. This is made
-    //! precise by the following laws. For any `Iterable` `xs` with a
-    //! linearization of `[x1, x2, x3, ...]`,
-    //! @code
-    //!     any_of(xs, equal.to(z))  <=>  xi == z
-    //! @endcode
-    //! for some finite index `i`. Furthermore,
-    //! @code
-    //!     find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)
-    //! @endcode
-    //! or `nothing` if no such `xi` exists.
     //!
     //!
     //! [1]: https://github.com/ldionne/hana/issues/40

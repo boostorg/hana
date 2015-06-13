@@ -38,9 +38,9 @@ namespace boost { namespace hana {
     //! multiplication. The method names used here refer to this exact ring.
     //!
     //!
-    //! Superclasses
-    //! ------------
-    //! `Monoid`, `Group`
+    //! Minimal complete definintion
+    //! ----------------------------
+    //! `one` and `mult` satisfying the laws
     //!
     //!
     //! Laws
@@ -55,9 +55,14 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! Minimal complete definintion
-    //! ----------------------------
-    //! `one` and `mult` satisfying the above laws
+    //! Superclasses
+    //! ------------
+    //! `Monoid`, `Group`
+    //!
+    //!
+    //! Concrete models
+    //! ---------------
+    //! `IntegralConstant`
     //!
     //!
     //! Free model for non-boolean arithmetic data types
@@ -73,11 +78,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Ring model for `bool` is the same
     //! as for not providing Monoid and Group models.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `IntegralConstant`
     //!
     //!
     //! Operators
