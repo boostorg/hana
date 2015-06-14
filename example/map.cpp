@@ -68,7 +68,7 @@ using namespace std::literals;
 // Given a map of (key, value) pairs, returns a map of (value, key) pairs.
 // This requires both the keys and the values to be compile-time Comparable.
 auto invert = [](auto map) {
-    return fold.left(map, make_map(), [](auto map, auto pair) {
+    return fold_left(map, make_map(), [](auto map, auto pair) {
         return insert(map, make_pair(second(pair), first(pair)));
     });
 };

@@ -28,6 +28,13 @@ namespace boost { namespace hana {
     //! The `Foldable` concept represents data structures that can be reduced
     //! to a single value.
     //!
+    //! Generally speaking, folding refers to the concept of summarizing a
+    //! complex structure as a single value, by successively applying a
+    //! binary operation which reduces two elements of the structure to a
+    //! single value. Folds come in many flavors; left folds, right folds,
+    //! folds with and without an initial reduction state, and their monadic
+    //! variants. This concept is able to express all of these fold variants.
+    //!
     //! Another way of seeing `Foldable` is as data structures supporting
     //! internal iteration with the ability to accumulate a result. By
     //! internal iteration, we mean that the _loop control_ is in the hand
@@ -48,7 +55,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! (`fold.left` and `fold.right`) or `unpack`
+    //! (`fold_left` and `fold_right`) or `unpack`
     //!
     //!
     //! Concrete models
@@ -69,7 +76,7 @@ namespace boost { namespace hana {
     //! Note that it is always possible to produce such a linearization
     //! for a finite `Foldable` by setting
     //! @code
-    //!     linearization(xs) = fold.left(xs, [], flip(prepend))
+    //!     linearization(xs) = fold_left(xs, [], flip(prepend))
     //! @endcode
     //! for an appropriate definition of `[]` and `prepend`. The notion of
     //! linearization is useful for expressing various properties of
@@ -118,59 +125,36 @@ namespace boost { namespace hana {
     //! be empty and they also can't be returned from functions.
     struct Foldable { };
 
-    //! Fold a structure using a binary operation and (optionally) an initial
-    //! reduction state.
+    //! Left-fold of a structure using a binary operation and an optional
+    //! initial reduction state.
     //! @relates Foldable
     //!
-    //! Generally speaking, folding refers to the concept of summarizing a
-    //! complex structure as a single value, by successively applying a
-    //! binary operation which reduces two elements of the structure to a
-    //! single value. Folds come in many flavors; left folds, right folds,
-    //! folds with and without an initial reduction state, and their monadic
-    //! variants. This method can be used to access all of the non-monadic
-    //! fold variants, by using the different syntaxes documented below.
-    //! Here's a summary of the different folds:
-    //! @code
-    //!     fold.left(xs, state, f) = see below
-    //!     fold.left(xs, f) = see below
-    //!     fold = fold.left
-    //!
-    //!     fold.right(xs, state, f) = see below
-    //!     fold.right(xs, f) = see below
-    //! @endcode
-    //!
-    //! In the above, `xs` is always the structure to be folded. Similarly,
-    //! `state` is an initial value to use as the accumulation state.
-    //!
-    //! When the structure is empty, two things may arise. If an initial
-    //! state was provided, it is returned as-is. Otherwise, if the no-state
-    //! version of the method was used, an error is triggered. When the
-    //! stucture contains a single element and the no-state version of the
-    //! method was used, that single element is returned as is. This behavior
-    //! is consistent with what happens for empty structures with a provided
-    //! initial state.
-    //!
-    //!
-    //! ## Left folds (`fold.left`)
-    //! `fold.left` is a left-associative fold using a binary operation.
+    //! `fold_left` is a left-associative fold using a binary operation.
     //! Given a structure containing `x1, ..., xn`, a function `f` and
-    //! optionnally an initial state, `fold.left` applies `f` as follows
+    //! an optional initial state, `fold_left` applies `f` as follows
     //! @code
     //!     f(... f(f(f(x1, x2), x3), x4) ..., xn) // without state
     //!     f(... f(f(f(f(state, x1), x2), x3), x4) ..., xn) // with state
     //! @endcode
     //!
-    //! ### Signature
-    //! Given a `Foldable` `xs` of data type `F(T)`, a function
-    //! \f$ f : S \times T \to S \f$ and an initial state `s` of
-    //! data type `S`, the signatures for `fold.left` are
+    //! When the structure is empty, two things may arise. If an initial
+    //! state was provided, it is returned as-is. Otherwise, if the no-state
+    //! version of the function was used, an error is triggered. When the
+    //! stucture contains a single element and the no-state version of the
+    //! function was used, that single element is returned as is.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a `Foldable` `F` and an optional initial state of tag `S`,
+    //! the signatures for `fold_left` are
     //! \f[
-    //!     \mathrm{fold.left} : F(T) \times S \times (S \times T \to S) \to S
+    //!     \mathtt{fold\_left} : F(T) \times S \times (S \times T \to S) \to S
     //! \f]
     //!
     //! for the variant with an initial state, and
     //! \f[
-    //!     \mathrm{fold.left} : F(T) \times (T \times T \to T) \to T
+    //!     \mathtt{fold\_left} : F(T) \times (T \times T \to T) \to T
     //! \f]
     //!
     //! for the variant without an initial state.
@@ -187,39 +171,97 @@ namespace boost { namespace hana {
     //! For left folds without an initial state, the function is called as
     //! `f(x1, x2)`, where `x1` and `x2` are elements of the structure.
     //!
-    //! @note
-    //! `fold` is equivalent to `fold.left`, so `fold(xs, f)` and
-    //! `fold(xs, state, f)` are equivalent to `fold.left(xs, f)` and
-    //! `fold.left(xs, state, f)` respectively. This is provided solely
-    //! for convenience.
     //!
-    //! ### Example
-    //! @snippet example/foldable.cpp fold.left
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp fold_left
     //!
     //!
-    //! ## Right folds (`fold.right`)
-    //! `fold.right` is a right-associative fold using a binary operation.
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.fold_left.compile.json">
+    //! </div>
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto fold_left = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct fold_left_impl;
+
+    struct _fold_left {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::fold_left(xs, state, f) requires xs to be Foldable");
+        #endif
+
+            return FoldLeft::apply(static_cast<Xs&&>(xs),
+                                   static_cast<State&&>(state),
+                                   static_cast<F&&>(f));
+        }
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::fold_left(xs, f) requires xs to be Foldable");
+        #endif
+
+            return FoldLeft::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
+        }
+    };
+
+    constexpr _fold_left fold_left{};
+#endif
+
+    //! Right-fold of a structure using a binary operation and an optional
+    //! initial reduction state.
+    //! @relates Foldable
+    //!
+    //! `fold_right` is a right-associative fold using a binary operation.
     //! Given a structure containing `x1, ..., xn`, a function `f` and
-    //! optionnally an initial state, `fold.right` applies `f` as follows
+    //! an optional initial state, `fold_right` applies `f` as follows
     //! @code
     //!     f(x1, f(x2, f(x3, f(x4, ... f(xn-1, xn) ... )))) // without state
     //!     f(x1, f(x2, f(x3, f(x4, ... f(xn, state) ... )))) // with state
     //! @endcode
     //!
+    //! @note
     //! It is worth noting that the order in which the binary function should
-    //! expect its arguments is reversed from `fold.left`.
+    //! expect its arguments is reversed from `fold_left`.
     //!
-    //! ### Signature
-    //! Given a `Foldable` `xs` of data type `F(T)`, a function
-    //! \f$ f : T \times S \to S \f$ and an initial state `s` of
-    //! data type `S`, the signatures for `fold.right` are
+    //! When the structure is empty, two things may arise. If an initial
+    //! state was provided, it is returned as-is. Otherwise, if the no-state
+    //! version of the function was used, an error is triggered. When the
+    //! stucture contains a single element and the no-state version of the
+    //! function was used, that single element is returned as is.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a `Foldable` `F` and an optional initial state of tag `S`,
+    //! the signatures for `fold_right` are
     //! \f[
-    //!     \mathrm{fold.right} : F(T) \times S \times (T \times S \to S) \to S
+    //!     \mathtt{fold\_right} : F(T) \times S \times (T \times S \to S) \to S
     //! \f]
     //!
     //! for the variant with an initial state, and
     //! \f[
-    //!     \mathrm{fold.right} : F(T) \times (T \times T \to T) \to T
+    //!     \mathtt{fold\_right} : F(T) \times (T \times T \to T) \to T
     //! \f]
     //!
     //! for the variant without an initial state.
@@ -236,83 +278,25 @@ namespace boost { namespace hana {
     //! For right folds without an initial state, the function is called as
     //! `f(x1, x2)`, where `x1` and `x2` are elements of the structure.
     //!
-    //! ### Example
-    //! @snippet example/foldable.cpp fold.right
     //!
-    //!
-    //! ## Tag-dispatching
-    //! All of the different fold variants are tag-dispatched methods
-    //! and can be overridden individually. Here is how each variant is
-    //! tag-dispatched (where `Xs` is the data type of `xs`):
-    //! @code
-    //!     fold.left(xs, state, f) -> fold_left_impl<Xs>::apply(xs, state, f)
-    //!     fold.left(xs, f)        -> fold_left_nostate_impl<Xs>::apply(xs, f)
-    //!
-    //!     fold.right(xs, state, f) -> fold_right_impl<Xs>::apply(xs, state, f)
-    //!     fold.right(xs, f)        -> fold_right_nostate_impl<Xs>::apply(xs, f)
-    //! @endcode
-    //! `fold` is not tag-dispatched because it is just an alias to `fold.left`.
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp fold_right
     //!
     //!
     //! Benchmarks
     //! ----------
     //! <div class="benchmark-chart"
     //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.fold_left.compile.json">
-    //! </div>
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
     //!      data-dataset="benchmark.fold_right.compile.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto fold = see documentation;
+    constexpr auto fold_right = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
     template <typename Xs, typename = void>
-    struct fold_left_impl;
-
-    template <typename Xs, typename = void>
-    struct fold_left_nostate_impl;
-
-    template <typename Xs, typename = void>
     struct fold_right_impl;
-
-    template <typename Xs, typename = void>
-    struct fold_right_nostate_impl;
-
-
-    struct _fold_left {
-        template <typename Xs, typename State, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            using S = typename datatype<Xs>::type;
-            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
-                _models<Foldable, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>{},
-            "hana::fold.left(xs, state, f) requires xs to be Foldable");
-        #endif
-
-            return FoldLeft::apply(static_cast<Xs&&>(xs),
-                                   static_cast<State&&>(state),
-                                   static_cast<F&&>(f));
-        }
-
-        template <typename Xs, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            using S = typename datatype<Xs>::type;
-            using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_nostate_impl<S>,
-                _models<Foldable, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>{},
-            "hana::fold.left(xs, f) requires xs to be Foldable");
-        #endif
-
-            return FoldLeft::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
-        }
-    };
 
     struct _fold_right {
         template <typename Xs, typename State, typename F>
@@ -324,7 +308,7 @@ namespace boost { namespace hana {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Foldable, S>{},
-            "hana::fold.right(xs, state, f) requires xs to be Foldable");
+            "hana::fold_right(xs, state, f) requires xs to be Foldable");
         #endif
 
             return FoldRight::apply(static_cast<Xs&&>(xs),
@@ -335,31 +319,40 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
             using S = typename datatype<Xs>::type;
-            using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_nostate_impl<S>,
+            using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_impl<S>,
                 _models<Foldable, S>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Foldable, S>{},
-            "hana::fold.right(xs, f) requires xs to be Foldable");
+            "hana::fold_right(xs, f) requires xs to be Foldable");
         #endif
 
             return FoldRight::apply(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
 
-    template <typename ...AvoidODRViolation>
-    struct _fold : _fold_left {
-        static constexpr _fold_left left{};
-        static constexpr _fold_right right{};
-    };
-    template <typename ...AvoidODRViolation>
-    constexpr _fold_left _fold<AvoidODRViolation...>::left;
-    template <typename ...AvoidODRViolation>
-    constexpr _fold_right _fold<AvoidODRViolation...>::right;
-
-    constexpr _fold<> fold{};
+    constexpr _fold_right fold_right{};
 #endif
+
+    //! Equivalent to `fold_left`; provided for convenience.
+    //! @relates Foldable
+    //!
+    //! `fold` is equivalent to `fold_left`. However, it is not tag-dispatched
+    //! on its own because it is just an alias to `fold_left`. Also note that
+    //! `fold` can be called with or without an initial state, just like
+    //! `fold_left`:
+    //!
+    //! @code
+    //!     fold(xs, state, f) == fold_left(xs, state, f)
+    //!     fold(xs, f) == fold_left(xs, f)
+    //! @endcode
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/foldable.cpp fold
+    constexpr auto fold = fold_left;
 
     //! Monadic fold of a structure with a binary operation and an optional
     //! initial reduction state.
@@ -456,7 +449,7 @@ namespace boost { namespace hana {
     //! function must return its result inside the `M` Monad.
     //!
     //! ### Example
-    //! @snippet example/foldable.monadic_fold.left.cpp monadic_fold.left
+    //! @snippet example/foldable.monadic_fold_left.cpp monadic_fold_left
     //!
     //!
     //! ## Monadic right folds (`monadic_fold<M>.right`)
@@ -511,7 +504,7 @@ namespace boost { namespace hana {
     //! function must return its result inside the `M` Monad.
     //!
     //! ### Example
-    //! @snippet example/foldable.cpp monadic_fold.right
+    //! @snippet example/foldable.cpp monadic_fold_right
     //!
     //!
     //! ## Tag-dispatching
@@ -642,18 +635,18 @@ namespace boost { namespace hana {
     //!
     //! This method has the same semantics as `reverse_fold` in Boost.Fusion
     //! and Boost.MPL, with the extension that an initial state is not
-    //! required. This method is equivalent to `fold.right`, except that
+    //! required. This method is equivalent to `fold_right`, except that
     //! the accumulating function must take its arguments in reverse order,
     //! to match the order used in Fusion. In other words,
     //! @code
-    //!     reverse_fold(sequence, state, f) == fold.right(sequence, state, flip(f))
-    //!     reverse_fold(sequence, f) == fold.right(sequence, flip(f))
+    //!     reverse_fold(sequence, state, f) == fold_right(sequence, state, flip(f))
+    //!     reverse_fold(sequence, f) == fold_right(sequence, flip(f))
     //! @endcode
     //!
     //!
     //! @note
-    //! This method is a convenience alias to `fold.right`. As an alias,
-    //! `reverse_fold` is not tag-dispatched on its own and `fold.right`
+    //! This method is a convenience alias to `fold_right`. As an alias,
+    //! `reverse_fold` is not tag-dispatched on its own and `fold_right`
     //! should be customized instead.
     //!
     //!
@@ -668,14 +661,14 @@ namespace boost { namespace hana {
     struct _reverse_fold {
         template <typename Xs, typename S, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
-            return hana::fold.right(static_cast<Xs&&>(xs),
+            return hana::fold_right(static_cast<Xs&&>(xs),
                                     static_cast<S&&>(s),
                                     hana::flip(static_cast<F&&>(f)));
         }
 
         template <typename Xs, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            return hana::fold.right(static_cast<Xs&&>(xs),
+            return hana::fold_right(static_cast<Xs&&>(xs),
                                     hana::flip(static_cast<F&&>(f)));
         }
     };
@@ -688,7 +681,7 @@ namespace boost { namespace hana {
     //! @relates Foldable
     //!
     //! Iteration is done from left to right, i.e. in the same order as when
-    //! using `fold.left`. If the structure is not finite, this method will
+    //! using `fold_left`. If the structure is not finite, this method will
     //! not terminate.
     //!
     //!
@@ -1042,7 +1035,7 @@ namespace boost { namespace hana {
     //! the structure will use the Monoid formed by the elements it contains
     //! (if it knows it), or `IntegralConstant<int>` otherwise. Hence,
     //! @code
-    //!     sum<M>(xs) = fold.left(xs, zero<M or inferred Monoid>(), plus)
+    //!     sum<M>(xs) = fold_left(xs, zero<M or inferred Monoid>(), plus)
     //!     sum<> = sum<IntegralConstant<int>>
     //! @endcode
     //!
@@ -1122,7 +1115,7 @@ namespace boost { namespace hana {
     //! (if it knows it), or `IntegralConstant<int>` otherwise.
     //! Hence,
     //! @code
-    //!     product<R>(xs) = fold.left(xs, one<R or inferred Ring>(), mult)
+    //!     product<R>(xs) = fold_left(xs, one<R or inferred Ring>(), mult)
     //!     product<> = product<IntegralConstant<int>>
     //! @endcode
     //!

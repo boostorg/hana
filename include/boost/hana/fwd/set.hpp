@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! the first occurence will appear in the resulting set. More
     //! specifically, conversion from a `Foldable` is equivalent to
     //! @code
-    //!     to<Set>(xs) == fold.left(xs, make<Set>(), insert)
+    //!     to<Set>(xs) == fold_left(xs, make<Set>(), insert)
     //! @endcode
     //!
     //! __Example__

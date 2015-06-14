@@ -37,7 +37,7 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [Foldable]
 auto types = mpl::vector<long, float, short, float, long, long double>{};
-auto number_of_floats = fold.left(types, int_<0>, [](auto count, auto t) {
+auto number_of_floats = fold_left(types, int_<0>, [](auto count, auto t) {
     return if_(trait<std::is_floating_point>(t),
         count + int_<1>,
         count

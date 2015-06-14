@@ -275,82 +275,89 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model of Foldable
     //////////////////////////////////////////////////////////////////////////
-    namespace iterable_detail {
-        struct foldl_helper {
-            template <typename F, typename X>
-            constexpr decltype(auto) operator()(F&& f, X&& x) const {
-                decltype(auto) state = hana::first(static_cast<X&&>(x));
-                decltype(auto) xs = hana::second(static_cast<X&&>(x));
-                return hana::make<Pair>(
-                    static_cast<F&&>(f)(
-                        static_cast<decltype(state)&&>(state),
-                        hana::head(xs)
-                    ),
-                    hana::tail(xs)
-                );
-            }
-        };
-
-        struct foldr_helper {
-            template <typename Xs, typename S, typename F>
-            constexpr decltype(auto) operator()(Xs&& xs, S&& s, F&& f) const {
-                return f(
-                    hana::head(xs),
-                    hana::fold.right(hana::tail(xs), static_cast<S&&>(s), f)
-                );
-            }
-        };
-
-        struct foldr1_helper {
-            template <typename Xs, typename F>
-            constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-                return f(hana::head(xs), hana::fold.right(hana::tail(xs), f));
-            }
-        };
-    } // end namespace iterable_detail
-
     template <typename It>
     struct Iterable::fold_left_impl {
         template <typename Xs, typename State, typename F>
+        static constexpr auto
+        fold_left_helper(Xs&&, State&& s, F&&, decltype(true_)) {
+            return static_cast<State&&>(s);
+        }
+
+        template <typename Xs, typename State, typename F>
+        static constexpr decltype(auto)
+        fold_left_helper(Xs&& xs, State&& s, F&& f, decltype(false_)) {
+            constexpr bool done = hana::value<decltype(
+                hana::is_empty(hana::tail(xs))
+            )>();
+            return fold_left_impl::fold_left_helper(
+                hana::tail(xs), f(s, hana::head(xs)), f, hana::bool_<done>
+            );
+        }
+
+        template <typename Xs, typename State, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
-            return hana::first(hana::until(
-                hana::compose(is_empty, second),
-                hana::make<Pair>(static_cast<State&&>(s),
-                                 static_cast<Xs&&>(xs)),
-                hana::partial(iterable_detail::foldl_helper{},
-                                                static_cast<F&&>(f))
-            ));
+            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
+            return fold_left_impl::fold_left_helper(
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(s),
+                static_cast<F&&>(f),
+                hana::bool_<done>
+            );
+        }
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return fold_left_impl::apply(hana::tail(xs),
+                                         hana::head(xs),
+                                         static_cast<F&&>(f));
         }
     };
 
     template <typename It>
     struct Iterable::fold_right_impl {
+        // with state
         template <typename Xs, typename State, typename F>
-        static constexpr auto apply(Xs xs, State s, F f) {
-            return hana::eval_if(hana::is_empty(xs),
-                hana::lazy(s),
-                hana::lazy(iterable_detail::foldr_helper{})(xs, s, f)
+        static constexpr auto
+        fold_right_helper(Xs&&, State&& s, F&&, decltype(true_)) {
+            return static_cast<State&&>(s);
+        }
+
+        template <typename Xs, typename State, typename F>
+        static constexpr decltype(auto)
+        fold_right_helper(Xs&& xs, State&& s, F&& f, decltype(false_)) {
+            constexpr bool done = hana::value<decltype(
+                hana::is_empty(hana::tail(xs))
+            )>();
+            return f(
+                hana::head(xs),
+                fold_right_impl::fold_right_helper(
+                    hana::tail(xs),
+                    static_cast<State&&>(s),
+                    f,
+                    hana::bool_<done>
+                )
             );
         }
-    };
 
-    template <typename It>
-    struct Iterable::fold_right_nostate_impl {
-        template <typename Xs, typename F>
-        static constexpr auto apply(Xs xs, F f) {
-            return hana::eval_if(hana::is_empty(hana::tail(xs)),
-                hana::lazy(hana::head)(xs),
-                hana::lazy(iterable_detail::foldr1_helper{})(xs, f)
+        template <typename Xs, typename State, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
+            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
+            return fold_right_impl::fold_right_helper(
+                static_cast<Xs&&>(xs),
+                static_cast<State&&>(s),
+                static_cast<F&&>(f),
+                hana::bool_<done>
             );
         }
-    };
 
-    template <typename It>
-    struct Iterable::fold_left_nostate_impl {
+        // without state
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::fold.left(hana::tail(xs), hana::head(xs),
-                        static_cast<F&&>(f));
+            return fold_right_impl::apply(
+                hana::init(xs),
+                hana::last(xs),
+                static_cast<F&&>(f)
+            );
         }
     };
 

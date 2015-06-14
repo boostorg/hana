@@ -191,7 +191,7 @@ namespace boost { namespace hana {
     //! For any `Sequence` `S`, the `make<S>` method is defined
     //! automatically as
     //! @code
-    //!     make<S>(x1, ..., xn) == fold.right(make<Tuple>(x1, ..., xn), empty<S>(), flip(prepend))
+    //!     make<S>(x1, ..., xn) == fold_right(make<Tuple>(x1, ..., xn), empty<S>(), flip(prepend))
     //!                          == [x1, ..., xn] // of data type S
     //! @endcode
     //!
@@ -848,11 +848,11 @@ namespace boost { namespace hana {
     //! ## Left scans (`scan.left`)
     //! `scan.left` is a left associative scan of a sequence. Specifically,
     //! the `i`th element of `scan.left([x1, ..., xn], state, f)` is
-    //! equivalent to `fold.left([x1, ..., xi], state, f)`, with the
+    //! equivalent to `fold_left([x1, ..., xi], state, f)`, with the
     //! no-state variant handled analogously. For example, consider this
     //! left fold on a short sequence:
     //! @code
-    //!     fold.left([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)
+    //!     fold_left([x1, x2, x3], state, f) == f(f(f(state, x1), x2), x3)
     //! @endcode
     //!
     //! The analogous sequence generated with `scan.left` will be
@@ -868,7 +868,7 @@ namespace boost { namespace hana {
     //! Similarly, consider this left fold (without an initial state) on
     //! a short sequence:
     //! @code
-    //!     fold.left([x1, x2, x3, x4], f) == f(f(f(x1, x2), x3), x4)
+    //!     fold_left([x1, x2, x3, x4], f) == f(f(f(x1, x2), x3), x4)
     //! @endcode
     //!
     //! The analogous sequence generated with `scan.left` will be
@@ -906,11 +906,11 @@ namespace boost { namespace hana {
     //! ## Right scans (`scan.right`)
     //! `scan.right` is a right associative scan of a sequence. Specifically,
     //! the `i`th element of `scan.right([x1, ..., xn], state, f)` is
-    //! equivalent to `fold.right([xi, ..., xn], state, f)`, with the
+    //! equivalent to `fold_right([xi, ..., xn], state, f)`, with the
     //! no-state variant handled analogously. For example, consider this
     //! right fold on a short sequence:
     //! @code
-    //!     fold.right([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))
+    //!     fold_right([x1, x2, x3], state, f) == f(x1, f(x2, f(x3, state)))
     //! @endcode
     //!
     //! The analogous sequence generated with `scan.right` will be
@@ -926,7 +926,7 @@ namespace boost { namespace hana {
     //! Similarly, consider this right fold (without an initial state) on
     //! a short sequence:
     //! @code
-    //!     fold.right([x1, x2, x3, x4], f) == f(x1, f(x2, f(x3, x4)))
+    //!     fold_right([x1, x2, x3, x4], f) == f(x1, f(x2, f(x3, x4)))
     //! @endcode
     //!
     //! The analogous sequence generated with `scan.left` will be
@@ -1627,8 +1627,8 @@ namespace boost { namespace hana {
     //! ### Fun fact
     //! In some cases, `unfold` can undo a `fold` operation:
     //! @code
-    //!     unfold<S>.left(fold.left(xs, z, f), g) == xs
-    //!     unfold<S>.right(fold.right(xs, z, f), g) == xs
+    //!     unfold<S>.left(fold_left(xs, z, f), g) == xs
+    //!     unfold<S>.right(fold_right(xs, z, f), g) == xs
     //! @endcode
     //!
     //! if the following holds
@@ -1663,8 +1663,8 @@ namespace boost { namespace hana {
     //! A function called as `f(init)`, where `init` is an initial value,
     //! and returning
     //! 1. `nothing` if it is done producing the sequence.
-    //! 2. otherwise, `just(make_pair(init, x))` for `unfold.left` and
-    //!    `just(make_pair(x, init))` for `unfold.right`, where `init` is the
+    //! 2. otherwise, `just(make_pair(init, x))` for `unfold_left` and
+    //!    `just(make_pair(x, init))` for `unfold_right`, where `init` is the
     //!    new initial value used in the next call to `f` and `x` is an
     //!    element to be appended to the resulting sequence. Also note that
     //!    `make_pair` may actually be replaced by any `Product`.

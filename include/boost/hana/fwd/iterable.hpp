@@ -179,9 +179,7 @@ namespace boost { namespace hana {
     //! @code
     //!     (a * b) * c = a * (b * c)
     //! @endcode
-    //! this makes no difference. Also note that folds with an initial state
-    //! are implemented in an analogous way, and they are provided as
-    //! `Iterable::fold_{left,right}_nostate_impl`.
+    //! this makes no difference.
     //!
     //!
     //! Concrete models
@@ -193,8 +191,6 @@ namespace boost { namespace hana {
     struct Iterable {
         template <typename It> struct fold_left_impl;
         template <typename It> struct fold_right_impl;
-        template <typename It> struct fold_left_nostate_impl;
-        template <typename It> struct fold_right_nostate_impl;
 
         template <typename It> struct find_if_impl;
         template <typename It> struct any_of_impl;

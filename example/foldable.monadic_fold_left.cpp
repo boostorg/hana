@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-//! [monadic_fold.left]
+//! [monadic_fold_left]
 auto builtin_common_t = sfinae([](auto&& t, auto&& u) -> decltype(type<
     std::decay_t<decltype(true ? traits::declval(t) : traits::declval(u))>
 >) { return {}; });
@@ -57,6 +57,6 @@ static_assert(std::is_same<
 static_assert(
     sfinae(metafunction<common_type>)(type<int>, type<int>, type<int*>) == nothing
 , "");
-//! [monadic_fold.left]
+//! [monadic_fold_left]
 
 int main() { }

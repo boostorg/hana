@@ -122,7 +122,7 @@ namespace boost { namespace hana {
     //! `demux(f)(g)` is equivalent to the n-times composition of `compose`
     //! with itself, applied to `g` and `f`:
     //! @code
-    //!     demux(f)(g) == fold.left([compose, ..., compose], id, compose)(g, f)
+    //!     demux(f)(g) == fold_left([compose, ..., compose], id, compose)(g, f)
     //!                           //  ^^^^^^^^^^^^^^^^^^^^^ n times
     //! @endcode
     //!

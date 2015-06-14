@@ -241,7 +241,7 @@ namespace boost { namespace hana {
     struct to_impl<Map, F, when<_models<Foldable, F>{}()>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.left(
+            return hana::fold_left(
                 static_cast<Xs&&>(xs), hana::make<Map>(), hana::insert
             );
         }

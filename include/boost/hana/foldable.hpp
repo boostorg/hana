@@ -44,13 +44,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // fold.left (with state)
+    // fold_left
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct fold_left_impl : fold_left_impl<T, when<true>> { };
 
     template <typename T, bool condition>
     struct fold_left_impl<T, when<condition>> : default_ {
+        // with state
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return hana::unpack(static_cast<Xs&&>(xs),
@@ -61,71 +62,28 @@ namespace boost { namespace hana {
                 )
             );
         }
+
+        // without state
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return hana::unpack(static_cast<Xs&&>(xs),
+                hana::partial(
+                    detail::variadic::foldl1,
+                    static_cast<F&&>(f)
+                )
+            );
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // fold.left (without state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct fold_left_nostate_impl : fold_left_nostate_impl<T, when<true>> { };
-
-    namespace foldable_detail {
-        struct end { };
-        template <typename F>
-        struct fold1_helper {
-            F f;
-            template <typename X, typename Y>
-            constexpr decltype(auto) operator()(X&& x, Y&& y) const
-            { return f(static_cast<X&&>(x), static_cast<Y&&>(y)); }
-            template <typename X>
-            constexpr X operator()(X&& x, end) const
-            { return static_cast<X&&>(x); }
-            template <typename Y>
-            constexpr Y operator()(end, Y&& y) const
-            { return static_cast<Y&&>(y); }
-        };
-
-        template <typename T, bool = is_default<unpack_impl<T>>{}()>
-        struct foldl1_helper {
-            template <typename Xs, typename F>
-            static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-                return hana::unpack(static_cast<Xs&&>(xs),
-                    hana::partial(detail::variadic::foldl1,
-                                  static_cast<F&&>(f))
-                );
-            }
-        };
-
-        template <typename T>
-        struct foldl1_helper<T, true> {
-            template <typename Xs, typename F>
-            static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-                decltype(auto) result = hana::fold.left(
-                    static_cast<Xs&&>(xs),
-                    end{},
-                    fold1_helper<F>{static_cast<F&&>(f)}
-                );
-
-                static_assert(!std::is_same<decltype(result), end>{},
-                "hana::fold.left(xs, f) requires xs to be non-empty");
-                return result;
-            }
-        };
-    }
-
-    template <typename T, bool condition>
-    struct fold_left_nostate_impl<T, when<condition>>
-        : foldable_detail::foldl1_helper<T>, default_
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // fold.right (with state)
+    // fold_right
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct fold_right_impl : fold_right_impl<T, when<true>> { };
 
     template <typename T, bool condition>
     struct fold_right_impl<T, when<condition>> : default_ {
+        // with state
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return hana::unpack(static_cast<Xs&&>(xs),
@@ -136,52 +94,24 @@ namespace boost { namespace hana {
                 )
             );
         }
+
+        // without state
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            return hana::unpack(static_cast<Xs&&>(xs),
+                hana::partial(
+                    detail::variadic::foldr,
+                    static_cast<F&&>(f)
+                )
+            );
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // fold.right (without state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct fold_right_nostate_impl : fold_right_nostate_impl<T, when<true>> { };
-
-    namespace foldable_detail {
-        template <typename T, bool = is_default<unpack_impl<T>>{}()>
-        struct foldr1_helper {
-            template <typename Xs, typename F>
-            static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-                return hana::unpack(static_cast<Xs&&>(xs),
-                    hana::partial(detail::variadic::foldr1,
-                                  static_cast<F&&>(f))
-                );
-            }
-        };
-
-        template <typename T>
-        struct foldr1_helper<T, true> {
-            template <typename Xs, typename F>
-            static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-                decltype(auto) result = hana::fold.right(
-                    static_cast<Xs&&>(xs),
-                    end{},
-                    fold1_helper<F>{static_cast<F&&>(f)}
-                );
-
-                static_assert(!std::is_same<decltype(result), end>{},
-                "hana::fold.right(xs, f) requires xs to be non-empty");
-                return result;
-            }
-        };
-    }
-
-    template <typename T, bool condition>
-    struct fold_right_nostate_impl<T, when<condition>>
-        : foldable_detail::foldr1_helper<T>, default_
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // monadic_fold.left (with state)
+    // monadic_fold_left (with state)
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
+        struct end { };
         struct foldlM_helper {
             template <typename F, typename X, typename K, typename Z>
             constexpr decltype(auto) operator()(F&& f, X&& x, K&& k, Z&& z) const {
@@ -217,7 +147,7 @@ namespace boost { namespace hana {
     struct monadic_fold_left_impl<T, when<condition>> : default_ {
         template <typename M, typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
-            return hana::fold.right(
+            return hana::fold_right(
                 static_cast<Xs&&>(xs),
                 hana::lift<M>,
                 hana::curry<3>(hana::partial(
@@ -228,7 +158,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // monadic_fold.left (without state)
+    // monadic_fold_left (without state)
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct monadic_fold_left_nostate_impl
@@ -257,7 +187,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // monadic_fold.right (with state)
+    // monadic_fold_right (with state)
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         struct foldrM_helper {
@@ -281,7 +211,7 @@ namespace boost { namespace hana {
     struct monadic_fold_right_impl<T, when<condition>> : default_ {
         template <typename M, typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
-            return hana::fold.left(
+            return hana::fold_left(
                 static_cast<Xs&&>(xs),
                 hana::lift<M>,
                 hana::curry<3>(hana::partial(
@@ -292,7 +222,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // monadic_fold.right (without state)
+    // monadic_fold_right (without state)
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename>
     struct monadic_fold_right_nostate_impl
@@ -365,7 +295,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename F>
             static constexpr void apply(Xs&& xs, F&& f) {
                 // we ignore the state all the way
-                hana::fold.left(static_cast<Xs&&>(xs), 0,
+                hana::fold_left(static_cast<Xs&&>(xs), 0,
                     detail::create<for_each_fun>{}(static_cast<F&&>(f))
                 );
             }
@@ -407,7 +337,7 @@ namespace boost { namespace hana {
         struct length_helper<T, true> {
             template <typename Xs>
             static constexpr auto apply(Xs&& xs) {
-                return hana::fold.left(static_cast<Xs&&>(xs), size_t<0>, inc{});
+                return hana::fold_left(static_cast<Xs&&>(xs), size_t<0>, inc{});
             }
         };
     }
@@ -460,7 +390,7 @@ namespace boost { namespace hana {
     struct minimum_pred_impl<T, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::fold.left(static_cast<Xs&&>(xs),
+            return hana::fold_left(static_cast<Xs&&>(xs),
                 detail::create<foldable_detail::minpred>{}(
                     static_cast<Pred&&>(pred)
                 )
@@ -524,7 +454,7 @@ namespace boost { namespace hana {
     struct maximum_pred_impl<T, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::fold.left(static_cast<Xs&&>(xs),
+            return hana::fold_left(static_cast<Xs&&>(xs),
                 detail::create<foldable_detail::maxpred>{}(
                     static_cast<Pred&&>(pred)
                 )
@@ -555,7 +485,7 @@ namespace boost { namespace hana {
     struct sum_impl<T, when<condition>> : default_ {
         template <typename M, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.left(static_cast<Xs&&>(xs), zero<M>(), plus);
+            return hana::fold_left(static_cast<Xs&&>(xs), zero<M>(), plus);
         }
     };
 
@@ -569,7 +499,7 @@ namespace boost { namespace hana {
     struct product_impl<T, when<condition>> : default_ {
         template <typename R, typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.left(static_cast<Xs&&>(xs), one<R>(), mult);
+            return hana::fold_left(static_cast<Xs&&>(xs), one<R>(), mult);
         }
     };
 
@@ -613,7 +543,7 @@ namespace boost { namespace hana {
     struct count_if_impl<T, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::fold.left(static_cast<Xs&&>(xs), size_t<0>,
+            return hana::fold_left(static_cast<Xs&&>(xs), size_t<0>,
                 detail::create<foldable_detail::countpred>{}(
                     static_cast<Pred&&>(pred)
                 )
@@ -646,7 +576,7 @@ namespace boost { namespace hana {
     struct unpack_impl<T, when<condition>> : default_ {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::fold.left(
+            return hana::fold_left(
                 static_cast<Xs&&>(xs),
                 static_cast<F&&>(f),
                 partial

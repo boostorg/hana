@@ -59,16 +59,6 @@ namespace boost { namespace hana {
         : Iterable::fold_right_impl<ext::std::Array>
     { };
 
-    template <>
-    struct fold_left_nostate_impl<ext::std::Array>
-        : Iterable::fold_left_nostate_impl<ext::std::Array>
-    { };
-
-    template <>
-    struct fold_right_nostate_impl<ext::std::Array>
-        : Iterable::fold_right_nostate_impl<ext::std::Array>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////

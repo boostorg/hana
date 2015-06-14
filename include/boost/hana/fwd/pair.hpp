@@ -39,8 +39,8 @@ namespace boost { namespace hana {
     //! Folding a `Pair` is equivalent to folding a 2-element tuple. In other
     //! words:
     //! @code
-    //!     fold.left(make_pair(x, y), s, f) == f(f(s, x), y)
-    //!     fold.right(make_pair(x, y), s, f) == f(x, f(y, s))
+    //!     fold_left(make_pair(x, y), s, f) == f(f(s, x), y)
+    //!     fold_right(make_pair(x, y), s, f) == f(x, f(y, s))
     //! @endcode
     //! Example:
     //! @snippet example/pair.cpp foldable

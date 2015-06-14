@@ -50,7 +50,7 @@ struct Classroom {
 constexpr Classroom compsci{20, 3}; /* lol */
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    fold.left(compsci, 0, [](auto total, auto member) {
+    fold_left(compsci, 0, [](auto total, auto member) {
         // first(member) is the name of the member, here
         // "boys" or "girls", and second(member) is its value.
         return second(member) + total;

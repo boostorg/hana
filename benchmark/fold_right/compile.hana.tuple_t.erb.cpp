@@ -20,7 +20,7 @@ int main() {
     constexpr auto tuple = boost::hana::tuple_t<
         <%= (1..input_size).to_a.map { |n| "t<#{n}>" }.join(', ') %>
     >;
-    constexpr auto result = boost::hana::fold.right(
+    constexpr auto result = boost::hana::fold_right(
         tuple,
         boost::hana::type<state>,
         boost::hana::metafunction<f>

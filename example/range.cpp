@@ -40,7 +40,7 @@ BOOST_HANA_CONSTANT_CHECK(range(int_<0>, int_<3>) != range(int_<-1>, int_<3>));
 
 //! [foldable]
 BOOST_HANA_CONSTANT_CHECK(
-    fold.left(range(int_<0>, int_<4>), int_<0>, plus) == int_<6>
+    fold_left(range(int_<0>, int_<4>), int_<0>, plus) == int_<6>
 );
 
 BOOST_HANA_CONSTANT_CHECK(

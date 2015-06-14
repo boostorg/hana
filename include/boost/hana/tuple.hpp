@@ -265,32 +265,7 @@ namespace boost { namespace hana {
                         static_cast<Xs REF>(xs).get...                          \
                     );                                                          \
                 }                                                               \
-            /**/
-            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_LEFT)
-            #undef BOOST_HANA_PP_FOLD_LEFT
-        };
-
-        struct fold_left_tuple_t_metafunction {
-            template <typename ...T, typename S, template <typename ...> class F>
-            constexpr auto
-            operator()(_tuple_t<T...> const&, _type<S> const&, _metafunction<F> const&) const {
-                return type<typename detail::type_foldl1<F, S, T...>::type>;
-            }
-        };
-
-        template <typename Xs, typename S, typename F>
-        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
-            return overload_linearly(
-                fold_left_tuple_t_metafunction{},
-                fold_left_tuple{}
-            )(static_cast<Xs&&>(xs), static_cast<S&&>(s), static_cast<F&&>(f));
-        }
-    };
-
-    template <>
-    struct fold_left_nostate_impl<Tuple> {
-        struct fold_left_nostate_tuple {
-            #define BOOST_HANA_PP_FOLD_LEFT(REF)                                \
+                                                                                \
                 template <typename ...Xs, typename F>                           \
                 constexpr decltype(auto)                                        \
                 operator()(detail::closure_impl<Xs...> REF xs, F&& f) const {   \
@@ -304,18 +279,32 @@ namespace boost { namespace hana {
             #undef BOOST_HANA_PP_FOLD_LEFT
         };
 
-        struct fold_left_nostate_tuple_t_metafunction {
+        struct fold_left_tuple_t {
+            template <typename ...T, typename S, template <typename ...> class F>
+            constexpr auto
+            operator()(_tuple_t<T...> const&, _type<S> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldl1<F, S, T...>::type>;
+            }
             template <typename ...T, template <typename ...> class F>
-            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
+            constexpr auto
+            operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
                 return type<typename detail::type_foldl1<F, T...>::type>;
             }
         };
 
+        template <typename Xs, typename S, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
+            return overload_linearly(
+                fold_left_tuple_t{},
+                fold_left_tuple{}
+            )(static_cast<Xs&&>(xs), static_cast<S&&>(s), static_cast<F&&>(f));
+        }
+
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return overload_linearly(
-                fold_left_nostate_tuple_t_metafunction{},
-                fold_left_nostate_tuple{}
+                fold_left_tuple_t{},
+                fold_left_tuple{}
             )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };
@@ -333,57 +322,47 @@ namespace boost { namespace hana {
                         static_cast<S&&>(s)                                     \
                     );                                                          \
                 }                                                               \
+                                                                                \
+                template <typename ...Xs, typename F>                           \
+                constexpr decltype(auto)                                        \
+                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const {   \
+                    return detail::variadic::foldr1(                            \
+                        static_cast<F&&>(f),                                    \
+                        static_cast<Xs REF>(xs).get...                          \
+                    );                                                          \
+                }                                                               \
             /**/
             BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_RIGHT)
             #undef BOOST_HANA_PP_FOLD_RIGHT
         };
 
-        struct fold_right_tuple_t_metafunction {
+        struct fold_right_tuple_t {
             template <typename ...T, typename S, template <typename ...> class F>
             constexpr auto
             operator()(_tuple_t<T...> const&, _type<S> const&, _metafunction<F> const&) const {
                 return type<typename detail::type_foldr1<F, T..., S>::type>;
+            }
+
+            template <typename ...T, template <typename ...> class F>
+            constexpr auto
+            operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
+                return type<typename detail::type_foldr1<F, T...>::type>;
             }
         };
 
         template <typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return overload_linearly(
-                fold_right_tuple_t_metafunction{},
+                fold_right_tuple_t{},
                 fold_right_tuple{}
             )(static_cast<Xs&&>(xs), static_cast<S&&>(s), static_cast<F&&>(f));
         }
-    };
-
-    template <>
-    struct fold_right_nostate_impl<Tuple> {
-        struct fold_right_nostate_tuple {
-            #define BOOST_HANA_PP_FOLD_RIGHT(REF)                            \
-                template <typename ...Xs, typename F>                        \
-                constexpr decltype(auto)                                     \
-                operator()(detail::closure_impl<Xs...> REF xs, F&& f) const {\
-                    return detail::variadic::foldr1(                         \
-                        static_cast<F&&>(f),                                 \
-                        static_cast<Xs REF>(xs).get...                       \
-                    );                                                       \
-                }                                                            \
-            /**/
-            BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_FOLD_RIGHT)
-            #undef BOOST_HANA_PP_FOLD_RIGHT
-        };
-
-        struct fold_right_nostate_tuple_t_metafunction {
-            template <typename ...T, template <typename ...> class F>
-            constexpr auto operator()(_tuple_t<T...> const&, _metafunction<F> const&) const {
-                return type<typename detail::type_foldr1<F, T...>::type>;
-            }
-        };
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return overload_linearly(
-                fold_right_nostate_tuple_t_metafunction{},
-                fold_right_nostate_tuple{}
+                fold_right_tuple_t{},
+                fold_right_tuple{}
             )(static_cast<Xs&&>(xs), static_cast<F&&>(f));
         }
     };

@@ -50,7 +50,7 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [Foldable]
 auto sum_string = [](auto str) {
-    return fold.left(str, int_<0>, [](auto sum, auto c) {
+    return fold_left(str, int_<0>, [](auto sum, auto c) {
         constexpr int i = value(c) - 48; // convert character to decimal
         return sum + int_<i>;
     });

@@ -118,16 +118,6 @@ namespace boost { namespace hana {
         : Iterable::fold_right_impl<ext::boost::mpl::Vector>
     { };
 
-    template <>
-    struct fold_left_nostate_impl<ext::boost::mpl::Vector>
-        : Iterable::fold_left_nostate_impl<ext::boost::mpl::Vector>
-    { };
-
-    template <>
-    struct fold_right_nostate_impl<ext::boost::mpl::Vector>
-        : Iterable::fold_right_nostate_impl<ext::boost::mpl::Vector>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////

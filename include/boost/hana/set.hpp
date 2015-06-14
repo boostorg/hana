@@ -143,7 +143,7 @@ namespace boost { namespace hana {
     struct to_impl<Set, F, when<_models<Foldable, F>{}()>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.left(static_cast<Xs&&>(xs),
+            return hana::fold_left(static_cast<Xs&&>(xs),
                                    hana::make<Set>(),
                                    hana::insert);
         }

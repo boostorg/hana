@@ -334,7 +334,7 @@ namespace boost { namespace hana {
     struct partition_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::fold.left(
+            return hana::fold_left(
                 static_cast<Xs&&>(xs),
                 hana::make<Pair>(empty<S>(), empty<S>()),
                 hana::partial(sequence_detail::partition_helper{},
@@ -441,7 +441,7 @@ namespace boost { namespace hana {
     struct reverse_impl<S, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            return hana::fold.left(static_cast<Xs&&>(xs), empty<S>(), prepend);
+            return hana::fold_left(static_cast<Xs&&>(xs), empty<S>(), prepend);
         }
     };
 
@@ -868,7 +868,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // unfold.left
+    // unfold_left
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct unfold_left_impl : unfold_left_impl<S, when<true>> { };
@@ -899,7 +899,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // unfold.right
+    // unfold_right
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct unfold_right_impl : unfold_right_impl<S, when<true>> { };
@@ -1256,7 +1256,7 @@ namespace boost { namespace hana {
     struct Sequence::transform_impl {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(),
+            return hana::fold_right(static_cast<Xs&&>(xs), empty<S>(),
                         hana::compose(hana::flip(prepend), static_cast<F&&>(f)));
         }
     };
@@ -1293,7 +1293,7 @@ namespace boost { namespace hana {
     struct Sequence::flatten_impl {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::fold.right(static_cast<Xs&&>(xs), empty<S>(), concat); }
+        { return hana::fold_right(static_cast<Xs&&>(xs), empty<S>(), concat); }
     };
 
     template <typename S>
@@ -1308,7 +1308,7 @@ namespace boost { namespace hana {
     struct Sequence::concat_impl {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return hana::fold.right(static_cast<Xs&&>(xs),
+            return hana::fold_right(static_cast<Xs&&>(xs),
                                     static_cast<Ys&&>(ys),
                                     hana::flip(hana::prepend));
         }
@@ -1330,16 +1330,6 @@ namespace boost { namespace hana {
     template <typename S>
     struct fold_right_impl<S, when<_models<Sequence, S>{}()>>
         : Iterable::fold_right_impl<S>
-    { };
-
-    template <typename S>
-    struct fold_left_nostate_impl<S, when<_models<Sequence, S>{}()>>
-        : Iterable::fold_left_nostate_impl<S>
-    { };
-
-    template <typename S>
-    struct fold_right_nostate_impl<S, when<_models<Sequence, S>{}()>>
-        : Iterable::fold_right_nostate_impl<S>
     { };
 
     //////////////////////////////////////////////////////////////////////////

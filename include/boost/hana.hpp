@@ -579,9 +579,9 @@ function                                    | description
 <code>[find](@ref Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Optional.
 <code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Optional.
 <code>[flatten](@ref Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-<code>[fold.left](@ref Foldable::fold)(sequence[, state], f)</code>                 | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
-<code>[fold.right](@ref Foldable::fold)(sequence[, state], f)</code>                | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
-<code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold.left`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[fold_left](@ref Foldable::fold)(sequence[, state], f)</code>                 | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
+<code>[fold_right](@ref Foldable::fold)(sequence[, state], f)</code>                | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
+<code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold_left`; provided for consistency with Boost.MPL and Boost.Fusion.
 <code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                       | Call a function on each element of a sequence. Returns `void`.
 <code>[group](@ref Sequence::group)(sequence[, predicate])</code>                   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
 <code>[head](@ref Iterable::head)(sequence)</code>                                  | Returns the first element of a sequence.
@@ -601,7 +601,7 @@ function                                    | description
 <code>[replace](@ref Functor::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
 <code>[replace_if](@ref Functor::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
 <code>[reverse](@ref Sequence::reverse)(sequence)</code>                            | Reverse the order of the elements in a sequence.
-<code>[reverse_fold](@ref Foldable::reverse_fold)(sequence[, state], f)</code>      | Equivalent to `fold.right`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[reverse_fold](@ref Foldable::reverse_fold)(sequence[, state], f)</code>      | Equivalent to `fold_right`; provided for consistency with Boost.MPL and Boost.Fusion.
 <code>[size](@ref Foldable::size)(sequence)</code>                                  | Equivalent to `length`; provided for consistency with the C++ standard library.
 <code>[slice](@ref Sequence::slice)(sequence, from, to)</code>                      | Returns the elements of a sequence at indices contained in `[from, to)`.
 <code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
@@ -2313,7 +2313,7 @@ compile-time performance for those derived algorithms, which is why we're
 only presenting folds here. Also note that all the non-monadic fold variants
 are somewhat equivalent in terms of compile-time, so we only present the left
 folds. The following chart presents the compile-time performance of applying
-`fold.left` to a sequence of `n` elements. The `x` axis represents the number
+`fold_left` to a sequence of `n` elements. The `x` axis represents the number
 of elements in the sequence, and the `y` axis represents the compilation time
 in seconds. The function used for folding is a dummy function that does nothing.
 In real code, you would likely fold with a nontrivial operation, so the curves

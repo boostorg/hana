@@ -1524,7 +1524,7 @@ namespace boost { namespace hana { namespace test {
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
 
             //////////////////////////////////////////////////////////////////
-            // unfold.left
+            // unfold_left
             //////////////////////////////////////////////////////////////////
             {
                 auto prod = minimal_product;
@@ -1575,7 +1575,7 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // unfold.right
+            // unfold_right
             //////////////////////////////////////////////////////////////////
             {
                 auto prod = minimal_product;
@@ -1648,11 +1648,11 @@ namespace boost { namespace hana { namespace test {
                 );
                 for_each(lists, [=](auto xs) {
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        unfold<S>.left(fold.left(xs, z, f), g),
+                        unfold<S>.left(fold_left(xs, z, f), g),
                         xs
                     ));
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        unfold<S>.right(fold.right(xs, z, f), g),
+                        unfold<S>.right(fold_right(xs, z, f), g),
                         xs
                     ));
                 });

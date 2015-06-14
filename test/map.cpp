@@ -400,23 +400,23 @@ int main() {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
 #elif BOOST_HANA_TEST_PART == 5
-    // fold.left
+    // fold_left
     {
         test::_injection<0> f{};
         test::ct_eq<999> state{};
 
         auto check = [=](auto ...pairs) {
             BOOST_HANA_CONSTANT_CHECK(
-                fold.left(make<Map>(pairs...), state, f)
+                fold_left(make<Map>(pairs...), state, f)
                     ^in^
                 transform(permutations(list(pairs...)), [=](auto xs) {
-                    return fold.left(xs, state, f);
+                    return fold_left(xs, state, f);
                 })
             );
         };
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            fold.left(make<Map>(), state, undefined{}),
+            fold_left(make<Map>(), state, undefined{}),
             state
         ));
 
@@ -427,23 +427,23 @@ int main() {
     }
 
 #elif BOOST_HANA_TEST_PART == 6
-    // fold.right
+    // fold_right
     {
         test::_injection<0> f{};
         test::ct_eq<999> state{};
 
         auto check = [=](auto ...pairs) {
             BOOST_HANA_CONSTANT_CHECK(
-                fold.right(make<Map>(pairs...), state, f)
+                fold_right(make<Map>(pairs...), state, f)
                     ^in^
                 transform(permutations(list(pairs...)), [=](auto xs) {
-                    return fold.right(xs, state, f);
+                    return fold_right(xs, state, f);
                 })
             );
         };
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            fold.right(make<Map>(), state, undefined{}),
+            fold_right(make<Map>(), state, undefined{}),
             state
         ));
 

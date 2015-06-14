@@ -529,16 +529,16 @@ int main() {
         test::ct_eq<3> s{};
         test::_injection<0> f{};
 
-        // fold.left
+        // fold_left
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(fold.left(just(x), s, f), f(s, x)));
-            BOOST_HANA_CONSTANT_CHECK(equal(fold.left(nothing, s, f), s));
+            BOOST_HANA_CONSTANT_CHECK(equal(fold_left(just(x), s, f), f(s, x)));
+            BOOST_HANA_CONSTANT_CHECK(equal(fold_left(nothing, s, f), s));
         }
 
-        // fold.right
+        // fold_right
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(fold.right(just(x), s, f), f(x, s)));
-            BOOST_HANA_CONSTANT_CHECK(equal(fold.right(nothing, s, f), s));
+            BOOST_HANA_CONSTANT_CHECK(equal(fold_right(just(x), s, f), f(x, s)));
+            BOOST_HANA_CONSTANT_CHECK(equal(fold_right(nothing, s, f), s));
         }
 
         // unpack

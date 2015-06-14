@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     //! > __Insight__\n
     //! > In a lazy evaluation context, any `Foldable` can also become a model
     //! > of `Searchable` because we can search lazily through the structure
-    //! > with `fold.right`. However, in the context of C++, some `Searchable`s
+    //! > with `fold_right`. However, in the context of C++, some `Searchable`s
     //! > can not be folded; think for example of an infinite set.
     //!
     //!

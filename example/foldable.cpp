@@ -27,15 +27,15 @@ using boost::hana::size_t; // disambiguate with ::size_t on GCC
 {
 
 //! [conversion]
-static_assert(to<Tuple>(just(1)) == make<Tuple>(1), "");
-BOOST_HANA_CONSTANT_CHECK(to<Tuple>(nothing) == make<Tuple>());
+static_assert(to<Tuple>(just(1)) == make_tuple(1), "");
+BOOST_HANA_CONSTANT_CHECK(to<Tuple>(nothing) == make_tuple());
 
 BOOST_HANA_CONSTANT_CHECK(to<Tuple>(make_range(int_<3>, int_<6>)) == tuple_c<int, 3, 4, 5>);
 //! [conversion]
 
 }{
 
-//! [fold.left]
+//! [fold_left]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -48,22 +48,22 @@ auto f = [=](std::string s, auto element) {
 
 // with an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    fold.left(make<Tuple>(2, '3', 4, 5.0), "1", f)
+    fold_left(make_tuple(2, '3', 4, 5.0), "1", f)
         ==
     "f(f(f(f(1, 2), 3), 4), 5)"
 );
 
 // without initial state
 BOOST_HANA_RUNTIME_CHECK(
-    fold.left(make<Tuple>("1", 2, '3', 4, 5.0), f)
+    fold_left(make_tuple("1", 2, '3', 4, 5.0), f)
         ==
     "f(f(f(f(1, 2), 3), 4), 5)"
 );
-//! [fold.left]
+//! [fold_left]
 
 }{
 
-//! [fold.right]
+//! [fold_right]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -76,22 +76,50 @@ auto f = [=](auto element, std::string s) {
 
 // with an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    fold.right(make<Tuple>(1, '2', 3.0, 4), "5", f)
+    fold_right(make_tuple(1, '2', 3.0, 4), "5", f)
         ==
     "f(1, f(2, f(3, f(4, 5))))"
 );
 
 // without initial state
 BOOST_HANA_RUNTIME_CHECK(
-    fold.right(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+    fold_right(make_tuple(1, '2', 3.0, 4, "5"), f)
         ==
     "f(1, f(2, f(3, f(4, 5))))"
 );
-//! [fold.right]
+//! [fold_right]
 
 }{
 
-//! [monadic_fold.right]
+//! [fold]
+auto to_string = [](auto x) {
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
+};
+
+auto f = [=](std::string s, auto element) {
+    return "f(" + s + ", " + to_string(element) + ")";
+};
+
+// with an initial state
+BOOST_HANA_RUNTIME_CHECK(
+    fold(make_tuple(2, '3', 4, 5.0), "1", f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
+);
+
+// without initial state
+BOOST_HANA_RUNTIME_CHECK(
+    fold(make_tuple("1", 2, '3', 4, 5.0), f)
+        ==
+    "f(f(f(f(1, 2), 3), 4), 5)"
+);
+//! [fold]
+
+}{
+
+//! [monadic_fold_right]
 BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
     return eval_if(y == int_<0>,
         always(nothing),
@@ -124,7 +152,7 @@ BOOST_HANA_CONSTANT_CHECK(
         ==
     nothing
 );
-//! [monadic_fold.right]
+//! [monadic_fold_right]
 
 }{
 
@@ -141,14 +169,14 @@ auto f = [=](std::string s, auto element) {
 
 // With an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    reverse_fold(make<Tuple>(1, '2', 3.0, 4), "5", f)
+    reverse_fold(make_tuple(1, '2', 3.0, 4), "5", f)
         ==
     "f(f(f(f(5, 4), 3), 2), 1)"
 );
 
 // Without an initial state
 BOOST_HANA_RUNTIME_CHECK(
-    reverse_fold(make<Tuple>(1, '2', 3.0, 4, "5"), f)
+    reverse_fold(make_tuple(1, '2', 3.0, 4, "5"), f)
         ==
     "f(f(f(f(5, 4), 3), 2), 1)"
 );
@@ -158,7 +186,7 @@ BOOST_HANA_RUNTIME_CHECK(
 
 //! [for_each]
 std::stringstream ss;
-for_each(make<Tuple>(0, '1', "234", 5.5), [&](auto x) {
+for_each(make_tuple(0, '1', "234", 5.5), [&](auto x) {
     ss << x << ' ';
 });
 
@@ -168,8 +196,8 @@ BOOST_HANA_RUNTIME_CHECK(ss.str() == "0 1 234 5.5 ");
 }{
 
 //! [length]
-BOOST_HANA_CONSTANT_CHECK(length(make<Tuple>()) == size_t<0>);
-BOOST_HANA_CONSTANT_CHECK(length(make<Tuple>(1, '2', 3.0)) == size_t<3>);
+BOOST_HANA_CONSTANT_CHECK(length(make_tuple()) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(length(make_tuple(1, '2', 3.0)) == size_t<3>);
 
 BOOST_HANA_CONSTANT_CHECK(length(nothing) == size_t<0>);
 BOOST_HANA_CONSTANT_CHECK(length(just('x')) == size_t<1>);
@@ -178,8 +206,8 @@ BOOST_HANA_CONSTANT_CHECK(length(just('x')) == size_t<1>);
 }{
 
 //! [size]
-BOOST_HANA_CONSTANT_CHECK(size(make<Tuple>()) == size_t<0>);
-BOOST_HANA_CONSTANT_CHECK(size(make<Tuple>(1, '2', 3.0)) == size_t<3>);
+BOOST_HANA_CONSTANT_CHECK(size(make_tuple()) == size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(size(make_tuple(1, '2', 3.0)) == size_t<3>);
 
 BOOST_HANA_CONSTANT_CHECK(size(nothing) == size_t<0>);
 BOOST_HANA_CONSTANT_CHECK(size(just('x')) == size_t<1>);
@@ -193,11 +221,11 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    product<>(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
+    product<>(make_tuple(1, int_<3>, long_<-5>, 9)) == 1 * 3 * -5 * 9
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    product<unsigned long>(make<Tuple>(2ul, 3ul)) == 6ul
+    product<unsigned long>(make_tuple(2ul, 3ul)) == 6ul
 );
 //! [product]
 
@@ -209,11 +237,11 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    sum<>(make<Tuple>(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
+    sum<>(make_tuple(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    sum<unsigned long>(make<Tuple>(1ul, 3ul)) == 4ul
+    sum<unsigned long>(make_tuple(1ul, 3ul)) == 4ul
 );
 //! [sum]
 
@@ -241,7 +269,7 @@ int a = 0;
 char b = '\0';
 double c = 0;
 
-cheap_tie(a, b, c)(make<Tuple>(1, '2', 3.3));
+cheap_tie(a, b, c)(make_tuple(1, '2', 3.3));
 BOOST_HANA_RUNTIME_CHECK(a == 1 && b == '2' && c == 3.3);
 //! [fuse]
 

@@ -194,62 +194,62 @@ int main() {
         test::ct_eq<999> s{};
         test::_injection<0> f{};
 
-        // fold.left
+        // fold_left
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(obj(), s, undefined<>{}),
+                fold_left(obj(), s, undefined<>{}),
                 s
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(obj(ct_eq<0>{}), s, f),
+                fold_left(obj(ct_eq<0>{}), s, f),
                 f(s, prod(int_<0>, ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                fold_left(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
                 f(f(s, prod(int_<0>, ct_eq<0>{})), prod(int_<1>, ct_eq<1>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
+                fold_left(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
                 f(f(f(s, prod(int_<0>, ct_eq<0>{})),
                          prod(int_<1>, ct_eq<1>{})),
                          prod(int_<2>, ct_eq<2>{}))
             ));
 
-            // fold.left with move-only members
-            fold.left(obj(move_only{}), 0, [](int, auto) { return 0; });
-            fold.left(obj(move_only{}, move_only{}), 0, [](int, auto) { return 0; });
+            // fold_left with move-only members
+            fold_left(obj(move_only{}), 0, [](int, auto) { return 0; });
+            fold_left(obj(move_only{}, move_only{}), 0, [](int, auto) { return 0; });
         }
 
-        // fold.right
+        // fold_right
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(obj(), s, undefined<>{}),
+                fold_right(obj(), s, undefined<>{}),
                 s
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(obj(ct_eq<0>{}), s, f),
+                fold_right(obj(ct_eq<0>{}), s, f),
                 f(prod(int_<0>, ct_eq<0>{}), s)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
+                fold_right(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
                 f(prod(int_<0>, ct_eq<0>{}), f(prod(int_<1>, ct_eq<1>{}), s))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
+                fold_right(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
                 f(prod(int_<0>, ct_eq<0>{}),
                     f(prod(int_<1>, ct_eq<1>{}),
                         f(prod(int_<2>, ct_eq<2>{}), s)))
             ));
 
-            // fold.right with move-only members
-            fold.right(obj(move_only{}), 0, [](auto, int) { return 0; });
-            fold.right(obj(move_only{}, move_only{}), 0, [](auto, int) { return 0; });
+            // fold_right with move-only members
+            fold_right(obj(move_only{}), 0, [](auto, int) { return 0; });
+            fold_right(obj(move_only{}, move_only{}), 0, [](auto, int) { return 0; });
         }
 
         // unpack

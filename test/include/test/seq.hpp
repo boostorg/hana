@@ -56,7 +56,11 @@ namespace boost { namespace hana {
     struct fold_right_impl<test::Seq> {
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
-            return hana::fold.right(xs.storage, s, f);
+            return hana::fold_right(xs.storage, s, f);
+        }
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) {
+            return hana::fold_right(xs.storage, f);
         }
     };
 
@@ -64,7 +68,12 @@ namespace boost { namespace hana {
     struct fold_left_impl<test::Seq> {
         template <typename Xs, typename S, typename F>
         static constexpr auto apply(Xs xs, S s, F f) {
-            return hana::fold.left(xs.storage, s, f);
+            return hana::fold_left(xs.storage, s, f);
+        }
+
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f) {
+            return hana::fold_left(xs.storage, f);
         }
     };
 #elif defined(BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD)
@@ -79,17 +88,10 @@ namespace boost { namespace hana {
     struct fold_left_impl<test::Seq>
         : Iterable::fold_left_impl<test::Seq>
     { };
-    template <>
-    struct fold_left_nostate_impl<test::Seq>
-        : Iterable::fold_left_nostate_impl<test::Seq>
-    { };
+
     template <>
     struct fold_right_impl<test::Seq>
         : Iterable::fold_right_impl<test::Seq>
-    { };
-    template <>
-    struct fold_right_nostate_impl<test::Seq>
-        : Iterable::fold_right_nostate_impl<test::Seq>
     { };
 #endif
 

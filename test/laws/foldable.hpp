@@ -49,28 +49,28 @@ namespace boost { namespace hana { namespace test {
                     hana::size(xs)
                 ));
 
-                // equivalence of fold with fold.left and
-                // of reverse_fold with fold.right
+                // equivalence of fold with fold_left and
+                // of reverse_fold with fold_right
                 BOOST_HANA_CHECK(hana::equal(
                     hana::fold(xs, s, f),
-                    hana::fold.left(xs, s, f)
+                    hana::fold_left(xs, s, f)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::reverse_fold(xs, s, f),
-                    hana::fold.right(xs, s, hana::flip(f))
+                    hana::fold_right(xs, s, hana::flip(f))
                 ));
 
                 only_when_(hana::not_equal(hana::length(xs), size_t<0>),
                 hana::lazy([](auto f, auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::fold(xs, f),
-                        hana::fold.left(xs, f)
+                        hana::fold_left(xs, f)
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
                         hana::reverse_fold(xs, f),
-                        hana::fold.right(xs, hana::flip(f))
+                        hana::fold_right(xs, hana::flip(f))
                     ));
                 })(f, xs));
 
@@ -127,132 +127,132 @@ namespace boost { namespace hana { namespace test {
             constexpr auto list = make<S>;
 
             //////////////////////////////////////////////////////////////////
-            // fold.left (with initial state)
+            // fold_left (with initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(), z, undefined{}),
+                fold_left(list(), z, undefined{}),
                 z
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(x<1>{}), z, f),
+                fold_left(list(x<1>{}), z, f),
                 f(z, x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(x<1>{}, x<2>{}), z, f),
+                fold_left(list(x<1>{}, x<2>{}), z, f),
                 f(f(z, x<1>{}), x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(x<1>{}, x<2>{}, x<3>{}), z, f),
+                fold_left(list(x<1>{}, x<2>{}, x<3>{}), z, f),
                 f(f(f(z, x<1>{}), x<2>{}), x<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), z, f),
+                fold_left(list(x<1>{}, x<2>{}, x<3>{}, x<4>{}), z, f),
                 f(f(f(f(z, x<1>{}), x<2>{}), x<3>{}), x<4>{})
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.left(list(1), z, f),
+                fold_left(list(1), z, f),
                 f(z, 1)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.left(list(1, '2'), z, f),
+                fold_left(list(1, '2'), z, f),
                 f(f(z, 1), '2')
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.left(list(1, '2', 3.3), z, f),
+                fold_left(list(1, '2', 3.3), z, f),
                 f(f(f(z, 1), '2'), 3.3)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.left(list(1, '2', 3.3, 4.4f), z, f),
+                fold_left(list(1, '2', 3.3, 4.4f), z, f),
                 f(f(f(f(z, 1), '2'), 3.3), 4.4f)
             ));
 
             //////////////////////////////////////////////////////////////////
-            // fold.left (without initial state)
+            // fold_left (without initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(z), undefined{}),
+                fold_left(list(z), undefined{}),
                 z
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(z, x<2>{}), f),
+                fold_left(list(z, x<2>{}), f),
                 f(z, x<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(z, x<2>{}, x<3>{}), f),
+                fold_left(list(z, x<2>{}, x<3>{}), f),
                 f(f(z, x<2>{}), x<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.left(list(z, x<2>{}, x<3>{}, x<4>{}), f),
+                fold_left(list(z, x<2>{}, x<3>{}, x<4>{}), f),
                 f(f(f(z, x<2>{}), x<3>{}), x<4>{})
             ));
 
             //////////////////////////////////////////////////////////////////
-            // fold.right (with initial state)
+            // fold_right (with initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(), z, undefined{}),
+                fold_right(list(), z, undefined{}),
                 z
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<0>{}), z, f),
+                fold_right(list(x<0>{}), z, f),
                 f(x<0>{}, z)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<0>{}, x<1>{}), z, f),
+                fold_right(list(x<0>{}, x<1>{}), z, f),
                 f(x<0>{}, f(x<1>{}, z))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<0>{}, x<1>{}, x<2>{}), z, f),
+                fold_right(list(x<0>{}, x<1>{}, x<2>{}), z, f),
                 f(x<0>{}, f(x<1>{}, f(x<2>{}, z)))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), z, f),
+                fold_right(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), z, f),
                 f(x<0>{}, f(x<1>{}, f(x<2>{}, f(x<3>{}, z))))
             ));
 
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.right(list(1), z, f),
+                fold_right(list(1), z, f),
                 f(1, z)
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.right(list(1, '2'), z, f),
+                fold_right(list(1, '2'), z, f),
                 f(1, f('2', z))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.right(list(1, '2', 3.3), z, f),
+                fold_right(list(1, '2', 3.3), z, f),
                 f(1, f('2', f(3.3, z)))
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                fold.right(list(1, '2', 3.3, 4.4f), z, f),
+                fold_right(list(1, '2', 3.3, 4.4f), z, f),
                 f(1, f('2', f(3.3, f(4.4f, z))))
             ));
 
             //////////////////////////////////////////////////////////////////
-            // fold.right (without initial state)
+            // fold_right (without initial state)
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(z), undefined{}),
+                fold_right(list(z), undefined{}),
                 z
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<1>{}, z), f),
+                fold_right(list(x<1>{}, z), f),
                 f(x<1>{}, z)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<1>{}, x<2>{}, z), f),
+                fold_right(list(x<1>{}, x<2>{}, z), f),
                 f(x<1>{}, f(x<2>{}, z))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                fold.right(list(x<1>{}, x<2>{}, x<3>{}, z), f),
+                fold_right(list(x<1>{}, x<2>{}, x<3>{}, z), f),
                 f(x<1>{}, f(x<2>{}, f(x<3>{}, z)))
             ));
 
             //////////////////////////////////////////////////////////////////
-            // monadic_fold.left (with initial state)
+            // monadic_fold_left (with initial state)
             //////////////////////////////////////////////////////////////////
             {
                 using M = test::Identity;
@@ -292,7 +292,7 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // monadic_fold.left (without initial state)
+            // monadic_fold_left (without initial state)
             //////////////////////////////////////////////////////////////////
             {
                 using M = test::Identity;
@@ -326,7 +326,7 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // monadic_fold.right (with initial state)
+            // monadic_fold_right (with initial state)
             //////////////////////////////////////////////////////////////////
             {
                 using M = test::Identity;
@@ -368,7 +368,7 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // monadic_fold.right (without initial state)
+            // monadic_fold_right (without initial state)
             //////////////////////////////////////////////////////////////////
             {
                 using M = test::Identity;

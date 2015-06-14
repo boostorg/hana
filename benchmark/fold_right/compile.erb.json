@@ -8,7 +8,7 @@
 
 {
   "title": {
-    "text": "Compile-time behavior of fold.right"
+    "text": "Compile-time behavior of fold_right"
   },
   "series": [
     {

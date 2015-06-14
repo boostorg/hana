@@ -73,7 +73,7 @@ auto show = [=](auto x, auto y) {
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    fold.left(make_tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)"
+    fold_left(make_tuple(2, "3", '4'), "1", show) == "(((1 + 2) + 3) + 4)"
 );
 //! [Foldable]
 

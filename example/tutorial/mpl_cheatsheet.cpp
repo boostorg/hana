@@ -41,7 +41,7 @@ static_assert(number_of_floats::value == 3, "");
 namespace with_hana {
 //! [hana]
 constexpr auto types = hana::tuple_t<long, float, short, float, long, long double>;
-BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::fold.left(
+BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::fold_left(
     types,
     hana::int_<0>,
     [](auto count, auto t) {

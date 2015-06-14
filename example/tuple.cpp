@@ -65,22 +65,22 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto keep_negatives = [](auto n, auto acc) {
     return if_(n < 0_c, prepend(acc, n), acc);
 };
 
-BOOST_HANA_CONSTANT_CHECK(fold.right(numbers, tuple_c<int>, keep_negatives) == negatives);
+BOOST_HANA_CONSTANT_CHECK(fold_right(numbers, tuple_c<int>, keep_negatives) == negatives);
 //! [Foldable]
 
 }{
 
 //! [Tuple_interop]
 BOOST_HANA_CONSTEXPR_CHECK(
-    to<Tuple>(std::make_tuple(1, '2', 3.3)) == make<Tuple>(1, '2', 3.3)
+    to<Tuple>(std::make_tuple(1, '2', 3.3)) == make_tuple(1, '2', 3.3)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    to<Tuple>(range(int_<1>, int_<4>)) == make<Tuple>(int_<1>, int_<2>, int_<3>)
+    to<Tuple>(range(int_<1>, int_<4>)) == make_tuple(int_<1>, int_<2>, int_<3>)
 );
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    to<Tuple>(std::array<int, 3>{{1, 2, 3}}) == make<Tuple>(1, 2, 3)
+    to<Tuple>(std::array<int, 3>{{1, 2, 3}}) == make_tuple(1, 2, 3)
 );
 //! [Tuple_interop]
 
