@@ -55,7 +55,11 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! (`fold_left` and `fold_right`) or `unpack`
+    //! `fold_left` or `unpack`
+    //!
+    //! However, please note that a minimal complete definition provided
+    //! through `unpack` will be much more compile-time efficient than one
+    //! provided through `fold_left`.
     //!
     //!
     //! Concrete models
@@ -1149,9 +1153,7 @@ namespace boost { namespace hana {
     //!      data-dataset="benchmark.product.compile.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto product = [](auto&& foldable) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto product = see documentation;
 #else
     template <typename Xs, typename = void>
     struct product_impl;

@@ -313,39 +313,21 @@ namespace boost { namespace hana {
     template <typename T, typename>
     struct length_impl : length_impl<T, when<true>> { };
 
-    namespace foldable_detail {
+    namespace detail {
         struct argn {
             template <typename ...Xs>
             constexpr auto operator()(Xs const& ...) const
-            { return size_t<sizeof...(Xs)>; }
-        };
-
-        struct inc {
-            template <typename N, typename Ignore>
-            constexpr auto operator()(N&& n, Ignore const&) const
-            { return hana::succ(static_cast<N&&>(n)); }
-        };
-
-        template <typename T, bool = is_default<unpack_impl<T>>{}>
-        struct length_helper {
-            template <typename Xs>
-            static constexpr auto apply(Xs const& xs)
-            { return hana::unpack(xs, argn{}); }
-        };
-
-        template <typename T>
-        struct length_helper<T, true> {
-            template <typename Xs>
-            static constexpr auto apply(Xs&& xs) {
-                return hana::fold_left(static_cast<Xs&&>(xs), size_t<0>, inc{});
-            }
+            { return hana::size_t<sizeof...(Xs)>; }
         };
     }
 
     template <typename T, bool condition>
-    struct length_impl<T, when<condition>>
-        : foldable_detail::length_helper<T>, default_
-    { };
+    struct length_impl<T, when<condition>> : default_ {
+        template <typename Xs>
+        static constexpr auto apply(Xs const& xs) {
+            return hana::unpack(xs, detail::argn{});
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // minimum (with a custom predicate)
@@ -408,7 +390,7 @@ namespace boost { namespace hana {
     struct minimum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::minimum(static_cast<Xs&&>(xs), less); }
+        { return hana::minimum(static_cast<Xs&&>(xs), hana::less); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -472,7 +454,7 @@ namespace boost { namespace hana {
     struct maximum_impl<T, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::maximum(static_cast<Xs&&>(xs), less); }
+        { return hana::maximum(static_cast<Xs&&>(xs), hana::less); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -590,7 +572,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Foldable, T>
         : _integral_constant<bool,
-            (!is_default<fold_left_impl<T>>{}() && !is_default<fold_right_impl<T>>{}()) ||
+            !is_default<fold_left_impl<T>>{}() ||
             !is_default<unpack_impl<T>>{}()
         >
     { };

@@ -45,25 +45,13 @@ namespace boost { namespace hana {
     // Foldable
     //
     // Define either one to select which MCD is used:
-    //  BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD
+    //  BOOST_HANA_TEST_FOLDABLE_FOLD_LEFT_MCD
     //  BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD
     //  BOOST_HANA_TEST_FOLDABLE_ITERABLE_MCD
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-#ifdef BOOST_HANA_TEST_FOLDABLE_FOLDS_MCD
-    template <>
-    struct fold_right_impl<test::Seq> {
-        template <typename Xs, typename S, typename F>
-        static constexpr auto apply(Xs xs, S s, F f) {
-            return hana::fold_right(xs.storage, s, f);
-        }
-        template <typename Xs, typename F>
-        static constexpr auto apply(Xs xs, F f) {
-            return hana::fold_right(xs.storage, f);
-        }
-    };
-
+#ifdef BOOST_HANA_TEST_FOLDABLE_FOLD_LEFT_MCD
     template <>
     struct fold_left_impl<test::Seq> {
         template <typename Xs, typename S, typename F>
@@ -76,14 +64,7 @@ namespace boost { namespace hana {
             return hana::fold_left(xs.storage, f);
         }
     };
-#elif defined(BOOST_HANA_TEST_FOLDABLE_UNPACK_MCD)
-    template <>
-    struct unpack_impl<test::Seq> {
-        template <typename Xs, typename F>
-        static constexpr auto apply(Xs xs, F f)
-        { return hana::unpack(xs.storage, f); }
-    };
-#else
+#elif defined(BOOST_HANA_TEST_FOLDABLE_ITERABLE_MCD)
     template <>
     struct fold_left_impl<test::Seq>
         : Iterable::fold_left_impl<test::Seq>
@@ -93,6 +74,13 @@ namespace boost { namespace hana {
     struct fold_right_impl<test::Seq>
         : Iterable::fold_right_impl<test::Seq>
     { };
+#else
+    template <>
+    struct unpack_impl<test::Seq> {
+        template <typename Xs, typename F>
+        static constexpr auto apply(Xs xs, F f)
+        { return hana::unpack(xs.storage, f); }
+    };
 #endif
 
     //////////////////////////////////////////////////////////////////////////
@@ -141,7 +129,15 @@ namespace boost { namespace hana {
     //
     // If neither is defined, the MCD used is unspecified.
     //////////////////////////////////////////////////////////////////////////
-#ifdef BOOST_HANA_TEST_SEQUENCE_MONAD_PLUS_MCD
+#ifdef BOOST_HANA_TEST_SEQUENCE_PREPEND_MCD
+    template <>
+    struct prepend_impl<test::Seq> {
+        template <typename Xs, typename X>
+        static constexpr auto apply(Xs xs, X x) {
+            return hana::unpack(hana::prepend(xs.storage, x), test::seq);
+        }
+    };
+#else
     template <>
     struct concat_impl<test::Seq> {
         template <typename Xs, typename Ys>
@@ -150,14 +146,6 @@ namespace boost { namespace hana {
                 hana::concat(xs.storage, ys.storage),
                 test::seq
             );
-        }
-    };
-#else
-    template <>
-    struct prepend_impl<test::Seq> {
-        template <typename Xs, typename X>
-        static constexpr auto apply(Xs xs, X x) {
-            return hana::unpack(hana::prepend(xs.storage, x), test::seq);
         }
     };
 #endif
