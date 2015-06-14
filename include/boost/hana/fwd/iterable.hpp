@@ -157,14 +157,13 @@ namespace boost { namespace hana {
     //! consistent with the `Searchable` model.
     //!
     //! For convenience, a default minimal complete definition for `Foldable`
-    //! is provided for finite `Iterable`s via the `Iterable::fold_right_impl`
-    //! and `Iterable::fold_left_impl` methods. The provided model is simple
-    //! and intuitive; here is how it works:\n
+    //! is provided for finite `Iterable`s via the `Iterable::fold_left_impl`
+    //! class. The model of `Foldable` thus created is simple:\n
     //! Let `xs` be an `Iterable` and let `xi` denote the `i`-th element in
     //! its linearization. In other words, `xs` can be linearized as
-    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in `xs`.
-    //! Then, right-folding `xs` with a binary operation `*` (in infix
-    //! notation for legibility) is equivalent to
+    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in
+    //! `xs`. Then, right-folding `xs` with a binary operation `*`
+    //! (in infix notation for legibility) is equivalent to
     //! @code
     //!     x1 * (x2 * ( ... * (xN-1 * xN)))
     //! @endcode
@@ -190,7 +189,6 @@ namespace boost { namespace hana {
     //! [1]: https://github.com/ldionne/hana/issues/40
     struct Iterable {
         template <typename It> struct fold_left_impl;
-        template <typename It> struct fold_right_impl;
 
         template <typename It> struct find_if_impl;
         template <typename It> struct any_of_impl;

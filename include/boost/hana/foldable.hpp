@@ -100,7 +100,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return hana::unpack(static_cast<Xs&&>(xs),
                 hana::partial(
-                    detail::variadic::foldr,
+                    detail::variadic::foldr1,
                     static_cast<F&&>(f)
                 )
             );

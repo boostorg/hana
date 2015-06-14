@@ -69,11 +69,6 @@ namespace boost { namespace hana {
     struct fold_left_impl<test::Seq>
         : Iterable::fold_left_impl<test::Seq>
     { };
-
-    template <>
-    struct fold_right_impl<test::Seq>
-        : Iterable::fold_right_impl<test::Seq>
-    { };
 #else
     template <>
     struct unpack_impl<test::Seq> {

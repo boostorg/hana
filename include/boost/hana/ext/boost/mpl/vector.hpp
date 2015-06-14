@@ -113,11 +113,6 @@ namespace boost { namespace hana {
         : Iterable::fold_left_impl<ext::boost::mpl::Vector>
     { };
 
-    template <>
-    struct fold_right_impl<ext::boost::mpl::Vector>
-        : Iterable::fold_right_impl<ext::boost::mpl::Vector>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////

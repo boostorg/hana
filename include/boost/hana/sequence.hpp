@@ -1327,11 +1327,6 @@ namespace boost { namespace hana {
         : Iterable::fold_left_impl<S>
     { };
 
-    template <typename S>
-    struct fold_right_impl<S, when<_models<Sequence, S>{}()>>
-        : Iterable::fold_right_impl<S>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Automatic model of Searchable
     //////////////////////////////////////////////////////////////////////////
