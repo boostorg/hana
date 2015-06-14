@@ -16,27 +16,27 @@ int main() {
 {
 
 //! [comparing]
-constexpr auto grouped = group.by(comparing(length), make<Tuple>(
-    make<Tuple>(1, 2, 3),
-    make<Tuple>('x', 'y', 'z'),
+constexpr auto grouped = group.by(comparing(length), make_tuple(
+    make_tuple(1, 2, 3),
+    make_tuple('x', 'y', 'z'),
     range_c<long, 0, 1>,
     tuple_t<char, int>,
     range_c<int, 0, 2>,
-    make<Tuple>(123.4, nullptr)
+    make_tuple(123.4, nullptr)
 ));
 
-static_assert(grouped == make<Tuple>(
-    make<Tuple>(
-        make<Tuple>(1, 2, 3),
-        make<Tuple>('x', 'y', 'z')
+static_assert(grouped == make_tuple(
+    make_tuple(
+        make_tuple(1, 2, 3),
+        make_tuple('x', 'y', 'z')
     ),
-    make<Tuple>(
+    make_tuple(
         range_c<long, 0, 1>
     ),
-    make<Tuple>(
+    make_tuple(
         tuple_t<char, int>,
         range_c<int, 0, 2>,
-        make<Tuple>(123.4, nullptr)
+        make_tuple(123.4, nullptr)
     )
 ), "");
 //! [comparing]

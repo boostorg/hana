@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
@@ -21,10 +22,10 @@ int main() {
 {
 
 //! [comparable]
-BOOST_HANA_CONSTEXPR_CHECK(left('x') == left('x'));
+static_assert(left('x') == left('x'), "");
 BOOST_HANA_CONSTANT_CHECK(right('x') != left('x'));
-BOOST_HANA_CONSTEXPR_CHECK(right('x') == right('x'));
-BOOST_HANA_CONSTEXPR_CHECK(right('x') != right('y'));
+static_assert(right('x') == right('x'), "");
+static_assert(right('x') != right('y'), "");
 //! [comparable]
 
 }{
@@ -34,8 +35,8 @@ BOOST_HANA_CONSTEXPR_CHECK(right('x') != right('y'));
 BOOST_HANA_CONSTANT_CHECK(left(2000) < right(2));
 
 // when comparing two lefts or two rights, we compare the contents
-BOOST_HANA_CONSTEXPR_CHECK(left(2) < left(2000));
-BOOST_HANA_CONSTEXPR_CHECK(right(2) < right(2000));
+static_assert(left(2) < left(2000), "");
+static_assert(right(2) < right(2000), "");
 //! [orderable]
 
 }{
@@ -90,25 +91,29 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [foldable]
-BOOST_HANA_CONSTANT_CHECK(unpack(left('x'), make<Tuple>) == make<Tuple>());
-BOOST_HANA_CONSTEXPR_CHECK(unpack(right('x'), make<Tuple>) == make<Tuple>('x'));
+BOOST_HANA_CONSTANT_CHECK(unpack(left('x'), make_tuple) == make_tuple());
+static_assert(unpack(right('x'), make_tuple) == make_tuple('x'), "");
 //! [foldable]
 
 }{
 
 //! [either]
-BOOST_HANA_CONSTEXPR_CHECK(either(succ, pred, left(1)) == 2);
-BOOST_HANA_CONSTEXPR_CHECK(either(succ, pred, right(1)) == 0);
+static_assert(either(succ, pred, left(1)) == 2, "");
+static_assert(either(succ, pred, right(1)) == 0, "");
 //! [either]
 
 }{
 
 //! [left]
 constexpr auto left_value = left('x');
+
+static_assert(is_an<Either>(left_value), "");
 //! [left]
 
 //! [right]
 constexpr auto right_value = right('x');
+
+static_assert(is_an<Either>(right_value), "");
 //! [right]
 
 (void)left_value;

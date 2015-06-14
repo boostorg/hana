@@ -15,14 +15,14 @@ int main() {
 
 //! [succ]
 BOOST_HANA_CONSTANT_CHECK(succ(int_<4>) == int_<5>);
-BOOST_HANA_CONSTEXPR_CHECK(succ(10) == 11);
+static_assert(succ(10) == 11, "");
 //! [succ]
 
 }{
 
 //! [pred]
 BOOST_HANA_CONSTANT_CHECK(pred(int_<4>) == int_<3>);
-BOOST_HANA_CONSTEXPR_CHECK(pred(10) == 9);
+static_assert(pred(10) == 9, "");
 //! [pred]
 }
 

@@ -232,17 +232,11 @@ BOOST_HANA_CONSTEXPR_CHECK(
 }{
 
 //! [sum]
-BOOST_HANA_CONSTANT_CHECK(
-    sum<>(range(int_<1>, int_<6>)) == int_<1 + 2 + 3 + 4 + 5>
-);
+BOOST_HANA_CONSTANT_CHECK(sum<>(range(int_<1>, int_<6>)) == int_<15>);
 
-BOOST_HANA_CONSTEXPR_CHECK(
-    sum<>(make_tuple(1, int_<3>, long_<-5>, 9)) == 1 + 3 - 5 + 9
-);
+static_assert(sum<>(make_tuple(1, int_<3>, long_<-5>, 9)) == 8, "");
 
-BOOST_HANA_CONSTEXPR_CHECK(
-    sum<unsigned long>(make_tuple(1ul, 3ul)) == 4ul
-);
+static_assert(sum<unsigned long>(make_tuple(1ul, 3ul)) == 4ul, "");
 //! [sum]
 
 }{
@@ -298,7 +292,7 @@ constexpr auto types = tuple_t<int, char, long, short, char, double>;
 constexpr auto ints = tuple_c<int, 1, 2, 3, 2, 2, 4, 2>;
 
 BOOST_HANA_CONSTANT_CHECK(count(ints, int_<2>) == size_t<4>);
-BOOST_HANA_CONSTEXPR_CHECK(count(ints, 2) == 4);
+static_assert(count(ints, 2) == 4, "");
 BOOST_HANA_CONSTANT_CHECK(count(types, type<char>) == size_t<2>);
 //! [count]
 
@@ -321,14 +315,14 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [maximum.by]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     maximum.by(ordering(length), make_tuple(
         make_tuple(),
         make_tuple(1, '2'),
         make_tuple(3.3, nullptr, 4)
     ))
     == make_tuple(3.3, nullptr, 4)
-);
+, "");
 //! [maximum.by]
 
 }{

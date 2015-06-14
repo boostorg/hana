@@ -93,8 +93,8 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [Iterable]
-BOOST_HANA_CONSTEXPR_CHECK(head(make_tuple(1, '2', 3.3)) == 1);
-BOOST_HANA_CONSTEXPR_CHECK(tail(make_tuple(1, '2', 3.3)) == make_tuple('2', 3.3));
+static_assert(head(make_tuple(1, '2', 3.3)) == 1, "");
+static_assert(tail(make_tuple(1, '2', 3.3)) == make_tuple('2', 3.3), "");
 BOOST_HANA_CONSTANT_CHECK(!is_empty(make_tuple(1, '2', 3.3)));
 BOOST_HANA_CONSTANT_CHECK(is_empty(make_tuple()));
 //! [Iterable]
@@ -102,14 +102,14 @@ BOOST_HANA_CONSTANT_CHECK(is_empty(make_tuple()));
 }{
 
 //! [Monad.ints]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     flatten(make_tuple(
         make_tuple(1, 2),
         make_tuple(3, 4),
         make_tuple(make_tuple(5, 6))
     ))
     == make_tuple(1, 2, 3, 4, make_tuple(5, 6))
-);
+, "");
 //! [Monad.ints]
 
 }{
@@ -268,14 +268,14 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [group.by]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     group.by(comparing(decltype_), make_tuple(1, 2, 3, 'x', 'y', 4.4, 5.5))
         == make_tuple(
             make_tuple(1, 2, 3),
             make_tuple('x', 'y'),
             make_tuple(4.4, 5.5)
         )
-);
+, "");
 //! [group.by]
 
 }{
@@ -284,7 +284,7 @@ BOOST_HANA_CONSTEXPR_CHECK(
 using namespace boost::hana::literals;
 
 BOOST_HANA_CONSTANT_CHECK(init(make_tuple(1)) == make_tuple());
-BOOST_HANA_CONSTEXPR_CHECK(init(make_tuple(1, '2', 3.3, 4_c)) == make_tuple(1, '2', 3.3));
+static_assert(init(make_tuple(1, '2', 3.3, 4_c)) == make_tuple(1, '2', 3.3), "");
 //! [init]
 
 }{
@@ -312,9 +312,7 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [intersperse]
-BOOST_HANA_CONSTEXPR_CHECK(
-    intersperse(make_tuple(1, '2', 3.3), 'x') == make_tuple(1, 'x', '2', 'x', 3.3)
-);
+static_assert(intersperse(make_tuple(1, '2', 3.3), 'x') == make_tuple(1, 'x', '2', 'x', 3.3), "");
 BOOST_HANA_CONSTANT_CHECK(intersperse(make_tuple(), 'x') == make_tuple());
 //! [intersperse]
 
@@ -322,7 +320,7 @@ BOOST_HANA_CONSTANT_CHECK(intersperse(make_tuple(), 'x') == make_tuple());
 
 //! [make]
 BOOST_HANA_CONSTANT_CHECK(make<Tuple>() == make_tuple());
-BOOST_HANA_CONSTEXPR_CHECK(make<Tuple>(1, '2', 3.3) == make_tuple(1, '2', 3.3));
+static_assert(make<Tuple>(1, '2', 3.3) == make_tuple(1, '2', 3.3), "");
 //! [make]
 
 }{
@@ -387,23 +385,19 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [remove_at]
-BOOST_HANA_CONSTEXPR_CHECK(
-    remove_at(make_tuple(0, '1', 2.2, 3u), int_<2>) == make_tuple(0, '1', 3u)
-);
+static_assert(remove_at(make_tuple(0, '1', 2.2, 3u), int_<2>) == make_tuple(0, '1', 3u), "");
 //! [remove_at]
 
 }{
 
 //! [remove_at_c]
-BOOST_HANA_CONSTEXPR_CHECK(
-    remove_at_c<2>(make_tuple(0, '1', 2.2, 3u)) == make_tuple(0, '1', 3u)
-);
+static_assert(remove_at_c<2>(make_tuple(0, '1', 2.2, 3u)) == make_tuple(0, '1', 3u), "");
 //! [remove_at_c]
 
 }{
 
 //! [reverse]
-BOOST_HANA_CONSTEXPR_CHECK(reverse(make_tuple(1, '2', 3.3)) == make_tuple(3.3, '2', 1));
+static_assert(reverse(make_tuple(1, '2', 3.3)) == make_tuple(3.3, '2', 1), "");
 //! [reverse]
 
 }{
@@ -467,21 +461,21 @@ BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), f) == make_tuple(
 }{
 
 //! [slice]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     slice(make_tuple(1, '2', 3.3, type<float>), int_<1>, int_<3>)
     ==
     make_tuple('2', 3.3)
-);
+, "");
 //! [slice]
 
 }{
 
 //! [slice_c]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     slice_c<1, 3>(make_tuple(1, '2', 3.3, type<float>))
     ==
     make_tuple('2', 3.3)
-);
+, "");
 //! [slice_c]
 
 }{
@@ -580,16 +574,16 @@ BOOST_HANA_CONSTANT_CHECK(
 using namespace boost::hana::literals;
 
 BOOST_HANA_CONSTANT_CHECK( take(make_tuple(1, '2', 3.3), 0_c) == make_tuple());
-BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 1_c) == make_tuple(1));
-BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 2_c) == make_tuple(1, '2'));
-BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 3_c) == make_tuple(1, '2', 3.3));
-BOOST_HANA_CONSTEXPR_CHECK(take(make_tuple(1, '2', 3.3), 4_c) == make_tuple(1, '2', 3.3));
+static_assert(take(make_tuple(1, '2', 3.3), 1_c) == make_tuple(1), "");
+static_assert(take(make_tuple(1, '2', 3.3), 2_c) == make_tuple(1, '2'), "");
+static_assert(take(make_tuple(1, '2', 3.3), 3_c) == make_tuple(1, '2', 3.3), "");
+static_assert(take(make_tuple(1, '2', 3.3), 4_c) == make_tuple(1, '2', 3.3), "");
 //! [take]
 
 }{
 
 //! [take_c]
-BOOST_HANA_CONSTEXPR_CHECK(take_c<2>(make_tuple(1, '2', 3.3)) == make_tuple(1, '2'));
+static_assert(take_c<2>(make_tuple(1, '2', 3.3)) == make_tuple(1, '2'), "");
 //! [take_c]
 
 }{
@@ -676,44 +670,44 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [unzip]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6)))
     ==
     make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
-);
+, "");
 
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6, "ignored")))
     ==
     make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
-);
+, "");
 //! [unzip]
 
 }{
 
 //! [zip]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     zip(make_tuple(1, 'a'), make_tuple(2, 3.3))
     ==
     make_tuple(make_tuple(1, 2), make_tuple('a', 3.3))
-);
+, "");
 
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     zip(make_tuple(1, 'a'), make_tuple(2, 3.3), make_tuple(3, 'c', "ignored"))
     ==
     make_tuple(make_tuple(1, 2, 3), make_tuple('a', 3.3, 'c'))
-);
+, "");
 //! [zip]
 
 }{
 
-//! [zip_with]
-BOOST_HANA_CONSTEXPR_CHECK(
+//! [zip.with]
+static_assert(
     zip.with(_ * _, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8, "ignored"))
     ==
     make_tuple(5, 12, 21, 32)
-);
-//! [zip_with]
+, "");
+//! [zip.with]
 
 }
 

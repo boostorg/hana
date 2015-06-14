@@ -17,14 +17,14 @@ int main() {
 {
 
 //! [ap]
-BOOST_HANA_CONSTEXPR_CHECK(
+static_assert(
     ap(make_tuple(_ + _), make_tuple(1, 2), make_tuple(3, 4, 5))
         ==
     make_tuple(
         1 + 3,      1 + 4,      1 + 5,
         2 + 3,      2 + 4,      2 + 5
     )
-);
+, "");
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto g = [](auto a, auto b, auto c) {
     return a * b * c;
@@ -40,8 +40,8 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [lift]
-BOOST_HANA_CONSTEXPR_CHECK(lift<Tuple>('x') == make<Tuple>('x'));
-BOOST_HANA_CONSTEXPR_CHECK(lift<Optional>('x') == just('x'));
+static_assert(lift<Tuple>('x') == make_tuple('x'), "");
+static_assert(lift<Optional>('x') == just('x'), "");
 //! [lift]
 
 }

@@ -31,9 +31,9 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    adjust_if(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, negate)
+    adjust_if(make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, negate)
     ==
-    make<Tuple>(3, 2, 1, 0, 1, 2, 3)
+    make_tuple(3, 2, 1, 0, 1, 2, 3)
 );
 //! [adjust_if]
 
@@ -45,34 +45,36 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negate = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    adjust(make<Tuple>(1, 4, 9, 2, 3, 4), 4, negate)
+    adjust(make_tuple(1, 4, 9, 2, 3, 4), 4, negate)
     ==
-    make<Tuple>(1, -4, 9, 2, 3, -4)
+    make_tuple(1, -4, 9, 2, 3, -4)
 );
 //! [adjust]
 
 }{
 
 //! [fill]
-BOOST_HANA_CONSTEXPR_CHECK(
-    fill(make<Tuple>(1, '2', 3.3, nullptr), 'x') == make<Tuple>('x', 'x', 'x', 'x')
-);
+static_assert(
+    fill(make_tuple(1, '2', 3.3, nullptr), 'x') == make_tuple('x', 'x', 'x', 'x')
+, "");
 
 BOOST_HANA_CONSTANT_CHECK(fill(nothing, 'x') == nothing);
-BOOST_HANA_CONSTEXPR_CHECK(fill(just('y'), 'x') == just('x'));
+static_assert(fill(just('y'), 'x') == just('x'), "");
 //! [fill]
 
 }{
 
 //! [transform]
 auto to_string = [](auto x) {
-    return static_cast<std::ostringstream const&>(std::ostringstream{} << x).str();
+    std::ostringstream ss;
+    ss << x;
+    return ss.str();
 };
 
 BOOST_HANA_RUNTIME_CHECK(
-    transform(make<Tuple>(1, '2', "345", std::string{"67"}), to_string)
+    transform(make_tuple(1, '2', "345", std::string{"67"}), to_string)
     ==
-    make<Tuple>("1", "2", "345", "67")
+    make_tuple("1", "2", "345", "67")
 );
 
 BOOST_HANA_CONSTANT_CHECK(transform(nothing, to_string) == nothing);
@@ -93,20 +95,20 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto negative = [](auto x) {
 };
 
 BOOST_HANA_CONSTEXPR_CHECK(
-    replace_if(make<Tuple>(-3, -2, -1, 0, 1, 2, 3), negative, 0)
+    replace_if(make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)
     ==
-    make<Tuple>(0, 0, 0, 0, 1, 2, 3)
+    make_tuple(0, 0, 0, 0, 1, 2, 3)
 );
 //! [replace_if]
 
 }{
 
 //! [replace]
-BOOST_HANA_CONSTEXPR_CHECK(
-    replace(make<Tuple>(1, 1, 1, 2, 3, 1, 4, 5), 1, 0)
+static_assert(
+    replace(make_tuple(1, 1, 1, 2, 3, 1, 4, 5), 1, 0)
     ==
-    make<Tuple>(0, 0, 0, 2, 3, 0, 4, 5)
-);
+    make_tuple(0, 0, 0, 2, 3, 0, 4, 5)
+, "");
 //! [replace]
 
 }
