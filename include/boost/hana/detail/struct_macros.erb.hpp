@@ -38,14 +38,39 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_STRUCT_MACROS_HPP
 
 #include <boost/hana/detail/preprocessor.hpp>
+#include <boost/hana/pair.hpp>
+#include <boost/hana/string.hpp>
+#include <boost/hana/tuple.hpp>
 
-namespace boost { namespace hana { namespace detail {
+#include <cstddef>
+#include <utility>
+
+
+namespace boost { namespace hana { namespace struct_detail {
     template <typename Memptr, Memptr ptr>
     struct member_ptr {
         template <typename T>
         constexpr decltype(auto) operator()(T&& t) const
         { return static_cast<T&&>(t).*ptr; }
     };
+
+    constexpr std::size_t strlen(char const* s) {
+        std::size_t n = 0;
+        while (*s++ != '\0')
+            ++n;
+        return n;
+    }
+
+    template <std::size_t n, typename Names, std::size_t ...i>
+    constexpr auto prepare_member_name_impl(std::index_sequence<i...>) {
+        return hana::string<hana::at_c<n>(Names::get())[i]...>;
+    }
+
+    template <std::size_t n, typename Names>
+    constexpr auto prepare_member_name() {
+        constexpr std::size_t len = strlen(hana::at_c<n>(Names::get()));
+        return prepare_member_name_impl<n, Names>(std::make_index_sequence<len>{});
+    }
 }}}
 
 //////////////////////////////////////////////////////////////////////////////
@@ -59,10 +84,10 @@ namespace boost { namespace hana { namespace detail {
 #define BOOST_HANA_ADAPT_STRUCT_IMPL(N, ...) \
   BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_STRUCT_IMPL_, N)(__VA_ARGS__)
 
-#define BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, MEMBER)                           \
+#define BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, i, MEMBER)                        \
   ::boost::hana::make_pair(                                                 \
-    BOOST_HANA_STRING(BOOST_HANA_PP_STRINGIZE(MEMBER)),                     \
-    ::boost::hana::detail::member_ptr<                                      \
+    ::boost::hana::struct_detail::prepare_member_name<i, member_names>(),   \
+    ::boost::hana::struct_detail::member_ptr<                               \
       decltype(&TYPE::MEMBER), &TYPE::MEMBER                                \
     >{}                                                                     \
   )                                                                         \
@@ -71,15 +96,25 @@ namespace boost { namespace hana { namespace detail {
 <% (0..MAX_NUMBER_OF_MEMBERS).each do |n|
     members = (1..n).to_a.map { |i| "m#{i}" }
     args = ["TYPE"] + members
-    member_pairs = members.map { |member|
-        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, BOOST_HANA_PP_BACK #{member})"
+    member_pairs = members.map.with_index { |member, i|
+        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, BOOST_HANA_PP_BACK #{member})"
+    }
+    member_names = members.map { |member|
+        "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_BACK #{member})"
     }
 %>
 #define BOOST_HANA_ADAPT_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %>)     \
     namespace boost { namespace hana {                                      \
         template <>                                                         \
         struct accessors_impl<TYPE> {                                       \
-            static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {               \
+            static constexpr auto apply() {                                 \
+                struct member_names {                                       \
+                  static constexpr auto get() {                             \
+                      return ::boost::hana::make_tuple(                     \
+                          <%= member_names.join(', ') %>                    \
+                      );                                                    \
+                  }                                                         \
+                };                                                          \
                 return ::boost::hana::make_tuple(                           \
                     <%= member_pairs.join(', ') %>                          \
                 );                                                          \
@@ -101,17 +136,27 @@ namespace boost { namespace hana { namespace detail {
 <% (0..MAX_NUMBER_OF_MEMBERS).each do |n|
     members = (1..n).to_a.map { |i| "m#{i}" }
     args = ["TYPE"] + members
-    member_pairs = members.map { |member|
-        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, BOOST_HANA_PP_BACK #{member})"
+    member_pairs = members.map.with_index { |member, i|
+        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, BOOST_HANA_PP_BACK #{member})"
     }
     member_decls = members.map { |member|
         "BOOST_HANA_PP_DROP_BACK #{member} BOOST_HANA_PP_BACK #{member};"
+    }
+    member_names = members.map { |member|
+        "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_BACK #{member})"
     }
 %>
 #define BOOST_HANA_DEFINE_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %> )   \
   <%= member_decls.join(' ') %>                                             \
   struct hana { struct accessors_impl {                                     \
-    static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {                       \
+    static constexpr auto apply() {                                         \
+      struct member_names {                                                 \
+        static constexpr auto get() {                                       \
+            return ::boost::hana::make_tuple(                               \
+                <%= member_names.join(', ') %>                              \
+            );                                                              \
+        }                                                                   \
+      };                                                                    \
       return ::boost::hana::make_tuple(                                     \
         <%= member_pairs.join(", ") %>                                      \
       );                                                                    \
