@@ -129,26 +129,26 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto safediv = [](auto x, auto y) {
 
 // with an initial state
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
+    monadic_fold_right<Optional>(tuple_c<int, 1000, 8, 4>, int_<2>, safediv)
         ==
     just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
+    monadic_fold_right<Optional>(tuple_c<int, 1000, 8, 4>, int_<0>, safediv)
         ==
     nothing
 );
 
 // without an initial state
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4, 2>, safediv)
+    monadic_fold_right<Optional>(tuple_c<int, 1000, 8, 4, 2>, safediv)
         ==
     just(int_<1000> / (int_<8> / (int_<4> / int_<2>)))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    monadic_fold<Optional>.right(tuple_c<int, 1000, 8, 4, 0>, safediv)
+    monadic_fold_right<Optional>(tuple_c<int, 1000, 8, 4, 0>, safediv)
         ==
     nothing
 );

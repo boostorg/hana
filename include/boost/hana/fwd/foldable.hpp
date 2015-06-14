@@ -127,6 +127,21 @@ namespace boost { namespace hana {
     //! homogeneous tuples. However, note that builtin arrays can't be
     //! made more than `Foldable` (e.g. `Iterable`) because they can't
     //! be empty and they also can't be returned from functions.
+    //!
+    //!
+    //! @anchor monadic-folds
+    //! Primer on monadic folds
+    //! -----------------------
+    //! A monadic fold is a fold in which subsequent calls to the binary
+    //! function are chained with the monadic `chain` operator of the
+    //! corresponding Monad. This allows a structure to be folded in a
+    //! custom monadic context. For example, performing a monadic fold with
+    //! the `Optional` monad would require the binary function to return the
+    //! result as an `Optional`, and the fold would abort and return `nothing`
+    //! whenever one of the accumulation step would fail (i.e. return `nothing`).
+    //! If, however, all the reduction steps succeed, then `just` the result
+    //! would be returned. Different monads will of course result in
+    //! different effects.
     struct Foldable { };
 
     //! Left-fold of a structure using a binary operation and an optional
@@ -358,55 +373,18 @@ namespace boost { namespace hana {
     //! @snippet example/foldable.cpp fold
     constexpr auto fold = fold_left;
 
-    //! Monadic fold of a structure with a binary operation and an optional
-    //! initial reduction state.
+    //! Monadic left-fold of a structure with a binary operation and an
+    //! optional initial reduction state.
     //! @relates Foldable
     //!
     //! @note
-    //! This assumes the reader to be accustomed to non-monadic folds as
-    //! explained by `hana::fold`.
+    //! This assumes the reader to be accustomed to non-monadic left-folds as
+    //! explained by `hana::fold_left`, and to have read the [primer]
+    //! (@ref monadic-folds) on monadic folds.
     //!
-    //! The `monadic_fold` method is used for left or right folding a
-    //! structure with a monadic binary operation and an optional initial
-    //! state. Basically, a monadic fold is a fold in which subsequent calls
-    //! to the binary function are chained with the monadic `chain` operator
-    //! of the corresponding Monad. This allows a structure to be folded in
-    //! a custom monadic context. For example, performing a monadic fold with
-    //! the `Optional` monad would require the binary function to return the
-    //! result as an `Optional`, and the fold would abort and return nothing
-    //! whenever one of the accumulation step would fail (i.e. return `nothing`).
-    //! If, however, all the reduction steps succeed, then `just` the result
-    //! would be returned. Different monads will of course result in
-    //! different effects.
-    //!
-    //! This method can be used to access all of the monadic fold variants,
-    //! by using the different syntaxes documented below. Here's a summary:
-    //! @code
-    //!     monadic_fold<M>.left(xs, state, f) = see below
-    //!     monadic_fold<M>.left(xs, f) = see below
-    //!     monadic_fold<M> = monadic_fold<M>.left
-    //!
-    //!     monadic_fold<M>.right(xs, state, f) = see below
-    //!     monadic_fold<M>.right(xs, f) = see below
-    //! @endcode
-    //!
-    //! In the above, `xs` is always the structure to be folded. Similarly,
-    //! `state` is an initial value to use as the accumulation state.
-    //!
-    //! When the structure is empty, two things may arise. If an initial
-    //! state was provided, it is lifted to the given Monad and returned
-    //! as-is. Otherwise, if the no-state version of the method was used,
-    //! an error is triggered. When the stucture contains a single element
-    //! and the no-state version of the method was used, that single element
-    //! is lifted into the given Monad and returned as is. This behavior is
-    //! consistent with what happens for empty structures with a provided
-    //! initial state.
-    //!
-    //!
-    //! ## Monadic left folds (`monadic_fold<M>.left`)
-    //! `monadic_fold<M>.left` is a left-associative monadic fold. Given a
-    //! structure containing `x1, ..., xn`, a function `f` and an optional
-    //! initial state, `monadic_fold<M>.left` applies `f` as follows
+    //! `monadic_fold_left<M>` is a left-associative monadic fold. Given a
+    //! `Foldable` with linearization `[x1, ..., xn]`, a function `f` and an
+    //! optional initial state, `monadic_fold_left<M>` applies `f` as follows:
     //! @code
     //!     // with state
     //!     ((((f(state, x1) | f(-, x2)) | f(-, x3)) | ...) | f(-, xn))
@@ -418,19 +396,27 @@ namespace boost { namespace hana {
     //! where `f(-, xk)` denotes the partial application of `f` to `xk`, and
     //! `|` is just the operator version of the monadic `chain`.
     //!
-    //! ### Signature
-    //! Given a Monad of data type `M`, a Foldable of data type `F(T)`,
-    //! an initial state of data type `S` and a function
-    //! \f$ f : S \times T \to M(S) \f$, the signatures of
-    //! `monadic_fold<M>.left` are
+    //! When the structure is empty, one of two things may happen. If an
+    //! initial state was provided, it is lifted to the given Monad and
+    //! returned as-is. Otherwise, if the no-state version of the function
+    //! was used, an error is triggered. When the stucture contains a single
+    //! element and the no-state version of the function was used, that
+    //! single element is lifted into the given Monad and returned as is.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a `Monad` `M`, a `Foldable` `F`, an initial state of tag `S`,
+    //! and a function @f$ f : S \times T \to M(S) @f$, the signatures of
+    //! `monadic_fold_left<M>` are
     //! \f[
-    //!     \mathrm{monadic\_fold}_M.\mathrm{left} :
+    //!     \mathtt{monadic\_fold\_left}_M :
     //!         F(T) \times S \times (S \times T \to M(S)) \to M(S)
     //! \f]
     //!
     //! for the version with an initial state, and
     //! \f[
-    //!     \mathrm{monadic\_fold}_M.\mathrm{left} :
+    //!     \mathtt{monadic\_fold\_left}_M :
     //!         F(T) \times (T \times T \to M(T)) \to M(T)
     //! \f]
     //!
@@ -452,14 +438,78 @@ namespace boost { namespace hana {
     //! accumulated so far and `x` is an element in the structure. The
     //! function must return its result inside the `M` Monad.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.monadic_fold_left.cpp monadic_fold_left
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename M>
+    constexpr auto monadic_fold_left = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
+#else
+    template <typename Xs, typename = void>
+    struct monadic_fold_left_impl;
+
+    template <typename M>
+    struct _monadic_fold_left {
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Monad, M>{},
+        "hana::monadic_fold_left<M> requires M to be a Monad");
+    #endif
+
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::monadic_fold_left<M>(xs, state, f) requires xs to be Foldable");
+        #endif
+
+            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
+                                                      static_cast<State&&>(state),
+                                                      static_cast<F&&>(f));
+        }
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+            using S = typename datatype<Xs>::type;
+            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
+                monadic_fold_left_impl<S>,
+                _models<Foldable, S>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Foldable, S>{},
+            "hana::monadic_fold_left<M>(xs, f) requires xs to be Foldable");
+        #endif
+
+            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
+                                                      static_cast<F&&>(f));
+        }
+    };
+
+    template <typename M>
+    constexpr _monadic_fold_left<M> monadic_fold_left{};
+#endif
+
+    //! Monadic right-fold of a structure with a binary operation and an
+    //! optional initial reduction state.
+    //! @relates Foldable
     //!
+    //! @note
+    //! This assumes the reader to be accustomed to non-monadic right-folds as
+    //! explained by `hana::fold_right`, and to have read the [primer]
+    //! (@ref monadic-folds) on monadic folds.
     //!
-    //! ## Monadic right folds (`monadic_fold<M>.right`)
-    //! `monadic_fold<M>.right` is a right-associative monadic fold. Given a
+    //! `monadic_fold_right<M>` is a right-associative monadic fold. Given a
     //! structure containing `x1, ..., xn`, a function `f` and an optional
-    //! initial state, `monadic_fold<M>.right` applies `f` as follows
+    //! initial state, `monadic_fold_right<M>` applies `f` as follows
     //! @code
     //!     // with state
     //!     (f(x1, -) | (f(x2, -) | (f(x3, -) | (... | f(xn, state)))))
@@ -471,21 +521,29 @@ namespace boost { namespace hana {
     //! where `f(xk, -)` denotes the partial application of `f` to `xk`,
     //! and `|` is just the operator version of the monadic `chain`.
     //! It is worth noting that the order in which the binary function should
-    //! expect its arguments is reversed from `monadic_fold<M>.left`.
+    //! expect its arguments is reversed from `monadic_fold_left<M>`.
     //!
-    //! ### Signature
-    //! Given a Monad of data type `M`, a Foldable of data type `F(T)`,
-    //! an initial state of data type `S` and a function
-    //! \f$ f : T \times S \to M(S) \f$, the signatures of
-    //! `monadic_fold<M>.right` are
+    //! When the structure is empty, one of two things may happen. If an
+    //! initial state was provided, it is lifted to the given Monad and
+    //! returned as-is. Otherwise, if the no-state version of the function
+    //! was used, an error is triggered. When the stucture contains a single
+    //! element and the no-state version of the function was used, that
+    //! single element is lifted into the given Monad and returned as is.
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a `Monad` `M`, a `Foldable` `F`, an initial state of tag `S`,
+    //! and a function @f$ f : T \times S \to M(S) @f$, the signatures of
+    //! `monadic_fold_right<M>` are
     //! \f[
-    //!     \mathrm{monadic\_fold}_M.\mathrm{right} :
+    //!     \mathtt{monadic\_fold\_right}_M :
     //!         F(T) \times S \times (T \times S \to M(S)) \to M(S)
     //! \f]
     //!
     //! for the version with an initial state, and
     //! \f[
-    //!     \mathrm{monadic\_fold}_M.\mathrm{right} :
+    //!     \mathtt{monadic\_fold\_right}_M :
     //!         F(T) \times (T \times T \to M(T)) \to M(T)
     //! \f]
     //!
@@ -507,80 +565,26 @@ namespace boost { namespace hana {
     //! accumulated so far and `x` is an element in the structure. The
     //! function must return its result inside the `M` Monad.
     //!
-    //! ### Example
+    //!
+    //! Example
+    //! -------
     //! @snippet example/foldable.cpp monadic_fold_right
-    //!
-    //!
-    //! ## Tag-dispatching
-    //! All of the different monadic fold variants are tag-dispatched methods
-    //! and can be overridden individually. Here is how each variant is
-    //! tag-dispatched (where `Xs` is the data type of `xs`):
-    //! @code
-    //!     monadic_fold<M>.left(xs, state, f) -> monadic_fold_left_impl<Xs>::apply<M>(xs, state, f)
-    //!     monadic_fold<M>.left(xs, f)        -> monadic_fold_left_nostate_impl<Xs>::apply<M>(xs, f)
-    //!
-    //!     monadic_fold<M>.right(xs, state, f) -> monadic_fold_right_impl<Xs>::apply<M>(xs, state, f)
-    //!     monadic_fold<M>.right(xs, f)        -> monadic_fold_right_nostate_impl<Xs>::apply<M>(xs, f)
-    //! @endcode
-    //! `monadic_fold<M>` is not tag-dispatched, because it is just an alias
-    //! to `monadic_fold<M>.left`.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto monadic_fold = see documentation;
+    constexpr auto monadic_fold_right = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
+        return tag-dispatched;
+    };
 #else
-    template <typename Xs, typename = void>
-    struct monadic_fold_left_impl;
-
-    template <typename Xs, typename = void>
-    struct monadic_fold_left_nostate_impl;
-
     template <typename Xs, typename = void>
     struct monadic_fold_right_impl;
 
-    template <typename Xs, typename = void>
-    struct monadic_fold_right_nostate_impl;
-
-
-    template <typename M>
-    struct _monadic_fold_left {
-        template <typename Xs, typename State, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-            using S = typename datatype<Xs>::type;
-            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
-                monadic_fold_left_impl<S>,
-                _models<Foldable, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>{},
-            "hana::monadic_fold<M>.left(xs, state, f) requires xs to be Foldable");
-        #endif
-
-            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
-                                                      static_cast<State&&>(state),
-                                                      static_cast<F&&>(f));
-        }
-
-        template <typename Xs, typename F>
-        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-            using S = typename datatype<Xs>::type;
-            using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(
-                monadic_fold_left_nostate_impl<S>,
-                _models<Foldable, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>{},
-            "hana::monadic_fold<M>.left(xs, f) requires xs to be Foldable");
-        #endif
-
-            return MonadicFoldLeft::template apply<M>(static_cast<Xs&&>(xs),
-                                                      static_cast<F&&>(f));
-        }
-    };
-
     template <typename M>
     struct _monadic_fold_right {
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Monad, M>{},
+        "hana::monadic_fold_right<M> requires M to be a Monad");
+    #endif
+
         template <typename Xs, typename State, typename F>
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
             using S = typename datatype<Xs>::type;
@@ -591,7 +595,7 @@ namespace boost { namespace hana {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Foldable, S>{},
-            "hana::monadic_fold<M>.right(xs, state, f) requires xs to be Foldable");
+            "hana::monadic_fold_right<M>(xs, state, f) requires xs to be Foldable");
         #endif
 
             return MonadicFoldRight::template apply<M>(static_cast<Xs&&>(xs),
@@ -603,13 +607,13 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
             using S = typename datatype<Xs>::type;
             using MonadicFoldRight = BOOST_HANA_DISPATCH_IF(
-                monadic_fold_right_nostate_impl<S>,
+                monadic_fold_right_impl<S>,
                 _models<Foldable, S>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Foldable, S>{},
-            "hana::monadic_fold<M>.right(xs, f) requires xs to be Foldable");
+            "hana::monadic_fold_right<M>(xs, f) requires xs to be Foldable");
         #endif
             return MonadicFoldRight::template apply<M>(static_cast<Xs&&>(xs),
                                                        static_cast<F&&>(f));
@@ -617,21 +621,7 @@ namespace boost { namespace hana {
     };
 
     template <typename M>
-    struct _monadic_fold : _monadic_fold_left<M> {
-    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monad, M>{},
-        "hana::monadic_fold<M> requires M to be a Monad");
-    #endif
-        static constexpr _monadic_fold_left<M> left{};
-        static constexpr _monadic_fold_right<M> right{};
-    };
-    template <typename M>
-    constexpr _monadic_fold_left<M> _monadic_fold<M>::left;
-    template <typename M>
-    constexpr _monadic_fold_right<M> _monadic_fold<M>::right;
-
-    template <typename M>
-    constexpr _monadic_fold<M> monadic_fold{};
+    constexpr _monadic_fold_right<M> monadic_fold_right{};
 #endif
 
     //! Equivalent to `reverse_fold` in Boost.Fusion and Boost.MPL.

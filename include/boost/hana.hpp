@@ -579,8 +579,8 @@ function                                    | description
 <code>[find](@ref Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return nothing. See Optional.
 <code>[find_if](@ref Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See Optional.
 <code>[flatten](@ref Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-<code>[fold_left](@ref Foldable::fold)(sequence[, state], f)</code>                 | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
-<code>[fold_right](@ref Foldable::fold)(sequence[, state], f)</code>                | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
+<code>[fold_left](@ref Foldable::fold_left)(sequence[, state], f)</code>            | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
+<code>[fold_right](@ref Foldable::fold_right)(sequence[, state], f)</code>          | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
 <code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold_left`; provided for consistency with Boost.MPL and Boost.Fusion.
 <code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                       | Call a function on each element of a sequence. Returns `void`.
 <code>[group](@ref Sequence::group)(sequence[, predicate])</code>                   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.

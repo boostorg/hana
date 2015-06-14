@@ -32,7 +32,7 @@ struct common_type<T, U>
 
 template <typename T1, typename ...Tn>
 struct common_type<T1, Tn...>
-    : decltype(monadic_fold<Optional>.left(
+    : decltype(monadic_fold_left<Optional>(
         tuple_t<Tn...>,
         type<std::decay_t<T1>>,
         sfinae(metafunction<common_type>)

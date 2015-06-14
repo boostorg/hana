@@ -108,7 +108,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // monadic_fold_left (with state)
+    // monadic_fold_left
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         struct end { };
@@ -145,6 +145,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct monadic_fold_left_impl<T, when<condition>> : default_ {
+        // with state
         template <typename M, typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return hana::fold_right(
@@ -155,39 +156,30 @@ namespace boost { namespace hana {
                 ))
             )(static_cast<S&&>(s));
         }
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-    // monadic_fold_left (without state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct monadic_fold_left_nostate_impl
-        : monadic_fold_left_nostate_impl<T, when<true>>
-    { };
-
-    template <typename T, bool condition>
-    struct monadic_fold_left_nostate_impl<T, when<condition>> : default_ {
+        // without state
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using namespace foldable_detail;
-            using G = monadic_fold1_helper<M, typename std::decay<F>::type>;
-            decltype(auto) result = hana::monadic_fold<M>.left(
+            using G = foldable_detail::monadic_fold1_helper<
+                M, typename std::decay<F>::type
+            >;
+            decltype(auto) result = hana::monadic_fold_left<M>(
                 static_cast<Xs&&>(xs),
-                end{},
+                foldable_detail::end{},
                 G{static_cast<F&&>(f)}
             );
 
             static_assert(!std::is_same<
                 decltype(result),
-                decltype(hana::lift<M>(end{}))
+                decltype(hana::lift<M>(foldable_detail::end{}))
             >{},
-            "hana::monadic_fold<M>.left(xs, f) requires xs to be non-empty");
+            "hana::monadic_fold_left<M>(xs, f) requires xs to be non-empty");
             return result;
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // monadic_fold_right (with state)
+    // monadic_fold_right
     //////////////////////////////////////////////////////////////////////////
     namespace foldable_detail {
         struct foldrM_helper {
@@ -209,6 +201,7 @@ namespace boost { namespace hana {
 
     template <typename T, bool condition>
     struct monadic_fold_right_impl<T, when<condition>> : default_ {
+        // with state
         template <typename M, typename Xs, typename S, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, S&& s, F&& f) {
             return hana::fold_left(
@@ -219,23 +212,13 @@ namespace boost { namespace hana {
                 ))
             )(static_cast<S&&>(s));
         }
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-    // monadic_fold_right (without state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct monadic_fold_right_nostate_impl
-        : monadic_fold_right_nostate_impl<T, when<true>>
-    { };
-
-    template <typename T, bool condition>
-    struct monadic_fold_right_nostate_impl<T, when<condition>> : default_ {
+        // without state
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             using namespace foldable_detail;
             using G = monadic_fold1_helper<M, typename std::decay<F>::type>;
-            decltype(auto) result = hana::monadic_fold<M>.right(
+            decltype(auto) result = hana::monadic_fold_right<M>(
                 static_cast<Xs&&>(xs),
                 end{},
                 G{static_cast<F&&>(f)}
@@ -245,7 +228,7 @@ namespace boost { namespace hana {
                 decltype(result),
                 decltype(hana::lift<M>(end{}))
             >{},
-            "hana::monadic_fold<M>.right(xs, f) requires xs to be non-empty");
+            "hana::monadic_fold_right<M>(xs, f) requires xs to be non-empty");
             return result;
         }
     };
