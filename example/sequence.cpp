@@ -157,7 +157,7 @@ auto my_generic_function = [](auto&&) { return 1; };
 
 for_each(possible_args, [=](auto t) {
     using T = typename decltype(t)::type;
-    static_assert(decltype(is_just(sfinae(my_generic_function)(std::declval<T>()))){},
+    static_assert(decltype(is_valid(my_generic_function)(std::declval<T>())){},
     "my_generic_function should be callable with any type of argument");
 });
 //! [Monad.types]
