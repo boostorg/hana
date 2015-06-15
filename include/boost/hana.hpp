@@ -3142,6 +3142,46 @@ some sugar like `operator[]` could not be provided if we were using a
 `std::tuple`, since that operator must be defined as a member function.
 
 
+@subsection tutorial-rationales-naming How are names chosen?
+
+When deciding upon a name `X`, I try to balance the following things
+(in no specific order):
+
+- How idiomatic is `X` in C++?
+- How idiomatic is `X` in the rest of the programming world?
+- How good of a name `X` _actually is_, regardless of historical reasons
+- How do I, as the library author, feel about `X`
+- How do users of the library feel about `X`
+- Are there technical reasons not to use `X`, like name clashes or names
+  reserved by the standard
+
+Of course, good naming is and will always be hard. Names are and will always
+be tainted by the author's own bias. Still, I try to choose names in a
+reasonable manner.
+
+
+@subsection tutorial-rationales-parameters How is the parameter order decided?
+
+Unlike naming, which is fairly subjective, the order of the parameters of a
+function is usually pretty straightforward to determine. Basically, the rule
+of thumb is "the container goes first". It has always been this way in Fusion
+and MPL, and this is intuitive for most C++ programmers. Also, in higher-order
+algorithms, I try to put the function parameter last, so that multi-line
+lambdas look nice:
+
+@code
+algorithm(container, [](auto x) {
+  return ...;
+});
+
+// is nicer than
+
+algorithm([](auto x) {
+  return ...;
+}, container);
+@endcode
+
+
 
 
 
