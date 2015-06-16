@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
@@ -47,6 +46,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/type.hpp>
 
+#include <boost/hana/detail/closure.hpp>
+
 #include <cstddef>
 #include <type_traits>
 #include <utility>
@@ -62,10 +63,10 @@ namespace boost { namespace hana {
         , operators::adl
         , detail::iterable_operators<_tuple<Xs...>>
     {
-        using detail::closure<Xs...>::closure; // inherit constructor
-        _tuple() = default;
-        _tuple(_tuple&&) = default;
+        using detail::closure<Xs...>::closure; // inherit constructors
         _tuple(_tuple const&) = default;
+        _tuple(_tuple&&) = default;
+        _tuple() = default;
         _tuple(_tuple&) = default;
 
         using hana = _tuple;

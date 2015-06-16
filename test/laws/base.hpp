@@ -106,13 +106,6 @@ namespace boost { namespace hana {
             { return true_; }
         };
 
-        // A non-copyable type. Useful for testing containers.
-        struct no_copy {
-            no_copy() = default;
-            no_copy(no_copy const&) = delete;
-            no_copy(no_copy&&) = default;
-        };
-
         // A move-only type. Useful for testing containers.
         struct move_only {
             move_only() = default;

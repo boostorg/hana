@@ -11,8 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_CAPTURE_HPP
 
 #include <boost/hana/detail/closure.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/functional/partial.hpp>
+
+#include <cstddef>
+#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -28,7 +31,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //!
-    //! ### Example
+    //! Example
+    //! -------
     //! @snippet example/functional.cpp capture
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto capture = [](auto&& ...variables) {
@@ -39,38 +43,48 @@ namespace boost { namespace hana {
         };
     };
 #else
-    template <typename X>
-    struct _capture;
+    namespace detail {
+        template <typename F, typename Closure, std::size_t ...i>
+        constexpr auto apply_capture(F&& f, Closure&& closure, std::index_sequence<i...>) {
+            return hana::partial(static_cast<F&&>(f),
+                                 detail::get<i>(static_cast<Closure&&>(closure))...);
+        }
+    }
 
     template <typename ...X>
-    struct _capture<detail::closure_impl<X...>> {
-        detail::closure_impl<X...> x;
+    struct _capture : detail::closure<X...> {
+        using detail::closure<X...>::closure;
 
         template <typename F>
-        constexpr decltype(auto) operator()(F&& f) const& {
-            return hana::partial(static_cast<F&&>(f),
-                                 static_cast<X const&>(x).get...);
+        constexpr auto operator()(F&& f) const& {
+            return detail::apply_capture(
+                static_cast<F&&>(f), *this,
+                std::make_index_sequence<sizeof...(X)>{}
+            );
         }
 
         template <typename F>
-        constexpr decltype(auto) operator()(F&& f) & {
-            return hana::partial(static_cast<F&&>(f),
-                                 static_cast<X&>(x).get...);
+        constexpr auto operator()(F&& f) & {
+            return detail::apply_capture(
+                static_cast<F&&>(f), *this,
+                std::make_index_sequence<sizeof...(X)>{}
+            );
         }
 
         template <typename F>
-        constexpr decltype(auto) operator()(F&& f) && {
-            return hana::partial(static_cast<F&&>(f),
-                                 static_cast<X&&>(x).get...);
+        constexpr auto operator()(F&& f) && {
+            return detail::apply_capture(
+                static_cast<F&&>(f), static_cast<_capture&&>(*this),
+                std::make_index_sequence<sizeof...(X)>{}
+            );
         }
     };
 
     struct _make_capture {
         template <typename ...X>
-        constexpr decltype(auto) operator()(X&& ...x) const {
-            return detail::create<_capture>{}(
-                detail::create<detail::closure>{}(static_cast<X&&>(x)...)
-            );
+        constexpr _capture<typename std::decay<X>::type...>
+        operator()(X&& ...x) const {
+            return {static_cast<X&&>(x)...};
         }
     };
 

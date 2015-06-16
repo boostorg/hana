@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/unpack.hpp>
 
@@ -46,16 +47,11 @@ namespace boost { namespace hana {
     //! @endcond
 
     namespace detail {
-        template <bool ...b>
-        struct fast_and
-            : std::is_same<fast_and<b...>, fast_and<(b, true)...>>
-        { };
-
         template <typename Pred>
         struct count_pred {
             Pred pred;
             template <typename ...Xs, typename = typename std::enable_if<
-                fast_and<_models<Constant,
+                detail::fast_and<_models<Constant,
                     decltype((*pred)(std::declval<Xs&&>()))>::value...>::value
             >::type>
             constexpr auto operator()(Xs&& ...xs) const {
@@ -69,7 +65,7 @@ namespace boost { namespace hana {
             }
 
             template <typename ...Xs, typename = void, typename = typename std::enable_if<
-                !fast_and<_models<Constant,
+                !detail::fast_and<_models<Constant,
                     decltype((*pred)(std::declval<Xs&&>()))>::value...>::value
             >::type>
             constexpr auto operator()(Xs&& ...xs) const {

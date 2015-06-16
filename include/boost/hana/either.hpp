@@ -12,23 +12,23 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/either.hpp>
 
-#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/orderable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/orderable.hpp>
 
 #include <type_traits>
-#include <utility>
 
 
 namespace boost { namespace hana {
@@ -48,33 +48,30 @@ namespace boost { namespace hana {
     // left
     //////////////////////////////////////////////////////////////////////////
     template <typename X>
-    struct _left : operators::adl {
-        X value;
+    struct _left : operators::adl, detail::closure<X> {
+        _left(_left const&) = default;
+        _left(_left&) = default;
+        _left(_left&&) = default;
+        using detail::closure<X>::closure;
         using hana = _left;
         using datatype = Either;
 
-        _left() = default;
-        _left(_left const&) = default;
-        _left(_left&&) = default;
-        _left(_left&) = default;
-        template <typename Y, typename = decltype(X(std::declval<Y>()))>
-        constexpr _left(Y&& y)
-            : value(static_cast<Y&&>(y))
-        { }
-
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) const&
-        { return static_cast<F&&>(f)(value); }
+        { return static_cast<F&&>(f)(detail::get<0>(*this)); }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename F, typename G>
         constexpr decltype(auto) go(F&& f, G const&) &
-        { return static_cast<F&&>(f)(value); }
+        { return static_cast<F&&>(f)(detail::get<0>(*this)); }
 #endif
 
         template <typename F, typename G>
-        constexpr decltype(auto) go(F&& f, G const&) &&
-        { return static_cast<F&&>(f)(std::move(value)); }
+        constexpr decltype(auto) go(F&& f, G const&) && {
+            return static_cast<F&&>(f)(
+                detail::get<0>(static_cast<_left&&>(*this))
+            );
+        }
     };
 
     //! @cond
@@ -90,33 +87,30 @@ namespace boost { namespace hana {
     // right
     //////////////////////////////////////////////////////////////////////////
     template <typename X>
-    struct _right : operators::adl {
-        X value;
+    struct _right : operators::adl, detail::closure<X> {
+        using detail::closure<X>::closure;
+        _right(_right const&) = default;
+        _right(_right&) = default;
+        _right(_right&&) = default;
         using hana = _right;
         using datatype = Either;
 
-        _right() = default;
-        _right(_right const&) = default;
-        _right(_right&&) = default;
-        _right(_right&) = default;
-        template <typename Y, typename = decltype(X(std::declval<Y>()))>
-        constexpr _right(Y&& y)
-            : value(static_cast<Y&&>(y))
-        { }
-
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) const&
-        { return static_cast<G&&>(g)(value); }
+        { return static_cast<G&&>(g)(detail::get<0>(*this)); }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename F, typename G>
         constexpr decltype(auto) go(F const&, G&& g) &
-        { return static_cast<G&&>(g)(value); }
+        { return static_cast<G&&>(g)(detail::get<0>(*this)); }
 #endif
 
         template <typename F, typename G>
-        constexpr decltype(auto) go(F const&, G&& g) &&
-        { return static_cast<G&&>(g)(std::move(value)); }
+        constexpr decltype(auto) go(F const&, G&& g) && {
+            return static_cast<G&&>(g)(
+                detail::get<0>(static_cast<_right&&>(*this))
+            );
+        }
     };
 
     //! @cond
@@ -135,7 +129,7 @@ namespace boost { namespace hana {
     struct equal_impl<Either, Either> {
         template <template <typename ...> class E, typename T, typename U>
         static constexpr decltype(auto) apply(E<T> const& x, E<U> const& y)
-        { return hana::equal(x.value, y.value); }
+        { return hana::equal(detail::get<0>(x), detail::get<0>(y)); }
 
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&)
@@ -149,7 +143,7 @@ namespace boost { namespace hana {
     struct less_impl<Either, Either> {
         template <template <typename ...> class E, typename T, typename U>
         static constexpr decltype(auto) apply(E<T> const& x, E<U> const& y)
-        { return hana::less(x.value, y.value); }
+        { return hana::less(detail::get<0>(x), detail::get<0>(y)); }
 
         template <typename T, typename U>
         static constexpr auto apply(_left<T> const&, _right<U> const&)
@@ -217,15 +211,18 @@ namespace boost { namespace hana {
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T> const& x, F&& f)
-        { return static_cast<F&&>(f)(x.value); }
+        { return static_cast<F&&>(f)(detail::get<0>(x)); }
 
         template <typename T, typename F>
         static constexpr decltype(auto) apply(_right<T>& x, F&& f)
-        { return static_cast<F&&>(f)(x.value); }
+        { return static_cast<F&&>(f)(detail::get<0>(x)); }
 
         template <typename T, typename F>
-        static constexpr decltype(auto) apply(_right<T>&& x, F&& f)
-        { return static_cast<F&&>(f)(std::move(x.value)); }
+        static constexpr decltype(auto) apply(_right<T>&& x, F&& f) {
+            return static_cast<F&&>(f)(
+                detail::get<0>(static_cast<_right<T>&&>(x))
+            );
+        }
     };
 }} // end namespace boost::hana
 

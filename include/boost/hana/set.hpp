@@ -44,13 +44,12 @@ namespace boost { namespace hana {
         using hana = _set;
         using datatype = Set;
 
-        _set() = default;
-        _set(_set const&) = default;
-        _set(_set&&) = default;
-        _set(_set&) = default;
-        template <typename ...Ys>
-        explicit constexpr _set(Ys&& ...ys)
-            : storage{static_cast<Ys&&>(ys)...}
+        explicit constexpr _set(_tuple<Xs...> const& xs)
+            : storage(xs)
+        { }
+
+        explicit constexpr _set(_tuple<Xs...>&& xs)
+            : storage(static_cast<_tuple<Xs...>&&>(xs))
         { }
     };
 
@@ -89,7 +88,7 @@ namespace boost { namespace hana {
         #endif
 
             return _set<typename std::decay<Xs>::type...>{
-                static_cast<Xs&&>(xs)...
+                hana::make_tuple(static_cast<Xs&&>(xs)...)
             };
         }
     };

@@ -83,10 +83,10 @@ template <typename T, typename U>
 struct pair : decltype(hana::make_pair(hana::type<T>, hana::type<U>)) { };
 
 template <typename P>
-struct first : decltype(hana::first(P{})) { };
+struct first : decltype(+hana::first(P{})) { };
 
 template <typename P>
-struct second : decltype(hana::second(P{})) { };
+struct second : decltype(+hana::second(P{})) { };
 
 
 //////////////////////////////////////////////////////////////////////////////

@@ -11,9 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/closure.hpp>
 
+#include <cstddef>
+#include <type_traits>
 #include <utility>
 
 
@@ -159,13 +161,14 @@ namespace boost { namespace hana {
     constexpr auto demux = [](auto&& f) {
         return [perfect-capture](auto&& ...g) {
             return [perfect-capture](auto&& ...x) -> decltype(auto) {
-                // g... and x... can't be forwarded, or we could double-move!
-                return forwarded(f)(g(x...)...);
+                // x... can't be forwarded unless there is a single g
+                // function, or that could cause double-moves.
+                return forwarded(f)(forwarded(g)(x...)...);
             };
         };
     };
 #else
-    template <typename F, typename Closure>
+    template <typename Indices, typename F, typename ...G>
     struct _demux;
 
     template <typename F>
@@ -173,41 +176,77 @@ namespace boost { namespace hana {
         F f;
 
         template <typename ...G>
-        constexpr decltype(auto) operator()(G&& ...g) const& {
-            return detail::create<_demux>{}(f,
-                detail::create<detail::closure>{}(static_cast<G&&>(g)...)
-            );
+        constexpr _demux<std::make_index_sequence<sizeof...(G)>, F,
+                         typename std::decay<G>::type...>
+        operator()(G&& ...g) const& {
+            return {this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
-        constexpr decltype(auto) operator()(G&& ...g) && {
-            return detail::create<_demux>{}(std::move(f),
-                detail::create<detail::closure>{}(static_cast<G&&>(g)...)
-            );
+        constexpr _demux<std::make_index_sequence<sizeof...(G)>, F,
+                         typename std::decay<G>::type...>
+        operator()(G&& ...g) && {
+            return {static_cast<F&&>(this->f), static_cast<G&&>(g)...};
         }
     };
 
-    template <typename F, typename ...G>
-    struct _demux<F, detail::closure_impl<G...>> {
-        F f;
-        detail::closure_impl<G...> g;
+    template <std::size_t ...n, typename F, typename ...G>
+    struct _demux<std::index_sequence<n...>, F, G...>
+        : detail::closure<F, G...>
+    {
+        using detail::closure<F, G...>::closure;
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
-            return f(static_cast<G const&>(g).get(x...)...);
+            return detail::get<0>(*this)(
+                detail::get<n+1>(*this)(x...)...
+            );
         }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
-            return f(static_cast<G&>(g).get(x...)...);
+            return detail::get<0>(*this)(
+                detail::get<n+1>(*this)(x...)...
+            );
         }
 #endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
-            // Not moving from G cause we would double-move.
-            return std::move(f)(static_cast<G&>(g).get(x...)...);
+            return static_cast<F&&>(detail::get<0>(*this))(
+                static_cast<G&&>(detail::get<n+1>(*this))(x...)...
+            );
+        }
+    };
+
+    template <typename F, typename G>
+    struct _demux<std::index_sequence<0>, F, G>
+        : detail::closure<F, G>
+    {
+        using detail::closure<F, G>::closure;
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) const& {
+            return detail::get<0>(*this)(
+                detail::get<1>(*this)(static_cast<X&&>(x)...)
+            );
+        }
+
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) & {
+            return detail::get<0>(*this)(
+                detail::get<1>(*this)(static_cast<X&&>(x)...)
+            );
+        }
+#endif
+
+        template <typename ...X>
+        constexpr decltype(auto) operator()(X&& ...x) && {
+            return static_cast<F&&>(detail::get<0>(*this))(
+                static_cast<G&&>(detail::get<1>(*this))(static_cast<X&&>(x)...)
+            );
         }
     };
 

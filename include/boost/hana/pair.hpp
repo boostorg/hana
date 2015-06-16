@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/pair.hpp>
 
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/product.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/product.hpp>
+#include <boost/hana/detail/closure.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -29,21 +30,8 @@ namespace boost { namespace hana {
     // _pair
     //////////////////////////////////////////////////////////////////////////
     template <typename First, typename Second>
-    struct _pair : operators::adl {
-        First first;
-        Second second;
-
-        constexpr _pair() : first{}, second{} { }
-
-        template <typename F, typename S, typename = decltype(
-            ((void)First(std::declval<F>())),
-            ((void)Second(std::declval<S>()))
-        )>
-        constexpr _pair(F&& f, S&& s)
-            : first(static_cast<F&&>(f))
-            , second(static_cast<S&&>(s))
-        { }
-
+    struct _pair : operators::adl, detail::closure<First, Second> {
+        using detail::closure<First, Second>::closure;
         using hana = _pair;
         using datatype = Pair;
     };
@@ -80,14 +68,14 @@ namespace boost { namespace hana {
     struct first_impl<Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return static_cast<P&&>(p).first; }
+        { return detail::get<0>(static_cast<P&&>(p)); }
     };
 
     template <>
     struct second_impl<Pair> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
-        { return static_cast<P&&>(p).second; }
+        { return detail::get<1>(static_cast<P&&>(p)); }
     };
 }} // end namespace boost::hana
 

@@ -20,6 +20,11 @@ using namespace boost::hana;
 using test::ct_eq;
 using test::ct_ord;
 
+struct NoDefault {
+    explicit NoDefault(int) { }
+    NoDefault() = delete;
+};
+
 int main() {
     //////////////////////////////////////////////////////////////////////////
     // Creation
@@ -61,6 +66,17 @@ int main() {
             _pair<test::trap_construct, int> expr{};
             auto implicit_copy = expr;          (void)implicit_copy;
             decltype(expr) explicit_copy(expr); (void)explicit_copy;
+        }
+        // Make sure the storage of a pair is compressed
+        {
+            struct empty { };
+            static_assert(sizeof(_pair<empty, int>) == sizeof(int), "");
+            static_assert(sizeof(_pair<int, empty>) == sizeof(int), "");
+        }
+        // Make sure we can put non default-constructible elements in a pair.
+        {
+            _pair<NoDefault, NoDefault> p{1, 2};
+            (void)p;
         }
     }
 

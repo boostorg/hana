@@ -285,38 +285,9 @@ int main() {
         ));
     }
 
-    // demux
+    // demux (tested separately)
     {
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)()(),
-            f()
-        ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g)(ct_eq<1>{}),
-            f(g(ct_eq<1>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g)(ct_eq<1>{}, ct_eq<2>{}),
-            f(g(ct_eq<1>{}, ct_eq<2>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g)(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
-            f(g(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g, h)(ct_eq<1>{}),
-            f(g(ct_eq<1>{}), h(ct_eq<1>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g, h)(ct_eq<1>{}, ct_eq<2>{}),
-            f(g(ct_eq<1>{}, ct_eq<2>{}), h(ct_eq<1>{}, ct_eq<2>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            demux(f)(g, h)(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
-            f(g(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), h(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}))
-        ));
     }
 
     // fix (tested separately)

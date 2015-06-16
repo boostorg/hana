@@ -11,9 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/closure.hpp>
 
+#include <cstddef>
+#include <type_traits>
 #include <utility>
 
 
@@ -45,41 +47,51 @@ namespace boost { namespace hana {
         };
     };
 #else
-    template <typename F, typename X>
+    template <typename Indices, typename F, typename ...X>
     struct _partial;
 
-    template <typename F, typename ...X>
-    struct _partial<F, detail::closure_impl<X...>> {
-        F f;
-        detail::closure_impl<X...> x;
+    template <std::size_t ...n, typename F, typename ...X>
+    struct _partial<std::index_sequence<n...>, F, X...>
+        : detail::closure<F, X...>
+    {
+        using detail::closure<F, X...>::closure;
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) const& {
-            return f(static_cast<X const&>(x).get..., static_cast<Y&&>(y)...);
+            return detail::get<0>(*this)(
+                detail::get<n+1>(*this)...,
+                static_cast<Y&&>(y)...
+            );
         }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) & {
-            return f(static_cast<X&>(x).get..., static_cast<Y&&>(y)...);
+            return detail::get<0>(*this)(
+                detail::get<n+1>(*this)...,
+                static_cast<Y&&>(y)...
+            );
         }
 #endif
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) && {
-            return std::move(f)(
-                static_cast<X&&>(x).get..., static_cast<Y&&>(y)...
+            return static_cast<F&&>(detail::get<0>(*this))(
+                static_cast<X&&>(detail::get<n+1>(*this))...,
+                static_cast<Y&&>(y)...
             );
         }
     };
 
     struct _make_partial {
         template <typename F, typename ...X>
-        constexpr decltype(auto) operator()(F&& f, X&& ...x) const {
-            return detail::create<_partial>{}(
-                static_cast<F&&>(f),
-                detail::create<detail::closure>{}(static_cast<X&&>(x)...)
-            );
+        constexpr _partial<
+            std::make_index_sequence<sizeof...(X)>,
+            typename std::decay<F>::type,
+            typename std::decay<X>::type...
+        >
+        operator()(F&& f, X&& ...x) const {
+            return {static_cast<F&&>(f), static_cast<X&&>(x)...};
         }
     };
 

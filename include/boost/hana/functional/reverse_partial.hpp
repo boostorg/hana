@@ -12,8 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/closure.hpp>
-#include <boost/hana/detail/create.hpp>
 
+#include <cstddef>
+#include <type_traits>
 #include <utility>
 
 
@@ -44,41 +45,50 @@ namespace boost { namespace hana {
         };
     };
 #else
-    template <typename F, typename X>
+    template <typename Indices, typename F, typename ...X>
     struct _reverse_partial;
 
-    template <typename F, typename ...X>
-    struct _reverse_partial<F, detail::closure_impl<X...>> {
-        F f;
-        detail::closure_impl<X...> x;
+    template <std::size_t ...n, typename F, typename ...X>
+    struct _reverse_partial<std::index_sequence<n...>, F, X...>
+        : detail::closure<F, X...>
+    {
+        using detail::closure<F, X...>::closure;
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) const& {
-            return f(static_cast<Y&&>(y)..., static_cast<X const&>(x).get...);
+            return detail::get<0>(*this)(
+                static_cast<Y&&>(y)...,
+                detail::get<n+1>(*this)...
+            );
         }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) & {
-            return f(static_cast<Y&&>(y)..., static_cast<X&>(x).get...);
+            return detail::get<0>(*this)(
+                static_cast<Y&&>(y)...,
+                detail::get<n+1>(*this)...
+            );
         }
 #endif
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) && {
-            return std::move(f)(
-                static_cast<Y&&>(y)..., static_cast<X&&>(x).get...
+            return static_cast<F&&>(detail::get<0>(*this))(
+                static_cast<Y&&>(y)...,
+                static_cast<X&&>(detail::get<n+1>(*this))...
             );
         }
     };
 
     struct _make_reverse_partial {
         template <typename F, typename ...X>
-        constexpr decltype(auto) operator()(F&& f, X&& ...x) const {
-            return detail::create<_reverse_partial>{}(
-                static_cast<F&&>(f),
-                detail::create<detail::closure>{}(static_cast<X&&>(x)...)
-            );
+        constexpr _reverse_partial<
+            std::make_index_sequence<sizeof...(X)>,
+            typename std::decay<F>::type,
+            typename std::decay<X>::type...
+        > operator()(F&& f, X&& ...x) const {
+            return {static_cast<F&&>(f), static_cast<X&&>(x)...};
         }
     };
 

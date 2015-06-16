@@ -59,13 +59,12 @@ namespace boost { namespace hana {
         using hana = _map;
         using datatype = Map;
 
-        _map() = default;
-        _map(_map const&) = default;
-        _map(_map&&) = default;
-        _map(_map&) = default;
-        template <typename ...Ys>
-        explicit constexpr _map(Ys&& ...ys)
-            : storage{static_cast<Ys&&>(ys)...}
+        explicit constexpr _map(_tuple<Pairs...> const& ps)
+            : storage(ps)
+        { }
+
+        explicit constexpr _map(_tuple<Pairs...>&& ps)
+            : storage(static_cast<_tuple<Pairs...>&&>(ps))
         { }
     };
 
@@ -101,7 +100,7 @@ namespace boost { namespace hana {
         #endif
 
             return _map<typename std::decay<Pairs>::type...>{
-                static_cast<Pairs&&>(pairs)...
+                hana::make_tuple(static_cast<Pairs&&>(pairs)...)
             };
         }
     };
