@@ -47,6 +47,7 @@ if (NOT Boost_FOUND)
         "ext/boost/*.cpp"
         "tutorial/appendix_mpl.cpp"
         "tutorial/integral.cpp"
+        "tutorial/introduction.cpp"
         "tutorial/mpl_cheatsheet.cpp"
         "tutorial/quadrants.cpp"
         "tutorial/quickstart.switchAny.cpp"
