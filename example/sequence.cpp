@@ -402,7 +402,7 @@ static_assert(reverse(make_tuple(1, '2', 3.3)) == make_tuple(3.3, '2', 1), "");
 
 }{
 
-//! [scan.left]
+//! [scan_left]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -414,7 +414,7 @@ auto f = [=](auto state, auto element) {
 };
 
 // with initial state
-BOOST_HANA_RUNTIME_CHECK(scan.left(make_tuple(2, "3", '4'), 1, f) == make_tuple(
+BOOST_HANA_RUNTIME_CHECK(scan_left(make_tuple(2, "3", '4'), 1, f) == make_tuple(
     1,
     "f(1, 2)",
     "f(f(1, 2), 3)",
@@ -422,16 +422,16 @@ BOOST_HANA_RUNTIME_CHECK(scan.left(make_tuple(2, "3", '4'), 1, f) == make_tuple(
 ));
 
 // without initial state
-BOOST_HANA_RUNTIME_CHECK(scan.left(make_tuple(1, "2", '3'), f) == make_tuple(
+BOOST_HANA_RUNTIME_CHECK(scan_left(make_tuple(1, "2", '3'), f) == make_tuple(
     1,
     "f(1, 2)",
     "f(f(1, 2), 3)"
 ));
-//! [scan.left]
+//! [scan_left]
 
 }{
 
-//! [scan.right]
+//! [scan_right]
 auto to_string = [](auto x) {
     std::ostringstream ss;
     ss << x;
@@ -443,7 +443,7 @@ auto f = [=](auto element, auto state) {
 };
 
 // with initial state
-BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), 4, f) == make_tuple(
+BOOST_HANA_RUNTIME_CHECK(scan_right(make_tuple(1, "2", '3'), 4, f) == make_tuple(
     "f(1, f(2, f(3, 4)))",
     "f(2, f(3, 4))",
     "f(3, 4)",
@@ -451,12 +451,12 @@ BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), 4, f) == make_tuple
 ));
 
 // without initial state
-BOOST_HANA_RUNTIME_CHECK(scan.right(make_tuple(1, "2", '3'), f) == make_tuple(
+BOOST_HANA_RUNTIME_CHECK(scan_right(make_tuple(1, "2", '3'), f) == make_tuple(
     "f(1, f(2, 3))",
     "f(2, 3)",
     '3'
 ));
-//! [scan.right]
+//! [scan_right]
 
 }{
 

@@ -446,7 +446,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scan.left (with initial state)
+    // scan_left
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct scan_left_impl : scan_left_impl<S, when<true>> { };
@@ -454,15 +454,29 @@ namespace boost { namespace hana {
     template <typename S, bool condition>
     struct scan_left_impl<S, when<condition>> : default_ {
         struct scan_left_helper {
+            template <typename Xs, typename F>
+            constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
+                //! @todo We need a way to extract the head of an Iterable
+                //! and get its tail at the same time. It would allow us to
+                //! use perfect forwarding here.
+                return hana::scan_left(hana::tail(xs), hana::head(xs),
+                        static_cast<F&&>(f));
+            }
+
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
                 return hana::prepend(
-                    scan_left_impl::apply(hana::tail(xs), f(state, hana::head(xs)), f),
+                    scan_left_impl::apply(
+                        hana::tail(xs),
+                        f(state, hana::head(xs)),
+                        f
+                    ),
                     state
                 );
             }
         };
 
+        // with initial state
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State state, F f) {
             return hana::eval_if(hana::is_empty(xs),
@@ -470,35 +484,14 @@ namespace boost { namespace hana {
                 hana::lazy(scan_left_helper{})(xs, state, f)
             );
         }
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-    // scan.left (without initial state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct scan_left_nostate_impl : scan_left_nostate_impl<S, when<true>> { };
-
-    namespace sequence_detail {
-        struct scan_left_nostate_helper {
-            template <typename Xs, typename F>
-            constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-                //! @todo We need a way to extract the head of an Iterable
-                //! and get its tail at the same time. It would allow us to
-                //! use perfect forwarding here.
-                return hana::scan.left(hana::tail(xs), hana::head(xs),
-                        static_cast<F&&>(f));
-            }
-        };
-    }
-
-    template <typename S, bool condition>
-    struct scan_left_nostate_impl<S, when<condition>> : default_ {
+        // without initial state
         template <typename Xs, typename F>
         static constexpr auto apply(Xs&& xs, F&& f) {
             decltype(auto) done = hana::is_empty(xs);
             return hana::eval_if(static_cast<decltype(done)&&>(done),
-                hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::scan_left_nostate_helper{})(
+                hana::lazy(hana::empty<S>()),
+                hana::lazy(scan_left_helper{})(
                     static_cast<Xs&&>(xs), static_cast<F&&>(f)
                 )
             );
@@ -506,13 +499,14 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // scan.right (with initial state)
+    // scan_right
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
     struct scan_right_impl : scan_right_impl<S, when<true>> { };
 
     template <typename S, bool condition>
     struct scan_right_impl<S, when<condition>> : default_ {
+        // with initial state
         struct scan_right_helper {
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
@@ -530,20 +524,12 @@ namespace boost { namespace hana {
                                                 static_cast<F&&>(f))
             );
         }
-    };
 
-    //////////////////////////////////////////////////////////////////////////
-    // scan.right (without initial state)
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct scan_right_nostate_impl : scan_right_nostate_impl<S, when<true>> { };
-
-    template <typename S, bool condition>
-    struct scan_right_nostate_impl<S, when<condition>> : default_ {
+        // without initial state
         struct scanr1_helper2 {
             template <typename Y, typename Ys, typename F>
             constexpr decltype(auto) operator()(Y&& y, Ys&& ys, F&& f) const {
-                auto rest = scan_right_nostate_impl::apply(ys, f);
+                auto rest = scan_right_impl::apply(ys, f);
                 return hana::prepend(rest, f(y, hana::head(rest)));
             }
         };
