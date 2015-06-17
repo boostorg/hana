@@ -637,19 +637,46 @@ namespace boost { namespace hana {
     //!     reverse_fold(sequence, f) == fold_right(sequence, flip(f))
     //! @endcode
     //!
-    //!
     //! @note
     //! This method is a convenience alias to `fold_right`. As an alias,
     //! `reverse_fold` is not tag-dispatched on its own and `fold_right`
     //! should be customized instead.
     //!
     //!
+    //! Signature
+    //! ---------
+    //! Given a `Foldable` `F` and an optional initial state of tag `S`,
+    //! the signatures for `reverse_fold` are
+    //! \f[
+    //!     \mathtt{reverse\_fold} : F(T) \times S \times (S \times T \to S) \to S
+    //! \f]
+    //!
+    //! for the variant with an initial state, and
+    //! \f[
+    //!     \mathtt{reverse\_fold} : F(T) \times (T \times T \to T) \to T
+    //! \f]
+    //!
+    //! for the variant without an initial state.
+    //!
+    //! @param xs
+    //! The structure to fold.
+    //!
+    //! @param state
+    //! The initial value used for folding.
+    //!
+    //! @param f
+    //! A binary function called as `f(state, x)`, where `state` is the
+    //! result accumulated so far and `x` is an element in the structure.
+    //! For reverse folds without an initial state, the function is called as
+    //! `f(x1, x2)`, where `x1` and `x2` are elements of the structure.
+    //!
+    //!
     //! Example
     //! -------
     //! @snippet example/foldable.cpp reverse_fold
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto reverse_fold = [](auto&& foldable[, auto&& state], auto&& f) -> decltype(auto) {
-        return see-documentation;
+    constexpr auto reverse_fold = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
+        return fold_right(forwarded(xs), forwarded(state), flip(forwarded(f)));
     };
 #else
     struct _reverse_fold {
