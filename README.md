@@ -74,7 +74,7 @@ comments regarding support for Hana:
 Compiler/Toolchain | Status
 ------------------ | ------
 Clang >= 3.5.0     | Fully working; tested on each push to `master`
-Xcode >= 6.3       | Fully working according to external sources
+Xcode >= 6.3       | Fully working; locally tested now and then
 GCC >= 5.1.0       | Almost working; waiting for the GCC team to fix a couple of C++14-related bugs
 
 More specifically, Hana requires a compiler/standard library supporting the
@@ -116,17 +116,49 @@ compiler is too old:
 cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
-On Linux, you'll also need to specify a custom standard library (libc++).
-You can set the location of your custom libc++ installation as follows:
+Usually, this will work just fine. However, on some systems, the standard
+library provided by default does not support C++14. In this case, you
+basically have two choices. The first one is to install a more recent standard
+library system-wide, which might or might not be possible. The second choice
+is to install a more recent standard library locally, and to tell Hana to use
+this standard library instead of the system one. To do so, you must specify
+
+1. A custom header search path. This instructs the compiler to look for
+   headers in the `/path/to/std-includes` directory. This way, when you
+   `#include <type_traits>`, for example, it will look for that header in
+   the `/path/to/std-includes` directory.
 ```shell
-cmake .. -DLIBCXX_ROOT=/path/to/libc++
+export CXXFLAGS="-I /path/to/std-includes"
 ```
 
-You may also want to use a recent version of Boost if you want to use all the
-adapters for Boost.MPL and Boost.Fusion. You can specify a custom path for
-your Boost installation if you don't want the system-wide Boost to be used:
+2. A custom library search path and library to link against. This instructs
+   the linker to search for libraries in the `/path/to/std-library` directory,
+   and to link against the `std-library` library, which should be present in
+   the directory you provided.
 ```shell
-cmake .. -DBOOST_ROOT=/path/to/boost
+export LDFLAGS="-L /path/to/std-library -l std-library"
+```
+
+3. A custom search path for loading shared libraries at runtime. This will be
+   looked up by your program at startup time.
+```shell
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/std-library"
+```
+
+For example, using a custom libc++ on my Linux box looks like:
+```shell
+export CXXFLAGS="-I ${HOME}/code/llvm36/build/include/c++/v1"
+export LDFLAGS="-L ${HOME}/code/llvm36/build/lib -l c++ -l c++abi"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/code/llvm36/build/lib"
+cmake .. -DCMAKE_CXX_COMPILER=clang++-3.6
+```
+
+Normally, Hana tries to find Boost headers if you have them on your system.
+It's also fine if you don't have them; a few tests requiring the Boost headers
+will be disabled in that case. However, if you'd like Hana to use a custom
+installation of Boost, you can specify the path to this custom installation:
+```shell
+cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
 ```
 
 You can now build and run the unit tests and the examples. Assuming you

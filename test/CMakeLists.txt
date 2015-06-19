@@ -46,7 +46,7 @@ function(boost_hana_add_header_test header)
             int main() { }
         ")
     endif()
-    boost_hana_add_executable(test.header.${_target} EXCLUDE_FROM_ALL
+    add_executable(test.header.${_target} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
     boost_hana_add_test(test.header.${_target}
                             ${CMAKE_CURRENT_BINARY_DIR}/test.header.${_target})
@@ -161,7 +161,7 @@ boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
     "bugs/github_75.cpp"
     "bugs/github_75_other_tu.cpp")
 boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp")
-boost_hana_add_executable(${github_75} EXCLUDE_FROM_ALL
+add_executable(${github_75} EXCLUDE_FROM_ALL
                     "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
 boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 
@@ -183,17 +183,16 @@ foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
         add_custom_target(${_target})
 
         foreach(n IN LISTS _parts)
-            boost_hana_add_executable("${_target}.part${n}"
-                EXCLUDE_FROM_ALL "${_file}")
-            set_target_properties("${_target}.part${n}"
-                PROPERTIES COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${n}")
+            add_executable("${_target}.part${n}" EXCLUDE_FROM_ALL "${_file}")
+            set_target_properties("${_target}.part${n}" PROPERTIES
+                COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${n}")
             add_dependencies(${_target} "${_target}.part${n}")
 
             boost_hana_add_unit_test("${_target}.part${n}"
                 ${CMAKE_CURRENT_BINARY_DIR}/${_target}.part${n})
         endforeach()
     else()
-        boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+        add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
         boost_hana_add_unit_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     endif()
 endforeach()

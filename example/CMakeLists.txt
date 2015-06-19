@@ -77,6 +77,6 @@ endif()
 ##############################################################################
 foreach(_file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
     boost_hana_target_name_for(_target "${_file}")
-    boost_hana_add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
     boost_hana_add_example(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
 endforeach()

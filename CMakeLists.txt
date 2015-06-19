@@ -16,7 +16,6 @@ enable_testing()
 ##############################################################################
 include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
-option(BOOST_HANA_ENABLE_LIBCXX   "Use the -stdlib=libc++ if the compiler supports it." OFF)
 option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 option(BOOST_HANA_ENABLE_STRING_UDL
@@ -39,10 +38,6 @@ endmacro()
 if (BOOST_HANA_ENABLE_WERROR)
     boost_hana_append_flag(BOOST_HANA_HAS_WERROR -Werror)
     boost_hana_append_flag(BOOST_HANA_HAS_WX -WX)
-endif()
-
-if (BOOST_HANA_ENABLE_LIBCXX)
-    boost_hana_append_flag(BOOST_HANA_HAS_STDLIB_LIBCXX -stdlib=libc++)
 endif()
 
 if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
@@ -139,25 +134,6 @@ function(boost_hana_target_name_for out file)
     string(REPLACE "${_extension}" "" _name ${_relative})
     string(REGEX REPLACE "/" "." _name ${_name})
     set(${out} "${_name}" PARENT_SCOPE)
-endfunction()
-
-if (DEFINED LIBCXX_ROOT)
-    find_library(libcxx c++ HINTS ${LIBCXX_ROOT}/lib)
-endif()
-
-#   boost_hana_add_executable(<name> ...)
-#
-# Creates an executable called `name` with exactly the same arguments that
-# were received, but also links the executable with the custom libc++
-# installation specified by `LIBCXX_ROOT`, if any.
-function(boost_hana_add_executable name)
-    add_executable(${name} ${ARGN})
-
-    if (DEFINED LIBCXX_ROOT)
-        target_link_libraries(${name} ${libcxx})
-        set_property(TARGET ${name} APPEND PROPERTY
-            INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
-    endif()
 endfunction()
 
 #   boost_hana_add_test(<name> <command> [<arg>...])

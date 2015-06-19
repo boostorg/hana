@@ -191,7 +191,10 @@ before_script:
   ############################################################################
   - mkdir build
   - cd build
-  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DLIBCXX_ROOT=${DEPS_DIR}/llvm/build -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_MEMCHECK=ON -DBOOST_HANA_ENABLE_WERROR=ON
+  - export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"
+  - export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"
+  - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"
+  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_MEMCHECK=ON -DBOOST_HANA_ENABLE_WERROR=ON
   - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
 
 
