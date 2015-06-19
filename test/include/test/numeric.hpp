@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_TEST_NUMERIC_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/lazy.hpp>
 
 // instances
@@ -24,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace test {
-        struct numeric_type : operators::adl {
+        struct numeric_type {
             constexpr explicit numeric_type(int v) : value(v) { }
             int value;
             constexpr operator int() const { return value; }

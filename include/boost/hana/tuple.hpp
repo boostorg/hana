@@ -16,12 +16,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/constant.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/iterable.hpp>
+#include <boost/hana/detail/operators/monad.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/detail/type_foldl1.hpp>
 #include <boost/hana/detail/type_foldr1.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
@@ -34,9 +38,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/optional.hpp>
 #include <boost/hana/monad.hpp>
 #include <boost/hana/monad_plus.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/searchable.hpp>
 #include <boost/hana/sequence.hpp>
@@ -55,7 +59,7 @@ namespace boost { namespace hana {
     struct _tuple
         : detail::closure<Xs...>
         , operators::adl
-        , operators::Iterable_ops<_tuple<Xs...>>
+        , detail::iterable_operators<_tuple<Xs...>>
     {
         using detail::closure<Xs...>::closure; // inherit constructor
         _tuple() = default;
@@ -89,11 +93,22 @@ namespace boost { namespace hana {
         static constexpr bool is_tuple_t = true;
     };
 
-    namespace operators {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
         template <>
-        struct of<Tuple>
-            : operators::of<Comparable, Orderable, Monad, Iterable>
-        { };
+        struct comparable_operators<Tuple> {
+            static constexpr bool value = true;
+        };
+        template <>
+        struct orderable_operators<Tuple> {
+            static constexpr bool value = true;
+        };
+        template <>
+        struct monad_operators<Tuple> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

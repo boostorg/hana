@@ -14,17 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 #include <cstddef>
 
 
 namespace boost { namespace hana {
-    namespace operators {
-        template <typename Derived>
-        struct Iterable_ops;
-    }
-
     //! @ingroup group-concepts
     //! The `Iterable` concept represents data structures supporting external
     //! iteration.
@@ -333,24 +327,6 @@ namespace boost { namespace hana {
     //! the 0-based index of the element to return. It is an error to call
     //! `at` with an index that is either out of bounds for the iterable,
     //! not of an unsigned type or not a `Constant`.
-    //!
-    //!
-    //! Operator-form
-    //! -------------
-    //! For convenience, the `at` method can be applied to `Iterable`s
-    //! that support it by using the `[]` operator. Hence, if `xs`
-    //! supports the operator,
-    //! @code
-    //!     xs[n] == at(xs, n)
-    //! @endcode
-    //!
-    //! To take advantage of this operator for a type `T`, `T` must inherit
-    //! `hana::operators::Iterable_ops<T>`.
-    //!
-    //! @note
-    //! The same operator is provided for the `find` method of the `Searchable`
-    //! concept. When a data type is a model of both `Iterable` and
-    //! `Searchable`, which operator is used should be documented properly.
     //!
     //!
     //! Example
@@ -686,13 +662,6 @@ namespace boost { namespace hana {
 
     constexpr _drop_until drop_until{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Iterable>
-            : decltype(at)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ITERABLE_HPP

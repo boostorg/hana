@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/applicative.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functor.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/monad.hpp>
@@ -26,13 +25,7 @@ namespace boost { namespace hana {
     //! A `Monad` for searching infinite sets in finite time.
     //!
     //! Taken from http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/.
-    struct SearchableSet {
-        struct hana {
-            struct operators
-                : boost::hana::operators::of<Comparable, Monad>
-            { };
-        };
-    };
+    struct SearchableSet { };
 
     template <typename Find, typename = operators::adl>
     struct _sset {

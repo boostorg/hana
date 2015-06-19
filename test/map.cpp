@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/map.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/tuple.hpp>
@@ -18,6 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/searchable.hpp>
 #include <test/minimal_product.hpp>
 #include <test/seq.hpp>
+
+#include <utility>
 using namespace boost::hana;
 
 
@@ -266,6 +267,17 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {
+        // operators
+        {
+            BOOST_HANA_CONSTANT_CHECK(
+                make<Map>(p<2, 2>(), p<1, 1>()) == make<Map>(p<1, 1>(), p<2, 2>())
+            );
+
+            BOOST_HANA_CONSTANT_CHECK(
+                make<Map>(p<1, 1>()) != make<Map>(p<1, 1>(), p<2, 2>())
+            );
+        }
+
         // equal
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -337,6 +349,15 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
+        // operators
+        {
+            auto m = make<Map>(p<2, 2>(), p<1, 1>());
+            auto const const_m = make<Map>(p<2, 2>(), p<1, 1>());
+            BOOST_HANA_CONSTANT_CHECK(equal(m[key<1>()], val<1>()));
+            BOOST_HANA_CONSTANT_CHECK(equal(const_m[key<1>()], val<1>()));
+            BOOST_HANA_CONSTANT_CHECK(equal(std::move(m)[key<1>()], val<1>()));
+        }
+
         // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
@@ -392,7 +413,6 @@ int main() {
         }
 
         // laws
-        static_assert(has_operator<Map, decltype(at_key)>, "");
         test::TestSearchable<Map>{eq_maps, eq_keys};
     }
 

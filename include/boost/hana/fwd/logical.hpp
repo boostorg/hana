@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -159,17 +158,6 @@ namespace boost { namespace hana {
     //! > on the truth value. If you want to use a pointer type or something
     //! > similar in a conditional, it is suggested to explicitly convert it
     //! > to bool by using `to<bool>`.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     &&  ->  and_
-    //!     ||  ->  or_
-    //!     !   -> not_
-    //! @endcode
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Boolean_algebra_(structure)
@@ -589,13 +577,6 @@ namespace boost { namespace hana {
 
     constexpr _or or_{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Logical>
-            : decltype(and_), decltype(or_), decltype(not_)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LOGICAL_HPP

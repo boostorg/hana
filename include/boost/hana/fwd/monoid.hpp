@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -80,15 +79,6 @@ namespace boost { namespace hana {
     //! > to be added, and the method names of this concept really suggest
     //! > addition. In line with the principle of least surprise, no model
     //! > is provided by default.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operator is provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     + -> plus
-    //! @endcode
     //!
     //!
     //! Structure-preserving functions
@@ -214,13 +204,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr _zero<M> zero{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Monoid>
-            : decltype(plus)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONOID_HPP

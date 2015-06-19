@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -113,18 +112,6 @@ namespace boost { namespace hana {
     //! but this is debatable and so the design choice of providing a model
     //! for LessThanComparable data types is open to debate. Waiting for
     //! some user input.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     <   ->  less
-    //!     <=  ->  less_equal
-    //!     >   ->  greater
-    //!     >=  ->  greater_equal
-    //! @endcode
     //!
     //!
     //! Order-preserving functions
@@ -595,14 +582,6 @@ namespace boost { namespace hana {
 
     constexpr detail::create<_ordering> ordering{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Orderable>
-            : decltype(less), decltype(less_equal),
-              decltype(greater), decltype(greater_equal)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ORDERABLE_HPP

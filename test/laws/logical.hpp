@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/lazy.hpp>
@@ -105,28 +104,6 @@ namespace boost { namespace hana { namespace test {
                 // complements
                 BOOST_HANA_CHECK(true_valued(hana::or_(a, hana::not_(a))));
                 BOOST_HANA_CHECK(false_valued(hana::and_(a, hana::not_(a))));
-
-                // operators
-                only_when_(has_operator<L, decltype(or_)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::or_(a, b) ^iff^ (a || b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<L, decltype(and_)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::and_(a, b) ^iff^ (a && b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<L, decltype(not_)>,
-                hana::lazy([](auto a) {
-                    BOOST_HANA_CHECK(
-                        hana::not_(a) ^iff^ !a
-                    );
-                })(a));
 
             }));
         }

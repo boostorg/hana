@@ -39,8 +39,20 @@ namespace boost { namespace hana {
     //!
     //! Provided operators
     //! ------------------
-    //! For convenience, operators for methods of the following concepts can
-    //! be used with `Tuple`: `Comparable`, `Orderable`, `Monad`, `Iterable`.
+    //! For convenience, the following operators are provided:
+    //! @code
+    //!     xs == ys        ->          equal(xs, ys)
+    //!     xs != ys        ->          not_equal(xs, ys)
+    //!
+    //!     xs < ys         ->          less(xs, ys)
+    //!     xs <= ys        ->          less_equal(xs, ys)
+    //!     xs > ys         ->          greater(xs, ys)
+    //!     xs >= ys        ->          greater_equal(xs, ys)
+    //!
+    //!     xs | f          ->          chain(xs, f)
+    //!
+    //!     xs[n]           ->          at(xs, n)
+    //! @endcode
     struct Tuple { };
 
     template <typename ...Xs>

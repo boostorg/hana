@@ -17,9 +17,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/iterable.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
 #include <boost/hana/iterable.hpp>
@@ -37,7 +39,7 @@ namespace boost { namespace hana {
     template <typename T, T From, T To>
     struct _range
         : operators::adl
-        , operators::Iterable_ops<_range<T, From, To>>
+        , detail::iterable_operators<_range<T, From, To>>
     {
         static_assert(From <= To,
         "invalid usage of boost::hana::range(from, to) with from > to");
@@ -81,11 +83,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    namespace operators {
+    namespace detail {
         template <>
-        struct of<Range>
-            : operators::of<Comparable, Iterable>
-        { };
+        struct comparable_operators<Range> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -107,16 +106,6 @@ namespace boost { namespace hana {
     //! because programming has evolved differently and as a result
     //! programmers are used to work with functions that do not preserve
     //! equality.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     ==  ->  equal
-    //!     !=  ->  not_equal
-    //! @endcode
     //!
     //!
     //! Cross-type version of the methods
@@ -350,13 +339,6 @@ namespace boost { namespace hana {
 
     constexpr detail::create<_comparing> comparing{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Comparable>
-            : decltype(equal), decltype(not_equal)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_COMPARABLE_HPP

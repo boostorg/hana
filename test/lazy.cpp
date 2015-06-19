@@ -226,6 +226,11 @@ int main() {
                 chain(lazy(ct_eq<1>{}), f_),
                 f_(ct_eq<1>{})
             ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                lazy(ct_eq<1>{}) | f_,
+                f_(ct_eq<1>{})
+            ));
         }
 
         // flatten

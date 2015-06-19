@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -228,23 +227,6 @@ namespace boost { namespace hana {
     //! A function taking a normal value in the `xs` structure, and returning
     //! a monadic value. This function is called as  `f(x)`, where `x` is an
     //! element of the structure `xs`.
-    //!
-    //!
-    //! Operator-form
-    //! -------------
-    //! For convenience, the `chain` method can be applied to `Monad`s that
-    //! support it by using the `|` operator. Hence, if `xs` supports the
-    //! operator,
-    //! @code
-    //!     xs | f == chain(xs, f)
-    //! @endcode
-    //!
-    //! Furthermore, this operator is left associative, which means that
-    //! @code
-    //!     xs | f | g == (xs | f) | g == chain(chain(xs, f), g)
-    //! @endcode
-    //!
-    //! This allows creating chains of monadic computations easily.
     //!
     //!
     //! Example
@@ -495,13 +477,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr _tap<M> tap{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Monad>
-            : decltype(chain)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MONAD_HPP

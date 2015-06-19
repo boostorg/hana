@@ -34,9 +34,10 @@ namespace boost { namespace hana {
     //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     //!
-    //! 3. `Monad` (operators provided)\n
+    //! 3. `Monad`\n
     //! The `Lazy` monad allows combining lazy computations into larger
-    //! lazy computations.
+    //! lazy computations. Note that the `|` operator can be used in place
+    //! of the `chain` function.
     //! @snippet example/lazy.monad.cpp monad
     //!
     //! 4. `Comonad`\n

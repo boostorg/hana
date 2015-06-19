@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/orderable.hpp>
@@ -63,35 +62,6 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(greater.than(a)(b) ^iff^ hana::greater(b, a));
                 BOOST_HANA_CHECK(less_equal.than(a)(b) ^iff^ hana::less_equal(b, a));
                 BOOST_HANA_CHECK(greater_equal.than(a)(b) ^iff^ hana::greater_equal(b, a));
-
-                // operators
-                only_when_(has_operator<T, decltype(less)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::less(a, b) ^iff^ (a < b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<T, decltype(less_equal)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::less_equal(a, b) ^iff^ (a <= b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<T, decltype(greater_equal)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::greater_equal(a, b) ^iff^ (a >= b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<T, decltype(greater)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::greater(a, b) ^iff^ (a > b)
-                    );
-                })(a, b));
 
                 // ordering
                 _injection<0> f{}; // test::_injection is also monotonic

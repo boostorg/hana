@@ -16,10 +16,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/searchable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/fwd/constant.hpp>
@@ -37,7 +39,7 @@ namespace boost { namespace hana {
     // _set
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Xs>
-    struct _set : operators::adl, operators::Searchable_ops<_set<Xs...>> {
+    struct _set : operators::adl, detail::searchable_operators<_set<Xs...>> {
         _tuple<Xs...> storage;
         using hana = _set;
         using datatype = Set;
@@ -52,11 +54,14 @@ namespace boost { namespace hana {
         { }
     };
 
-    namespace operators {
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
         template <>
-        struct of<Set>
-            : operators::of<Comparable, Searchable>
-        { };
+        struct comparable_operators<Set> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

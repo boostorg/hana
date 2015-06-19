@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/set.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -232,6 +231,9 @@ int main() {
                 );
             };
 
+            BOOST_HANA_CONSTANT_CHECK(set(ct_eq<0>{}) == set(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(set(ct_eq<0>{}) != set(ct_eq<1>{}));
+
             BOOST_HANA_CONSTANT_CHECK(check());
             BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}));
             BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}, ct_eq<1>{}));
@@ -247,6 +249,11 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            set(ct_eq<1>{})[ct_eq<1>{}],
+            ct_eq<1>{}
+        ));
+
         // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
@@ -302,7 +309,6 @@ int main() {
         }
 
         // laws
-        static_assert(has_operator<Set, decltype(at_key)>, "");
         test::TestSearchable<Set>{eqs, keys};
     }
 

@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/tuple.hpp>
@@ -15,15 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Function {
-        struct hana {
-            struct operators
-                : boost::hana::operators::of<Comparable>
-            { };
-        };
-    };
+    struct Function { };
 
-    template <typename Domain, typename Codomain, typename F, typename = operators::adl>
+    template <typename Domain, typename Codomain, typename F>
     struct function_type {
         struct hana { using datatype = Function; };
 
@@ -44,6 +37,15 @@ namespace boost { namespace hana {
             return def(x);
         }
     };
+
+    template <typename ...F, typename ...G>
+    constexpr auto operator==(function_type<F...> f, function_type<G...> g)
+    { return hana::equal(f, g); }
+
+    template <typename ...F, typename ...G>
+    constexpr auto operator!=(function_type<F...> f, function_type<G...> g)
+    { return hana::not_equal(f, g); }
+
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto function = [](auto domain, auto codomain) {
         return [=](auto definition) {

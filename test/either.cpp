@@ -130,6 +130,16 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {
+        // operators
+        {
+            static_assert(right(1) == right(1), "");
+            BOOST_HANA_CONSTANT_CHECK(left(ct_eq<0>{}) == left(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(left(ct_eq<1>{}) != left(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(right(ct_eq<1>{}) != right(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(right(ct_eq<0>{}) == right(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(left(ct_eq<0>{}) != right(ct_eq<0>{}));
+        }
+
         // equal
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -169,6 +179,19 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
+        // operators
+        {
+            BOOST_HANA_CONSTANT_CHECK(left(ct_ord<0>{}) < left(ct_ord<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(left(ct_ord<2>{}) >= left(ct_ord<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(left(ct_ord<2>{}) <= left(ct_ord<2>{}));
+            BOOST_HANA_CONSTANT_CHECK(left(ct_ord<3>{}) > left(ct_ord<2>{}));
+
+            BOOST_HANA_CONSTANT_CHECK(right(ct_ord<0>{}) < right(ct_ord<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(right(ct_ord<2>{}) >= right(ct_ord<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(right(ct_ord<2>{}) <= right(ct_ord<2>{}));
+            BOOST_HANA_CONSTANT_CHECK(right(ct_ord<3>{}) > right(ct_ord<2>{}));
+        }
+
         // less
         {
             BOOST_HANA_CONSTANT_CHECK(less(
@@ -307,6 +330,20 @@ int main() {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     {
+        // operators
+        {
+            test::_injection<0> f;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                left(ct_eq<0>{}) | f,
+                left(ct_eq<0>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                right(ct_eq<0>{}) | f,
+                f(ct_eq<0>{})
+            ));
+        }
+
         // flatten
         {
             BOOST_HANA_CONSTANT_CHECK(equal(

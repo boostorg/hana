@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 
 
@@ -39,7 +38,7 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two ranges are equal if and only if they are both empty or they both
     //! span the same interval.
     //! @snippet example/range.cpp comparable
@@ -49,11 +48,12 @@ namespace boost { namespace hana {
     //! `IntegralConstant`s in the interval it spans.
     //! @snippet example/range.cpp foldable
     //!
-    //! 3. `Iterable` (operators provided)\n
+    //! 3. `Iterable`\n
     //! Iterating over a `Range` is equivalent to iterating over a list of
     //! the values it spans. In other words, iterating over the range
     //! `[from, to)` is equivalent to iterating over a list containing
-    //! `from, from+1, from+2, ..., to-1`.
+    //! `from, from+1, from+2, ..., to-1`. Also note that `operator[]` can
+    //! be used in place of the `at` function.
     //! @snippet example/range.cpp iterable
     //!
     //! 4. `Searchable`\n

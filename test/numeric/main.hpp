@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/numeric.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -23,16 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <vector>
 using namespace boost::hana;
 
-
-namespace boost { namespace hana {
-    template <>
-    struct operators::of<test::Numeric>
-        : operators::of<
-            Monoid, Group, Ring, IntegralDomain,
-            Comparable, Orderable, Logical
-        >
-    { };
-}}
 
 struct invalid {
     template <typename T>
@@ -70,20 +59,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 comparing(f)(x, y),
                 equal(f(x), f(y))
-            ));
-        }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                x == y,
-                equal(x, y)
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                x != y,
-                not_equal(x, y)
             ));
         }
     }
@@ -171,30 +146,6 @@ int main() {
                 less(f(ord(0)), f(ord(0)))
             ));
         }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                ord(0) < ord(1),
-                less(ord(0), ord(1))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                ord(0) <= ord(1),
-                less_equal(ord(0), ord(1))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                ord(0) > ord(1),
-                greater(ord(0), ord(1))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                ord(0) >= ord(1),
-                greater_equal(ord(0), ord(1))
-            ));
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -248,15 +199,6 @@ int main() {
                 test::numeric(x + y)
             ));
         }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                test::numeric(x) + test::numeric(y),
-                plus(test::numeric(x), test::numeric(y))
-            ));
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -278,20 +220,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 negate(test::numeric(x)),
                 test::numeric(-x)
-            ));
-        }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                test::numeric(x) - test::numeric(y),
-                minus(test::numeric(x), test::numeric(y))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                -test::numeric(x),
-                negate(test::numeric(x))
             ));
         }
     }
@@ -340,15 +268,6 @@ int main() {
                 mult(mult(test::numeric(x), test::numeric(x)), test::numeric(x))
             ));
         }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                test::numeric(x) * test::numeric(y),
-                mult(test::numeric(x), test::numeric(y))
-            ));
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -380,20 +299,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 rem(test::numeric(x), test::numeric(z)),
                 test::numeric(x % z)
-            ));
-        }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                test::numeric(x) % test::numeric(y),
-                rem(test::numeric(x), test::numeric(y))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                test::numeric(x) / test::numeric(y),
-                quot(test::numeric(x), test::numeric(y))
             ));
         }
     }
@@ -609,25 +514,6 @@ int main() {
             BOOST_HANA_RUNTIME_CHECK(equal(
                 until(has_length(4u), v, f),
                 std::vector<int>{0, 1, 2, 3}
-            ));
-        }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                !logical(true),
-                not_(logical(true))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                logical(true) && logical(true),
-                and_(logical(true), logical(true))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                logical(false) || logical(false),
-                or_(logical(false), logical(false))
             ));
         }
     }

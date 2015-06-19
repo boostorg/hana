@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_OPTIONAL_HPP
 #define BOOST_HANA_FWD_OPTIONAL_HPP
 
-#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 #include <utility>
@@ -50,12 +50,12 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two `Optional`s are equal if and only if they are both empty or they
     //! both contain a value and those values are equal.
     //! @snippet example/optional.cpp comparable
     //!
-    //! 2. `Orderable` (operators provided)\n
+    //! 2. `Orderable`\n
     //! `Optional`s can be ordered by considering the value they are holding,
     //! if any. To handle the case of an empty `Optional`, we arbitrarily set
     //! `nothing` as being less than any other `just`. Hence,
@@ -94,12 +94,13 @@ namespace boost { namespace hana {
     //! A more complex example:
     //! @snippet example/optional.complex.cpp applicative
     //!
-    //! 5. `Monad` (operators provided)\n
+    //! 5. `Monad`\n
     //! The `Optional` `Monad` makes it easy to compose actions that might fail.
     //! One can feed an optional value if there is one into a function with
     //! `chain`, which will return `nothing` if there is no value. Finally,
     //! optional-optional values can have their redundant level of
-    //! `Optional`ness removed with `flatten`.
+    //! `Optional`ness removed with `flatten`. Also note that the `|` operator
+    //! can be used in place of the `chain` function.
     //! Example:
     //! @snippet example/optional.cpp monad
     //!
@@ -185,7 +186,8 @@ namespace boost { namespace hana {
 #else
     struct _nothing : operators::adl {
         static constexpr bool is_just = false;
-        struct hana { using datatype = Optional; };
+        using hana = _nothing;
+        using datatype = Optional;
     };
 
     constexpr _nothing nothing{};

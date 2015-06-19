@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/detail/variadic/take.hpp>
@@ -38,21 +37,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace sandbox {
-    struct LambdaTuple {
-        struct hana {
-            struct operators
-                : boost::hana::operators::of<
-                    Comparable, Monad, Iterable
-                >
-            { };
-        };
-    };
+    struct LambdaTuple { };
 
     template <typename Storage>
-    struct _lambda_tuple
-        : operators::adl,
-          operators::Iterable_ops<_lambda_tuple<Storage>>
-    {
+    struct _lambda_tuple {
         explicit constexpr _lambda_tuple(Storage&& s)
             : storage(std::move(s))
         { }

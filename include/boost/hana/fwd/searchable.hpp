@@ -17,15 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
-    namespace operators {
-        template <typename Derived>
-        struct Searchable_ops;
-    }
-
     //! @ingroup group-concepts
     //! The `Searchable` concept represents structures that can be searched.
     //!
@@ -602,24 +596,6 @@ namespace boost { namespace hana {
     //! of the structure must return a compile-time `Logical`.
     //!
     //!
-    //! Operator-form
-    //! -------------
-    //! For convenience, the `at_key` method can be applied to `Searchable`s
-    //! that support it by using the `[]` operator. Hence, if `xs` supports
-    //! the operator,
-    //! @code
-    //!     xs[k] == at_key(xs, k)
-    //! @endcode
-    //!
-    //! To take advantage of this operator for a type `T`, `T` must inherit
-    //! `hana::operators::Searchable_ops<T>`.
-    //!
-    //! @note
-    //! The same operator is provided for the `at` method of the `Iterable`
-    //! concept. When a data type is a model of both `Searchable` and
-    //! `Iterable`, which operator is used should be documented properly.
-    //!
-    //!
     //! Example
     //! -------
     //! @snippet example/searchable.cpp at_key
@@ -732,13 +708,6 @@ namespace boost { namespace hana {
 
     constexpr auto is_subset = infix(_is_subset{});
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Searchable>
-            : decltype(at_key)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SEARCHABLE_HPP

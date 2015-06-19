@@ -92,6 +92,9 @@ int main() {
     {
         // equal
         {
+            BOOST_HANA_CONSTANT_CHECK(range(int_<0>, int_<0>) == range(int_<0>, int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(range(int_<0>, int_<4>) != range(int_<0>, int_<0>));
+
             BOOST_HANA_CONSTANT_CHECK(equal(
                 range(int_<0>, int_<0>),
                 range(int_<0>, int_<0>)
@@ -134,10 +137,6 @@ int main() {
                 range(int_<-4>, int_<2>)
             ));
         }
-
-        // operators
-        static_assert(has_operator<Range, decltype(equal)>, "");
-        static_assert(has_operator<Range, decltype(not_equal)>, "");
 
         // laws
         test::TestComparable<Range>{ranges};
@@ -393,6 +392,10 @@ int main() {
 
         // at
         {
+            BOOST_HANA_CONSTANT_CHECK(
+                range(int_<0>, int_<10>)[int_<2>] == int_<2>
+            );
+
             BOOST_HANA_CONSTANT_CHECK(equal(
                 at(range(int_<0>, int_<1>), int_<0>),
                 int_<0>
@@ -546,9 +549,6 @@ int main() {
                 range(int_<30>, int_<50>)
             ));
         }
-
-        // operators
-        static_assert(has_operator<Range, decltype(at)>, "");
 
         // laws
         test::TestIterable<Range>{ranges};

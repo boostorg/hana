@@ -14,7 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/orderable.hpp>
 #include <boost/hana/product.hpp>
 
@@ -49,11 +51,15 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    namespace operators {
+    namespace detail {
         template <>
-        struct of<Pair>
-            : operators::of<Comparable, Orderable>
-        { };
+        struct comparable_operators<Pair> {
+            static constexpr bool value = true;
+        };
+        template <>
+        struct orderable_operators<Pair> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

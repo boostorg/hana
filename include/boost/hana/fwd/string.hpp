@@ -35,12 +35,12 @@ namespace boost { namespace hana {
     //! For most purposes, a `String` is functionally equivalent to a tuple
     //! holding `Constant`s of underlying type `char`.
     //!
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two `String`s are equal if and only if they have the same number of
     //! characters and characters at corresponding indices are equal.
     //! @snippet example/string.cpp Comparable
     //!
-    //! 2. `Orderable` (operators provided)\n
+    //! 2. `Orderable`\n
     //! The total order implemented for `Orderable` is the usual
     //! lexicographical comparison of strings.
     //! @snippet example/string.cpp Orderable
@@ -50,9 +50,10 @@ namespace boost { namespace hana {
     //! characters.
     //! @snippet example/string.cpp Foldable
     //!
-    //! 4. `Iterable` (operators provided)\n
+    //! 4. `Iterable`\n
     //! Iterating over a `String` is equivalent to iterating over the sequence
-    //! of its characters.
+    //! of its characters. Also note that `operator[]` can be used instead of
+    //! the `at` function.
     //! @snippet example/string.cpp Iterable
     //!
     //! 5. `Searchable`\n

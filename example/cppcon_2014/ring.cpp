@@ -26,61 +26,70 @@ int main() {
             row(5, 6)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(a * b == matrix(
-            row(1*1 + 2*3 + 5*3, 1*2 + 2*4 + 3*6),
-            row(4*1 + 3*5 + 5*6, 4*2 + 5*4 + 6*6)
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            mult(a, b),
+            matrix(
+                row(1*1 + 2*3 + 5*3, 1*2 + 2*4 + 3*6),
+                row(4*1 + 3*5 + 5*6, 4*2 + 5*4 + 6*6)
+            )
         ));
     }
 
     // one
     {
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<1, 1>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<1, 1>>(),
+            matrix(
                 row(1)
             )
-        );
+        ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<2, 2>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<2, 2>>(),
+            matrix(
                 row(1, 0),
                 row(0, 1)
             )
-        );
+        ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<3, 3>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<3, 3>>(),
+            matrix(
                 row(1, 0, 0),
                 row(0, 1, 0),
                 row(0, 0, 1)
             )
-        );
+        ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<4, 4>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<4, 4>>(),
+            matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),
                 row(0, 0, 1, 0),
                 row(0, 0, 0, 1)
             )
-        );
+        ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<4, 5>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<4, 5>>(),
+            matrix(
                 row(1, 0, 0, 0, 0),
                 row(0, 1, 0, 0, 0),
                 row(0, 0, 1, 0, 0),
                 row(0, 0, 0, 1, 0)
             )
-        );
+        ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(
-            one<Matrix<5, 4>>() == matrix(
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            one<Matrix<5, 4>>(),
+            matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),
                 row(0, 0, 1, 0),
                 row(0, 0, 0, 1),
                 row(0, 0, 0, 0)
             )
-        );
+        ));
     }
 }

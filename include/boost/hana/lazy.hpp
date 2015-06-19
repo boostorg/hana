@@ -17,9 +17,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -137,11 +138,9 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    namespace operators {
+    namespace detail {
         template <>
-        struct of<Lazy>
-            : operators::of<Monad>
-        { };
+        struct monad_operators<Lazy> { static constexpr bool value = true; };
     }
 
     //////////////////////////////////////////////////////////////////////////

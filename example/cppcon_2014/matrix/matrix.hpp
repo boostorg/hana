@@ -8,7 +8,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_MATRIX_HPP
 
 #include <boost/hana/constant.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/comparable.hpp>
@@ -22,22 +21,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace cppcon {
     template <unsigned Rows, unsigned Columns>
-    struct Matrix {
-        struct hana {
-            struct operators
-                : boost::hana::operators::of<
-                      boost::hana::Comparable
-                    , boost::hana::Monoid
-                    , boost::hana::Group
-                    , boost::hana::Ring
-                >
-            { };
-        };
-    };
+    struct Matrix { };
 
-    template <unsigned Rows, unsigned Columns, typename Storage,
-        typename = boost::hana::operators::adl
-    >
+    template <unsigned Rows, unsigned Columns, typename Storage>
     struct matrix_type {
         struct hana { using datatype = Matrix<Rows, Columns>; };
 

@@ -281,6 +281,12 @@ int main() {
             test::ct_eq<3> x{};
             test::ct_eq<4> y{};
 
+            BOOST_HANA_CONSTANT_CHECK(nothing == nothing);
+            BOOST_HANA_CONSTANT_CHECK(just(x) == just(x));
+            BOOST_HANA_CONSTANT_CHECK(just(x) != just(y));
+            BOOST_HANA_CONSTANT_CHECK(just(x) != nothing);
+            BOOST_HANA_CONSTANT_CHECK(nothing != just(x));
+
             BOOST_HANA_CONSTANT_CHECK(equal(nothing, nothing));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(nothing, just(x))));
             BOOST_HANA_CONSTANT_CHECK(not_(equal(just(x), nothing)));
@@ -299,6 +305,12 @@ int main() {
     {
         // less
         {
+            BOOST_HANA_CONSTANT_CHECK(nothing < just(undefined{}));
+            BOOST_HANA_CONSTANT_CHECK(just(ct_ord<3>{}) < just(ct_ord<4>{}));
+            BOOST_HANA_CONSTANT_CHECK(just(ct_ord<3>{}) <= just(ct_ord<4>{}));
+            BOOST_HANA_CONSTANT_CHECK(just(ct_ord<4>{}) > just(ct_ord<3>{}));
+            BOOST_HANA_CONSTANT_CHECK(just(ct_ord<4>{}) >= just(ct_ord<3>{}));
+
             BOOST_HANA_CONSTANT_CHECK(less(
                 nothing,
                 just(undefined{})
@@ -395,6 +407,18 @@ int main() {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     {
+        test::_injection<0> f{};
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            just(ct_eq<3>{}) | f,
+            f(ct_eq<3>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            nothing | f,
+            nothing
+        ));
+
         // flatten
         {
             BOOST_HANA_CONSTANT_CHECK(equal(

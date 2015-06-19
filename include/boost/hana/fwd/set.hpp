@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two sets are equal iff they contain the same elements, regardless of
     //! the order.
     //! @snippet example/set.cpp Comparable
@@ -33,11 +33,12 @@ namespace boost { namespace hana {
     //! both commutative and associative will yield non-deterministic behavior.
     //! @snippet example/set.cpp Foldable
     //!
-    //! 3. Searchable (operators provided)\n
+    //! 3. Searchable\n
     //! The elements in a `Set` act as both its keys and its values. Since the
     //! elements of a set are unique, searching for an element will return
     //! either the only element which is equal to the searched value, or
-    //! `nothing`.
+    //! `nothing`. Also note that `operator[]` can be used instead of the
+    //! `at_key` function.
     //! @snippet example/set.cpp Searchable
     //!
     //!

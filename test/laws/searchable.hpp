@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/lazy.hpp>
@@ -114,16 +113,6 @@ namespace boost { namespace hana { namespace test {
                                 hana::at_key(xs, key),
                                 hana::from_just(hana::find(xs, key))
                             ));
-
-                            // operators
-                            only_when_(has_operator<S, decltype(at_key)>,
-                                hana::lazy([](auto xs, auto key) {
-                                    BOOST_HANA_CHECK(hana::equal(
-                                        xs[key],
-                                        hana::at_key(xs, key)
-                                    ));
-                                })(xs, key)
-                            );
                         })(xs, key)
                     );
                 }));

@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -78,15 +77,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Ring model for `bool` is the same
     //! as for not providing Monoid and Group models.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operator is provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     * -> mult
-    //! @endcode
     //!
     //!
     //! Structure-preserving functions
@@ -268,13 +258,6 @@ namespace boost { namespace hana {
 
     constexpr _power power{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Ring>
-            : decltype(mult)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_RING_HPP

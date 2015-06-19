@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
@@ -107,6 +106,9 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {
+        BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("abcd") == BOOST_HANA_STRING("abcd"));
+        BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("abcd") != BOOST_HANA_STRING("abc"));
+
         // equal
         BOOST_HANA_CONSTANT_CHECK(equal(
             BOOST_HANA_STRING("abcd"),
@@ -132,10 +134,6 @@ int main() {
             BOOST_HANA_STRING(""),
             BOOST_HANA_STRING("")
         ));
-
-        // operators
-        static_assert(has_operator<String, decltype(equal)>, "");
-        static_assert(has_operator<String, decltype(not_equal)>, "");
 
         // laws
         auto strings = make<Tuple>(
@@ -265,6 +263,11 @@ int main() {
         // at
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
+                BOOST_HANA_STRING("abcd")[int_<2>],
+                char_<'c'>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
                 at(BOOST_HANA_STRING("a"), int_<0>),
                 char_<'a'>
             ));
@@ -300,9 +303,6 @@ int main() {
             ));
         }
 
-        // operators
-        static_assert(has_operator<String, decltype(at)>, "");
-
         // laws
         test::TestIterable<String>{strings};
     }
@@ -312,6 +312,20 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
+        BOOST_HANA_CONSTANT_CHECK(
+            BOOST_HANA_STRING("abc") < BOOST_HANA_STRING("abcd")
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            BOOST_HANA_STRING("abc") <= BOOST_HANA_STRING("abcd")
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            BOOST_HANA_STRING("abcd") > BOOST_HANA_STRING("abc")
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            BOOST_HANA_STRING("abcd") >= BOOST_HANA_STRING("abc")
+        );
+
+
         // less
         BOOST_HANA_CONSTANT_CHECK(not_(less(
             BOOST_HANA_STRING(""),
@@ -347,12 +361,6 @@ int main() {
             BOOST_HANA_STRING("abcde"),
             BOOST_HANA_STRING("abfde")
         ));
-
-        // operators
-        static_assert(has_operator<String, decltype(less)>, "");
-        static_assert(has_operator<String, decltype(less_equal)>, "");
-        static_assert(has_operator<String, decltype(greater)>, "");
-        static_assert(has_operator<String, decltype(greater_equal)>, "");
 
         // laws
         auto strings = make<Tuple>(

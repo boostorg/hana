@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 
@@ -27,18 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Operators
-    //////////////////////////////////////////////////////////////////////////
-    namespace operators {
-        template <typename X, typename Y, typename = std::enable_if_t<
-            _has_operator<datatype_t<X>, decltype(plus)>{}() ||
-            _has_operator<datatype_t<Y>, decltype(plus)>{}()
-        >>
-        constexpr decltype(auto) operator+(X&& x, Y&& y)
-        { return hana::plus(static_cast<X&&>(x), static_cast<Y&&>(y)); }
-    }
-
     //////////////////////////////////////////////////////////////////////////
     // plus
     //////////////////////////////////////////////////////////////////////////

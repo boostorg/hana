@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -85,16 +84,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing a Group model for `bool` is the same
     //! as for not providing a `Monoid` model.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     binary -  ->  minus
-    //!     unary -   ->  negate
-    //! @endcode
     //!
     //!
     //! Structure-preserving functions
@@ -218,13 +207,6 @@ namespace boost { namespace hana {
 
     constexpr _negate negate{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<Group>
-            : decltype(minus), decltype(negate)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_GROUP_HPP

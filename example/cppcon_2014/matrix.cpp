@@ -20,13 +20,14 @@ int main() {
             row(4, '5', 6)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(transpose(m) ==
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            transpose(m),
             matrix(
                 row(1, 4),
                 row(2.2, '5'),
                 row('3', 6)
             )
-        );
+        ));
     }
 
     // vector

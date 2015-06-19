@@ -208,12 +208,6 @@ int main() {
     // Enumerable, Monoid, Group
     //////////////////////////////////////////////////////////////////////////
     {
-        // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(plus)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(minus)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(negate)>, "");
-
-        // laws
         test::TestEnumerable<IntegralConstant<int>>{ints};
         test::TestMonoid<IntegralConstant<int>>{ints};
         test::TestGroup<IntegralConstant<int>>{ints};
@@ -224,12 +218,6 @@ int main() {
     // Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     {
-        // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(mult)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(quot)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(rem)>, "");
-
-        // laws
         test::TestRing<IntegralConstant<int>>{ints};
         test::TestIntegralDomain<IntegralConstant<int>>{ints};
     }
@@ -261,11 +249,6 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(not_(false_), true_));
         }
 
-        // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(not_)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(and_)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(or_)>, "");
-
         // laws
         auto ints = make<Tuple>(int_<-2>, int_<0>, int_<1>, int_<3>);
         test::TestLogical<IntegralConstant<int>>{ints};
@@ -277,11 +260,6 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {
-        // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(equal)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(not_equal)>, "");
-
-        // laws
         test::TestComparable<IntegralConstant<int>>{ints};
     }
 
@@ -290,13 +268,6 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
-        // operators
-        static_assert(has_operator<IntegralConstant<int>, decltype(less)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(less_equal)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(greater)>, "");
-        static_assert(has_operator<IntegralConstant<int>, decltype(greater_equal)>, "");
-
-        // laws
         test::TestOrderable<IntegralConstant<int>>{ints};
     }
 #endif

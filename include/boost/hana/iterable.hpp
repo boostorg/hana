@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/enumerable.hpp>
 #include <boost/hana/foldable.hpp>
@@ -39,40 +38,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Operators
-    //////////////////////////////////////////////////////////////////////////
-    namespace operators {
-        template <typename Derived>
-        struct Iterable_ops {
-            template <typename I>
-            constexpr decltype(auto) operator[](I&& i) const& {
-                return hana::at(
-                    static_cast<Derived const&>(*this),
-                    static_cast<I&&>(i)
-                );
-            }
-
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
-            template <typename I>
-            constexpr decltype(auto) operator[](I&& i) & {
-                return hana::at(
-                    static_cast<Derived&>(*this),
-                    static_cast<I&&>(i)
-                );
-            }
-#endif
-
-            template <typename I>
-            constexpr decltype(auto) operator[](I&& i) && {
-                return hana::at(
-                    static_cast<Derived&&>(*this),
-                    static_cast<I&&>(i)
-                );
-            }
-        };
-    }
-
     //////////////////////////////////////////////////////////////////////////
     // head
     //////////////////////////////////////////////////////////////////////////

@@ -27,12 +27,12 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two `Either`s are equal if and only if they both contain left values
     //! or they both contain right values and those values are equal.
     //! @snippet example/either.cpp comparable
     //!
-    //! 2. `Orderable` (operators provided)\n
+    //! 2. `Orderable`\n
     //! `Either`s are ordered by considering any `left` value as less than any
     //! `right` value, and ordering two `left`s or two `right`s by ordering
     //! their content. In other words,
@@ -70,13 +70,15 @@ namespace boost { namespace hana {
     //! Example:
     //! @snippet example/either.applicative.cpp main
     //!
-    //! 5. `Monad` (operators provided)\n
+    //! 5. `Monad`\n
     //! The instance of `Monad` for `Either` follows naturally from
     //! the instance of `Applicative`. Specifically,
     //! @code
     //!     flatten(right(right(x))) == right(x)
     //!     flatten(anything else) == anything else
     //! @endcode
+    //! Also note that the `|` operator can be used in place of the `chain`
+    //! function.
     //! Example:
     //! @snippet example/either.cpp monad
     //!

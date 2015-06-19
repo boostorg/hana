@@ -17,19 +17,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/operators/arithmetic.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/logical.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/lazy.hpp>
 
 // provided models; the rest is included in <boost/hana/integral_constant.hpp>
 #include <boost/hana/logical.hpp>
 #include <boost/hana/comparable.hpp>
-
-// operators
-#include <boost/hana/fwd/group.hpp>
-#include <boost/hana/fwd/integral_domain.hpp>
-#include <boost/hana/fwd/monoid.hpp>
-#include <boost/hana/fwd/orderable.hpp>
-#include <boost/hana/fwd/ring.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -83,17 +79,25 @@ namespace boost { namespace hana {
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
-    // Operators (most of them are provided by the concepts)
+    // Operators
     //////////////////////////////////////////////////////////////////////////
-    namespace operators {
+    namespace detail {
         template <typename T>
-        struct of<IntegralConstant<T>>
-            : operators::of<
-                  Comparable, Orderable
-                , Logical
-                , Monoid, Group, Ring, IntegralDomain
-            >
-        { };
+        struct comparable_operators<IntegralConstant<T>> {
+            static constexpr bool value = true;
+        };
+        template <typename T>
+        struct orderable_operators<IntegralConstant<T>> {
+            static constexpr bool value = true;
+        };
+        template <typename T>
+        struct arithmetic_operators<IntegralConstant<T>> {
+            static constexpr bool value = true;
+        };
+        template <typename T>
+        struct logical_operators<IntegralConstant<T>> {
+            static constexpr bool value = true;
+        };
     }
 
 #define BOOST_HANA_INTEGRAL_CONSTANT_BINARY_OP(op)                          \

@@ -17,11 +17,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/erase_key_fwd.hpp>
 #include <boost/hana/detail/insert_fwd.hpp>
 #include <boost/hana/detail/keys_fwd.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/searchable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
@@ -39,10 +41,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
+    // operators
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <>
+        struct comparable_operators<Map> {
+            static constexpr bool value = true;
+        };
+    }
+
+    //////////////////////////////////////////////////////////////////////////
     // _map
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Pairs>
-    struct _map : operators::adl, operators::Searchable_ops<_map<Pairs...>> {
+    struct _map : detail::searchable_operators<_map<Pairs...>>, operators::adl {
         _tuple<Pairs...> storage;
         using hana = _map;
         using datatype = Map;
@@ -56,13 +68,6 @@ namespace boost { namespace hana {
             : storage{static_cast<Ys&&>(ys)...}
         { }
     };
-
-    namespace operators {
-        template <>
-        struct of<Map>
-            : operators::of<Searchable, Comparable>
-        { };
-    }
 
     //////////////////////////////////////////////////////////////////////////
     // make<Map>

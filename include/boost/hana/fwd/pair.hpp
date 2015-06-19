@@ -25,12 +25,12 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two pairs `(x, y)` and `(x', y')` are equal if and only if both
     //! `x == x'` and `y == y'`.
     //! @snippet example/pair.cpp comparable
     //!
-    //! 2. `Orderable` (operators provided)\n
+    //! 2. `Orderable`\n
     //! Pairs are ordered as-if they were 2-element tuples, using a
     //! lexicographical ordering.
     //! @snippet example/pair.cpp orderable

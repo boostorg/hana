@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/seq.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -24,15 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/sequence.hpp>
 using namespace boost::hana;
 
-
-namespace boost { namespace hana {
-    namespace operators {
-        template <>
-        struct of<test::Seq>
-            : operators::of<Iterable>
-        { };
-    }
-}}
 
 int main() {
     using boost::hana::size_t;
@@ -98,51 +88,6 @@ int main() {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto iterable = test::seq;
-
-        // operators
-        {
-            // T&
-            {
-                auto lvalue = iterable(test::ct_eq<0>{});
-
-                auto const& result = at(lvalue, size_t<0>);
-                (void)result;
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    lvalue[size_t<0>],
-                    at(lvalue, size_t<0>)
-                ));
-            }
-
-            // T const&
-            {
-                auto const const_lvalue = iterable(test::ct_eq<0>{});
-
-                auto const& result = at(const_lvalue, size_t<0>);
-                (void)result;
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    const_lvalue[size_t<0>],
-                    at(const_lvalue, size_t<0>)
-                ));
-            }
-
-            // T&&
-            {
-                auto rvalue = [=] { return iterable(test::ct_eq<0>{}); };
-
-                auto&& result = at(rvalue(), size_t<0>);
-                (void)result;
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    rvalue()[size_t<0>],
-                    at(rvalue(), size_t<0>)
-                ));
-            }
-        }
-
-        // laws
         test::TestIterable<test::Seq>{eqs};
     }
 #endif

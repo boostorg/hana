@@ -25,7 +25,7 @@ namespace boost { namespace hana {
         struct Seq;
 
         template <typename Storage>
-        struct seq_type : operators::Iterable_ops<seq_type<Storage>> {
+        struct seq_type {
             explicit constexpr seq_type(Storage s) : storage(s) { }
             Storage storage;
             struct hana { using datatype = Seq; };

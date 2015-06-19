@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/lazy.hpp>
 
@@ -58,21 +57,6 @@ namespace boost { namespace hana { namespace test {
                     not_equal.to(a)(b) ^iff^ hana::not_equal(a, b)
                 );
 
-                // operators
-                only_when_(has_operator<T, decltype(equal)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::equal(a, b) ^iff^ (a == b)
-                    );
-                })(a, b));
-
-                only_when_(has_operator<T, decltype(not_equal)>,
-                hana::lazy([](auto a, auto b) {
-                    BOOST_HANA_CHECK(
-                        hana::not_equal(a, b) ^iff^ (a != b)
-                    );
-                })(a, b));
-
                 // comparing
                 _injection<0> f{};
                 BOOST_HANA_CHECK(
@@ -97,12 +81,10 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestComparable(Xs xs) : TestComparable<C, laws>{xs} {
             foreach2(xs, [](auto a, auto b) {
-
                 BOOST_HANA_CHECK(
                     hana::value(hana::equal(a, b)) ^iff^
                         hana::equal(hana::value(a), hana::value(b))
                 );
-
             });
         }
     };

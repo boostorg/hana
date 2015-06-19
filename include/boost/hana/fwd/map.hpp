@@ -28,14 +28,15 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two maps are equal iff all their keys are equal and are associated
     //! to equal values.
     //! @snippet example/map.cpp Comparable
     //!
-    //! 2. `Searchable` (operators provided)\n
+    //! 2. `Searchable`\n
     //! A map can be searched by its keys with a predicate yielding a
-    //! compile-time `Logical`.
+    //! compile-time `Logical`. Also note that `operator[]` can be used
+    //! instead of `at_key`.
     //! @snippet example/map.cpp Searchable
     //!
     //! 3. `Foldable`\n

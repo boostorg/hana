@@ -18,7 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/monad.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -98,11 +101,19 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Operators
     //////////////////////////////////////////////////////////////////////////
-    namespace operators {
+    namespace detail {
         template <>
-        struct of<Optional>
-            : operators::of<Comparable, Orderable, Monad>
-        { };
+        struct comparable_operators<Optional> {
+            static constexpr bool value = true;
+        };
+        template <>
+        struct orderable_operators<Optional> {
+            static constexpr bool value = true;
+        };
+        template <>
+        struct monad_operators<Optional> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

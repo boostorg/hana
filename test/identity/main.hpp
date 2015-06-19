@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/identity.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/operators.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/tuple.hpp>
@@ -18,14 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/monad.hpp>
 #include <test/cnumeric.hpp>
 using namespace boost::hana;
-
-
-namespace boost { namespace hana {
-    template <>
-    struct operators::of<test::Identity>
-        : operators::of<Monad>
-    { };
-}}
 
 
 int main() {
@@ -121,7 +112,6 @@ int main() {
         auto monad = test::identity;
         using M = test::Identity;
         auto f = compose(monad, test::_injection<0>{});
-        auto g = compose(monad, test::_injection<1>{});
 
         // chain
         {
@@ -148,21 +138,6 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 then(monad(invalid{}), monad(ct_eq<0>{})),
                 monad(ct_eq<0>{})
-            ));
-        }
-
-        // operators
-        {
-            using namespace boost::hana::operators;
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                monad(ct_eq<1>{}) | f,
-                chain(monad(ct_eq<1>{}), f)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                monad(ct_eq<1>{}) | f | g,
-                chain(chain(monad(ct_eq<1>{}), f), g)
             ));
         }
     }

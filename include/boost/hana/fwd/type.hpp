@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Comparable` (operators provided)\n
+    //! 1. `Comparable`\n
     //! Two `Type`s are equal if and only if they represent the same C++ type.
     //! Hence, equality is equivalent to the `std::is_same` type trait.
     //! @snippet example/type.cpp comparable

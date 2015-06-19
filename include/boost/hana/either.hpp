@@ -16,7 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/comparable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/operators.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/monad.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -29,6 +32,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    namespace detail {
+        template <>
+        struct comparable_operators<Either>
+        { static constexpr bool value = true; };
+        template <>
+        struct orderable_operators<Either>
+        { static constexpr bool value = true; };
+        template <>
+        struct monad_operators<Either>
+        { static constexpr bool value = true; };
+    }
+
     //////////////////////////////////////////////////////////////////////////
     // left
     //////////////////////////////////////////////////////////////////////////
@@ -112,16 +127,6 @@ namespace boost { namespace hana {
         };
     }
     //! @endcond
-
-    //////////////////////////////////////////////////////////////////////////
-    // Operators
-    //////////////////////////////////////////////////////////////////////////
-    namespace operators {
-        template <>
-        struct of<Either>
-            : operators::of<Comparable, Orderable, Monad>
-        { };
-    }
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

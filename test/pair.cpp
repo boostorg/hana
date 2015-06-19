@@ -89,10 +89,41 @@ int main() {
     ));
 
     //////////////////////////////////////////////////////////////////////////
-    // Comparable, Orderable, Foldable
+    // Comparable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<Pair>{eqs};
-    test::TestOrderable<Pair>{ords};
+    {
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_eq<1>{}, ct_eq<2>{}) == make_pair(ct_eq<1>{}, ct_eq<2>{})
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_eq<1>{}, ct_eq<3>{}) != make_pair(ct_eq<1>{}, ct_eq<2>{})
+        );
+        test::TestComparable<Pair>{eqs};
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Orderable
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_ord<1>{}, ct_ord<2>{}) < make_pair(ct_ord<3>{}, ct_ord<2>{})
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_ord<1>{}, ct_ord<2>{}) <= make_pair(ct_ord<3>{}, ct_ord<2>{})
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_ord<3>{}, ct_ord<2>{}) >= make_pair(ct_ord<1>{}, ct_ord<2>{})
+        );
+        BOOST_HANA_CONSTANT_CHECK(
+            make_pair(ct_ord<3>{}, ct_ord<2>{}) > make_pair(ct_ord<1>{}, ct_ord<2>{})
+        );
+
+        test::TestOrderable<Pair>{ords};
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
     test::TestFoldable<Pair>{eqs};
 
     //////////////////////////////////////////////////////////////////////////

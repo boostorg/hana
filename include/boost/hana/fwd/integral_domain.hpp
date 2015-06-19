@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/models.hpp>
-#include <boost/hana/fwd/core/operators.hpp>
 
 
 namespace boost { namespace hana {
@@ -104,16 +103,6 @@ namespace boost { namespace hana {
     //! @note
     //! The rationale for not providing an IntegralDomain model for `bool` is
     //! the same as for not providing Monoid, Group and Ring models.
-    //!
-    //!
-    //! Operators
-    //! ---------
-    //! For convenience, the following operators are provided as an
-    //! equivalent way of calling the corresponding method:
-    //! @code
-    //!     /  ->  quot
-    //!     %  ->  rem
-    //! @endcode
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Integral_domain
@@ -245,13 +234,6 @@ namespace boost { namespace hana {
 
     constexpr _rem rem{};
 #endif
-
-    namespace operators {
-        template <>
-        struct of<IntegralDomain>
-            : decltype(quot), decltype(rem)
-        { };
-    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_INTEGRAL_DOMAIN_HPP

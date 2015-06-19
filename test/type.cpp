@@ -459,6 +459,9 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 {
     // equal
     {
+        BOOST_HANA_CONSTANT_CHECK(type<T> == type<T>);
+        BOOST_HANA_CONSTANT_CHECK(type<T> != type<U>);
+
         BOOST_HANA_CONSTANT_CHECK(equal(type<T>, type<T>));
         BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T>, type<U>)));
         BOOST_HANA_CONSTANT_CHECK(not_(equal(type<void>, type<U>)));

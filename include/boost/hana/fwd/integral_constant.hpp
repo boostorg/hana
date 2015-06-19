@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
-#include <boost/hana/fwd/core/operators.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
 
 #include <cstddef>
 
@@ -144,7 +144,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! 2. `Enumerable`, `Comparable`, `Orderable`, `Logical`, `Monoid`,
-    //!    `Group`, `Ring`, and `IntegralDomain` (operators provided)\n
+    //!    `Group`, `Ring`, and `IntegralDomain`\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
     template <typename T>

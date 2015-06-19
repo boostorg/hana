@@ -23,12 +23,13 @@ int main() {
             row(7,       8,       int_<9>)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(transform(m, _ + int_<1>) ==
+        BOOST_HANA_CONSTEXPR_CHECK(equal(
+            transform(m, _ + int_<1>),
             matrix(
                 row(2,       int_<3>, 4),
                 row(int_<5>, 6,       7),
                 row(8,       9,       int_<10>)
             )
-        );
+        ));
     }
 }
