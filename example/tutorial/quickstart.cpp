@@ -9,30 +9,32 @@ Distributed under the Boost Software License, Version 1.0.
 #   undef NDEBUG
 #endif
 
+//! [additional_setup]
+#include <boost/hana/ext/std/type_traits.hpp> // for traits::is_pointer
 #include <cassert>
 #include <iostream>
 #include <string>
 
-#include <boost/hana/ext/std/type_traits.hpp>
+struct Fish { std::string name; };
+struct Cat  { std::string name; };
+struct Dog  { std::string name; };
+//! [additional_setup]
 
 //! [includes]
 #include <boost/hana.hpp>
 using namespace boost::hana;
 //! [includes]
-using namespace boost::hana::literals;
 
 
 int main() {
 
 //! [animals]
-struct Fish { std::string name; };
-struct Cat  { std::string name; };
-struct Dog  { std::string name; };
-
 auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
 //! [animals]
 
 //! [algorithms]
+using namespace boost::hana::literals;
+
 // Access tuple elements with operator[] instead of std::get.
 Cat garfield = animals[1_c];
 

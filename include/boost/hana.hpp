@@ -271,9 +271,15 @@ and the [C++14 standard][C++14]. First, let's include the library:
 Unless specified otherwise, the documentation assumes the above lines to be
 present before examples and code snippets. Also note that finer grained
 headers are provided and will be explained in the [Header organization]
-(@ref tutorial-header_organization) section. If you are reading this
-documentation, chances are you already know `std::tuple` and `std::make_tuple`.
-Hana provides its own tuple and `make_tuple`:
+(@ref tutorial-header_organization) section. For the purpose of the
+quickstart, let's now include some additional headers and define some
+lovely animal types that we'll need below:
+
+@snippet example/tutorial/quickstart.cpp additional_setup
+
+If you are reading this documentation, chances are you already know
+`std::tuple` and `std::make_tuple`. Hana provides its own tuple and
+`make_tuple`:
 
 @snippet example/tutorial/quickstart.cpp animals
 
@@ -287,7 +293,9 @@ operations and algorithms to manipulate its own tuples:
 
 @note
 `1_c` is a [C++14 user-defined literal][C++14.udl] creating a
-[compile-time number](@ref tutorial-integral).
+[compile-time number](@ref tutorial-integral). These user-defined
+literals are contained in the `boost::hana::literals` namespace,
+hence the `using` directive.
 
 Notice how we pass a [C++14 generic lambda][C++14.glambda] to `transform`;
 this is required because the lambda will first be called with a `Fish`, then
@@ -533,8 +541,7 @@ the section on [type-level computations](@ref tutorial-type). Then, we compare
 whether the dynamic type of the `any` matches this case, and if so we call the
 function associated to this case with the `any` casted to the proper type.
 Otherwise, we simply call `process` recursively with the rest of the cases.
-Pretty simple, wasn't it? Here's the final solution, which spans a big total
-of 42 lines:
+Pretty simple, wasn't it? Here's the final solution:
 
 @snippet example/tutorial/quickstart.switchAny.cpp full
 

@@ -9,6 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #   undef NDEBUG
 #endif
 
+//! [full]
 #include <boost/hana.hpp>
 
 #include <boost/any.hpp>
@@ -19,8 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 using namespace boost::hana;
 
-
-//! [full]
 //! [cases]
 template <typename T>
 auto case_ = [](auto f) {
