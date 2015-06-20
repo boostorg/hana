@@ -1423,6 +1423,13 @@ takes care of that), the body of the lambda is never type-checked and no
 compilation error happens. There are many different ways of branching in
 Hana; you may take a look at `eval_if` and `Lazy` for details.
 
+@note
+The branches inside the `if_` are lambdas. As such, they really are different
+functions from the `optionalToString` function. The variables appearing inside
+those branches have to be either captured by the lambdas or passed to them as
+arguments, and so they are affected by the way they are captured or passed
+(by value, by reference, etc..).
+
 Now, the previous example covered only the specific case of checking for the
 presence of a non-static member function. However, `is_valid` can be used to
 detect the validity of almost any kind of expression. We now present a list
@@ -3187,6 +3194,36 @@ algorithm([](auto x) {
   return ...;
 }, container);
 @endcode
+
+
+@subsection tutorial-rationales-tag_dispatching Why tag dispatching?
+
+There are several different techniques we could have used to provide
+customization points in the library, and tag-dispatching was chosen. Why?
+First, I wanted a two-layer dispatching system because this allows functions
+from the first layer (the ones that are called by users) to actually be
+function objects, which allows passing them to higher-order algorithms.
+Using a dispatching system with two layers also allows adding some
+compile-time sanity checks to the first layer, which improves error messages.
+
+Now, tag-dispatching was chosen over other techniques with two layers mainly
+because when checking whether a type is a model of some concept, we basically
+check that some key functions are implemented. In particular, we check that
+the functions from the minimal complete definition of that concept are
+implemented. For example, `models<Iterable, T>` checks whether the `is_empty`,
+`head` and `tail` functions implemented for `T`. However, the only way to
+detect this without tag-dispatching is to basically check whether the
+following expressions are valid in a SFINAE-able context:
+
+    implementation_of_head(std::declval<T>())
+    implementation_of_is_empty(std::declval<T>())
+    implementation_of_tail(std::declval<T>())
+
+Unfortunately, this requires actually doing the algorithms, which might either
+trigger a hard compile-time error or hurt compile-time performance. With tag
+dispatching, we can just ask whether `head_impl<T>`, `is_empty_impl<T>` and
+`tail_impl<T>` are defined, and nothing happens until we actually call
+`head_impl<T>::%apply(...)`.
 
 
 
