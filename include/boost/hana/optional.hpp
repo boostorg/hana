@@ -64,7 +64,7 @@ namespace boost { namespace hana {
         _just(_just&) = default;
 
         template <typename U, typename = decltype(T(std::declval<U>()))>
-        constexpr _just(U&& u)
+        explicit constexpr _just(U&& u)
             : val(static_cast<U&&>(u))
         { }
 

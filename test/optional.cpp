@@ -238,12 +238,6 @@ int main() {
             decltype(expr) explicit_copy(expr); (void)explicit_copy;
         }
 
-        // implicit and explicit construction of just
-        {
-            _just<int> j1{1};       (void)j1;
-            _just<int> j2 = {1};    (void)j2;
-        }
-
         // make<Optional>
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
