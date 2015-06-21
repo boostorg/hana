@@ -706,7 +706,7 @@ namespace boost { namespace hana {
     //! not terminate.
     //!
     //!
-    //! @param foldable
+    //! @param xs
     //! The structure to iterate over.
     //!
     //! @param f
@@ -718,7 +718,7 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/foldable.cpp for_each
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto for_each = [](auto&& foldable, auto&& f) -> decltype(auto) {
+    constexpr auto for_each = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -759,7 +759,7 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/foldable.cpp length
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto length = [](auto&& foldable) -> decltype(auto) {
+    constexpr auto length = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -818,17 +818,17 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Foldable `xs` of data type `F(T)`, a Logical `Bool` and a
-    //! predicate \f$ pred : T \times T \to Bool \f$, `minimum` has the
+    //! Given a `Foldable` `F`, a Logical `Bool` and a predicate
+    //! \f$ \mathtt{pred} : T \times T \to Bool \f$, `minimum` has the
     //! following signatures. For the variant with a provided predicate,
     //! \f[
-    //!     \mathrm{minimum} : S(T) \times (T \times T \to Bool) \to T
+    //!     \mathtt{minimum} : F(T) \times (T \times T \to Bool) \to T
     //! \f]
     //!
     //! for the variant without a custom predicate, the `T` data type is
     //! required to be Orderable. The signature is then
     //! \f[
-    //!     \mathrm{minimum} : S(T) \to T
+    //!     \mathtt{minimum} : F(T) \to T
     //! \f]
     //!
     //! @param xs
@@ -941,17 +941,17 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Foldable `xs` of data type `F(T)`, a Logical `Bool` and a
-    //! predicate \f$ pred : T \times T \to Bool \f$, `maximum` has the
+    //! Given a Foldable `F`, a Logical `Bool` and a predicate
+    //! \f$ \mathtt{pred} : T \times T \to Bool \f$, `maximum` has the
     //! following signatures. For the variant with a provided predicate,
     //! \f[
-    //!     \mathrm{maximum} : S(T) \times (T \times T \to Bool) \to T
+    //!     \mathtt{maximum} : F(T) \times (T \times T \to Bool) \to T
     //! \f]
     //!
     //! for the variant without a custom predicate, the `T` data type is
     //! required to be Orderable. The signature is then
     //! \f[
-    //!     \mathrm{maximum} : S(T) \to T
+    //!     \mathtt{maximum} : F(T) \to T
     //! \f]
     //!
     //! @param xs
@@ -1211,7 +1211,7 @@ namespace boost { namespace hana {
     //! of elements in the structure satisfying the given `predicate`.
     //!
     //!
-    //! @param foldable
+    //! @param xs
     //! The structure whose elements are counted.
     //!
     //! @param predicate
@@ -1231,7 +1231,7 @@ namespace boost { namespace hana {
     //!      data-dataset="benchmark.count_if.compile.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto count_if = [](auto&& foldable, auto&& predicate) -> decltype(auto) {
+    constexpr auto count_if = [](auto&& xs, auto&& predicate) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -1263,14 +1263,14 @@ namespace boost { namespace hana {
     //! a given value.
     //! @relates Foldable
     //!
-    //! Given a Foldable structure `foldable` and a value `value`, `count`
-    //! returns an unsigned integral, or a Constant thereof, representing the
-    //! number of elements of `foldable` that compare equal to `value`. For
-    //! this method to be well-defined, all the elements of the structure must
-    //! be Comparable with the given value.
+    //! Given a Foldable structure `xs` and a value `value`, `count` returns
+    //! an unsigned integral, or a Constant thereof, representing the number
+    //! of elements of `xs` that compare equal to `value`. For this method to
+    //! be well-defined, all the elements of the structure must be Comparable
+    //! with the given value.
     //!
     //!
-    //! @param foldable
+    //! @param xs
     //! The structure whose elements are counted.
     //!
     //! @param value
@@ -1282,7 +1282,7 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/foldable.cpp count
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto count = [](auto&& foldable, auto&& value) -> decltype(auto) {
+    constexpr auto count = [](auto&& xs, auto&& value) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -1314,17 +1314,17 @@ namespace boost { namespace hana {
     //!
     //! Given a function and a foldable structure whose length can be known at
     //! compile-time, `unpack` invokes the function with the contents of that
-    //! structure. In other words, `unpack(foldable, f)` is equivalent to
-    //! `f(x...)`, where `x...` are the elements of the structure. The length
-    //! of the structure must be known at compile-time, because the version of
-    //! `f`'s `operator()` that will be compiled depends on the number of
-    //! arguments it is called with, which has to be known at compile-time.
+    //! structure. In other words, `unpack(xs, f)` is equivalent to `f(x...)`,
+    //! where `x...` are the elements of the structure. The length of the
+    //! structure must be known at compile-time, because the version of `f`'s
+    //! `operator()` that will be compiled depends on the number of arguments
+    //! it is called with, which has to be known at compile-time.
     //!
     //! To create a function that accepts a foldable instead of variadic
     //! arguments, see `fuse` instead.
     //!
     //!
-    //! @param foldable
+    //! @param xs
     //! The structure to expand into the function.
     //!
     //! @param f
@@ -1370,7 +1370,7 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.cppreference.com/w/cpp/experimental/apply
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto unpack = [](auto&& foldable, auto&& f) -> decltype(auto) {
+    constexpr auto unpack = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
