@@ -1204,7 +1204,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct take_at_most_impl<Tuple> {
+    struct take_impl<Tuple> {
         template <typename Xs, std::size_t ...n>
         static constexpr decltype(auto)
         take_helper(Xs&& xs, std::index_sequence<n...>) {

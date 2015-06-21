@@ -36,12 +36,12 @@ namespace boost { namespace hana { namespace test {
                 static_assert(_models<Applicative, decltype(a)>{}, "");
             });
 
-            auto functions1 = hana::take.at_most(
+            auto functions1 = hana::take(
             hana::transform(applicatives, [](auto xs) {
                 return hana::transform(xs, hana::curry<2>(test::_injection<0>{}));
             }), hana::int_<3>);
 
-            auto functions2 = hana::take.at_most(
+            auto functions2 = hana::take(
             hana::transform(applicatives, [](auto xs) {
                 return hana::transform(xs, hana::curry<2>(test::_injection<1>{}));
             }), hana::int_<3>);

@@ -1381,99 +1381,114 @@ namespace boost { namespace hana {
     static constexpr _subsequence subsequence{};
 #endif
 
-    //! Returns the first `n` elements of a sequence.
+    //! Returns the first `n` elements of a sequence, or the whole sequence
+    //! if the sequence has less than `n` elements.
     //! @relates Sequence
     //!
-    //! Broadly speaking, `take(xs, n)` is a new sequence containing the first
-    //! `n` elements of `xs`, in the same order. `n` must be a Constant of an
-    //! unsigned integral type. However, there are different ways of calling
-    //! `take`, which correspond to different policies in case the length of
-    //! the sequence is less than `n`:
-    //! @code
-    //!     take(xs, n)         = take.at_most(xs, n)
-    //!     take.at_most(xs, n) = see below
-    //!     take.exactly(xs, n) = see below
-    //! @endcode
-    //!
-    //! In case `length(xs) < n`, the `take.at_most` variant will simply take
-    //! the whole sequence, without failing. In contrast, the `take.exactly`
-    //! variant assumes that `length(xs) >= n`, which makes it possible to
-    //! perform some optimizations.
-    //!
-    //! All of the different variants are tag-dispatched methods that
-    //! can be overriden. Here is how each variant is tag-dispatched:
-    //! @code
-    //!     take.at_most       ->  take_at_most_impl
-    //!     take.exactly       ->  take_exactly_impl
-    //! @endcode
-    //! `take` is not tag dispatched, because it is just an alias to
-    //! `take.at_most`.
+    //! Given a `Sequence` `xs` and a `Constant` `n` holding an unsigned
+    //! integral value, `take(xs, n)` is a new sequence containing the first
+    //! `n` elements of `xs`, in the same order. If `length(xs) <= n`, the
+    //! whole sequence is returned and no error is triggered. This is different
+    //! from `take_exactly`, which requires `n <= length(xs)` but can be better
+    //! optimized because of this guarantee.
     //!
     //!
     //! @param xs
     //! The sequence to take the elements from.
     //!
     //! @param n
-    //! A non-negative `Constant` of an unsigned integral type representing
-    //! the number of elements to keep in the resulting sequence. If
-    //! `length(xs) < n`, the exact behavior is determined by the chosen
-    //! policy (either `take.at_most` or `take.exactly`).
+    //! A non-negative `Constant` holding an unsigned integral value
+    //! representing the number of elements to keep in the resulting sequence.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/sequence.cpp take
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto take = see documentation;
+    constexpr auto take = [](auto&& xs, auto&& n) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct take_impl;
+
+    struct _take {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
+            using S = typename datatype<Xs>::type;
+            using Take = BOOST_HANA_DISPATCH_IF(take_impl<S>,
+                _models<Sequence, S>{}() &&
+                _models<Constant, N>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Sequence, S>{},
+            "hana::take(xs, n) requires 'xs' to be a Sequence");
+
+            static_assert(_models<Constant, N>{},
+            "hana::take(xs, n) requires 'n' to be a Constant");
+        #endif
+
+            return Take::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        }
+    };
+
+    constexpr _take take{};
+#endif
+
+    //! Returns the first `n` elements of a sequence, which must have at least
+    //! `n` elements.
+    //! @relates Sequence
+    //!
+    //! Given a `Sequence` `xs` and a `Constant` `n` holding an unsigned
+    //! integral value, `take_exactly(xs, n)` is a new sequence containing
+    //! the first `n` elements of `xs`, in the same order. It is an error if
+    //! `n > length(xs)`. This guarantee allows `take_exactly` to be optimized
+    //! better than the `take` function, which allows `n` to be greater than
+    //! the number of elements in the sequence.
+    //!
+    //!
+    //! @param xs
+    //! The sequence to take the elements from.
+    //!
+    //! @param n
+    //! A non-negative `Constant` holding an unsigned integral value
+    //! representing the number of elements to keep in the resulting sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp take_exactly
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto take_exactly = [](auto&& xs, auto&& n) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
     struct take_exactly_impl;
+
     struct _take_exactly {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using S = typename datatype<Xs>::type;
             using TakeExactly = BOOST_HANA_DISPATCH_IF(take_exactly_impl<S>,
-                _models<Sequence, S>{}()
+                _models<Sequence, S>{}() &&
+                _models<Constant, N>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Sequence, S>{},
-            "hana::take.exactly(xs, n) requires 'xs' to be a Sequence");
+            "hana::take_exactly(xs, n) requires 'xs' to be a Sequence");
+
+            static_assert(_models<Constant, N>{},
+            "hana::take_exactly(xs, n) requires 'n' to be a Constant");
         #endif
 
             return TakeExactly::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
-    template <typename S, typename = void>
-    struct take_at_most_impl;
-    struct _take_at_most {
-        template <typename Xs, typename N>
-        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
-            using S = typename datatype<Xs>::type;
-            using TakeAtMost = BOOST_HANA_DISPATCH_IF(take_at_most_impl<S>,
-                _models<Sequence, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Sequence, S>{},
-            "hana::take.at_most(xs, n) requires 'xs' to be a Sequence");
-        #endif
-
-            return TakeAtMost::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
-        }
-    };
-
-    template <typename ...AvoidODRViolation>
-    struct _take : _take_at_most {
-        static constexpr _take_exactly exactly{};
-        static constexpr _take_at_most at_most{};
-    };
-    template <typename ...AvoidODRViolation>
-    constexpr _take_exactly _take<AvoidODRViolation...>::exactly;
-    template <typename ...AvoidODRViolation>
-    constexpr _take_at_most _take<AvoidODRViolation...>::at_most;
-    constexpr _take<> take{};
+    constexpr _take_exactly take_exactly{};
 #endif
 
     //! Equivalent to `take`; provided for convenience.

@@ -398,73 +398,19 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
-            // take.at_most
+            // take
             //////////////////////////////////////////////////////////////////
             {
-            auto take = hana::take.at_most;
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(), size_t<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(), size_t<1>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(), size_t<2>),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}), size_t<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}), size_t<1>),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}), size_t<2>),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}), size_t<3>),
-                list(eq<0>{})
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}, eq<1>{}), size_t<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}, eq<1>{}), size_t<1>),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}, eq<1>{}), size_t<2>),
-                list(eq<0>{}, eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}, eq<1>{}), size_t<3>),
-                list(eq<0>{}, eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                take(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{},  eq<4>{},  eq<5>{},  eq<6>{},
-                          eq<7>{}, eq<8>{}, eq<9>{}, eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
-                    size_t<10>),
-                list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
-            ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // take.exactly
-            //////////////////////////////////////////////////////////////////
-            {
-                auto take = hana::take.exactly;
-
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     take(list(), size_t<0>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(), size_t<1>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(), size_t<2>),
                     list()
                 ));
 
@@ -474,6 +420,14 @@ namespace boost { namespace hana { namespace test {
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     take(list(eq<0>{}), size_t<1>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(eq<0>{}), size_t<2>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(eq<0>{}), size_t<3>),
                     list(eq<0>{})
                 ));
 
@@ -489,12 +443,54 @@ namespace boost { namespace hana { namespace test {
                     take(list(eq<0>{}, eq<1>{}), size_t<2>),
                     list(eq<0>{}, eq<1>{})
                 ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(eq<0>{}, eq<1>{}), size_t<3>),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{},  eq<4>{},  eq<5>{},  eq<6>{},
+                              eq<7>{}, eq<8>{}, eq<9>{}, eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
+                        size_t<10>),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // take_exactly
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(), size_t<0>),
+                    list()
+                ));
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    take(list(eq<0>{},  eq<1>{},  eq<2>{},  eq<3>{}, eq<4>{},
-                              eq<5>{},  eq<6>{},  eq<7>{},  eq<8>{}, eq<9>{},
-                              eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
-                         size_t<10>),
+                    take_exactly(list(eq<0>{}), size_t<0>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(eq<0>{}), size_t<1>),
+                    list(eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<0>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<1>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<2>),
+                    list(eq<0>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    take_exactly(list(eq<0>{},  eq<1>{},  eq<2>{},  eq<3>{}, eq<4>{},
+                                      eq<5>{},  eq<6>{},  eq<7>{},  eq<8>{}, eq<9>{},
+                                      eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
+                                 size_t<10>),
                     list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{},
                          eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
                 ));

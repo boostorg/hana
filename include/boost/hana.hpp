@@ -603,7 +603,7 @@ function                                    | description
 <code>[partition](@ref Sequence::partition)(sequence, predicate)</code>             | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
 <code>[prepend](@ref MonadPlus::prepend)(sequence, value)</code>                    | Prepend an element to a sequence.
 <code>[remove](@ref MonadPlus::remove)(sequence, value)</code>                      | Remove all the elements that are equal to a given value.
-<code>[remove_at](@ref Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `integral_constant`.
+<code>[remove_at](@ref Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `IntegralConstant`.
 <code>[remove_if](@ref MonadPlus::remove_if)(sequence, predicate)</code>            | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
 <code>[replace](@ref Functor::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
 <code>[replace_if](@ref Functor::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
@@ -614,7 +614,8 @@ function                                    | description
 <code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 <code>[subsequence](@ref Sequence::subsequence)(sequence, indices)</code>           | Returns the elements of a sequence at the `indices` in the given sequence.
 <code>[tail](@ref Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
-<code>[take](@ref Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence. n must be an `integral_constant`.
+<code>[take](@ref Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) < n`. n must be an `IntegralConstant`.
+<code>[take_exactly](@ref Sequence::take_exactly)(sequence, number)</code>          | Take the first n elements of a sequence. n must be an `IntegralConstant` and the sequence must have at least `n` elements.
 <code>[take_until](@ref Sequence::take_until)(sequence, predicate)</code>           | Take elements of a sequence until some predicate is satisfied, and return that.
 <code>[take_while](@ref Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
 <code>[transform](@ref Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.

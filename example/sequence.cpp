@@ -573,12 +573,21 @@ BOOST_HANA_CONSTANT_CHECK(
 //! [take]
 using namespace boost::hana::literals;
 
-BOOST_HANA_CONSTANT_CHECK( take(make_tuple(1, '2', 3.3), 0_c) == make_tuple());
-static_assert(take(make_tuple(1, '2', 3.3), 1_c) == make_tuple(1), "");
-static_assert(take(make_tuple(1, '2', 3.3), 2_c) == make_tuple(1, '2'), "");
-static_assert(take(make_tuple(1, '2', 3.3), 3_c) == make_tuple(1, '2', 3.3), "");
-static_assert(take(make_tuple(1, '2', 3.3), 4_c) == make_tuple(1, '2', 3.3), "");
+BOOST_HANA_CONSTANT_CHECK(take(make_tuple(1, '2', 3.3), size_t<0>) == make_tuple());
+static_assert(take(make_tuple(1, '2', 3.3), size_t<1>) == make_tuple(1), "");
+static_assert(take(make_tuple(1, '2', 3.3), size_t<2>) == make_tuple(1, '2'), "");
+static_assert(take(make_tuple(1, '2', 3.3), size_t<3>) == make_tuple(1, '2', 3.3), "");
+static_assert(take(make_tuple(1, '2', 3.3), size_t<4>) == make_tuple(1, '2', 3.3), "");
 //! [take]
+
+}{
+
+//! [take_exactly]
+using namespace boost::hana::literals;
+
+static_assert(take_exactly(make_tuple(1, '2', 3.3), size_t<1>) == make_tuple(1), "");
+static_assert(take_exactly(make_tuple(1, '2', 3.3), size_t<2>) == make_tuple(1, '2'), "");
+//! [take_exactly]
 
 }{
 

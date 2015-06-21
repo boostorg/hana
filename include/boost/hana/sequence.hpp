@@ -713,7 +713,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // take.exactly
+    // take_exactly
     //////////////////////////////////////////////////////////////////////////
     namespace sequence_detail {
         template <typename TakeHelper>
@@ -747,19 +747,19 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // take.at_most
+    // take
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
-    struct take_at_most_impl : take_at_most_impl<S, when<true>> { };
+    struct take_impl : take_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct take_at_most_impl<S, when<condition>> : default_ {
+    struct take_impl<S, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             return hana::eval_if(
                 hana::or_(hana::equal(n, size_t<0>), hana::is_empty(xs)),
                 hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::take_helper<take_at_most_impl>{})(xs, n)
+                hana::lazy(sequence_detail::take_helper<take_impl>{})(xs, n)
             );
         }
     };
