@@ -578,7 +578,8 @@ function                                    | description
 <code>[contains](@ref Searchable::contains)(sequence, value)</code>                 | Returns whether a sequence contains the given object.
 <code>[count](@ref Foldable::count)(sequence, value)</code>                         | Returns the number of elements that compare equal to the given value.
 <code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>               | Returns the number of elements that satisfy the predicate.
-<code>[drop](@ref Iterable::drop)(sequence, n)</code>                               | Drops the n first elements from a sequence and returns the rest. `n` must be an IntegralConstant.
+<code>[drop](@ref Iterable::drop)(sequence, n)</code>                               | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant.
+<code>[drop_exactly](@ref Iterable::drop_exactly)(sequence, n)</code>               | Drop the first `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements.
 <code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>           | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
@@ -614,7 +615,7 @@ function                                    | description
 <code>[sort](@ref Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 <code>[subsequence](@ref Sequence::subsequence)(sequence, indices)</code>           | Returns the elements of a sequence at the `indices` in the given sequence.
 <code>[tail](@ref Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
-<code>[take](@ref Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) < n`. n must be an `IntegralConstant`.
+<code>[take](@ref Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
 <code>[take_exactly](@ref Sequence::take_exactly)(sequence, number)</code>          | Take the first n elements of a sequence. n must be an `IntegralConstant` and the sequence must have at least `n` elements.
 <code>[take_until](@ref Sequence::take_until)(sequence, predicate)</code>           | Take elements of a sequence until some predicate is satisfied, and return that.
 <code>[take_while](@ref Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.

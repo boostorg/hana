@@ -276,7 +276,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_at_most_impl<Range> {
+    struct drop_impl<Range> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();

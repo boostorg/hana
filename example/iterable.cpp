@@ -67,18 +67,22 @@ BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make_tuple(0, '1', 2.0)) == 2.0);
 //! [drop]
 constexpr auto xs = make_tuple(0, '1', 2.0);
 
-// drop (equivalent to drop.at_most)
-static_assert(drop(xs, int_<0>) == xs, "");
-static_assert(drop(xs, int_<1>) == make_tuple('1', 2.0), "");
-static_assert(drop(xs, int_<2>) == make_tuple(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(drop(xs, int_<3>) == make_tuple());
-BOOST_HANA_CONSTANT_CHECK(drop(xs, int_<4>) == make_tuple());
-BOOST_HANA_CONSTANT_CHECK(drop.at_most(xs, int_<4>) == make_tuple());
-
-// drop.exactly
-static_assert(drop.exactly(xs, int_<2>) == make_tuple(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(drop.exactly(xs, int_<3>) == make_tuple());
+static_assert(drop(xs, size_t<0>) == xs, "");
+static_assert(drop(xs, size_t<1>) == make_tuple('1', 2.0), "");
+static_assert(drop(xs, size_t<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop(xs, size_t<3>) == make_tuple());
+BOOST_HANA_CONSTANT_CHECK(drop(xs, size_t<4>) == make_tuple());
 //! [drop]
+
+}{
+
+//! [drop_exactly]
+constexpr auto xs = make_tuple(0, '1', 2.0);
+
+static_assert(drop_exactly(xs, size_t<1>) == make_tuple('1', 2.0), "");
+static_assert(drop_exactly(xs, size_t<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop_exactly(xs, size_t<3>) == make_tuple());
+//! [drop_exactly]
 
 }{
 

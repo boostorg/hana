@@ -454,7 +454,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_at_most_impl<Tuple> {
+    struct drop_impl<Tuple> {
         using Size = std::size_t;
 
         template <Size n, typename Xs, Size ...i>
@@ -482,7 +482,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                return hana::drop_exactly(static_cast<Xs&&>(xs),
                                           hana::size_t<k-1>);
             }
 
@@ -501,14 +501,14 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                return hana::drop_exactly(static_cast<Xs&&>(xs),
                                           hana::size_t<Len - 1>);
             }
 
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(true_), Xs&& xs, Pred&&) {
-                return hana::drop.exactly(static_cast<Xs&&>(xs),
+                return hana::drop_exactly(static_cast<Xs&&>(xs),
                                           hana::size_t<Len>);
             }
         };

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/fwd/constant.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/models.hpp>
 
@@ -428,105 +429,120 @@ namespace boost { namespace hana {
     constexpr _last last{};
 #endif
 
-    //! Drops the first `n` elements of an iterable and returns the rest.
+    //! Drop the first `n` elements of an iterable, and return the rest.
     //! @relates Iterable
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
-    //! a (non-negative) `Constant` `n` of an unsigned integral type,
+    //! a (non-negative) `Constant` `n` holding an unsigned integral value,
     //! `drop(xs, n)` is an iterable of the same data type whose linearization
-    //! is `[xn+1, xn+2, ...]`. In particular, note that this method does not
-    //! mutate the original iterable in any way.
+    //! is `[xn+1, xn+2, ...]`. In particular, note that this function does
+    //! not mutate the original iterable in any way.
     //!
-    //! There are two different ways of calling `drop`, which correspond to
-    //! different policies in case the length of the iterable is less than `n`:
-    //! @code
-    //!     drop(xs, n)         = drop.at_most(xs, n)
-    //!     drop.at_most(xs, n) = see below
-    //!     drop.exactly(xs, n) = see below
-    //! @endcode
+    //! In case `length(xs) <= n`, `drop` will simply drop the whole iterable
+    //! without failing, thus returning an empty iterable. This is different
+    //! from `drop_exactly`, which expects `n <= length(xs)` but can be better
+    //! optimized because of this additional guarantee.
     //!
-    //! In case `length(xs) < n`, the `drop.at_most` variant will simply drop
-    //! the whole iterable, without failing. In contrast, the `drop.exactly`
-    //! variant assumes that `length(xs) >= n`, which makes it possible to
-    //! perform some optimizations.
-    //!
-    //! Both variants are tag-dispatched methods that can be overriden. Here
-    //! is how each variant is tag-dispatched:
-    //! @code
-    //!     drop.at_most  ->  drop_at_most_impl
-    //!     drop.exactly  ->  drop_exactly_impl
-    //! @endcode
-    //! `drop` is not tag dispatched, because it is just an alias to
-    //! `drop.at_most`.
     //!
     //! @param xs
     //! The iterable from which elements are dropped.
     //!
     //! @param n
-    //! A non-negative `Constant` of an unsigned integral type representing
-    //! the number of elements to be dropped from the iterable.
+    //! A non-negative `Constant` holding an unsigned integral value
+    //! representing the number of elements to be dropped from the iterable.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/iterable.cpp drop
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop = [](auto&& xs, auto&& n) -> decltype(auto) {
+    constexpr auto drop = [](auto&& xs, auto&& n) {
+        return tag-dispatched;
+    };
+#else
+    template <typename It, typename = void>
+    struct drop_impl;
+
+    struct _drop {
+        template <typename Xs, typename N>
+        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
+            using It = typename datatype<Xs>::type;
+            using Drop = BOOST_HANA_DISPATCH_IF(drop_impl<It>,
+                _models<Iterable, It>{}() &&
+                _models<Constant, N>{}()
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(_models<Iterable, It>{},
+            "hana::drop(xs, n) requires 'xs' to be an Iterable");
+
+            static_assert(_models<Constant, N>{},
+            "hana::drop(xs, n) requires 'n' to be a Constant");
+        #endif
+
+            return Drop::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        }
+    };
+
+    constexpr _drop drop{};
+#endif
+
+    //! Drop the first `n` elements of an iterable, and return the rest.
+    //! @relates Iterable
+    //!
+    //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
+    //! a (non-negative) `Constant` `n` holding an unsigned integral value,
+    //! `drop_exactly(xs, n)` is an iterable of the same data type whose
+    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
+    //! function does not mutate the original iterable in any way.
+    //!
+    //! It is an error to use `drop_exactly` with `n > length(xs)`. This
+    //! additional guarantee allows `drop_exactly` to be better optimized
+    //! than the `drop` function, which allows `n > length(xs)`.
+    //!
+    //!
+    //! @param xs
+    //! The iterable from which elements are dropped.
+    //!
+    //! @param n
+    //! A non-negative `Constant` holding an unsigned integral value
+    //! representing the number of elements to be dropped from the iterable.
+    //! `n` must be less than or equal to the number of elements in `xs`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/iterable.cpp drop_exactly
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto drop_exactly = [](auto&& xs, auto&& n) {
         return tag-dispatched;
     };
 #else
     template <typename It, typename = void>
     struct drop_exactly_impl;
 
-    template <typename It, typename = void>
-    struct drop_at_most_impl;
-
     struct _drop_exactly {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
-            using DropExactly = BOOST_HANA_DISPATCH_IF(
-                drop_exactly_impl<It>,
-                _models<Iterable, It>{}()
+            using DropExactly = BOOST_HANA_DISPATCH_IF(drop_exactly_impl<It>,
+                _models<Iterable, It>{}() &&
+                _models<Constant, N>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::drop.exactly(xs, n) requires xs to be an Iterable");
+            "hana::drop_exactly(xs, n) requires 'xs' to be an Iterable");
+
+            static_assert(_models<Constant, N>{},
+            "hana::drop_exactly(xs, n) requires 'n' to be a Constant");
         #endif
 
             return DropExactly::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
     };
 
-    struct _drop_at_most {
-        template <typename Xs, typename N>
-        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
-            using It = typename datatype<Xs>::type;
-            using DropAtMost = BOOST_HANA_DISPATCH_IF(
-                drop_at_most_impl<It>,
-                _models<Iterable, It>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Iterable, It>{},
-            "hana::drop.at_most(xs, n) requires xs to be an Iterable");
-        #endif
-
-            return DropAtMost::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
-        }
-    };
-
-    template <typename ...>
-    struct _drop : _drop_at_most {
-        static constexpr _drop_exactly exactly{};
-        static constexpr _drop_at_most at_most{};
-    };
-    template <typename ...Dummy>
-    constexpr _drop_exactly _drop<Dummy...>::exactly;
-    template <typename ...Dummy>
-    constexpr _drop_at_most _drop<Dummy...>::at_most;
-    constexpr _drop<> drop{};
+    constexpr _drop_exactly drop_exactly{};
 #endif
 
     //! Equivalent to `drop`; provided for convenience.

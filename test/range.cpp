@@ -434,118 +434,118 @@ int main() {
             ));
         }
 
-        // drop.at_most
+        // drop
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<0>), int_<0>),
+                drop(range(int_<0>, int_<0>), int_<0>),
                 range(int_<0>, int_<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<0>), int_<1>),
+                drop(range(int_<0>, int_<0>), int_<1>),
                 range(int_<0>, int_<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<0>), int_<2>),
+                drop(range(int_<0>, int_<0>), int_<2>),
                 range(int_<0>, int_<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<1>), int_<0>),
+                drop(range(int_<0>, int_<1>), int_<0>),
                 range(int_<0>, int_<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<1>), int_<1>),
+                drop(range(int_<0>, int_<1>), int_<1>),
                 range(int_<1>, int_<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<1>), int_<2>),
+                drop(range(int_<0>, int_<1>), int_<2>),
                 range(int_<1>, int_<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<2>), int_<0>),
+                drop(range(int_<0>, int_<2>), int_<0>),
                 range(int_<0>, int_<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<2>), int_<1>),
+                drop(range(int_<0>, int_<2>), int_<1>),
                 range(int_<1>, int_<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<2>), int_<2>),
+                drop(range(int_<0>, int_<2>), int_<2>),
                 range(int_<2>, int_<2>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<3>), int_<0>),
+                drop(range(int_<0>, int_<3>), int_<0>),
                 range(int_<0>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<3>), int_<1>),
+                drop(range(int_<0>, int_<3>), int_<1>),
                 range(int_<1>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<3>), int_<2>),
+                drop(range(int_<0>, int_<3>), int_<2>),
                 range(int_<2>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<0>, int_<3>), int_<3>),
+                drop(range(int_<0>, int_<3>), int_<3>),
                 range(int_<3>, int_<3>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(range(int_<20>, int_<50>), int_<10>),
+                drop(range(int_<20>, int_<50>), int_<10>),
                 range(int_<30>, int_<50>)
             ));
         }
 
-        // drop.exactly
+        // drop_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<0>), int_<0>),
+                drop_exactly(range(int_<0>, int_<0>), int_<0>),
                 range(int_<0>, int_<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<1>), int_<0>),
+                drop_exactly(range(int_<0>, int_<1>), int_<0>),
                 range(int_<0>, int_<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<1>), int_<1>),
+                drop_exactly(range(int_<0>, int_<1>), int_<1>),
                 range(int_<1>, int_<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<2>), int_<0>),
+                drop_exactly(range(int_<0>, int_<2>), int_<0>),
                 range(int_<0>, int_<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<2>), int_<1>),
+                drop_exactly(range(int_<0>, int_<2>), int_<1>),
                 range(int_<1>, int_<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<2>), int_<2>),
+                drop_exactly(range(int_<0>, int_<2>), int_<2>),
                 range(int_<2>, int_<2>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<3>), int_<0>),
+                drop_exactly(range(int_<0>, int_<3>), int_<0>),
                 range(int_<0>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<3>), int_<1>),
+                drop_exactly(range(int_<0>, int_<3>), int_<1>),
                 range(int_<1>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<3>), int_<2>),
+                drop_exactly(range(int_<0>, int_<3>), int_<2>),
                 range(int_<2>, int_<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<0>, int_<3>), int_<3>),
+                drop_exactly(range(int_<0>, int_<3>), int_<3>),
                 range(int_<3>, int_<3>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(range(int_<20>, int_<50>), int_<10>),
+                drop_exactly(range(int_<20>, int_<50>), int_<10>),
                 range(int_<30>, int_<50>)
             ));
         }

@@ -125,26 +125,26 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // drop.at_most
+    // drop
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct drop_at_most_impl : drop_at_most_impl<It, when<true>> { };
+    struct drop_impl : drop_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_at_most_impl<It, when<condition>> : default_ {
+    struct drop_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N&& n) {
             using I = typename datatype<N>::type;
             return hana::eval_if(
                 hana::or_(hana::equal(n, zero<I>()), hana::is_empty(xs)),
                 hana::always(xs),
-                hana::lazy(hana::lockstep(drop.at_most)(tail, pred))(xs, n)
+                hana::lazy(hana::lockstep(drop)(tail, pred))(xs, n)
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // drop.exactly
+    // drop_exactly
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
     struct drop_exactly_impl : drop_exactly_impl<It, when<true>> { };

@@ -273,90 +273,79 @@ namespace boost { namespace hana { namespace test {
 
 
             //////////////////////////////////////////////////////////////////
-            // drop.at_most
+            // drop
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(), size_t<0>),
+                drop(list(), size_t<0>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(), size_t<1>),
+                drop(list(), size_t<1>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(), size_t<2>),
+                drop(list(), size_t<2>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}), size_t<0>),
+                drop(list(x<0>{}), size_t<0>),
                 list(x<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}), size_t<1>),
+                drop(list(x<0>{}), size_t<1>),
                 list()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}), size_t<2>),
+                drop(list(x<0>{}), size_t<2>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}, x<1>{}), size_t<0>),
+                drop(list(x<0>{}, x<1>{}), size_t<0>),
                 list(x<0>{}, x<1>{})
             ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}, x<1>{}), size_t<1>),
-                list(x<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.at_most(list(x<0>{}, x<1>{}), size_t<2>),
-                list()
-            ));
-
-            // drop == drop.at_most
             BOOST_HANA_CONSTANT_CHECK(equal(
                 drop(list(x<0>{}, x<1>{}), size_t<1>),
-                drop.at_most(list(x<0>{}, x<1>{}), size_t<1>)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop(list(x<0>{}, x<1>{}), size_t<3>),
-                drop.at_most(list(x<0>{}, x<1>{}), size_t<3>)
-            ));
-
-            //////////////////////////////////////////////////////////////////
-            // drop.exactly
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(), size_t<0>),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}), size_t<0>),
-                list(x<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}), size_t<1>),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}, x<1>{}), size_t<0>),
-                list(x<0>{}, x<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}, x<1>{}), size_t<1>),
                 list(x<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}, x<1>{}), size_t<2>),
+                drop(list(x<0>{}, x<1>{}), size_t<2>),
+                list()
+            ));
+
+            //////////////////////////////////////////////////////////////////
+            // drop_exactly
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(), size_t<0>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                drop.exactly(list(x<0>{}, x<1>{}, x<2>{}, x<3>{},
+                drop_exactly(list(x<0>{}), size_t<0>),
+                list(x<0>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(x<0>{}), size_t<1>),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(x<0>{}, x<1>{}), size_t<0>),
+                list(x<0>{}, x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(x<0>{}, x<1>{}), size_t<1>),
+                list(x<1>{})
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(x<0>{}, x<1>{}), size_t<2>),
+                list()
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_exactly(list(x<0>{}, x<1>{}, x<2>{}, x<3>{},
                                   x<4>{}, x<5>{}, x<6>{}, x<7>{}), size_t<4>),
                 list(x<4>{}, x<5>{}, x<6>{}, x<7>{})
             ));
