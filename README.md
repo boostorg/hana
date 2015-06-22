@@ -67,15 +67,23 @@ Hana is a header only library. To use it in your own project, just add the
 [include](include) directory to your compiler's header search path and
 you are done.
 
-The library relies on a full-featured C++14 compiler and standard library,
-but nothing else is required. Here is a table of the current C++14 compilers
-with comments regarding support for Hana:
+The library relies on a C++14 compiler and standard library, but nothing else
+is required. Here is a table of the current C++14 compilers/toolchains with
+comments regarding support for Hana:
 
 Compiler/Toolchain | Status
 ------------------ | ------
 Clang >= 3.5.0     | Fully working; tested on each push to `master`
 Xcode >= 6.3       | Fully working according to external sources
-GCC >= 5.1.0       | Almost working; waiting for the GCC team to fix [this][GCC.65719] bug amongst others
+GCC >= 5.1.0       | Almost working; waiting for the GCC team to fix a couple of C++14-related bugs
+
+More specifically, Hana requires a compiler/standard library supporting the
+following C++14 features (non-exhaustively):
+- Generic lambdas
+- Generalized `constexpr`
+- Variable templates
+- Automatically deduced return type
+- All the C++14 type traits from the `<type_traits>` header
 
 
 ## Documentation
@@ -215,7 +223,6 @@ Please see [LICENSE.md](LICENSE.md).
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
-[GCC.65719]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=65719
 [MPL11]: http://github.com/ldionne/mpl11
 [slides.C++Now.2014]: http://ldionne.github.io/mpl11-cppnow-2014
 [slides.C++Now.2015]: http://ldionne.github.io/hana-cppnow-2015
