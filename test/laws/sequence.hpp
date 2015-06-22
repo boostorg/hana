@@ -1511,38 +1511,24 @@ namespace boost { namespace hana { namespace test {
                 };
 
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>.left(int_<0>, stop_at(int_<0>)),
+                    unfold_left<S>(int_<0>, stop_at(int_<0>)),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>.left(int_<0>, stop_at(int_<1>)),
+                    unfold_left<S>(int_<0>, stop_at(int_<1>)),
                     list(f(int_<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>.left(int_<0>, stop_at(int_<2>)),
+                    unfold_left<S>(int_<0>, stop_at(int_<2>)),
                     list(f(int_<1>), f(int_<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>.left(int_<0>, stop_at(int_<3>)),
+                    unfold_left<S>(int_<0>, stop_at(int_<3>)),
                     list(f(int_<2>), f(int_<1>), f(int_<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>.left(int_<0>, stop_at(int_<4>)),
+                    unfold_left<S>(int_<0>, stop_at(int_<4>)),
                     list(f(int_<3>), f(int_<2>), f(int_<1>), f(int_<0>))
-                ));
-
-                // make sure unfold<S> is equivalent to unfold<S>.left
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>(int_<0>, stop_at(int_<0>)),
-                    unfold<S>.left(int_<0>, stop_at(int_<0>))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>(int_<0>, stop_at(int_<3>)),
-                    unfold<S>.left(int_<0>, stop_at(int_<3>))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    unfold<S>(int_<0>, stop_at(int_<4>)),
-                    unfold<S>.left(int_<0>, stop_at(int_<4>))
                 ));
             }
 
@@ -1562,23 +1548,23 @@ namespace boost { namespace hana { namespace test {
                 };
 
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    unfold<S>.right(int_<0>, stop_at(int_<0>)),
+                    unfold_right<S>(int_<0>, stop_at(int_<0>)),
                     list()
                 ));
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    unfold<S>.right(int_<0>, stop_at(int_<1>)),
+                    unfold_right<S>(int_<0>, stop_at(int_<1>)),
                     list(f(int_<0>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    unfold<S>.right(int_<0>, stop_at(int_<2>)),
+                    unfold_right<S>(int_<0>, stop_at(int_<2>)),
                     list(f(int_<0>), f(int_<1>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    unfold<S>.right(int_<0>, stop_at(int_<3>)),
+                    unfold_right<S>(int_<0>, stop_at(int_<3>)),
                     list(f(int_<0>), f(int_<1>), f(int_<2>))
                 ));
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    unfold<S>.right(int_<0>, stop_at(int_<4>)),
+                    unfold_right<S>(int_<0>, stop_at(int_<4>)),
                     list(f(int_<0>), f(int_<1>), f(int_<2>), f(int_<3>))
                 ));
             }
@@ -1620,11 +1606,11 @@ namespace boost { namespace hana { namespace test {
                 );
                 for_each(lists, [=](auto xs) {
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        unfold<S>.left(fold_left(xs, z, f), g),
+                        unfold_left<S>(fold_left(xs, z, f), g),
                         xs
                     ));
                     BOOST_HANA_CONSTANT_CHECK(equal(
-                        unfold<S>.right(fold_right(xs, z, f), g),
+                        unfold_right<S>(fold_right(xs, z, f), g),
                         xs
                     ));
                 });
