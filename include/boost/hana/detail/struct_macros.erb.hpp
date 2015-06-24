@@ -73,10 +73,15 @@ namespace boost { namespace hana { namespace struct_detail {
     }
 }}}
 
+template <typename ...>
+struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
+
 //////////////////////////////////////////////////////////////////////////////
 // BOOST_HANA_ADAPT_STRUCT
 //////////////////////////////////////////////////////////////////////////////
 #define BOOST_HANA_ADAPT_STRUCT(...)                                        \
+  template <>                                                               \
+  struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace<>;  \
   BOOST_HANA_ADAPT_STRUCT_IMPL(BOOST_HANA_PP_NARG(__VA_ARGS__), __VA_ARGS__)\
   static_assert(true, "force the usage of a trailing semicolon")            \
 /**/
