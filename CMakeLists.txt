@@ -153,10 +153,15 @@ endif()
 function(boost_hana_add_executable name)
     add_executable(${name} ${ARGN})
 
-    if (DEFINED LIBCXX_ROOT)
-        target_link_libraries(${name} ${libcxx})
-        set_property(TARGET ${name} APPEND PROPERTY
-            INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
+    if (BOOST_HANA_ENABLE_LIBCXX)
+        if (DEFINED LIBCXX_ROOT)
+            target_link_libraries(${name} ${libcxx})
+            set_property(TARGET ${name} APPEND PROPERTY
+                INCLUDE_DIRECTORIES "${LIBCXX_ROOT}/include/c++/v1")
+        else()
+            set_target_properties(${name} PROPERTIES LINK_FLAGS "-stdlib=libc++")
+            target_link_libraries(${name} -lc++abi)
+        endif()
     endif()
 endfunction()
 
