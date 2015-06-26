@@ -2198,7 +2198,11 @@ reason for this is that template metaprogramming is such a twisted model of
 computation that it's very hard to find a standard way of measuring the
 performance of algorithms. Hence, instead of presenting meaningless complexity
 analyses, we prefer to benchmark everything on every supported compiler and to
-pick the best implementation on that compiler. Now, let's dive.
+pick the best implementation on that compiler. Also note that the benchmarks
+we present here are quite precise. Indeed, even though we do not take multiple
+measurements and take their mean or something similar to reduce incertitude,
+the benchmarks are very stable when they are regenerated, which suggests a
+reasonably good precision. Now, let's dive.
 
 First, Hana minimizes its dependency on the preprocessor. In addition to
 yielding cleaner error messages in many cases, this reduces the overall
