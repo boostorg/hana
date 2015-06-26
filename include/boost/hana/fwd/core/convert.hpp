@@ -38,7 +38,12 @@ namespace boost { namespace hana {
     //! may be specialized in the `boost::hana` namespace to customize its
     //! behavior for arbitrary data types. Also note that `to` is tag-dispatched
     //! using both the `To` and the `From` data types, which means that `to_impl`
-    //! is called as `to_impl<To, From>::%apply(x)`.
+    //! is called as `to_impl<To, From>::%apply(x)`. Also note that some
+    //! concepts provide conversions to or from their models. For example,
+    //! any `Foldable` may be converted into a `Sequence`. This is achieved
+    //! by specializing `to_impl<To, From>` whenever `To` is a `Sequence` and
+    //! `From` is a `Foldable`. When such conversions are provided, they are
+    //! documented in the source concept, in this case `Foldable`.
     //!
     //!
     //! Hana-convertibility
