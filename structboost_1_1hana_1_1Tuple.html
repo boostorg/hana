@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Tuple.html','')
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Tuple-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Tuple Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -141,12 +141,22 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Tuple.html','')
 <p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> is the bread and butter for static metaprogramming. Conceptually, an object of this kind is like a <code>std::tuple</code>; it is a container able of holding objects of different types and whose size is fixed at compile-time. However, Hana's tuple provides much more functionality than its <code>std</code> counterpart, and it is also much more efficient than all standard library implementations tested so far.</p>
 <p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>s are index-based sequences. If you need an associative sequence with a key-based access, then you should consider the <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> data types instead.</p>
 <h2>Modeled concepts </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and all its superclasses</p>
+<p><code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and all the concepts it refines</p>
 <h2>Provided operators </h2>
-<p>For convenience, operators for methods of the following concepts can be used with <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>: <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>. </p>
-</div><table class="memberdecls">
+<p>For convenience, the following operators are provided: </p><div class="fragment"><div class="line">xs == ys        -&gt;          equal(xs, ys)</div>
+<div class="line">xs != ys        -&gt;          not_equal(xs, ys)</div>
+<div class="line"></div>
+<div class="line">xs &lt; ys         -&gt;          less(xs, ys)</div>
+<div class="line">xs &lt;= ys        -&gt;          less_equal(xs, ys)</div>
+<div class="line">xs &gt; ys         -&gt;          greater(xs, ys)</div>
+<div class="line">xs &gt;= ys        -&gt;          greater_equal(xs, ys)</div>
+<div class="line"></div>
+<div class="line">xs | f          -&gt;          chain(xs, f)</div>
+<div class="line"></div>
+<div class="line">xs[n]           -&gt;          at(xs, n)</div>
+</div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt; Tuple &gt;</a></td></tr>
 <tr class="memdesc:a4394c4c47cf8dd4934a40a4e2c10f8fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>.  <a href="#a4394c4c47cf8dd4934a40a4e2c10f8fb">More...</a><br /></td></tr>
@@ -163,7 +173,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a718ca253f469ca8705677260e1a0def5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> specialized for holding <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s.  <a href="#a718ca253f469ca8705677260e1a0def5">More...</a><br /></td></tr>
 <tr class="separator:a718ca253f469ca8705677260e1a0def5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a4394c4c47cf8dd4934a40a4e2c10f8fb"></a>
 <div class="memitem">
 <div class="memproto">

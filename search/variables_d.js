@@ -25,6 +25,7 @@ var searchData=
   ['minus',['minus',['../structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]],
   ['models',['models',['../group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946',1,'boost::hana']]],
   ['monadic_5fcompose',['monadic_compose',['../structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce',1,'boost::hana::Monad']]],
-  ['monadic_5ffold',['monadic_fold',['../structboost_1_1hana_1_1Foldable.html#a9d423c33a801e7cf2058faa19423d991',1,'boost::hana::Foldable']]],
+  ['monadic_5ffold_5fleft',['monadic_fold_left',['../structboost_1_1hana_1_1Foldable.html#ab52e67ac8ae8529882650a6d03326f6c',1,'boost::hana::Foldable']]],
+  ['monadic_5ffold_5fright',['monadic_fold_right',['../structboost_1_1hana_1_1Foldable.html#a8aab99a990fb0c212456962ffdfe6cff',1,'boost::hana::Foldable']]],
   ['mult',['mult',['../structboost_1_1hana_1_1Ring.html#aca4df2fde91ca9c046282c6ec0f9bc3d',1,'boost::hana::Ring']]]
 ];

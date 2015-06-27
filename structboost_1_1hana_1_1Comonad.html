@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Comonad.html','
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Comonad-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Comonad Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -148,23 +148,23 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Comonad.html','
 \begin{align*} \mathrm{extract} &amp;: W(T) \to T \\ \mathrm{extend} &amp;: W(T) \times (W(T) \to U) \to W(U) \\ \mathrm{duplicate} &amp;: W(T) \to W(W(T)) \end{align*}
 </p>
 <p>Notice how the "arrows" are reversed. This symmetry is essentially what we mean by <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> being the <em>dual</em> of <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>.</p>
-<h2>Superclass </h2>
-<ol type="1">
-<li><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a><br />
-Every <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> is also required to be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>. A good observation would be that it might instead be a Cofunctor, but one soon realizes that a Cofunctor and a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> are the same thing, and hence <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> also requires <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>, just like <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> (and <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a>). The model of <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> is bound by the laws explained below.</li>
-</ol>
 <h2>Minimal complete definition </h2>
-<p><code>extract</code> and (<code>extend</code> or <code>duplicate</code>) satisfying the laws below.</p>
-<h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code></p>
+<p><code>extract</code> and (<code>extend</code> or <code>duplicate</code>) satisfying the laws below. A <code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code> must also be a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.</p>
 <h2>Laws </h2>
-<p>For all Comonads <code>w</code>, the following laws must be satisfied </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w)) == w</div>
+<p>For all Comonads <code>w</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w)) == w</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w), <a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>) == w</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w)) == transform(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(w), <a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>)</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>There are several equivalent ways of defining Comonads, and this one is just one that was picked arbitrarily for simplicity. </dd></dl>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>There are several equivalent ways of defining Comonads, and this one is just one that was picked arbitrarily for simplicity.</dd></dl>
+<h2>Refined concept </h2>
+<ol type="1">
+<li><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a><br />
+Every <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> is also required to be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>. At first, one might think that it should instead be some imaginary concept CoFunctor. However, it turns out that a CoFunctor is the same as a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, hence the requirement that a <code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code> also is a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.</li>
+</ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a></td></tr>
 <tr class="memdesc:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a value in a given comonadic context.  <a href="#a5b42ad77d8de0ba34a0d7cafef951d75">More...</a><br /></td></tr>
 <tr class="separator:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,7 +175,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:ad060d73b868bea1e0f4aa8037d5a3447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comonadic application of a function to a comonadic value.  <a href="#ad060d73b868bea1e0f4aa8037d5a3447">More...</a><br /></td></tr>
 <tr class="separator:ad060d73b868bea1e0f4aa8037d5a3447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a5b42ad77d8de0ba34a0d7cafef951d75"></a>
 <div class="memitem">
 <div class="memproto">

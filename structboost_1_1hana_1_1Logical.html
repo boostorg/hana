@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Logical.html','
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Logical-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Logical Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -145,7 +145,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Logical.html','
 </div><!-- fragment --><p>Similarly, <code>x</code> is <em>false-valued</em>, or sometimes just <em>false</em>, if </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, <span class="keyword">true</span>, <span class="keyword">false</span>) == <span class="keyword">false</span></div>
 </div><!-- fragment --><p>This provides a standard way of converting any <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> to a straight <code>bool</code>. The notion of truth value suggests another definition, which is that of logical equivalence. We will say that two <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s <code>x</code> and <code>y</code> are <em>logically equivalent</em> if they have the same truth value. To denote that some expressions <code>p</code> and <code>q</code> of a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> data type are logically equivalent, we will sometimes also write </p><div class="fragment"><div class="line">p   <span class="keywordflow">if</span> and only <span class="keywordflow">if</span>   q</div>
 </div><!-- fragment --><p> which is very common in mathematics. The intuition behind this notation is that whenever <code>p</code> is true-valued, then <code>q</code> should be; but when <code>p</code> is false-valued, then <code>q</code> should be too. Hence, <code>p</code> should be true-valued when (and only when) <code>q</code> is true-valued.</p>
-<h2>Laws </h2>
+<h2>Minimal complete definition </h2>
+<p><code>eval_if</code>, <code>not_</code> and <code>while_</code></p>
+<p>All the other functions can be defined in those terms: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(cond, x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, lazy(x), lazy(y))</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, y, x)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, x, y)</div>
+<div class="line">etc...</div>
+</div><!-- fragment --><h2>Laws </h2>
 <p>As outlined above, the <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> concept almost represents a boolean algebra. The rationale for this laxity is to allow things like integers to act like <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s, which is aligned with C++, even though they do not form a boolean algebra. Even though we depart from the usual axiomatization of boolean algebras, we have found through experience that the definition of a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> given here is largely compatible with intuition.</p>
 <p>The following laws must be satisfied for any data type <code>L</code> modeling the <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> concept. Let <code>a</code>, <code>b</code> and <code>c</code> be objects of a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> data type, and let <code>t</code> and <code>f</code> be arbitrary <em>true-valued</em> and <em>false-valued</em> <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s of that data type, respectively. Then, </p><div class="fragment"><div class="line"><span class="comment">// associativity</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(a, <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(b, c))   == <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(<a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(a, b), c)</div>
@@ -178,15 +184,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Logical.html','
 <li>because we do not enforce commutativity, the identity laws become left-identity laws </li>
 </ol>
 </blockquote>
-<h2>Minimal complete definition </h2>
-<ol type="1">
-<li><code>eval_if</code>, <code>not_</code> and <code>while_</code><br />
-The minimal complete definition for being a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> is <code>eval_if</code>, <code>not_</code> and <code>while_</code>. All the other methods can be defined in those terms: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(cond, x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, lazy(x), lazy(y))</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, y, x)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(x, x, y)</div>
-<div class="line">etc...</div>
-</div><!-- fragment --></li>
-</ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Free model for arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> is true. For an arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is provided automatically by using the result of the builtin implicit conversion to <code>bool</code> as a truth value. Specifically, the minimal complete definition for those data types is </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, then, else_) = cond ? then(<span class="keywordtype">id</span>) : else(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(cond) = static_cast&lt;T&gt;(cond ? false : true)</div>
@@ -195,15 +194,9 @@ The minimal complete definition for being a <a class="el" href="structboost_1_1h
 <h4>Rationale for not providing a model for all contextually convertible to bool data types</h4>
 <p>The <code>not_</code> method can not be implemented in a meaningful way for all of those types. For example, one can not cast a pointer type <code>T*</code> to bool and then back again to <code>T*</code> in a meaningful way. With an arithmetic type <code>T</code>, however, it is possible to cast from <code>T</code> to bool and then to <code>T</code> again; the result will be <code>0</code> or <code>1</code> depending on the truth value. If you want to use a pointer type or something similar in a conditional, it is suggested to explicitly convert it to bool by using <code>to&lt;bool&gt;</code>. </p>
 </blockquote>
-<h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
-<h2>Operators </h2>
-<p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">&amp;&amp;  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23">and_</a></div>
-<div class="line">||  -&gt;  <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a></div>
-<div class="line">!   -&gt; <a class="code" href="structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a></div>
-</div><!-- fragment --> </div><table class="memberdecls">
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a06927a2badb729e1522b9030d18234df"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a></td></tr>
 <tr class="memdesc:a06927a2badb729e1522b9030d18234df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conditionally return one of two values based on a condition.  <a href="#a06927a2badb729e1522b9030d18234df">More...</a><br /></td></tr>
 <tr class="separator:a06927a2badb729e1522b9030d18234df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -226,7 +219,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:ac5683e17dd3318d3be74e5defb1e7252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether any of the arguments is true-valued.  <a href="#ac5683e17dd3318d3be74e5defb1e7252">More...</a><br /></td></tr>
 <tr class="separator:ac5683e17dd3318d3be74e5defb1e7252"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a06927a2badb729e1522b9030d18234df"></a>
 <div class="memitem">
 <div class="memproto">

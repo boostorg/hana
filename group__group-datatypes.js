@@ -14,7 +14,7 @@ var group__group_datatypes =
       [ "ulong", "structboost_1_1hana_1_1IntegralConstant.html#ae70bdb7f1d32f3df1116780c191dfb78", null ],
       [ "llong", "structboost_1_1hana_1_1IntegralConstant.html#af8d0f6571370d36d4f556fa70b3c24b5", null ],
       [ "ullong", "structboost_1_1hana_1_1IntegralConstant.html#a9f56d855798857292ca63b31d0417e43", null ],
-      [ "size_t", "structboost_1_1hana_1_1IntegralConstant.html#a44ed105eee40cf7c4fef4b4524575595", null ],
+      [ "size_t", "structboost_1_1hana_1_1IntegralConstant.html#ae74cc2e7d289e67a7d14363ea5e52427", null ],
       [ "operator\"\"_c", "structboost_1_1hana_1_1IntegralConstant.html#a1c078fd00db48686ca9e0aa17f47344e", null ]
     ] ],
     [ "Lazy", "structboost_1_1hana_1_1Lazy.html", [

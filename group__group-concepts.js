@@ -23,8 +23,11 @@ var group__group_concepts =
       [ "pred", "structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9", null ]
     ] ],
     [ "Foldable", "structboost_1_1hana_1_1Foldable.html", [
+      [ "fold_left", "structboost_1_1hana_1_1Foldable.html#ab46946b7ca62544d9e131906a9013c96", null ],
+      [ "fold_right", "structboost_1_1hana_1_1Foldable.html#a8d8d32dd48a8f0406d92b70c18fdf7ec", null ],
       [ "fold", "structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1", null ],
-      [ "monadic_fold", "structboost_1_1hana_1_1Foldable.html#a9d423c33a801e7cf2058faa19423d991", null ],
+      [ "monadic_fold_left", "structboost_1_1hana_1_1Foldable.html#ab52e67ac8ae8529882650a6d03326f6c", null ],
+      [ "monadic_fold_right", "structboost_1_1hana_1_1Foldable.html#a8aab99a990fb0c212456962ffdfe6cff", null ],
       [ "reverse_fold", "structboost_1_1hana_1_1Foldable.html#a9240a51cd23ef65186e32d643e82f52e", null ],
       [ "for_each", "structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d", null ],
       [ "length", "structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d", null ],
@@ -62,6 +65,7 @@ var group__group_concepts =
       [ "at_c", "structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202", null ],
       [ "last", "structboost_1_1hana_1_1Iterable.html#a5379264e83af65af8802eeec0d49e5f0", null ],
       [ "drop", "structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2", null ],
+      [ "drop_exactly", "structboost_1_1hana_1_1Iterable.html#a279d671006ab8e9b6be8b10c07890d6d", null ],
       [ "drop_c", "structboost_1_1hana_1_1Iterable.html#a102d3b758946ac60cec3004d70920cab", null ],
       [ "drop_while", "structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8", null ],
       [ "drop_until", "structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551", null ]
@@ -143,17 +147,20 @@ var group__group_concepts =
       [ "remove_at", "structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b", null ],
       [ "remove_at_c", "structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec", null ],
       [ "reverse", "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0", null ],
-      [ "scan", "structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404", null ],
+      [ "scan_left", "structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423", null ],
+      [ "scan_right", "structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82", null ],
       [ "slice", "structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293", null ],
       [ "slice_c", "structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba", null ],
       [ "sort", "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db", null ],
       [ "span", "structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c", null ],
       [ "subsequence", "structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7", null ],
       [ "take", "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1", null ],
+      [ "take_exactly", "structboost_1_1hana_1_1Sequence.html#ae1d440b34c38c79b8651e6b50aa41f90", null ],
       [ "take_c", "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b", null ],
       [ "take_until", "structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
       [ "take_while", "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff", null ],
-      [ "unfold", "structboost_1_1hana_1_1Sequence.html#a08bed7da3a1bc6d0e8d11e5440d879c3", null ],
+      [ "unfold_left", "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2", null ],
+      [ "unfold_right", "structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442", null ],
       [ "unique", "structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590", null ],
       [ "unzip", "structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a", null ],
       [ "zip", "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ]
@@ -162,11 +169,7 @@ var group__group_concepts =
       [ "accessors", "structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739", null ],
       [ "keys", "structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "members", "structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e", null ],
-      [ "BOOST_HANA_DEFINE_STRUCT", "structboost_1_1hana_1_1Struct.html#a0e5839c13274ef75f4571b2ba1504672", null ],
-      [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a93de92bddd52b3286e83877f12b8edd6", null ]
-    ] ],
-    [ "Traversable", "structboost_1_1hana_1_1Traversable.html", [
-      [ "sequence", "structboost_1_1hana_1_1Traversable.html#ad2bcf2a65d198953b1690b02f9425419", null ],
-      [ "traverse", "structboost_1_1hana_1_1Traversable.html#a15f448955bcfe5b536c94a76b0c007fb", null ]
+      [ "BOOST_HANA_DEFINE_STRUCT", "structboost_1_1hana_1_1Struct.html#a733de713ae2407331983c60186b215ca", null ],
+      [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a3696cd2b4a74c76439b4fc0089676a77", null ]
     ] ]
 ];

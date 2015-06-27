@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Enumerable-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Enumerable Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -139,19 +139,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Represents data types whose values can be enumerated. </p>
 <p><code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> provides the <code>succ</code> and <code>pred</code> methods, whose names come from the <a href="http://en.wikipedia.org/wiki/Successor_function">successor</a> and predecessor functions used when defining the natural numbers with the Peano axioms. Those functions allow the values of a data type to be enumerated. Note that an <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> data type <code>E</code> may contain infinitely many values; <code>pred</code> and <code>succ</code> can be implemented as long as the infinity is <a href="http://en.wikipedia.org/wiki/Countable_set">countable</a> (in its mathematical sense).</p>
+<h2>Minimal complete definition </h2>
+<p><code>succ</code> and <code>pred</code> satisfying the laws below</p>
 <h2>Laws </h2>
 <p>For any <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a> x</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(x)) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x)) == x</div>
-</div><!-- fragment --><h2>Minimal complete definition </h2>
-<p><code>succ</code> and <code>pred</code> satisfying the above laws</p>
+</div><!-- fragment --><h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Free model for non-boolean arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x) = ++x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(x) = --x</div>
-</div><!-- fragment --><h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> </p>
-</div><table class="memberdecls">
+</div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a09bc77dab527650793cab53fce2c14b0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a></td></tr>
 <tr class="memdesc:a09bc77dab527650793cab53fce2c14b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the successor of a value.  <a href="#a09bc77dab527650793cab53fce2c14b0">More...</a><br /></td></tr>
 <tr class="separator:a09bc77dab527650793cab53fce2c14b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,7 +159,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a283eaffe2c556e841a84a2e03d6b95f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the predecessor of a value.  <a href="#a283eaffe2c556e841a84a2e03d6b95f9">More...</a><br /></td></tr>
 <tr class="separator:a283eaffe2c556e841a84a2e03d6b95f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a09bc77dab527650793cab53fce2c14b0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -184,7 +184,7 @@ Synopsis of methods</h2></td></tr>
 <p>Returns the successor of a value. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(int_&lt;4&gt;) == int_&lt;5&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(10) == 11);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(10) == 11, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -212,7 +212,7 @@ Synopsis of methods</h2></td></tr>
 <p>Returns the predecessor of a value. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(int_&lt;4&gt;) == int_&lt;3&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(10) == 9);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(10) == 9, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

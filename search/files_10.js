@@ -1,8 +1,6 @@
 var searchData=
 [
   ['take_2ehpp',['take.hpp',['../take_8hpp.html',1,'']]],
-  ['traversable_2ehpp',['traversable.hpp',['../fwd_2traversable_8hpp.html',1,'']]],
-  ['traversable_2ehpp',['traversable.hpp',['../traversable_8hpp.html',1,'']]],
   ['tuple_2ehpp',['tuple.hpp',['../ext_2boost_2fusion_2tuple_8hpp.html',1,'']]],
   ['tuple_2ehpp',['tuple.hpp',['../tuple_8hpp.html',1,'']]],
   ['tuple_2ehpp',['tuple.hpp',['../ext_2boost_2tuple_8hpp.html',1,'']]],

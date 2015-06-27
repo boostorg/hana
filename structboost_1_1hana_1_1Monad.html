@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monad.html','')
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Monad-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Monad Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -146,21 +146,6 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monad.html','')
 <h2>Minimal complete definitions </h2>
 <p>First, a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> must be both a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> and an <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. Also, an implementation of <code>flatten</code> or <code>chain</code> satisfying the laws below for monadic composition must be provided.</p>
 <dl class="section note"><dt>Note</dt><dd>The <code>ap</code> method for <code>Applicatives</code> may be derived from the minimal complete definition of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>; see below for more information.</dd></dl>
-<h2>Superclasses </h2>
-<ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> (free implementation of <code>ap</code>)<br />
-When the minimal complete definition for <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> are both satisfied, it is possible to automatically implement <code>ap</code> by setting <div class="fragment"><div class="line">ap(fs, xs) = <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(fs, [](<span class="keyword">auto</span> f) {</div>
-<div class="line">    <span class="keywordflow">return</span> transform(xs, f);</div>
-<div class="line">})</div>
-</div><!-- fragment --> This implementation is provided through the <code>Monad::ap_impl</code> type, which you can use as follows: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>ap_impl&lt;YourDatatype&gt;</div>
-<div class="line">    : Monad::ap_impl&lt;YourDatatype&gt;</div>
-<div class="line">{ };</div>
-</div><!-- fragment --></li>
-</ol>
-<h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
 <h2>Laws </h2>
 <p>To simplify writing the laws, we use the comparison between functions. For two functions <code>f</code> and <code>g</code>, we define </p><div class="fragment"><div class="line">f == g  <span class="keywordflow">if</span> and only <span class="keywordflow">if</span>  f(x) == g(x) for all x</div>
 </div><!-- fragment --><p>With the usual composition of functions, we are given two functions \( f : A \to B \) and \( g : B \to C \), and we must produce a new function \( compose(g, f) : A \to C \). This composition of functions is associative, which means that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(h, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(g, f)) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(h, g), f)</div>
@@ -180,10 +165,25 @@ When the minimal complete definition for <code><a class="el" href="structboost_1
 <div class="line"></div>
 <div class="line"><span class="comment">// left identity</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce">monadic_compose</a>(lift&lt;M(B)&gt;, f) == f</div>
-</div><!-- fragment --><p>which is to say that <code>M</code> along with monadic composition is a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> where the neutral element is <code>lift</code>. </p>
+</div><!-- fragment --><p>which is to say that <code>M</code> along with monadic composition is a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> where the neutral element is <code>lift</code>.</p>
+<h2>Refined concepts </h2>
+<ol type="1">
+<li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code></li>
+<li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> (free implementation of <code>ap</code>)<br />
+When the minimal complete definition for <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> are both satisfied, it is possible to automatically implement <code>ap</code> by setting <div class="fragment"><div class="line">ap(fs, xs) = <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(fs, [](<span class="keyword">auto</span> f) {</div>
+<div class="line">    <span class="keywordflow">return</span> transform(xs, f);</div>
+<div class="line">})</div>
+</div><!-- fragment --> This implementation is provided through the <code>Monad::ap_impl</code> type, which you can use as follows: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>ap_impl&lt;YourDatatype&gt;</div>
+<div class="line">    : Monad::ap_impl&lt;YourDatatype&gt;</div>
+<div class="line">{ };</div>
+</div><!-- fragment --></li>
+</ol>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ae8749eb63880a6a84ddee9ada5c1466c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a></td></tr>
 <tr class="memdesc:ae8749eb63880a6a84ddee9ada5c1466c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Feed a monadic value into a monadic computation.  <a href="#ae8749eb63880a6a84ddee9ada5c1466c">More...</a><br /></td></tr>
 <tr class="separator:ae8749eb63880a6a84ddee9ada5c1466c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -201,7 +201,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tap inside a monadic chain.  <a href="#a17ea859a2702ea45ea4999a8a0d2cc63">More...</a><br /></td></tr>
 <tr class="separator:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ae8749eb63880a6a84ddee9ada5c1466c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -234,10 +234,6 @@ Synopsis of methods</h2></td></tr>
   </table>
   </dd>
 </dl>
-<h2>Operator-form </h2>
-<p>For convenience, the <code>chain</code> method can be applied to <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>s that support it by using the <code>|</code> operator. Hence, if <code>xs</code> supports the operator, </p><div class="fragment"><div class="line">xs | f == <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(xs, f)</div>
-</div><!-- fragment --><p>Furthermore, this operator is left associative, which means that </p><div class="fragment"><div class="line">xs | f | g == (xs | f) | g == <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(<a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(xs, f), g)</div>
-</div><!-- fragment --><p>This allows creating chains of monadic computations easily.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
 <div class="line">    <span class="keywordflow">return</span> *x;</div>

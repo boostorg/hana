@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Lazy.html','');
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Lazy-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Lazy Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -148,8 +148,8 @@ Applying a function over a lazy value with <code>transform</code> returns the re
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (operators provided)<br />
-The <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> monad allows combining lazy computations into larger lazy computations. <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">T read_(std::istream&amp; stream) {</div>
 <div class="line">    T x;</div>
 <div class="line">    stream &gt;&gt; x;</div>
@@ -202,7 +202,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy 
 <dl class="section note"><dt>Note</dt><dd><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> only models a few concepts because providing more functionality would require evaluating the lazy values in most cases. Since this raises some issues such as side effects and memoization, the interface is kept minimal. </dd></dl>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a></td></tr>
 <tr class="memdesc:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a lazy value and return it.  <a href="#aae2998c08f1f80ed52a6acf57c4eec6c">More...</a><br /></td></tr>
 <tr class="separator:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -210,7 +210,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a73e14285897797737683aa2a776a6e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lifts a normal value to a lazy one.  <a href="#a73e14285897797737683aa2a776a6e0e">More...</a><br /></td></tr>
 <tr class="separator:a73e14285897797737683aa2a776a6e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="aae2998c08f1f80ed52a6acf57c4eec6c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -233,7 +233,7 @@ Synopsis of methods</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Evaluate a lazy value and return it. </p>
-<p>Given a lazy expression <code>expr</code>, <code>eval</code> evaluates <code>expr</code> and returns the result as a normal value. However, for convenience, <code>eval</code> can also be used with nullary and unary function objects. Specifically, if <code>expr</code> does not have the <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> generalized type, it is called with no arguments at all and the result of that call is returned, i.e. <code>expr()</code> is returned. Otherwise, if <code>expr()</code> is ill-formed, then <code>expr(hana::id)</code> is returned instead. If that expression is ill-formed, then a compile-time error is triggered.</p>
+<p>Given a lazy expression <code>expr</code>, <code>eval</code> evaluates <code>expr</code> and returns the result as a normal value. However, for convenience, <code>eval</code> can also be used with nullary and unary function objects. Specifically, if <code>expr</code> is not a <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, it is called with no arguments at all and the result of that call (<code>expr()</code>) is returned. Otherwise, if <code>expr()</code> is ill-formed, then <code>expr(hana::id)</code> is returned instead. If that expression is ill-formed, then a compile-time error is triggered.</p>
 <p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code>hana::id</code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieve is documented by <code>eval_if</code>.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a>(<a class="code" href="structboost_1_1hana_1_1Lazy.html#a73e14285897797737683aa2a776a6e0e">lazy</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + 1)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>

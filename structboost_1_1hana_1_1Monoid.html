@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monoid.html',''
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Monoid-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Monoid Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -145,12 +145,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monoid.html',''
 <li>many others...</li>
 </ul>
 <p>As you can see with the integers, there are some sets that can be viewed as a monoid in more than one way, depending on the choice of the binary operation and identity. The method names used here refer to the monoid of integers under addition; <code>plus</code> is the binary operation and <code>zero</code> is the identity element of that operation.</p>
+<h2>Minimal complete definition </h2>
+<p><code>plus</code> and <code>zero</code> satisfying the laws</p>
 <h2>Laws </h2>
 <p>For all objects <code>x</code>, <code>y</code> and <code>z</code> of a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> <code>M</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(zero&lt;M&gt;(), x) == x                    <span class="comment">// left zero</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, zero&lt;M&gt;()) == x                    <span class="comment">// right zero</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(y, z)) == <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y), z) <span class="comment">// associativity</span></div>
-</div><!-- fragment --><h2>Minimal complete definition </h2>
-<p><code>plus</code> and <code>zero</code> satisfying the above laws</p>
+</div><!-- fragment --><h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Free model for non-boolean arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y) = (x + y)</div>
 <div class="line">zero&lt;T&gt;() = <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(0)</div>
@@ -158,17 +160,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monoid.html',''
 <h4>Rationale for not making <code>bool</code> a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> by default</h4>
 <p>First, it makes no sense whatsoever to define an additive <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> over the <code>bool</code> type. Also, it could make sense to define a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> with logical conjunction or disjunction. However, C++ allows <code>bool</code>s to be added, and the method names of this concept really suggest addition. In line with the principle of least surprise, no model is provided by default. </p>
 </blockquote>
-<h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
-<h2>Operators </h2>
-<p>For convenience, the following operator is provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">+ -&gt; <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a></div>
-</div><!-- fragment --><h2>Structure-preserving functions </h2>
+<h2>Structure-preserving functions </h2>
 <p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>s. A function <code>f : A -&gt; B</code> is said to be a <a href="http://en.wikipedia.org/wiki/Monoid#Monoid_homomorphisms">Monoid morphism</a> if it preserves the monoidal structure between <code>A</code> and <code>B</code>. Rigorously, for all objects <code>x, y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line">f(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y)) == <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(f(x), f(y))</div>
 <div class="line">f(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988">zero</a>&lt;A&gt;()) == <a class="code" href="structboost_1_1hana_1_1Monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988">zero</a>&lt;B&gt;()</div>
 </div><!-- fragment --><p> Functions with these properties interact nicely with <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>s, which is why they are given such a special treatment. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a98d9ffdd62fe8226c726ae4ce8e6cf97"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a></td></tr>
 <tr class="memdesc:a98d9ffdd62fe8226c726ae4ce8e6cf97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associative binary operation on a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>.  <a href="#a98d9ffdd62fe8226c726ae4ce8e6cf97">More...</a><br /></td></tr>
 <tr class="separator:a98d9ffdd62fe8226c726ae4ce8e6cf97"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,7 +175,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a52bd77cbc25ea1180fcbb2c10c61e988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identity of <code>plus</code>.  <a href="#a52bd77cbc25ea1180fcbb2c10c61e988">More...</a><br /></td></tr>
 <tr class="separator:a52bd77cbc25ea1180fcbb2c10c61e988"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a98d9ffdd62fe8226c726ae4ce8e6cf97"></a>
 <div class="memitem">
 <div class="memproto">

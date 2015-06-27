@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Either.html',''
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Either-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Either Struct Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
@@ -142,13 +142,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Either.html',''
 <p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> can sometimes be used to represent a value which is either correct or an error; by convention, <code>left</code> is used to hold an error and <code>right</code> is used to hold a correct value. A mnemonic is that <em>right</em> also means <em>correct</em>.</p>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
-Two <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>s are equal if and only if they both contain left values or they both contain right values and those values are equal. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>));</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+Two <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>s are equal if and only if they both contain left values or they both contain right values and those values are equal. <div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>s are ordered by considering any <code>left</code> value as less than any <code>right</code> value, and ordering two <code>left</code>s or two <code>right</code>s by ordering their content. In other words, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(anything) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(anything)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x)  &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(y)  if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(y) if and only if x &lt; y</div>
@@ -156,8 +156,8 @@ Two <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag rep
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(2000) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(2));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// when comparing two lefts or two rights, we compare the contents</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(2) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(2000));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(2) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(2000));</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(2) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(2000), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(2) &lt; <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(2000), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 Since <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> can contain one of two possible values of different data types and <code>transform</code> accepts a single function, <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>'s instance of <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> can only map the function over one arbitrarily-defined side of the <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>. Hence, mapping a function over an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a> e</code> does nothing if <code>e</code> contains a left value, and it applies the function if <code>e</code> contains a right value. In other words: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x)</div>
@@ -222,10 +222,10 @@ The instance of <code><a class="el" href="structboost_1_1hana_1_1Applicative.htm
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;? is not a valid operation&quot;</span>s));</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
 The instance of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> follows naturally from the instance of <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. Specifically, <div class="fragment"><div class="line">flatten(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x))) == <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x)</div>
 <div class="line">flatten(anything else) == anything else</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="keyword">auto</span> safe_div = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+</div><!-- fragment --> Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="keyword">auto</span> safe_div = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> eval_if(y == int_&lt;0&gt;,</div>
 <div class="line">        [] { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="stringliteral">&quot;division by zero&quot;</span>s); },</div>
 <div class="line">        [=](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(x / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(y)); }</div>
@@ -252,27 +252,13 @@ The instance of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" tit
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-For the purpose of being folded, an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> is considered empty if it is a <code>left</code>, and it is considered equivalent to a one element list if it is a <code>right</code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>), make&lt;Tuple&gt;) == make&lt;Tuple&gt;());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>), make&lt;Tuple&gt;) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>));</div>
-</div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a></code><br />
-Traversing a <code>left</code> with an <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> A</code> just lifts the <code>left</code> into the <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>. Traversing a <code>right</code> will apply the function to the value inside the <code>right</code>, which effectively lifts the value into the <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code>, and then put back the value inside an <code>right</code> with <code>transform</code>. In other words, <div class="fragment"><div class="line">traverse&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x), f) == lift&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(x))</div>
-<div class="line">traverse&lt;A&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(y), f) == transform(f(y), <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>)</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> duplicate = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    traverse&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(1), duplicate) == make&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(1))</div>
-<div class="line">);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    traverse&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1), duplicate) == make&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1), <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1))</div>
-<div class="line">);</div>
+For the purpose of being folded, an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> is considered empty if it is a <code>left</code>, and it is considered equivalent to a one element list if it is a <code>right</code>. Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(unpack(<a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>), make_tuple) == make_tuple());</div>
+<div class="line">static_assert(unpack(<a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>), make_tuple) == make_tuple(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aca90e1410d6e289b05ffc41e7b785b4d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a></td></tr>
 <tr class="memdesc:aca90e1410d6e289b05ffc41e7b785b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> containing the given left value.  <a href="#aca90e1410d6e289b05ffc41e7b785b4d">More...</a><br /></td></tr>
 <tr class="separator:aca90e1410d6e289b05ffc41e7b785b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,7 +269,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:ad53196ce1c8235c53dc237668780cd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply one of two functions to the value inside an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>.  <a href="#ad53196ce1c8235c53dc237668780cd36">More...</a><br /></td></tr>
 <tr class="separator:ad53196ce1c8235c53dc237668780cd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="aca90e1410d6e289b05ffc41e7b785b4d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -308,6 +294,8 @@ Synopsis of methods</h2></td></tr>
 <p>Create an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> containing the given left value. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> left_value = <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(is_an&lt;Either&gt;(left_value), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -335,6 +323,8 @@ Synopsis of methods</h2></td></tr>
 <p>Create an <code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code> containing the given right value. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> right_value = <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(is_an&lt;Either&gt;(right_value), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -374,8 +364,8 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36">either</a>(succ, pred, <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(1)) == 2);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36">either</a>(succ, pred, <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1)) == 0);</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36">either</a>(succ, pred, <a class="code" href="structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d">left</a>(1)) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36">either</a>(succ, pred, <a class="code" href="structboost_1_1hana_1_1Either.html#a0bd40511a2cb9b281d36a7fe564177bb">right</a>(1)) == 0, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

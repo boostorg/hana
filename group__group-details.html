@@ -150,13 +150,16 @@ Modules</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html">boost::hana::detail::CanonicalConstant&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data type representing a canonical <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>.  <a href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a canonical <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>.  <a href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1constexpr___1_1array.html">boost::hana::detail::constexpr_::array&lt; T, Size &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A minimal <code>std::array</code> with better <code>constexpr</code> support.  <a href="structboost_1_1hana_1_1detail_1_1constexpr___1_1array.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1create.html">boost::hana::detail::create&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the generic <code>std::make_xxx</code> pattern for arbitrary <code>xxx</code>s.  <a href="structboost_1_1hana_1_1detail_1_1create.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1std__common__type.html">boost::hana::detail::std_common_type&lt; T, U, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>std::common_type</code>, except it is SFINAE-friendly and does not support custom specializations.  <a href="structboost_1_1hana_1_1detail_1_1std__common__type.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Either.html">boost::hana::Either</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a value with two possibilities.  <a href="structboost_1_1hana_1_1Either.html#details">More...</a><br /></td></tr>
@@ -167,6 +170,23 @@ Macros</h2></td></tr>
 <tr class="memitem:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e">BOOST_HANA_DISPATCH_IF</a>(IMPL, ...)</td></tr>
 <tr class="memdesc:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch to the given implementation method only when a condition is satisfied.  <a href="#ga5de7a0132a80e37c73d544ece1e6dd4e">More...</a><br /></td></tr>
 <tr class="separator:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62fe3327023c37706c827cc82624998b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_NARG_IMPL(__VA_ARGS__, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,)</td></tr>
+<tr class="memdesc:ga62fe3327023c37706c827cc82624998b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the number of arguments it is passed.  <a href="#ga62fe3327023c37706c827cc82624998b">More...</a><br /></td></tr>
+<tr class="separator:ga62fe3327023c37706c827cc82624998b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga444e73a2fe13732b802a770b55b4a99c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga444e73a2fe13732b802a770b55b4a99c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga444e73a2fe13732b802a770b55b4a99c">BOOST_HANA_PP_CONCAT</a>(x,  y)&#160;&#160;&#160;BOOST_HANA_PP_CONCAT_PRIMITIVE(x, y)</td></tr>
+<tr class="memdesc:ga444e73a2fe13732b802a770b55b4a99c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to the concatenation of its two arguments. <br /></td></tr>
+<tr class="separator:ga444e73a2fe13732b802a770b55b4a99c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga70518e009e7d025eb93fe2f17d9053ab"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga70518e009e7d025eb93fe2f17d9053ab"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga70518e009e7d025eb93fe2f17d9053ab">BOOST_HANA_PP_STRINGIZE</a>(x)&#160;&#160;&#160;BOOST_HANA_PP_STRINGIZE_PRIMITIVE(x)</td></tr>
+<tr class="memdesc:ga70518e009e7d025eb93fe2f17d9053ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to the stringized version of its argument. <br /></td></tr>
+<tr class="separator:ga70518e009e7d025eb93fe2f17d9053ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1be7a4bd805ffff2882fe54995dc41bd">BOOST_HANA_PP_BACK</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td></tr>
+<tr class="memdesc:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to its last argument.  <a href="#ga1be7a4bd805ffff2882fe54995dc41bd">More...</a><br /></td></tr>
+<tr class="separator:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gadcf0cf5cb650681b8cac90d94ce52d44">BOOST_HANA_PP_DROP_BACK</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_DROP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td></tr>
+<tr class="memdesc:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to all of its arguments, except for the last one.  <a href="#gadcf0cf5cb650681b8cac90d94ce52d44">More...</a><br /></td></tr>
+<tr class="separator:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -174,27 +194,27 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = by_holder&lt; Algorithm &gt;</td></tr>
 <tr class="memdesc:ga1f92c27de855a682eebde5f7d0138d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.by</code> static constexpr function object.  <a href="#ga1f92c27de855a682eebde5f7d0138d18">More...</a><br /></td></tr>
 <tr class="separator:ga1f92c27de855a682eebde5f7d0138d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga69e96285beeb552b4cddc9f32336f5a2"><td class="memTemplParams" colspan="2">template&lt;typename... Xs&gt; </td></tr>
-<tr class="memitem:ga69e96285beeb552b4cddc9f32336f5a2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2">boost::hana::detail::closure</a> = typename make_closure_impl&lt; detail::std::make_index_sequence&lt; sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
-<tr class="memdesc:ga69e96285beeb552b4cddc9f32336f5a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimalistic closure implemented through multiple inheritance.  <a href="#ga69e96285beeb552b4cddc9f32336f5a2">More...</a><br /></td></tr>
-<tr class="separator:ga69e96285beeb552b4cddc9f32336f5a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memTemplParams" colspan="2">template&lt;typename T , detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(detail::std::make_index_sequence&lt; N &gt;{}))</td></tr>
-<tr class="memdesc:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="#ga6b8de4dadb6a27692e3db3d199b4b774">More...</a><br /></td></tr>
-<tr class="separator:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga6f1cca2f6d42995e8459c1a0b93198a0"></a>
-template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga6f1cca2f6d42995e8459c1a0b93198a0">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; detail::std::size_t, N, F &gt;</td></tr>
-<tr class="memdesc:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
-<tr class="separator:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaabe967c7b737919d01209f8f3f284e9d"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
-<tr class="memitem:gaabe967c7b737919d01209f8f3f284e9d"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gaabe967c7b737919d01209f8f3f284e9d">boost::hana::detail::has_common_embedding</a> = detail::std::integral_constant&lt; bool, _models&lt; Concept, T &gt;{}()&amp;&amp;_models&lt; Concept, U &gt;{}()&amp;&amp;_models&lt; Concept, typename common&lt; T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a> &gt;{}()&amp;&amp;is_embedded&lt; T, typename common&lt; T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a> &gt;{}&amp;&amp;is_embedded&lt; U, typename common&lt; T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a> &gt;{} &gt;</td></tr>
-<tr class="memdesc:gaabe967c7b737919d01209f8f3f284e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type.  <a href="#gaabe967c7b737919d01209f8f3f284e9d">More...</a><br /></td></tr>
-<tr class="separator:gaabe967c7b737919d01209f8f3f284e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
-<tr class="memitem:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga30deee39211913d4f4c2f527b19d8dd2">boost::hana::detail::has_nontrivial_common_embedding</a> = detail::std::integral_constant&lt; bool,!detail::std::is_same&lt; T, U &gt;{}&amp;&amp;has_common_embedding&lt; Concept, T, U &gt;{} &gt;</td></tr>
-<tr class="memdesc:ga30deee39211913d4f4c2f527b19d8dd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="#ga30deee39211913d4f4c2f527b19d8dd2">More...</a><br /></td></tr>
-<tr class="separator:ga30deee39211913d4f4c2f527b19d8dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c4e8d51409023786e9c2918e460cb51"><td class="memTemplParams" colspan="2">template&lt;typename... Xs&gt; </td></tr>
+<tr class="memitem:ga2c4e8d51409023786e9c2918e460cb51"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga2c4e8d51409023786e9c2918e460cb51">boost::hana::detail::closure</a> = typename make_closure_impl&lt; std::make_index_sequence&lt; sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
+<tr class="memdesc:ga2c4e8d51409023786e9c2918e460cb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimalistic closure implemented through multiple inheritance.  <a href="#ga2c4e8d51409023786e9c2918e460cb51">More...</a><br /></td></tr>
+<tr class="separator:ga2c4e8d51409023786e9c2918e460cb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </td></tr>
+<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(std::make_index_sequence&lt; N &gt;{}))</td></tr>
+<tr class="memdesc:ga37aa8462ac506500444eb455346f0883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="#ga37aa8462ac506500444eb455346f0883">More...</a><br /></td></tr>
+<tr class="separator:ga37aa8462ac506500444eb455346f0883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplParams" colspan="2"><a class="anchor" id="gac7f5853430d8d73d097d7ec46aafe453"></a>
+template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
+<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; std::size_t, N, F &gt;</td></tr>
+<tr class="memdesc:gac7f5853430d8d73d097d7ec46aafe453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
+<tr class="separator:gac7f5853430d8d73d097d7ec46aafe453"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
+<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typename has_common_embedding_impl&lt; Concept, T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
+<tr class="memdesc:gae85b604ae6c7a386f0fc3631c561091b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type.  <a href="#gae85b604ae6c7a386f0fc3631c561091b">More...</a><br /></td></tr>
+<tr class="separator:gae85b604ae6c7a386f0fc3631c561091b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
+<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typename has_nontrivial_common_embedding_impl&lt; Concept, T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
+<tr class="memdesc:ga9acac3c4609cff5f0957572744c61ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="#ga9acac3c4609cff5f0957572744c61ec4">More...</a><br /></td></tr>
+<tr class="separator:ga9acac3c4609cff5f0957572744c61ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ga5de7a0132a80e37c73d544ece1e6dd4e"></a>
@@ -222,7 +242,7 @@ template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="dispatch__if_8hpp.html">boost/hana/detail/dispatch_if.hpp</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">::boost::hana::detail::std::conditional_t&lt;                          \</div>
+<b>Value:</b><div class="fragment"><div class="line">::std::conditional_t&lt;                                               \</div>
 <div class="line">            (__VA_ARGS__),                                                  \</div>
 <div class="line">            IMPL,                                                           \</div>
 <div class="line">            ::boost::hana::deleted_implementation                           \</div>
@@ -232,6 +252,69 @@ template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <p>If the condition is satisfied, this macro is equivalent to the type <code>IMPL</code>. Otherwise, it is equivalent to a type with a deleted static function named <code>apply</code>. When a tag-dispatching error happens, the condition should be false and the deleted static function <code>apply</code> will prevent the compiler from generating too much garbage.</p>
 <dl class="section note"><dt>Note</dt><dd>When <code>BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</code> is defined, the condition is always ignored and this macro expands to the implementation only.</dd></dl>
 <dl class="section remark"><dt>Remarks</dt><dd>This must be implemented as a macro, because we don't want the condition to be evaluated at all when <code>BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</code> is defined. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga62fe3327023c37706c827cc82624998b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_PP_NARG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;BOOST_HANA_PP_NARG_IMPL(__VA_ARGS__, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="preprocessor_8hpp.html">boost/hana/detail/preprocessor.hpp</a>&gt;</code></p>
+
+<p>Macro expanding to the number of arguments it is passed. </p>
+<p>Specifically, <code>BOOST_HANA_PP_NARG(x1, ..., xn)</code> expands to <code>n</code>. It is undefined behavior if <code>n &gt; 64</code> or if <code>n == 0</code>. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga1be7a4bd805ffff2882fe54995dc41bd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_PP_BACK</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;BOOST_HANA_PP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="preprocessor_8hpp.html">boost/hana/detail/preprocessor.hpp</a>&gt;</code></p>
+
+<p>Expands to its last argument. </p>
+<p>This macro can be passed up to 20 arguments. </p>
+
+</div>
+</div>
+<a class="anchor" id="gadcf0cf5cb650681b8cac90d94ce52d44"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_PP_DROP_BACK</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;BOOST_HANA_PP_DROP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="preprocessor_8hpp.html">boost/hana/detail/preprocessor.hpp</a>&gt;</code></p>
+
+<p>Expands to all of its arguments, except for the last one. </p>
+<p>This macro can be given up to 20 arguments. </p>
 
 </div>
 </div>
@@ -258,14 +341,14 @@ template&lt;typename Algorithm &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ga69e96285beeb552b4cddc9f32336f5a2"></a>
+<a class="anchor" id="ga2c4e8d51409023786e9c2918e460cb51"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename... Xs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga69e96285beeb552b4cddc9f32336f5a2">boost::hana::detail::closure</a> = typedef typename make_closure_impl&lt; detail::std::make_index_sequence&lt;sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
+          <td class="memname">using <a class="el" href="group__group-details.html#ga2c4e8d51409023786e9c2918e460cb51">boost::hana::detail::closure</a> = typedef typename make_closure_impl&lt; std::make_index_sequence&lt;sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -284,14 +367,14 @@ template&lt;typename... Xs&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ga6b8de4dadb6a27692e3db3d199b4b774"></a>
+<a class="anchor" id="ga37aa8462ac506500444eb455346f0883"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T , detail::std::size_t N, typename F  = decltype(id)&gt; </div>
+template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774">boost::hana::detail::generate_integer_sequence</a> = typedef decltype(generate_integer_sequence_impl&lt;T, F&gt;( detail::std::make_index_sequence&lt;N&gt;{} ))</td>
+          <td class="memname">using <a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = typedef decltype(generate_integer_sequence_impl&lt;T, F&gt;( std::make_index_sequence&lt;N&gt;{} ))</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -304,14 +387,14 @@ template&lt;typename T , detail::std::size_t N, typename F  = decltype(id)&gt; <
 
 </div>
 </div>
-<a class="anchor" id="gaabe967c7b737919d01209f8f3f284e9d"></a>
+<a class="anchor" id="gae85b604ae6c7a386f0fc3631c561091b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Concept , typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#gaabe967c7b737919d01209f8f3f284e9d">boost::hana::detail::has_common_embedding</a> = typedef detail::std::integral_constant&lt;bool, _models&lt;Concept, T&gt;{}() &amp;&amp; _models&lt;Concept, U&gt;{}() &amp;&amp; _models&lt;Concept, typename common&lt;T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&gt;{}() &amp;&amp; is_embedded&lt;T, typename common&lt;T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&gt;{} &amp;&amp; is_embedded&lt;U, typename common&lt;T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&gt;{} &gt;</td>
+          <td class="memname">using <a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typedef typename has_common_embedding_impl&lt;Concept, T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -319,18 +402,18 @@ template&lt;typename Concept , typename T , typename U &gt; </div>
 <p><code>#include &lt;<a class="el" href="has__common__embedding_8hpp.html">boost/hana/detail/has_common_embedding.hpp</a>&gt;</code></p>
 
 <p>Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type. </p>
-<p>If <code>T</code> and <code>U</code> do not have a common-type, a SFINAE-friendly failure happens when instantiating this alias. </p>
+<p>If <code>T</code> and <code>U</code> do not have a common-type, this metafunction returns false. </p>
 
 </div>
 </div>
-<a class="anchor" id="ga30deee39211913d4f4c2f527b19d8dd2"></a>
+<a class="anchor" id="ga9acac3c4609cff5f0957572744c61ec4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Concept , typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga30deee39211913d4f4c2f527b19d8dd2">boost::hana::detail::has_nontrivial_common_embedding</a> = typedef detail::std::integral_constant&lt;bool, !detail::std::is_same&lt;T, U&gt;{} &amp;&amp; has_common_embedding&lt;Concept, T, U&gt;{} &gt;</td>
+          <td class="memname">using <a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typedef typename has_nontrivial_common_embedding_impl&lt;Concept, T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -338,7 +421,7 @@ template&lt;typename Concept , typename T , typename U &gt; </div>
 <p><code>#include &lt;<a class="el" href="has__common__embedding_8hpp.html">boost/hana/detail/has_common_embedding.hpp</a>&gt;</code></p>
 
 <p>Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type. </p>
-<p>If <code>T</code> and <code>U</code> do not have a common-type, a SFINAE-friendly failure happens when instantiating this alias. </p>
+<p>If <code>T</code> and <code>U</code> do not have a common-type, this metafunction returns false. </p>
 
 </div>
 </div>

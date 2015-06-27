@@ -183,7 +183,7 @@ Macros</h2></td></tr>
 <p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
 
 <p>Expands to a runtime assertion. </p>
-<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and its data type must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
+<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and it must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
 
 </div>
 </div>
@@ -229,7 +229,7 @@ Macros</h2></td></tr>
 
 <p>Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported. </p>
 <p>This macro is used to assert on a condition that would be a constant expression if constexpr lambdas were supported.</p>
-<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and its data type must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
+<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and it must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
 
 </div>
 </div>

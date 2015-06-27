@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Set.html','');}
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Set-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Set Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -140,13 +140,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Set.html','');}
 <div class="textblock"><p>Tag representing a basic unordered container requiring <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> elements. </p>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two sets are equal iff they contain the same elements, regardless of the order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;char&gt;, int_&lt;1&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;1&gt;, int_&lt;0&gt;, type&lt;char&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(<span class="charliteral">&#39;2&#39;</span>, 1, 3.3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) != <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(<span class="charliteral">&#39;2&#39;</span>, 1));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;char&gt;) != <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;1&gt;));</div>
 </div><!-- fragment --></li>
 <li><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
@@ -154,8 +153,8 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag 
 <div class="line">static_assert(maximum(xs) == int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(sum&lt;&gt;(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
-<li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a> (operators provided)<br />
-The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
+<li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
+The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. Also note that <code>operator[]</code> can be used instead of the <code>at_key</code> function. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;0&gt;) == just(int_&lt;0&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;3&gt;) == nothing);</div>
 <div class="line"></div>
@@ -167,14 +166,14 @@ The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" tit
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
-<p>Any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> by using <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a>&gt;</code>. The elements of the structure must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is equivalent to </p><div class="fragment"><div class="line">to&lt;Set&gt;(xs) == fold.left(xs, <a class="code" href="structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt;Set&gt;</a>(), <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
+<p>Any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> by using <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a>&gt;</code>. The elements of the structure must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is equivalent to </p><div class="fragment"><div class="line">to&lt;Set&gt;(xs) == fold_left(xs, <a class="code" href="structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt;Set&gt;</a>(), <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
 </div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    to&lt;Set&gt;(make&lt;Tuple&gt;(int_&lt;1&gt;, int_&lt;3&gt;, type&lt;int&gt;, long_&lt;1&gt;))</div>
 <div class="line">        == <a class="code" href="structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt;Set&gt;</a>(int_&lt;1&gt;, int_&lt;3&gt;, type&lt;int&gt;)</div>
 <div class="line">);</div>
 </div><!-- fragment --></div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ade2be766c8daa85306a8d9c29bf75dfe"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:ade2be766c8daa85306a8d9c29bf75dfe"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt; Set &gt;</a></td></tr>
 <tr class="memdesc:ade2be766c8daa85306a8d9c29bf75dfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code>.  <a href="#ade2be766c8daa85306a8d9c29bf75dfe">More...</a><br /></td></tr>
@@ -192,7 +191,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ade2be766c8daa85306a8d9c29bf75dfe"></a>
 <div class="memitem">
 <div class="memproto">

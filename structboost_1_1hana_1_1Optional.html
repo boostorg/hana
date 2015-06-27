@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Optional.html',
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Optional-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Optional Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -151,13 +151,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Optional.html',
 <div class="line">static_assert(std::is_same&lt;common_type2&lt;int, float&gt;::type, <span class="keywordtype">float</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> == <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;y&#39;</span>));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>s can be ordered by considering the value they are holding, if any. To handle the case of an empty <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(3));</div>
@@ -216,8 +216,8 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(lift&lt;Optional&gt;(123) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(123));</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> (operators provided)<br />
-The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>ness removed with <code>flatten</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>ness removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x + 1);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -227,7 +227,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag r
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(flatten(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2))) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> makes it easy to choose the first valid value of two optional values. If both optional values are <code>nothing</code>s, then <code>concat</code> will return <code>nothing</code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> makes it easy to choose the first valid value of two optional values. If both optional values are <code>nothing</code>s, then <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">    concat(nothing, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">);</div>
 <div class="line"></div>
@@ -241,30 +241,13 @@ The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag r
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Optional&gt;() == nothing);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Traversable.html" title="The Traversable concept represents types admitting a structure-preserving right fold with an Applicat...">Traversable</a></code><br />
-Traversing <code>nothing</code> yields <code>nothing</code> in the new applicative, and traversing <code>just(x)</code> applies the function and maps <code>just</code> inside the resulting applicative. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> replicate3 = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, x, x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    traverse&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), replicate3)</div>
-<div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1))</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    traverse&lt;Tuple&gt;(nothing, replicate3)</div>
-<div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(nothing)</div>
-<div class="line">);</div>
-</div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to folding a <code>List</code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.right(nothing, 1, plus) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold.right(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(4), 1, plus) == 5);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold_right(nothing, 1, plus) == 1);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold_right(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(4), 1, plus) == 5);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
@@ -281,7 +264,7 @@ Searching an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" tit
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">make&lt; Optional &gt;</a></td></tr>
 <tr class="memdesc:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value.  <a href="#a69dbbfcfdefd5f68dbf3291859f727c7">More...</a><br /></td></tr>
@@ -317,7 +300,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function if the call expression is well-formed.  <a href="#aa4c8c0b1ef3d8206974734b93646c9fd">More...</a><br /></td></tr>
 <tr class="separator:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a69dbbfcfdefd5f68dbf3291859f727c7"></a>
 <div class="memitem">
 <div class="memproto">

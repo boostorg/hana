@@ -1,5 +1,5 @@
 var has__common__embedding_8hpp =
 [
-    [ "has_common_embedding", "has__common__embedding_8hpp.html#gaabe967c7b737919d01209f8f3f284e9d", null ],
-    [ "has_nontrivial_common_embedding", "has__common__embedding_8hpp.html#ga30deee39211913d4f4c2f527b19d8dd2", null ]
+    [ "has_common_embedding", "has__common__embedding_8hpp.html#gae85b604ae6c7a386f0fc3631c561091b", null ],
+    [ "has_nontrivial_common_embedding", "has__common__embedding_8hpp.html#ga9acac3c4609cff5f0957572744c61ec4", null ]
 ];

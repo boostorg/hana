@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Functor.html','
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Functor-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Functor Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -142,17 +142,6 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Functor.html','
 <p>Functors are parametric data types which are parameterized over the data type of the objects they contain. Like everywhere else in Hana, this parametricity is only at the documentation level and it is not enforced.</p>
 <p>In this library, the mapping function is called <code>transform</code> after the <code>std::transform</code> algorithm, but other programming languages have given it different names (usually <code>map</code>).</p>
 <dl class="section note"><dt>Note</dt><dd>The word <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> comes from functional programming, where the concept has been used for a while, notably in the Haskell programming language. Haskell people borrowed the term from <a href="http://en.wikipedia.org/wiki/Category_theory">category theory</a>, which, broadly speaking, is a field of mathematics dealing with abstract structures and transformations between those structures.</dd></dl>
-<h2>Laws </h2>
-<p>Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, \( f : A \to B \) and \( g : B \to C \). The following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <span class="keywordtype">id</span>) == xs</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(g, f)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f), g)</div>
-</div><!-- fragment --><p> The first line says that mapping the identity function should not do anything, which precludes the functor from doing something nasty behind the scenes. The second line states that mapping the composition of two functions is the same as mapping the first function, and then the second on the result. While the usual functor laws are usually restricted to the above, this library includes other convenience methods and they should satisfy the following equations. Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, \( f : A \to A \), \( \mathrm{pred} : A \to \mathrm{Bool} \) for some <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code>, and <code>oldval</code>, <code>newval</code>, <code>value</code> objects of data type <code>A</code>. Then, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, value, f) == <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, equal.to(value), f)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, pred, f) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){</div>
-<div class="line">    <span class="keywordflow">if</span> pred(x) then f(x) else x</div>
-<div class="line">})</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, pred, value) == <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, pred, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(value))</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(xs, oldval, newval) == <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(oldval), newval)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(xs, value)             == <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(true), value)</div>
-</div><!-- fragment --><p> The default definition of the methods will satisfy these equations.</p>
 <h2>Minimal complete definitions </h2>
 <ol type="1">
 <li><code>transform</code><br />
@@ -164,15 +153,26 @@ When <code>transform</code> is specified, <code>adjust_if</code> is defined anal
 When <code>adjust_if</code> is specified, <code>transform</code> is defined analogously to <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f) = <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="keyword">true</span>), f)</div>
 </div><!-- fragment --></li>
 </ol>
+<h2>Laws </h2>
+<p>Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, \( f : A \to B \) and \( g : B \to C \). The following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <span class="keywordtype">id</span>) == xs</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(g, f)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, f), g)</div>
+</div><!-- fragment --><p> The first line says that mapping the identity function should not do anything, which precludes the functor from doing something nasty behind the scenes. The second line states that mapping the composition of two functions is the same as mapping the first function, and then the second on the result. While the usual functor laws are usually restricted to the above, this library includes other convenience methods and they should satisfy the following equations. Let <code>xs</code> be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a> of data type <code>F(A)</code>, \( f : A \to A \), \( \mathrm{pred} : A \to \mathrm{Bool} \) for some <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code>, and <code>oldval</code>, <code>newval</code>, <code>value</code> objects of data type <code>A</code>. Then, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(xs, value, f) == <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, equal.to(value), f)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, pred, f) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](x){</div>
+<div class="line">    <span class="keywordflow">if</span> pred(x) then f(x) else x</div>
+<div class="line">})</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, pred, value) == <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(xs, pred, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(value))</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(xs, oldval, newval) == <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(oldval), newval)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(xs, value)             == <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(true), value)</div>
+</div><!-- fragment --><p> The default definition of the methods will satisfy these equations.</p>
 <h2>Concrete models </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
 <h2>Structure-preserving functions for Functors </h2>
-<p>A mapping between two functors which also preserves the functor laws is called a natural transformation (the term comes from category theory). A natural transformation is a function <code>f</code> from a functor <code>F</code> to a functor <code>G</code> such that for every other function <code>g</code> with an appropriate signature and for every object <code>xs</code> of generalized type <code>F(X)</code>, </p><div class="fragment"><div class="line">f(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, g)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(f(xs), g)</div>
+<p>A mapping between two functors which also preserves the functor laws is called a natural transformation (the term comes from category theory). A natural transformation is a function <code>f</code> from a functor <code>F</code> to a functor <code>G</code> such that for every other function <code>g</code> with an appropriate signature and for every object <code>xs</code> of tag <code>F(X)</code>, </p><div class="fragment"><div class="line">f(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, g)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(f(xs), g)</div>
 </div><!-- fragment --><p>There are several examples of such transformations, like <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;</code> when applied to an <a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>. Indeed, for any function <code>g</code> and <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <code>opt</code>, </p><div class="fragment"><div class="line">to&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(opt, g)) == <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(to&lt;Tuple&gt;(opt), g)</div>
 </div><!-- fragment --><p>Of course, natural transformations are not limited to the <code>to&lt;...&gt;</code> functions. However, note that any conversion function between Functors should be natural for the behavior of the conversion to be intuitive. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a></td></tr>
 <tr class="memdesc:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map a function over a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.  <a href="#a3a3140eb3e41d54e2370eb19ee6b043c">More...</a><br /></td></tr>
 <tr class="separator:a3a3140eb3e41d54e2370eb19ee6b043c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -192,7 +192,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a35025921d0fb75c28c2411d207a0da5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replace all the elements of a structure with a fixed value.  <a href="#a35025921d0fb75c28c2411d207a0da5e">More...</a><br /></td></tr>
 <tr class="separator:a35025921d0fb75c28c2411d207a0da5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a3a3140eb3e41d54e2370eb19ee6b043c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -226,13 +226,15 @@ Synopsis of methods</h2></td></tr>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> to_string = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>std::ostringstream const&amp;<span class="keyword">&gt;</span>(std::ostringstream{} &lt;&lt; x).str();</div>
+<div class="line">    std::ostringstream ss;</div>
+<div class="line">    ss &lt;&lt; x;</div>
+<div class="line">    <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}), to_string)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}), to_string)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
+<div class="line">    make_tuple(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(nothing, to_string) == nothing);</div>
@@ -289,9 +291,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(make&lt;Tuple&gt;(-3, -2, -1, 0, 1, 2, 3), negative, negate)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">adjust_if</a>(make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, negate)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(3, 2, 1, 0, 1, 2, 3)</div>
+<div class="line">    make_tuple(3, 2, 1, 0, 1, 2, 3)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -334,9 +336,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(make&lt;Tuple&gt;(1, 4, 9, 2, 3, 4), 4, negate)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#ac27a1807b60b8fa59e6c618cb8ca749f">adjust</a>(make_tuple(1, 4, 9, 2, 3, 4), 4, negate)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(1, -4, 9, 2, 3, -4)</div>
+<div class="line">    make_tuple(1, -4, 9, 2, 3, -4)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -379,9 +381,9 @@ Synopsis of methods</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(make&lt;Tuple&gt;(-3, -2, -1, 0, 1, 2, 3), negative, 0)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5">replace_if</a>(make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(0, 0, 0, 0, 1, 2, 3)</div>
+<div class="line">    make_tuple(0, 0, 0, 0, 1, 2, 3)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -419,11 +421,11 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(make&lt;Tuple&gt;(1, 1, 1, 2, 3, 1, 4, 5), 1, 0)</div>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(make_tuple(1, 1, 1, 2, 3, 1, 4, 5), 1, 0)</div>
 <div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(0, 0, 0, 2, 3, 0, 4, 5)</div>
-<div class="line">);</div>
+<div class="line">    make_tuple(0, 0, 0, 2, 3, 0, 4, 5)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -459,12 +461,12 @@ Synopsis of methods</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>), <span class="charliteral">&#39;x&#39;</span>) == make&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>), <span class="charliteral">&#39;x&#39;</span>) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(nothing, <span class="charliteral">&#39;x&#39;</span>) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(just(<span class="charliteral">&#39;y&#39;</span>), <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>));</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(just(<span class="charliteral">&#39;y&#39;</span>), <span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
 </div>

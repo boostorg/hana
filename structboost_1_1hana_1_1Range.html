@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Range.html','')
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Range-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Range Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -143,7 +143,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Range.html','')
 <p>Also note that because <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code>s do not specify much about their actual representation, some interesting optimizations can be applied to improve their compile-time performance over other similar utilities like <code>std::integer_sequence</code>.</p>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two ranges are equal if and only if they are both empty or they both span the same interval. <div class="fragment"><div class="line"><span class="comment">// empty ranges are equal</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(range(int_&lt;6&gt;, int_&lt;6&gt;) == range(int_&lt;0&gt;, int_&lt;0&gt;));</div>
 <div class="line"></div>
@@ -153,7 +153,7 @@ Two ranges are equal if and only if they are both empty or they both span the sa
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    fold.left(range(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;</div>
+<div class="line">    fold_left(range(int_&lt;0&gt;, int_&lt;4&gt;), int_&lt;0&gt;, plus) == int_&lt;6&gt;</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
@@ -161,8 +161,8 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Ta
 <div class="line">    make&lt;Tuple&gt;(int_&lt;-2&gt;, int_&lt;-1&gt;, int_&lt;0&gt;, int_&lt;1&gt;)</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> (operators provided)<br />
-Iterating over a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = range(int_&lt;0&gt;, int_&lt;1000&gt;);</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
+Iterating over a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. Also note that <code>operator[]</code> can be used in place of the <code>at</code> function. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = range(int_&lt;0&gt;, int_&lt;1000&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(head(r) == int_&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(last(r) == int_&lt;999&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(tail(r) == range(int_&lt;1&gt;, int_&lt;1000&gt;));</div>
@@ -176,7 +176,7 @@ Searching a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt; Range &gt;</a></td></tr>
 <tr class="memdesc:a2e1347688d03d7298cf90f3cadf0a002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s.  <a href="#a2e1347688d03d7298cf90f3cadf0a002">More...</a><br /></td></tr>
@@ -189,7 +189,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a899b7a0c065ff64cd747fe1671753d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s.  <a href="#a899b7a0c065ff64cd747fe1671753d3f">More...</a><br /></td></tr>
 <tr class="separator:a899b7a0c065ff64cd747fe1671753d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a2e1347688d03d7298cf90f3cadf0a002"></a>
 <div class="memitem">
 <div class="memproto">

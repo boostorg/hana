@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1String.html',''
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1String-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::String Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -138,12 +138,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1String.html',''
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Tag representing a compile-time string. </p>
-<p>Conceptually, a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is like a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> holding <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s of type <code>char</code>. However, the interface of a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is not as rich as that of a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, because a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> can only hold objects of a single generalized type.</p>
+<p>Conceptually, a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is like a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> holding <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s of type <code>char</code>. However, the interface of a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is not as rich as that of a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, because a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> can only hold compile-time characters.</p>
 <p><code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>s are used for simple purposes like being keys in a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> or tagging the members of a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>. However, you might find that <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> does not provide enough functionality to be used as a full-blown compile-time string implementation. Indeed, providing a comprehensive string interface is a lot of job, and it is out of the scope of the library for the time being.</p>
 <h2>Modeled concepts </h2>
 <p>For most purposes, a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is functionally equivalent to a tuple holding <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s of underlying type <code>char</code>.</p>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>s are equal if and only if they have the same number of characters and characters at corresponding indices are equal. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>) == <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>)</div>
 <div class="line">);</div>
@@ -152,7 +152,7 @@ Two <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag rep
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>) != <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abef&quot;</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 The total order implemented for <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> is the usual lexicographical comparison of strings. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>) &lt; <a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;bcd&quot;</span>)</div>
 <div class="line">);</div>
@@ -163,7 +163,7 @@ The total order implemented for <code><a class="el" href="structboost_1_1hana_1_
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is equivalent to folding the sequence of its characters. <div class="fragment"><div class="line"><span class="keyword">auto</span> sum_string = [](<span class="keyword">auto</span> str) {</div>
-<div class="line">    <span class="keywordflow">return</span> fold.left(str, int_&lt;0&gt;, [](<span class="keyword">auto</span> sum, <span class="keyword">auto</span> c) {</div>
+<div class="line">    <span class="keywordflow">return</span> fold_left(str, int_&lt;0&gt;, [](<span class="keyword">auto</span> sum, <span class="keyword">auto</span> c) {</div>
 <div class="line">        constexpr <span class="keywordtype">int</span> i = value(c) - 48; <span class="comment">// convert character to decimal</span></div>
 <div class="line">        <span class="keywordflow">return</span> sum + int_&lt;i&gt;;</div>
 <div class="line">    });</div>
@@ -173,8 +173,8 @@ Folding a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="T
 <div class="line">    sum_string(<a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;1234&quot;</span>)) == int_&lt;1 + 2 + 3 + 4&gt;</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> (operators provided)<br />
-Iterating over a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is equivalent to iterating over the sequence of its characters. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(<a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)));</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
+Iterating over a <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> is equivalent to iterating over the sequence of its characters. Also note that <code>operator[]</code> can be used instead of the <code>at</code> function. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(<a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(<a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;&quot;</span>)));</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1String.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)[int_&lt;2&gt;] == char_&lt;&#39;c&#39;&gt;);</div>
@@ -205,7 +205,7 @@ Searching through a <code><a class="el" href="structboost_1_1hana_1_1String.html
 </blockquote>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ae4ad84170f33b1068880b4b2375322a9"><td class="memTemplParams" colspan="2">template&lt;char... s&gt; </td></tr>
 <tr class="memitem:ae4ad84170f33b1068880b4b2375322a9"><td class="memTemplItemLeft" align="right" valign="top">constexpr unspecified type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9">string</a> {}</td></tr>
 <tr class="memdesc:ae4ad84170f33b1068880b4b2375322a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a compile-time string from a parameter pack of characters.  <a href="#ae4ad84170f33b1068880b4b2375322a9">More...</a><br /></td></tr>
@@ -218,7 +218,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:ad77f7afff008c2ce15739ad16a8bf0a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a compile-time <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> from a string literal.  <a href="#ad77f7afff008c2ce15739ad16a8bf0a8">More...</a><br /></td></tr>
 <tr class="separator:ad77f7afff008c2ce15739ad16a8bf0a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ae4ad84170f33b1068880b4b2375322a9"></a>
 <div class="memitem">
 <div class="memproto">

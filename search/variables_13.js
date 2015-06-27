@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['scan',['scan',['../structboost_1_1hana_1_1Sequence.html#a37751569a9f7188ab64a2c288168b404',1,'boost::hana::Sequence']]],
+  ['scan_5fleft',['scan_left',['../structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423',1,'boost::hana::Sequence']]],
+  ['scan_5fright',['scan_right',['../structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82',1,'boost::hana::Sequence']]],
   ['second',['second',['../structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae',1,'boost::hana::Product']]],
-  ['sequence',['sequence',['../structboost_1_1hana_1_1Traversable.html#ad2bcf2a65d198953b1690b02f9425419',1,'boost::hana::Traversable']]],
   ['set',['set',['../structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602',1,'boost::hana::Set']]],
   ['sfinae',['sfinae',['../structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd',1,'boost::hana::Optional']]],
   ['short_5f',['short_',['../structboost_1_1hana_1_1IntegralConstant.html#aaf7583b06af7fedb758e4966f0ee4605',1,'boost::hana::IntegralConstant']]],
   ['size',['size',['../structboost_1_1hana_1_1Foldable.html#a95d3fe103aa2ab8634a824562dd8390c',1,'boost::hana::Foldable']]],
-  ['size_5ft',['size_t',['../structboost_1_1hana_1_1IntegralConstant.html#a44ed105eee40cf7c4fef4b4524575595',1,'boost::hana::IntegralConstant']]],
+  ['size_5ft',['size_t',['../structboost_1_1hana_1_1IntegralConstant.html#ae74cc2e7d289e67a7d14363ea5e52427',1,'boost::hana::IntegralConstant']]],
   ['sizeof_5f',['sizeof_',['../structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c',1,'boost::hana::Type']]],
   ['slice',['slice',['../structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293',1,'boost::hana::Sequence']]],
   ['slice_5fc',['slice_c',['../structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba',1,'boost::hana::Sequence']]],

@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Group.html','')
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Group-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Group Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
@@ -140,12 +140,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Group.html','')
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> concept represents <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>s where all objects have an inverse w.r.t. the <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>'s binary operation. </p>
 <p>A <a href="http://en.wikipedia.org/wiki/Group_(mathematics)">Group</a> is an algebraic structure built on top of a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> which adds the ability to invert the action of the <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>'s binary operation on any element of the set. Specifically, a <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> is a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> <code>(S, +)</code> such that every element <code>s</code> in <code>S</code> has an inverse (say <code>s'</code>) which is such that </p><div class="fragment"><div class="line">s + s<span class="stringliteral">&#39; == s&#39;</span> + s == identity of the Monoid</div>
 </div><!-- fragment --><p>There are many examples of <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>s, one of which would be the additive <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> on integers, where the inverse of any integer <code>n</code> is the integer <code>-n</code>. The method names used here refer to exactly this model.</p>
-<h2>Superclass </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code></p>
-<h2>Laws </h2>
-<p>For all objects <code>x</code> of a <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> <code>G</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line">plus(x, <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x)) == zero&lt;G&gt;() <span class="comment">// right inverse</span></div>
-<div class="line">plus(<a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x), x) == zero&lt;G&gt;() <span class="comment">// left inverse</span></div>
-</div><!-- fragment --><h2>Minimal complete definitions </h2>
+<h2>Minimal complete definitions </h2>
 <ol type="1">
 <li><code>minus</code><br />
 When <code>minus</code> is specified, the <code>negate</code> method is defaulted by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x) = <a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(zero&lt;G&gt;(), x)</div>
@@ -154,23 +149,25 @@ When <code>minus</code> is specified, the <code>negate</code> method is defaulte
 When <code>negate</code> is specified, the <code>minus</code> method is defaulted by setting <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(x, y) = plus(x, <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(y))</div>
 </div><!-- fragment --></li>
 </ol>
+<h2>Laws </h2>
+<p>For all objects <code>x</code> of a <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> <code>G</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line">plus(x, <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x)) == zero&lt;G&gt;() <span class="comment">// right inverse</span></div>
+<div class="line">plus(<a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x), x) == zero&lt;G&gt;() <span class="comment">// left inverse</span></div>
+</div><!-- fragment --><h2>Refined concept </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code></p>
+<h2>Concrete models </h2>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
 <h2>Free model for non-boolean arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a>(x, y) = (x - y)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x) = -x</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The rationale for not providing a <a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> model for <code>bool</code> is the same as for not providing a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> model.</dd></dl>
-<h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
-<h2>Operators </h2>
-<p>For convenience, the following operators are provided as an equivalent way of calling the corresponding method: </p><div class="fragment"><div class="line">binary -  -&gt;  <a class="code" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a></div>
-<div class="line">unary -   -&gt;  <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a></div>
-</div><!-- fragment --><h2>Structure-preserving functions </h2>
+<h2>Structure-preserving functions </h2>
 <p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>s. A function <code>f : A -&gt; B</code> is said to be a <a href="http://en.wikipedia.org/wiki/Group_homomorphism">Group morphism</a> if it preserves the group structure between <code>A</code> and <code>B</code>. Rigorously, for all objects <code>x, y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line">f(plus(x, y)) == plus(f(x), f(y))</div>
 </div><!-- fragment --><p> Because of the <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> structure, it is easy to prove that the following will then also be satisfied: </p><div class="fragment"><div class="line">f(<a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(x)) == <a class="code" href="structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65">negate</a>(f(x))</div>
 <div class="line">f(zero&lt;A&gt;()) == zero&lt;B&gt;()</div>
 </div><!-- fragment --><p> Functions with these properties interact nicely with <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>s, which is why they are given such a special treatment. </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a866303b4a7433e5320efc6b961a04238"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238">minus</a></td></tr>
 <tr class="memdesc:a866303b4a7433e5320efc6b961a04238"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtract two elements of a group.  <a href="#a866303b4a7433e5320efc6b961a04238">More...</a><br /></td></tr>
 <tr class="separator:a866303b4a7433e5320efc6b961a04238"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,7 +175,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:a69e56a0004a93e0745ee178ce0b80e65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the inverse of an element of a group.  <a href="#a69e56a0004a93e0745ee178ce0b80e65">More...</a><br /></td></tr>
 <tr class="separator:a69e56a0004a93e0745ee178ce0b80e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a866303b4a7433e5320efc6b961a04238"></a>
 <div class="memitem">
 <div class="memproto">

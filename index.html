@@ -187,21 +187,28 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-ext-mpl">Boost.MPL</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-extending">Extending the library</a><ul><li class="level2"><a href="#tutorial-extending-tag_dispatching">Tag dispatching</a></li>
-<li class="level2"><a href="#tutorial-extending-creating_concepts">Creating new concepts</a></li>
+<li class="level1"><a href="#tutorial-core">Hana's core</a><ul><li class="level2"><a href="#tutorial-core-tags">Tags</a></li>
+<li class="level2"><a href="#tutorial-core-tag_dispatching">Tag dispatching</a></li>
+<li class="level2"><a href="#tutorial-core-creating_concepts">Creating new concepts</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-header_organization">Header organization</a></li>
-<li class="level1"><a href="#tutorial-conclusion">Conclusion</a><ul><li class="level2"><a href="#tutorial-conclusion-reference">Structure of the reference</a></li>
-<li class="level2"><a href="#tutorial-conclusion-glossary">Pseudo-code glossary</a></li>
-<li class="level2"><a href="#tutorial-conclusion-warning">Fair warning: functional programming ahead</a></li>
+<li class="level1"><a href="#tutorial-conclusion">Conclusion</a><ul><li class="level2"><a href="#tutorial-conclusion-warning">Fair warning: functional programming ahead</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#tutorial-reference">Using the reference</a><ul><li class="level2"><a href="#tutorial-reference-signatures">Function signatures</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-acknowledgements">Acknowledgements</a></li>
+<li class="level1"><a href="#tutorial-glossary">Glossary</a></li>
 <li class="level1"><a href="#tutorial-rationales">Rationales/FAQ</a><ul><li class="level2"><a href="#tutorial-rationales-dependencies">Why restrict usage of external dependencies?</a></li>
 <li class="level2"><a href="#tutorial-rationales-iterators">Why no iterators?</a></li>
 <li class="level2"><a href="#tutorial-rationales-container_types">Why leave container types unspecified?</a></li>
 <li class="level2"><a href="#tutorial-rationales-why_Hana">Why Hana?</a></li>
+<li class="level2"><a href="#tutorial-rationales-tuple">Why define our own tuple?</a></li>
+<li class="level2"><a href="#tutorial-rationales-naming">How are names chosen?</a></li>
+<li class="level2"><a href="#tutorial-rationales-parameters">How is the parameter order decided?</a></li>
+<li class="level2"><a href="#tutorial-rationales-tag_dispatching">Why tag dispatching?</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-appendix-constexpr">Apendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
@@ -209,8 +216,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-appendix-constexpr-effects">Side effects</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-appendix-math">Apendix II: The maths behind Hana</a></li>
-<li class="level1"><a href="#tutorial-appendix-MPL">Apendix III: A minimal MPL</a></li>
+<li class="level1"><a href="#tutorial-appendix-MPL">Apendix II: A minimal MPL</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="tutorial-description"></a>
@@ -284,14 +290,21 @@ Quick start</h1>
 <p> The goal of this section is to introduce the main concepts of the library from a very high level and at a fairly rapid pace; don't worry if you don't understand everything that's about to be thrown at you. However, this tutorial assumes the reader is already at least <em>familiar</em> with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes the above lines to be present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own tuple and <code>make_tuple</code>:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
+</div><!-- fragment --><p> Unless specified otherwise, the documentation assumes the above lines to be present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. For the purpose of the quickstart, let's now include some additional headers and define some lovely animal types that we'll need below:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type__traits_8hpp.html">boost/hana/ext/std/type_traits.hpp</a>&gt;</span> <span class="comment">// for traits::is_pointer</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> animals = make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
+</div><!-- fragment --><p> If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own tuple and <code>make_tuple</code>:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> animals = make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
 </div><!-- fragment --><p> This creates a tuple, which is like an array, except that it can hold elements with different types. Containers that can hold elements with different types such as this are called heterogeneous containers. While the standard library provides very few operations to manipulate <code>std::tuple</code>s, Hana provides several operations and algorithms to manipulate its own tuples:</p>
-<div class="fragment"><div class="line"><span class="comment">// Access tuple elements with operator[] instead of std::get.</span></div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Access tuple elements with operator[] instead of std::get.</span></div>
 <div class="line">Cat garfield = animals[1_c];</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Perform high level algorithms on tuples (this is like std::transform)</span></div>
@@ -300,7 +313,7 @@ Quick start</h1>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line">assert(reverse(names) == make_tuple(<span class="stringliteral">&quot;Snoopy&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Nemo&quot;</span>));</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>1_c</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user-defined literal</a> creating a <a class="el" href="index.html#tutorial-integral">compile-time number</a>.</dd></dl>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>1_c</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user-defined literal</a> creating a <a class="el" href="index.html#tutorial-integral">compile-time number</a>. These user-defined literals are contained in the <code><a class="el" href="namespaceboost_1_1hana_1_1literals.html" title="Namespace containing C++14 user-defined literals provided by Hana. ">boost::hana::literals</a></code> namespace, hence the <code>using</code> directive.</dd></dl>
 <p>Notice how we pass a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambda</a> to <code>transform</code>; this is required because the lambda will first be called with a <code>Fish</code>, then a <code>Cat</code>, and finally a <code>Dog</code>, which all have different types. Hana provides most of the algorithms provided by the C++ standard library, except they work on tuples and related heterogeneous containers instead of <code>std::vector</code> &amp; friends. In addition to working with heterogeneous values, Hana makes it possible to perform type-level computations with a natural syntax, all at compile-time and with no overhead whatsoever. This compiles and does just what you would expect:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> animal_types = make_tuple(type&lt;Fish*&gt;, type&lt;Cat&amp;&gt;, type&lt;Dog&gt;);</div>
 <div class="line"></div>
@@ -488,8 +501,18 @@ A real world example</h2>
 <div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? case_.second(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> There are two overloads of this function: an overload for when there is at least one case to process, and the base case overload for when there's only the default case. As we would expect, the base case simply calls the default function and returns that result. The other overload is slightly more interesting. First, we retrieve the type associated to that case and store it in <code>T</code>. This <code>decltype(...)::type</code> dance might seem convoluted, but it is actually quite simple. Roughly speaking, this takes a type represented as an object (a <code>type&lt;T&gt;</code>) and pulls it back down to the type level (a <code>T</code>). The details are explained in the section on <a class="el" href="index.html#tutorial-type">type-level computations</a>. Then, we compare whether the dynamic type of the <code>any</code> matches this case, and if so we call the function associated to this case with the <code>any</code> casted to the proper type. Otherwise, we simply call <code>process</code> recursively with the rest of the cases. Pretty simple, wasn't it? Here's the final solution, which spans a big total of 42 lines:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+</div><!-- fragment --><p> There are two overloads of this function: an overload for when there is at least one case to process, and the base case overload for when there's only the default case. As we would expect, the base case simply calls the default function and returns that result. The other overload is slightly more interesting. First, we retrieve the type associated to that case and store it in <code>T</code>. This <code>decltype(...)::type</code> dance might seem convoluted, but it is actually quite simple. Roughly speaking, this takes a type represented as an object (a <code>type&lt;T&gt;</code>) and pulls it back down to the type level (a <code>T</code>). The details are explained in the section on <a class="el" href="index.html#tutorial-type">type-level computations</a>. Then, we compare whether the dynamic type of the <code>any</code> matches this case, and if so we call the function associated to this case with the <code>any</code> casted to the proper type. Otherwise, we simply call <code>process</code> recursively with the rest of the cases. Pretty simple, wasn't it? Here's the final solution:</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/any.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;typeindex&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::make_pair(type&lt;T&gt;, f);</div>
 <div class="line">};</div>
@@ -564,7 +587,9 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(sequence, predicate)</code> </td><td align="left">Returns the number of elements that satisfy the predicate. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(sequence, n)</code> </td><td align="left">Drops the n first elements from a sequence and returns the rest. <code>n</code> must be an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2">drop</a>(sequence, n)</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a279d671006ab8e9b6be8b10c07890d6d">drop_exactly</a>(sequence, n)</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence. <code>n</code> must be an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a> and the sequence must have at least <code>n</code> elements. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a>(sequence, predicate)</code> </td><td align="left">Drops elements from a sequence until a predicate is satisfied. The predicate must return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
 <tr>
@@ -580,11 +605,11 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(sequence)</code> </td><td align="left">Flatten a sequence of sequences, a bit like <code>std::tuple_cat</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold.left</a>(sequence[, state], f)</code> </td><td align="left">Accumulates the elements of a sequence from the left, optionally with a provided initial state. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#ab46946b7ca62544d9e131906a9013c96">fold_left</a>(sequence[, state], f)</code> </td><td align="left">Accumulates the elements of a sequence from the left, optionally with a provided initial state. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold.right</a>(sequence[, state], f)</code> </td><td align="left">Accumulates the elements of a sequence from the right, optionally with a provided initial state. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a8d8d32dd48a8f0406d92b70c18fdf7ec">fold_right</a>(sequence[, state], f)</code> </td><td align="left">Accumulates the elements of a sequence from the right, optionally with a provided initial state. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(sequence[, state], f)</code> </td><td align="left">Equivalent to <code>fold.left</code>; provided for consistency with Boost.MPL and Boost.Fusion. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(sequence[, state], f)</code> </td><td align="left">Equivalent to <code>fold_left</code>; provided for consistency with Boost.MPL and Boost.Fusion. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(sequence, f)</code> </td><td align="left">Call a function on each element of a sequence. Returns <code>void</code>. </td></tr>
 <tr>
@@ -614,7 +639,7 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#a08e2f3034ed81a7bfff513a5b5f82031">remove</a>(sequence, value)</code> </td><td align="left">Remove all the elements that are equal to a given value. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(sequence, index)</code> </td><td align="left">Remove the element at the given index. The index must be an <code>integral_constant</code>. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(sequence, index)</code> </td><td align="left">Remove the element at the given index. The index must be an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(sequence, predicate)</code> </td><td align="left">Remove all the elements that satisfy a predicate. The predicate must return an <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a>. </td></tr>
 <tr>
@@ -624,7 +649,7 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(sequence)</code> </td><td align="left">Reverse the order of the elements in a sequence. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(sequence[, state], f)</code> </td><td align="left">Equivalent to <code>fold.right</code>; provided for consistency with Boost.MPL and Boost.Fusion. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a9240a51cd23ef65186e32d643e82f52e">reverse_fold</a>(sequence[, state], f)</code> </td><td align="left">Equivalent to <code>fold_right</code>; provided for consistency with Boost.MPL and Boost.Fusion. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(sequence)</code> </td><td align="left">Equivalent to <code>length</code>; provided for consistency with the C++ standard library. </td></tr>
 <tr>
@@ -636,7 +661,9 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(sequence)</code> </td><td align="left">Returns all the elements except the first one. Analogous to <code>pop_front</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(sequence, number)</code> </td><td align="left">Take the first n elements of a sequence. n must be an <code>integral_constant</code>. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(sequence, number)</code> </td><td align="left">Take the first n elements of a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. n must be an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#ae1d440b34c38c79b8651e6b50aa41f90">take_exactly</a>(sequence, number)</code> </td><td align="left">Take the first n elements of a sequence. n must be an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> and the sequence must have at least <code>n</code> elements. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(sequence, predicate)</code> </td><td align="left">Take elements of a sequence until some predicate is satisfied, and return that. </td></tr>
 <tr>
@@ -1115,6 +1142,7 @@ Checking expression validity</h2>
 <div class="line">  )(obj);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> <code>if_</code> works a bit like a normal <code>if</code> statement, except it takes a condition that can be an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> and returns the one of two values (which may have different types) chosen by the condition. If the condition is true, the first value is returned, and otherwise the second value is returned. In our case, the first value is a generic lambda representing the branch we want to execute if <code>obj</code> has a <code>toString</code> method, and the second one is the branch we want to execute otherwise. <code>if_</code> therefore returns the branch chosen by the condition, and we call that branch (which is a generic lambda) immediately with <code>obj</code>. The reason why this approach works is because the body of the first branch (where we call <code>x.toString()</code>) can only be compiled when the type of <code>x</code> is known. Indeed, since the branch is a generic lambda, the type of the argument is not known until the lambda is called, and the compiler must wait for <code>x</code>'s type to be known before type-checking the lambda's body. Since the lambda is never called when the condition is not satisfied (Hana's <code>if_</code> takes care of that), the body of the lambda is never type-checked and no compilation error happens. There are many different ways of branching in Hana; you may take a look at <code>eval_if</code> and <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> for details.</p>
+<dl class="section note"><dt>Note</dt><dd>The branches inside the <code>if_</code> are lambdas. As such, they really are different functions from the <code>optionalToString</code> function. The variables appearing inside those branches have to be either captured by the lambdas or passed to them as arguments, and so they are affected by the way they are captured or passed (by value, by reference, etc..).</dd></dl>
 <p>Now, the previous example covered only the specific case of checking for the presence of a non-static member function. However, <code>is_valid</code> can be used to detect the validity of almost any kind of expression. We now present a list of common use cases for validity checking along with how to use <code>is_valid</code> to implement them.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-non_static"></a>
 Non-static members</h3>
@@ -1217,8 +1245,7 @@ Introspecting user-defined types</h2>
 <div class="line">    (<span class="keywordtype">int</span>, age)</div>
 <div class="line">  );</div>
 <div class="line">};</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>This macro (and <code>BOOST_HANA_ADAPT_STRUCT</code> presented below) live in the <code>&lt;<a class="el" href="struct__macros_8hpp.html" title="Defines the BOOST_HANA_DEFINE_STRUCT and the BOOST_HANA_ADAPT_STRUCT macros. ">boost/hana/struct_macros.hpp</a>&gt;</code> header, and they require the Boost.Preprocessor library.</dd></dl>
-<p>This macro defines two members (<code>name</code> and <code>age</code>) with the given types. Then, it defines some boilerplate inside a <code>Person::hana</code> nested <code>struct</code>, which is required to make <code>Person</code> a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. No constructors are defined (so <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD-ness</a> is retained), the members are defined in the same order as they appear here and the macro can be used with template <code>struct</code>s just as well, and at any scope. Also note that you are free to add more members to the <code>Person</code> type after or before you use the macro. However, only members defined with the macro will be picked up when introspecting the <code>Person</code> type. Easy enough? Now, a <code>Person</code> can be accessed programmatically:</p>
+</div><!-- fragment --><p> This macro defines two members (<code>name</code> and <code>age</code>) with the given types. Then, it defines some boilerplate inside a <code>Person::hana</code> nested <code>struct</code>, which is required to make <code>Person</code> a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept. No constructors are defined (so <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD-ness</a> is retained), the members are defined in the same order as they appear here and the macro can be used with template <code>struct</code>s just as well, and at any scope. Also note that you are free to add more members to the <code>Person</code> type after or before you use the macro. However, only members defined with the macro will be picked up when introspecting the <code>Person</code> type. Easy enough? Now, a <code>Person</code> can be accessed programmatically:</p>
 <div class="fragment"><div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
 <div class="line"></div>
 <div class="line">for_each(john, [](<span class="keyword">auto</span> pair) {</div>
@@ -1351,6 +1378,7 @@ Container creation</h2>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = make&lt;Range&gt;(int_&lt;3&gt;, int_&lt;10&gt;);</div>
 <div class="line">static_assert(r == make_range(int_&lt;3&gt;, int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
+<p>But what are these types with a capital letter that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_range</code>, while the actual type of such an object is left unspecified. These tags are very useful because they represent families of C++ types that are strongly related, but that are not required to have the same representation. These tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>.</p>
 <h2><a class="anchor" id="tutorial-containers-elements"></a>
 Container elements</h2>
 <p>In Hana, containers own their elements. When a container is created, it makes a <em>copy</em> of the elements used to initialize it and stores them inside the container. Of course, unnecessary copies are avoided by using move semantics. Because of those owning semantics, the lifetime of the objects inside the container is the same as that of the container.</p>
@@ -1401,7 +1429,6 @@ Container types</h2>
 <div class="line">  <span class="comment">// ...</span></div>
 <div class="line">}</div>
 </div><!-- fragment --><p> This way, the second overload of <code>f</code> will only match when <code>Xs</code> represents a Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, regardless of the exact representation of that tuple. Of course, <code>is_a</code> can be used with any kind of container: <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> and so on.</p>
-<p>But what are these types with a capital letter that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_map</code>, while the actual type of such an object is left unspecified. Having these tags to represent different kinds of containers is very useful. For example, it allows us to dispatch algorithms differently for different kinds of containers by looking at the tag associated to them, which is explained in the section on <a class="el" href="index.html#tutorial-extending-tag_dispatching">tag-dispatching</a>. It also allows us to document a container whose type is unspecified by simply documenting the tag representing that kind of container.</p>
 <h1><a class="anchor" id="tutorial-algorithms"></a>
 Generalities on algorithms</h1>
 <hr/>
@@ -1550,7 +1577,7 @@ Performance considerations</h1>
 <h2><a class="anchor" id="tutorial-performance-compile"></a>
 Compile-time performance</h2>
 <p>C++ metaprogramming brings its share of awful things. One of the most annoying and well-known problem associated to it is interminable compilation times. Hana claims to be more compile-time efficient than its predecessors; this is a bold claim and we will now try to back it. Of course, Hana can't do miracles; metaprogramming is a byproduct of the C++ template system and the compiler is not meant to be used as an interpreter for some meta language. However, by using cutting edge and intensely benchmarked techniques, Hana is able to minimize the strain on the compiler.</p>
-<p>Before we dive, let me make a quick note on the methodology used to measure compile-time performance in Hana. Previous metaprogramming libraries measured the compile-time complexity of their meta-algorithms and meta-sequences by looking at the number of instantiations the compiler had to perform. While easy to understand, this way of measuring the compile-time complexity actually does not give us a lot of information regarding the compilation time, which is what we're interested in minimizing at the end of the day. Basically, the reason for this is that template metaprogramming is such a twisted model of computation that it's very hard to find a standard way of measuring the performance of algorithms. Hence, instead of presenting meaningless complexity analyses, we prefer to benchmark everything on every supported compiler and to pick the best implementation on that compiler. Now, let's dive.</p>
+<p>Before we dive, let me make a quick note on the methodology used to measure compile-time performance in Hana. Previous metaprogramming libraries measured the compile-time complexity of their meta-algorithms and meta-sequences by looking at the number of instantiations the compiler had to perform. While easy to understand, this way of measuring the compile-time complexity actually does not give us a lot of information regarding the compilation time, which is what we're interested in minimizing at the end of the day. Basically, the reason for this is that template metaprogramming is such a twisted model of computation that it's very hard to find a standard way of measuring the performance of algorithms. Hence, instead of presenting meaningless complexity analyses, we prefer to benchmark everything on every supported compiler and to pick the best implementation on that compiler. Also note that the benchmarks we present here are quite precise. Indeed, even though we do not take multiple measurements and take their mean or something similar to reduce incertitude, the benchmarks are very stable when they are regenerated, which suggests a reasonably good precision. Now, let's dive.</p>
 <p>First, Hana minimizes its dependency on the preprocessor. In addition to yielding cleaner error messages in many cases, this reduces the overall parsing and preprocessing time for header files. Also, because Hana only supports cutting edge compilers, there are very few workarounds in the library, which results in a cleaner and smaller library. Finally, Hana minimizes reliance on any kind of external dependencies. In particular, it only uses other Boost libraries in a few specific cases, and it does not rely on the standard library for the largest part. There are several reasons (other than include times) for doing so; they are documented in the <a class="el" href="index.html#tutorial-rationales-dependencies">rationales</a>.</p>
 <p>Below is a chart showing the time required to include different libraries. The chart shows the time for including everything in the (non-external) public API of each library. For example, for Hana this means the <code>&lt;<a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a>&gt;</code> header, which excludes the external adapters. For other libraries like Boost.Fusion, this means including all the public headers in the <code>boost/fusion/</code> directory, but not the adapters for external libraries like the MPL.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.including.compile.json"> </div><p>In addition to reduced preprocessing times, Hana uses modern techniques to implement heterogeneous sequences and algorithms in the most compile-time efficient way possible. Before jumping to the compile-time performance of the algorithms, we will have a look at the compile-time cost of creating heterogeneous sequences. Indeed, since we will be presenting algorithms that work on sequences, we must be aware of the cost of creating the sequences themselves, since that will influence the benchmarks for the algorithms. The following chart presents the compile-time cost of creating a sequence of <code>n</code> heterogeneous elements.</p>
@@ -1562,7 +1589,7 @@ Compile-time performance</h2>
 <p>The first algorithm which is ubiquitous in metaprogramming is <code>transform</code>. It takes a sequence and a function, and returns a new sequence containing the result of applying the function to each element. The following chart presents the compile-time performance of applying <code>transform</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. Also note that we're using the <code>transform</code> equivalent in each library; we're not using the <code>transform</code> algorithm from Hana through the Boost.Fusion adapters, for example, which would probably be less efficient.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.compile.json"> </div><p>You probably also noticed how there are two slightly different curves for Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. Those curves measure slightly different usage patterns of the <code>transform</code> algorithm. We benchmark the algorithm both on a standard Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> and on a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> created through <code>hana::tuple_t</code>, and mapping a Hana <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> instead of a regular function. The reason is that it is possible to optimize some algorithms (like <code>transform</code>) when we know we're actually mapping a metafunction on a type sequence. Basically, we can do the whole algorithm at the type level behind the scenes, which is more efficient, but you still get the nice value-level interface.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code>tuple_t</code> is not really optimized right now, so there is no difference between using it and not using it. You should still use <code>tuple_t</code> to create type-only <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>s, as some nice optimizations will be implemented.</dd></dl>
-<p>The second important class of algorithms are folds. Folds can be used to implement many other algorithms like <code>count_if</code>, <code>minimum</code> and so on. Hence, a good compile-time performance for fold algorithms ensures a good compile-time performance for those derived algorithms, which is why we're only presenting folds here. Also note that all the non-monadic fold variants are somewhat equivalent in terms of compile-time, so we only present the left folds. The following chart presents the compile-time performance of applying <code>fold.left</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. The function used for folding is a dummy function that does nothing. In real code, you would likely fold with a nontrivial operation, so the curves would be worse than that. However, these are micro benchmarks and hence they only show the performance of the algorithm itself.</p>
+<p>The second important class of algorithms are folds. Folds can be used to implement many other algorithms like <code>count_if</code>, <code>minimum</code> and so on. Hence, a good compile-time performance for fold algorithms ensures a good compile-time performance for those derived algorithms, which is why we're only presenting folds here. Also note that all the non-monadic fold variants are somewhat equivalent in terms of compile-time, so we only present the left folds. The following chart presents the compile-time performance of applying <code>fold_left</code> to a sequence of <code>n</code> elements. The <code>x</code> axis represents the number of elements in the sequence, and the <code>y</code> axis represents the compilation time in seconds. The function used for folding is a dummy function that does nothing. In real code, you would likely fold with a nontrivial operation, so the curves would be worse than that. However, these are micro benchmarks and hence they only show the performance of the algorithm itself.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.compile.json"> </div><p>The third and last algorithm that we present here is the <code>find_if</code> algorithm. This algorithm is difficult to implement efficiently, because it requires stopping at the first element which satisfies the given predicate. For the same reason, modern techniques don't really help us here, so this algorithm constitutes a good test of the implementation quality of Hana, without taking into account the free lunch given to use by C++14.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.find_if.compile.json"> </div><p>As you can see, Hana performs better than Fusion, and as well as MPL, yet Hana's <code>find_if</code> can be used with values too, unlike MPL's. This concludes the section on compile-time performance, but there are micro benchmarks of compile-time performance scattered around the documentation if you want to see the compile-time behavior of a particular algorithm.</p>
 <h2><a class="anchor" id="tutorial-performance-runtime"></a>
@@ -1587,13 +1614,13 @@ Integration with external libraries</h1>
 <hr/>
 <p>Hana provides out-of-the-box integration with some existing libraries. Specifically, this means that you can use some containers from these libraries in Hana's algorithms by simply including the appropriate header making the bridge between Hana and the external component.</p>
 <p>For a component named <code>xxx</code> in a namespace <code>ns</code>, the external adapter lives in the <code>boost/hana/ext/ns/xxx.hpp</code> header. For example, the external adapter for <code>std::tuple</code> lives in the <code><a class="el" href="ext_2std_2tuple_8hpp.html" title="Defines boost::hana::ext::std::Tuple. ">boost/hana/ext/std/tuple.hpp</a></code> header, while the external adapter for <code>boost::mpl::vector</code> is in <code><a class="el" href="boost_2mpl_2vector_8hpp.html" title="Defines boost::hana::ext::boost::mpl::Vector. ">boost/hana/ext/boost/mpl/vector.hpp</a></code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
 <li><code>std::tuple</code><br />
- Models <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses. It can basically be used like a Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
+ Models <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. It can basically be used like a Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
 <li><code>std::integral_constant</code><br />
  Model of <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>, and all the free models it provides.</li>
 <li><code>std::ratio</code><br />
- Model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> and its superclasses.</li>
+ Model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code>.</li>
 <li><code>std::integer_sequence</code><br />
  Model of <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>. You should be using Hana's <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> if you want speed, though.</li>
 <li><code>std::pair</code><br />
@@ -1603,9 +1630,9 @@ Integration with external libraries</h1>
 <li><code>boost::mpl::integral_c</code><br />
  See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::IntegralC</a></code>.</li>
 <li><code>boost::fusion::{deque,list,tuple,vector}</code><br />
- They are models of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses, and hence can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
+ They are models of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and hence can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
 <li><code>boost::tuple</code><br />
- Model of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses. It can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms.</li>
+ Model of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. It can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms.</li>
 </ul>
 </dd></dl>
 <h2><a class="anchor" id="tutorial-ext-std"></a>
@@ -1614,11 +1641,16 @@ The standard library</h2>
 Boost.Fusion</h2>
 <h2><a class="anchor" id="tutorial-ext-mpl"></a>
 Boost.MPL</h2>
-<h1><a class="anchor" id="tutorial-extending"></a>
-Extending the library</h1>
+<h1><a class="anchor" id="tutorial-core"></a>
+Hana's core</h1>
 <hr/>
-<p> Because of its modular design, Hana can be extended in a ad-hoc manner very easily. Actually, all the functionality of the library is provided through this ad-hoc customization mechanism.</p>
-<h2><a class="anchor" id="tutorial-extending-tag_dispatching"></a>
+<p> The goal of this section is to give a high-level overview of Hana's core. This core is based on the notion of <em>tag</em>, which is borrowed from the Boost.Fusion and Boost.MPL libraries but taken much further by Hana. These tags are then used for several purposes, like algorithm customization, documentation grouping, improving error messages and converting containers into other containers. Because of its modular design, Hana can be extended in a ad-hoc manner very easily. In fact, all the functionality of the library is provided through an ad-hoc customization mechanism, which is explained here.</p>
+<h2><a class="anchor" id="tutorial-core-tags"></a>
+Tags</h2>
+<p>Heterogeneous programming is basically programming with objects having different types. However, it is clear that some families of objects, while having different representations (C++ types), are strongly related. For example, the <code>std::integral_constant&lt;int, n&gt;</code> types are different for each different <code>n</code>, but conceptually they all represent the same thing; a compile-time number. The fact that <code>std::integral_constant&lt;int, 1&gt;{}</code> and <code>std::integral_constant&lt;int, 2&gt;{}</code> have different types is just a side effect of the fact that we're using their type to encode the <em>value</em> of these objects. Indeed, when manipulating a sequence of <code>std::integral_constant&lt;int, ...&gt;</code>s, chances are that you actually think of it as a homogeneous sequence of an imaginary <code>integral_constant</code> type, disregarding the actual types of the objects and pretending they are all just <code>integral_constant</code>s with different values.</p>
+<p>To reflect this reality, Hana provides <em>tags</em> representing its heterogeneous containers and other compile-time entities. For example, all of Hana's <code>integral_constant&lt;int, ...&gt;</code>s have different types, but they all share the same tag, <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a>&lt;int&gt;</code>. This allows the programmer to think in terms of that single tag instead of trying to think in terms of the actual types of the objects. Furthermore, Hana adopts the convention of naming these tags with a capital letter, to make them stand out and differentiate them from actual types. Since we mostly reason in terms of tags instead of specific types, we sometimes (ab)use the word <em>data type</em> to mean the same thing as <em>tag</em> in the documentation, always referring to the family of related types.</p>
+<dl class="section note"><dt>Note</dt><dd>The tag of an object of type <code>T</code> can be obtained by using <code>datatype&lt;T&gt;::type</code>, or equivalently <code>datatype_t&lt;T&gt;</code>.</dd></dl>
+<h2><a class="anchor" id="tutorial-core-tag_dispatching"></a>
 Tag dispatching</h2>
 <p>Tag dispatching is a generic programming technique for picking the right implementation of a function depending on the type of the arguments passed to the function. The usual mechanism for overriding a function's behavior is overloading. Unfortunately, this mechanism is not always convenient when dealing with families of related types having different C++ types, or with objects of unspecified types as is often the case in Hana. For example, consider trying to overload a function for all Boost.Fusion vectors:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
@@ -1650,7 +1682,7 @@ Tag dispatching</h2>
 <div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
 <div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> Now, let's define a type that needs tag-dispatching to customize the behavior of <code>print</code>. While some C++14 examples exist, they are too complicated to show in this tutorial and we will therefore use a C++03 tuple implemented as several different types to illustrate the technique:</p>
+</div><!-- fragment --><p> Now, let's define a type that needs tag dispatching to customize the behavior of <code>print</code>. While some C++14 examples exist, they are too complicated to show in this tutorial and we will therefore use a C++03 tuple implemented as several different types to illustrate the technique:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>Vector;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>vector0 {</div>
@@ -1713,7 +1745,7 @@ Tag dispatching</h2>
 <div class="line">    os &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>;</div>
 <div class="line">  }</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> One upside is that all <code>vectorN</code>s can now be treated uniformly by the <code>print</code> function, at the cost of some boilerplate when creating the data structure (to specify the tag of each <code>vectorN</code>) and when creating the initial <code>print</code> function (to setup the tag-dispatching system with <code>print_impl</code>). There are also other advantages to this technique, like the ability to check for preconditions in the interface function without having to do it in each custom implementation, which would be tedious:</p>
+</div><!-- fragment --><p> One upside is that all <code>vectorN</code>s can now be treated uniformly by the <code>print</code> function, at the cost of some boilerplate when creating the data structure (to specify the tag of each <code>vectorN</code>) and when creating the initial <code>print</code> function (to setup the tag dispatching system with <code>print_impl</code>). There are also other advantages to this technique, like the ability to check for preconditions in the interface function without having to do it in each custom implementation, which would be tedious:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
 <div class="line">  <span class="comment">// **** check some precondition ****</span></div>
@@ -1736,9 +1768,9 @@ Tag dispatching</h2>
 <div class="line">  }</div>
 <div class="line">};</div>
 <div class="line">constexpr _print print{};</div>
-</div><!-- fragment --><h2><a class="anchor" id="tutorial-extending-creating_concepts"></a>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-core-creating_concepts"></a>
 Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -1749,7 +1781,7 @@ Header organization</h1>
 <li><code>boost/hana/</code><br />
  This is the main directory of the library containing the definitions of concepts and data types. A file of the form <code>boost/hana/[XXX].hpp</code> contains the definition for the concept or data type named <code>XXX</code>.<ul>
 <li><code>boost/hana/core/</code><br />
- This subdirectory contains the machinery for tag-dispatching and other related utilities like <code>make</code> and <code>to</code>.</li>
+ This subdirectory contains the machinery for tag dispatching and other related utilities like <code>make</code> and <code>to</code>.</li>
 <li><code>boost/hana/fwd/</code><br />
  This subdirectory contains the forward declaration of every concept and data type in the library. Basically, <code>boost/hana/fwd/[XXX].hpp</code> is the forward declaration for the concept or data type named <code>XXX</code>. Also note that forward declarations for headers in <code>boost/hana/ext/</code> and <code>boost/hana/functional/</code> are not provided.</li>
 <li><code>boost/hana/ext/</code><br />
@@ -1772,24 +1804,30 @@ Header organization</h1>
 Conclusion</h1>
 <hr/>
 <p> You now have everything you need to start using the library. From this point forward, mastering the library is only a matter of understanding how to use the general purpose concepts and containers provided with it, which is best done by looking at the reference documentation. At some point, you will probably also want to create your own concepts and data types that fit your needs better; go ahead, the library was designed to be used that way.</p>
-<h2><a class="anchor" id="tutorial-conclusion-reference"></a>
-Structure of the reference</h2>
-<p>As for most generic libraries, algorithms in Hana are documented by the concept to which they belong (<code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, etc...). The different containers are then documented on their own page, and the concepts that they model are documented there. The concepts modeled by some container defines what algorithms can be used with such a container.</p>
+<h2><a class="anchor" id="tutorial-conclusion-warning"></a>
+Fair warning: functional programming ahead</h2>
+<p>Programming with heterogeneous objects is inherently functional &ndash; since it is impossible to modify the type of an object, a new object must be introduced instead, which rules out mutation. Unlike previous metaprogramming libraries whose design was modeled on the STL, Hana uses a functional style of programming which is the source for a good portion of its expressiveness. However, as a result, many concepts presented in the reference will be unfamiliar to C++ programmers without a knowledge of functional programming. The reference attempts to make these concepts approachable by using intuition whenever possible, but bear in mind that the highest rewards are usually the fruit of some effort.</p>
+<p>This finishes the tutorial part of the documentation. I hope you enjoy using the library, and please consider <a href="https://goo.gl/N8DuJW">contributing</a> to make it even better!</p>
+<p>&ndash; Louis</p>
+<h1><a class="anchor" id="tutorial-reference"></a>
+Using the reference</h1>
+<hr/>
+<p> As for most generic libraries, algorithms in Hana are documented by the concept to which they belong (<code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, etc...). The different containers are then documented on their own page, and the concepts that they model are documented there. The concepts modeled by some container defines what algorithms can be used with such a container.</p>
 <p>More specifically, the structure of the reference (available in the menu to the left) goes as follow:</p>
 <ul>
 <li><a class="el" href="group__group-core.html">Core</a><br />
  Documentation for the core module, which contains everything needed to create concepts, data types and related utilities. This is relevant if you need to extend the library, but otherwise you can probably ignore this.</li>
 <li><a class="el" href="group__group-concepts.html">Concepts</a><br />
  Documentation for all the concepts provided with the library. Each concept:<ul>
+<li>Documents which functions must be implemented absolutely in order to model that concept. The set of functions that must be provided is called a <em>minimal complete definition</em>.</li>
 <li>Documents semantic constraints that any model of that concept must satisfy. These constraints are usually called laws and they are expressed in a semi-formal mathematical language. Of course, those laws can't be checked automatically but you should still make sure you satisfy them.</li>
-<li>Documents the concept(s) it is derived from, if any. In the documentation, we usually call those base concepts <em>superclasses</em>. Sometimes, a concept is powerful enough to provide a model of its superclass, or at least the implementation for some of its methods. When this is the case, the concept will document which superclass methods it provides, and how it does so. Also, it is sometimes possible that the model for a superclass is unique, in which case it can be provided automatically. When this happens, it will be documented but you don't have to do anything special to get that model.</li>
-<li>Documents which methods must be implemented absolutely in order to model that concept.</li>
+<li>Documents the concept(s) it refines, if any. Sometimes, a concept is powerful enough to provide a model of a concept it refines, or at least the implementation for some of its associated functions. When this is the case, the concept will document which functions of the refined concept it provides, and how it does so. Also, it is sometimes possible that the model for a refined concept is unique, in which case it can be provided automatically. When this happens, it will be documented but you don't have to do anything special to get that model.</li>
 </ul>
 </li>
 <li><a class="el" href="group__group-datatypes.html">Data types</a><br />
  Documentation for all the data structures provided with the library. Since most of these data structures have an unspecified type, they are documented by the tag representing them (<code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, etc.). Each data type documents the concept(s) it models, and how it does so. It also documents the methods tied to that data type but not to any concept, for example <code>from_just</code> for <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>.</li>
 <li><a class="el" href="group__group-ext.html">External adapters</a><br />
- Documentation for all the adapters for external libraries. Basically, we assign a data type to some objects in external libraries and we document them as if they were normal data types provided by Hana.</li>
+ Documentation for all the adapters for external libraries. Basically, we assign a tag to some objects in external libraries and we document them as if they were normal data types provided by Hana.</li>
 <li><a class="el" href="group__group-config.html">Configuration options</a><br />
  Macros that can be used to tweak the global behavior of the library.</li>
 <li><a class="el" href="group__group-assertions.html">Assertions</a><br />
@@ -1802,23 +1840,32 @@ Structure of the reference</h2>
  Implementation details; don't go there. Anything not documented at all or documented in this group is not guaranteed to be stable.</li>
 </ul>
 <p>After you get to know Hana a bit better, it will probably happen that you just want to find the reference for a precise function, concept or container. If you know the name of what you're looking for, you can use the <em>search</em> box located in the upper right corner of any page of the documentation. My personal experience is that this is by far the quickest way of finding what you want when you already know its name.</p>
-<h2><a class="anchor" id="tutorial-conclusion-glossary"></a>
-Pseudo-code glossary</h2>
-<p>In the documentation, a simplified implementation of the documented object is sometimes provided in pseudo-code. The reason is that the actual implementation is sometimes contrived because of unimportant details or language limitations. Here is an explanation of some terms that appear in the pseudo-code:</p>
-<p><a class="anchor" id="tutorial-glossary-forwarded"></a></p><h4><code>forwarded(x)</code></h4>
-<p>Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the enclosing lambda is an rvalue.</p>
-<p>Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
-<p><a class="anchor" id="tutorial-glossary-perfect_capture"></a></p><h4><code>perfect-capture</code></h4>
-<p>This is used in lambdas to signify that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used.</p>
-<p><a class="anchor" id="tutorial-glossary-tag_dispatched"></a></p><h4><code>tag-dispatched</code></h4>
-<p>This means that the documented method uses tag-dispatching, and hence the exact implementation depends on the model of the concept associated to the method.</p>
-<p><a class="anchor" id="tutorial-glossary-unspecified_type"></a></p><h4><code>unspecified-type</code></h4>
-<p>This is used to express the fact that the return-type of a function is unspecified, and hence you should not rely on it being anything special beyond what is documented. Normally, the concepts satisfied by the returned object will be specified, because otherwise that function wouldn't be very useful.</p>
-<h2><a class="anchor" id="tutorial-conclusion-warning"></a>
-Fair warning: functional programming ahead</h2>
-<p>Programming with heterogeneous objects is inherently functional &ndash; since it is impossible to modify the type of an object, a new object must be introduced instead, which rules out mutation. Unlike previous metaprogramming libraries whose design was modeled on the STL, Hana uses a functional style of programming which is the source for a good portion of its expressiveness. However, as a result, many concepts presented in the reference will be unfamiliar to C++ programmers without a knowledge of functional programming. The reference attempts to make these concepts approachable by using intuition whenever possible, but bear in mind that the highest rewards are usually the fruit of some effort.</p>
-<p>This finishes the tutorial part of the documentation. I hope you enjoy using the library, and please consider <a href="https://goo.gl/N8DuJW">contributing</a> to make it even better!</p>
-<p>&ndash; Louis</p>
+<h2><a class="anchor" id="tutorial-reference-signatures"></a>
+Function signatures</h2>
+<p>As you will see in the reference, several functions provide signatures documented in a semi-formal mathematical language. We are in the process of documenting all functions in this way, but this may take a while. The notation used is the usual mathematical notation for defining functions. Specifically, a function <code>Return f(Arg1, ..., ArgN);</code> can be defined equivalently using mathematical notation as</p>
+<p class="formulaDsp">
+\[ \mathtt{f} : \mathtt{Arg}_1 \times \dots \times \mathtt{Arg}_n \to \mathtt{Return} \]
+</p>
+<p>However, instead of documenting the actual argument and return types of functions, those signatures are written in terms of argument and return tags. This is done because of the heterogeneous setting, where the actual type of an object is usually pretty meaningless and does not help to reason about what's being returned or taken by a function. For example, instead of documenting the <code>equal</code> function for <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s as</p>
+<p class="formulaDsp">
+\[ \mathtt{equal} : \mathtt{decltype(integral\_constant&lt;T, n&gt;)} \times \mathtt{decltype(integral\_constant&lt;T, m&gt;)} \to \mathtt{decltype(bool\_&lt;n == m&gt;)} \]
+</p>
+<p>which is not really helpful, it is instead documented using the <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> tag. Note that since <code>equal</code> is part of the <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept, it is not <em>actually</em> documented for <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> specifically, but the idea is there:</p>
+<p class="formulaDsp">
+\[ \mathtt{equal} : \mathtt{IntegralConstant&lt;T&gt;} \times \mathtt{IntegralConstant&lt;T&gt;} \to \mathtt{IntegralConstant&lt;bool&gt;} \]
+</p>
+<p>This clearly conveys the intention that comparing two <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s gives back another <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> holding a <code>bool</code>. In general, this abstraction of the actual representation of objects makes it possible for us to reason in a high level manner about functions, even though their actual return and argument types are heterogeneous and not helpful. Finally, most functions expect container elements to have some properties. For example, this is the case of the <code>sort</code> algorithm, which obviously requires the container elements to be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. Normally, we would write the signature for the non-predicated version of <code>sort</code> as</p>
+<p class="formulaDsp">
+\[ \mathtt{sort} : \mathtt{S} \to \mathtt{S} \\ \text{where S is a Sequence} \]
+</p>
+<p>However, this fails to express the requirement that the contents of <code>S</code> are <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. To express this, we use the following notation:</p>
+<p class="formulaDsp">
+\[ \mathtt{sort} : \mathtt{S(T)} \to \mathtt{S(T)} \\ \text{where S is a Sequence and T is Orderable} \]
+</p>
+<p>One way to see this is to pretend that <code>S</code>, the sequence tag, is actually parameterized by the tag of the sequence's elements, <code>T</code>. We're also pretending that the elements all have the same tag <code>T</code>, which is not the case in general. Now, by stating that <code>T</code> must be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, we're expressing the fact that the sequence's elements must be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. This notation is used in different flavors to express different kinds of requirements. For example, the <code>cartesian_product</code> algorithm takes a sequence of sequences and returns the cartesian product of those sequences as a sequence of sequences. Using our notation, this can be conveyed very easily:</p>
+<p class="formulaDsp">
+\[ \mathtt{cartesian\_product} : \mathtt{S(S(T))} \to \mathtt{S(S(T))} \\ \text{where S is a Sequence} \]
+</p>
 <h1><a class="anchor" id="tutorial-acknowledgements"></a>
 Acknowledgements</h1>
 <hr/>
@@ -1829,6 +1876,19 @@ Acknowledgements</h1>
 <li>The <a href="https://sites.google.com/a/boost.org/steering/home">Boost Steering committee</a> for unlocking a grant for me to work on Hana in the winter of 2015, as an extension to the previous year's GSoC.</li>
 <li>Several <a href="http://cppnow.org">C++Now</a> attendees and members of the <a href="http://news.gmane.org/gmane.comp.lib.boost.devel">Boost mailing list</a> for insightful conversations, comments and questions about the project.</li>
 </ul>
+<h1><a class="anchor" id="tutorial-glossary"></a>
+Glossary</h1>
+<hr/>
+<p> The reference documentation uses a couple of terms that are specific to this library. Also, a simplified implementation of functions is sometimes provided in pseudo-code, the actual implementation sometimes being slightly hard to understand. This section defines terms used in the reference and in the pseudo-code used to describe some functions.</p>
+<p><a class="anchor" id="tutorial-glossary-forwarded"></a></p><h4><code>forwarded(x)</code></h4>
+<p>Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the enclosing lambda is an rvalue.</p>
+<p>Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
+<p><a class="anchor" id="tutorial-glossary-perfect_capture"></a></p><h4><code>perfect-capture</code></h4>
+<p>This is used in lambdas to signify that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used.</p>
+<p><a class="anchor" id="tutorial-glossary-tag_dispatched"></a></p><h4><code>tag-dispatched</code></h4>
+<p>This means that the documented function uses <a class="el" href="index.html#tutorial-core-tag_dispatching">tag dispatching</a>, and hence the exact implementation depends on the model of the concept associated to the function.</p>
+<p><a class="anchor" id="tutorial-glossary-unspecified_type"></a></p><h4><code>unspecified-type</code></h4>
+<p>This is used to express the fact that the return-type of a function is unspecified, and hence you should not rely on it being anything special beyond what is documented. Normally, the concepts satisfied by the returned object will be specified, because otherwise that function wouldn't be very useful.</p>
 <h1><a class="anchor" id="tutorial-rationales"></a>
 Rationales/FAQ</h1>
 <hr/>
@@ -1861,7 +1921,41 @@ Why leave container types unspecified?</h2>
 </div><!-- fragment --><p> Notice that we're basically doing the computation twice; once in the <code>result_of</code> namespace and once in the normal <code>fusion</code> namespace, which is highly redundant. Before the days of <code>auto</code> and <code>decltype</code>, such techniques were necessary to perform heterogeneous computations. However, since the advent of modern C++, the need for explicit return types in the context of heterogeneous programming is largely obsolete, and knowing the actual type of containers is usually not that useful.</p>
 <h2><a class="anchor" id="tutorial-rationales-why_Hana"></a>
 Why Hana?</h2>
-<p>No, it isn't the name of my girlfriend! I just needed a short and good looking name that people would easily remember, and Hana came up.</p>
+<p>No, it isn't the name of my girlfriend! I just needed a short and good looking name that people would easily remember, and Hana came up. It also came to my attention that Hana means <em>flower</em> in Japanese, and <em>one</em> in Korean. Since Hana is pretty and it unifies type-level and heterogeneous programming under a single paradigm, the name appears to be quite well chosen in retrospect :-).</p>
+<h2><a class="anchor" id="tutorial-rationales-tuple"></a>
+Why define our own tuple?</h2>
+<p>Since Hana defines a lot of algorithms on tuples, a possible way to go would have been to simply use <code>std::tuple</code> and provide the algorithms only, instead of also providing our own tuple. The reason for providing our own tuple is principally performance. Indeed, all the <code>std::tuple</code> implementations tested so far have a very bad compile-time performance. Also, to get truly amazing compile-time performance, we need to take advantage of the tuple's internal representation in some algorithms, which requires defining our own. Finally, some sugar like <code>operator[]</code> could not be provided if we were using a <code>std::tuple</code>, since that operator must be defined as a member function.</p>
+<h2><a class="anchor" id="tutorial-rationales-naming"></a>
+How are names chosen?</h2>
+<p>When deciding upon a name <code>X</code>, I try to balance the following things (in no specific order):</p>
+<ul>
+<li>How idiomatic is <code>X</code> in C++?</li>
+<li>How idiomatic is <code>X</code> in the rest of the programming world?</li>
+<li>How good of a name <code>X</code> <em>actually is</em>, regardless of historical reasons</li>
+<li>How do I, as the library author, feel about <code>X</code></li>
+<li>How do users of the library feel about <code>X</code></li>
+<li>Are there technical reasons not to use <code>X</code>, like name clashes or names reserved by the standard</li>
+</ul>
+<p>Of course, good naming is and will always be hard. Names are and will always be tainted by the author's own bias. Still, I try to choose names in a reasonable manner.</p>
+<h2><a class="anchor" id="tutorial-rationales-parameters"></a>
+How is the parameter order decided?</h2>
+<p>Unlike naming, which is fairly subjective, the order of the parameters of a function is usually pretty straightforward to determine. Basically, the rule of thumb is "the container goes first". It has always been this way in Fusion and MPL, and this is intuitive for most C++ programmers. Also, in higher-order algorithms, I try to put the function parameter last, so that multi-line lambdas look nice:</p>
+<div class="fragment"><div class="line">algorithm(container, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">  <span class="keywordflow">return</span> ...;</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// is nicer than</span></div>
+<div class="line"></div>
+<div class="line">algorithm([](<span class="keyword">auto</span> x) {</div>
+<div class="line">  <span class="keywordflow">return</span> ...;</div>
+<div class="line">}, container);</div>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-rationales-tag_dispatching"></a>
+Why tag dispatching?</h2>
+<p>There are several different techniques we could have used to provide customization points in the library, and tag-dispatching was chosen. Why? First, I wanted a two-layer dispatching system because this allows functions from the first layer (the ones that are called by users) to actually be function objects, which allows passing them to higher-order algorithms. Using a dispatching system with two layers also allows adding some compile-time sanity checks to the first layer, which improves error messages.</p>
+<p>Now, tag-dispatching was chosen over other techniques with two layers for a couple of reasons. First, having to explicitly state how some tag is a model of a concept gives the responsibility of making sure that the semantic requirements of the concept are respected to the user. Secondly, when checking whether a type is a model of some concept, we basically check that some key functions are implemented. In particular, we check that the functions from the minimal complete definition of that concept are implemented. For example, <code>models&lt;<a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a>, T&gt;</code> checks whether the <code>is_empty</code>, <code>head</code> and <code>tail</code> functions implemented for <code>T</code>. However, the only way to detect this without tag-dispatching is to basically check whether the following expressions are valid in a SFINAE-able context: </p><pre class="fragment">implementation_of_head(std::declval&lt;T&gt;())
+implementation_of_is_empty(std::declval&lt;T&gt;())
+implementation_of_tail(std::declval&lt;T&gt;())
+</pre><p>Unfortunately, this requires actually doing the algorithms, which might either trigger a hard compile-time error or hurt compile-time performance. With tag dispatching, we can just ask whether <code>head_impl&lt;T&gt;</code>, <code>is_empty_impl&lt;T&gt;</code> and <code>tail_impl&lt;T&gt;</code> are defined, and nothing happens until we actually call <code>head_impl&lt;T&gt;::apply(...)</code>.</p>
 <h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
 Apendix I: Advanced constexpr</h1>
 <hr/>
@@ -1906,7 +2000,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -1954,13 +2048,9 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed in a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
-<h1><a class="anchor" id="tutorial-appendix-math"></a>
-Apendix II: The maths behind Hana</h1>
-<hr/>
- <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Write this section. </dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
-Apendix III: A minimal MPL</h1>
+Apendix II: A minimal MPL</h1>
 <hr/>
 <p> This section presents a mini reimplementation of the MPL library. The goal is to be as backward compatible as possible with the MPL, while still using Hana under the hood. Only the "Algorithms" part of the MPL is implemented as a case study, but it should be possible to implement many (but not all) metafunctions of the MPL.</p>
 <p>Scroll down to the <code>main</code> function to see the tests. The tests are exactly the examples in the MPL documentation that were copy/pasted and then modified as little as possible to work with this reimplementation.</p>

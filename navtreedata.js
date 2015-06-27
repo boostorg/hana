@@ -55,30 +55,36 @@ var NAVTREE =
         [ "Boost.Fusion", "index.html#tutorial-ext-fusion", null ],
         [ "Boost.MPL", "index.html#tutorial-ext-mpl", null ]
       ] ],
-      [ "Extending the library", "index.html#tutorial-extending", [
-        [ "Tag dispatching", "index.html#tutorial-extending-tag_dispatching", null ],
-        [ "Creating new concepts", "index.html#tutorial-extending-creating_concepts", null ]
+      [ "Hana's core", "index.html#tutorial-core", [
+        [ "Tags", "index.html#tutorial-core-tags", null ],
+        [ "Tag dispatching", "index.html#tutorial-core-tag_dispatching", null ],
+        [ "Creating new concepts", "index.html#tutorial-core-creating_concepts", null ]
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
       [ "Conclusion", "index.html#tutorial-conclusion", [
-        [ "Structure of the reference", "index.html#tutorial-conclusion-reference", null ],
-        [ "Pseudo-code glossary", "index.html#tutorial-conclusion-glossary", null ],
         [ "Fair warning: functional programming ahead", "index.html#tutorial-conclusion-warning", null ]
       ] ],
+      [ "Using the reference", "index.html#tutorial-reference", [
+        [ "Function signatures", "index.html#tutorial-reference-signatures", null ]
+      ] ],
       [ "Acknowledgements", "index.html#tutorial-acknowledgements", null ],
+      [ "Glossary", "index.html#tutorial-glossary", null ],
       [ "Rationales/FAQ", "index.html#tutorial-rationales", [
         [ "Why restrict usage of external dependencies?", "index.html#tutorial-rationales-dependencies", null ],
         [ "Why no iterators?", "index.html#tutorial-rationales-iterators", null ],
         [ "Why leave container types unspecified?", "index.html#tutorial-rationales-container_types", null ],
-        [ "Why Hana?", "index.html#tutorial-rationales-why_Hana", null ]
+        [ "Why Hana?", "index.html#tutorial-rationales-why_Hana", null ],
+        [ "Why define our own tuple?", "index.html#tutorial-rationales-tuple", null ],
+        [ "How are names chosen?", "index.html#tutorial-rationales-naming", null ],
+        [ "How is the parameter order decided?", "index.html#tutorial-rationales-parameters", null ],
+        [ "Why tag dispatching?", "index.html#tutorial-rationales-tag_dispatching", null ]
       ] ],
       [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
         [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
         [ "Constexpr preservation", "index.html#tutorial-tutorial-appendix-constexpr-preservation", null ],
         [ "Side effects", "index.html#tutorial-appendix-constexpr-effects", null ]
       ] ],
-      [ "Apendix II: The maths behind Hana", "index.html#tutorial-appendix-math", null ],
-      [ "Apendix III: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
+      [ "Apendix II: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Alphabetical index", "functions.html", null ],
@@ -90,9 +96,9 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"add__rvalue__reference_8hpp.html",
-"index.html#tutorial-conclusion-glossary",
-"structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e"
+"adl_8hpp.html",
+"index.html#tutorial-assert",
+"structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

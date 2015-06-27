@@ -134,27 +134,25 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
+<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
 <dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="structboost_1_1hana_1_1constant__detail_1_1which.html">boost::hana::constant_detail::which&lt; A, B, C &gt;</a>  </dt>
 <dd>This is an awful hack to avoid having <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;common&lt;IntegralConstant&lt;int&gt;, IntegralConstant&lt;long&gt;&gt;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    ==</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;CanonicalConstant&lt;long&gt;</div>
 </div><!-- fragment -->  </dd>
-<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">boost::hana::lockstep</a>  </dt>
-<dd>I think this is equivalent to <code>&lt;*&gt;</code> for <code>((-&gt;) r)</code>.  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
+<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
 <dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
-<dt><a class="anchor" id="_todo000012"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
+<dt><a class="anchor" id="_todo000011"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><p class="startdd">This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:</p><ul>
 <li><code>std::tuple</code><br />
- Models <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses. It can basically be used like a Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
+ Models <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. It can basically be used like a Hana <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
 <li><code>std::integral_constant</code><br />
  Model of <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>, and all the free models it provides.</li>
 <li><code>std::ratio</code><br />
- Model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> and its superclasses.</li>
+ Model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code>.</li>
 <li><code>std::integer_sequence</code><br />
  Model of <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>. You should be using Hana's <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> if you want speed, though.</li>
 <li><code>std::pair</code><br />
@@ -164,14 +162,13 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li><code>boost::mpl::integral_c</code><br />
  See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::IntegralC</a></code>.</li>
 <li><code>boost::fusion::{deque,list,tuple,vector}</code><br />
- They are models of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses, and hence can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
+ They are models of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and hence can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
 <li><code>boost::tuple</code><br />
- Model of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> and all its superclasses. It can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms.</li>
+ Model of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. It can be used like Hana's <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> in algorithms.</li>
 </ul>
 <p>Write this section.</p>
 <p>Improve this explanation and talk about non-integral constant expressions wrapped into types.</p>
-<p>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</p>
-<p class="enddd">Write this section. </p>
+<p class="enddd">Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</p>
 </dd>
 </dl>
 </div></div><!-- contents -->

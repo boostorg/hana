@@ -39,8 +39,6 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "set.hpp", "set_8hpp.html", null ],
     [ "string.hpp", "string_8hpp.html", "string_8hpp" ],
     [ "struct.hpp", "struct_8hpp.html", null ],
-    [ "struct_macros.hpp", "struct__macros_8hpp.html", null ],
-    [ "traversable.hpp", "traversable_8hpp.html", null ],
     [ "tuple.hpp", "tuple_8hpp.html", null ],
     [ "type.hpp", "type_8hpp.html", null ]
 ];

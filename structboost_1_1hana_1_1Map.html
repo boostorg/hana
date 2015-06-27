@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Map.html','');}
 
 <div class="header">
   <div class="summary">
-<a href="#related">Synopsis of methods</a> &#124;
+<a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Map-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::Map Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Map.html','');}
 <p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</p>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (operators provided)<br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
@@ -156,8 +156,8 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line">    )</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (operators provided)<br />
-A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Also note that <code>operator[]</code> can be used instead of <code>at_key</code>. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
 <div class="line">    make_pair(type&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
 <div class="line">    make_pair(type&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
 <div class="line">);</div>
@@ -176,7 +176,7 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line"><span class="comment">// Given a map of (key, value) pairs, returns a map of (value, key) pairs.</span></div>
 <div class="line"><span class="comment">// This requires both the keys and the values to be compile-time Comparable.</span></div>
 <div class="line"><span class="keyword">auto</span> invert = [](<span class="keyword">auto</span> map) {</div>
-<div class="line">    <span class="keywordflow">return</span> fold.left(map, <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(), [](<span class="keyword">auto</span> map, <span class="keyword">auto</span> pair) {</div>
+<div class="line">    <span class="keywordflow">return</span> fold_left(map, <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(), [](<span class="keyword">auto</span> map, <span class="keyword">auto</span> pair) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(map, make_pair(second(pair), first(pair)));</div>
 <div class="line">    });</div>
 <div class="line">};</div>
@@ -215,7 +215,7 @@ Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of methods</h2></td></tr>
+Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019">make&lt; Map &gt;</a></td></tr>
 <tr class="memdesc:aa98dda24b823031a42e47897de220019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code>.  <a href="#aa98dda24b823031a42e47897de220019">More...</a><br /></td></tr>
@@ -236,7 +236,7 @@ Synopsis of methods</h2></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key/value pair from a <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Methods</h2>
+<h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="aa98dda24b823031a42e47897de220019"></a>
 <div class="memitem">
 <div class="memproto">

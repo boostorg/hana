@@ -141,15 +141,15 @@ $(document).ready(function(){initNavTree('generate__integer__sequence_8hpp.html'
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memTemplParams" colspan="2">template&lt;typename T , detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(detail::std::make_index_sequence&lt; N &gt;{}))</td></tr>
-<tr class="memdesc:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="group__group-details.html#ga6b8de4dadb6a27692e3db3d199b4b774">More...</a><br /></td></tr>
-<tr class="separator:ga6b8de4dadb6a27692e3db3d199b4b774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga6f1cca2f6d42995e8459c1a0b93198a0"></a>
-template&lt;detail::std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga6f1cca2f6d42995e8459c1a0b93198a0">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; detail::std::size_t, N, F &gt;</td></tr>
-<tr class="memdesc:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
-<tr class="separator:ga6f1cca2f6d42995e8459c1a0b93198a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </td></tr>
+<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(std::make_index_sequence&lt; N &gt;{}))</td></tr>
+<tr class="memdesc:ga37aa8462ac506500444eb455346f0883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">More...</a><br /></td></tr>
+<tr class="separator:ga37aa8462ac506500444eb455346f0883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplParams" colspan="2"><a class="anchor" id="gac7f5853430d8d73d097d7ec46aafe453"></a>
+template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
+<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; std::size_t, N, F &gt;</td></tr>
+<tr class="memdesc:gac7f5853430d8d73d097d7ec46aafe453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
+<tr class="separator:gac7f5853430d8d73d097d7ec46aafe453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines <code>boost::hana::detail::generate_integer_sequence</code> &amp; friends. </p>
