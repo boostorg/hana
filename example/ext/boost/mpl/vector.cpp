@@ -50,7 +50,7 @@ BOOST_HANA_CONSTANT_CHECK(number_of_floats == int_<3>);
 }{
 
 //! [Iterable]
-BOOST_HANA_CONSTANT_CHECK(head(mpl::vector<int, char, void>{}) == type<int>);
+BOOST_HANA_CONSTANT_CHECK(front(mpl::vector<int, char, void>{}) == type<int>);
 
 BOOST_HANA_CONSTANT_CHECK(equal(
     tail(mpl::vector<int, char, void>{}),

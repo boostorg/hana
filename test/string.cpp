@@ -208,20 +208,20 @@ int main() {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        // head
+        // front
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(BOOST_HANA_STRING("a")),
+                front(BOOST_HANA_STRING("a")),
                 char_<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(BOOST_HANA_STRING("ab")),
+                front(BOOST_HANA_STRING("ab")),
                 char_<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(BOOST_HANA_STRING("abc")),
+                front(BOOST_HANA_STRING("abc")),
                 char_<'a'>
             ));
         }

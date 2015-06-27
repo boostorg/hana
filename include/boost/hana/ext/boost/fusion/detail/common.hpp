@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct head_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
+    struct front_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
         template <typename Xs>
         static constexpr auto const& apply(Xs const& xs)
         { return ::boost::fusion::front(xs); }

@@ -17,8 +17,8 @@ using namespace boost::hana::literals;
 
 auto indexed_sort = [](auto list, auto predicate) {
     auto indexed_list = zip(list, to<Tuple>(range(0_c, size(list))));
-    auto sorted = sort.by(predicate ^on^ head, indexed_list);
-    return make_pair(transform(sorted, head), transform(sorted, last));
+    auto sorted = sort.by(predicate ^on^ front, indexed_list);
+    return make_pair(transform(sorted, front), transform(sorted, back));
 };
 
 int main() {

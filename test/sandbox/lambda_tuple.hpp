@@ -100,7 +100,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<sandbox::LambdaTuple> {
+    struct front_impl<sandbox::LambdaTuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_impl<sandbox::LambdaTuple> {
+    struct drop_front_impl<sandbox::LambdaTuple> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));
@@ -225,18 +225,6 @@ namespace boost { namespace hana {
     struct models_impl<Sequence, sandbox::LambdaTuple>
         : decltype(true_)
     { };
-
-    template <>
-    struct init_impl<sandbox::LambdaTuple> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return unpack(range(_size_t<0>{}, pred(length(xs))),
-                on(sandbox::lambda_tuple, [&xs](auto index) -> decltype(auto) {
-                    return at(static_cast<Xs&&>(xs), index);
-                })
-            );
-        }
-    };
 
     template <>
     struct take_impl<sandbox::LambdaTuple> {

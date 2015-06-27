@@ -175,7 +175,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<String> {
+    struct front_impl<String> {
         template <char x, char ...xs>
         static constexpr auto apply(_string<x, xs...> const&)
         { return char_<x>; }

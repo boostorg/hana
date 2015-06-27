@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<LazyList> {
+    struct front_impl<LazyList> {
         template <typename Xs>
         static constexpr auto apply(Xs lcons)
         { return lcons.x; }
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
 int main() {
     using boost::hana::size_t;
     BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
-    BOOST_HANA_CONSTEXPR_CHECK(head(repeat_(1)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(front(repeat_(1)) == 1);
     BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_t<10>) == 1);
 
     BOOST_HANA_CONSTEXPR_CHECK(take(repeat_('x'), size_t<2>) == make<Tuple>('x', 'x'));

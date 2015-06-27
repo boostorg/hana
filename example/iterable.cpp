@@ -27,17 +27,17 @@ int main() {
 
 //! [Searchable]
 BOOST_HANA_CONSTEXPR_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_integral>) == just(2)
+    find_if(make_tuple(1.0, 2, '3'), trait<std::is_integral>) == just(2)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find_if(make<Tuple>(1.0, 2, '3'), trait<std::is_class>) == nothing
+    find_if(make_tuple(1.0, 2, '3'), trait<std::is_class>) == nothing
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<void>) == just(type<void>)
+    find(make_tuple(int_<1>, char_<'c'>, type<void>), type<void>) == just(type<void>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    find(make<Tuple>(int_<1>, char_<'c'>, type<void>), type<int>) == nothing
+    find(make_tuple(int_<1>, char_<'c'>, type<void>), type<int>) == nothing
 );
 //! [Searchable]
 
@@ -64,31 +64,36 @@ BOOST_HANA_CONSTEXPR_CHECK(at_c<2>(make_tuple(0, '1', 2.0)) == 2.0);
 
 }{
 
-//! [drop]
-constexpr auto xs = make_tuple(0, '1', 2.0);
-
-static_assert(drop(xs, size_t<0>) == xs, "");
-static_assert(drop(xs, size_t<1>) == make_tuple('1', 2.0), "");
-static_assert(drop(xs, size_t<2>) == make_tuple(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(drop(xs, size_t<3>) == make_tuple());
-BOOST_HANA_CONSTANT_CHECK(drop(xs, size_t<4>) == make_tuple());
-//! [drop]
+//! [back]
+static_assert(back(make_tuple(1, '2', 3.3)) == 3.3, "");
+static_assert(back(make_tuple(1, '2', 3.3, nullptr)) == nullptr, "");
+//! [back]
 
 }{
 
-//! [drop_exactly]
+//! [drop_front]
 constexpr auto xs = make_tuple(0, '1', 2.0);
 
-static_assert(drop_exactly(xs, size_t<1>) == make_tuple('1', 2.0), "");
-static_assert(drop_exactly(xs, size_t<2>) == make_tuple(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(drop_exactly(xs, size_t<3>) == make_tuple());
-//! [drop_exactly]
+static_assert(drop_front(xs, size_t<0>) == xs, "");
+static_assert(drop_front(xs, size_t<1>) == make_tuple('1', 2.0), "");
+static_assert(drop_front(xs, size_t<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop_front(xs, size_t<3>) == make_tuple());
+BOOST_HANA_CONSTANT_CHECK(drop_front(xs, size_t<4>) == make_tuple());
+
+static_assert(drop_front(xs) == make_tuple('1', 2.0), "");
+//! [drop_front]
 
 }{
 
-//! [drop_c]
-static_assert(drop_c<2>(make_tuple(0, '1', 2.0)) == make_tuple(2.0), "");
-//! [drop_c]
+//! [drop_front_exactly]
+constexpr auto xs = make_tuple(0, '1', 2.0);
+
+static_assert(drop_front_exactly(xs, size_t<1>) == make_tuple('1', 2.0), "");
+static_assert(drop_front_exactly(xs, size_t<2>) == make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(drop_front_exactly(xs, size_t<3>) == make_tuple());
+
+static_assert(drop_front_exactly(xs) == make_tuple('1', 2.0), "");
+//! [drop_front_exactly]
 
 }{
 
@@ -104,7 +109,7 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    drop_until(make<Tuple>(1_c, -2_c, 4_c, 5_c), positive) == make<Tuple>(1_c, -2_c, 4_c, 5_c)
+    drop_until(make_tuple(1_c, -2_c, 4_c, 5_c), positive) == make_tuple(1_c, -2_c, 4_c, 5_c)
 );
 //! [drop_until]
 
@@ -121,34 +126,28 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    drop_while(make<Tuple>(1_c, -2_c, 4_c, 5_c), negative) == make<Tuple>(1_c, -2_c, 4_c, 5_c)
+    drop_while(make_tuple(1_c, -2_c, 4_c, 5_c), negative) == make_tuple(1_c, -2_c, 4_c, 5_c)
 );
 //! [drop_while]
 
 }{
 
-//! [head]
-BOOST_HANA_CONSTEXPR_CHECK(head(make<Tuple>(1, '2', 3.3, nullptr)) == 1);
-//! [head]
+//! [front]
+static_assert(front(make_tuple(1, '2', 3.3, nullptr)) == 1, "");
+//! [front]
 
 }{
 
 //! [is_empty]
-BOOST_HANA_CONSTANT_CHECK(!is_empty(make<Tuple>(1, '2')));
-BOOST_HANA_CONSTANT_CHECK( is_empty(make<Tuple>()));
+BOOST_HANA_CONSTANT_CHECK(!is_empty(make_tuple(1, '2')));
+BOOST_HANA_CONSTANT_CHECK( is_empty(make_tuple()));
 //! [is_empty]
-
-}{
-
-//! [last]
-BOOST_HANA_CONSTEXPR_CHECK(last(make<Tuple>(1, '2', 3.3, nullptr)) == nullptr);
-//! [last]
 
 }{
 
 //! [tail]
 BOOST_HANA_CONSTEXPR_CHECK(
-    tail(make<Tuple>(1, '2', 3.3, nullptr)) == make<Tuple>('2', 3.3, nullptr)
+    tail(make_tuple(1, '2', 3.3, nullptr)) == make_tuple('2', 3.3, nullptr)
 );
 //! [tail]
 

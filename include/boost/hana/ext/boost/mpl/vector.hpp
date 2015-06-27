@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<ext::boost::mpl::Vector> {
+    struct front_impl<ext::boost::mpl::Vector> {
         template <typename xs>
         static constexpr auto apply(xs)
         { return type<typename ::boost::mpl::front<xs>::type>; }

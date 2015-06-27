@@ -18,7 +18,7 @@ struct counter { };
 
 namespace boost { namespace hana {
     template <int i>
-    struct head_impl<counter<i>> {
+    struct front_impl<counter<i>> {
         static constexpr auto apply(counter<i>) { return int_<i>; }
     };
 

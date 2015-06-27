@@ -99,9 +99,9 @@ int main() {
             auto by_val = [](auto) { };
 
             by_val(std::move(xs));
-            by_val(head(std::move(xs)));
+            by_val(front(std::move(xs)));
             by_val(at_c<0>(std::move(xs)));
-            by_val(last(std::move(xs)));
+            by_val(back(std::move(xs)));
         }
 
         {
@@ -109,9 +109,9 @@ int main() {
             auto by_const_ref = [](auto const&) { };
 
             by_const_ref(xs);
-            by_const_ref(head(xs));
+            by_const_ref(front(xs));
             by_const_ref(at_c<0>(xs));
-            by_const_ref(last(xs));
+            by_const_ref(back(xs));
         }
 
         {
@@ -119,9 +119,9 @@ int main() {
             auto by_ref = [](auto&) { };
 
             by_ref(xs);
-            by_ref(head(xs));
+            by_ref(front(xs));
             by_ref(at_c<0>(xs));
-            by_ref(last(xs));
+            by_ref(back(xs));
         }
     }
 
@@ -415,17 +415,17 @@ int main() {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        // head
+        // front
         {
             // tuple_t
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0>), type<x0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1>), type<x0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_t<x0, x1, x2>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_t<x0>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_t<x0, x1>), type<x0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_t<x0, x1, x2>), type<x0>));
 
             // tuple_c
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0>), int_<0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1>), int_<0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(head(tuple_c<int, 0, 1, 2>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1, 2>), int_<0>));
         }
 
         // is_empty

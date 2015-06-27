@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<ext::std::Array> {
+    struct front_impl<ext::std::Array> {
         template <typename T, std::size_t n>
         static constexpr T const& apply(std::array<T, n> const& xs)
         { return xs[0]; }

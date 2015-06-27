@@ -82,10 +82,10 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<test::Seq> {
+    struct front_impl<test::Seq> {
         template <typename Xs>
         static constexpr auto apply(Xs xs) {
-            return hana::head(xs.storage);
+            return hana::front(xs.storage);
         }
     };
 

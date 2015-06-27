@@ -39,13 +39,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // head
+    // front
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct head_impl : head_impl<It, when<true>> { };
+    struct front_impl : front_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct head_impl<It, when<condition>> : default_ {
+    struct front_impl<It, when<condition>> : default_ {
         static void apply(...);
     };
 
@@ -91,7 +91,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Index&& n) {
             using I = typename datatype<Index>::type;
             return hana::eval_if(hana::equal(n, zero<I>()),
-                hana::lazy(head)(xs),
+                hana::lazy(hana::front)(xs),
                 hana::lazy(next{})(xs, n)
             );
         }
@@ -108,49 +108,55 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // last
+    // back
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct last_impl : last_impl<It, when<true>> { };
+    struct back_impl : back_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct last_impl<It, when<condition>> : default_ {
+    struct back_impl<It, when<condition>> : default_ {
         template <typename Xs>
-        static constexpr auto apply(Xs xs) {
-            return hana::eval_if(hana::is_empty(hana::tail(xs)),
-                hana::always(hana::head(xs)),
-                hana::lazy(hana::compose(last, tail))(xs)
-            );
+        static constexpr decltype(auto) apply(Xs&& xs) {
+            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            static_assert(len > 0, "hana::back(xs) requires 'xs' to be non-empty");
+            return hana::at(static_cast<Xs&&>(xs), hana::size_t<len - 1>);
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // drop
+    // drop_front
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct drop_impl : drop_impl<It, when<true>> { };
+    struct drop_front_impl : drop_front_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_impl<It, when<condition>> : default_ {
+    struct drop_front_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N&& n) {
             using I = typename datatype<N>::type;
             return hana::eval_if(
                 hana::or_(hana::equal(n, zero<I>()), hana::is_empty(xs)),
                 hana::always(xs),
-                hana::lazy(hana::lockstep(drop)(tail, pred))(xs, n)
+                hana::lazy(hana::lockstep(hana::drop_front)(tail, pred))(xs, n)
             );
         }
     };
 
+    //! @cond
+    template <typename Xs>
+    constexpr auto _drop_front::operator()(Xs&& xs) const {
+        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>);
+    }
+    //! @endcond
+
     //////////////////////////////////////////////////////////////////////////
-    // drop_exactly
+    // drop_front_exactly
     //////////////////////////////////////////////////////////////////////////
     template <typename It, typename>
-    struct drop_exactly_impl : drop_exactly_impl<It, when<true>> { };
+    struct drop_front_exactly_impl : drop_front_exactly_impl<It, when<true>> { };
 
     template <typename It, bool condition>
-    struct drop_exactly_impl<It, when<condition>> : default_ {
+    struct drop_front_exactly_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
             constexpr auto n = hana::value<N>();
@@ -158,15 +164,12 @@ namespace boost { namespace hana {
         }
     };
 
-    //////////////////////////////////////////////////////////////////////////
-    // drop_c
-    //////////////////////////////////////////////////////////////////////////
-    template <std::size_t n>
-    struct _drop_c {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::drop(static_cast<Xs&&>(xs), size_t<n>); }
-    };
+    //! @cond
+    template <typename Xs>
+    constexpr auto _drop_front_exactly::operator()(Xs&& xs) const {
+        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>);
+    }
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // drop_while
@@ -185,7 +188,7 @@ namespace boost { namespace hana {
 
             template <typename Xs, typename Pred>
             constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-                return hana::eval_if(pred(hana::head(xs)),
+                return hana::eval_if(pred(hana::front(xs)),
                     hana::lazy(next{})(xs, pred),
                     hana::lazy(xs)
                 );
@@ -231,7 +234,7 @@ namespace boost { namespace hana {
     template <typename It>
     struct models_impl<Iterable, It>
         : _integral_constant<bool,
-            !is_default<head_impl<It>>{}() &&
+            !is_default<front_impl<It>>{}() &&
             !is_default<tail_impl<It>>{}() &&
             !is_default<is_empty_impl<It>>{}()
         >
@@ -255,7 +258,7 @@ namespace boost { namespace hana {
                 hana::is_empty(hana::tail(xs))
             )>();
             return fold_left_impl::fold_left_helper(
-                hana::tail(xs), f(s, hana::head(xs)), f, hana::bool_<done>
+                hana::tail(xs), f(s, hana::front(xs)), f, hana::bool_<done>
             );
         }
 
@@ -273,7 +276,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return fold_left_impl::apply(hana::tail(xs),
-                                         hana::head(xs),
+                                         hana::front(xs),
                                          static_cast<F&&>(f));
         }
     };
@@ -285,7 +288,7 @@ namespace boost { namespace hana {
     struct Iterable::find_if_impl {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::only_when(hana::compose(not_, is_empty), head,
+            return hana::only_when(hana::compose(not_, is_empty), hana::front,
                 hana::drop_until(static_cast<Xs&&>(xs),
                                  static_cast<Pred&&>(pred))
             );
@@ -298,7 +301,7 @@ namespace boost { namespace hana {
         struct any_of_helper {
             template <typename Xs, typename Pred>
             static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::head(xs)), true_, false_);
+                auto cond = hana::if_(pred(hana::front(xs)), true_, false_);
                 decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
                 constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
                 return prev_cond ? true_
@@ -313,7 +316,7 @@ namespace boost { namespace hana {
 
             template <typename Xs, typename Pred>
             static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::head(xs)), true_, false_);
+                auto cond = hana::if_(pred(hana::front(xs)), true_, false_);
                 constexpr bool done = hana::value<decltype(
                     hana::is_empty(hana::tail(xs))
                 )>();

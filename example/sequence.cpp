@@ -93,7 +93,7 @@ BOOST_HANA_RUNTIME_CHECK(
 }{
 
 //! [Iterable]
-static_assert(head(make_tuple(1, '2', 3.3)) == 1, "");
+static_assert(front(make_tuple(1, '2', 3.3)) == 1, "");
 static_assert(tail(make_tuple(1, '2', 3.3)) == make_tuple('2', 3.3), "");
 BOOST_HANA_CONSTANT_CHECK(!is_empty(make_tuple(1, '2', 3.3)));
 BOOST_HANA_CONSTANT_CHECK(is_empty(make_tuple()));
@@ -229,6 +229,32 @@ static_assert(
 
 }{
 
+//! [drop_back]
+constexpr auto xs = make_tuple(0, '1', 2.0);
+
+static_assert(drop_back(xs, size_t<0>) == xs, "");
+static_assert(drop_back(xs, size_t<1>) == make_tuple(0, '1'), "");
+static_assert(drop_back(xs, size_t<2>) == make_tuple(0), "");
+BOOST_HANA_CONSTANT_CHECK(drop_back(xs, size_t<3>) == make_tuple());
+BOOST_HANA_CONSTANT_CHECK(drop_back(xs, size_t<4>) == make_tuple());
+
+static_assert(drop_back(xs) == make_tuple(0, '1'), "");
+//! [drop_back]
+
+}{
+
+//! [drop_back_exactly]
+constexpr auto xs = make_tuple(0, '1', 2.0);
+
+static_assert(drop_back_exactly(xs, size_t<1>) == make_tuple(0, '1'), "");
+static_assert(drop_back_exactly(xs, size_t<2>) == make_tuple(0), "");
+BOOST_HANA_CONSTANT_CHECK(drop_back_exactly(xs, size_t<3>) == make_tuple());
+
+static_assert(drop_back_exactly(xs) == make_tuple(0, '1'), "");
+//! [drop_back_exactly]
+
+}{
+
 //! [group]
 // without a predicate
 BOOST_HANA_CONSTANT_CHECK(
@@ -277,15 +303,6 @@ static_assert(
         )
 , "");
 //! [group.by]
-
-}{
-
-//! [init]
-using namespace boost::hana::literals;
-
-BOOST_HANA_CONSTANT_CHECK(init(make_tuple(1)) == make_tuple());
-static_assert(init(make_tuple(1, '2', 3.3, 4_c)) == make_tuple(1, '2', 3.3), "");
-//! [init]
 
 }{
 
@@ -507,7 +524,7 @@ auto tuples = make_tuple(
     make_tuple(1_c, "foobar"s, int_<4>)
 );
 BOOST_HANA_RUNTIME_CHECK(
-    sort.by(ordering(head), tuples)
+    sort.by(ordering(front), tuples)
         == make_tuple(
             make_tuple(1_c, "foobar"s, int_<4>),
             make_tuple(2_c, 'x', nullptr)

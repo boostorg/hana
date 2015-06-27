@@ -65,11 +65,11 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(array<0, 1>())));
         }
 
-        // head
+        // front
         {
-            BOOST_HANA_CONSTEXPR_CHECK(head(array<0>()) == 0);
-            BOOST_HANA_CONSTEXPR_CHECK(head(array<0, 1>()) == 0);
-            BOOST_HANA_CONSTEXPR_CHECK(head(array<0, 1, 2>()) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(front(array<0>()) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(front(array<0, 1>()) == 0);
+            BOOST_HANA_CONSTEXPR_CHECK(front(array<0, 1, 2>()) == 0);
         }
 
         // tail

@@ -239,7 +239,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<Range> {
+    struct front_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(_range<T, from, to> const&)
         { return integral_constant<T, from>; }
@@ -269,14 +269,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct last_impl<Range> {
+    struct back_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(_range<T, from, to> const&)
         { return integral_constant<T, to - 1>; }
     };
 
     template <>
-    struct drop_impl<Range> {
+    struct drop_front_impl<Range> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
@@ -285,7 +285,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_exactly_impl<Range> {
+    struct drop_front_exactly_impl<Range> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(_range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();

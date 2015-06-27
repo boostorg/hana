@@ -393,7 +393,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<Tuple> {
+    struct front_impl<Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return detail::get<0>(static_cast<Xs&&>(xs)); }
@@ -445,7 +445,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct last_impl<Tuple> {
+    struct back_impl<Tuple> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             constexpr std::size_t size = tuple_detail::size<Xs>{}();
@@ -454,12 +454,12 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_impl<Tuple> {
+    struct drop_front_impl<Tuple> {
         using Size = std::size_t;
 
         template <Size n, typename Xs, Size ...i>
         static constexpr decltype(auto)
-        drop_helper(Xs&& xs, std::index_sequence<i...>) {
+        drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
             return hana::make<Tuple>(detail::get<n + i>(static_cast<Xs&&>(xs))...);
         }
 
@@ -468,7 +468,7 @@ namespace boost { namespace hana {
             constexpr Size n = hana::value<N>();
             constexpr Size size = tuple_detail::size<Xs>{}();
             constexpr Size drop_size = n > size ? size : n;
-            return drop_helper<drop_size>(static_cast<Xs&&>(xs),
+            return drop_front_helper<drop_size>(static_cast<Xs&&>(xs),
                 std::make_index_sequence<size - drop_size>{});
         }
     };
@@ -482,8 +482,8 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop_exactly(static_cast<Xs&&>(xs),
-                                          hana::size_t<k-1>);
+                return hana::drop_front_exactly(static_cast<Xs&&>(xs),
+                                                hana::size_t<k-1>);
             }
 
             template <typename Xs, typename Pred>
@@ -501,15 +501,15 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(false_), Xs&& xs, Pred&&) {
-                return hana::drop_exactly(static_cast<Xs&&>(xs),
-                                          hana::size_t<Len - 1>);
+                return hana::drop_front_exactly(static_cast<Xs&&>(xs),
+                                                hana::size_t<Len - 1>);
             }
 
             template <typename Xs, typename Pred>
             static constexpr decltype(auto)
             apply(decltype(true_), Xs&& xs, Pred&&) {
-                return hana::drop_exactly(static_cast<Xs&&>(xs),
-                                          hana::size_t<Len>);
+                return hana::drop_front_exactly(static_cast<Xs&&>(xs),
+                                                hana::size_t<Len>);
             }
         };
 
@@ -966,23 +966,6 @@ namespace boost { namespace hana {
         /**/
         BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_CARTESIAN_PRODUCT)
         #undef BOOST_HANA_PP_CARTESIAN_PRODUCT
-    };
-
-    template <>
-    struct init_impl<Tuple> {
-        template <typename Xs, std::size_t ...n>
-        static constexpr decltype(auto)
-        init_helper(Xs&& xs, std::index_sequence<n...>) {
-            return hana::make<Tuple>(
-                        detail::get<n>(static_cast<Xs&&>(xs))...);
-        }
-
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr std::size_t size = tuple_detail::size<Xs>{}();
-            return init_helper(static_cast<Xs&&>(xs),
-                std::make_index_sequence<size - 1>{});
-        }
     };
 
     template <>

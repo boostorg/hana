@@ -574,12 +574,15 @@ function                                    | description
 <code>{[all](@ref Searchable::all_of),[any](@ref Searchable::any_of),[none](@ref Searchable::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
 <code>[append](@ref MonadPlus::append)(sequence, value)</code>                      | Append an element to a sequence.
 <code>[at](@ref Iterable::at)(sequence, index)</code>                               | Returns the n-th element of a sequence. The index must be an IntegralConstant.
+<code>[back](@ref Iterable::back)(sequence)</code>                                  | Returns the last element of a non-empty sequence.
 <code>[concat](@ref MonadPlus::concat)(sequence1, sequence2)</code>                 | Concatenate two sequences.
 <code>[contains](@ref Searchable::contains)(sequence, value)</code>                 | Returns whether a sequence contains the given object.
 <code>[count](@ref Foldable::count)(sequence, value)</code>                         | Returns the number of elements that compare equal to the given value.
 <code>[count_if](@ref Foldable::count_if)(sequence, predicate)</code>               | Returns the number of elements that satisfy the predicate.
-<code>[drop](@ref Iterable::drop)(sequence, n)</code>                               | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant.
-<code>[drop_exactly](@ref Iterable::drop_exactly)(sequence, n)</code>               | Drop the first `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements.
+<code>[drop_front](@ref Iterable::drop_front)(sequence[, n])</code>                 | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant. When not provided, `n` defaults to 1.
+<code>[drop_front_exactly](@ref Iterable::drop_front_exactly)(sequence[, n])</code> | Drop the first `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
+<code>[drop_back](@ref Sequence::drop_back)(sequence[, n])</code>                   | Drop the last `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant. When not provided, `n` defaults to 1.
+<code>[drop_back_exactly](@ref Sequence::drop_back_exactly)(sequence[, n])</code>   | Drop the last `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
 <code>[drop_until](@ref Iterable::drop_until)(sequence, predicate)</code>           | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[drop_while](@ref Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
@@ -591,13 +594,11 @@ function                                    | description
 <code>[fold_right](@ref Foldable::fold_right)(sequence[, state], f)</code>          | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
 <code>[fold](@ref Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold_left`; provided for consistency with Boost.MPL and Boost.Fusion.
 <code>[for_each](@ref Foldable::for_each)(sequence, f)</code>                       | Call a function on each element of a sequence. Returns `void`.
+<code>[front](@ref Iterable::front)(sequence)</code>                                | Returns the first element of a non-empty sequence.
 <code>[group](@ref Sequence::group)(sequence[, predicate])</code>                   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable.
-<code>[head](@ref Iterable::head)(sequence)</code>                                  | Returns the first element of a sequence.
-<code>[init](@ref Sequence::init)(sequence)</code>                                  | Returns all the elements of a sequence, except the last one. Analogous to `pop_back`.
 <code>[insert](@ref Sequence::insert)(sequence, index, element)</code>              | Insert an element at a given index. The index must be an `IntegralConstant`.
 <code>[insert_range](@ref Sequence::insert_range)(sequence, index, elements)</code> | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
 <code>[is_empty](@ref Iterable::is_empty)(sequence)</code>                          | Returns whether a sequence is empty as an IntegralConstant.
-<code>[last](@ref Iterable::last)(sequence)</code>                                  | Returns the last element of a sequence.
 <code>[length](@ref Foldable::length)(sequence)</code>                              | Returns the length of a sequence as an IntegralConstant.
 <code>[maximum](@ref Foldable::maximum)(sequence[, predicate])</code>               | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
 <code>[minimum](@ref Foldable::minimum)(sequence[, predicate])</code>               | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided.
@@ -3224,15 +3225,15 @@ functions implemented for `T`. However, the only way to detect this without
 tag-dispatching is to basically check whether the following expressions are
 valid in a SFINAE-able context:
 
-    implementation_of_head(std::declval<T>())
+    implementation_of_front(std::declval<T>())
     implementation_of_is_empty(std::declval<T>())
     implementation_of_tail(std::declval<T>())
 
 Unfortunately, this requires actually doing the algorithms, which might either
 trigger a hard compile-time error or hurt compile-time performance. With tag
-dispatching, we can just ask whether `head_impl<T>`, `is_empty_impl<T>` and
+dispatching, we can just ask whether `front_impl<T>`, `is_empty_impl<T>` and
 `tail_impl<T>` are defined, and nothing happens until we actually call
-`head_impl<T>::%apply(...)`.
+`front_impl<T>::%apply(...)`.
 
 
 

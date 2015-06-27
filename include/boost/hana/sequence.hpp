@@ -28,6 +28,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functor.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/iterable.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/logical.hpp>
@@ -149,6 +150,63 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
+    // drop_back
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct drop_back_impl : drop_back_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct drop_back_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N&&) {
+            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            return hana::drop_back_exactly(static_cast<Xs&&>(xs),
+                                           hana::size_t<(n > len ? len : n)>);
+        }
+    };
+
+    //! @cond
+    template <typename Xs>
+    constexpr auto _drop_back::operator()(Xs&& xs) const {
+        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>);
+    }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
+    // drop_back_exactly
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename>
+    struct drop_back_exactly_impl : drop_back_exactly_impl<S, when<true>> { };
+
+    template <typename S, bool condition>
+    struct drop_back_exactly_impl<S, when<condition>> : default_ {
+        template <typename Xs, std::size_t ...n>
+        static constexpr auto
+        drop_back_exactly_helper(Xs&& xs, std::index_sequence<n...>) {
+            return hana::make<S>(
+                hana::at(static_cast<Xs&&>(xs), hana::size_t<n>)...
+            );
+        }
+
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N&&) {
+            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            return drop_back_exactly_helper(
+                static_cast<Xs&&>(xs), std::make_index_sequence<len - n>{}
+            );
+        }
+    };
+
+    //! @cond
+    template <typename Xs>
+    constexpr auto _drop_back_exactly::operator()(Xs&& xs) const {
+        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>);
+    }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
     // group (with a predicate)
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename>
@@ -159,7 +217,7 @@ namespace boost { namespace hana {
             template <typename Pred, typename Grouped, typename Xs>
             constexpr decltype(auto)
             operator()(Pred&& pred, Grouped&& grouped, Xs&& xs) const {
-                decltype(auto) x = hana::head(xs);
+                decltype(auto) x = hana::front(xs);
                 decltype(auto) tmp = hana::span(static_cast<Xs&&>(xs),
                     hana::partial(static_cast<Pred&&>(pred),
                                   static_cast<decltype(x)&&>(x)));
@@ -200,34 +258,6 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // init
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct init_impl : init_impl<S, when<true>> { };
-
-    namespace sequence_detail {
-        struct init_helper {
-            template <typename Xs, typename Init>
-            constexpr decltype(auto) operator()(Xs&& xs, Init&& init) const {
-                return hana::append(static_cast<Init&&>(init),
-                                    hana::head(static_cast<Xs&&>(xs)));
-            }
-        };
-    }
-
-    template <typename S, bool condition>
-    struct init_impl<S, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return sequence_detail::for2_(
-                static_cast<Xs&&>(xs),
-                hana::compose(not_, is_empty, tail),
-                tail
-            )(sequence_detail::init_helper{})(empty<S>());
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // insert
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
@@ -236,7 +266,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, N const& n, Element&& e) {
             return hana::concat(hana::append(hana::take(xs, n),
                                              static_cast<Element&&>(e)),
-                                hana::drop(xs, n));
+                                hana::drop_front(xs, n));
         }
     };
 
@@ -255,7 +285,7 @@ namespace boost { namespace hana {
                         hana::take(xs, n),
                         hana::to<S>(static_cast<Elements&&>(e))
                     ),
-                    hana::drop(xs, n)
+                    hana::drop_front(xs, n)
                 );
         }
     };
@@ -273,7 +303,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(Xs&& xs, Z&& z) const {
                 return hana::prepend(
                     hana::prefix(hana::tail(xs), static_cast<Z&&>(z)),
-                    hana::head(xs)
+                    hana::front(xs)
                 );
             }
         };
@@ -354,7 +384,7 @@ namespace boost { namespace hana {
         struct insertions2 {
             template <typename X, typename Xs>
             constexpr decltype(auto) operator()(X&& x, Xs&& l) const {
-                auto y = hana::head(l);
+                auto y = hana::front(l);
                 auto ys = hana::tail(l);
                 return hana::prepend(
                     hana::transform(insertions{}(x, ys),
@@ -379,7 +409,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(Xs&& xs) const {
                 return hana::chain(
                     permutations_impl::apply(hana::tail(xs)),
-                    hana::partial(insertions{}, hana::head(xs))
+                    hana::partial(insertions{}, hana::front(xs))
                 );
             }
         };
@@ -406,7 +436,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
                 return hana::prepend(
                     remove_at_impl::apply(hana::tail(xs), hana::pred(n)),
-                    hana::head(xs)
+                    hana::front(xs)
                 );
             }
         };
@@ -456,10 +486,10 @@ namespace boost { namespace hana {
         struct scan_left_helper {
             template <typename Xs, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-                //! @todo We need a way to extract the head of an Iterable
+                //! @todo We need a way to extract the front of an Iterable
                 //! and get its tail at the same time. It would allow us to
                 //! use perfect forwarding here.
-                return hana::scan_left(hana::tail(xs), hana::head(xs),
+                return hana::scan_left(hana::tail(xs), hana::front(xs),
                         static_cast<F&&>(f));
             }
 
@@ -468,7 +498,7 @@ namespace boost { namespace hana {
                 return hana::prepend(
                     scan_left_impl::apply(
                         hana::tail(xs),
-                        f(state, hana::head(xs)),
+                        f(state, hana::front(xs)),
                         f
                     ),
                     state
@@ -511,7 +541,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
                 auto rest = scan_right_impl::apply(hana::tail(xs), state, f);
-                return hana::prepend(rest, f(hana::head(xs), hana::head(rest)));
+                return hana::prepend(rest, f(hana::front(xs), hana::front(rest)));
             }
         };
 
@@ -530,14 +560,14 @@ namespace boost { namespace hana {
             template <typename Y, typename Ys, typename F>
             constexpr decltype(auto) operator()(Y&& y, Ys&& ys, F&& f) const {
                 auto rest = scan_right_impl::apply(ys, f);
-                return hana::prepend(rest, f(y, hana::head(rest)));
+                return hana::prepend(rest, f(y, hana::front(rest)));
             }
         };
 
         struct scanr1_helper1 {
             template <typename Xs, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
-                auto y = hana::head(xs);
+                auto y = hana::front(xs);
                 auto ys = hana::tail(xs);
                 return hana::eval_if(hana::is_empty(ys),
                     hana::lazy(hana::lift<S>(y)),
@@ -568,7 +598,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename From, typename To>
         static constexpr decltype(auto)
         apply(Xs&& xs, From const& from, To const& to) {
-            return hana::take(hana::drop(static_cast<Xs&&>(xs), from),
+            return hana::take(hana::drop_front(static_cast<Xs&&>(xs), from),
                               hana::minus(to, from));
         }
     };
@@ -596,7 +626,7 @@ namespace boost { namespace hana {
         struct sort_by_helper2 {
             template <typename Xs, typename Pred>
             constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-                auto pivot = hana::head(xs);
+                auto pivot = hana::front(xs);
                 auto rest = hana::tail(xs);
                 auto parts = hana::partition(rest,
                                     hana::partial(hana::flip(pred), pivot));
@@ -656,14 +686,14 @@ namespace boost { namespace hana {
                 auto ys_zs = span_impl::apply(hana::tail(xs), pred);
                 auto ys = hana::first(ys_zs);
                 auto zs = hana::second(ys_zs);
-                return hana::make_pair(hana::prepend(ys, hana::head(xs)), zs);
+                return hana::make_pair(hana::prepend(ys, hana::front(xs)), zs);
             }
         };
 
         struct span_helper1 {
             template <typename Xs, typename Pred>
             constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-                return hana::eval_if(pred(hana::head(xs)),
+                return hana::eval_if(pred(hana::front(xs)),
                     hana::lazy(span_helper2{})(xs, pred),
                     hana::lazy(make_pair)(empty<S>(), xs)
                 );
@@ -724,7 +754,7 @@ namespace boost { namespace hana {
                         TakeHelper::apply(
                             hana::tail(xs),
                             hana::pred(static_cast<N&&>(n))),
-                        hana::head(xs)
+                        hana::front(xs)
                     );
             }
         };
@@ -803,7 +833,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename State>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state) const {
                 return hana::append(static_cast<State&&>(state),
-                                    hana::head(static_cast<Xs&&>(xs)));
+                                    hana::front(static_cast<Xs&&>(xs)));
             }
         };
 
@@ -813,14 +843,14 @@ namespace boost { namespace hana {
             helper(Pred&& pred, Xs&& xs, bool cond) {
                 return cond ? false
                             : static_cast<Pred&&>(pred)(
-                                hana::head(static_cast<Xs&&>(xs)));
+                                hana::front(static_cast<Xs&&>(xs)));
             }
 
             template <typename Pred, typename Xs>
             static constexpr decltype(auto)
             helper(Pred&& pred, Xs&& xs, std::false_type) {
                 return static_cast<Pred&&>(pred)(
-                        hana::head(static_cast<Xs&&>(xs)));
+                        hana::front(static_cast<Xs&&>(xs)));
             }
 
             template <typename Pred, typename Xs>
@@ -927,7 +957,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
             return hana::transform(
                 hana::group(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred)),
-                hana::head);
+                hana::front);
         }
     };
 
@@ -1061,7 +1091,7 @@ namespace boost { namespace hana {
             constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
                 return hana::prepend(
                     zip.unsafe.with(f, hana::tail(xs)...),
-                    f(hana::head(xs)...)
+                    f(hana::front(xs)...)
                 );
             }
         };
@@ -1146,7 +1176,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto)
         equal_helper(Xs const& xs, Ys const& ys, decltype(false_)) {
             return hana::and_(
-                hana::equal(hana::head(xs), hana::head(ys)),
+                hana::equal(hana::front(xs), hana::front(ys)),
                 equal_impl::apply(hana::tail(xs), hana::tail(ys))
             );
         }
@@ -1157,7 +1187,7 @@ namespace boost { namespace hana {
             return cond
                 ? hana::and_(hana::is_empty(xs), hana::is_empty(ys))
                 : hana::and_(
-                    hana::equal(hana::head(xs), hana::head(ys)),
+                    hana::equal(hana::front(xs), hana::front(ys)),
                     equal_impl::apply(hana::tail(xs), hana::tail(ys))
                   );
         }
@@ -1198,9 +1228,9 @@ namespace boost { namespace hana {
         static constexpr auto
         less_helper(Xs const& xs, Ys const& ys, decltype(false_), decltype(false_)) {
             return hana::or_(
-                hana::less(hana::head(xs), hana::head(ys)),
+                hana::less(hana::front(xs), hana::front(ys)),
                 hana::and_(
-                    hana::equal(hana::head(xs), hana::head(ys)),
+                    hana::equal(hana::front(xs), hana::front(ys)),
                     less_impl::apply(hana::tail(xs), hana::tail(ys))
                 )
             );
@@ -1214,9 +1244,9 @@ namespace boost { namespace hana {
             else if (!e_xs && e_ys) return false;
 
             return hana::or_(
-                hana::less(hana::head(xs), hana::head(ys)),
+                hana::less(hana::front(xs), hana::front(ys)),
                 hana::and_(
-                    hana::equal(hana::head(xs), hana::head(ys)),
+                    hana::equal(hana::front(xs), hana::front(ys)),
                     less_impl::apply(hana::tail(xs), hana::tail(ys))
                 )
             );

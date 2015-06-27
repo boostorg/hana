@@ -50,7 +50,7 @@ BOOST_HANA_CONSTANT_CHECK(
     ==
     make<Tuple>(int_<0>, int_<1>, int_<2>)
 );
-BOOST_HANA_CONSTANT_CHECK(head(tuple_c<int, 0, 1, 2>) == int_<0>);
+BOOST_HANA_CONSTANT_CHECK(front(tuple_c<int, 0, 1, 2>) == int_<0>);
 //! [tuple_c]
 
 }{

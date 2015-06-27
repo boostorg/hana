@@ -55,7 +55,7 @@ namespace cppcon {
                 auto cofactors_1st_row = unpack(_(range)(size_t<0>, m.ncolumns()),
                     on(make<Tuple>, partial(cofactor, m, size_t<0>))
                 );
-                return detail::tuple_scalar_product(head(rows(m)), cofactors_1st_row);
+                return detail::tuple_scalar_product(front(rows(m)), cofactors_1st_row);
             }
         );
     });

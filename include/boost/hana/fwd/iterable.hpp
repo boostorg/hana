@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `head`, `tail` and `is_empty`
+    //! `front`, `tail` and `is_empty`
     //!
     //!
     //! @anchor Iterable-lin
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
     //! equality of the elements in their linearizations. More specifically,
     //! if `xs` and `ys` are two non-empty `Iterable`s of data type `It`, then
     //! @code
-    //!     xs == ys  =>  head(xs) == head(ys) && tail(xs) == tail(ys)
+    //!     xs == ys  =>  front(xs) == front(ys) && tail(xs) == tail(ys)
     //! @endcode
     //! which conveys that two `Iterable`s must have the same linearization
     //! in order to have the chance of being considered equal. We then handle
@@ -134,8 +134,8 @@ namespace boost { namespace hana {
     //! @endcode
     //! An equivalent way of writing this is
     //! @code
-    //!     head(xs) == head(linearization(xs))
-    //!              == x1
+    //!     front(xs) == front(linearization(xs))
+    //!               == x1
     //!
     //!     linearization(tail(xs)) == tail(linearization(xs))
     //!                             == [x2, ..., xn]
@@ -193,40 +193,40 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
-    //! `head(xs)` is equivalent to `x1`. If `xs` is empty, it is an error to
-    //! use `head`.
+    //! `front(xs)` is equal to `x1`. If `xs` is empty, it is an error to
+    //! use this function.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp head
+    //! @snippet example/iterable.cpp front
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto head = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto front = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename It, typename = void>
-    struct head_impl;
+    struct front_impl;
 
-    struct _head {
+    struct _front {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using It = typename datatype<Xs>::type;
-            using Head = BOOST_HANA_DISPATCH_IF(
-                head_impl<It>,
+            using Front = BOOST_HANA_DISPATCH_IF(
+                front_impl<It>,
                 _models<Iterable, It>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::head(xs) requires xs to be an Iterable");
+            "hana::front(xs) requires 'xs' to be an Iterable");
         #endif
 
-            return Head::apply(static_cast<Xs&&>(xs));
+            return Front::apply(static_cast<Xs&&>(xs));
         }
     };
 
-    constexpr _head head{};
+    constexpr _front front{};
 #endif
 
     //! Returns a new iterable containing all but the first element of a
@@ -394,39 +394,39 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given a non-empty and finite iterable `xs` with a linearization of
-    //! `[x1, ..., xN]`, `last(xs)` is equivalent to `xN`.
+    //! `[x1, ..., xN]`, `back(xs)` is equal to `xN`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp last
+    //! @snippet example/iterable.cpp back
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto last = [](auto&& iterable) -> decltype(auto) {
+    constexpr auto back = [](auto&& xs) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
     template <typename Xs, typename = void>
-    struct last_impl;
+    struct back_impl;
 
-    struct _last {
+    struct _back {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using It = typename datatype<Xs>::type;
-            using Last = BOOST_HANA_DISPATCH_IF(
-                last_impl<It>,
+            using Back = BOOST_HANA_DISPATCH_IF(
+                back_impl<It>,
                 _models<Iterable, It>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::last(xs) requires xs to be an Iterable");
+            "hana::back(xs) requires 'xs' to be an Iterable");
         #endif
 
-            return Last::apply(static_cast<Xs&&>(xs));
+            return Back::apply(static_cast<Xs&&>(xs));
         }
     };
 
-    constexpr _last last{};
+    constexpr _back back{};
 #endif
 
     //! Drop the first `n` elements of an iterable, and return the rest.
@@ -434,14 +434,16 @@ namespace boost { namespace hana {
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
     //! a (non-negative) `Constant` `n` holding an unsigned integral value,
-    //! `drop(xs, n)` is an iterable of the same data type whose linearization
-    //! is `[xn+1, xn+2, ...]`. In particular, note that this function does
-    //! not mutate the original iterable in any way.
+    //! `drop_front(xs, n)` is an iterable of the same data type whose
+    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
+    //! function does not mutate the original iterable in any way. If `n` is
+    //! not given, it defaults to a `Constant` with an unsigned integral value
+    //! equal to `1`.
     //!
-    //! In case `length(xs) <= n`, `drop` will simply drop the whole iterable
-    //! without failing, thus returning an empty iterable. This is different
-    //! from `drop_exactly`, which expects `n <= length(xs)` but can be better
-    //! optimized because of this additional guarantee.
+    //! In case `length(xs) <= n`, `drop_front` will simply drop the whole
+    //! iterable without failing, thus returning an empty iterable. This is
+    //! different from `drop_front_exactly`, which expects `n <= length(xs)`
+    //! but can be better optimized because of this additional guarantee.
     //!
     //!
     //! @param xs
@@ -450,41 +452,46 @@ namespace boost { namespace hana {
     //! @param n
     //! A non-negative `Constant` holding an unsigned integral value
     //! representing the number of elements to be dropped from the iterable.
+    //! If `n` is not given, it defaults to a `Constant` with an unsigned
+    //! integral value equal to `1`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp drop
+    //! @snippet example/iterable.cpp drop_front
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop = [](auto&& xs, auto&& n) {
+    constexpr auto drop_front = [](auto&& xs[, auto&& n]) {
         return tag-dispatched;
     };
 #else
     template <typename It, typename = void>
-    struct drop_impl;
+    struct drop_front_impl;
 
-    struct _drop {
+    struct _drop_front {
         template <typename Xs, typename N>
-        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
+        constexpr auto operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
-            using Drop = BOOST_HANA_DISPATCH_IF(drop_impl<It>,
+            using DropFront = BOOST_HANA_DISPATCH_IF(drop_front_impl<It>,
                 _models<Iterable, It>{}() &&
                 _models<Constant, N>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::drop(xs, n) requires 'xs' to be an Iterable");
+            "hana::drop_front(xs, n) requires 'xs' to be an Iterable");
 
             static_assert(_models<Constant, N>{},
-            "hana::drop(xs, n) requires 'n' to be a Constant");
+            "hana::drop_front(xs, n) requires 'n' to be a Constant");
         #endif
 
-            return Drop::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+            return DropFront::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
         }
+
+        template <typename Xs>
+        constexpr auto operator()(Xs&& xs) const;
     };
 
-    constexpr _drop drop{};
+    constexpr _drop_front drop_front{};
 #endif
 
     //! Drop the first `n` elements of an iterable, and return the rest.
@@ -492,13 +499,15 @@ namespace boost { namespace hana {
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
     //! a (non-negative) `Constant` `n` holding an unsigned integral value,
-    //! `drop_exactly(xs, n)` is an iterable of the same data type whose
+    //! `drop_front_exactly(xs, n)` is an iterable of the same data type whose
     //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
-    //! function does not mutate the original iterable in any way.
+    //! function does not mutate the original iterable in any way. If `n` is
+    //! not given, it defaults to a `Constant` with an unsigned integral value
+    //! equal to `1`.
     //!
-    //! It is an error to use `drop_exactly` with `n > length(xs)`. This
-    //! additional guarantee allows `drop_exactly` to be better optimized
-    //! than the `drop` function, which allows `n > length(xs)`.
+    //! It is an error to use `drop_front_exactly` with `n > length(xs)`. This
+    //! additional guarantee allows `drop_front_exactly` to be better optimized
+    //! than the `drop_front` function, which allows `n > length(xs)`.
     //!
     //!
     //! @param xs
@@ -508,61 +517,48 @@ namespace boost { namespace hana {
     //! A non-negative `Constant` holding an unsigned integral value
     //! representing the number of elements to be dropped from the iterable.
     //! `n` must be less than or equal to the number of elements in `xs`.
+    //! If `n` is not given, it defaults to a `Constant` with an unsigned
+    //! integral value equal to `1`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp drop_exactly
+    //! @snippet example/iterable.cpp drop_front_exactly
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop_exactly = [](auto&& xs, auto&& n) {
+    constexpr auto drop_front_exactly = [](auto&& xs[, auto&& n]) {
         return tag-dispatched;
     };
 #else
     template <typename It, typename = void>
-    struct drop_exactly_impl;
+    struct drop_front_exactly_impl;
 
-    struct _drop_exactly {
+    struct _drop_front_exactly {
         template <typename Xs, typename N>
         constexpr decltype(auto) operator()(Xs&& xs, N&& n) const {
             using It = typename datatype<Xs>::type;
-            using DropExactly = BOOST_HANA_DISPATCH_IF(drop_exactly_impl<It>,
+            using DropFrontExactly = BOOST_HANA_DISPATCH_IF(
+                drop_front_exactly_impl<It>,
                 _models<Iterable, It>{}() &&
                 _models<Constant, N>{}()
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(_models<Iterable, It>{},
-            "hana::drop_exactly(xs, n) requires 'xs' to be an Iterable");
+            "hana::drop_front_exactly(xs, n) requires 'xs' to be an Iterable");
 
             static_assert(_models<Constant, N>{},
-            "hana::drop_exactly(xs, n) requires 'n' to be a Constant");
+            "hana::drop_front_exactly(xs, n) requires 'n' to be a Constant");
         #endif
 
-            return DropExactly::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+            return DropFrontExactly::apply(static_cast<Xs&&>(xs),
+                                           static_cast<N&&>(n));
         }
+
+        template <typename Xs>
+        constexpr auto operator()(Xs&& xs) const;
     };
 
-    constexpr _drop_exactly drop_exactly{};
-#endif
-
-    //! Equivalent to `drop`; provided for convenience.
-    //! @relates Iterable
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/iterable.cpp drop_c
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <std::size_t n>
-    constexpr auto drop_c = [](auto&& xs) -> decltype(auto) {
-        return drop(forwarded(xs), size_t<n>);
-    };
-#else
-    template <std::size_t n>
-    struct _drop_c;
-
-    template <std::size_t n>
-    constexpr _drop_c<n> drop_c{};
+    constexpr _drop_front_exactly drop_front_exactly{};
 #endif
 
     //! Drop elements from an iterable up to, but excluding, the first

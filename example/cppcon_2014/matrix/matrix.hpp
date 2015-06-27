@@ -29,7 +29,7 @@ namespace cppcon {
 
         Storage rows_;
         constexpr auto ncolumns() const
-        { return boost::hana::length(boost::hana::head(rows_)); }
+        { return boost::hana::length(boost::hana::front(rows_)); }
 
         constexpr auto nrows() const
         { return boost::hana::length(rows_); }
@@ -47,7 +47,7 @@ namespace cppcon {
     auto matrix = [](auto&& ...rows) -> decltype(auto) {
         using namespace boost::hana;
         auto storage = make<Tuple>(std::forward<decltype(rows)>(rows)...);
-        auto ncolumns = length(head(storage));
+        auto ncolumns = length(front(storage));
         BOOST_HANA_CONSTANT_CHECK(
             all_of(tail(storage), [&](auto const& row) {
                 return length(row) == ncolumns;

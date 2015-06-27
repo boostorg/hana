@@ -53,8 +53,8 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [iterable]
 constexpr auto r = range(int_<0>, int_<1000>);
-BOOST_HANA_CONSTANT_CHECK(head(r) == int_<0>);
-BOOST_HANA_CONSTANT_CHECK(last(r) == int_<999>);
+BOOST_HANA_CONSTANT_CHECK(front(r) == int_<0>);
+BOOST_HANA_CONSTANT_CHECK(back(r) == int_<999>);
 BOOST_HANA_CONSTANT_CHECK(tail(r) == range(int_<1>, int_<1000>));
 BOOST_HANA_CONSTANT_CHECK(!is_empty(r));
 BOOST_HANA_CONSTANT_CHECK(is_empty(range(int_<3>, int_<3>)));
@@ -70,8 +70,8 @@ BOOST_HANA_CONSTANT_CHECK(find(range(int_<1>, int_<25>), int_<200>) == nothing);
 }{
 
 //! [range_c]
-BOOST_HANA_CONSTANT_CHECK(head(range_c<int, 0, 5>) == int_<0>);
-BOOST_HANA_CONSTANT_CHECK(last(range_c<unsigned long, 0, 5>) == ulong<4>);
+BOOST_HANA_CONSTANT_CHECK(front(range_c<int, 0, 5>) == int_<0>);
+BOOST_HANA_CONSTANT_CHECK(back(range_c<unsigned long, 0, 5>) == ulong<4>);
 BOOST_HANA_CONSTANT_CHECK(tail(range_c<int, 0, 5>) == range(int_<1>, int_<5>));
 //! [range_c]
 

@@ -133,14 +133,14 @@ int main() {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        // head
+        // front
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(std::index_sequence<0>{}),
+                front(std::index_sequence<0>{}),
                 std::integral_constant<std::size_t, 0>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(std::index_sequence<0, 1>{}),
+                front(std::index_sequence<0, 1>{}),
                 std::integral_constant<std::size_t, 0>{}
             ));
         }

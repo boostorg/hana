@@ -44,7 +44,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct head_impl<ext::boost::Tuple> {
+    struct front_impl<ext::boost::Tuple> {
         template <typename Xs>
         static constexpr auto const& apply(Xs const& tuple)
         { return tuple.get_head(); }

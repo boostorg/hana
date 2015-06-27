@@ -130,7 +130,7 @@ using at_c = at<Sequence, long_<n>>;
 
 template <typename Sequence>
 struct back
-    : decltype(+hana::last(Sequence{}))
+    : decltype(+hana::back(Sequence{}))
 { };
 
 template <typename Sequence>
@@ -140,12 +140,14 @@ struct empty
 
 template <typename Sequence>
 struct front
-    : decltype(+hana::head(Sequence{}))
+    : decltype(+hana::front(Sequence{}))
 { };
 
 template <typename Sequence>
 struct pop_back {
-    using type = decltype(hana::init(hana::to<hana::Tuple>(Sequence{})));
+    using type = decltype(hana::drop_back(
+        hana::to<hana::Tuple>(Sequence{}), hana::size_t<1>
+    ));
 };
 
 template <typename Sequence>

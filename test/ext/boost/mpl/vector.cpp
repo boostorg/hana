@@ -172,18 +172,18 @@ int main() {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        // head
+        // front
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(mpl::vector<t1>{}),
+                front(mpl::vector<t1>{}),
                 type<t1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(mpl::vector<t1, t2>{}),
+                front(mpl::vector<t1, t2>{}),
                 type<t1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                head(mpl::vector<t1, t2, t3>{}),
+                front(mpl::vector<t1, t2, t3>{}),
                 type<t1>
             ));
         }
