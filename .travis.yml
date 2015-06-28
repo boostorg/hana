@@ -48,6 +48,18 @@ matrix:
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
       addons: *clang36
 
+    # clang 3.6, with libstdc++ instead of libc++
+    - env: COMPILER=clang++-3.6 STDLIB=stdc++ BOOST_VERSION=1.58.0 UNIT_TESTS=true
+      addons:
+        apt:
+          packages:
+            - clang-3.6
+            - valgrind
+            - g++-5
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+
     # clang 3.7 (trunk)
     - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang37
@@ -191,15 +203,16 @@ before_script:
   ############################################################################
   - mkdir build
   - cd build
-  - export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"
-  - export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"
-  - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"
-  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
+  - if [[ "${STDLIB}" != "stdc++" ]]; then export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"; fi
+  - if [[ "${STDLIB}" != "stdc++" ]]; then export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"; fi
+  - if [[ "${STDLIB}" != "stdc++" ]]; then export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"; fi
+
   # We only use the memory checker for some builds, because otherwise it takes
   # too long for very little benefit. Concretely, if we have a memory leak or
   # something like that, it's either a compiler bug or an error that will show
   # up regardless of the Boost version. Hence, we use the memory checker only
   # once for each compiler.
+  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
   - if [[ "${UNIT_TESTS}" == "true" && "${BOOST_VERSION}" == "1.58.0" ]]; then cmake .. -DBOOST_HANA_ENABLE_MEMCHECK=ON; fi
   - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
 
