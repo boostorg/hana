@@ -3220,7 +3220,7 @@ requirements of the concept are respected to the user. Secondly, when checking
 whether a type is a model of some concept, we basically check that some key
 functions are implemented. In particular, we check that the functions from the
 minimal complete definition of that concept are implemented. For example,
-`models<Iterable, T>` checks whether the `is_empty`, `head` and `tail`
+`models<Iterable, T>` checks whether the `is_empty`, `front` and `tail`
 functions implemented for `T`. However, the only way to detect this without
 tag-dispatching is to basically check whether the following expressions are
 valid in a SFINAE-able context:
