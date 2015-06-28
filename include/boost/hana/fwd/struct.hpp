@@ -176,7 +176,7 @@ namespace boost { namespace hana {
     struct _accessors {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Struct, S>{},
-        "hana::accessors<S> requires S to be a Struct");
+        "hana::accessors<S> requires 'S' to be a Struct");
     #endif
 
         constexpr decltype(auto) operator()() const {
@@ -239,7 +239,7 @@ namespace boost { namespace hana {
 
             #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
                 static_assert(_models<Struct, S>{},
-                "hana::members(object) requires object to be a Struct");
+                "hana::members(object) requires 'object' to be a Struct");
             #endif
 
             return Members::apply(static_cast<Object&&>(object));
@@ -284,7 +284,9 @@ namespace boost { namespace hana {
     //!
     //! Using this macro at _global scope_ will define a model of the `Struct`
     //! concept for the given type. This can be used to easily adapt existing
-    //! user-defined types in a ad-hoc manner.
+    //! user-defined types in a ad-hoc manner. Unlike the
+    //! `BOOST_HANA_DEFINE_STRUCT` macro, this macro does not
+    //! require the types of the members to be specified.
     //!
     //! @note
     //! This macro only works if the tag of the user-defined type `T` is `T`

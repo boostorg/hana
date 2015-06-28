@@ -25,8 +25,8 @@ namespace ns {
 }
 
 BOOST_HANA_ADAPT_STRUCT(ns::Person,
-    (std::string, name),
-    (int, age)
+    name,
+    age
 );
 
 // The member names are hana::Strings:
@@ -44,14 +44,14 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(find(john, BOOST_HANA_STRING("age")) == just(30));
     BOOST_HANA_CONSTANT_CHECK(find(john, BOOST_HANA_STRING("foo")) == nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>(
-        make<Pair>(BOOST_HANA_STRING("name"), "John"),
-        make<Pair>(BOOST_HANA_STRING("age"), 30)
+    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make_tuple(
+        make_pair(BOOST_HANA_STRING("name"), "John"),
+        make_pair(BOOST_HANA_STRING("age"), 30)
     ));
 
-    BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make<Map>(
-        make<Pair>(BOOST_HANA_STRING("name"), "John"),
-        make<Pair>(BOOST_HANA_STRING("age"), 30)
+    BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make_map(
+        make_pair(BOOST_HANA_STRING("name"), "John"),
+        make_pair(BOOST_HANA_STRING("age"), 30)
     ));
 }
 //! [main]

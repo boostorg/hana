@@ -82,8 +82,5 @@ namespace not_my_namespace {
   };
 }
 
-BOOST_HANA_ADAPT_STRUCT(not_my_namespace::Person,
-  (std::string, name),
-  (int, age)
-);
+BOOST_HANA_ADAPT_STRUCT(not_my_namespace::Person, name, age);
 //! [BOOST_HANA_ADAPT_STRUCT]

@@ -30,31 +30,22 @@ namespace ns {
         ct_eq<2> member2;
         ct_eq<3> member3;
     };
+    struct MemberArray {
+        int array[10];
+    };
 }
 
-// This allows us to make sure we can enter template types
-// containing commas in the macro.
-template <typename T, typename ...>
-using commas = T;
-
 BOOST_HANA_ADAPT_STRUCT(ns::Data0);
-BOOST_HANA_ADAPT_STRUCT(ns::Data1,
-    (commas<ct_eq<1>, void>, member1)
-);
-BOOST_HANA_ADAPT_STRUCT(ns::Data2,
-    (commas<ct_eq<1>, void, void>, member1),
-    (ct_eq<2>, member2)
-);
-BOOST_HANA_ADAPT_STRUCT(ns::Data3,
-    (ct_eq<1>, member1),
-    (ct_eq<2>, member2),
-    (commas<ct_eq<3>, void, void, void, void>, member3)
-);
+BOOST_HANA_ADAPT_STRUCT(ns::Data1, member1);
+BOOST_HANA_ADAPT_STRUCT(ns::Data2, member1, member2);
+BOOST_HANA_ADAPT_STRUCT(ns::Data3, member1, member2, member3);
+BOOST_HANA_ADAPT_STRUCT(ns::MemberArray, array);
 
 static_assert(_models<Struct, ns::Data0>{}, "");
 static_assert(_models<Struct, ns::Data1>{}, "");
 static_assert(_models<Struct, ns::Data2>{}, "");
 static_assert(_models<Struct, ns::Data3>{}, "");
+static_assert(_models<Struct, ns::MemberArray>{}, "");
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ ns::Data1{});
@@ -65,4 +56,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ ns::Data3{});
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member2") ^in^ ns::Data3{});
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member3") ^in^ ns::Data3{});
+
+    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("array") ^in^ ns::MemberArray{});
 }

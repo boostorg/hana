@@ -18,7 +18,7 @@ struct Employee {
     int age;
 };
 
-BOOST_HANA_ADAPT_STRUCT(Employee, (int, age));
+BOOST_HANA_ADAPT_STRUCT(Employee, age);
 
 constexpr auto person_members = accessors<Person>();
 constexpr auto employee_members = accessors<Employee>();

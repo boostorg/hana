@@ -102,10 +102,10 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
     members = (1..n).to_a.map { |i| "m#{i}" }
     args = ["TYPE"] + members
     member_pairs = members.map.with_index { |member, i|
-        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, BOOST_HANA_PP_BACK #{member})"
+        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, #{member})"
     }
     member_names = members.map { |member|
-        "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_BACK #{member})"
+        "BOOST_HANA_PP_STRINGIZE(#{member})"
     }
 %>
 #define BOOST_HANA_ADAPT_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %>)     \

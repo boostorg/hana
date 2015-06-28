@@ -18,6 +18,6 @@ struct Employee {
     int Employee;
 };
 
-BOOST_HANA_ADAPT_STRUCT(Employee, (int, Employee));
+BOOST_HANA_ADAPT_STRUCT(Employee, Employee);
 
 int main() { }
