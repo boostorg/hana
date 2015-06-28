@@ -1976,62 +1976,14 @@ namespace boost { namespace hana {
     constexpr _unique unique{};
 #endif
 
-    //! Unzip a sequence of sequences.
+    //! Zip one sequence or more with a given function.
     //! @relates Sequence
     //!
-    //! `unzip` can undo a `zip` operation. Specifically, it takes a sequence
+    //! Given a `n`-ary function `f` and `n` sequences `s1, ..., sn`,
+    //! `zip_with` produces a sequence whose `i`-th element is
+    //! `f(s1[i], ..., sn[i])`, where `sk[i]` denotes the `i`-th element of
+    //! the `k`-th sequence. In other words, `zip_with` produces a sequence
     //! of the form
-    //! @code
-    //!     [s1, s2, ..., sn]
-    //! @endcode
-    //! where each `si` is a sequence, and returns a sequence equivalent to
-    //! `zip(s1, s2, ..., sn)`.
-    //!
-    //!
-    //! @param xs
-    //! A sequence of sequences to unzip.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/sequence.cpp unzip
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto unzip = [](auto&& xs) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct unzip_impl;
-
-    struct _unzip {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& xs) const {
-            using S = typename datatype<Xs>::type;
-            using Unzip = BOOST_HANA_DISPATCH_IF(unzip_impl<S>,
-                _models<Sequence, S>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Sequence, S>{},
-            "hana::unzip(xs) requires 'xs' to be a Sequence");
-        #endif
-
-            return Unzip::apply(static_cast<Xs&&>(xs));
-        }
-    };
-
-    constexpr _unzip unzip{};
-#endif
-
-    //! Zip one sequence or more, either with a given function or into a Tuple.
-    //! @relates Sequence
-    //!
-    //! In a general setting, zipping several sequences with a function refers
-    //! to the following operation. Given `n` sequences `s1, ..., sn` and a
-    //! function `f` that takes `n` arguments, zipping produces a sequence
-    //! whose i-th element is `f(s1[i], ..., sn[i])`, where `sk[i]` denotes
-    //! the i-th element of the k-th sequence passed as an argument. In other
-    //! words, it produces a sequence of the form
     //! @code
     //!     [
     //!         f(s1[0], ..., sn[0]),
@@ -2040,143 +1992,158 @@ namespace boost { namespace hana {
     //!         f(s1[M], ..., sn[M])
     //!     ]
     //! @endcode
-    //! , where `M` is usually the length of the shortest sequence. As this
-    //! suggests, there are several different ways of zipping that one might
-    //! want; zip with a function, zip without a function, zip up to the
-    //! shortest sequence, zip up to the longest sequence or assume all the
-    //! sequences are of the same size. In Hana, all these different ways of
-    //! zipping are provided, except for the "up to the longest sequence" one.
-    //!
-    //! @note
-    //! At least one sequence must always be provided.
-    //! Otherwise, it is an error.
-    //!
-    //! > #### Rationale for not providing a `zip.longest` variant
-    //! > It would require either (1) padding the shortest sequences with
-    //! > an arbitrary object, or (2) pad the shortest sequences with an
-    //! > object provided by the user when calling `zip.longest`. Since there
-    //! > is no requirement that all the zipped sequences have elements of
-    //! > similar types, there is no way to provide a single consistent
-    //! > padding object in all cases. A tuple of padding objects should
-    //! > be provided, but I find it perhaps too complicated to be worth
-    //! > it for now. If you need this functionality, open a GitHub issue.
+    //! where `M` is the length of the sequences, which are all assumed to
+    //! have the same length. Assuming the sequences to all have the same size
+    //! allows the library to perform some optimizations. To zip sequences
+    //! that may have different lengths, `zip_shortest_with` should be used
+    //! instead. Also note that it is an error to provide no sequence at all,
+    //! i.e. `zip_with` expects at least one sequence.
     //!
     //!
-    //! The `zip` method is actually a function object that can be called in
-    //! several different ways, each of them providing a slightly different
-    //! kind of zipping. Here are the different ways of calling `zip`:
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp zip_with
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto zip_with = [](auto&& f, auto&& x1, ..., auto&& xn) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct zip_with_impl;
+
+    struct _zip_with {
+        template <typename F, typename Xs, typename ...Ys>
+        constexpr auto operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
+    };
+
+    constexpr _zip_with zip_with{};
+#endif
+
+    //! Zip one sequence or more with a given function.
+    //! @relates Sequence
+    //!
+    //! Given a `n`-ary function `f` and `n` sequences `s1, ..., sn`,
+    //! `zip_shortest_with` produces a sequence whose `i`-th element is
+    //! `f(s1[i], ..., sn[i])`, where `sk[i]` denotes the `i`-th element of
+    //! the `k`-th sequence. In other words, `zip_shortest_with` produces a
+    //! sequence of the form
     //! @code
-    //!     zip(s1, ..., sn)         = zip.shortest(s1, ..., sn)
-    //!     zip.with(f, s1, ..., sn) = zip.shortest.with(f, s1, ..., sn)
-    //!
-    //!     zip.shortest(s1, ..., sn)         = see below
-    //!     zip.shortest.with(f, s1, ..., sn) = see below
-    //!
-    //!     zip.unsafe(s1, ..., sn)         = see below
-    //!     zip.unsafe.with(f, s1, ..., sn) = see below
+    //!     [
+    //!         f(s1[0], ..., sn[0]),
+    //!         f(s1[1], ..., sn[1]),
+    //!         ...
+    //!         f(s1[M], ..., sn[M])
+    //!     ]
     //! @endcode
+    //! where `M` is the length of the shortest sequence. Hence, the returned
+    //! sequence stops when the shortest input sequence is exhausted. If you
+    //! know that all the sequences you are about to zip have the same length,
+    //! you should use `zip_with` instead, since it can be more optimized.
+    //! Also note that it is an error to provide no sequence at all, i.e.
+    //! `zip_shortest_with` expects at least one sequence.
     //!
-    //! First, one sees that calling `zip` or `zip.with` is equivalent to
-    //! calling `zip.shortest` or `zip.shortest.with`, respectively. The
-    //! `shortest` variant signifies that the returned sequence should stop
-    //! when the shortest input sequence is exhausted, which is the usual
-    //! behavior for `zip` operations.
     //!
-    //! Then, there are also the `zip.unsafe` and `zip.unsafe.with` variants,
-    //! which both assume that all the sequences are of the same size. This
-    //! allows the library to perform some optimizations. If you know that
-    //! all the sequences you are about to zip are of the same length, you
-    //! should use these variants.
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp zip_shortest_with
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto zip_shortest_with = [](auto&& f, auto&& x1, ..., auto&& xn) {
+        return tag-dispatched;
+    };
+#else
+    template <typename S, typename = void>
+    struct zip_shortest_with_impl;
+
+    struct _zip_shortest_with {
+        template <typename F, typename Xs, typename ...Ys>
+        constexpr auto operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
+    };
+
+    constexpr _zip_shortest_with zip_shortest_with{};
+#endif
+
+    //! Zip one sequence or more.
+    //! @relates Sequence
     //!
-    //! Finally, the `with` variants offer the possibility of providing a
-    //! custom function to do the zipping, as was explained above. The
-    //! non-`with` variants, which do not accept a custom function, will
-    //! zip using a tuple. In other words,
+    //! Given `n` sequences `s1, ..., sn`, `zip` produces a sequence whose
+    //! `i`-th element is a tuple of `(s1[i], ..., sn[i])`, where `sk[i]`
+    //! denotes the `i`-th element of the `k`-th sequence. In other words,
+    //! `zip` produces a sequence of the form
     //! @code
-    //!     zip.*(s1, ..., sn) == zip.*.with(make<Tuple>, s1, ..., sn)
-    //!                        == [
-    //!                             make<Tuple>(s1[0], ..., sn[0]),
-    //!                             make<Tuple>(s1[1], ..., sn[1]),
-    //!                             ...
-    //!                             make<Tuple>(s1[M], ..., sn[M])
-    //!                        ]
+    //!     [
+    //!         make_tuple(s1[0], ..., sn[0]),
+    //!         make_tuple(s1[1], ..., sn[1]),
+    //!         ...
+    //!         make_tuple(s1[M], ..., sn[M])
+    //!     ]
     //! @endcode
-    //!
-    //!
-    //! Tag-dispatching
-    //! ---------------
-    //! All of the different zipping variants are tag-dispatched methods that
-    //! can be overridden. Here is how each variant is tag-dispatched:
-    //! @code
-    //!     zip.shortest       ->  zip_shortest_impl
-    //!     zip.shortest.with  ->  zip_shortest_with_impl
-    //!     zip.unsafe         ->  zip_unsafe_impl
-    //!     zip.unsafe.with    ->  zip_unsafe_with_impl
-    //! @endcode
-    //! `zip` and `zip.with` are not tag dispatched, because they are
-    //! just aliases to `zip.shortest` and `zip.shortest.with`, respectively.
-    //! Also note that all the sequences must have the same data type, and
-    //! only the data type of the first one is used for tag-dispatching.
+    //! where `M` is the length of the sequences, which are all assumed to
+    //! have the same length. Assuming the sequences to all have the same size
+    //! allows the library to perform some optimizations. To zip sequences
+    //! that may have different lengths, `zip_shortest` should be used
+    //! instead. Also note that it is an error to provide no sequence at all,
+    //! i.e. `zip` expects at least one sequence.
     //!
     //!
     //! Example
     //! -------
     //! @snippet example/sequence.cpp zip
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto zip = see documentation;
+    constexpr auto zip = [](auto&& x1, ..., auto&& xn) {
+        return tag-dispatched;
+    };
 #else
     template <typename S, typename = void>
-    struct zip_unsafe_with_impl;
-    struct _zip_unsafe_with {
-        template <typename F, typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
-    };
+    struct zip_impl;
 
-
-    template <typename S, typename = void>
-    struct zip_unsafe_impl;
-    template <typename ...AvoidODRViolation>
-    struct _zip_unsafe {
-        static constexpr _zip_unsafe_with with{};
-
+    struct _zip {
         template <typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
-    };
-    template <typename ...AvoidODRViolation>
-    constexpr _zip_unsafe_with _zip_unsafe<AvoidODRViolation...>::with;
-
-
-    template <typename S, typename = void>
-    struct zip_shortest_with_impl;
-    struct _zip_shortest_with {
-        template <typename F, typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(F&& f, Xs&& xs, Ys&& ...ys) const;
+        constexpr auto operator()(Xs&& xs, Ys&& ...ys) const;
     };
 
+    constexpr _zip zip{};
+#endif
 
+    //! Zip one sequence or more.
+    //! @relates Sequence
+    //!
+    //! Given `n` sequences `s1, ..., sn`, `zip_shortest` produces a sequence
+    //! whose `i`-th element is a tuple of `(s1[i], ..., sn[i])`, where `sk[i]`
+    //! denotes the `i`-th element of the `k`-th sequence. In other words,
+    //! `zip_shortest` produces a sequence of the form
+    //! @code
+    //!     [
+    //!         make_tuple(s1[0], ..., sn[0]),
+    //!         make_tuple(s1[1], ..., sn[1]),
+    //!         ...
+    //!         make_tuple(s1[M], ..., sn[M])
+    //!     ]
+    //! @endcode
+    //! where `M` is the length of the shortest sequence. Hence, the returned
+    //! sequence stops when the shortest input sequence is exhausted. If you
+    //! know that all the sequences you are about to zip have the same length,
+    //! you should use `zip` instead, since it can be more optimized. Also
+    //! note that it is an error to provide no sequence at all, i.e.
+    //! `zip_shortest` expects at least one sequence.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/sequence.cpp zip_shortest
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto zip_shortest = [](auto&& x1, ..., auto&& xn) {
+        return tag-dispatched;
+    };
+#else
     template <typename S, typename = void>
     struct zip_shortest_impl;
-    template <typename ...AvoidODRViolation>
+
     struct _zip_shortest {
-        static constexpr _zip_shortest_with with{};
         template <typename Xs, typename ...Ys>
-        constexpr decltype(auto) operator()(Xs&& xs, Ys&& ...ys) const;
+        constexpr auto operator()(Xs&& xs, Ys&& ...ys) const;
     };
-    template <typename ...AvoidODRViolation>
-    constexpr _zip_shortest_with _zip_shortest<AvoidODRViolation...>::with;
 
-
-    template <typename ...AvoidODRViolation>
-    struct _zip : _zip_shortest<> {
-        static constexpr _zip_shortest<> shortest{};
-        static constexpr _zip_unsafe<> unsafe{};
-    };
-    template <typename ...AvoidODRViolation>
-    constexpr _zip_shortest<> _zip<AvoidODRViolation...>::shortest;
-    template <typename ...AvoidODRViolation>
-    constexpr _zip_unsafe<> _zip<AvoidODRViolation...>::unsafe;
-
-    constexpr _zip<> zip{};
+    constexpr _zip_shortest zip_shortest{};
 #endif
 }} // end namespace boost::hana
 

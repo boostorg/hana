@@ -699,45 +699,43 @@ BOOST_HANA_RUNTIME_CHECK(
 
 }{
 
-//! [unzip]
-static_assert(
-    unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6)))
-    ==
-    make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
-, "");
-
-static_assert(
-    unzip(make_tuple(make_tuple(1, '2', 3.3), make_tuple('4', 5.5, 6, "ignored")))
-    ==
-    make_tuple(make_tuple(1, '4'), make_tuple('2', 5.5), make_tuple(3.3, 6))
-, "");
-//! [unzip]
-
-}{
-
 //! [zip]
 static_assert(
     zip(make_tuple(1, 'a'), make_tuple(2, 3.3))
     ==
     make_tuple(make_tuple(1, 2), make_tuple('a', 3.3))
 , "");
-
-static_assert(
-    zip(make_tuple(1, 'a'), make_tuple(2, 3.3), make_tuple(3, 'c', "ignored"))
-    ==
-    make_tuple(make_tuple(1, 2, 3), make_tuple('a', 3.3, 'c'))
-, "");
 //! [zip]
 
 }{
 
-//! [zip.with]
+//! [zip_shortest]
 static_assert(
-    zip.with(_ * _, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8, "ignored"))
+    zip_shortest(make_tuple(1, 'a'), make_tuple(2, 3.3), make_tuple(3, 'c', "ignored"))
+    ==
+    make_tuple(make_tuple(1, 2, 3), make_tuple('a', 3.3, 'c'))
+, "");
+//! [zip_shortest]
+
+}{
+
+//! [zip_with]
+static_assert(
+    zip_with(_ * _, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8))
     ==
     make_tuple(5, 12, 21, 32)
 , "");
-//! [zip.with]
+//! [zip_with]
+
+}{
+
+//! [zip_shortest_with]
+static_assert(
+    zip_shortest_with(_ * _, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8, "ignored"))
+    ==
+    make_tuple(5, 12, 21, 32)
+, "");
+//! [zip_shortest_with]
 
 }
 

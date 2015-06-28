@@ -251,7 +251,7 @@ template <typename S1, typename S2, typename Pred = mpl::quote2<std::is_same>>
 struct equal
     : decltype( // inefficient but whatever
         hana::length(S1{}) == hana::length(S2{}) &&
-        hana::all(hana::zip.with(detail::mpl_predicate<Pred>,
+        hana::all(hana::zip_shortest_with(detail::mpl_predicate<Pred>,
                 hana::to<hana::Tuple>(S1{}),
                 hana::to<hana::Tuple>(S2{})))
     )
@@ -291,7 +291,7 @@ struct transform<Sequence, Op> {
 
 template <typename S1, typename S2, typename Op>
 struct transform {
-    using type = decltype(hana::zip.with(
+    using type = decltype(hana::zip_with(
         detail::mpl_metafunction<Op>,
         hana::to<hana::Tuple>(S1{}),
         hana::to<hana::Tuple>(S2{})

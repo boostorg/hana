@@ -623,8 +623,10 @@ function                                    | description
 <code>[transform](@ref Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
 <code>[unique](@ref Sequence::unique)(sequence[, predicate])</code>                 | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.
 <code>[unpack](@ref Foldable::unpack)(sequence, f)</code>                           | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
-<code>[zip.with](@ref Sequence::zip)(f, sequence1, ..., sequenceN)</code>           | Zip `N` sequences with a `N`-ary function.
-<code>[zip](@ref Sequence::zip)(sequence1, ..., sequenceN)</code>                   | Zip `N` sequences into a sequence of tuples.
+<code>[zip](@ref Sequence::zip)(s1, ..., sN)</code>                                 | Zip `N` sequences into a sequence of tuples. All the sequences must have the same length.
+<code>[zip_shortest](@ref Sequence::zip_shortest)(s1, ..., sN)</code>               | Zip `N` sequences into a sequence of tuples. The resulting sequence has the length of the shortest input sequence.
+<code>[zip_with](@ref Sequence::zip_with)(f, s1, ..., sN)</code>                    | Zip `N` sequences with a `N`-ary function. All the sequences must have the same length.
+<code>[zip_shortest_with](@ref Sequence::zip_shortest_with)(f, s1, ..., sN)</code>  | Zip `N` sequences with a `N`-ary function. The resulting sequence has the length of the shortest input sequence.
 
 
 
@@ -3234,6 +3236,17 @@ trigger a hard compile-time error or hurt compile-time performance. With tag
 dispatching, we can just ask whether `front_impl<T>`, `is_empty_impl<T>` and
 `tail_impl<T>` are defined, and nothing happens until we actually call
 `front_impl<T>::%apply(...)`.
+
+
+@subsection tutorial-rationales-zip_longest Why not provide `zip_longest`?
+
+It would require either (1) padding the shortest sequences with an arbitrary
+object, or (2) padding the shortest sequences with an object provided by the
+user when calling `zip_longest`. Since there is no requirement that all the
+zipped sequences have elements of similar types, there is no way to provide a
+single consistent padding object in all cases. A tuple of padding objects
+should be provided, but I find it perhaps too complicated to be worth it for
+now. If you need this functionality, open a GitHub issue.
 
 
 

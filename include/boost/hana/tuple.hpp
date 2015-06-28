@@ -1204,19 +1204,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct unzip_impl<Tuple> {
-        #define BOOST_HANA_PP_UNZIP(REF)                                    \
-            template <typename ...Xs>                                       \
-            static constexpr decltype(auto)                                 \
-            apply(detail::closure_impl<Xs...> REF xs)                       \
-            { return hana::zip(static_cast<Xs REF>(xs).get...); }           \
-        /**/
-        BOOST_HANA_PP_FOR_EACH_REF1(BOOST_HANA_PP_UNZIP)
-        #undef BOOST_HANA_PP_UNZIP
-    };
-
-    template <>
-    struct zip_unsafe_with_impl<Tuple> {
+    struct zip_with_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP_WITH1(REF)                                \
             template <typename F, typename ...Xs>                           \
             static constexpr decltype(auto) apply(F&& f,                    \
@@ -1261,8 +1249,8 @@ namespace boost { namespace hana {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
         apply(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return zip_unsafe_with_impl::apply(hana::apply,
-                zip_unsafe_with_impl::apply(
+            return zip_with_impl::apply(hana::apply,
+                zip_with_impl::apply(
                     curry<sizeof...(xn) + 4>(static_cast<F&&>(f)),
                     static_cast<X1&&>(x1),
                     static_cast<X2&&>(x2),
@@ -1275,7 +1263,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct zip_unsafe_impl<Tuple> {
+    struct zip_impl<Tuple> {
         #define BOOST_HANA_PP_ZIP1(REF)                                     \
             template <typename ...Xs>                                       \
             static constexpr _tuple<                                        \
@@ -1336,13 +1324,13 @@ namespace boost { namespace hana {
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         static constexpr decltype(auto)
         apply(X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xn&& ...xn) {
-            return hana::zip.with(concat,
-                zip_unsafe_impl::apply(
+            return hana::zip_with(concat,
+                zip_impl::apply(
                     static_cast<X1&&>(x1),
                     static_cast<X2&&>(x2),
                     static_cast<X3&&>(x3)
                 ),
-                zip_unsafe_impl::apply(
+                zip_impl::apply(
                     static_cast<X4&&>(x4),
                     static_cast<Xn&&>(xn)...
                 )

@@ -975,31 +975,18 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // unzip
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S, typename>
-    struct unzip_impl : unzip_impl<S, when<true>> { };
-
-    template <typename S, bool condition>
-    struct unzip_impl<S, when<condition>> : default_ {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return hana::unpack(static_cast<Xs&&>(xs), zip); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // zip.shortest.with
+    // zip_shortest_with
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename F, typename Xs, typename ...Ys>
-    constexpr decltype(auto)
+    constexpr auto
     _zip_shortest_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
-        "hana::zip.shortest.with(f, xs, ys...) requires xs and ys... to be Sequences");
+        "hana::zip_shortest_with(f, xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 
         return zip_shortest_with_impl<typename datatype<Xs>::type>::apply(
@@ -1018,27 +1005,24 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xs>
         static constexpr decltype(auto) apply(F&& f, Xs&& ...xs) {
             auto min = hana::minimum(hana::make<Tuple>(hana::length(xs)...));
-            return zip.unsafe.with(static_cast<F&&>(f),
+            return hana::zip_with(static_cast<F&&>(f),
                 hana::take(static_cast<Xs&&>(xs), min)...
             );
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // zip.shortest
+    // zip_shortest
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename ...AvoidODRViolation>
     template <typename Xs, typename ...Ys>
-    constexpr decltype(auto) _zip_shortest<AvoidODRViolation...>::
-                             operator()(Xs&& xs, Ys&& ...ys) const
-    {
+    constexpr auto _zip_shortest::operator()(Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
-        "hana::zip.shortest(xs, ys...) requires xs and ys... to be Sequences");
+        "hana::zip_shortest(xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 
         return zip_shortest_impl<typename datatype<Xs>::type>::apply(
@@ -1055,26 +1039,26 @@ namespace boost { namespace hana {
     struct zip_shortest_impl<S, when<condition>> : default_ {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return zip.shortest.with(make<Tuple>, static_cast<Xs&&>(xs)...);
+            return hana::zip_shortest_with(hana::make<hana::Tuple>,
+                                           static_cast<Xs&&>(xs)...);
         }
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // zip.unsafe.with
+    // zip_with
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename F, typename Xs, typename ...Ys>
-    constexpr decltype(auto)
-    _zip_unsafe_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
+    constexpr auto _zip_with::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
-        "hana::zip.unsafe.with(f, xs, ys...) requires xs and ys... to be Sequences");
+        "hana::zip_with(f, xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 
-        return zip_unsafe_with_impl<typename datatype<Xs>::type>::apply(
+        return zip_with_impl<typename datatype<Xs>::type>::apply(
             static_cast<F&&>(f),
             static_cast<Xs&&>(xs),
             static_cast<Ys&&>(ys)...
@@ -1083,14 +1067,14 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <typename S, typename>
-    struct zip_unsafe_with_impl : zip_unsafe_with_impl<S, when<true>> { };
+    struct zip_with_impl : zip_with_impl<S, when<true>> { };
 
     namespace sequence_detail {
-        struct zip_unsafe_with_helper {
+        struct zip_with_helper {
             template <typename F, typename ...Xs>
             constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
                 return hana::prepend(
-                    zip.unsafe.with(f, hana::tail(xs)...),
+                    hana::zip_with(f, hana::tail(xs)...),
                     f(hana::front(xs)...)
                 );
             }
@@ -1098,13 +1082,13 @@ namespace boost { namespace hana {
     }
 
     template <typename S, bool condition>
-    struct zip_unsafe_with_impl<S, when<condition>> : default_ {
+    struct zip_with_impl<S, when<condition>> : default_ {
         template <typename F, typename Xs, typename ...Ys>
         static constexpr decltype(auto) apply(F&& f, Xs&& xs, Ys&& ...ys) {
             auto done = hana::is_empty(xs);
             return hana::eval_if(done,
                 hana::lazy(empty<S>()),
-                hana::lazy(sequence_detail::zip_unsafe_with_helper{})(
+                hana::lazy(sequence_detail::zip_with_helper{})(
                     static_cast<F&&>(f),
                     static_cast<Xs&&>(xs),
                     static_cast<Ys&&>(ys)...
@@ -1114,23 +1098,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // zip.unsafe
+    // zip
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename ...AvoidODRViolation>
     template <typename Xs, typename ...Ys>
-    constexpr decltype(auto) _zip_unsafe<AvoidODRViolation...>::
-                             operator()(Xs&& xs, Ys&& ...ys) const
-    {
+    constexpr auto _zip::operator()(Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         constexpr bool models_of_Sequence[] = {
             _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
         };
         static_assert(hana::all(models_of_Sequence),
-        "hana::zip.unsafe(xs, ys...) requires xs and ys... to be Sequences");
+        "hana::zip(xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 
-        return zip_unsafe_impl<typename datatype<Xs>::type>::apply(
+        return zip_impl<typename datatype<Xs>::type>::apply(
             static_cast<Xs&&>(xs),
             static_cast<Ys&&>(ys)...
         );
@@ -1138,13 +1119,13 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <typename S, typename>
-    struct zip_unsafe_impl : zip_unsafe_impl<S, when<true>> { };
+    struct zip_impl : zip_impl<S, when<true>> { };
 
     template <typename S, bool condition>
-    struct zip_unsafe_impl<S, when<condition>> : default_ {
+    struct zip_impl<S, when<condition>> : default_ {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return zip.unsafe.with(make<Tuple>, static_cast<Xs&&>(xs)...);
+            return hana::zip_with(make<Tuple>, static_cast<Xs&&>(xs)...);
         }
     };
 
