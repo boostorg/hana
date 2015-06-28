@@ -7,11 +7,11 @@ sudo: false
 matrix:
   allow_failures:
     - env: BOOST_VERSION=trunk
-    - env: CLANG_VERSION=3.7
+    - env: COMPILER=clang++-3.7
 
   include:
     # clang 3.5
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang35
         apt:
           packages:
@@ -21,14 +21,14 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.5
 
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang35
 
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=trunk UNIT_TESTS=true
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang35
 
     # clang 3.6
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang36
         apt:
           packages:
@@ -38,18 +38,18 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang36
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=trunk UNIT_TESTS=true
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang36
 
     # clang 3.6, with concept checks disabled
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
       addons: *clang36
 
     # clang 3.7 (trunk)
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang37
         apt:
           packages:
@@ -59,20 +59,20 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise # latest
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang37
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang37
 
     # Release benchmarks
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
       addons: *clang35
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
       addons: *clang36
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
       addons: *clang37
 
     # Debug benchmarks
@@ -80,13 +80,13 @@ matrix:
     # Note: We do _not_ run the Debug benchmarks on Clang 3.5, because it does not
     # have support for debug information for `auto`, and it produces compilation
     # errors. So we use the default build type instead for Clang 3.5.
-    - env: CLANG_VERSION=3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true
       addons: *clang35
 
-    - env: CLANG_VERSION=3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang36
 
-    - env: CLANG_VERSION=3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang37
 
 
@@ -101,7 +101,7 @@ env:
   # otherwise we end up with a job that has no environment variables at all in
   # the matrix.
   matrix:
-    - CLANG_VERSION=3.6 BOOST_VERSION=1.58.0 DOCUMENTATION=true
+    - COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 DOCUMENTATION=true
 
 # Those addons are just for the documentation job.
 addons: *clang36
@@ -138,15 +138,15 @@ install:
   # Note: We install libc++[abi] 3.6 even with Clang 3.5, because the 3.5
   #       version does not seem to provide <ciso646>, which we require.
   ############################################################################
-  - if [[ "${CLANG_VERSION}" =~ 3\.[56] ]]; then LLVM_URL="http://llvm.org/releases/3.6.1/llvm-3.6.1.src.tar.xz"; fi
-  - if [[ "${CLANG_VERSION}" =~ 3\.[56] ]]; then LIBCXX_URL="http://llvm.org/releases/3.6.1/libcxx-3.6.1.src.tar.xz"; fi
-  - if [[ "${CLANG_VERSION}" =~ 3\.[56] ]]; then LIBCXXABI_URL="http://llvm.org/releases/3.6.1/libcxxabi-3.6.1.src.tar.xz"; fi
-  - if [[ "${CLANG_VERSION}" =~ 3\.[56] ]]; then TAR_FMT="-xJ"; fi
+  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LLVM_URL="http://llvm.org/releases/3.6.1/llvm-3.6.1.src.tar.xz"; fi
+  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LIBCXX_URL="http://llvm.org/releases/3.6.1/libcxx-3.6.1.src.tar.xz"; fi
+  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LIBCXXABI_URL="http://llvm.org/releases/3.6.1/libcxxabi-3.6.1.src.tar.xz"; fi
+  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then TAR_FMT="-xJ"; fi
 
-  - if [[ "${CLANG_VERSION}" == "3.7" ]]; then LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"; fi
-  - if [[ "${CLANG_VERSION}" == "3.7" ]]; then LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"; fi
-  - if [[ "${CLANG_VERSION}" == "3.7" ]]; then LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"; fi
-  - if [[ "${CLANG_VERSION}" == "3.7" ]]; then TAR_FMT="-xz"; fi
+  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"; fi
+  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"; fi
+  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"; fi
+  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then TAR_FMT="-xz"; fi
 
   - mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
   - travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FMT} -C llvm
@@ -194,8 +194,8 @@ before_script:
   - export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"
   - export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"
   - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"
-  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
-  # We only use the memory checker on some builds, because otherwise it takes
+  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
+  # We only use the memory checker for some builds, because otherwise it takes
   # too long for very little benefit. Concretely, if we have a memory leak or
   # something like that, it's either a compiler bug or an error that will show
   # up regardless of the Boost version. Hence, we use the memory checker only
