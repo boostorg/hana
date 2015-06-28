@@ -277,7 +277,7 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" tit
 <div class="line">);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
-The model of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line">static_assert(head(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+The model of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s corresponds to iteration over each element of the sequence, in order. <div class="fragment"><div class="line">static_assert(front(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(tail(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!is_empty(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_empty(make_tuple()));</div>
@@ -306,12 +306,15 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95">cartesian_product</a> = see documentation</td></tr>
 <tr class="memdesc:a211a6ce41e4972cd7642b77a1afa8e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the cartesian product of a sequence of sequences.  <a href="#a211a6ce41e4972cd7642b77a1afa8e95">More...</a><br /></td></tr>
 <tr class="separator:a211a6ce41e4972cd7642b77a1afa8e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaee87c07664e57a8ffbfdceed39265ef"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a></td></tr>
+<tr class="memdesc:aaee87c07664e57a8ffbfdceed39265ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop the last <code>n</code> elements of a finite sequence, and return the rest.  <a href="#aaee87c07664e57a8ffbfdceed39265ef">More...</a><br /></td></tr>
+<tr class="separator:aaee87c07664e57a8ffbfdceed39265ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec8e997908f6dd39b512958c1c8a10d4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a></td></tr>
+<tr class="memdesc:aec8e997908f6dd39b512958c1c8a10d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop the last <code>n</code> elements of a finite sequence, and return the rest.  <a href="#aec8e997908f6dd39b512958c1c8a10d4">More...</a><br /></td></tr>
+<tr class="separator:aec8e997908f6dd39b512958c1c8a10d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a></td></tr>
 <tr class="memdesc:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a> adjacent elements of a sequence that all respect a binary predicate, by default equality.  <a href="#a83d9b8f0f293c6fe7cfccd2359dec330">More...</a><br /></td></tr>
 <tr class="separator:a83d9b8f0f293c6fe7cfccd2359dec330"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a733fdb2e8686033466beea8323e53a26"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a></td></tr>
-<tr class="memdesc:a733fdb2e8686033466beea8323e53a26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the last element of a non-empty sequence.  <a href="#a733fdb2e8686033466beea8323e53a26">More...</a><br /></td></tr>
-<tr class="separator:a733fdb2e8686033466beea8323e53a26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a value at a given index in a sequence.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
 <tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -386,12 +389,18 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a00c9ad102df93f8e88c37afd92f34590"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a></td></tr>
 <tr class="memdesc:a00c9ad102df93f8e88c37afd92f34590"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all consecutive duplicate elements from a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>.  <a href="#a00c9ad102df93f8e88c37afd92f34590">More...</a><br /></td></tr>
 <tr class="separator:a00c9ad102df93f8e88c37afd92f34590"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe5308d966fbf95d317511a706d6d20a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a></td></tr>
-<tr class="memdesc:abe5308d966fbf95d317511a706d6d20a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unzip a sequence of sequences.  <a href="#abe5308d966fbf95d317511a706d6d20a">More...</a><br /></td></tr>
-<tr class="separator:abe5308d966fbf95d317511a706d6d20a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a> = see documentation</td></tr>
-<tr class="memdesc:a23b6ac9e78577d70b9108a80e6b1534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one sequence or more, either with a given function or into a <a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>.  <a href="#a23b6ac9e78577d70b9108a80e6b1534c">More...</a><br /></td></tr>
+<tr class="memitem:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a></td></tr>
+<tr class="memdesc:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one sequence or more with a given function.  <a href="#a5eadaf63535ebb8cdd8d9e4c16b9bacd">More...</a><br /></td></tr>
+<tr class="separator:a5eadaf63535ebb8cdd8d9e4c16b9bacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef70e8791ace2fafabf0ff3adaa8630c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#aef70e8791ace2fafabf0ff3adaa8630c">zip_shortest_with</a></td></tr>
+<tr class="memdesc:aef70e8791ace2fafabf0ff3adaa8630c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one sequence or more with a given function.  <a href="#aef70e8791ace2fafabf0ff3adaa8630c">More...</a><br /></td></tr>
+<tr class="separator:aef70e8791ace2fafabf0ff3adaa8630c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a></td></tr>
+<tr class="memdesc:a23b6ac9e78577d70b9108a80e6b1534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one sequence or more.  <a href="#a23b6ac9e78577d70b9108a80e6b1534c">More...</a><br /></td></tr>
 <tr class="separator:a23b6ac9e78577d70b9108a80e6b1534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10f6d2040b9c9f2aea6a334e41c89ac7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a10f6d2040b9c9f2aea6a334e41c89ac7">zip_shortest</a></td></tr>
+<tr class="memdesc:a10f6d2040b9c9f2aea6a334e41c89ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zip one sequence or more.  <a href="#a10f6d2040b9c9f2aea6a334e41c89ac7">More...</a><br /></td></tr>
+<tr class="separator:a10f6d2040b9c9f2aea6a334e41c89ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a211a6ce41e4972cd7642b77a1afa8e95"></a>
@@ -458,6 +467,92 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.cartesian_product.compile.json"> </div> 
+</div>
+</div>
+<a class="anchor" id="aaee87c07664e57a8ffbfdceed39265ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto drop_back</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; n]) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Drop the last <code>n</code> elements of a finite sequence, and return the rest. </p>
+<p>Given a finite <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>xs</code> with a linearization of <code>[x1, ..., xm]</code> and a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> holding an unsigned integral value, <code>drop_back(xs, n)</code> is a sequence with the same tag as <code>xs</code> whose linearization is <code>[x1, ..., xm-n]</code>. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</p>
+<p>In case <code>length(xs) &lt;= n</code>, <code>drop_back</code> will simply drop the whole sequence without failing, thus returning an empty sequence. This is different from <code>drop_back_exactly</code>, which expects <code>n &lt;= length(xs)</code> but can be better optimized because of this additional guarantee.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The sequence from which elements are dropped.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding an unsigned integral value representing the number of elements to be dropped from the end of the sequence. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs, size_t&lt;0&gt;) == xs, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs, size_t&lt;1&gt;) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs, size_t&lt;2&gt;) == make_tuple(0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs, size_t&lt;3&gt;) == make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs, size_t&lt;4&gt;) == make_tuple());</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(xs) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="aec8e997908f6dd39b512958c1c8a10d4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto drop_back_exactly</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; n]) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Drop the last <code>n</code> elements of a finite sequence, and return the rest. </p>
+<p>Given a finite <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>xs</code> with a linearization of <code>[x1, ..., xm]</code> and a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> holding an unsigned integral value, <code>drop_back_exactly(xs, n)</code> is a sequence with the same tag as <code>xs</code> whose linearization is <code>[x1, ..., xm-n]</code>. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</p>
+<p>It is an error to use <code>drop_back_exactly</code> with <code>n &gt; length(xs)</code>. This additional guarantee allows <code>drop_back_exactly</code> to be better optimized than the <code>drop_back</code> function, which allows <code>n &gt; length(xs)</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>The sequence from which elements are dropped.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding an unsigned integral value representing the number of elements to be dropped from the end of the sequence. <code>n</code> must be less than or equal to the number of elements in <code>xs</code>. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a>(xs, size_t&lt;1&gt;) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a>(xs, size_t&lt;2&gt;) == make_tuple(0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a>(xs, size_t&lt;3&gt;) == make_tuple());</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a>(xs) == make_tuple(0, <span class="charliteral">&#39;1&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a83d9b8f0f293c6fe7cfccd2359dec330"></a>
@@ -550,37 +645,6 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">group(xs, pred) -&gt; group_pred_impl&lt;data type of xs&gt;::<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(xs, pred)</div>
 </div><!-- fragment --><p>Also note that <code>group.by</code> is not tag-dispatched on its own, since it is just syntactic sugar for calling the corresponding <code>group</code>. </p>
 
-</div>
-</div>
-<a class="anchor" id="a733fdb2e8686033466beea8323e53a26"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto init</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Remove the last element of a non-empty sequence. </p>
-<p>If the sequence is empty, a compile-time assertion is triggered. Otherwise, a copy of the original sequence with its last element removed is returned.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1)) == make_tuple());</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26">init</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
 </div>
 </div>
 <a class="anchor" id="a5791e6dc0e27d8e3a113e4d94482550f"></a>
@@ -1201,7 +1265,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line">    make_tuple(1_c, <span class="stringliteral">&quot;foobar&quot;</span>s, int_&lt;4&gt;)</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    sort.by(ordering(head), tuples)</div>
+<div class="line">    sort.by(ordering(front), tuples)</div>
 <div class="line">        == make_tuple(</div>
 <div class="line">            make_tuple(1_c, <span class="stringliteral">&quot;foobar&quot;</span>s, int_&lt;4&gt;),</div>
 <div class="line">            make_tuple(2_c, <span class="charliteral">&#39;x&#39;</span>, <span class="keyword">nullptr</span>)</div>
@@ -1718,7 +1782,7 @@ template&lt;typename S &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="abe5308d966fbf95d317511a706d6d20a"></a>
+<a class="anchor" id="a5eadaf63535ebb8cdd8d9e4c16b9bacd"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1726,7 +1790,7 @@ template&lt;typename S &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto unzip</td>
+          <td class="memname">constexpr auto zip_with</td>
         </tr>
       </table>
   </td>
@@ -1735,30 +1799,61 @@ template&lt;typename S &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; x1, ..., <span class="keyword">auto</span>&amp;&amp; xn) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Unzip a sequence of sequences. </p>
-<p><code>unzip</code> can undo a <code>zip</code> operation. Specifically, it takes a sequence of the form </p><div class="fragment"><div class="line">[s1, s2, ..., sn]</div>
-</div><!-- fragment --><p> where each <code>si</code> is a sequence, and returns a sequence equivalent to <code>zip(s1, s2, ..., sn)</code>.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">xs</td><td>A sequence of sequences to unzip.</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Zip one sequence or more with a given function. </p>
+<p>Given a <code>n</code>-ary function <code>f</code> and <code>n</code> sequences <code>s1, ..., sn</code>, <code>zip_with</code> produces a sequence whose <code>i</code>-th element is <code>f(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the <code>i</code>-th element of the <code>k</code>-th sequence. In other words, <code>zip_with</code> produces a sequence of the form </p><div class="fragment"><div class="line">[</div>
+<div class="line">    f(s1[0], ..., sn[0]),</div>
+<div class="line">    f(s1[1], ..., sn[1]),</div>
+<div class="line">    ...</div>
+<div class="line">    f(s1[M], ..., sn[M])</div>
+<div class="line">]</div>
+</div><!-- fragment --><p> where <code>M</code> is the length of the sequences, which are all assumed to have the same length. Assuming the sequences to all have the same size allows the library to perform some optimizations. To zip sequences that may have different lengths, <code>zip_shortest_with</code> should be used instead. Also note that it is an error to provide no sequence at all, i.e. <code>zip_with</code> expects at least one sequence.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make_tuple(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make_tuple(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6)))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd">zip_with</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8))</div>
 <div class="line">    ==</div>
-<div class="line">    make_tuple(make_tuple(1, <span class="charliteral">&#39;4&#39;</span>), make_tuple(<span class="charliteral">&#39;2&#39;</span>, 5.5), make_tuple(3.3, 6))</div>
+<div class="line">    make_tuple(5, 12, 21, 32)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a">unzip</a>(make_tuple(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), make_tuple(<span class="charliteral">&#39;4&#39;</span>, 5.5, 6, <span class="stringliteral">&quot;ignored&quot;</span>)))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="aef70e8791ace2fafabf0ff3adaa8630c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto zip_shortest_with</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; x1, ..., <span class="keyword">auto</span>&amp;&amp; xn) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Zip one sequence or more with a given function. </p>
+<p>Given a <code>n</code>-ary function <code>f</code> and <code>n</code> sequences <code>s1, ..., sn</code>, <code>zip_shortest_with</code> produces a sequence whose <code>i</code>-th element is <code>f(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the <code>i</code>-th element of the <code>k</code>-th sequence. In other words, <code>zip_shortest_with</code> produces a sequence of the form </p><div class="fragment"><div class="line">[</div>
+<div class="line">    f(s1[0], ..., sn[0]),</div>
+<div class="line">    f(s1[1], ..., sn[1]),</div>
+<div class="line">    ...</div>
+<div class="line">    f(s1[M], ..., sn[M])</div>
+<div class="line">]</div>
+</div><!-- fragment --><p> where <code>M</code> is the length of the shortest sequence. Hence, the returned sequence stops when the shortest input sequence is exhausted. If you know that all the sequences you are about to zip have the same length, you should use <code>zip_with</code> instead, since it can be more optimized. Also note that it is an error to provide no sequence at all, i.e. <code>zip_shortest_with</code> expects at least one sequence.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#aef70e8791ace2fafabf0ff3adaa8630c">zip_shortest_with</a>(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>, make_tuple(1, 2, 3, 4), make_tuple(5, 6, 7, 8, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
 <div class="line">    ==</div>
-<div class="line">    make_tuple(make_tuple(1, <span class="charliteral">&#39;4&#39;</span>), make_tuple(<span class="charliteral">&#39;2&#39;</span>, 5.5), make_tuple(3.3, 6))</div>
+<div class="line">    make_tuple(5, 12, 21, 32)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment -->
 </div>
@@ -1771,7 +1866,7 @@ template&lt;typename S &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto zip = see documentation</td>
+          <td class="memname">constexpr auto zip</td>
         </tr>
       </table>
   </td>
@@ -1780,52 +1875,59 @@ template&lt;typename S &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Zip one sequence or more, either with a given function or into a <a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>. </p>
-<p>In a general setting, zipping several sequences with a function refers to the following operation. Given <code>n</code> sequences <code>s1, ..., sn</code> and a function <code>f</code> that takes <code>n</code> arguments, zipping produces a sequence whose i-th element is <code>f(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the i-th element of the k-th sequence passed as an argument. In other words, it produces a sequence of the form </p><div class="fragment"><div class="line">[</div>
-<div class="line">    f(s1[0], ..., sn[0]),</div>
-<div class="line">    f(s1[1], ..., sn[1]),</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x1, ..., <span class="keyword">auto</span>&amp;&amp; xn) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Zip one sequence or more. </p>
+<p>Given <code>n</code> sequences <code>s1, ..., sn</code>, <code>zip</code> produces a sequence whose <code>i</code>-th element is a tuple of <code>(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the <code>i</code>-th element of the <code>k</code>-th sequence. In other words, <code>zip</code> produces a sequence of the form </p><div class="fragment"><div class="line">[</div>
+<div class="line">    make_tuple(s1[0], ..., sn[0]),</div>
+<div class="line">    make_tuple(s1[1], ..., sn[1]),</div>
 <div class="line">    ...</div>
-<div class="line">    f(s1[M], ..., sn[M])</div>
+<div class="line">    make_tuple(s1[M], ..., sn[M])</div>
 <div class="line">]</div>
-</div><!-- fragment --><p> , where <code>M</code> is usually the length of the shortest sequence. As this suggests, there are several different ways of zipping that one might want; zip with a function, zip without a function, zip up to the shortest sequence, zip up to the longest sequence or assume all the sequences are of the same size. In Hana, all these different ways of zipping are provided, except for the "up to the longest sequence" one.</p>
-<dl class="section note"><dt>Note</dt><dd>At least one sequence must always be provided. Otherwise, it is an error.</dd></dl>
-<blockquote class="doxtable">
-<h4>Rationale for not providing a <code>zip.longest</code> variant</h4>
-<p>It would require either (1) padding the shortest sequences with an arbitrary object, or (2) pad the shortest sequences with an object provided by the user when calling <code>zip.longest</code>. Since there is no requirement that all the zipped sequences have elements of similar types, there is no way to provide a single consistent padding object in all cases. A tuple of padding objects should be provided, but I find it perhaps too complicated to be worth it for now. If you need this functionality, open a GitHub issue. </p>
-</blockquote>
-<p>The <code>zip</code> method is actually a function object that can be called in several different ways, each of them providing a slightly different kind of zipping. Here are the different ways of calling <code>zip</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(s1, ..., sn)         = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest(s1, ..., sn)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.with(f, s1, ..., sn) = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest.with(f, s1, ..., sn)</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest(s1, ..., sn)         = see below</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest.with(f, s1, ..., sn) = see below</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe(s1, ..., sn)         = see below</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe.with(f, s1, ..., sn) = see below</div>
-</div><!-- fragment --><p>First, one sees that calling <code>zip</code> or <code>zip.with</code> is equivalent to calling <code>zip.shortest</code> or <code>zip.shortest.with</code>, respectively. The <code>shortest</code> variant signifies that the returned sequence should stop when the shortest input sequence is exhausted, which is the usual behavior for <code>zip</code> operations.</p>
-<p>Then, there are also the <code>zip.unsafe</code> and <code>zip.unsafe.with</code> variants, which both assume that all the sequences are of the same size. This allows the library to perform some optimizations. If you know that all the sequences you are about to zip are of the same length, you should use these variants.</p>
-<p>Finally, the <code>with</code> variants offer the possibility of providing a custom function to do the zipping, as was explained above. The non-<code>with</code> variants, which do not accept a custom function, will zip using a tuple. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.*(s1, ..., sn) == <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.*.with(make&lt;Tuple&gt;, s1, ..., sn)</div>
-<div class="line">                   == [</div>
-<div class="line">                        make&lt;Tuple&gt;(s1[0], ..., sn[0]),</div>
-<div class="line">                        make&lt;Tuple&gt;(s1[1], ..., sn[1]),</div>
-<div class="line">                        ...</div>
-<div class="line">                        make&lt;Tuple&gt;(s1[M], ..., sn[M])</div>
-<div class="line">                   ]</div>
-</div><!-- fragment --><h2>Tag-dispatching </h2>
-<p>All of the different zipping variants are tag-dispatched methods that can be overridden. Here is how each variant is tag-dispatched: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest       -&gt;  zip_shortest_impl</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.shortest.with  -&gt;  zip_shortest_with_impl</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe         -&gt;  zip_unsafe_impl</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>.unsafe.with    -&gt;  zip_unsafe_with_impl</div>
-</div><!-- fragment --><p> <code>zip</code> and <code>zip.with</code> are not tag dispatched, because they are just aliases to <code>zip.shortest</code> and <code>zip.shortest.with</code>, respectively. Also note that all the sequences must have the same data type, and only the data type of the first one is used for tag-dispatching.</p>
+</div><!-- fragment --><p> where <code>M</code> is the length of the sequences, which are all assumed to have the same length. Assuming the sequences to all have the same size allows the library to perform some optimizations. To zip sequences that may have different lengths, <code>zip_shortest</code> should be used instead. Also note that it is an error to provide no sequence at all, i.e. <code>zip</code> expects at least one sequence.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line">static_assert(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3))</div>
 <div class="line">    ==</div>
 <div class="line">    make_tuple(make_tuple(1, 2), make_tuple(<span class="charliteral">&#39;a&#39;</span>, 3.3))</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c">zip</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3), make_tuple(3, <span class="charliteral">&#39;c&#39;</span>, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a10f6d2040b9c9f2aea6a334e41c89ac7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto zip_shortest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x1, ..., <span class="keyword">auto</span>&amp;&amp; xn) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Zip one sequence or more. </p>
+<p>Given <code>n</code> sequences <code>s1, ..., sn</code>, <code>zip_shortest</code> produces a sequence whose <code>i</code>-th element is a tuple of <code>(s1[i], ..., sn[i])</code>, where <code>sk[i]</code> denotes the <code>i</code>-th element of the <code>k</code>-th sequence. In other words, <code>zip_shortest</code> produces a sequence of the form </p><div class="fragment"><div class="line">[</div>
+<div class="line">    make_tuple(s1[0], ..., sn[0]),</div>
+<div class="line">    make_tuple(s1[1], ..., sn[1]),</div>
+<div class="line">    ...</div>
+<div class="line">    make_tuple(s1[M], ..., sn[M])</div>
+<div class="line">]</div>
+</div><!-- fragment --><p> where <code>M</code> is the length of the shortest sequence. Hence, the returned sequence stops when the shortest input sequence is exhausted. If you know that all the sequences you are about to zip have the same length, you should use <code>zip</code> instead, since it can be more optimized. Also note that it is an error to provide no sequence at all, i.e. <code>zip_shortest</code> expects at least one sequence.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Sequence.html#a10f6d2040b9c9f2aea6a334e41c89ac7">zip_shortest</a>(make_tuple(1, <span class="charliteral">&#39;a&#39;</span>), make_tuple(2, 3.3), make_tuple(3, <span class="charliteral">&#39;c&#39;</span>, <span class="stringliteral">&quot;ignored&quot;</span>))</div>
 <div class="line">    ==</div>
 <div class="line">    make_tuple(make_tuple(1, 2, 3), make_tuple(<span class="charliteral">&#39;a&#39;</span>, 3.3, <span class="charliteral">&#39;c&#39;</span>))</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>

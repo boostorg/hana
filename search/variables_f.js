@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['on',['on',['../group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1',1,'boost::hana']]],
-  ['one',['one',['../structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1',1,'boost::hana::Ring']]],
-  ['only_5fwhen',['only_when',['../structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c',1,'boost::hana::Optional']]],
-  ['or_5f',['or_',['../structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252',1,'boost::hana::Logical']]],
-  ['ordering',['ordering',['../structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37',1,'boost::hana::Orderable']]],
-  ['overload',['overload',['../group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139',1,'boost::hana']]],
-  ['overload_5flinearly',['overload_linearly',['../group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec',1,'boost::hana']]]
+  ['partial',['partial',['../group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf',1,'boost::hana']]],
+  ['partition',['partition',['../structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816',1,'boost::hana::Sequence']]],
+  ['permutations',['permutations',['../structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1',1,'boost::hana::Sequence']]],
+  ['plus',['plus',['../structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97',1,'boost::hana::Monoid']]],
+  ['power',['power',['../structboost_1_1hana_1_1Ring.html#af31c2ce5c41696358e7ee10a8b57340e',1,'boost::hana::Ring']]],
+  ['pred',['pred',['../structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9',1,'boost::hana::Enumerable']]],
+  ['prefix',['prefix',['../structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008',1,'boost::hana::MonadPlus']]],
+  ['prepend',['prepend',['../structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129',1,'boost::hana::MonadPlus']]],
+  ['product',['product',['../structboost_1_1hana_1_1Foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]]
 ];

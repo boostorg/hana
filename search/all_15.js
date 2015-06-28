@@ -10,7 +10,6 @@ var searchData=
   ['unpack',['unpack',['../structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328',1,'boost::hana::Foldable']]],
   ['unrolled_2ehpp',['unrolled.hpp',['../unrolled_8hpp.html',1,'']]],
   ['until',['until',['../structboost_1_1hana_1_1Logical.html#a4fdaf4c04c0ffd8172004ed37c1d44b7',1,'boost::hana::Logical']]],
-  ['unzip',['unzip',['../structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a',1,'boost::hana::Sequence']]],
   ['ushort',['ushort',['../structboost_1_1hana_1_1IntegralConstant.html#af27cdbb184ef3eb020a534766206789c',1,'boost::hana::IntegralConstant']]],
   ['utility_2ehpp',['utility.hpp',['../utility_8hpp.html',1,'']]]
 ];

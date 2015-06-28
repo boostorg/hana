@@ -58,15 +58,14 @@ var group__group_concepts =
       [ "rem", "structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9", null ]
     ] ],
     [ "Iterable", "structboost_1_1hana_1_1Iterable.html", [
-      [ "head", "structboost_1_1hana_1_1Iterable.html#adc2675aeee1174a9b337e94f39506bec", null ],
+      [ "front", "structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571", null ],
       [ "tail", "structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96", null ],
       [ "is_empty", "structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a", null ],
       [ "at", "structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721", null ],
       [ "at_c", "structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202", null ],
-      [ "last", "structboost_1_1hana_1_1Iterable.html#a5379264e83af65af8802eeec0d49e5f0", null ],
-      [ "drop", "structboost_1_1hana_1_1Iterable.html#a322ee5c860b93d6bfb5571a028f5e5b2", null ],
-      [ "drop_exactly", "structboost_1_1hana_1_1Iterable.html#a279d671006ab8e9b6be8b10c07890d6d", null ],
-      [ "drop_c", "structboost_1_1hana_1_1Iterable.html#a102d3b758946ac60cec3004d70920cab", null ],
+      [ "back", "structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895", null ],
+      [ "drop_front", "structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5", null ],
+      [ "drop_front_exactly", "structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008", null ],
       [ "drop_while", "structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8", null ],
       [ "drop_until", "structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551", null ]
     ] ],
@@ -137,8 +136,9 @@ var group__group_concepts =
     ] ],
     [ "Sequence", "structboost_1_1hana_1_1Sequence.html", [
       [ "cartesian_product", "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95", null ],
+      [ "drop_back", "structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef", null ],
+      [ "drop_back_exactly", "structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4", null ],
       [ "group", "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
-      [ "init", "structboost_1_1hana_1_1Sequence.html#a733fdb2e8686033466beea8323e53a26", null ],
       [ "insert", "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "insert_range", "structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea", null ],
       [ "intersperse", "structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec", null ],
@@ -162,8 +162,10 @@ var group__group_concepts =
       [ "unfold_left", "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2", null ],
       [ "unfold_right", "structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442", null ],
       [ "unique", "structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590", null ],
-      [ "unzip", "structboost_1_1hana_1_1Sequence.html#abe5308d966fbf95d317511a706d6d20a", null ],
-      [ "zip", "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ]
+      [ "zip_with", "structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd", null ],
+      [ "zip_shortest_with", "structboost_1_1hana_1_1Sequence.html#aef70e8791ace2fafabf0ff3adaa8630c", null ],
+      [ "zip", "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c", null ],
+      [ "zip_shortest", "structboost_1_1hana_1_1Sequence.html#a10f6d2040b9c9f2aea6a334e41c89ac7", null ]
     ] ],
     [ "Struct", "structboost_1_1hana_1_1Struct.html", [
       [ "accessors", "structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739", null ],

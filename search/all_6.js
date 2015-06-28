@@ -24,10 +24,11 @@ var searchData=
   ['for_5feach_2ehpp',['for_each.hpp',['../for__each_8hpp.html',1,'']]],
   ['from_5fjust',['from_just',['../structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796',1,'boost::hana::Optional']]],
   ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::Optional']]],
+  ['front',['front',['../structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571',1,'boost::hana::Iterable']]],
   ['functional_2ehpp',['functional.hpp',['../functional_8hpp.html',1,'']]],
   ['functor',['Functor',['../structboost_1_1hana_1_1Functor.html',1,'boost::hana']]],
-  ['functor_2ehpp',['functor.hpp',['../fwd_2functor_8hpp.html',1,'']]],
   ['functor_2ehpp',['functor.hpp',['../functor_8hpp.html',1,'']]],
+  ['functor_2ehpp',['functor.hpp',['../fwd_2functor_8hpp.html',1,'']]],
   ['fuse',['fuse',['../structboost_1_1hana_1_1Foldable.html#a0840e48f29a87467e23d801ca0ca122a',1,'boost::hana::Foldable']]],
   ['fusion_2ehpp',['fusion.hpp',['../fusion_8hpp.html',1,'']]],
   ['functional',['Functional',['../group__group-functional.html',1,'']]]

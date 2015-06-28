@@ -77,7 +77,8 @@ var NAVTREE =
         [ "Why define our own tuple?", "index.html#tutorial-rationales-tuple", null ],
         [ "How are names chosen?", "index.html#tutorial-rationales-naming", null ],
         [ "How is the parameter order decided?", "index.html#tutorial-rationales-parameters", null ],
-        [ "Why tag dispatching?", "index.html#tutorial-rationales-tag_dispatching", null ]
+        [ "Why tag dispatching?", "index.html#tutorial-rationales-tag_dispatching", null ],
+        [ "Why not provide `zip_longest`?", "index.html#tutorial-rationales-zip_longest", null ]
       ] ],
       [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
         [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
