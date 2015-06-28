@@ -96,8 +96,10 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            using RawArray = typename std::remove_reference<Xs>::type;
-            constexpr auto N =std::tuple_size<RawArray>::value;
+            using RawArray = typename std::remove_cv<
+                typename std::remove_reference<Xs>::type
+            >::type;
+            constexpr auto N = std::tuple_size<RawArray>::value;
             using T = typename RawArray::value_type;
             return tail_helper<T, N>(
                 static_cast<Xs&&>(xs),
