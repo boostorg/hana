@@ -194,7 +194,13 @@ before_script:
   - export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"
   - export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"
   - export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"
-  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_MEMCHECK=ON -DBOOST_HANA_ENABLE_WERROR=ON
+  - cmake .. -DCMAKE_CXX_COMPILER=clang++-${CLANG_VERSION} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
+  # We only use the memory checker on some builds, because otherwise it takes
+  # too long for very little benefit. Concretely, if we have a memory leak or
+  # something like that, it's either a compiler bug or an error that will show
+  # up regardless of the Boost version. Hence, we use the memory checker only
+  # once for each compiler.
+  - if [[ "${UNIT_TESTS}" == "true" && "${BOOST_VERSION}" == "1.58.0" ]]; then cmake .. -DBOOST_HANA_ENABLE_MEMCHECK=ON; fi
   - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
 
 
