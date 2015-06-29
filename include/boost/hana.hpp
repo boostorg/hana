@@ -1229,7 +1229,7 @@ to metafunctions; it also applies to templates. Indeed, we could define:
 @snippet example/tutorial/type.cpp template_
 
 Hana provides a generic lifter for templates named `template_`, and it also
-provides a generic lifter for MPL metafunction classes names `metafunction_class`.
+provides a generic lifter for MPL metafunction classes named `metafunction_class`.
 This gives us a way to uniformly represent "legacy" type-level computations as
 functions, so that any code written using a classic type-level metaprogramming
 library can almost trivially be used with Hana. For example, say you have a
