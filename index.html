@@ -577,7 +577,7 @@ A real world example</h2>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> That's it for the quick start! This example only introduced a couple of useful algorithms (<code>find_if</code>, <code>filter</code>, <code>unpack</code>) and heterogeneous containers (<code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>), but rest assured that there is much more. The next sections of the tutorial gradually introduce general concepts pertaining to Hana in a friendly way, but you may use the following cheatsheet for quick reference if you want to start coding right away. This cheatsheet contains the most frequently used algorithms, along with a short description of what each algorithm does.</p>
+</div><!-- fragment --><p> That's it for the quick start! This example only introduced a couple of useful algorithms (<code>find_if</code>, <code>filter</code>, <code>unpack</code>) and heterogeneous containers (<code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>), but rest assured that there is much more. The next sections of the tutorial gradually introduce general concepts pertaining to Hana in a friendly way, but you may use the following cheatsheet for quick reference if you want to start coding right away. This cheatsheet contains the most frequently used algorithms and containers, along with a short description of what each of them does.</p>
 <h2><a class="anchor" id="tutorial-quickstart-cheatsheet"></a>
 Cheatsheet</h2>
 <h3>Remarks</h3>
@@ -586,6 +586,28 @@ Cheatsheet</h2>
 <li>Algorithms always return their result as a new container; no in-place mutation is ever performed (see the section on <a class="el" href="index.html#tutorial-algorithms">algorithms</a>)</li>
 <li>All algorithms are <code>constexpr</code> function objects</li>
 </ul>
+<table class="doxtable">
+<tr>
+<th align="left">container </th><th align="left">description  </th></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> </td><td align="left">General purpose index-based heterogeneous sequence with a fixed length. Use this as a <code>std::vector</code> for heterogeneous objects. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> </td><td align="left">Represents an optional value, i.e. a value that can be empty. This is a bit like <code>std::optional</code>, except that the emptiness is known at compile-time. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> </td><td align="left">Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like <code>std::unordered_map</code> for heterogeneous objects. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> </td><td align="left">Unordered container holding unique keys that must be compile-time entities. This is like <code>std::unordered_set</code> for heterogeneous objects. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> </td><td align="left">Represents an interval of compile-time numbers. This is like <code>std::integer_sequence</code>, but better. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code> </td><td align="left">Container holding two heterogeneous objects. Like <code>std::pair</code>, but interacts better with Hana. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code> </td><td align="left">Container able to represent strings at compile-time. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code> </td><td align="left">Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations). </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> </td><td align="left">Represents a compile-time number. This is very similar to <code>std::integral_constant</code>, except that Hana's <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code> also defines operators and more syntactic sugar. </td></tr>
+</table>
 <table class="doxtable">
 <tr>
 <th align="left">function </th><th align="left">description  </th></tr>
