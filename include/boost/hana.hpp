@@ -583,8 +583,8 @@ algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
 sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
-the most frequently used algorithms, along with a short description of what
-each algorithm does.
+the most frequently used algorithms and containers, along with a short
+description of what each of them does.
 
 
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
@@ -598,8 +598,21 @@ each algorithm does.
 - All algorithms are `constexpr` function objects
 
 
-function                                    | description
-:------------------------------------------ | :----------
+container          | description
+:----------------- | :----------
+`Tuple`            | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
+`Optional`         | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
+`Map`              | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
+`Set`              | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
+`Range`            | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
+`Pair`             | Container holding two heterogeneous objects. Like `std::pair`, but interacts better with Hana.
+`String`           | Container able to represent strings at compile-time.
+`Type`             | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
+`IntegralConstant` | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
+
+
+function                                                                            | description
+:------------------------------------------                                         | :----------
 <code>[adjust](@ref Functor::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
 <code>[adjust_if](@ref Functor::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
 <code>{[all](@ref Searchable::all),[any](@ref Searchable::any),[none](@ref Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
