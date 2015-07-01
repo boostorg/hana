@@ -3,6 +3,7 @@ var NAVTREE =
   [ "Hana", "index.html", [
     [ "User Manual", "index.html", [
       [ "Description", "index.html#tutorial-description", null ],
+      [ "Prerequisites and installation", "index.html#tutorial-installation", null ],
       [ "Introduction", "index.html#tutorial-introduction", [
         [ "C++ computational quadrants", "index.html#tutorial-introduction-quadrants", null ],
         [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
@@ -99,7 +100,7 @@ var NAVTREEINDEX =
 [
 "adl_8hpp.html",
 "index.html#tutorial-assert",
-"structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3"
+"structboost_1_1hana_1_1Orderable.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

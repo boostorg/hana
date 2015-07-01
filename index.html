@@ -135,6 +135,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#tutorial-description">Description</a></li>
+<li class="level1"><a href="#tutorial-installation">Prerequisites and installation</a></li>
 <li class="level1"><a href="#tutorial-introduction">Introduction</a><ul><li class="level2"><a href="#tutorial-introduction-quadrants">C++ computational quadrants</a></li>
 <li class="level2"><a href="#tutorial-quadrants-about">What is this library about?</a></li>
 </ul>
@@ -224,6 +225,27 @@ $(document).ready(function(){initNavTree('index.html','');});
 Description</h1>
 <hr/>
 <p> Hana is a header-only library for C++ metaprogramming suited for computations on both types and values. The functionality it provides is a superset of what is provided by the well established <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html">Boost.MPL</a> and <a href="http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html">Boost.Fusion</a> libraries. By leveraging C++11/14 implementation techniques and idioms, Hana boasts faster compilation times and runtime performance on par or better than previous metaprogramming libraries, while noticeably increasing the level of expressiveness in the process. Hana is easy to extend in a ad-hoc manner and it provides out-of-the-box inter-operation with Boost.Fusion, Boost.MPL and the standard library.</p>
+<h1><a class="anchor" id="tutorial-installation"></a>
+Prerequisites and installation</h1>
+<hr/>
+<p> To use Hana in your own project, just add the <code>include</code> directory to your compiler's header search path and you are done. The library relies on a C++14 compiler and standard library, but nothing else is required. Here is a table of the current C++14 compilers/toolchains with comments regarding support for Hana:</p>
+<table class="doxtable">
+<tr>
+<th>Compiler/Toolchain </th><th>Status  </th></tr>
+<tr>
+<td>Clang &gt;= 3.5.0 </td><td>Fully working; tested on each push to <code>master</code> </td></tr>
+<tr>
+<td>Xcode &gt;= 6.3 </td><td>Fully working; locally tested now and then </td></tr>
+<tr>
+<td>GCC &gt;= 5.1.0 </td><td>Almost working; waiting for the GCC team to fix a couple of C++14-related bugs </td></tr>
+</table>
+<p>More specifically, Hana requires a compiler/standard library supporting the following C++14 features (non-exhaustively):</p><ul>
+<li>Generic lambdas</li>
+<li>Generalized <code>constexpr</code></li>
+<li>Variable templates</li>
+<li>Automatically deduced return type</li>
+<li>All the C++14 type traits from the <code>&lt;type_traits&gt;</code> header</li>
+</ul>
 <h1><a class="anchor" id="tutorial-introduction"></a>
 Introduction</h1>
 <hr/>
