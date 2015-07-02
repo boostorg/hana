@@ -7,22 +7,22 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_DET_HPP
 #define BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_DET_HPP
 
-#include <boost/hana/constant.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/fix.hpp>
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/concept/functor.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/sequence.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monoid.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/monoid.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/ring.hpp>
+#include <boost/hana/concept/ring.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <utility>

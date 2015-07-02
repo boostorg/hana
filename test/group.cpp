@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/group.hpp>
+#include <boost/hana/concept/group.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/group.hpp>

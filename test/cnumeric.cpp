@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/cnumeric.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -229,43 +229,6 @@ int main() {
             auto state = ct_eq<0>{};
             BOOST_HANA_CONSTANT_CHECK(equal(
                 while_(not_equal.to(f(f(f(f(ct_eq<0>{}))))), state, f),
-                f(f(f(f(ct_eq<0>{}))))
-            ));
-        }
-
-        // until
-        {
-            test::_injection<0> f{};
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(ct_eq<0>{}), ct_eq<0>{}, invalid{}),
-                ct_eq<0>{}
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(f(ct_eq<0>{})), ct_eq<0>{}, f),
-                f(ct_eq<0>{})
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(f(f(ct_eq<0>{}))), ct_eq<0>{}, f),
-                f(f(ct_eq<0>{}))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(f(f(f(ct_eq<0>{})))), ct_eq<0>{}, f),
-                f(f(f(ct_eq<0>{})))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(f(f(f(f(ct_eq<0>{}))))), ct_eq<0>{}, f),
-                f(f(f(f(ct_eq<0>{}))))
-            ));
-
-            // Make sure it can be called with an lvalue state:
-            auto state = ct_eq<0>{};
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                until(equal.to(f(f(f(f(ct_eq<0>{}))))), state, f),
                 f(f(f(f(ct_eq<0>{}))))
             ));
         }

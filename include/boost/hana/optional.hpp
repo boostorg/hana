@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/optional.hpp>
 
-#include <boost/hana/applicative.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
@@ -22,19 +22,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/concept/functor.hpp>
 #include <boost/hana/fwd/type.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monad.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/orderable.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 
 #include <type_traits>
 #include <utility>

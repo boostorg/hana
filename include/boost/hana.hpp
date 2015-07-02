@@ -12,26 +12,26 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_HPP
 
 // Concepts
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comonad.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/constant.hpp>
-#include <boost/hana/enumerable.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/group.hpp>
-#include <boost/hana/integral_domain.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monad.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/monoid.hpp>
-#include <boost/hana/orderable.hpp>
-#include <boost/hana/product.hpp>
-#include <boost/hana/ring.hpp>
-#include <boost/hana/searchable.hpp>
-#include <boost/hana/sequence.hpp>
-#include <boost/hana/struct.hpp>
+#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/concept/comonad.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/enumerable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/group.hpp>
+#include <boost/hana/concept/integral_domain.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/monoid.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/product.hpp>
+#include <boost/hana/concept/ring.hpp>
+#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/concept/struct.hpp>
 
 // Data types
 #include <boost/hana/bool.hpp>

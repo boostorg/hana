@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/struct.hpp>
+#include <boost/hana/concept/struct.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <string>

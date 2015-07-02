@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/product.hpp>
+#include <boost/hana/concept/product.hpp>
 
 #include <utility>
 

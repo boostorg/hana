@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comonad.hpp>
+#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/concept/comonad.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
@@ -26,45 +26,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/on.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/monad.hpp>
+
+#include <boost/hana/eval.hpp>
 
 #include <type_traits>
 #include <utility>
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // eval
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct eval_impl : eval_impl<T, when<true>> { };
-
-    template <typename T, bool condition>
-    struct eval_impl<T, when<condition>> : default_ {
-        template <typename Expr>
-        static constexpr auto eval_helper(Expr&& expr, int)
-            -> decltype(static_cast<Expr&&>(expr)())
-        { return static_cast<Expr&&>(expr)(); }
-
-        template <typename Expr>
-        static constexpr auto eval_helper(Expr&& expr, long)
-            -> decltype(static_cast<Expr&&>(expr)(hana::id))
-        { return static_cast<Expr&&>(expr)(hana::id); }
-
-        template <typename Expr>
-        static constexpr auto eval_helper(Expr&&, ...) {
-            static_assert(detail::wrong<Expr>{},
-            "hana::eval(expr) requires the expression to be Lazy, "
-            "a nullary Callable or a unary Callable that may be "
-            "called with hana::id");
-        }
-
-        template <typename Expr>
-        static constexpr decltype(auto) apply(Expr&& expr)
-        { return eval_helper(static_cast<Expr&&>(expr), int{}); }
-    };
-
     //////////////////////////////////////////////////////////////////////////
     // lazy
     //////////////////////////////////////////////////////////////////////////

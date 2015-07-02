@@ -8,11 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/ext/std/array.hpp>
 #include <boost/hana/ext/std/tuple.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/concept/logical.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <array>

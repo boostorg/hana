@@ -1,0 +1,81 @@
+/*!
+@file
+Defines `boost::hana::permutations`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_PERMUTATIONS_HPP
+#define BOOST_HANA_PERMUTATIONS_HPP
+
+#include <boost/hana/fwd/permutations.hpp>
+
+#include <boost/hana/at.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/value.hpp>
+
+#include <cstddef>
+#include <utility>
+
+
+namespace boost { namespace hana {
+    struct Sequence; //! @todo include the forward declaration instead
+
+    //! @cond
+    template <typename Xs>
+    constexpr auto permutations_t::operator()(Xs&& xs) const {
+        using S = typename datatype<Xs>::type;
+        using Permutations = BOOST_HANA_DISPATCH_IF(permutations_impl<S>,
+            _models<Sequence, S>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Sequence, S>::value,
+        "hana::permutations(xs) requires 'xs' to be a Sequence");
+    #endif
+
+        return Permutations::apply(static_cast<Xs&&>(xs));
+    }
+    //! @endcond
+
+    namespace detail {
+        template <std::size_t N>
+        struct permutation_indices {
+            static constexpr auto value =
+                detail::constexpr_::array<std::size_t, N>{}.iota(0).permutations();
+        };
+    }
+
+    template <typename S, bool condition>
+    struct permutations_impl<S, when<condition>> : default_ {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto
+        nth_permutation(Xs const& xs, std::index_sequence<i...>) {
+            constexpr auto indices = detail::permutation_indices<sizeof...(i)>::value;
+            return hana::make<S>(hana::at_c<indices[n][i]>(xs)...);
+        }
+
+        template <std::size_t N, typename Xs, std::size_t ...n>
+        static constexpr auto
+        permutations_helper(Xs const& xs, std::index_sequence<n...>) {
+            return hana::make<S>(nth_permutation<n>(xs, std::make_index_sequence<N>{})...);
+        }
+
+        template <typename Xs>
+        static constexpr auto apply(Xs const& xs) {
+            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t total_perms = detail::constexpr_::factorial(N);
+            return permutations_helper<N>(xs, std::make_index_sequence<total_perms>{});
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_PERMUTATIONS_HPP

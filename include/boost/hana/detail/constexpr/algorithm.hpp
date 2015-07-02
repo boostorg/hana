@@ -143,7 +143,7 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
         }
     }
 
-    template<class InputIt, class T>
+    template <typename InputIt, typename T>
     constexpr std::size_t
     count(InputIt first, InputIt last, T const& value) {
         std::size_t n = 0;
@@ -151,6 +151,18 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
             if (*first == value)
                 ++n;
         return n;
+    }
+
+    template <typename InputIt, typename T, typename F>
+    constexpr T accumulate(InputIt first, InputIt last, T init, F f) {
+        for (; first != last; ++first)
+            init = f(init, *first);
+        return init;
+    }
+
+    template <typename InputIt, typename T>
+    constexpr T accumulate(InputIt first, InputIt last, T init) {
+        return accumulate(first, last, init, _ + _);
     }
 }}}} // end namespace boost::hana::detail::constexpr_
 

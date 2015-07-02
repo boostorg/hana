@@ -1,0 +1,51 @@
+/*!
+@file
+Defines `boost::hana::keys`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_KEYS_HPP
+#define BOOST_HANA_KEYS_HPP
+
+#include <boost/hana/fwd/keys.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/when.hpp>
+
+#include <boost/hana/accessors.hpp>
+#include <boost/hana/first.hpp>
+#include <boost/hana/transform.hpp>
+
+
+namespace boost { namespace hana {
+    struct Struct; //! @todo include the forward declaration instead
+
+    //! @cond
+    template <typename Map>
+    constexpr auto keys_t::operator()(Map&& map) const {
+        return keys_impl<typename datatype<Map>::type>::apply(
+            static_cast<Map&&>(map)
+        );
+    }
+    //! @endcond
+
+    template <typename T, bool condition>
+    struct keys_impl<T, when<condition>> : default_ {
+        template <typename ...Args>
+        static constexpr auto apply(Args&& ...) = delete;
+    };
+
+    template <typename S>
+    struct keys_impl<S, when<_models<Struct, S>::value>> {
+        template <typename Object>
+        static constexpr auto apply(Object const&) {
+            return hana::transform(hana::accessors<S>(), hana::first);
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_KEYS_HPP

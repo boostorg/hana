@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -1640,7 +1640,7 @@ namespace boost { namespace hana { namespace test {
                     list(eq<0>{}, eq<1>{}),
                     list(eq<0>{}, eq<1>{}, eq<2>{})
                 );
-                for_each(lists, [=](auto xs) {
+                for_each(lists, capture(z, f, g)([](auto z, auto f, auto g, auto xs) {
                     BOOST_HANA_CONSTANT_CHECK(equal(
                         unfold_left<S>(fold_left(xs, z, f), g),
                         xs
@@ -1649,7 +1649,7 @@ namespace boost { namespace hana { namespace test {
                         unfold_right<S>(fold_right(xs, z, f), g),
                         xs
                     ));
-                });
+                }));
             }
 
             //////////////////////////////////////////////////////////////////

@@ -10,17 +10,17 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_HPP
 
-#include <boost/hana/applicative.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/monad.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/sequence.hpp>
 
 #include <cstddef>
 #include <tuple>
@@ -49,31 +49,6 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
             return std::make_tuple(static_cast<Xs&&>(xs)...);
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Functor
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct transform_impl<ext::std::Tuple> {
-        template <typename Xs, typename F, std::size_t ...index>
-        static constexpr decltype(auto)
-        transform_helper(Xs&& xs, F&& f, std::index_sequence<index...>) {
-            return std::make_tuple(
-                f(std::get<index>(static_cast<Xs&&>(xs)))...
-            );
-        }
-
-        template <typename Xs, typename F>
-        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            using Raw = typename std::remove_reference<Xs>::type;
-            constexpr auto N = std::tuple_size<Raw>::value;
-            return transform_helper(
-                static_cast<Xs&&>(xs),
-                static_cast<F&&>(f),
-                std::make_index_sequence<N>{}
-            );
         }
     };
 
@@ -118,19 +93,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct concat_impl<ext::std::Tuple> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-#ifndef BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
-            return std::tuple_cat(static_cast<Xs&&>(xs),
-                                    static_cast<Ys&&>(ys));
-#else
-            return std::tuple_cat(xs, ys);
-#endif
-        }
-    };
-
     template <>
     struct empty_impl<ext::std::Tuple> {
         static constexpr auto apply()

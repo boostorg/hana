@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/bool.hpp>
 
-#include <boost/hana/constant.hpp>
+#include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
@@ -24,8 +24,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 
 // provided models; the rest is included in <boost/hana/integral_constant.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/comparable.hpp>
 
 #include <cstddef>
 #include <type_traits>

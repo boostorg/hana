@@ -10,14 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_SEARCHABLE_SET_HPP
 #define BOOST_HANA_SANDBOX_SEARCHABLE_SET_HPP
 
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monad.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/monad.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 
 
 namespace boost { namespace hana {

@@ -9,10 +9,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 
@@ -81,14 +81,6 @@ namespace boost { namespace hana {
         static constexpr auto apply()
         { return lazy_nil; }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Sequence
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct models_impl<Sequence, LazyList>
-        : decltype(true_)
-    { };
 }}
 
 
@@ -97,6 +89,4 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
     BOOST_HANA_CONSTEXPR_CHECK(front(repeat_(1)) == 1);
     BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_t<10>) == 1);
-
-    BOOST_HANA_CONSTEXPR_CHECK(take(repeat_('x'), size_t<2>) == make<Tuple>('x', 'x'));
 }

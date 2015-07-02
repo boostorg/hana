@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/integral_domain.hpp>
+#include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/integral_domain.hpp>

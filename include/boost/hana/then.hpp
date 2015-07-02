@@ -1,0 +1,58 @@
+/*!
+@file
+Defines `boost::hana::then`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_THEN_HPP
+#define BOOST_HANA_THEN_HPP
+
+#include <boost/hana/fwd/then.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+
+#include <boost/hana/chain.hpp>
+#include <boost/hana/functional/always.hpp>
+
+
+namespace boost { namespace hana {
+    //! @cond
+    template <typename Before, typename Xs>
+    constexpr decltype(auto) then_t::operator()(Before&& before, Xs&& xs) const {
+        using M = typename datatype<Before>::type;
+        using Then = BOOST_HANA_DISPATCH_IF(then_impl<M>,
+            _models<Monad, M>::value &&
+            _models<Monad, typename datatype<Xs>::type>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Monad, M>::value,
+        "hana::then(before, xs) requires 'before' to be a Monad");
+
+        static_assert(_models<Monad, typename datatype<Xs>::type>::value,
+        "hana::then(before, xs) requires 'xs' to be a Monad");
+    #endif
+
+        return Then::apply(static_cast<Before&&>(before),
+                           static_cast<Xs&&>(xs));
+    }
+    //! @endcond
+
+    template <typename M, bool condition>
+    struct then_impl<M, when<condition>> : default_ {
+        template <typename Xs, typename Ys>
+        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
+            return hana::chain(static_cast<Xs&&>(xs),
+                               hana::always(static_cast<Ys&&>(ys)));
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_THEN_HPP

@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/range.hpp>
 
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/constant.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -22,11 +22,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/iterable.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 
 #include <cstddef>
 #include <type_traits>

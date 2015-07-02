@@ -9,13 +9,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/constant.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/constant.hpp>
 #include <boost/hana/detail/wrong.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/infix.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/orderable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/orderable.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <iostream>

@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_OPERATORS_ITERABLE_HPP
 #define BOOST_HANA_DETAIL_OPERATORS_ITERABLE_HPP
 
-#include <boost/hana/fwd/iterable.hpp>
+#include <boost/hana/fwd/concept/iterable.hpp>
 
 
 namespace boost { namespace hana { namespace detail {

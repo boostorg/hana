@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace detail {
 }}}
 
 
-#include <boost/hana/constant.hpp>
+#include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>

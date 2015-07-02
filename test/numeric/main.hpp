@@ -474,10 +474,10 @@ int main() {
             ));
         }
 
-        // until
+        // while_
         {
-            auto has_length = [](auto n) {
-                return [n](auto v) { return v.size() == n; };
+            auto less_than = [](auto n) {
+                return [n](auto v) { return v.size() < n; };
             };
             auto f = [](auto v) {
                 v.push_back(v.size());
@@ -485,34 +485,34 @@ int main() {
             };
 
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(0u), std::vector<int>{}, f),
+                while_(less_than(0u), std::vector<int>{}, f),
                 std::vector<int>{}
             ));
 
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(1u), std::vector<int>{}, f),
+                while_(less_than(1u), std::vector<int>{}, f),
                 std::vector<int>{0}
             ));
 
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(2u), std::vector<int>{}, f),
+                while_(less_than(2u), std::vector<int>{}, f),
                 std::vector<int>{0, 1}
             ));
 
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(3u), std::vector<int>{}, f),
+                while_(less_than(3u), std::vector<int>{}, f),
                 std::vector<int>{0, 1, 2}
             ));
 
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(4u), std::vector<int>{}, f),
+                while_(less_than(4u), std::vector<int>{}, f),
                 std::vector<int>{0, 1, 2, 3}
             ));
 
             // Make sure it can be called with an lvalue state:
             std::vector<int> v{};
             BOOST_HANA_RUNTIME_CHECK(equal(
-                until(has_length(4u), v, f),
+                while_(less_than(4u), v, f),
                 std::vector<int>{0, 1, 2, 3}
             ));
         }

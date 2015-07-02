@@ -97,26 +97,8 @@ static_assert(drop_front_exactly(xs) == make_tuple('1', 2.0), "");
 
 }{
 
-//! [drop_until]
-using namespace boost::hana::literals;
-
-BOOST_HANA_CONSTEXPR_LAMBDA auto positive = [](auto x) {
-    return x > int_<0>;
-};
-
-BOOST_HANA_CONSTANT_CHECK(
-    drop_until(range(int_<-3>, int_<6>), positive) == range(int_<1>, int_<6>)
-);
-
-BOOST_HANA_CONSTANT_CHECK(
-    drop_until(make_tuple(1_c, -2_c, 4_c, 5_c), positive) == make_tuple(1_c, -2_c, 4_c, 5_c)
-);
-//! [drop_until]
-
-}{
-
 //! [drop_while]
-using namespace literals;
+using namespace boost::hana::literals;
 BOOST_HANA_CONSTEXPR_LAMBDA auto negative = [](auto x) {
     return x < int_<0>;
 };

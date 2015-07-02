@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_EQUIVALENCE_CLASS_HPP
 #define BOOST_HANA_TEST_TEST_EQUIVALENCE_CLASS_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 
 
 namespace boost { namespace hana {

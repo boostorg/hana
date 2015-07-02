@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_OPERATORS_COMPARABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/fwd/comparable.hpp>
+#include <boost/hana/fwd/concept/comparable.hpp>
 
 #include <type_traits>
 

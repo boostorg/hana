@@ -1,0 +1,55 @@
+/*!
+@file
+Defines `boost::hana::suffix`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_SUFFIX_HPP
+#define BOOST_HANA_SUFFIX_HPP
+
+#include <boost/hana/fwd/suffix.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+
+#include <boost/hana/chain.hpp>
+#include <boost/hana/functional/partial.hpp>
+#include <boost/hana/lift.hpp>
+#include <boost/hana/prepend.hpp>
+
+
+namespace boost { namespace hana {
+    //! @cond
+    template <typename Xs, typename Sfx>
+    constexpr auto suffix_t::operator()(Xs&& xs, Sfx&& sfx) const {
+        using M = typename datatype<Xs>::type;
+        using Suffix = BOOST_HANA_DISPATCH_IF(suffix_impl<M>,
+            _models<MonadPlus, M>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<MonadPlus, M>::value,
+        "hana::suffix(xs, sfx) requires 'xs' to be a MonadPlus");
+    #endif
+
+        return Suffix::apply(static_cast<Xs&&>(xs), static_cast<Sfx&&>(sfx));
+    }
+    //! @endcond
+
+    template <typename M, bool condition>
+    struct suffix_impl<M, when<condition>> : default_ {
+        template <typename Xs, typename Z>
+        static constexpr auto apply(Xs&& xs, Z&& z) {
+            return hana::chain(static_cast<Xs&&>(xs),
+                hana::partial(hana::prepend, hana::lift<M>(static_cast<Z&&>(z))));
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_SUFFIX_HPP

@@ -1,0 +1,54 @@
+/*!
+@file
+Defines `boost::hana::insert`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_INSERT_HPP
+#define BOOST_HANA_INSERT_HPP
+
+#include <boost/hana/fwd/insert.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+
+#include <boost/hana/append.hpp>
+#include <boost/hana/concat.hpp>
+#include <boost/hana/drop_front.hpp>
+#include <boost/hana/take.hpp>
+
+
+namespace boost { namespace hana {
+    //! @cond
+    template <typename Set, typename ...Args>
+    constexpr decltype(auto) insert_t::operator()(Set&& set, Args&& ...args) const {
+        return insert_impl<typename datatype<Set>::type>::apply(
+            static_cast<Set&&>(set),
+            static_cast<Args&&>(args)...
+        );
+    }
+    //! @endcond
+
+    template <typename T, bool condition>
+    struct insert_impl<T, when<condition>> : default_ {
+        template <typename ...Args>
+        static constexpr auto apply(Args&& ...) = delete;
+    };
+
+    template <typename S>
+    struct insert_impl<S, when<_models<Sequence, S>::value>> {
+        template <typename Xs, typename N, typename Element>
+        static constexpr auto apply(Xs&& xs, N const& n, Element&& e) {
+            return hana::concat(hana::append(hana::take(xs, n),
+                                             static_cast<Element&&>(e)),
+                                hana::drop_front(xs, n));
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_INSERT_HPP

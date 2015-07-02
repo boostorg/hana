@@ -9,10 +9,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/range.hpp>
@@ -386,40 +386,6 @@ namespace boost { namespace hana { namespace test {
             BOOST_HANA_CHECK(equal(
                 drop_front_exactly(list(x<0>{}, x<2>{})),
                 drop_front_exactly(list(x<0>{}, x<2>{}), size_t<1>)
-            ));
-
-            //////////////////////////////////////////////////////////////////
-            // drop_until
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(), id),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(true_), id),
-                list(true_)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(false_), id),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(true_, true_), id),
-                list(true_, true_)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(true_, false_), id),
-                list(true_, false_)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(false_, true_), id),
-                list(true_)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                drop_until(list(false_, false_), id),
-                list()
             ));
 
             //////////////////////////////////////////////////////////////////

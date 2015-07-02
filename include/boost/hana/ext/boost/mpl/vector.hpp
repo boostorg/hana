@@ -10,13 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/type.hpp>
 
 #include <boost/mpl/empty.hpp>

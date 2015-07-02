@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Group`.
+Defines `boost::hana::group`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -12,121 +12,151 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/group.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/constant.hpp>
-#include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/at.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
-#include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/detail/wrong.hpp>
-#include <boost/hana/monoid.hpp>
+#include <boost/hana/detail/by.hpp> // required by fwd decl
+#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/value.hpp>
 
-#include <type_traits>
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // minus
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename U, typename>
-    struct minus_impl : minus_impl<T, U, when<true>> { };
+    struct Sequence; //! @todo Include the fwd decl instead
 
-    template <typename T, typename U, bool condition>
-    struct minus_impl<T, U, when<condition>> : default_ {
-        static void apply(...);
-    };
+    //! @cond
+    template <typename Xs>
+    constexpr auto group_t::operator()(Xs&& xs) const {
+        using S = typename datatype<Xs>::type;
+        using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
+            _models<Sequence, S>::value
+        );
 
-    template <typename T, bool condition>
-    struct minus_impl<T, T, when<condition>> : default_ {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::plus(static_cast<X&&>(x),
-                              hana::negate(static_cast<Y&&>(y)));
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Sequence, S>::value,
+        "hana::group(xs) requires 'xs' to be a Sequence");
+    #endif
+
+        return Group::apply(static_cast<Xs&&>(xs));
+    }
+
+    template <typename Xs, typename Predicate>
+    constexpr auto group_t::operator()(Xs&& xs, Predicate&& pred) const {
+        using S = typename datatype<Xs>::type;
+        using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
+            _models<Sequence, S>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Sequence, S>::value,
+        "hana::group(xs, predicate) requires 'xs' to be a Sequence");
+    #endif
+
+        return Group::apply(static_cast<Xs&&>(xs),
+                            static_cast<Predicate&&>(pred));
+    }
+    //! @endcond
+
+    namespace detail {
+        template <typename Xs, std::size_t ...i>
+        constexpr auto get_subsequence_(Xs&& xs, std::index_sequence<i...>) {
+            using S = typename hana::datatype<Xs>::type;
+            return hana::make<S>(hana::at_c<i>(static_cast<Xs&&>(xs))...);
         }
-    };
 
-    // Cross-type overload
-    template <typename T, typename U>
-    struct minus_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Group, T, U>{}()
-    >> {
-        using C = typename common<T, U>::type;
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::minus(hana::to<C>(static_cast<X&&>(x)),
-                               hana::to<C>(static_cast<Y&&>(y)));
-        }
-    };
+        template <std::size_t offset, typename Indices>
+        struct offset_by;
 
-    //////////////////////////////////////////////////////////////////////////
-    // negate
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T, typename>
-    struct negate_impl : negate_impl<T, when<true>> { };
+        template <std::size_t offset, std::size_t ...i>
+        struct offset_by<offset, std::index_sequence<i...>> {
+            using type = std::index_sequence<(offset + i)...>;
+        };
 
-    template <typename T, bool condition>
-    struct negate_impl<T, when<condition>> : default_ {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x)
-        { return hana::minus(zero<T>(), static_cast<X&&>(x)); }
-    };
+        template <bool ...b>
+        struct group_indices {
+            static constexpr bool bs[] = {b...};
+            static constexpr std::size_t n_groups =
+                    detail::constexpr_::count(bs, bs + sizeof(bs), false) + 1;
 
-    //////////////////////////////////////////////////////////////////////////
-    // models
-    //////////////////////////////////////////////////////////////////////////
-    template <typename G>
-    struct models_impl<Group, G>
-        : _integral_constant<bool,
-            !is_default<negate_impl<G>>{}() ||
-            !is_default<minus_impl<G, G>>{}()
-        >
-    { };
+            static constexpr auto compute_info() {
+                detail::constexpr_::array<std::size_t, n_groups> sizes{}, offsets{};
+                for (std::size_t g = 0, i = 0, offset = 0; g < n_groups; ++g) {
+                    offsets[g] = offset;
 
-    //////////////////////////////////////////////////////////////////////////
-    // Model for arithmetic data types
-    //////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    struct minus_impl<T, T, when<std::is_arithmetic<T>{}() &&
-                                 !std::is_same<bool, T>{}()>> {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y)
-        { return static_cast<X&&>(x) - static_cast<Y&&>(y); }
-    };
+                    sizes[g] = 1;
+                    while (i < sizeof...(b) && bs[i++])
+                        ++sizes[g];
 
-    template <typename T>
-    struct negate_impl<T, when<std::is_arithmetic<T>{}() &&
-                               !std::is_same<bool, T>{}()>> {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x)
-        { return -static_cast<X&&>(x); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Model for Constants over a Group
-    //////////////////////////////////////////////////////////////////////////
-    template <typename C>
-    struct minus_impl<C, C, when<
-        _models<Constant, C>{}() &&
-        _models<Group, typename C::value_type>{}()
-    >> {
-        using T = typename C::value_type;
-        template <typename X, typename Y>
-        struct _constant {
-            static constexpr decltype(auto) get() {
-                return boost::hana::minus(boost::hana::value<X>(),
-                                          boost::hana::value<Y>());
+                    offset += sizes[g];
+                }
+                return std::make_pair(offsets, sizes);
             }
 
-            using hana = _constant;
-            using datatype = detail::CanonicalConstant<T>;
+            static constexpr auto info = compute_info();
+            static constexpr auto offsets = info.first;
+            static constexpr auto group_sizes = info.second;
+
+            template <typename S, typename Xs, std::size_t ...i>
+            static constexpr auto finish(Xs&& xs, std::index_sequence<i...>) {
+                return hana::make<S>(
+                    detail::get_subsequence_(
+                        static_cast<Xs&&>(xs),
+                        typename offset_by<
+                            offsets[i], std::make_index_sequence<group_sizes[i]>
+                        >::type{}
+                    )...
+                );
+            }
         };
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X const&, Y const&)
-        { return hana::to<C>(_constant<X, Y>{}); }
+    } // end namespace detail
+
+    template <typename S, bool condition>
+    struct group_impl<S, when<condition>> : default_ {
+        template <typename Xs, typename Pred, std::size_t ...i>
+        static constexpr auto
+        group_helper(Xs&& xs, Pred&& pred, std::index_sequence<0, i...>) {
+            using info = detail::group_indices<
+                hana::value<decltype(
+                    pred(hana::at_c<i - 1>(static_cast<Xs&&>(xs)),
+                         hana::at_c<i>(static_cast<Xs&&>(xs)))
+                )>()...
+            >;
+            return info::template finish<S>(static_cast<Xs&&>(xs),
+                std::make_index_sequence<info::n_groups>{}
+            );
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto
+        group_helper(Xs&& xs, Pred&&, std::index_sequence<0>) {
+            return hana::make<S>(static_cast<Xs&&>(xs));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto
+        group_helper(Xs&&, Pred&&, std::index_sequence<>) {
+            return hana::make<S>();
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            return group_helper(static_cast<Xs&&>(xs),
+                                static_cast<Pred&&>(pred),
+                                std::make_index_sequence<len>{});
+        }
+
+        template <typename Xs>
+        static constexpr auto apply(Xs&& xs)
+        { return group_impl::apply(static_cast<Xs&&>(xs), hana::equal); }
     };
 }} // end namespace boost::hana
 

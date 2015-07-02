@@ -8,12 +8,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_COMONAD_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comonad.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comonad.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/functor.hpp>
 
 #include <laws/base.hpp>
 

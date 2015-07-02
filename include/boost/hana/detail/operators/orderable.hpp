@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_OPERATORS_ORDERABLE_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/fwd/orderable.hpp>
+#include <boost/hana/fwd/concept/orderable.hpp>
 
 #include <type_traits>
 

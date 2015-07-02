@@ -13,10 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/monad_plus.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
 
-#include <boost/fusion/algorithm/transformation/join.hpp>
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/vector.hpp>
@@ -73,17 +72,6 @@ namespace boost { namespace hana {
                 ::boost::fusion::push_front(
                     static_cast<Xs&&>(xs),
                     static_cast<X&&>(x)));
-        }
-    };
-
-    template <>
-    struct concat_impl<ext::boost::fusion::Vector> {
-        template <typename Xs, typename Ys>
-        static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
-            return ::boost::fusion::as_vector(
-                ::boost::fusion::join(
-                    static_cast<Xs&&>(xs),
-                    static_cast<Ys&&>(ys)));
         }
     };
 

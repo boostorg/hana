@@ -10,14 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/logical.hpp>
+#include <boost/hana/concept/logical.hpp>
 
 // models
-#include <boost/hana/applicative.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/monad.hpp>
-#include <boost/hana/orderable.hpp>
+#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/orderable.hpp>
 
 
 namespace boost { namespace hana {

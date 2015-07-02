@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/iterable.hpp>
+#include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/tuple.hpp>
 using namespace boost::hana;
 

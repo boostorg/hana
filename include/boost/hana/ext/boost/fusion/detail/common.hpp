@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/sequence.hpp>
 
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
 #include <boost/fusion/sequence/intrinsic/front.hpp>

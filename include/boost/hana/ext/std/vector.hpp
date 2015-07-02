@@ -11,10 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_VECTOR_HPP
 #define BOOST_HANA_EXT_STD_VECTOR_HPP
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/orderable.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/orderable.hpp>
 
 #include <algorithm>
 #include <iterator>

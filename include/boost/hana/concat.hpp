@@ -1,0 +1,103 @@
+/*!
+@file
+Defines `boost::hana::concat`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_CONCAT_HPP
+#define BOOST_HANA_CONCAT_HPP
+
+#include <boost/hana/fwd/concat.hpp>
+
+#include <boost/hana/at.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/fold_right.hpp>
+#include <boost/hana/functional/flip.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/prepend.hpp>
+#include <boost/hana/value.hpp>
+
+#include <cstddef>
+#include <type_traits>
+#include <utility>
+
+
+namespace boost { namespace hana {
+    struct MonadPlus; //! @todo include the forward declaration instead
+    struct Foldable;
+    struct Sequence;
+
+    //! @cond
+    template <typename Xs, typename Ys>
+    constexpr auto concat_t::operator()(Xs&& xs, Ys&& ys) const {
+        using M = typename datatype<Xs>::type;
+        using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
+            _models<MonadPlus, M>::value &&
+            std::is_same<typename datatype<Ys>::type, M>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(std::is_same<typename datatype<Ys>::type, M>::value,
+        "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same data type");
+
+        static_assert(_models<MonadPlus, M>::value,
+        "hana::concat(xs, ys) requires 'xs' and 'ys' to be MonadPlus");
+    #endif
+
+        return Concat::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
+    }
+    //! @endcond
+
+    template <typename M, bool condition>
+    struct concat_impl<M, when<condition>> : default_ {
+        template <typename ...Args>
+        static constexpr auto apply(Args&& ...) = delete;
+    };
+
+    template <typename S>
+    struct concat_impl<S, when<
+        _models<Sequence, S>::value && _models<Foldable, S>::value
+    >> {
+        template <typename Xs, typename Ys, std::size_t ...xi, std::size_t ...yi>
+        static constexpr auto
+        concat_helper(Xs&& xs, Ys&& ys, std::index_sequence<xi...>,
+                                        std::index_sequence<yi...>)
+        {
+            return hana::make<S>(
+                hana::at_c<xi>(static_cast<Xs&&>(xs))...,
+                hana::at_c<yi>(static_cast<Ys&&>(ys))...
+            );
+        }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            constexpr std::size_t xi = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t yi = hana::value<decltype(hana::length(ys))>();
+            return concat_helper(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
+                                 std::make_index_sequence<xi>{},
+                                 std::make_index_sequence<yi>{});
+        }
+    };
+
+    template <typename S>
+    struct concat_impl<S, when<
+        _models<Sequence, S>::value && !_models<Foldable, S>::value
+    >> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            return hana::fold_right(static_cast<Xs&&>(xs),
+                                    static_cast<Ys&&>(ys),
+                                    hana::flip(hana::prepend));
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_CONCAT_HPP

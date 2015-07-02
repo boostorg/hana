@@ -12,28 +12,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/map.hpp>
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/erase_key_fwd.hpp>
-#include <boost/hana/detail/insert_fwd.hpp>
-#include <boost/hana/detail/keys_fwd.hpp>
+#include <boost/hana/keys.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/functor.hpp>
-#include <boost/hana/fwd/constant.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/erase_key.hpp>
+#include <boost/hana/insert.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/product.hpp>
-#include <boost/hana/searchable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/product.hpp>
+#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <type_traits>

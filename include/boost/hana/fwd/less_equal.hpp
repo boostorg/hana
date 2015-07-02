@@ -1,0 +1,53 @@
+/*!
+@file
+Forward declares `boost::hana::less_equal`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_FWD_LESS_EQUAL_HPP
+#define BOOST_HANA_FWD_LESS_EQUAL_HPP
+
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/nested_than_fwd.hpp>
+
+
+namespace boost { namespace hana {
+    //! Returns a `Logical` representing whether `x` is less than or
+    //! equal to `y`.
+    //! @relates Orderable
+    //!
+    //!
+    //! Signature
+    //! ---------
+    //! Given a Logical `Bool` and two Orderables `A` and `B` with a common
+    //! embedding, the signature is
+    //! @f$ \mathrm{less\_equal} : A \times B \to Bool @f$.
+    //!
+    //! @param x, y
+    //! Two objects to compare.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @snippet example/orderable.cpp less_equal
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto less_equal = [](auto&& x, auto&& y) {
+        return tag-dispatched;
+    };
+#else
+    template <typename T, typename U, typename = void>
+    struct less_equal_impl : less_equal_impl<T, U, when<true>> { };
+
+    struct less_equal_t : detail::nested_than<less_equal_t> {
+        template <typename X, typename Y>
+        constexpr auto operator()(X&& x, Y&& y) const;
+    };
+
+    constexpr less_equal_t less_equal{};
+#endif
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_FWD_LESS_EQUAL_HPP

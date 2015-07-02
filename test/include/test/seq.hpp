@@ -7,14 +7,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_SEQ_HPP
 #define BOOST_HANA_TEST_TEST_SEQ_HPP
 
-#include <boost/hana/applicative.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <type_traits>

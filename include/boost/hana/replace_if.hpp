@@ -1,0 +1,57 @@
+/*!
+@file
+Defines `boost::hana::replace_if`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_REPLACE_IF_HPP
+#define BOOST_HANA_REPLACE_IF_HPP
+
+#include <boost/hana/fwd/replace_if.hpp>
+
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
+
+#include <boost/hana/adjust_if.hpp>
+#include <boost/hana/functional/always.hpp>
+
+
+namespace boost { namespace hana {
+    //! @cond
+    template <typename Xs, typename Pred, typename Value>
+    constexpr auto replace_if_t::operator()(Xs&& xs, Pred&& pred, Value&& value) const {
+        using S = typename datatype<Xs>::type;
+        using ReplaceIf = BOOST_HANA_DISPATCH_IF(replace_if_impl<S>,
+            _models<Functor, S>::value
+        );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(_models<Functor, S>::value,
+        "hana::replace_if(xs, pred, value) requires 'xs' to be a Functor");
+    #endif
+
+        return ReplaceIf::apply(static_cast<Xs&&>(xs),
+                                static_cast<Pred&&>(pred),
+                                static_cast<Value&&>(value));
+    }
+    //! @endcond
+
+    template <typename Fun, bool condition>
+    struct replace_if_impl<Fun, when<condition>> : default_ {
+        template <typename Xs, typename Pred, typename Value>
+        static constexpr auto apply(Xs&& xs, Pred&& pred, Value&& v) {
+            return hana::adjust_if(static_cast<Xs&&>(xs),
+                static_cast<Pred&&>(pred),
+                hana::always(static_cast<Value&&>(v))
+            );
+        }
+    };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_REPLACE_IF_HPP

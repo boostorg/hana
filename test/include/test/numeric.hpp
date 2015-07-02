@@ -11,14 +11,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 
 // instances
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/enumerable.hpp>
-#include <boost/hana/group.hpp>
-#include <boost/hana/integral_domain.hpp>
-#include <boost/hana/logical.hpp>
-#include <boost/hana/monoid.hpp>
-#include <boost/hana/orderable.hpp>
-#include <boost/hana/ring.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/enumerable.hpp>
+#include <boost/hana/concept/group.hpp>
+#include <boost/hana/concept/integral_domain.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/monoid.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/ring.hpp>
 
 
 namespace boost { namespace hana {

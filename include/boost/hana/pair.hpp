@@ -12,13 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/pair.hpp>
 
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/orderable.hpp>
-#include <boost/hana/product.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/product.hpp>
 
 #include <type_traits>
 #include <utility>

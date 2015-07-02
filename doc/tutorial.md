@@ -527,7 +527,6 @@ function                                                                        
 <code>[drop_front_exactly](@ref boost::hana::Iterable::drop_front_exactly)(sequence[, n])</code> | Drop the first `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
 <code>[drop_back](@ref boost::hana::Sequence::drop_back)(sequence[, n])</code>                   | Drop the last `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant. When not provided, `n` defaults to 1.
 <code>[drop_back_exactly](@ref boost::hana::Sequence::drop_back_exactly)(sequence[, n])</code>   | Drop the last `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
-<code>[drop_until](@ref boost::hana::Iterable::drop_until)(sequence, predicate)</code>           | Drops elements from a sequence until a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[drop_while](@ref boost::hana::Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref boost::hana::Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
 <code>[filter](@ref boost::hana::MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
@@ -2691,19 +2690,31 @@ the headers provided by the library is also available in the panel on the left
 
 - `boost/hana/`\n
   This is the main directory of the library containing the definitions of
-  concepts and data types. A file of the form `boost/hana/[XXX].hpp` contains
-  the definition for the concept or data type named `XXX`.
+  everything provided by the library. Each algorithm and container provided
+  by the library has its own header. For a container or an algorithm named
+  `XXX`, the corresponding header is `boost/hana/XXX.hpp`.
+
+  - `boost/hana/concept/`\n
+    This subdirectory contains the definition of Hana's concepts. These
+    headers provide a way to check whether an object is a model of the
+    corresponding concept, and they sometimes also provide default
+    implementations for other related concepts, which are documented
+    on a per-concept basis. They also include all the algorithms associated
+    to that concept.
 
   - `boost/hana/core/`\n
     This subdirectory contains the machinery for tag dispatching and other
     related utilities like `make` and `to`.
 
   - `boost/hana/fwd/`\n
-    This subdirectory contains the forward declaration of every concept
-    and data type in the library. Basically, `boost/hana/fwd/[XXX].hpp`
-    is the forward declaration for the concept or data type named `XXX`.
-    Also note that forward declarations for headers in `boost/hana/ext/`
-    and `boost/hana/functional/` are not provided.
+    This subdirectory contains the forward declaration of everything in the
+    library. It is essentially a mirror of the `boost/hana/` directory, except
+    all the headers contain only forward declarations and documentation. For
+    example, to include the `Tuple` container, one can use the
+    `boost/hana/tuple.hpp` header. However, if one only wants the
+    forward declaration of that container, the `boost/hana/fwd/tuple.hpp`
+    header can be used instead. Note that forward declarations for headers
+    in `boost/hana/ext/` and `boost/hana/functional/` are not provided.
 
   - `boost/hana/ext/`\n
     This directory contains adapters for external libraries. Only the strict

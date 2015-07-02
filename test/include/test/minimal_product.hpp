@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/product.hpp>
+#include <boost/hana/concept/product.hpp>
 
 
 namespace boost { namespace hana {

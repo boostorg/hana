@@ -422,15 +422,16 @@ int main() {
 #elif BOOST_HANA_TEST_PART == 5
     // fold_left
     {
-        test::_injection<0> f{};
-        test::ct_eq<999> state{};
+        // Use pointers to workaround a Clang ICE
+        test::_injection<0> f{}; auto* fp = &f;
+        test::ct_eq<999> state{}; auto* statep = &state;
 
         auto check = [=](auto ...pairs) {
             BOOST_HANA_CONSTANT_CHECK(
                 fold_left(make<Map>(pairs...), state, f)
                     ^in^
                 transform(permutations(list(pairs...)), [=](auto xs) {
-                    return fold_left(xs, state, f);
+                    return fold_left(xs, *statep, *fp);
                 })
             );
         };
@@ -449,15 +450,15 @@ int main() {
 #elif BOOST_HANA_TEST_PART == 6
     // fold_right
     {
-        test::_injection<0> f{};
-        test::ct_eq<999> state{};
+        test::_injection<0> f{}; auto* fp = &f;
+        test::ct_eq<999> state{}; auto* statep = &state;
 
         auto check = [=](auto ...pairs) {
             BOOST_HANA_CONSTANT_CHECK(
                 fold_right(make<Map>(pairs...), state, f)
                     ^in^
                 transform(permutations(list(pairs...)), [=](auto xs) {
-                    return fold_right(xs, state, f);
+                    return fold_right(xs, *statep, *fp);
                 })
             );
         };

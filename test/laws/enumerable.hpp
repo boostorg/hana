@@ -8,10 +8,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_ENUMERABLE_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/enumerable.hpp>
+#include <boost/hana/concept/enumerable.hpp>
 
 #include <laws/base.hpp>
 

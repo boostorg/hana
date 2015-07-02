@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Product`.
+Forward declares `boost::hana::product`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -10,164 +10,67 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_PRODUCT_HPP
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
-#include <boost/hana/config.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
-#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/fwd/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-concepts
-    //! Represents types that are generic containers of two elements.
+    //! Compute the product of the numbers of a structure.
+    //! @relates Foldable
     //!
-    //! This concept basically represents types that are like `std::pair`.
-    //! The motivation for making such a precise concept is similar to the
-    //! motivation behind the `Sequence` concept; there are many different
-    //! implementations of `std::pair` in different libraries, and we would
-    //! like to manipulate any of them generically.
-    //!
-    //! Since a `Product` is basically a pair, it is unsurprising that the
-    //! operations provided by this concept are getting the first and second
-    //! element of a pair, creating a pair from two elements and other
-    //! simmilar operations.
-    //!
-    //! @note
-    //! Mathematically, this concept represents types that are category
-    //! theoretical [products][1]. This is also where the name comes
-    //! from.
-    //!
-    //!
-    //! Minimal complete definition
-    //! ---------------------------
-    //! `first`, `second` and `make`
-    //!
-    //! `first` and `second` must obviously return the first and the second
-    //! element of the pair, respectively. `make` must take two arguments `x`
-    //! and `y` representing the first and the second element of the pair,
-    //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
-    //! @snippet example/product.cpp make
-    //!
-    //!
-    //! Laws
-    //! ----
-    //! For a model `P` of `Product`, the following laws must be satisfied.
-    //! For every data types `X` and `Y`, there must be a unique function
-    //! @f$ \mathtt{make} : X \times Y \to P @f$ such that for every `x`, `y`,
+    //! More generally, `product` will take any foldable structure containing
+    //! objects forming a Ring and reduce them using the Ring's binary
+    //! operation. The initial state for folding is the identity of the
+    //! Ring's operation. It is sometimes necessary to specify the Ring to
+    //! use; this is possible by using `product<R>`. If no Ring is specified,
+    //! the structure will use the Ring formed by the elements it contains
+    //! (if it knows it), or `IntegralConstant<int>` otherwise.
+    //! Hence,
     //! @code
-    //!     x == first(make<P>(x, y))
-    //!     y == second(make<P>(x, y))
+    //!     product<R>(xs) = fold_left(xs, one<R or inferred Ring>(), mult)
+    //!     product<> = product<IntegralConstant<int>>
     //! @endcode
     //!
+    //! For numbers, this will just compute the product of the numbers in the
+    //! `xs` structure.
+    //!
     //! @note
-    //! This law is less general than the universal property typically used to
-    //! define category theoretical products, but it is vastly enough for what
-    //! we need.
+    //! The elements of the structure are not actually required to be in the
+    //! same Ring, but it must be possible to perform `mult` on any two
+    //! adjacent elements of the structure, which requires each pair of
+    //! adjacent element to at least have a common Ring embedding. The
+    //! meaning of "adjacent" as used here is that two elements of the
+    //! structure `x` and `y` are adjacent if and only if they are adjacent
+    //! in the linearization of that structure, as documented by the Iterable
+    //! concept.
     //!
-    //! This is basically saying that a `Product` must be the most general
-    //! object able to contain a pair of objects `(P1, P2)`, but nothing
-    //! more. Since the categorical product is defined by a universal
-    //! property, all the models of this concept are isomorphic, and
-    //! the isomorphism is unique. In other words, there is one and only
-    //! one way to convert one `Product` to another.
-    //!
-    //! Another property that must be satisfied by `first` and `second` is
-    //! that of @ref move-independence, which ensures that we can optimally
-    //! decompose a `Product` into its two members without making redundant
-    //! copies.
-    //!
-    //!
-    //! Refined concepts
-    //! ----------------
-    //! 1. `Comparable` (free model)\n
-    //! Two products `x` and `y` are equal iff they are equal element-wise,
-    //! by comparing the first element before the second element.
-    //! @snippet example/product.cpp comparable
-    //!
-    //! 2. `Orderable` (free model)\n
-    //! Products are ordered using a lexicographical ordering as-if they
-    //! were 2-element tuples.
-    //!
-    //! 3. `Foldable` (free model)\n
-    //! Folding a `Product` `p` is equivalent to folding a list containing
-    //! `first(p)` and `second(p)`, in that order.
-    //!
-    //!
-    //! Concrete models
-    //! ---------------
-    //! `Pair`
-    //!
-    //!
-    //! [1]: http://en.wikipedia.org/wiki/Product_(category_theory)
-    struct Product { };
-
-    //! Returns the first element of a pair.
-    //! @relates Product
+    //! @note
+    //! See the documentation for `sum` to understand why the Ring must
+    //! sometimes be specified explicitly.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/product.cpp first
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto first = [](auto&& product) -> decltype(auto) {
-        return tag-dispatched;
-    };
-#else
-    template <typename P, typename = void>
-    struct first_impl;
-
-    struct _first {
-        template <typename Pair>
-        constexpr decltype(auto) operator()(Pair&& pair) const {
-            using P = typename datatype<Pair>::type;
-            using First = BOOST_HANA_DISPATCH_IF(first_impl<P>,
-                _models<Product, P>{}()
-            );
-
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Product, P>{},
-            "hana::first(pair) requires 'pair' to be a Product");
-        #endif
-
-            return First::apply(static_cast<Pair&&>(pair));
-        }
-    };
-
-    constexpr _first first{};
-#endif
-
-    //! Returns the second element of a pair.
-    //! @relates Product
+    //! @snippet example/foldable.cpp product
     //!
     //!
-    //! Example
-    //! -------
-    //! @snippet example/product.cpp second
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.product.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto second = [](auto&& product) -> decltype(auto) {
-        return tag-dispatched;
-    };
+    constexpr auto product = see documentation;
 #else
-    template <typename P, typename = void>
-    struct second_impl;
+    template <typename T, typename = void>
+    struct product_impl : product_impl<T, when<true>> { };
 
-    struct _second {
-        template <typename Pair>
-        constexpr decltype(auto) operator()(Pair&& pair) const {
-            using P = typename datatype<Pair>::type;
-            using Second = BOOST_HANA_DISPATCH_IF(second_impl<P>,
-                _models<Product, P>{}()
-            );
+    template <typename R>
+    struct product_t;
 
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Product, P>{},
-            "hana::second(pair) requires 'pair' to be a Product");
-        #endif
-
-            return Second::apply(static_cast<Pair&&>(pair));
-        }
-    };
-
-    constexpr _second second{};
+    template <typename R = IntegralConstant<int>>
+    constexpr product_t<R> product{};
 #endif
 }} // end namespace boost::hana
 

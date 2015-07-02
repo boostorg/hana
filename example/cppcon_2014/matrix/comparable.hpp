@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include "matrix.hpp"
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
-#include <boost/hana/foldable.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/sequence.hpp>
 
 
 namespace boost { namespace hana {

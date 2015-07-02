@@ -8,11 +8,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_FOLDABLE_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/demux.hpp>

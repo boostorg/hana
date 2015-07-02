@@ -149,37 +149,6 @@ BOOST_HANA_CONSTANT_CHECK(final_state == 10_c);
 BOOST_HANA_RUNTIME_CHECK(ints == std::vector<int>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
 //! [while.heterogeneous]
 
-}{
-
-//! [until.homogeneous]
-std::vector<int> ints;
-int final_state = until(_ == 10, 0, [&](int i) {
-    ints.push_back(i);
-    return i + 1;
-});
-
-// The state is known only at runtime
-BOOST_HANA_RUNTIME_CHECK(final_state == 10);
-
-BOOST_HANA_RUNTIME_CHECK(ints == std::vector<int>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-//! [until.homogeneous]
-
-}{
-
-//! [until.heterogeneous]
-using namespace literals;
-std::vector<int> ints;
-auto final_state = until(_ == 10_c, 0_c, [&](auto i) {
-    ints.push_back(i);
-    return i + 1_c;
-});
-
-// The state is known at compile-time
-BOOST_HANA_CONSTANT_CHECK(final_state == 10_c);
-
-BOOST_HANA_RUNTIME_CHECK(ints == std::vector<int>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
-//! [until.heterogeneous]
-
 }
 
 }

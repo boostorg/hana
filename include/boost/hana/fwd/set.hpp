@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SET_HPP
 #define BOOST_HANA_FWD_SET_HPP
 
-#include <boost/hana/detail/erase_key_fwd.hpp>
+#include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 

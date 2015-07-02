@@ -11,27 +11,27 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/comparable.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/detail/variadic/take.hpp>
-#include <boost/hana/enumerable.hpp>
-#include <boost/hana/foldable.hpp>
+#include <boost/hana/concept/enumerable.hpp>
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/on.hpp>
-#include <boost/hana/functor.hpp>
+#include <boost/hana/concept/functor.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/iterable.hpp>
-#include <boost/hana/monad.hpp>
-#include <boost/hana/monad_plus.hpp>
-#include <boost/hana/orderable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/orderable.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/searchable.hpp>
-#include <boost/hana/sequence.hpp>
+#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/concept/sequence.hpp>
 
 #include <utility>
 
@@ -82,19 +82,6 @@ namespace boost { namespace hana {
             );
         }
     };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_if_impl<sandbox::LambdaTuple>
-        : Iterable::find_if_impl<sandbox::LambdaTuple>
-    { };
-
-    template <>
-    struct any_of_impl<sandbox::LambdaTuple>
-        : Iterable::any_of_impl<sandbox::LambdaTuple>
-    { };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable
