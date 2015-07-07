@@ -17,7 +17,7 @@ var NAVTREEINDEX0 =
 "boost_2fusion_2vector_8hpp.html":[3,0,0,2,0,0,4],
 "boost_2mpl_2vector_8hpp.html":[3,0,0,2,0,1,1],
 "boost_8hpp.html":[3,0,0,2,2],
-"bug.html":[5],
+"bug.html":[6],
 "by_8hpp.html":[3,0,0,1,3],
 "by__fwd_8hpp.html":[3,0,0,1,4],
 "by__fwd_8hpp.html#ga1f92c27de855a682eebde5f7d0138d18":[3,0,0,1,4,0],

@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623":[1,1,3,8],
 "structboost_1_1hana_1_1Orderable.html":[1,0,14],
 "structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3":[1,0,14,3],
 "structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc":[1,0,14,2],
@@ -111,7 +112,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1is__embedded.html":[1,2,4],
 "structboost_1_1hana_1_1when.html":[1,2,8],
 "take_8hpp.html":[3,0,0,1,2,8],
-"todo.html":[4],
+"todo.html":[5],
 "tuple_8hpp.html":[3,0,0,39],
 "type_8hpp.html":[3,0,0,40],
 "type__foldl1_8hpp.html":[3,0,0,1,19],

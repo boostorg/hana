@@ -76,6 +76,7 @@ var NAVTREEINDEX1 =
 "lockstep_8hpp.html#gafca60c09e1f7a32a2b52baaf6515c279":[3,0,0,3,12,0],
 "logical_8hpp.html":[3,0,0,23],
 "map_8hpp.html":[3,0,0,24],
+"md__home_travis_build_ldionne_hana_doc_tutorial.html":[4],
 "modules.html":[1],
 "monad_8hpp.html":[3,0,0,25],
 "monad__plus_8hpp.html":[3,0,0,26],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0":[1,1,3,2],
 "structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd":[1,1,3,10],
 "structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4":[1,1,3,3],
-"structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b":[1,1,3,1],
-"structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623":[1,1,3,8]
+"structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b":[1,1,3,1]
 };

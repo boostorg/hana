@@ -91,6 +91,7 @@ var NAVTREE =
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Alphabetical index", "functions.html", null ],
     [ "Headers", "files.html", "files" ],
+    [ "tutorial", "md__home_travis_build_ldionne_hana_doc_tutorial.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Bug List", "bug.html", null ]
   ] ]
@@ -100,7 +101,7 @@ var NAVTREEINDEX =
 [
 "adl_8hpp.html",
 "index.html#tutorial-assert",
-"structboost_1_1hana_1_1Orderable.html"
+"structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

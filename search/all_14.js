@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['tutorial',['tutorial',['../md__home_travis_build_ldionne_hana_doc_tutorial.html',1,'']]],
   ['tail',['tail',['../structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96',1,'boost::hana::Iterable']]],
   ['take',['take',['../structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1',1,'boost::hana::Sequence']]],
   ['take_2ehpp',['take.hpp',['../take_8hpp.html',1,'']]],
