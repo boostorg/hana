@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "Hana", "index.html", [
+  [ "Boost.Hana", "index.html", [
     [ "User Manual", "index.html", [
       [ "Description", "index.html#tutorial-description", null ],
       [ "Prerequisites and installation", "index.html#tutorial-installation", null ],
