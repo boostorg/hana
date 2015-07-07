@@ -12,7 +12,8 @@ ENABLED_SECTIONS        =
 
 # Resources
 OUTPUT_DIRECTORY        =
-INPUT                   = @Boost.Hana_SOURCE_DIR@/include
+INPUT                   = @Boost.Hana_SOURCE_DIR@/include \
+                          @Boost.Hana_SOURCE_DIR@/doc/tutorial.md
 FILE_PATTERNS           = *.hpp
 RECURSIVE               = YES
 EXCLUDE                 =
