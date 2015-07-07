@@ -102,23 +102,23 @@ this standard library instead of the system one. To do so, you must specify
    headers in the `/path/to/std-includes` directory. This way, when you
    `#include <type_traits>`, for example, it will look for that header in
    the `/path/to/std-includes` directory.
-```shell
-export CXXFLAGS="-I /path/to/std-includes"
-```
+   ```shell
+   export CXXFLAGS="-I /path/to/std-includes"
+   ```
 
 2. A custom library search path and library to link against. This instructs
    the linker to search for libraries in the `/path/to/std-library` directory,
    and to link against the `std-library` library, which should be present in
    the directory you provided.
-```shell
-export LDFLAGS="-L /path/to/std-library -l std-library"
-```
+   ```shell
+   export LDFLAGS="-L /path/to/std-library -l std-library"
+   ```
 
 3. A custom search path for loading shared libraries at runtime. This will be
    looked up by your program at startup time.
-```shell
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/std-library"
-```
+   ```shell
+  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/std-library"
+  ```
 
 For example, using a custom libc++ on my Linux box looks like:
 ```shell
