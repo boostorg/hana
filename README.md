@@ -1,11 +1,10 @@
-# Hana <a href="http://semver.org" target="_blank">![Version][badge.version]</a> <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg" target="_blank">![Try it online][badge.wandbox]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a>
+# Boost.Hana <a href="http://semver.org" target="_blank">![Version][badge.version]</a> <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg" target="_blank">![Try it online][badge.wandbox]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
-This is not an official Boost library. However, the formal review is scheduled
-for June 10 - June 24, after which an official status (accepted/refused) will
-be available. The library is fairly stable, but no effort will be made to stay
-backward compatible.
+__This is now an official Boost library!__ The results of the formal review
+can be seen [here](http://thread.gmane.org/gmane.comp.lib.boost.devel/261740).
+However, the library is still not included in a Boost release, and API stability is still not assured.
 
 
 ## Overview
