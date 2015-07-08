@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/value.hpp>
 
@@ -90,32 +90,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // MonadPlus
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct prepend_impl<ext::boost::Tuple> {
-        template <typename Xs, typename X>
-        static constexpr auto apply(Xs xs, X x) {
-            return ::boost::tuples::cons<X, Xs>{
-                std::move(x),
-                std::move(xs)
-            };
-        }
-    };
-
-    template <>
-    struct empty_impl<ext::boost::Tuple> {
-        static constexpr auto apply()
-        { return ::boost::tuples::null_type{}; }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct models_impl<Sequence, ext::boost::Tuple>
-        : decltype(true_)
+        : decltype(hana::true_)
     { };
+
+    template <>
+    struct make_impl<ext::boost::Tuple> {
+        template <typename ...Xs>
+        static constexpr auto apply(Xs&& ...xs) {
+            return ::boost::make_tuple(static_cast<Xs&&>(xs)...);
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_TUPLE_HPP

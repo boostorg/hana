@@ -10,14 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_LIST_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_LIST_HPP
 
+#include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
-#include <boost/fusion/algorithm/transformation/push_front.hpp>
+#include <boost/fusion/container/generation/make_list.hpp>
 #include <boost/fusion/container/list.hpp>
 #include <boost/fusion/container/list/convert.hpp>
 #include <boost/fusion/support/tag_of.hpp>
@@ -68,23 +68,14 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // MonadPlus
+    // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct prepend_impl<ext::boost::fusion::List> {
-        template <typename Xs, typename X>
-        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
-            return ::boost::fusion::as_list(
-                ::boost::fusion::push_front(
-                    static_cast<Xs&&>(xs),
-                    static_cast<X&&>(x)));
+    struct make_impl<ext::boost::fusion::List> {
+        template <typename ...Xs>
+        static constexpr auto apply(Xs&& ...xs) {
+            return ::boost::fusion::make_list(static_cast<Xs&&>(xs)...);
         }
-    };
-
-    template <>
-    struct empty_impl<ext::boost::fusion::List> {
-        static auto apply()
-        { return ::boost::fusion::list<>{}; }
     };
 }} // end namespace boost::hana
 

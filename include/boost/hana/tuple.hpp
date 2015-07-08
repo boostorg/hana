@@ -180,63 +180,6 @@ namespace boost { namespace hana {
     /**/
 
     //////////////////////////////////////////////////////////////////////////
-    // Comparable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct equal_impl<Tuple, Tuple> {
-        // tuple_t
-        template <typename ...T>
-        static constexpr auto apply(_tuple_t<T...> const&,
-                                    _tuple_t<T...> const&)
-        { return true_; }
-
-        // tuple_c
-        template <typename V, V ...v, typename U, U ...u, typename =
-            std::enable_if_t<sizeof...(v) == sizeof...(u)>>
-        static constexpr auto apply(_tuple_c<V, v...> const&,
-                                    _tuple_c<U, u...> const&)
-        {
-            constexpr bool comparisons[] = {true, (v == u)...};
-            return bool_<hana::all(comparisons)>;
-        }
-
-        // tuple
-        template <std::size_t i, std::size_t n>
-        struct equal_tuple {
-            template <typename Xs, typename Ys>
-            constexpr decltype(auto) operator()(Xs const* xs, Ys const* ys) const {
-                return hana::eval_if(
-                    hana::equal(detail::get<i>(*xs), detail::get<i>(*ys)),
-                    hana::lazy(equal_tuple<i+1, n>{})(xs, ys),
-                    hana::lazy(false_)
-                );
-            }
-        };
-
-        template <std::size_t n>
-        struct equal_tuple<n, n> {
-            constexpr auto operator()(...) const
-            { return true_; }
-        };
-
-        template <typename Xs, typename Ys, typename = std::enable_if_t<
-            (Xs::size == Ys::size && Xs::size != 0) &&
-            !(Xs::is_tuple_t && Ys::is_tuple_t) &&
-            !(Xs::is_tuple_c && Ys::is_tuple_c)
-        >>
-        static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys)
-        { return equal_tuple<0, Xs::size>{}(&xs, &ys); }
-
-
-        // empty tuples and tuples with different sizes
-        template <typename Xs, typename Ys, typename = std::enable_if_t<
-            Xs::size != Ys::size || Xs::size == 0
-        >>
-        static constexpr decltype(auto) apply(Xs const& /*xs*/, Ys const& /*ys*/, ...)
-        { return bool_<Xs::size == 0 && Ys::size == 0>; }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>

@@ -106,58 +106,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Applicative
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct lift_impl<test::Seq> {
-        template <typename X>
-        static constexpr auto apply(X x)
-        { return test::seq(x); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // MonadPlus
-    //
-    // Define either one to select which MCD is used:
-    //  BOOST_HANA_TEST_SEQUENCE_MONAD_PLUS_MCD
-    //  BOOST_HANA_TEST_SEQUENCE_PREPEND_MCD
-    //
-    // If neither is defined, the MCD used is unspecified.
-    //////////////////////////////////////////////////////////////////////////
-#ifdef BOOST_HANA_TEST_SEQUENCE_PREPEND_MCD
-    template <>
-    struct prepend_impl<test::Seq> {
-        template <typename Xs, typename X>
-        static constexpr auto apply(Xs xs, X x) {
-            return hana::unpack(hana::prepend(xs.storage, x), test::seq);
-        }
-    };
-#else
-    template <>
-    struct concat_impl<test::Seq> {
-        template <typename Xs, typename Ys>
-        static constexpr auto apply(Xs xs, Ys ys) {
-            return hana::unpack(
-                hana::concat(xs.storage, ys.storage),
-                test::seq
-            );
-        }
-    };
-#endif
-
-    template <>
-    struct empty_impl<test::Seq> {
-        static BOOST_HANA_CONSTEXPR_LAMBDA auto apply()
-        { return test::seq(); }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct models_impl<Sequence, test::Seq>
         : std::true_type
     { };
+
+    template <>
+    struct make_impl<test::Seq> {
+        template <typename ...Xs>
+        static constexpr auto apply(Xs&& ...xs) {
+            return test::seq(static_cast<Xs&&>(xs)...);
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TEST_TEST_SEQ_HPP

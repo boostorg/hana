@@ -60,57 +60,37 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `Iterable`, `empty`, `prepend`, `models`
+    //! `Iterable`, `make`, and `models`
     //!
     //! The `Sequence` concept does not provide basic methods that could be
-    //! used as a minimal complete definition; instead, it borrows methods from
-    //! other concepts and add laws to them. For this reason, it is necessary
-    //! to specialize the `models` metafunction in the `boost::hana` namespace
-    //! in addition to defining the above methods. Explicitly specializing the
-    //! `models` metafunction can be seen like a seal saying "this data type
-    //! satisfies the additional laws of a `Sequence`", since those can't be
-    //! checked by Hana automatically.
+    //! used as a minimal complete definition; instead, it borrows methods
+    //! from other concepts and add laws to them. For this reason, it is
+    //! necessary to specialize the `models_impl` metafunction in Hana's
+    //! namespace to tell Hana that a type is indeed a `Sequence`. Explicitly
+    //! specializing the `models_impl` metafunction can be seen like a seal
+    //! saying "this data type satisfies the additional laws of a `Sequence`",
+    //! since those can't be checked by Hana automatically.
     //!
     //!
     //! Laws
     //! ----
-    //! For any Sequence data type `S`, the `to<Tuple>` conversion from `S`
-    //! (as a Foldable, see below) must be a natural isomorphism. Furthermore,
-    //! it must be the unique (up to implementation) bijective natural
-    //! MonadPlus and Iterable isomorphism between `Tuple` and `S`.
-    //! Intuitively, this means that all Sequences act exactly like `Tuple`s,
-    //! but their implementation may differ. This is ensured by stating that
-    //! conversion to and from a `Tuple` preserves both information quantity
-    //! and organization.
+    //! The laws for being a `Sequence` are simple, and their goal is to
+    //! restrict the semantics that can be associated to the functions
+    //! provided by other concepts. First, a `Sequence` must be an `Iterable`.
+    //! Secondly, for a `Sequence` tag `S`, `make<S>(x1, ..., xn)` must be an
+    //! object of data type `S` and whose linearization is `[x1, ..., xn]`.
+    //! This basically ensures that objects of data type `S` are equivalent
+    //! to their linearization, and that they can be created from such a
+    //! linearization (with `make`).
     //!
-    //! First, information quantity is preserved by requiring `to<Tuple>`
-    //! to be bijective. Hence, the `S` and `Tuple` data types contain the
-    //! same amount of objects, and information quantity is preserved. Note
-    //! that we explicitly require the isomorphism to be bijective because
-    //! [not all isomorphisms are bijective][1].
-    //!
-    //! Then, information organization is preserved by requiring `to<Tuple>`
-    //! to be the unique natural MonadPlus isomorphism between `Tuple` and
-    //! `S`. Since everything in Sequence is implemented in terms of MonadPlus,
-    //! Iterable and other refined concepts, this effectively gives us laws
-    //! that must be respected for the methods of Sequence. The result is that
-    //! for any Sequence `xs` of data type `S` and any n-ary function `f`
-    //! (suppose without loss of generality that `f` takes its Sequence
-    //! argument in the first parameter),
-    //! @code
-    //!     to<Tuple>(f(xs, -, ..., -)) == f(to<Tuple>(xs), -, ..., -)
-    //! @endcode
-    //!
-    //! If `f` does not return a Sequence, then simply change the above for
-    //! @code
-    //!     f(xs, -, ..., -) == f(to<Tuple>(xs), -, ..., -)
-    //! @endcode
-    //!
-    //! Here, the notation `f(xs, -, ..., -)` denotes the partial application
-    //! of the function `f` to its `xs` argument, with all the other arguments
-    //! left unbound. Hence, these comparisons are comparisons between
-    //! functions, and they express the fact that any Sequence is just
-    //! as good as a `Tuple` for an external observer (the function `f`).
+    //! Furthermore, we require `Sequence`s to be finite. Since `Sequence`s
+    //! are required to be `Iterable`s and finite `Iterable`s must be
+    //! `Foldable`, it follows that `Sequence`s must also be `Foldable`.
+    //! While it would be possible in theory to handle infinite sequences,
+    //! doing so complicates the implementation of many algorithms. For
+    //! simplicity, the current version of the library only handles finite
+    //! sequences. However, note that this does not affect in any way the
+    //! potential for having infinite `Searchable`s and `Iterable`s.
     //!
     //!
     //! Refined concepts
@@ -172,14 +152,10 @@ namespace boost { namespace hana {
     //! __Example__:
     //! @snippet example/sequence.cpp Monad.types
     //!
-    //! 6. `MonadPlus` (minimal complete definition modified)\n
+    //! 6. `MonadPlus` (definition provided automatically)\n
     //! `Sequence`s are models of the `MonadPlus` concept by considering the
     //! empty sequence as the unit of `concat`, and sequence concatenation
-    //! as the combining operation. Note that the minimal complete definition
-    //! of `Sequence` includes the `prepend` and the `empty` methods, which
-    //! are part of the `MonadPlus` concept. When those methods are provided,
-    //! the `concat` method is automatically defined and hence it is not
-    //! strictly required to implement it in order to model `MonadPlus`.
+    //! as `concat`.
     //! @snippet example/sequence.cpp MonadPlus
     //!
     //! 7. `Foldable` (definition provided automatically)\n
@@ -190,7 +166,9 @@ namespace boost { namespace hana {
     //!
     //! 8. `Iterable`\n
     //! The model of `Iterable` for `Sequence`s corresponds to iteration over
-    //! each element of the sequence, in order.
+    //! each element of the sequence, in order. This model is not provided
+    //! automatically, and it is in fact part of the minimal complete
+    //! definition for the `Sequence` concept.
     //! @snippet example/sequence.cpp Iterable
     //!
     //! 9. `Searchable` (definition provided automatically)\n
@@ -203,20 +181,6 @@ namespace boost { namespace hana {
     //! Concrete models
     //! ---------------
     //! `Tuple`
-    //!
-    //!
-    //! Free `make` method
-    //! ------------------
-    //! For any `Sequence` `S`, the `make<S>` method is defined
-    //! automatically as
-    //! @code
-    //!     make<S>(x1, ..., xn) == fold_right(make<Tuple>(x1, ..., xn), empty<S>(), flip(prepend))
-    //!                          == [x1, ..., xn] // of data type S
-    //! @endcode
-    //!
-    //! While this definition is correct, it can be compile-time inefficient.
-    //! Hence, implementers of new sequences are encouraged to override this
-    //! default definition.
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
