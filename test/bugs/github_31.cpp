@@ -5,10 +5,11 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/optional.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/optional.hpp>
+#include <boost/hana/value.hpp>
 using namespace boost::hana;
 
 
@@ -18,8 +19,11 @@ struct counter { };
 
 namespace boost { namespace hana {
     template <int i>
-    struct front_impl<counter<i>> {
-        static constexpr auto apply(counter<i>) { return int_<i>; }
+    struct at_impl<counter<i>> {
+        template <typename N>
+        static constexpr auto apply(counter<i>, N const&) {
+            return int_<i + hana::value<N>()>;
+        }
     };
 
     template <int i>

@@ -393,13 +393,6 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<Tuple> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs)
-        { return detail::get<0>(static_cast<Xs&&>(xs)); }
-    };
-
-    template <>
     struct at_impl<Tuple> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {

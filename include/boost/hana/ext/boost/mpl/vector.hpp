@@ -11,22 +11,24 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/type.hpp>
+#include <boost/hana/value.hpp>
 
+#include <boost/mpl/at.hpp>
 #include <boost/mpl/empty.hpp>
-#include <boost/mpl/front.hpp>
+#include <boost/mpl/equal.hpp>
 #include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/push_front.hpp>
-#include <boost/mpl/equal.hpp>
 #include <boost/mpl/sequence_tag.hpp>
 #include <boost/mpl/vector.hpp>
 
+#include <cstddef>
 #include <type_traits>
 
 
@@ -117,10 +119,13 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<ext::boost::mpl::Vector> {
-        template <typename xs>
-        static constexpr auto apply(xs)
-        { return type<typename ::boost::mpl::front<xs>::type>; }
+    struct at_impl<ext::boost::mpl::Vector> {
+        template <typename Ts, typename N>
+        static constexpr auto apply(Ts const&, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            using T = typename ::boost::mpl::at_c<Ts, n>::type;
+            return hana::type<T>;
+        }
     };
 
     template <>

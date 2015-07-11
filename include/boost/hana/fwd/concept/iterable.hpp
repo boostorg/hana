@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `front`, `tail` and `is_empty`
+    //! `at`, `tail` and `is_empty`
     //!
     //!
     //! @anchor Iterable-lin
@@ -54,7 +54,10 @@ namespace boost { namespace hana {
     //!     linearization(xs) = [x1, x2, x3, ...]
     //! @endcode
     //!
-    //! This notion is precisely the extension of the [linearization]
+    //! The `n`th element of the linearization of an `Iterable` can be
+    //! accessed with the `at` function. In other words, `at(xs, n) == xn`.
+    //!
+    //! Note that this notion is precisely the extension of the [linearization]
     //! (@ref Foldable-lin) notion of `Foldable`s to the infinite case.
     //! This notion is useful for expressing various properties of
     //! `Iterable`s, and is used for that throughout the documentation.
@@ -88,25 +91,22 @@ namespace boost { namespace hana {
     //! ----
     //! First, we require the equality of two `Iterable`s to be related to the
     //! equality of the elements in their linearizations. More specifically,
-    //! if `xs` and `ys` are two non-empty `Iterable`s of data type `It`, then
+    //! if `xs` and `ys` are two `Iterable`s of data type `It`, then
     //! @code
-    //!     xs == ys  =>  front(xs) == front(ys) && tail(xs) == tail(ys)
-    //! @endcode
-    //! which conveys that two `Iterable`s must have the same linearization
-    //! in order to have the chance of being considered equal. We then handle
-    //! the empty case by saying that if any of `xs` and `ys` is empty, then
-    //! @code
-    //!     xs == ys  =>  is_empty(xs) && is_empty(ys)
+    //!     xs == ys  =>  at(xs, i) == at(ys, i)   for all i
     //! @endcode
     //!
-    //! Second, since every `Iterable` is also a `Searchable`, we require the
-    //! models of `Iterable` and `Searchable` to be consistent. This is made
-    //! precise by the following laws. For any `Iterable` `xs` with a
+    //! This conveys that two `Iterable`s must have the same linearization
+    //! in order to be considered equal.
+    //!
+    //! Secondly, since every `Iterable` is also a `Searchable`, we require
+    //! the models of `Iterable` and `Searchable` to be consistent. This is
+    //! made precise by the following laws. For any `Iterable` `xs` with a
     //! linearization of `[x1, x2, x3, ...]`,
     //! @code
     //!     any_of(xs, equal.to(z))  <=>  xi == z
     //! @endcode
-    //! for some finite index `i`. Furthermore,
+    //! for some _finite_ index `i`. Furthermore,
     //! @code
     //!     find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)
     //! @endcode
@@ -123,29 +123,10 @@ namespace boost { namespace hana {
     //! @snippet example/iterable.cpp Searchable
     //!
     //! 2. `Foldable` for finite `Iterable`s (free model)\n
-    //! Every finite `Iterable` gives rise to a model of  `Foldable`. Hence,
-    //! finite `Iterable`s must satisfy additional laws to make sure that
-    //! external iteration in `Iterable` and internal iteration in `Foldable`
-    //! are consistent. These laws are expressed in terms of the `Foldable`'s
-    //! [linearization](@ref Foldable-lin). For any finite `Iterable` `xs`
-    //! with linearization `[x1, ..., xn]`, the following must be satisfied:
-    //! @code
-    //!     at(xs, i) == xi
-    //!     is_empty(xs) <=> n == 0
-    //! @endcode
-    //! An equivalent way of writing this is
-    //! @code
-    //!     front(xs) == front(linearization(xs))
-    //!               == x1
+    //! Every finite `Iterable` gives rise to a model of  `Foldable`. For these
+    //! models to be consistent, we require the models of both `Foldable` and
+    //! `Iterable` to have the same linearization.
     //!
-    //!     linearization(tail(xs)) == tail(linearization(xs))
-    //!                             == [x2, ..., xn]
-    //!
-    //!     is_empty(xs)  <=>  is_empty(linearization(xs))
-    //!                   <=>  n == 0
-    //! @endcode
-    //! This says that linearizing an `Iterable` and then iterating through
-    //! it should be equivalent to just iterating through it.
     //! @note
     //! As explained above, `Iterable`s are also `Searchable`s and their
     //! models have to be consistent. By the laws presented here, it also
@@ -154,27 +135,10 @@ namespace boost { namespace hana {
     //!
     //! For convenience, a default minimal complete definition for `Foldable`
     //! is provided for finite `Iterable`s via the `Iterable::fold_left_impl`
-    //! class. The model of `Foldable` thus created is simple:\n
-    //! Let `xs` be an `Iterable` and let `xi` denote the `i`-th element in
-    //! its linearization. In other words, `xs` can be linearized as
-    //! `[x1, ..., xN]`, where `N` is the (finite) number of elements in
-    //! `xs`. Then, right-folding `xs` with a binary operation `*`
-    //! (in infix notation for legibility) is equivalent to
-    //! @code
-    //!     x1 * (x2 * ( ... * (xN-1 * xN)))
-    //! @endcode
-    //! Similarly, left-folding `xs` is equivalent to
-    //! @code
-    //!     (((x1 * x2) * x3) * ...) * xN
-    //! @endcode
-    //! In both cases, notice the side of the parentheses. Left-folding
-    //! applies `*` in a left-associative manner, whereas right-folding
-    //! applies it in a right-associative manner. For associative operations,
-    //! i.e. operations such that for all `a`, `b` and `c`,
-    //! @code
-    //!     (a * b) * c = a * (b * c)
-    //! @endcode
-    //! this makes no difference.
+    //! class. This default implementation uses the fact that `at(xs, i)`
+    //! denotes the `i`th element of `xs`'s linearization, and that the
+    //! linearization of a finite `Iterable` must be the same as its
+    //! linearization as a `Foldable`.
     //!
     //!
     //! Concrete models

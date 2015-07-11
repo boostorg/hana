@@ -10,17 +10,18 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_TUPLE_HPP
 #define BOOST_HANA_EXT_STD_TUPLE_HPP
 
-#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/functor.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/monad.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <tuple>

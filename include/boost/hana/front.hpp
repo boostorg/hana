@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/front.hpp>
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
@@ -41,8 +42,9 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct front_impl<It, when<condition>> : default_ {
-        template <typename ...Args>
-        static constexpr auto apply(Args&& ...) = delete;
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::at_c<0>(static_cast<Xs&&>(xs)); }
     };
 }} // end namespace boost::hana
 

@@ -3177,20 +3177,21 @@ requirements of the concept are respected to the user. Secondly, when checking
 whether a type is a model of some concept, we basically check that some key
 functions are implemented. In particular, we check that the functions from the
 minimal complete definition of that concept are implemented. For example,
-`models<Iterable, T>` checks whether the `is_empty`, `front` and `tail`
+`models<Iterable, T>` checks whether the `is_empty`, `at` and `tail`
 functions implemented for `T`. However, the only way to detect this without
 tag-dispatching is to basically check whether the following expressions are
 valid in a SFINAE-able context:
 
-    implementation_of_front(std::declval<T>())
+    implementation_of_at(std::declval<T>(), std::declval<N>())
     implementation_of_is_empty(std::declval<T>())
     implementation_of_tail(std::declval<T>())
 
 Unfortunately, this requires actually doing the algorithms, which might either
-trigger a hard compile-time error or hurt compile-time performance. With tag
-dispatching, we can just ask whether `front_impl<T>`, `is_empty_impl<T>` and
-`tail_impl<T>` are defined, and nothing happens until we actually call
-`front_impl<T>::%apply(...)`.
+trigger a hard compile-time error or hurt compile-time performance. Also, this
+requires picking an arbitrary index `N` to call `at` with: what if the `Iterable`
+is empty? With tag dispatching, we can just ask whether `at_impl<T>`,
+`is_empty_impl<T>` and `tail_impl<T>` are defined, and nothing happens
+until we actually call their nested `::%apply` function.
 
 
 @subsection tutorial-rationales-zip_longest Why not provide `zip_longest`?

@@ -11,14 +11,16 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_TUPLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/value.hpp>
 
 #include <boost/tuple/tuple.hpp>
 
+#include <cstddef>
 #include <utility>
 
 
@@ -44,18 +46,12 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<ext::boost::Tuple> {
-        template <typename Xs>
-        static constexpr auto const& apply(Xs const& tuple)
-        { return tuple.get_head(); }
-
-        template <typename Xs>
-        static constexpr auto& apply(Xs& tuple)
-        { return tuple.get_head(); }
-
-        template <typename Xs>
-        static constexpr auto apply(Xs&& tuple)
-        { return std::move(tuple.get_head()); }
+    struct at_impl<ext::boost::Tuple> {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            return static_cast<Xs&&>(xs).template get<n>();
+        }
     };
 
     template <>

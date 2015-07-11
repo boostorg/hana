@@ -11,10 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/value.hpp>
 
 #include <array>
 #include <cstddef>
@@ -71,18 +72,12 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<ext::std::Array> {
-        template <typename T, std::size_t n>
-        static constexpr T const& apply(std::array<T, n> const& xs)
-        { return xs[0]; }
-
-        template <typename T, std::size_t n>
-        static constexpr T& apply(std::array<T, n>& xs)
-        { return xs[0]; }
-
-        template <typename T, std::size_t n>
-        static constexpr T apply(std::array<T, n>&& xs)
-        { return std::move(xs[0]); }
+    struct at_impl<ext::std::Array> {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            return static_cast<Xs&&>(xs)[n];
+        }
     };
 
     template <>

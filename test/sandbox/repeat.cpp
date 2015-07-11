@@ -6,14 +6,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/functional.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/lazy.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/functional.hpp>
+#include <boost/hana/functional/iterate.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/lazy.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/value.hpp>
 using namespace boost::hana;
 
 
@@ -43,10 +45,12 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<LazyList> {
-        template <typename Xs>
-        static constexpr auto apply(Xs lcons)
-        { return lcons.x; }
+    struct at_impl<LazyList> {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& lcons, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            return hana::iterate<n>(hana::tail, lcons).x;
+        }
     };
 
     template <>

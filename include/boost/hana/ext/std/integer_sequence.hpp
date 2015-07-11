@@ -12,12 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/value.hpp>
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -85,10 +87,13 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<ext::std::IntegerSequence> {
-        template <typename T, T x, T ...xs>
-        static constexpr auto apply(std::integer_sequence<T, x, xs...>)
-        { return std::integral_constant<T, x>{}; }
+    struct at_impl<ext::std::IntegerSequence> {
+        template <typename T, T ...v, typename N>
+        static constexpr auto apply(std::integer_sequence<T, v...> const&, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            constexpr T values[] = {v...};
+            return std::integral_constant<T, values[n]>{};
+        }
     };
 
     template <>

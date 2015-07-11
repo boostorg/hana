@@ -23,6 +23,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    struct Foldable; //! @todo include the forward declaration instead
+
     //! @cond
     template <typename Xs>
     constexpr auto length_t::operator()(Xs&& xs) const {

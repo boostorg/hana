@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     template <typename It>
     struct models_impl<Iterable, It>
         : _integral_constant<bool,
-            !is_default<front_impl<It>>{}() &&
+            !is_default<at_impl<It>>{}() &&
             !is_default<tail_impl<It>>{}() &&
             !is_default<is_empty_impl<It>>{}()
         >

@@ -11,14 +11,16 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_FUSION_DETAIL_COMMON_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/value.hpp>
 
+#include <boost/fusion/sequence/intrinsic/at.hpp>
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
-#include <boost/fusion/sequence/intrinsic/front.hpp>
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -35,18 +37,12 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct front_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
-        template <typename Xs>
-        static constexpr auto const& apply(Xs const& xs)
-        { return ::boost::fusion::front(xs); }
-
-        template <typename Xs>
-        static constexpr auto& apply(Xs& xs)
-        { return ::boost::fusion::front(xs); }
-
-        template <typename Xs>
-        static constexpr auto apply(Xs&& xs)
-        { return std::move(::boost::fusion::front(xs)); }
+    struct at_impl<S, when<detail::is_fusion_sequence<S>::value>> {
+        template <typename Xs, typename N>
+        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            return ::boost::fusion::at_c<n>(static_cast<Xs&&>(xs));
+        }
     };
 
     template <typename S>
@@ -62,8 +58,8 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>{}()>>
-        : decltype(true_)
+    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>::value>>
+        : decltype(hana::true_)
     { };
 }} // end namespace boost::hana
 
