@@ -17,6 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/detail/first_unsatisfied_index.hpp>
+#include <boost/hana/drop_front_exactly.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/is_empty.hpp>
@@ -73,6 +75,19 @@ namespace boost { namespace hana {
                 hana::lazy(iterable_detail::drop_while_helper{})(
                                             xs, static_cast<Pred&&>(pred))
             );
+        }
+    };
+
+    template <typename S>
+    struct drop_while_impl<S, when<_models<Foldable, S>::value>> {
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&&) {
+            using FirstUnsatisfied = decltype(
+                hana::unpack(static_cast<Xs&&>(xs),
+                             detail::first_unsatisfied_index<Pred&&>{})
+            );
+            return hana::drop_front_exactly(static_cast<Xs&&>(xs),
+                                            FirstUnsatisfied{});
         }
     };
 }} // end namespace boost::hana

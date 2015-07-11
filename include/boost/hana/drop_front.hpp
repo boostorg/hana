@@ -12,8 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/drop_front.hpp>
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
@@ -21,8 +23,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/is_empty.hpp>
+#include <boost/hana/length.hpp>
 #include <boost/hana/tail.hpp>
 #include <boost/hana/value.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -67,8 +73,26 @@ namespace boost { namespace hana {
     struct drop_front_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr std::size_t n = hana::value<N>();
             return hana::iterate<n>(detail::maybe_tail{}, static_cast<Xs&&>(xs));
+        }
+    };
+
+    template <typename It>
+    struct drop_front_impl<It, when<_models<Sequence, It>::value>> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+            return hana::make<It>(
+                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
+            );
+        }
+
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
         }
     };
 }} // end namespace boost::hana
