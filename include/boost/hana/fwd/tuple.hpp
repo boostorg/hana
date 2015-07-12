@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TUPLE_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/create.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/integral_constant.hpp>
+#include <boost/hana/fwd/type.hpp>
 
 
 namespace boost { namespace hana {
@@ -100,13 +101,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type tuple_t{};
 #else
     template <typename ...T>
-    struct _tuple_t;
-
-    template <typename ...T>
-    constexpr typename _tuple_t<T...>::_ make_tuple_t() { return {}; }
-
-    template <typename ...T>
-    constexpr typename _tuple_t<T...>::_ tuple_t{};
+    constexpr auto tuple_t = hana::make<Tuple>(hana::type<T>...);
 #endif
 
     //! Create a `Tuple` specialized for holding `IntegralConstant`s.
@@ -126,10 +121,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type tuple_c{};
 #else
     template <typename T, T ...v>
-    struct _tuple_c;
-
-    template <typename T, T ...v>
-    constexpr _tuple_c<T, v...> tuple_c{};
+    constexpr auto tuple_c = hana::make<Tuple>(hana::_integral_constant<T, v>{}...);
 #endif
 }} // end namespace boost::hana
 

@@ -139,42 +139,6 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // holding references in a tuple
-    //////////////////////////////////////////////////////////////////////////
-    {
-        ref_only a{};
-        ref_only b{};
-        _tuple<ref_only&, ref_only&> refs{a, b};
-        ref_only& a_ref = at_c<0>(refs); (void)a_ref;
-        ref_only& b_ref = at_c<1>(refs); (void)b_ref;
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    // using brace initialization to initialize members of the tuple
-    //////////////////////////////////////////////////////////////////////////
-    {
-        {
-            struct Member { test::Tracked _track{1}; };
-            struct Element { Member member; };
-
-            _tuple<Element, Element> xs{
-                {Member()}, {Member()}
-            };
-            (void)xs;
-        }
-
-        // make sure we can initialize move-only elements with the brace
-        // initializer syntax
-        {
-            struct Element { test::move_only member; };
-            _tuple<Element, Element> xs{
-                {test::move_only()}, {test::move_only()}
-            };
-            (void)xs;
-        }
-    }
-
-    //////////////////////////////////////////////////////////////////////////
     // In some cases where a type has a constructor that is way too
     // general, copying a unary tuple holding an object of that type
     // could trigger the instantiation of that constructor. If that
@@ -194,15 +158,6 @@ int main() {
         struct Car { std::string name; };
         auto stuff = make<Tuple>(Car{}, Car{}, Car{});
         any_of(stuff, [](auto&&) { return true; });
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    // `decltype(tuple_t<T...>)` should inherit `_tuple_t<T...>`
-    //////////////////////////////////////////////////////////////////////////
-    {
-        static_assert(std::is_base_of<
-            _tuple_t<x0, x1>, decltype(tuple_t<x0, x1>)
-        >{}, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
