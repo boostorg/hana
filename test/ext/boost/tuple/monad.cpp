@@ -28,7 +28,6 @@ int main() {
           ::boost::make_tuple()
         , ::boost::make_tuple(eq<0>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{})
-        , ::boost::make_tuple(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
     );
 
     auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
