@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `Iterable`, `make`, and `models`
+    //! `Iterable`, `Foldable`, `make`, and `models`
     //!
     //! The `Sequence` concept does not provide basic methods that could be
     //! used as a minimal complete definition; instead, it borrows methods
@@ -76,16 +76,13 @@ namespace boost { namespace hana {
     //! ----
     //! The laws for being a `Sequence` are simple, and their goal is to
     //! restrict the semantics that can be associated to the functions
-    //! provided by other concepts. First, a `Sequence` must be an `Iterable`.
-    //! Secondly, for a `Sequence` tag `S`, `make<S>(x1, ..., xn)` must be an
-    //! object of data type `S` and whose linearization is `[x1, ..., xn]`.
-    //! This basically ensures that objects of data type `S` are equivalent
-    //! to their linearization, and that they can be created from such a
-    //! linearization (with `make`).
+    //! provided by other concepts. First, a `Sequence` must be a finite
+    //! `Iterable` (thus a `Foldable` too). Secondly, for a `Sequence` tag
+    //! `S`, `make<S>(x1, ..., xn)` must be an object of tag `S` and whose
+    //! linearization is `[x1, ..., xn]`. This basically ensures that objects
+    //! of tag `S` are equivalent to their linearization, and that they can
+    //! be created from such a linearization (with `make`).
     //!
-    //! Furthermore, we require `Sequence`s to be finite. Since `Sequence`s
-    //! are required to be `Iterable`s and finite `Iterable`s must be
-    //! `Foldable`, it follows that `Sequence`s must also be `Foldable`.
     //! While it would be possible in theory to handle infinite sequences,
     //! doing so complicates the implementation of many algorithms. For
     //! simplicity, the current version of the library only handles finite
@@ -158,10 +155,9 @@ namespace boost { namespace hana {
     //! as `concat`.
     //! @snippet example/sequence.cpp MonadPlus
     //!
-    //! 7. `Foldable` (definition provided automatically)\n
+    //! 7. `Foldable`\n
     //! The model of `Foldable` for `Sequence`s is uniquely determined by the
-    //! model of `Iterable`. The automatically provided model is the one
-    //! provided by the `Iterable` concept.
+    //! model of `Iterable`.
     //! @snippet example/sequence.cpp Foldable
     //!
     //! 8. `Iterable`\n

@@ -122,10 +122,10 @@ namespace boost { namespace hana {
     //! structure.
     //! @snippet example/iterable.cpp Searchable
     //!
-    //! 2. `Foldable` for finite `Iterable`s (free model)\n
-    //! Every finite `Iterable` gives rise to a model of  `Foldable`. For these
-    //! models to be consistent, we require the models of both `Foldable` and
-    //! `Iterable` to have the same linearization.
+    //! 2. `Foldable` for finite `Iterable`s\n
+    //! Every finite `Iterable` gives rise to a model of  `Foldable`. For
+    //! these models to be consistent, we require the models of both `Foldable`
+    //! and `Iterable` to have the same linearization.
     //!
     //! @note
     //! As explained above, `Iterable`s are also `Searchable`s and their
@@ -133,12 +133,17 @@ namespace boost { namespace hana {
     //! means that the `Foldable` model for finite `Iterable`s has to be
     //! consistent with the `Searchable` model.
     //!
-    //! For convenience, a default minimal complete definition for `Foldable`
-    //! is provided for finite `Iterable`s via the `Iterable::fold_left_impl`
-    //! class. This default implementation uses the fact that `at(xs, i)`
-    //! denotes the `i`th element of `xs`'s linearization, and that the
-    //! linearization of a finite `Iterable` must be the same as its
-    //! linearization as a `Foldable`.
+    //! Furthermore, for finite
+    //! `Iterable`s, providing a definition of `length` is sufficient to be a
+    //! model of `Foldable`;
+    //!
+    //! For convenience, finite `Iterable`s must only provide a definition of
+    //! `length` to model the `Foldable` concept; defining the more powerful
+    //! `unpack` or `fold_left` is not necessary (but still possible). The
+    //! default implementation of `unpack` derived from `Iterable` + `length`
+    //! uses the fact that `at(xs, i)` denotes the `i`th element of `xs`'s
+    //! linearization, and that the linearization of a finite `Iterable` must
+    //! be the same as its linearization as a `Foldable`.
     //!
     //!
     //! Concrete models
@@ -148,8 +153,6 @@ namespace boost { namespace hana {
     //!
     //! [1]: https://github.com/ldionne/hana/issues/40
     struct Iterable {
-        template <typename It> struct fold_left_impl;
-
         template <typename It> struct find_if_impl;
         template <typename It> struct any_of_impl;
     };

@@ -12,12 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/unpack.hpp>
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/fold_left.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -25,6 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct Foldable; //! @todo include the forward declaration instead
+    struct Iterable;
 
     //! @cond
     template <typename Xs, typename F>
@@ -50,6 +55,24 @@ namespace boost { namespace hana {
             return hana::fold_left(static_cast<Xs&&>(xs),
                                    static_cast<F&&>(f),
                                    hana::partial)();
+        }
+    };
+
+    template <typename It>
+    struct unpack_impl<It, when<
+        _models<Iterable, It>::value && !is_default<length_impl<It>>::value
+    >> {
+        template <typename Xs, typename F, std::size_t ...i>
+        static constexpr decltype(auto)
+        unpack_helper(Xs&& xs, F&& f, std::index_sequence<i...>) {
+            return static_cast<F&&>(f)(hana::at_c<i>(static_cast<Xs&&>(xs))...);
+        }
+
+        template <typename Xs, typename F>
+        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
+            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
+            return unpack_helper(static_cast<Xs&&>(xs), static_cast<F&&>(f),
+                                 std::make_index_sequence<N>{});
         }
     };
 

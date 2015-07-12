@@ -26,6 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/push_front.hpp>
 #include <boost/mpl/sequence_tag.hpp>
+#include <boost/mpl/size.hpp>
 #include <boost/mpl/vector.hpp>
 
 #include <cstddef>
@@ -111,9 +112,12 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct fold_left_impl<ext::boost::mpl::Vector>
-        : Iterable::fold_left_impl<ext::boost::mpl::Vector>
-    { };
+    struct length_impl<ext::boost::mpl::Vector> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const&) {
+            return hana::size_t< ::boost::mpl::size<Xs>::type::value>;
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable

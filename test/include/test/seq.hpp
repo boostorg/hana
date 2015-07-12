@@ -66,9 +66,12 @@ namespace boost { namespace hana {
     };
 #elif defined(BOOST_HANA_TEST_FOLDABLE_ITERABLE_MCD)
     template <>
-    struct fold_left_impl<test::Seq>
-        : Iterable::fold_left_impl<test::Seq>
-    { };
+    struct length_impl<test::Seq> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const& xs) {
+            return hana::length(xs.storage);
+        }
+    };
 #else
     template <>
     struct unpack_impl<test::Seq> {

@@ -83,11 +83,22 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<ext::boost::Tuple> {
         static constexpr auto apply(::boost::tuples::null_type const&)
-        { return true_; }
+        { return hana::true_; }
 
         template <typename H, typename T>
         static constexpr auto apply(::boost::tuples::cons<H, T> const&)
-        { return false_; }
+        { return hana::false_; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct length_impl<ext::boost::Tuple> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const&) {
+            return hana::size_t< ::boost::tuples::length<Xs>::value>;
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

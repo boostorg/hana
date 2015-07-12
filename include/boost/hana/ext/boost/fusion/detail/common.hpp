@@ -15,10 +15,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
 #include <boost/fusion/sequence/intrinsic/at.hpp>
 #include <boost/fusion/sequence/intrinsic/empty.hpp>
+#include <boost/fusion/sequence/intrinsic/size.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -51,6 +53,18 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs) {
             using Empty = decltype(::boost::fusion::empty(xs));
             return bool_<Empty::value>;
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S>
+    struct length_impl<S, when<detail::is_fusion_sequence<S>::value>> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const&) {
+            using Size = typename ::boost::fusion::result_of::size<Xs>::type;
+            return hana::size_t<Size::value>;
         }
     };
 

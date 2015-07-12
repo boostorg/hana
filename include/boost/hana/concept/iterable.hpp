@@ -58,47 +58,6 @@ namespace boost { namespace hana {
     { };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model of Foldable
-    //////////////////////////////////////////////////////////////////////////
-    template <typename It>
-    struct Iterable::fold_left_impl {
-        template <typename Xs, typename State, typename F>
-        static constexpr auto
-        fold_left_helper(Xs&&, State&& s, F&&, decltype(true_)) {
-            return static_cast<State&&>(s);
-        }
-
-        template <typename Xs, typename State, typename F>
-        static constexpr decltype(auto)
-        fold_left_helper(Xs&& xs, State&& s, F&& f, decltype(false_)) {
-            constexpr bool done = hana::value<decltype(
-                hana::is_empty(hana::tail(xs))
-            )>();
-            return fold_left_impl::fold_left_helper(
-                hana::tail(xs), f(s, hana::front(xs)), f, hana::bool_<done>
-            );
-        }
-
-        template <typename Xs, typename State, typename F>
-        static constexpr decltype(auto) apply(Xs&& xs, State&& s, F&& f) {
-            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
-            return fold_left_impl::fold_left_helper(
-                static_cast<Xs&&>(xs),
-                static_cast<State&&>(s),
-                static_cast<F&&>(f),
-                hana::bool_<done>
-            );
-        }
-
-        template <typename Xs, typename F>
-        static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return fold_left_impl::apply(hana::tail(xs),
-                                         hana::front(xs),
-                                         static_cast<F&&>(f));
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
     // Model of Searchable
     //////////////////////////////////////////////////////////////////////////
     template <typename It>

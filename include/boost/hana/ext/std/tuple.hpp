@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -145,6 +146,17 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t index = hana::value<N>();
             return std::get<index>(static_cast<Xs&&>(xs));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct length_impl<ext::std::Tuple> {
+        template <typename ...Xs>
+        static constexpr auto apply(std::tuple<Xs...> const&) {
+            return hana::size_t<sizeof...(Xs)>;
         }
     };
 

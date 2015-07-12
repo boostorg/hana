@@ -35,9 +35,12 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct fold_left_impl<ext::std::Array>
-        : Iterable::fold_left_impl<ext::std::Array>
-    { };
+    struct length_impl<ext::std::Array> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const&) {
+            return hana::size_t< ::std::tuple_size<Xs>::type::value>;
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Searchable
