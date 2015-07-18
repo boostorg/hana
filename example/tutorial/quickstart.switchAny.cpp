@@ -23,7 +23,7 @@ using namespace boost::hana;
 //! [cases]
 template <typename T>
 auto case_ = [](auto f) {
-  return std::make_pair(type<T>, f);
+  return make_pair(type<T>, f);
 };
 
 struct _default;
@@ -40,8 +40,8 @@ template <typename Any, typename Default, typename Case, typename ...Rest>
 auto process(Any& a, std::type_index const& t, Default& default_,
              Case& case_, Rest& ...rest)
 {
-  using T = typename decltype(case_.first)::type;
-  return t == typeid(T) ? case_.second(*boost::unsafe_any_cast<T>(&a))
+  using T = typename decltype(+first(case_))::type;
+  return t == typeid(T) ? second(case_)(*boost::unsafe_any_cast<T>(&a))
                         : process(a, t, default_, rest...);
 }
 //! [process]
@@ -53,17 +53,17 @@ auto switch_(Any& a) {
     auto cases = make_tuple(cases_...);
 
     auto default_ = find_if(cases, [](auto const& c) {
-      return c.first == type<_default>;
+      return first(c) == type<_default>;
     });
     static_assert(default_ != nothing,
       "switch is missing a default_ case");
 
     auto rest = filter(cases, [](auto const& c) {
-      return c.first != type<_default>;
+      return first(c) != type<_default>;
     });
 
     return unpack(rest, [&](auto& ...rest) {
-      return process(a, a.type(), default_->second, rest...);
+      return process(a, a.type(), second(*default_), rest...);
     });
   };
 }
