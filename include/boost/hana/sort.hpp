@@ -12,23 +12,19 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/sort.hpp>
 
-#include <boost/hana/concat.hpp>
+#include <boost/hana/at.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/detail/algorithm.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/detail/nested_by.hpp> // required by fwd decl
-#include <boost/hana/drop_front.hpp>
-#include <boost/hana/eval_if.hpp>
-#include <boost/hana/first.hpp>
-#include <boost/hana/front.hpp>
-#include <boost/hana/functional/flip.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/is_empty.hpp>
-#include <boost/hana/lazy.hpp>
+#include <boost/hana/length.hpp>
 #include <boost/hana/less.hpp>
-#include <boost/hana/partition.hpp>
-#include <boost/hana/prepend.hpp>
-#include <boost/hana/second.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -65,41 +61,72 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
     //! @endcond
 
+    namespace detail {
+        template <std::size_t n, bool ...b>
+        struct sorted_indices {
+            static constexpr bool pred(std::size_t i, std::size_t j) {
+                constexpr bool results[] = {b...};
+                return results[i + n * j];
+            }
+
+            static constexpr auto sorted() {
+                detail::array<std::size_t, n> indices{};
+                detail::iota(&indices[0], &indices[n], 0);
+                detail::sort(&indices[0], &indices[n], pred);
+                return indices;
+            }
+
+            static constexpr auto value = sorted();
+        };
+
+        template <std::size_t n>
+        constexpr auto cartesian_product2() {
+            using Array = detail::array<std::size_t, n * n>;
+            Array a{}, b{};
+            for (std::size_t i = 0; i < n; ++i) {
+                for (std::size_t j = 0; j < n; ++j) {
+                    a[i + j * n] = i;
+                    b[i + j * n] = j;
+                }
+            }
+            return std::pair<Array, Array>{a, b};
+        }
+    }
+
     template <typename S, bool condition>
     struct sort_impl<S, when<condition>> : default_ {
-        struct sort_by_helper2 {
-            template <typename Xs, typename Pred>
-            constexpr auto operator()(Xs&& xs, Pred&& pred) const {
-                auto pivot = hana::front(xs);
-                auto rest = hana::drop_front(xs);
-                auto parts = hana::partition(rest,
-                                    hana::partial(hana::flip(pred), pivot));
-                return hana::concat(
-                    sort_impl::apply(hana::first(parts), pred),
-                    hana::prepend(
-                        sort_impl::apply(hana::second(parts), pred),
-                        pivot
-                    )
-                );
-            }
-        };
+        template <typename Xs, typename Pred, std::size_t ...n, std::size_t ...nn>
+        static constexpr auto helper(Xs&& xs, Pred&& pred, std::index_sequence<n...>,
+                                                           std::index_sequence<nn...>)
+        {
+            constexpr auto prods = detail::cartesian_product2<sizeof...(n)>();
 
-        struct sort_by_helper1 {
-            template <typename Xs, typename Pred>
-            constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-                return hana::eval_if(hana::is_empty(hana::drop_front(xs)),
-                    hana::make_lazy(xs),
-                    hana::make_lazy(sort_by_helper2{})(xs, static_cast<Pred&&>(pred))
-                );
-            }
-        };
+            using SortedIndices = detail::sorted_indices<
+                sizeof...(n),
+                static_cast<bool>(decltype(
+                    pred(hana::at_c<prods.first[nn]>(static_cast<Xs&&>(xs)),
+                         hana::at_c<prods.second[nn]>(static_cast<Xs&&>(xs)))
+                )::value)...
+            >;
+
+            return hana::make<S>(
+                hana::at_c<SortedIndices::value[n]>(static_cast<Xs&&>(xs))...
+            );
+        }
 
         template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs xs, Pred&& pred) {
-            return hana::eval_if(hana::is_empty(xs),
-                hana::make_lazy(xs),
-                hana::make_lazy(sort_by_helper1{})(xs, static_cast<Pred&&>(pred))
-            );
+        static constexpr auto helper(Xs&&, Pred&&, std::index_sequence<>,
+                                                   std::index_sequence<>)
+        {
+            return hana::make<S>();
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr std::size_t n = decltype(hana::length(xs))::value;
+            return helper(static_cast<Xs&&>(xs), pred,
+                          std::make_index_sequence<n>{},
+                          std::make_index_sequence<n * n>{});
         }
 
         template <typename Xs>
