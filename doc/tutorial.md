@@ -2190,7 +2190,7 @@ You can zoom on the chart by selecting an area to zoom into. Also, you can
 hide a series of points by clicking on it in the legend on the right.
 
 The benchmark methodology is to always create the sequences in the most
-efficient way possible. For Hana, and `std::tuple`, this simply means using
+efficient way possible. For Hana and `std::tuple`, this simply means using
 the appropriate `make_tuple` function. However, for the MPL, this means
 creating a `mpl::vectorN` of size up to 20, and then using `mpl::push_back`
 to create larger vectors. We use a similar technique for Fusion sequences.
