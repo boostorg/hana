@@ -26,11 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-#if BOOST_VERSION < 105800
-#   error The adapter for fusion::list is not supported for versions of    \
-          Boost prior to 1.58.0 because of bugs in fusion::list.
-#endif
-
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
         struct List;
@@ -50,9 +45,9 @@ namespace boost { namespace hana {
 
     namespace detail {
         template <>
-        struct is_fusion_sequence<ext::boost::fusion::List>
-            : std::true_type
-        { };
+        struct is_fusion_sequence<ext::boost::fusion::List> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////

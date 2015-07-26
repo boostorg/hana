@@ -94,42 +94,6 @@ if (NOT Boost_FOUND)
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp")
-
-# Boost.Fusion is broken in several way. Because of this, we disable
-# several unit tests that break because of Fusion bugs.
-else()
-    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
-        # fusion::deque's models of MonadPlus and Sequence
-        "ext/boost/fusion/deque/monad_plus.cpp"
-        "ext/boost/fusion/deque/sequence.cpp"
-
-        # fusion::list's models of Monad, MonadPlus and Sequence
-        "ext/boost/fusion/list/monad.cpp"
-        "ext/boost/fusion/list/monad_plus.cpp"
-        "ext/boost/fusion/list/sequence.cpp"
-
-        # fusion::tuple's models of Monad and Sequence
-        "ext/boost/fusion/tuple/monad.cpp"
-        "ext/boost/fusion/tuple/sequence.cpp"
-
-        # fusion::vector's model of Sequence
-        "ext/boost/fusion/vector/sequence.cpp")
-
-    # If the version of Boost is < 1.58.0, the fusion::deque and
-    # fusion::list adapters are not being tested because of bugs
-    # in Boost.Fusion.
-    if (${Boost_VERSION} LESS 105800)
-        boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB
-            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/deque.hpp"
-            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/fusion/deque.hpp"
-            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/list.hpp"
-            "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/fusion/list.hpp")
-
-        boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
-            "ext/boost/fusion/deque/*.cpp"
-            "ext/boost/fusion/list/*.cpp")
-    endif()
-
 endif()
 
 # The std::tuple adapter is not supported with Clang < 3.7.0

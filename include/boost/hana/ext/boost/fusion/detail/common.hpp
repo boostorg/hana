@@ -23,16 +23,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/sequence/intrinsic/size.hpp>
 
 #include <cstddef>
-#include <type_traits>
-#include <utility>
 
 
 namespace boost { namespace hana {
     namespace detail {
         template <typename T>
-        struct is_fusion_sequence
-            : std::false_type
-        { };
+        struct is_fusion_sequence {
+            static constexpr bool value = false;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -48,11 +46,11 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct is_empty_impl<S, when<detail::is_fusion_sequence<S>{}()>> {
+    struct is_empty_impl<S, when<detail::is_fusion_sequence<S>::value>> {
         template <typename Xs>
         static constexpr auto apply(Xs&& xs) {
             using Empty = decltype(::boost::fusion::empty(xs));
-            return bool_<Empty::value>;
+            return hana::bool_<Empty::value>;
         }
     };
 
@@ -72,9 +70,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>::value>>
-        : decltype(hana::true_)
-    { };
+    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>::value>> {
+        static constexpr bool value = true;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_FUSION_DETAIL_COMMON_HPP

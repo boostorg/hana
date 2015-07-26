@@ -44,9 +44,9 @@ namespace boost { namespace hana {
 
     namespace detail {
         template <>
-        struct is_fusion_sequence<ext::boost::fusion::Vector>
-            : std::true_type
-        { };
+        struct is_fusion_sequence<ext::boost::fusion::Vector> {
+            static constexpr bool value = true;
+        };
     }
 
     //////////////////////////////////////////////////////////////////////////
