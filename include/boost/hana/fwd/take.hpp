@@ -23,9 +23,7 @@ namespace boost { namespace hana {
     //! Given a `Sequence` `xs` and a `Constant` `n` holding an unsigned
     //! integral value, `take(xs, n)` is a new sequence containing the first
     //! `n` elements of `xs`, in the same order. If `length(xs) <= n`, the
-    //! whole sequence is returned and no error is triggered. This is different
-    //! from `take_exactly`, which requires `n <= length(xs)` but can be better
-    //! optimized because of this guarantee.
+    //! whole sequence is returned and no error is triggered.
     //!
     //!
     //! @param xs

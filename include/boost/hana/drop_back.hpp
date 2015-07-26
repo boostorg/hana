@@ -18,10 +18,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 
-#include <boost/hana/drop_back_exactly.hpp>
+#include <boost/hana/at.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/value.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -53,12 +57,17 @@ namespace boost { namespace hana {
 
     template <typename S, bool condition>
     struct drop_back_impl<S, when<condition>> : default_ {
+        template <typename Xs, std::size_t ...n>
+        static constexpr auto drop_back_helper(Xs&& xs, std::index_sequence<n...>) {
+            return hana::make<S>(hana::at_c<n>(static_cast<Xs&&>(xs))...);
+        }
+
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N&&) {
             constexpr std::size_t n = hana::value<N>();
             constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
-            return hana::drop_back_exactly(static_cast<Xs&&>(xs),
-                                           hana::size_t<(n > len ? len : n)>);
+            return drop_back_helper(static_cast<Xs&&>(xs),
+                                    std::make_index_sequence<(n > len ? 0 : len - n)>{});
         }
     };
 }} // end namespace boost::hana

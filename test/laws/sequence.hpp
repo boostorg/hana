@@ -426,47 +426,6 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // take_exactly
-            //////////////////////////////////////////////////////////////////
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(), size_t<0>),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{}), size_t<0>),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{}), size_t<1>),
-                    list(eq<0>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<0>),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<1>),
-                    list(eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{}, eq<1>{}), size_t<2>),
-                    list(eq<0>{}, eq<1>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_exactly(list(eq<0>{},  eq<1>{},  eq<2>{},  eq<3>{}, eq<4>{},
-                                      eq<5>{},  eq<6>{},  eq<7>{},  eq<8>{}, eq<9>{},
-                                      eq<10>{}, eq<11>{}, eq<12>{}, eq<13>{}),
-                                 size_t<10>),
-                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{},
-                         eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})
-                ));
-            }
-
-            //////////////////////////////////////////////////////////////////
             // remove_at
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -939,57 +898,6 @@ namespace boost { namespace hana { namespace test {
                 ));
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     take_while(list(z, eq<2>{}, eq<3>{}), not_equal.to(z)),
-                    list()
-                ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // take_until
-            //////////////////////////////////////////////////////////////////
-            {
-                auto z = eq<999>{};
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(), equal.to(z)),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}), equal.to(z)),
-                    list(eq<1>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z), equal.to(z)),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}, eq<2>{}), equal.to(z)),
-                    list(eq<1>{}, eq<2>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}, z), equal.to(z)),
-                    list(eq<1>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z, eq<2>{}), equal.to(z)),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}, eq<2>{}, eq<3>{}), equal.to(z)),
-                    list(eq<1>{}, eq<2>{}, eq<3>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}, eq<2>{}, z), equal.to(z)),
-                    list(eq<1>{}, eq<2>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(eq<1>{}, z, eq<3>{}), equal.to(z)),
-                    list(eq<1>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    take_until(list(z, eq<2>{}, eq<3>{}), equal.to(z)),
                     list()
                 ));
             }
@@ -1477,54 +1385,6 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CHECK(equal(
                     drop_back(list(eq<0>{}, eq<2>{})),
                     drop_back(list(eq<0>{}, eq<2>{}), size_t<1>)
-                ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // drop_back_exactly
-            //////////////////////////////////////////////////////////////////
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    drop_back_exactly(list(undefined{}), size_t<1>),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{}, undefined{}), size_t<1>),
-                    list(eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{}, eq<1>{}, undefined{}), size_t<1>),
-                    list(eq<0>{}, eq<1>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{}, eq<1>{}, eq<2>{}, undefined{}), size_t<1>),
-                    list(eq<0>{}, eq<1>{}, eq<2>{})
-                ));
-
-
-                BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    drop_back_exactly(list(cx_eq<1>{}, cx_eq<2>{}), size_t<1>),
-                    list(cx_eq<1>{})
-                ));
-                BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    drop_back_exactly(list(cx_eq<1>{}, cx_eq<2>{}, cx_eq<3>{}), size_t<1>),
-                    list(cx_eq<1>{}, cx_eq<2>{})
-                ));
-
-                // make sure drop_back_exactly(xs) == drop_back_exactly(xs, size_t<1>)
-                BOOST_HANA_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{})),
-                    drop_back_exactly(list(eq<0>{}), size_t<1>)
-                ));
-
-                BOOST_HANA_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{}, eq<1>{})),
-                    drop_back_exactly(list(eq<0>{}, eq<1>{}), size_t<1>)
-                ));
-
-                BOOST_HANA_CHECK(equal(
-                    drop_back_exactly(list(eq<0>{}, eq<2>{})),
-                    drop_back_exactly(list(eq<0>{}, eq<2>{}), size_t<1>)
                 ));
             }
 

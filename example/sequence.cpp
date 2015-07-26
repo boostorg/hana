@@ -243,18 +243,6 @@ static_assert(drop_back(xs) == make_tuple(0, '1'), "");
 
 }{
 
-//! [drop_back_exactly]
-constexpr auto xs = make_tuple(0, '1', 2.0);
-
-static_assert(drop_back_exactly(xs, size_t<1>) == make_tuple(0, '1'), "");
-static_assert(drop_back_exactly(xs, size_t<2>) == make_tuple(0), "");
-BOOST_HANA_CONSTANT_CHECK(drop_back_exactly(xs, size_t<3>) == make_tuple());
-
-static_assert(drop_back_exactly(xs) == make_tuple(0, '1'), "");
-//! [drop_back_exactly]
-
-}{
-
 //! [group]
 // without a predicate
 BOOST_HANA_CONSTANT_CHECK(
@@ -599,29 +587,9 @@ static_assert(take(make_tuple(1, '2', 3.3), size_t<4>) == make_tuple(1, '2', 3.3
 
 }{
 
-//! [take_exactly]
-using namespace boost::hana::literals;
-
-static_assert(take_exactly(make_tuple(1, '2', 3.3), size_t<1>) == make_tuple(1), "");
-static_assert(take_exactly(make_tuple(1, '2', 3.3), size_t<2>) == make_tuple(1, '2'), "");
-//! [take_exactly]
-
-}{
-
 //! [take_c]
 static_assert(take_c<2>(make_tuple(1, '2', 3.3)) == make_tuple(1, '2'), "");
 //! [take_c]
-
-}{
-
-//! [take_until]
-using namespace boost::hana::literals;
-BOOST_HANA_CONSTANT_CHECK(
-    take_until(tuple_c<int, 3, 2, 1, 0>, _ < 2_c)
-    ==
-    tuple_c<int, 3, 2>
-);
-//! [take_until]
 
 }{
 

@@ -526,7 +526,6 @@ function                                                                        
 <code>[drop_front](@ref boost::hana::Iterable::drop_front)(sequence[, n])</code>                 | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant. When not provided, `n` defaults to 1.
 <code>[drop_front_exactly](@ref boost::hana::Iterable::drop_front_exactly)(sequence[, n])</code> | Drop the first `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
 <code>[drop_back](@ref boost::hana::Sequence::drop_back)(sequence[, n])</code>                   | Drop the last `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an IntegralConstant. When not provided, `n` defaults to 1.
-<code>[drop_back_exactly](@ref boost::hana::Sequence::drop_back_exactly)(sequence[, n])</code>   | Drop the last `n` elements from a sequence. `n` must be an IntegralConstant and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
 <code>[drop_while](@ref boost::hana::Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant.
 <code>[fill](@ref boost::hana::Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
 <code>[filter](@ref boost::hana::MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant.
@@ -560,8 +559,6 @@ function                                                                        
 <code>[subsequence](@ref boost::hana::Sequence::subsequence)(sequence, indices)</code>           | Returns the elements of a sequence at the `indices` in the given sequence.
 <code>[tail](@ref boost::hana::Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
 <code>[take](@ref boost::hana::Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
-<code>[take_exactly](@ref boost::hana::Sequence::take_exactly)(sequence, number)</code>          | Take the first n elements of a sequence. n must be an `IntegralConstant` and the sequence must have at least `n` elements.
-<code>[take_until](@ref boost::hana::Sequence::take_until)(sequence, predicate)</code>           | Take elements of a sequence until some predicate is satisfied, and return that.
 <code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
 <code>[transform](@ref boost::hana::Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
 <code>[unique](@ref boost::hana::Sequence::unique)(sequence[, predicate])</code>                 | Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable.

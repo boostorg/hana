@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 
 #include <boost/hana/detail/first_unsatisfied_index.hpp>
-#include <boost/hana/take_exactly.hpp>
+#include <boost/hana/take.hpp>
 #include <boost/hana/unpack.hpp>
 
 
@@ -50,7 +50,7 @@ namespace boost { namespace hana {
                 hana::unpack(static_cast<Xs&&>(xs),
                              detail::first_unsatisfied_index<Pred&&>{})
             );
-            return hana::take_exactly(static_cast<Xs&&>(xs), FirstUnsatisfied{});
+            return hana::take(static_cast<Xs&&>(xs), FirstUnsatisfied{});
         }
     };
 }} // end namespace boost::hana

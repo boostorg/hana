@@ -24,9 +24,7 @@ namespace boost { namespace hana {
     //! to a `Constant` with an unsigned integral value equal to `1`.
     //!
     //! In case `length(xs) <= n`, `drop_back` will simply drop the whole
-    //! sequence without failing, thus returning an empty sequence. This is
-    //! different from `drop_back_exactly`, which expects `n <= length(xs)`
-    //! but can be better optimized because of this additional guarantee.
+    //! sequence without failing, thus returning an empty sequence.
     //!
     //!
     //! @param xs

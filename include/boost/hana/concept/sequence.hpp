@@ -42,7 +42,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/cartesian_product.hpp>
 #include <boost/hana/drop_back.hpp>
-#include <boost/hana/drop_back_exactly.hpp>
 #include <boost/hana/group.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/insert_range.hpp>
@@ -58,8 +57,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/span.hpp>
 #include <boost/hana/subsequence.hpp>
 #include <boost/hana/take.hpp>
-#include <boost/hana/take_exactly.hpp>
-#include <boost/hana/take_until.hpp>
 #include <boost/hana/take_while.hpp>
 #include <boost/hana/unfold_left.hpp>
 #include <boost/hana/unfold_right.hpp>
