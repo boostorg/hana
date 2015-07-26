@@ -19,6 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/integral_constant.hpp>
 
+#include <cstddef>
+
 
 namespace boost { namespace hana {
     struct Iterable; //! @todo include the forward declaration instead
