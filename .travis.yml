@@ -60,22 +60,25 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
 
+    # TODO: Clang 3.7 is disabled right now, because the clang-3.7 package
+    #       can't be found for some obscure reason.
+    #
     # clang 3.7 (trunk)
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
-      addons: &clang37
-        apt:
-          packages:
-            - clang-3.7
-            - valgrind
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise # latest
+    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    #   addons: &clang37
+    #     apt:
+    #       packages:
+    #         - clang-3.7
+    #         - valgrind
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-precise # latest
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang37
+    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
+    #   addons: *clang37
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
-      addons: *clang37
+    # - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+    #   addons: *clang37
 
     # Release benchmarks
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
@@ -84,8 +87,8 @@ matrix:
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
       addons: *clang36
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
-      addons: *clang37
+    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Release
+    #   addons: *clang37
 
     # Debug benchmarks
     #
@@ -98,8 +101,8 @@ matrix:
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang36
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
-      addons: *clang37
+    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 BENCHMARKS=true BUILD_TYPE=Debug
+    #   addons: *clang37
 
 
 env:
