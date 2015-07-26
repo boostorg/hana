@@ -16,15 +16,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 
-#include <boost/fusion/algorithm/transformation/pop_front.hpp>
-#include <boost/fusion/algorithm/transformation/push_front.hpp>
 #include <boost/fusion/container/deque.hpp>
-#include <boost/fusion/container/deque/convert.hpp>
 #include <boost/fusion/container/generation/make_deque.hpp>
 #include <boost/fusion/support/tag_of.hpp>
-#include <boost/version.hpp>
 
+#include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -56,10 +54,16 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct tail_impl<ext::boost::fusion::Deque> {
+        template <typename Xs, std::size_t ...i>
+        static constexpr auto tail_helper(Xs&& xs, std::index_sequence<0, i...>) {
+            return ::boost::fusion::make_deque(::boost::fusion::at_c<i>(xs)...);
+        }
+
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return ::boost::fusion::as_deque(
-                ::boost::fusion::pop_front(static_cast<Xs&&>(xs)));
+        static constexpr auto apply(Xs&& xs) {
+            using Size = typename ::boost::fusion::result_of::size<Xs>::type;
+            return tail_helper(static_cast<Xs&&>(xs),
+                               std::make_index_sequence<Size::value>{});
         }
     };
 
