@@ -28,8 +28,7 @@ Distributed under the Boost Software License, Version 1.0.
 #   if __apple_build_version__ >= 6020049
 #       define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 6, 0)
 #   else
-#       warning Versions of Apple's Clang prior to the one shipped with     \
-                Xcode 6.3 are not supported by Hana.
+#       warning "Versions of Apple's Clang prior to the one shipped with Xcode 6.3 are not supported by Hana."
 #   endif
 
 #elif defined(__clang__) // genuine Clang (not Apple's)
@@ -38,7 +37,7 @@ Distributed under the Boost Software License, Version 1.0.
                 __clang_major__, __clang_minor__, __clang_patchlevel__)
 
 #   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
-#       warning Versions of Clang prior to 3.5.0 are not supported by Hana.
+#       warning "Versions of Clang prior to 3.5.0 are not supported by Hana."
 #   endif
 
 #elif defined(__GNUC__) // GCC
@@ -48,8 +47,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #else
 
-#   warning Your compiler is not officially supported by Hana or it was     \
-            not detected properly.
+#   warning "Your compiler is not officially supported by Hana or it was not detected properly."
 
 #endif
 
@@ -57,12 +55,8 @@ Distributed under the Boost Software License, Version 1.0.
 // Detect the standard library
 //////////////////////////////////////////////////////////////////////////////
 
-// We include this empty header, which gives the chance to the standard
-// library to define its macros so we can detect it. See http://goo.gl/eXNYJH.
-#include <ciso646>
-
-// Right now, we also need to include this to detect stdlibc++.
-// See http://goo.gl/DHHlSK.
+// We include this header, which normally defines the proper detection macros.
+// At least, libc++ and libstdc++ do.
 #include <cstddef>
 
 #if defined(_LIBCPP_VERSION)
@@ -71,8 +65,7 @@ Distributed under the Boost Software License, Version 1.0.
                 ((_LIBCPP_VERSION) / 1000) % 10, 0, (_LIBCPP_VERSION) % 1000)
 
 #   if BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
-#       warning Versions of libc++ prior to the one shipped with Clang 3.5.0 \
-                are not supported.
+#       warning "Versions of libc++ prior to the one shipped with Clang 3.5.0 are not supported by Hana."
 #   endif
 
 #elif defined(__GLIBCXX__)
@@ -86,8 +79,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #else
 
-#   warning Your standard library is not officially supported by Hana or it \
-            was not detected properly.
+#   warning "Your standard library is not officially supported by Hana or it was not detected properly."
 
 #endif
 

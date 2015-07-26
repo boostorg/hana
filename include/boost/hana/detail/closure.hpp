@@ -21,29 +21,39 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace detail {
     // We use intrinsics if they are available because it speeds up the
     // compile-times.
-#if defined(BOOST_HANA_CONFIG_CLANG) && __has_extension(is_empty)
-#   define BOOST_HANA_TT_IS_EMPTY(T) __is_empty(T)
-#else
+#if defined(BOOST_HANA_CONFIG_CLANG)
+#   if __has_extension(is_empty)
+#       define BOOST_HANA_TT_IS_EMPTY(T) __is_empty(T)
+#   endif
+
+#   if __has_extension(is_final)
+#       define BOOST_HANA_TT_IS_FINAL(T) __is_final(T)
+#   endif
+
+    // TODO: Right now, this intrinsic is never used directly because of
+    //       https://llvm.org/bugs/show_bug.cgi?id=24173
+#   if __has_extension(is_constructible) && false
+#       define BOOST_HANA_TT_IS_CONSTRUCTIBLE(...) __is_constructible(__VA_ARGS__)
+#   endif
+
+#   if __has_extension(is_assignable)
+#       define BOOST_HANA_TT_IS_ASSIGNABLE(T, U) __is_assignable(T, U)
+#   endif
+#endif
+
+#if !defined(BOOST_HANA_TT_IS_EMPTY)
 #   define BOOST_HANA_TT_IS_EMPTY(T) ::std::is_empty<T>::value
 #endif
 
-#if defined(BOOST_HANA_CONFIG_CLANG) && __has_extension(is_final)
-#   define BOOST_HANA_TT_IS_FINAL(T) __is_final(T)
-#else
+#if !defined(BOOST_HANA_TT_IS_FINAL)
 #   define BOOST_HANA_TT_IS_FINAL(T) ::std::is_final<T>::value
 #endif
 
-    // TODO: Right now, this intrinsic is disabled because of
-    //       https://llvm.org/bugs/show_bug.cgi?id=24173
-#if defined(BOOST_HANA_CONFIG_CLANG) && __has_extension(is_constructible) && false
-#   define BOOST_HANA_TT_IS_CONSTRUCTIBLE(...) __is_constructible(__VA_ARGS__)
-#else
+#if !defined(BOOST_HANA_TT_IS_CONSTRUCTIBLE)
 #   define BOOST_HANA_TT_IS_CONSTRUCTIBLE(...) ::std::is_constructible<__VA_ARGS__>::value
 #endif
 
-#if defined(BOOST_HANA_CONFIG_CLANG) && __has_extension(is_assignable)
-#   define BOOST_HANA_TT_IS_ASSIGNABLE(T, U) __is_assignable(T, U)
-#else
+#if !defined(BOOST_HANA_TT_IS_ASSIGNABLE)
 #   define BOOST_HANA_TT_IS_ASSIGNABLE(T, U) ::std::is_assignable<T, U>::value
 #endif
 

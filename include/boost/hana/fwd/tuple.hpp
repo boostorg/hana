@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type tuple_t{};
 #else
     template <typename ...T>
-    constexpr auto tuple_t = hana::make<Tuple>(hana::type<T>...);
+    constexpr auto tuple_t = hana::make<Tuple>(gcc_wknd::mktype<T>()...);
 #endif
 
     //! Create a `Tuple` specialized for holding `IntegralConstant`s.
