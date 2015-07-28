@@ -26,8 +26,8 @@ auto case_ = [](auto f) {
   return make_pair(type<T>, f);
 };
 
-struct _default;
-auto default_ = case_<_default>;
+struct default_t;
+auto default_ = case_<default_t>;
 //! [cases]
 
 //! [process]
@@ -53,13 +53,13 @@ auto switch_(Any& a) {
     auto cases = make_tuple(cases_...);
 
     auto default_ = find_if(cases, [](auto const& c) {
-      return first(c) == type<_default>;
+      return first(c) == type<default_t>;
     });
     static_assert(default_ != nothing,
       "switch is missing a default_ case");
 
     auto rest = filter(cases, [](auto const& c) {
-      return first(c) != type<_default>;
+      return first(c) != type<default_t>;
     });
 
     return unpack(rest, [&](auto& ...rest) {

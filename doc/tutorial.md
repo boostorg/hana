@@ -313,15 +313,15 @@ inferred to be the common type of the result of all the provided functions:
 
 We'll now look at how this utility can be implemented using Hana. The first
 step is to associate each type to a function. To do so, we represent each
-`case_` as a `std::pair` whose first element is a type and whose second element
-is a function. Furthermore, we (arbitrarily) decide to represent the `%default_`
-case as a `std::pair` mapping a dummy type to a function:
+`case_` as a `hana::pair` whose first element is a type and whose second
+element is a function. Furthermore, we (arbitrarily) decide to represent the
+`%default_` case as a `hana::pair` mapping a dummy type to a function:
 
 @snippet example/tutorial/quickstart.switchAny.cpp cases
 
 To provide the interface we showed above, `switch_` will have to return a
 function taking the cases. In other words, `switch_(a)` must be a function
-taking any number of cases (which are `std::pair`s), and performing the logic
+taking any number of cases (which are `hana::pair`s), and performing the logic
 to dispatch `a` to the right function. This can easily be achieved by having
 `switch_` return a C++14 generic lambda:
 
@@ -361,7 +361,7 @@ auto switch_(Any& a) {
     auto cases = make_tuple(cases_...);
 
     auto default_ = find_if(cases, [](auto const& c) {
-      return c.first == type<_default>;
+      return first(c) == type<default_t>;
     });
 
     // ...
@@ -382,7 +382,7 @@ what Hana calls an `IntegralConstant`, which means that the predicate's result
 must be known at compile-time. These details are explained in the section on
 [cross-phase algorithms](@ref tutorial-algorithms-cross_phase). Inside the
 predicate, we simply compare the type of the case's first element to
-`type<_default>`. If you recall that we were using `std::pair`s to encode
+`type<default_t>`. If you recall that we were using `hana::pair`s to encode
 cases, this simply means that we're finding the default case among all of the
 provided cases. But what if no default case was provided? We should fail at
 compile-time, of course!
@@ -394,7 +394,7 @@ auto switch_(Any& a) {
     auto cases = make_tuple(cases_...);
 
     auto default_ = find_if(cases, [](auto const& c) {
-      return c.first == type<_default>;
+      return first(c) == type<default_t>;
     });
     static_assert(default_ != nothing,
       "switch is missing a default_ case");
@@ -419,13 +419,13 @@ auto switch_(Any& a) {
     auto cases = make_tuple(cases_...);
 
     auto default_ = find_if(cases, [](auto const& c) {
-      return c.first == type<_default>;
+      return first(c) == type<default_t>;
     });
     static_assert(default_ != nothing,
       "switch is missing a default_ case");
 
     auto rest = filter(cases, [](auto const& c) {
-      return c.first != type<_default>;
+      return first(c) != type<default_t>;
     });
 
     // ...
@@ -449,14 +449,14 @@ function. In our case, the function is a generic lambda which in turn calls the
 `process` function. Our reason for using `unpack` here was to turn the `rest`
 tuple into a parameter pack of arguments, which are easier to process recursively
 than tuples. Before we move on to the `process` function, it is worthwhile to
-explain what `%default_->second` is all about. As we explained earlier, `%default_`
-is an optional value. Like `std::optional`, this optional value overloads the
-dereference operator and the arrow operator to allow accessing the value inside
-the `optional`. If the optional is empty (`nothing`), a compile-time error is
-triggered. Since we know `%default_` is not empty (we checked that just above),
-what we're doing is simply pass the function associated to the default case to
-the `process` function. We're now ready for the final step, which is the
-implementation of the `process` function:
+explain what `second(*%default_)` is all about. As we explained earlier,
+`%default_` is an optional value. Like `std::optional`, this optional value
+overloads the dereference operator (and the arrow operator) to allow accessing
+the value inside the `optional`. If the optional is empty (`nothing`), a
+compile-time error is triggered. Since we know `%default_` is not empty (we
+checked that just above), what we're doing is simply pass the function
+associated to the default case to the `process` function. We're now ready
+for the final step, which is the implementation of the `process` function:
 
 @snippet example/tutorial/quickstart.switchAny.cpp process
 
