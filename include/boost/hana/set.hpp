@@ -13,22 +13,23 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/set.hpp>
 
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/erase_key.hpp>
-#include <boost/hana/insert.hpp>
+#include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
-#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/erase_key.hpp>
 #include <boost/hana/functional/flip.hpp>
-#include <boost/hana/fwd/concept/constant.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/fwd/concept/constant.hpp>
+#include <boost/hana/insert.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <type_traits>
@@ -71,18 +72,12 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            constexpr bool are_Comparable[] = {true,
-                _models<Comparable, Xs>{}()...
-            };
-
-            static_assert(hana::all(are_Comparable),
+            static_assert(detail::fast_and<_models<Comparable, Xs>::value...>::value,
             "hana::make<Set>(xs...) requires all the 'xs' to be Comparable");
 
-            constexpr bool are_compile_time_Comparable[] = {true,
-                _models<Constant, decltype(hana::equal(xs, xs))>{}()...
-            };
-
-            static_assert(hana::all(are_compile_time_Comparable),
+            static_assert(detail::fast_and<
+                _models<Constant, decltype(hana::equal(xs, xs))>::value...
+            >::value,
             "hana::make<Set>(xs...) requires all the 'xs' to be "
             "Comparable at compile-time");
         #endif
