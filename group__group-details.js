@@ -4,6 +4,9 @@ var group__group_details =
     [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "array", "structboost_1_1hana_1_1detail_1_1constexpr___1_1array.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
+    [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
+    [ "nested_than", "structboost_1_1hana_1_1detail_1_1nested__than.html", null ],
+    [ "nested_to", "structboost_1_1hana_1_1detail_1_1nested__to.html", null ],
     [ "std_common_type", "structboost_1_1hana_1_1detail_1_1std__common__type.html", null ],
     [ "Either", "structboost_1_1hana_1_1Either.html", [
       [ "left", "structboost_1_1hana_1_1Either.html#aca90e1410d6e289b05ffc41e7b785b4d", null ],

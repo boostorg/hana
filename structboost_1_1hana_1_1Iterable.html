@@ -141,19 +141,20 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Iterable.html',
 <p>Intuitively, an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> can be seen as a kind of container whose elements can be pulled out one at a time. An <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> also provides a way to know when the <em>container</em> is empty, i.e. when there are no more elements to pull out.</p>
 <p>Whereas <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> represents data structures supporting internal iteration with the ability to accumulate a result, the <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> concept allows inverting the control of the iteration. This is more flexible than <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, since it allows iterating over only some part of the structure. This, in turn, allows <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> to work on infinite structures, while trying to fold such a structure would never finish.</p>
 <h2>Minimal complete definition </h2>
-<p><code>front</code>, <code>tail</code> and <code>is_empty</code></p>
+<p><code>at</code>, <code>tail</code> and <code>is_empty</code></p>
 <p><a class="anchor" id="Iterable-lin"></a></p><h2>The linearization of an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> </h2>
 <p>Intuitively, for an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> structure <code>xs</code>, the <em>linearization</em> of <code>xs</code> is the sequence of all the elements in <code>xs</code> as if they had been put in a (possibly infinite) list: </p><div class="fragment"><div class="line">linearization(xs) = [x1, x2, x3, ...]</div>
-</div><!-- fragment --><p>This notion is precisely the extension of the <a class="el" href="structboost_1_1hana_1_1Foldable.html#Foldable-lin">linearization</a> notion of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s to the infinite case. This notion is useful for expressing various properties of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s, and is used for that throughout the documentation.</p>
+</div><!-- fragment --><p>The <code>n</code>th element of the linearization of an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> can be accessed with the <code>at</code> function. In other words, <code>at(xs, n) == xn</code>.</p>
+<p>Note that this notion is precisely the extension of the <a class="el" href="structboost_1_1hana_1_1Foldable.html#Foldable-lin">linearization</a> notion of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s to the infinite case. This notion is useful for expressing various properties of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s, and is used for that throughout the documentation.</p>
 <h2>Compile-time <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s </h2>
 <p>A <em>compile-time</em> <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> is an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> for which <code>is_empty</code> returns a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. These structures allow iteration to be done at compile-time, in the sense that the "loop" doing the iteration can be unrolled because the total length of the structure is kown at compile-time.</p>
 <p>In particular, note that being a compile-time <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> has nothing to do with being finite or infinite. For example, it would be possible to create a sequence representing the Pythagorean triples as <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s. Such a sequence would be infinite, but iteration on the sequence would still be done at compile-time. However, if one tried to iterate over <em>all</em> the elements of the sequence, the compiler would loop indefinitely, in contrast to your program looping indefinitely if the sequence was a runtime one.</p>
 <p><b>In the current version of the library, only compile-time <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s are supported.</b> While it would be possible in theory to support runtime <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s, doing it efficiently is the subject of some research. In particular, follow <a href="https://github.com/ldionne/hana/issues/40">this issue</a> for the current status of runtime <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s.</p>
 <h2>Laws </h2>
-<p>First, we require the equality of two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s to be related to the equality of the elements in their linearizations. More specifically, if <code>xs</code> and <code>ys</code> are two non-empty <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s of data type <code>It</code>, then </p><div class="fragment"><div class="line">xs == ys  =&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(xs) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(ys) &amp;&amp; <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(ys)</div>
-</div><!-- fragment --><p> which conveys that two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must have the same linearization in order to have the chance of being considered equal. We then handle the empty case by saying that if any of <code>xs</code> and <code>ys</code> is empty, then </p><div class="fragment"><div class="line">xs == ys  =&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs) &amp;&amp; <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(ys)</div>
-</div><!-- fragment --><p>Second, since every <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> is also a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, we require the models of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> to be consistent. This is made precise by the following laws. For any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, x3, ...]</code>, </p><div class="fragment"><div class="line">any_of(xs, equal.to(z))  &lt;=&gt;  xi == z</div>
-</div><!-- fragment --><p> for some finite index <code>i</code>. Furthermore, </p><div class="fragment"><div class="line">find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)</div>
+<p>First, we require the equality of two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s to be related to the equality of the elements in their linearizations. More specifically, if <code>xs</code> and <code>ys</code> are two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s of data type <code>It</code>, then </p><div class="fragment"><div class="line">xs == ys  =&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(xs, i) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(ys, i)   for all i</div>
+</div><!-- fragment --><p>This conveys that two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must have the same linearization in order to be considered equal.</p>
+<p>Secondly, since every <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> is also a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, we require the models of <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> to be consistent. This is made precise by the following laws. For any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, x3, ...]</code>, </p><div class="fragment"><div class="line">any_of(xs, equal.to(z))  &lt;=&gt;  xi == z</div>
+</div><!-- fragment --><p> for some <em>finite</em> index <code>i</code>. Furthermore, </p><div class="fragment"><div class="line">find_if(xs, pred) == just(the first xi such that pred(xi) is satisfied)</div>
 </div><!-- fragment --><p> or <code>nothing</code> if no such <code>xi</code> exists.</p>
 <h2>Refined concepts </h2>
 <ol type="1">
@@ -172,38 +173,17 @@ Any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The I
 <div class="line">    find(make_tuple(int_&lt;1&gt;, char_&lt;&#39;c&#39;&gt;, type&lt;void&gt;), type&lt;int&gt;) == nothing</div>
 <div class="line">);</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s (free model)<br />
-Every finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. Hence, finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must satisfy additional laws to make sure that external iteration in <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and internal iteration in <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> are consistent. These laws are expressed in terms of the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>'s <a class="el" href="structboost_1_1hana_1_1Foldable.html#Foldable-lin">linearization</a>. For any finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with linearization <code>[x1, ..., xn]</code>, the following must be satisfied: <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(xs, i) == xi</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs) &lt;=&gt; n == 0</div>
-</div><!-- fragment --> An equivalent way of writing this is <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(xs) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(linearization(xs))</div>
-<div class="line">          == x1</div>
-<div class="line"></div>
-<div class="line">linearization(<a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(xs)) == <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(linearization(xs))</div>
-<div class="line">                        == [x2, ..., xn]</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(xs)  &lt;=&gt;  <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(linearization(xs))</div>
-<div class="line">              &lt;=&gt;  n == 0</div>
-</div><!-- fragment --> This says that linearizing an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and then iterating through it should be equivalent to just iterating through it. <dl class="section note"><dt>Note</dt><dd>As explained above, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s are also <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s and their models have to be consistent. By the laws presented here, it also means that the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> model for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s has to be consistent with the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> model.</dd></dl>
-For convenience, a default minimal complete definition for <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is provided for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s via the <code>Iterable::fold_left_impl</code> class. The model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> thus created is simple:<br />
-Let <code>xs</code> be an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and let <code>xi</code> denote the <code>i</code>-th element in its linearization. In other words, <code>xs</code> can be linearized as <code>[x1, ..., xN]</code>, where <code>N</code> is the (finite) number of elements in <code>xs</code>. Then, right-folding <code>xs</code> with a binary operation <code>*</code> (in infix notation for legibility) is equivalent to <div class="fragment"><div class="line">x1 * (x2 * ( ... * (xN-1 * xN)))</div>
-</div><!-- fragment --> Similarly, left-folding <code>xs</code> is equivalent to <div class="fragment"><div class="line">(((x1 * x2) * x3) * ...) * xN</div>
-</div><!-- fragment --> In both cases, notice the side of the parentheses. Left-folding applies <code>*</code> in a left-associative manner, whereas right-folding applies it in a right-associative manner. For associative operations, i.e. operations such that for all <code>a</code>, <code>b</code> and <code>c</code>, <div class="fragment"><div class="line">(a * b) * c = a * (b * c)</div>
-</div><!-- fragment --> this makes no difference.</li>
+<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s<br />
+Every finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. For these models to be consistent, we require the models of both <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> to have the same linearization.</li>
 </ol>
+<dl class="section note"><dt>Note</dt><dd>As explained above, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s are also <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s and their models have to be consistent. By the laws presented here, it also means that the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> model for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s has to be consistent with the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> model.</dd></dl>
+<p>Furthermore, for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s, providing a definition of <code>length</code> is sufficient to be a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>;</p>
+<p>For convenience, finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must only provide a definition of <code>length</code> to model the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> concept; defining the more powerful <code>unpack</code> or <code>fold_left</code> is not necessary (but still possible). The default implementation of <code>unpack</code> derived from <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> + <code>length</code> uses the fact that <code>at(xs, i)</code> denotes the <code>i</code>th element of <code>xs</code>'s linearization, and that the linearization of a finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> must be the same as its linearization as a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>.</p>
 <h2>Concrete models </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:ab1730f0d9051da9757a5d3956136c571"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a></td></tr>
-<tr class="memdesc:ab1730f0d9051da9757a5d3956136c571"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a non-empty iterable.  <a href="#ab1730f0d9051da9757a5d3956136c571">More...</a><br /></td></tr>
-<tr class="separator:ab1730f0d9051da9757a5d3956136c571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab15783aae10d4373e2399abe728f3f96"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a></td></tr>
-<tr class="memdesc:ab15783aae10d4373e2399abe728f3f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new iterable containing all but the first element of a non-empty iterable.  <a href="#ab15783aae10d4373e2399abe728f3f96">More...</a><br /></td></tr>
-<tr class="separator:ab15783aae10d4373e2399abe728f3f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4193ecf811f29479c60022564afa512a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a></td></tr>
-<tr class="memdesc:a4193ecf811f29479c60022564afa512a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the iterable is empty.  <a href="#a4193ecf811f29479c60022564afa512a">More...</a><br /></td></tr>
-<tr class="separator:a4193ecf811f29479c60022564afa512a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4e91486be10ef3a19495cb3d3652721"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a></td></tr>
 <tr class="memdesc:af4e91486be10ef3a19495cb3d3652721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>n</code>th element of an iterable.  <a href="#af4e91486be10ef3a19495cb3d3652721">More...</a><br /></td></tr>
 <tr class="separator:af4e91486be10ef3a19495cb3d3652721"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,98 +203,17 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aab3e80f4ae219afb61b12201738d28b8"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a></td></tr>
 <tr class="memdesc:aab3e80f4ae219afb61b12201738d28b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop elements from an iterable up to, but excluding, the first element for which the <code>predicate</code> is not satisfied.  <a href="#aab3e80f4ae219afb61b12201738d28b8">More...</a><br /></td></tr>
 <tr class="separator:aab3e80f4ae219afb61b12201738d28b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ea270dc46fcf8e1a186e99c3019e551"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a></td></tr>
-<tr class="memdesc:a7ea270dc46fcf8e1a186e99c3019e551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop elements from an iterable up to, but excluding, the first element for which the <code>predicate</code> is satisfied.  <a href="#a7ea270dc46fcf8e1a186e99c3019e551">More...</a><br /></td></tr>
-<tr class="separator:a7ea270dc46fcf8e1a186e99c3019e551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1730f0d9051da9757a5d3956136c571"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a></td></tr>
+<tr class="memdesc:ab1730f0d9051da9757a5d3956136c571"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a non-empty iterable.  <a href="#ab1730f0d9051da9757a5d3956136c571">More...</a><br /></td></tr>
+<tr class="separator:ab1730f0d9051da9757a5d3956136c571"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4193ecf811f29479c60022564afa512a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a></td></tr>
+<tr class="memdesc:a4193ecf811f29479c60022564afa512a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the iterable is empty.  <a href="#a4193ecf811f29479c60022564afa512a">More...</a><br /></td></tr>
+<tr class="separator:a4193ecf811f29479c60022564afa512a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab15783aae10d4373e2399abe728f3f96"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a></td></tr>
+<tr class="memdesc:ab15783aae10d4373e2399abe728f3f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new iterable containing all but the first element of a non-empty iterable.  <a href="#ab15783aae10d4373e2399abe728f3f96">More...</a><br /></td></tr>
+<tr class="separator:ab15783aae10d4373e2399abe728f3f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="ab1730f0d9051da9757a5d3956136c571"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto front</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns the first element of a non-empty iterable. </p>
-<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="ab15783aae10d4373e2399abe728f3f96"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto tail</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns a new iterable containing all but the first element of a non-empty iterable. </p>
-<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>tail(xs)</code> is an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> of the same data type whose linearization is <code>[x2, ..., xN]</code>. In particular, <code>tail(xs)</code> is functionally equivalent to <code>drop(xs, size_t&lt;1&gt;)</code>.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
-<div class="line">);</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a class="anchor" id="a4193ecf811f29479c60022564afa512a"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto is_empty</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns whether the iterable is empty. </p>
-<p><code>is_empty</code> must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether the iterable is empty.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple()));</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="af4e91486be10ef3a19495cb3d3652721"></a>
 <div class="memitem">
 <div class="memproto">
@@ -516,7 +415,7 @@ template&lt;std::size_t n&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable, <span class="keyword">auto</span>&amp;&amp; predicate) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable, <span class="keyword">auto</span>&amp;&amp; predicate) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -530,7 +429,7 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceliterals.html">literals</a>;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> negative = [](<span class="keyword">auto</span> x) {</div>
 <div class="line">    <span class="keywordflow">return</span> x &lt; int_&lt;0&gt;;</div>
 <div class="line">};</div>
@@ -545,7 +444,7 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a7ea270dc46fcf8e1a186e99c3019e551"></a>
+<a class="anchor" id="ab1730f0d9051da9757a5d3956136c571"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -553,7 +452,7 @@ template&lt;std::size_t n&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto drop_until</td>
+          <td class="memname">constexpr auto front</td>
         </tr>
       </table>
   </td>
@@ -562,33 +461,72 @@ template&lt;std::size_t n&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; iterable, <span class="keyword">auto</span>&amp;&amp; predicate) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Drop elements from an iterable up to, but excluding, the first element for which the <code>predicate</code> is satisfied. </p>
-<p>Specifically, <code>drop_until</code> returns an iterable containing all the elements of the original iterable except for those in the range delimited by [<code>head</code>, <code>e</code>), where <code>head</code> is the first element and <code>e</code> is the first element for which the <code>predicate</code> is satisfied. If the iterable is not finite, the <code>predicate</code> has to return a true- valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> at a finite index for this method to return.</p>
-<dl class="section note"><dt>Note</dt><dd>This is effectively equivalent to <code>drop_while</code> with a negated <code>predicate</code>.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">iterable</td><td>The iterable from which elements are dropped.</td></tr>
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code>, where <code>x</code> is an element of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> and subsequent elements should be kept in the structure. In the current version of the library, <code>predicate</code> should return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Returns the first element of a non-empty iterable. </p>
+<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
-<div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> positive = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x &gt; int_&lt;0&gt;;</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a>(range(int_&lt;-3&gt;, int_&lt;6&gt;), positive) == range(int_&lt;1&gt;, int_&lt;6&gt;)</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#a7ea270dc46fcf8e1a186e99c3019e551">drop_until</a>(make_tuple(1_c, -2_c, 4_c, 5_c), positive) == make_tuple(1_c, -2_c, 4_c, 5_c)</div>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a4193ecf811f29479c60022564afa512a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto is_empty</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns whether the iterable is empty. </p>
+<p><code>is_empty</code> must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether the iterable is empty.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple()));</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="ab15783aae10d4373e2399abe728f3f96"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto tail</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns a new iterable containing all but the first element of a non-empty iterable. </p>
+<p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>tail(xs)</code> is an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> of the same data type whose linearization is <code>[x2, ..., xN]</code>. In particular, <code>tail(xs)</code> is functionally equivalent to <code>drop(xs, size_t&lt;1&gt;)</code>.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -599,7 +537,7 @@ template&lt;std::size_t n&gt; </div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Iterable.html">Iterable</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Iterable.html">Iterable</a></li>
   </ul>
 </div>
 </body>

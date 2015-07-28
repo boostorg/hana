@@ -193,13 +193,13 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a0e9320a2061eb61136c4ea0ea74b22ce"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce">monadic_compose</a></td></tr>
 <tr class="memdesc:a0e9320a2061eb61136c4ea0ea74b22ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Composition of monadic functions.  <a href="#a0e9320a2061eb61136c4ea0ea74b22ce">More...</a><br /></td></tr>
 <tr class="separator:a0e9320a2061eb61136c4ea0ea74b22ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfc7efb0044a87a21f663b1a151dac56"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monad.html#abfc7efb0044a87a21f663b1a151dac56">then</a></td></tr>
-<tr class="memdesc:abfc7efb0044a87a21f663b1a151dac56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequentially compose two monadic actions, discarding any value produced by the first but not its effects.  <a href="#abfc7efb0044a87a21f663b1a151dac56">More...</a><br /></td></tr>
-<tr class="separator:abfc7efb0044a87a21f663b1a151dac56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
 <tr class="memitem:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monad.html#a17ea859a2702ea45ea4999a8a0d2cc63">tap</a></td></tr>
 <tr class="memdesc:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tap inside a monadic chain.  <a href="#a17ea859a2702ea45ea4999a8a0d2cc63">More...</a><br /></td></tr>
 <tr class="separator:a17ea859a2702ea45ea4999a8a0d2cc63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc7efb0044a87a21f663b1a151dac56"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Monad.html#abfc7efb0044a87a21f663b1a151dac56">then</a></td></tr>
+<tr class="memdesc:abfc7efb0044a87a21f663b1a151dac56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sequentially compose two monadic actions, discarding any value produced by the first but not its effects.  <a href="#abfc7efb0044a87a21f663b1a151dac56">More...</a><br /></td></tr>
+<tr class="separator:abfc7efb0044a87a21f663b1a151dac56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ae8749eb63880a6a84ddee9ada5c1466c"></a>
@@ -284,14 +284,15 @@ Synopsis of associated functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Collapse two levels of monadic structure into a single level. </p>
 <p>Given a monadic value wrapped into two levels of monad, <code>flatten</code> removes one such level. An implementation of <code>flatten</code> must satisfy </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(xs) == <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(xs, <span class="keywordtype">id</span>)</div>
-</div><!-- fragment --><h2>Signature </h2>
-<p>For a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> <code>M</code> and an arbitrary data type <code>T</code>, <code>flatten</code> has a signature of \( \mathrm{flatten} : M(M(T)) \to M(T) \)</p>
+</div><!-- fragment --><p>For <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s, this simply takes a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s, and returns a (non-recursively) flattened <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>.</p>
+<h2>Signature </h2>
+<p>For a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> <code>M</code>, the signature of <code>flatten</code> is \( \mathtt{flatten} : M(M(T)) \to M(T) \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>A value with two levels of monadic structure, which should be collapsed into a single level of structure.</td></tr>
@@ -338,7 +339,7 @@ Synopsis of associated functions</h2></td></tr>
 <p>Given two monadic functions <code>f</code> and <code>g</code>, <code>monadic_compose</code> returns a new function equivalent to the composition of <code>f</code> with <code>g</code>, except the result of <code>g</code> is <code>chain</code>ed into <code>f</code> instead of simply passed to it, as with normal composition. <code>monadic_compose</code> satisfies </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce">monadic_compose</a>(f, g)(x) == <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(g(x), f)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Unlike <code>compose</code>, <code>monadic_compose</code> does not generalize nicely to arities higher than one. Hence, only unary functions may be used with <code>monadic_compose</code>.</dd></dl>
 <h2>Signature </h2>
-<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> <code>M</code> and two functions \( f : B \to M(C) \) and \( g : A \to M(B) \), the signature is \( \mathrm{monadic_compose} : (B \to M(C)) \times (A \to M(B)) \to (A \to M(C)) \).</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> <code>M</code> and two functions \( f : B \to M(C) \) and \( g : A \to M(B) \), the signature is \( \mathtt{monadic_compose} : (B \to M(C)) \times (A \to M(B)) \to (A \to M(C)) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">f</td><td>A monadic function with signature \( B \to M(C) \).</td></tr>
@@ -363,6 +364,58 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1)    == nothing); <span class="comment">// fails inside g; 1 has type int</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1.2)  == nothing); <span class="comment">// fails inside f; 1.2 has type double</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(h(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>)); <span class="comment">// ok; &#39;x&#39; has type char</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a class="anchor" id="a17ea859a2702ea45ea4999a8a0d2cc63"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto tap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Tap inside a monadic chain. </p>
+<p>Given a function <code>f</code>, <code>tap&lt;M&gt;</code> returns a new function which performs <code>f</code> on its argument and then returns the argument lifted in the <code>M</code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>. Combined with the property that <code>chain(m, lift&lt;M&gt;) == m</code>, this provides a way of executing an action inside a monadic chain without influencing its overall result. This is useful to e.g. insert debug statements or perform actions that are not tied to the chain but that need to be executed inside of it.</p>
+<dl class="section note"><dt>Note</dt><dd>Since C++ is not a pure language, it is possible to perform side effects inside the <code>f</code> function. Actually, side effects are the only reason why one might want to use <code>tap</code>. However, one should not rely on the side effects being done in any specific order.</dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">M</td><td>The data type (a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>) of the monads in the tapped monadic chain.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">f</td><td>A function to be executed inside a monadic chain. It will be called as <code>f(x)</code>, where <code>x</code> is a value inside the previous monad in the chain. The result of <code>f</code> is always discarded.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">std::stringstream before, after;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2, 3)</div>
+<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
+<div class="line">    | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x); }</div>
+<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(xs == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -406,65 +459,13 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a17ea859a2702ea45ea4999a8a0d2cc63"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename M &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto tap</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Tap inside a monadic chain. </p>
-<p>Given a function <code>f</code>, <code>tap&lt;M&gt;</code> returns a new function which performs <code>f</code> on its argument and then returns the argument lifted in the <code>M</code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>. Combined with the property that <code>chain(m, lift&lt;M&gt;) == m</code>, this provides a way of executing an action inside a monadic chain without influencing its overall result. This is useful to e.g. insert debug statements or perform actions that are not tied to the chain but that need to be executed inside of it.</p>
-<dl class="section note"><dt>Note</dt><dd>Since C++ is not a pure language, it is possible to perform side effects inside the <code>f</code> function. Actually, side effects are the only reason why one might want to use <code>tap</code>. However, one should not rely on the side effects being done in any specific order.</dd></dl>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">M</td><td>The data type (a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>) of the monads in the tapped monadic chain.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">f</td><td>A function to be executed inside a monadic chain. It will be called as <code>f(x)</code>, where <code>x</code> is a value inside the previous monad in the chain. The result of <code>f</code> is always discarded.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line">std::stringstream before, after;</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2, 3)</div>
-<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
-<div class="line">    | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x); }</div>
-<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(xs == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
-</div><!-- fragment -->
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Monad.html">Monad</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Monad.html">Monad</a></li>
   </ul>
 </div>
 </body>

@@ -152,42 +152,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 </div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a09bc77dab527650793cab53fce2c14b0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a></td></tr>
-<tr class="memdesc:a09bc77dab527650793cab53fce2c14b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the successor of a value.  <a href="#a09bc77dab527650793cab53fce2c14b0">More...</a><br /></td></tr>
-<tr class="separator:a09bc77dab527650793cab53fce2c14b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a283eaffe2c556e841a84a2e03d6b95f9"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a></td></tr>
 <tr class="memdesc:a283eaffe2c556e841a84a2e03d6b95f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the predecessor of a value.  <a href="#a283eaffe2c556e841a84a2e03d6b95f9">More...</a><br /></td></tr>
 <tr class="separator:a283eaffe2c556e841a84a2e03d6b95f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09bc77dab527650793cab53fce2c14b0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a></td></tr>
+<tr class="memdesc:a09bc77dab527650793cab53fce2c14b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the successor of a value.  <a href="#a09bc77dab527650793cab53fce2c14b0">More...</a><br /></td></tr>
+<tr class="separator:a09bc77dab527650793cab53fce2c14b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a09bc77dab527650793cab53fce2c14b0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto succ</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; num) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns the successor of a value. </p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(int_&lt;4&gt;) == int_&lt;5&gt;);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(10) == 11, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="a283eaffe2c556e841a84a2e03d6b95f9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -216,13 +188,41 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a09bc77dab527650793cab53fce2c14b0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto succ</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; num) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns the successor of a value. </p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(int_&lt;4&gt;) == int_&lt;5&gt;);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(10) == 11, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Enumerable.html">Enumerable</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Enumerable.html">Enumerable</a></li>
   </ul>
 </div>
 </body>

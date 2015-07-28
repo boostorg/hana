@@ -1,9 +1,12 @@
 var searchData=
 [
   ['back',['back',['../structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895',1,'boost::hana::Iterable']]],
-  ['bool_2ehpp',['bool.hpp',['../fwd_2bool_8hpp.html',1,'']]],
+  ['back_2ehpp',['back.hpp',['../back_8hpp.html',1,'']]],
+  ['back_2ehpp',['back.hpp',['../fwd_2back_8hpp.html',1,'']]],
   ['bool_2ehpp',['bool.hpp',['../bool_8hpp.html',1,'']]],
+  ['bool_2ehpp',['bool.hpp',['../fwd_2bool_8hpp.html',1,'']]],
   ['bool_5f',['bool_',['../structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87',1,'boost::hana::IntegralConstant']]],
+  ['boost',['boost',['../namespaceboost.html',1,'']]],
   ['boost_2ehpp',['boost.hpp',['../boost_8hpp.html',1,'']]],
   ['boost_5fhana_5fadapt_5fstruct',['BOOST_HANA_ADAPT_STRUCT',['../structboost_1_1hana_1_1Struct.html#a3696cd2b4a74c76439b4fc0089676a77',1,'boost::hana::Struct']]],
   ['boost_5fhana_5fassert',['BOOST_HANA_ASSERT',['../group__group-assertions.html#ga3aef20746c9e8ad15ad10179f9b01397',1,'assert.hpp']]],
@@ -29,5 +32,7 @@ var searchData=
   ['bug_20list',['Bug List',['../bug.html',1,'']]],
   ['by',['by',['../group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18',1,'boost::hana::detail']]],
   ['by_2ehpp',['by.hpp',['../by_8hpp.html',1,'']]],
-  ['by_5ffwd_2ehpp',['by_fwd.hpp',['../by__fwd_8hpp.html',1,'']]]
+  ['by_5ffwd_2ehpp',['by_fwd.hpp',['../by__fwd_8hpp.html',1,'']]],
+  ['detail',['detail',['../namespaceboost_1_1hana_1_1detail.html',1,'boost::hana']]],
+  ['struct_5fdetail',['struct_detail',['../namespaceboost_1_1hana_1_1struct__detail.html',1,'boost::hana']]]
 ];

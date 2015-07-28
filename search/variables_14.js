@@ -7,6 +7,5 @@ var searchData=
   ['unfold_5fright',['unfold_right',['../structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442',1,'boost::hana::Sequence']]],
   ['unique',['unique',['../structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590',1,'boost::hana::Sequence']]],
   ['unpack',['unpack',['../structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328',1,'boost::hana::Foldable']]],
-  ['until',['until',['../structboost_1_1hana_1_1Logical.html#a4fdaf4c04c0ffd8172004ed37c1d44b7',1,'boost::hana::Logical']]],
   ['ushort',['ushort',['../structboost_1_1hana_1_1IntegralConstant.html#af27cdbb184ef3eb020a534766206789c',1,'boost::hana::IntegralConstant']]]
 ];

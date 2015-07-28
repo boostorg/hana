@@ -141,11 +141,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Comonad.html','
 <p>Formally, the <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> concept is dual to the <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> concept. But unless you're a mathematician, you don't care about that and it's fine. So intuitively, a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> represents context sensitive values and computations. First, Comonads make it possible to extract context-sensitive values from their context with <code>extract</code>. In contrast, Monads make it possible to wrap raw values into a given context with <code>lift</code> (from <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a>).</p>
 <p>Second, Comonads make it possible to apply context-sensitive values to functions accepting those, and to return the result as a context-sensitive value using <code>extend</code>. In contrast, Monads make it possible to apply a monadic value to a function accepting a normal value and returning a monadic value, and to return the result as a monadic value (with <code>chain</code>).</p>
 <p>Finally, Comonads make it possible to wrap a context-sensitive value into an extra layer of context using <code>duplicate</code>, while Monads make it possible to take a value with an extra layer of context and to strip it with <code>flatten</code>.</p>
-<p>Whereas <code>lift</code>, <code>chain</code> and <code>flatten</code> from <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> and <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> have types </p><p class="formulaDsp">
-\begin{align*} \mathrm{lift}_M &amp;: T \to M(T) \\ \mathrm{chain} &amp;: M(T) \times (T \to M(U)) \to M(U) \\ \mathrm{flatten} &amp;: M(M(T)) \to M(T) \end{align*}
+<p>Whereas <code>lift</code>, <code>chain</code> and <code>flatten</code> from <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> and <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> have signatures </p><p class="formulaDsp">
+\begin{align*} \mathtt{lift}_M &amp;: T \to M(T) \\ \mathtt{chain} &amp;: M(T) \times (T \to M(U)) \to M(U) \\ \mathtt{flatten} &amp;: M(M(T)) \to M(T) \end{align*}
 </p>
-<p><code>extract</code>, <code>extend</code> and <code>duplicate</code> from <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> have types </p><p class="formulaDsp">
-\begin{align*} \mathrm{extract} &amp;: W(T) \to T \\ \mathrm{extend} &amp;: W(T) \times (W(T) \to U) \to W(U) \\ \mathrm{duplicate} &amp;: W(T) \to W(W(T)) \end{align*}
+<p><code>extract</code>, <code>extend</code> and <code>duplicate</code> from <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> have signatures </p><p class="formulaDsp">
+\begin{align*} \mathtt{extract} &amp;: W(T) \to T \\ \mathtt{extend} &amp;: W(T) \times (W(T) \to U) \to W(U) \\ \mathtt{duplicate} &amp;: W(T) \to W(W(T)) \end{align*}
 </p>
 <p>Notice how the "arrows" are reversed. This symmetry is essentially what we mean by <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> being the <em>dual</em> of <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a>.</p>
 <h2>Minimal complete definition </h2>
@@ -165,54 +165,17 @@ Every <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comona
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a></td></tr>
-<tr class="memdesc:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a value in a given comonadic context.  <a href="#a5b42ad77d8de0ba34a0d7cafef951d75">More...</a><br /></td></tr>
-<tr class="separator:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afad82256757090063fe46aab188dd0e1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a></td></tr>
 <tr class="memdesc:afad82256757090063fe46aab188dd0e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an extra layer of comonadic context to a comonadic value.  <a href="#afad82256757090063fe46aab188dd0e1">More...</a><br /></td></tr>
 <tr class="separator:afad82256757090063fe46aab188dd0e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad060d73b868bea1e0f4aa8037d5a3447"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Comonad.html#ad060d73b868bea1e0f4aa8037d5a3447">extend</a></td></tr>
 <tr class="memdesc:ad060d73b868bea1e0f4aa8037d5a3447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comonadic application of a function to a comonadic value.  <a href="#ad060d73b868bea1e0f4aa8037d5a3447">More...</a><br /></td></tr>
 <tr class="separator:ad060d73b868bea1e0f4aa8037d5a3447"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a></td></tr>
+<tr class="memdesc:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a value in a given comonadic context.  <a href="#a5b42ad77d8de0ba34a0d7cafef951d75">More...</a><br /></td></tr>
+<tr class="separator:a5b42ad77d8de0ba34a0d7cafef951d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a5b42ad77d8de0ba34a0d7cafef951d75"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto extract</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; w) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Extract a value in a given comonadic context. </p>
-<p>Given a value inside a comonadic context, extract it from that context, performing whatever effects are mandated by that context. This can be seen as the dual operation to the <code>lift</code> method of the <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> concept.</p>
-<h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code>, the signature is \( \mathrm{extract} : W(T) \to T \)</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">w</td><td>The value to be extracted inside a comonadic context.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
-</div>
-</div>
 <a class="anchor" id="afad82256757090063fe46aab188dd0e1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +200,7 @@ Synopsis of associated functions</h2></td></tr>
 <p>Add an extra layer of comonadic context to a comonadic value. </p>
 <p>Given a value already in a comonadic context, <code>duplicate</code> wraps this value with an additional layer of comonadic context. This can be seen as the dual operation to <code>flatten</code> from the <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> concept.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code>, the signature is \( \mathrm{duplicate} : W(T) \to W(W(T)) \)</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code>, the signature is \( \mathtt{duplicate} : W(T) \to W(W(T)) \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">w</td><td>The value to wrap in an additional level of comonadic context.</td></tr>
@@ -273,7 +236,7 @@ Synopsis of associated functions</h2></td></tr>
 <p>Comonadic application of a function to a comonadic value. </p>
 <p>Given a comonadic value and a function accepting a comonadic input, <code>extend</code> returns the result of applying the function to that input inside the comonadic context.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code> and a function of type \( W(T) \to U \), the signature is \( \mathrm{extend} : W(T) \times (W(T) \to U) \to W(U) \)</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code> and a function of type \( W(T) \to U \), the signature is \( \mathtt{extend} : W(T) \times (W(T) \to U) \to W(U) \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">w</td><td>A comonadic value to call the function with.</td></tr>
@@ -299,13 +262,50 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a class="anchor" id="a5b42ad77d8de0ba34a0d7cafef951d75"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto extract</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; w) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Extract a value in a given comonadic context. </p>
+<p>Given a value inside a comonadic context, extract it from that context, performing whatever effects are mandated by that context. This can be seen as the dual operation to the <code>lift</code> method of the <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> concept.</p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> <code>W</code>, the signature is \( \mathtt{extract} : W(T) \to T \)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>The value to be extracted inside a comonadic context.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>boost</b></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Comonad.html">Comonad</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1Comonad.html">Comonad</a></li>
   </ul>
 </div>
 </body>
