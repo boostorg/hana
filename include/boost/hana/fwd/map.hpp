@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     struct Map { };
 
     template <typename ...Pairs>
-    struct _map;
+    struct map;
 
     //! Function object for creating a `Map`.
     //! @relates Map
@@ -111,12 +111,12 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    struct _values {
+    struct values_t {
         template <typename Map>
         constexpr decltype(auto) operator()(Map&& map) const;
     };
 
-    constexpr _values values{};
+    constexpr values_t values{};
 #endif
 
     //! Inserts a new key/value pair in a `Map`.

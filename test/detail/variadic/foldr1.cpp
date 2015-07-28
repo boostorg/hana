@@ -19,7 +19,7 @@ using x = test::ct_eq<i>;
 
 // We do not use test::_injection here because comparing the result would
 // blow away the template recursion limit.
-struct _f {
+struct f_t {
     template <typename X, typename Y>
     constexpr auto operator()(X const&, Y const&) {
         return x<value<X>() - value<Y>()>{};
@@ -28,7 +28,7 @@ struct _f {
 
 int main() {
     using detail::variadic::foldr1;
-    _f f{};
+    f_t f{};
 
     BOOST_HANA_CONSTANT_CHECK(equal(
         foldr1(undefined{}, x<0>{}),

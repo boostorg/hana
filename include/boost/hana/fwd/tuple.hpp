@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //! `Tuple`s are index-based sequences. If you need an associative
     //! sequence with a key-based access, then you should consider the
-    //! `Map` and `Set` data types instead.
+    //! `Map` or `Set` data types instead.
     //!
     //!
     //! Modeled concepts
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     struct Tuple { };
 
     template <typename ...Xs>
-    struct _tuple;
+    struct tuple;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Function object for creating a `Tuple`.
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //! @snippet example/tuple.cpp make<Tuple>
     template <>
     constexpr auto make<Tuple> = [](auto&& ...xs)
-        -> _tuple<std::decay_t<decltype(xs)>...>
+        -> tuple<std::decay_t<decltype(xs)>...>
     {
         return {forwarded(xs)...};
     };

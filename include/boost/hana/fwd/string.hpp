@@ -95,10 +95,10 @@ namespace boost { namespace hana {
     constexpr unspecified-type string{};
 #else
     template <char ...s>
-    struct _string;
+    struct string_t;
 
     template <char ...s>
-    constexpr _string<s...> string{};
+    constexpr string_t<s...> string{};
 #endif
 
     //! Create a compile-time string from a string literal `s`.

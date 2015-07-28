@@ -26,17 +26,17 @@ namespace boost { namespace hana {
         struct CNumeric { using value_type = T; };
 
         template <typename T, T v>
-        struct _cnumeric {
+        struct cnumeric_t {
             static constexpr T value = v;
             struct hana { using datatype = CNumeric<T>; };
             constexpr operator T() const { return value; }
         };
 
         template <typename T, T v>
-        constexpr _cnumeric<T, v> cnumeric{};
+        constexpr cnumeric_t<T, v> cnumeric{};
 
         template <typename T, T v>
-        constexpr _cnumeric<T, v> make_cnumeric() { return {}; }
+        constexpr cnumeric_t<T, v> make_cnumeric() { return {}; }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -51,10 +51,10 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<test::CNumeric<T>, C, when<
-        _models<Constant, C>{}() &&
-        std::is_integral<typename C::value_type>{}()
+        _models<Constant, C>::value &&
+        std::is_integral<typename C::value_type>::value
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}()>
+        : embedding<is_embedded<typename C::value_type, T>::value>
     {
         static_assert(std::is_integral<T>{},
         "trying to convert a Constant to a test::CNumeric of a non-integral "

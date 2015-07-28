@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     struct Pair { };
 
     template <typename First, typename Second>
-    struct _pair;
+    struct pair;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Creates a `Pair` with the given elements.
@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     //! @snippet example/pair.cpp make<Pair>
     template <>
     constexpr auto make<Pair> = [](auto&& first, auto&& second)
-        -> _pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
+        -> pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
     {
         return {forwarded(first), forwarded(second)};
     };

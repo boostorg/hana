@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _flip {
+    struct flip_t {
         F f;
 
         template <typename X, typename Y, typename ...Z>
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr detail::create<_flip> flip{};
+    constexpr detail::create<flip_t> flip{};
 #endif
 }} // end namespace boost::hana
 

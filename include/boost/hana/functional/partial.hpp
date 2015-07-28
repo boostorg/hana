@@ -48,10 +48,10 @@ namespace boost { namespace hana {
     };
 #else
     template <typename Indices, typename F, typename ...X>
-    struct _partial;
+    struct partial_t;
 
     template <std::size_t ...n, typename F, typename ...X>
-    struct _partial<std::index_sequence<n...>, F, X...>
+    struct partial_t<std::index_sequence<n...>, F, X...>
         : detail::closure<F, X...>
     {
         using detail::closure<F, X...>::closure;
@@ -83,9 +83,9 @@ namespace boost { namespace hana {
         }
     };
 
-    struct _make_partial {
+    struct make_partial_t {
         template <typename F, typename ...X>
-        constexpr _partial<
+        constexpr partial_t<
             std::make_index_sequence<sizeof...(X)>,
             typename std::decay<F>::type,
             typename std::decay<X>::type...
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _make_partial partial{};
+    constexpr make_partial_t partial{};
 #endif
 }} // end namespace boost::hana
 

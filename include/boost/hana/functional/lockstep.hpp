@@ -44,10 +44,10 @@ namespace boost { namespace hana {
     };
 #else
     template <typename Indices, typename F, typename ...G>
-    struct _lockstep;
+    struct lockstep_t;
 
     template <std::size_t ...n, typename F, typename ...G>
-    struct _lockstep<std::index_sequence<n...>, F, G...>
+    struct lockstep_t<std::index_sequence<n...>, F, G...>
         : detail::closure<F, G...>
     {
         using detail::closure<F, G...>::closure;
@@ -77,25 +77,25 @@ namespace boost { namespace hana {
     };
 
     template <typename F>
-    struct _pre_lockstep {
+    struct make_lockstep_t {
         F f;
 
         template <typename ...G>
-        constexpr _lockstep<std::make_index_sequence<sizeof...(G)>, F,
-                            typename std::decay<G>::type...>
+        constexpr lockstep_t<std::make_index_sequence<sizeof...(G)>, F,
+                             typename std::decay<G>::type...>
         operator()(G&& ...g) const& {
             return {this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
-        constexpr _lockstep<std::make_index_sequence<sizeof...(G)>, F,
-                            typename std::decay<G>::type...>
+        constexpr lockstep_t<std::make_index_sequence<sizeof...(G)>, F,
+                             typename std::decay<G>::type...>
         operator()(G&& ...g) && {
             return {static_cast<F&&>(this->f), static_cast<G&&>(g)...};
         }
     };
 
-    constexpr detail::create<_pre_lockstep> lockstep{};
+    constexpr detail::create<make_lockstep_t> lockstep{};
 #endif
 }} // end namespace boost::hana
 

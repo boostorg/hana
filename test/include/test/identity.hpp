@@ -25,12 +25,12 @@ namespace boost { namespace hana {
         struct Identity;
 
         template <typename T>
-        struct _identity {
+        struct identity_t {
             T value;
             struct hana { using datatype = Identity; };
         };
 
-        constexpr detail::create<_identity> identity{};
+        constexpr detail::create<identity_t> identity{};
     }
 
     //////////////////////////////////////////////////////////////////////////

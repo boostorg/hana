@@ -181,7 +181,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         }
     };
 
-    struct _foldr1 {
+    struct foldr1_t {
         template <typename F, typename X1, typename ...Xn>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, Xn&& ...xn) const {
             return foldr1_impl<sizeof...(xn) + 1>::apply(
@@ -190,9 +190,9 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         }
     };
 
-    constexpr _foldr1 foldr1{};
+    constexpr foldr1_t foldr1{};
 
-    struct _foldr {
+    struct foldr_t {
         template <typename F, typename State, typename ...Xn>
         constexpr decltype(auto) operator()(F&& f, State&& state, Xn&& ...xn) const {
             return foldr1_impl<sizeof...(xn) + 1>::apply(
@@ -201,7 +201,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         }
     };
 
-    constexpr _foldr foldr{};
+    constexpr foldr_t foldr{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_FOLDR1_HPP

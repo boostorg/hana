@@ -20,7 +20,7 @@ namespace boost { namespace hana { namespace detail {
     //! @cond
     template <typename Algorithm>
     template <typename Predicate, typename Object>
-    constexpr decltype(auto) _by<Algorithm>::
+    constexpr decltype(auto) by_t<Algorithm>::
     operator()(Predicate&& predicate, Object&& object) const
     {
         return Algorithm{}(static_cast<Object&&>(object),
@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace detail {
     template <typename Algorithm>
     template <typename Predicate>
     constexpr decltype(auto)
-    _by<Algorithm>::operator()(Predicate&& predicate) const
+    by_t<Algorithm>::operator()(Predicate&& predicate) const
     {
         return hana::partial(hana::flip(Algorithm{}),
                              static_cast<Predicate&&>(predicate));

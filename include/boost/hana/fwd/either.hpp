@@ -167,7 +167,7 @@ namespace boost { namespace hana {
             return forwarded(g)(forwarded(y));
     };
 #else
-    struct _either {
+    struct either_t {
         template <typename F, typename G, typename E>
         constexpr decltype(auto) operator()(F&& f, G&& g, E&& e) const {
             return static_cast<E&&>(e).go(
@@ -177,7 +177,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _either either{};
+    constexpr either_t either{};
 #endif
 }} // end namespace boost::hana
 

@@ -78,7 +78,7 @@ namespace boost { namespace hana {
 #endif
 
     template <typename ...Xs>
-    struct _set;
+    struct set;
 
     //! Equivalent to `make<Set>`; provided for convenience.
     //! @relates Set
@@ -88,10 +88,6 @@ namespace boost { namespace hana {
     //! -------
     //! @snippet example/set.cpp make_set
     constexpr auto make_set = make<Set>;
-
-    //! Equivalent to `make<Set>`, provided for convenience.
-    //! @relates Set
-    constexpr auto set = make<Set>;
 
     //! Insert an element in a `Set`.
     //! @relates Set

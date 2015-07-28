@@ -41,34 +41,34 @@ namespace boost { namespace hana {
     // lazy
     //////////////////////////////////////////////////////////////////////////
     template <typename Indices, typename F, typename ...Args>
-    struct _lazy_apply;
+    struct lazy_apply_t;
 
     template <std::size_t ...n, typename F, typename ...Args>
-    struct _lazy_apply<std::index_sequence<n...>, F, Args...>
+    struct lazy_apply_t<std::index_sequence<n...>, F, Args...>
         : operators::adl, detail::closure<F, Args...>
     {
-        _lazy_apply(_lazy_apply const&) = default;
-        _lazy_apply(_lazy_apply&) = default;
-        _lazy_apply(_lazy_apply&&) = default;
+        lazy_apply_t(lazy_apply_t const&) = default;
+        lazy_apply_t(lazy_apply_t&) = default;
+        lazy_apply_t(lazy_apply_t&&) = default;
         using detail::closure<F, Args...>::closure;
-        using hana = _lazy_apply;
+        using hana = lazy_apply_t;
         using datatype = Lazy;
     };
 
     template <typename X>
-    struct _lazy_value
+    struct lazy_value_t
         : operators::adl, detail::closure<X>
     {
-        _lazy_value(_lazy_value const&) = default;
-        _lazy_value(_lazy_value&) = default;
-        _lazy_value(_lazy_value&&) = default;
+        lazy_value_t(lazy_value_t const&) = default;
+        lazy_value_t(lazy_value_t&) = default;
+        lazy_value_t(lazy_value_t&&) = default;
         using detail::closure<X>::closure;
-        using hana = _lazy_value;
+        using hana = lazy_value_t;
         using datatype = Lazy;
 
         // If this is called, we assume that `X` is in fact a function.
         template <typename ...Args>
-        constexpr _lazy_apply<
+        constexpr lazy_apply_t<
             std::make_index_sequence<sizeof...(Args)>,
             X, typename std::decay<Args>::type...
         > operator()(Args&& ...args) const& {
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
         }
 
         template <typename ...Args>
-        constexpr _lazy_apply<
+        constexpr lazy_apply_t<
             std::make_index_sequence<sizeof...(Args)>,
             X, typename std::decay<Args>::type...
         > operator()(Args&& ...args) && {
@@ -89,8 +89,8 @@ namespace boost { namespace hana {
 
     //! @cond
     template <typename X>
-    constexpr auto _lazy::operator()(X&& x) const {
-        return _lazy_value<typename std::decay<X>::type>{
+    constexpr auto lazy_t::operator()(X&& x) const {
+        return lazy_value_t<typename std::decay<X>::type>{
             static_cast<X&&>(x)
         };
     }
@@ -109,10 +109,10 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct eval_impl<Lazy> {
-        // _lazy_apply
+        // lazy_apply_t
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
-        apply(_lazy_apply<std::index_sequence<n...>, F, Args...> const& expr) {
+        apply(lazy_apply_t<std::index_sequence<n...>, F, Args...> const& expr) {
             return detail::get<0>(expr)(
                 detail::get<n+1>(expr)...
             );
@@ -120,7 +120,7 @@ namespace boost { namespace hana {
 
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
-        apply(_lazy_apply<std::index_sequence<n...>, F, Args...>& expr) {
+        apply(lazy_apply_t<std::index_sequence<n...>, F, Args...>& expr) {
             return detail::get<0>(expr)(
                 detail::get<n+1>(expr)...
             );
@@ -128,23 +128,23 @@ namespace boost { namespace hana {
 
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
-        apply(_lazy_apply<std::index_sequence<n...>, F, Args...>&& expr) {
+        apply(lazy_apply_t<std::index_sequence<n...>, F, Args...>&& expr) {
             return static_cast<F&&>(detail::get<0>(expr))(
                 static_cast<Args&&>(detail::get<n+1>(expr))...
             );
         }
 
-        // _lazy_value
+        // lazy_value_t
         template <typename X>
-        static constexpr X const& apply(_lazy_value<X> const& expr)
+        static constexpr X const& apply(lazy_value_t<X> const& expr)
         { return detail::get<0>(expr); }
 
         template <typename X>
-        static constexpr X& apply(_lazy_value<X>& expr)
+        static constexpr X& apply(lazy_value_t<X>& expr)
         { return detail::get<0>(expr); }
 
         template <typename X>
-        static constexpr X apply(_lazy_value<X>&& expr)
+        static constexpr X apply(lazy_value_t<X>&& expr)
         { return static_cast<X&&>(detail::get<0>(expr)); }
     };
 
@@ -167,7 +167,7 @@ namespace boost { namespace hana {
     template <>
     struct lift_impl<Lazy> {
         template <typename X>
-        static constexpr _lazy_value<typename std::decay<X>::type>
+        static constexpr lazy_value_t<typename std::decay<X>::type>
         apply(X&& x) {
             return {static_cast<X&&>(x)};
         }

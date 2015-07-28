@@ -164,14 +164,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T>
-    struct _just;
+    struct just_t;
 
-    struct _make_just {
+    struct make_just_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _make_just just{};
+    constexpr make_just_t just{};
 #endif
 
     //! An empty optional value.
@@ -184,13 +184,13 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr unspecified-type nothing{};
 #else
-    struct _nothing : operators::adl {
+    struct nothing_t : operators::adl {
         static constexpr bool is_just = false;
-        using hana = _nothing;
+        using hana = nothing_t;
         using datatype = Optional;
     };
 
-    constexpr _nothing nothing{};
+    constexpr nothing_t nothing{};
 #endif
 
     //! Create an `Optional` with the result of a function, but only if a
@@ -229,12 +229,12 @@ namespace boost { namespace hana {
             return nothing;
     };
 #else
-    struct _only_when {
+    struct only_when_t {
         template <typename Pred, typename F, typename X>
         constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const;
     };
 
-    constexpr _only_when only_when{};
+    constexpr only_when_t only_when{};
 #endif
 
     //! Apply a function to the contents of an `Optional`, with a fallback
@@ -271,25 +271,25 @@ namespace boost { namespace hana {
         }
     };
 #else
-    struct _maybe {
+    struct maybe_t {
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, _just<T> const& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T> const& m) const
         { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, _just<T>& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T>& m) const
         { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, _just<T>&& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T>&& m) const
         { return static_cast<F&&>(f)(std::move(m).val); }
 
         template <typename Def, typename F>
-        constexpr Def operator()(Def&& def, F&&, _nothing) const
+        constexpr Def operator()(Def&& def, F&&, nothing_t) const
         { return static_cast<Def&&>(def); }
     };
 
-    constexpr _maybe maybe{};
+    constexpr maybe_t maybe{};
 #endif
 
     //! Return whether an `Optional` contains a value.
@@ -307,12 +307,12 @@ namespace boost { namespace hana {
         return m is a just(x);
     };
 #else
-    struct _is_just {
+    struct is_just_t {
         template <typename M>
         constexpr auto operator()(M const&) const;
     };
 
-    constexpr _is_just is_just{};
+    constexpr is_just_t is_just{};
 #endif
 
     //! Return whether an `Optional` is empty.
@@ -330,12 +330,12 @@ namespace boost { namespace hana {
         return m is a nothing;
     };
 #else
-    struct _is_nothing {
+    struct is_nothing_t {
         template <typename M>
         constexpr auto operator()(M const&) const;
     };
 
-    constexpr _is_nothing is_nothing{};
+    constexpr is_nothing_t is_nothing{};
 #endif
 
     //! Return the contents of an `Optional`, with a fallback result.
@@ -360,12 +360,12 @@ namespace boost { namespace hana {
         return maybe(forwarded(default_), id, forwarded(m));
     };
 #else
-    struct _from_maybe {
+    struct from_maybe_t {
         template <typename Default, typename M>
         constexpr decltype(auto) operator()(Default&& default_, M&& m) const;
     };
 
-    constexpr _from_maybe from_maybe{};
+    constexpr from_maybe_t from_maybe{};
 #endif
 
     //! Extract the content of an `Optional` or fail at compile-time.
@@ -388,12 +388,12 @@ namespace boost { namespace hana {
         return forwarded(x);
     };
 #else
-    struct _from_just {
+    struct from_just_t {
         template <typename M>
         constexpr decltype(auto) operator()(M&& m) const;
     };
 
-    constexpr _from_just from_just{};
+    constexpr from_just_t from_just{};
 #endif
 
     //! Calls a function if the call expression is well-formed.
@@ -429,12 +429,12 @@ namespace boost { namespace hana {
         };
     };
 #else
-    struct _sfinae {
+    struct sfinae_t {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const;
     };
 
-    constexpr _sfinae sfinae{};
+    constexpr sfinae_t sfinae{};
 #endif
 }} // end namespace boost::hana
 

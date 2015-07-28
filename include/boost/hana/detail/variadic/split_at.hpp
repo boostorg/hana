@@ -18,10 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
     template <std::size_t n>
-    struct _split_at {
+    struct split_at_t {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename X7, typename X8, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, X7&& x7, X8&& x8, Xs&& ...xs) const {
-            return _split_at<n - 8>{}(
+            return split_at_t<n - 8>{}(
                 hana::partial(static_cast<F&&>(f),
                     static_cast<X1&&>(x1),
                     static_cast<X2&&>(x2),
@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<0> {
+    struct split_at_t<0> {
         template <typename F, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
             return static_cast<F&&>(f)()(static_cast<Xs&&>(xs)...);
@@ -46,7 +46,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<1> {
+    struct split_at_t<1> {
         template <typename F, typename X1, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -56,7 +56,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<2> {
+    struct split_at_t<2> {
         template <typename F, typename X1, typename X2, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -67,7 +67,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<3> {
+    struct split_at_t<3> {
         template <typename F, typename X1, typename X2, typename X3, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -79,7 +79,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<4> {
+    struct split_at_t<4> {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -92,7 +92,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<5> {
+    struct split_at_t<5> {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -106,7 +106,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<6> {
+    struct split_at_t<6> {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -121,7 +121,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <>
-    struct _split_at<7> {
+    struct split_at_t<7> {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename X7, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, X1&& x1, X2&& x2, X3&& x3, X4&& x4, X5&& x5, X6&& x6, X7&& x7, Xs&& ...xs) const {
             return static_cast<F&&>(f)(
@@ -137,16 +137,16 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
     };
 
     template <std::size_t n>
-    struct _make_split_at {
+    struct _makesplit_at_t {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) const {
-            return hana::reverse_partial(_split_at<n>{},
+            return hana::reverse_partial(split_at_t<n>{},
                                          static_cast<Xs&&>(xs)...);
         }
     };
 
     template <std::size_t n>
-    constexpr _make_split_at<n> split_at{};
+    constexpr _makesplit_at_t<n> split_at{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP

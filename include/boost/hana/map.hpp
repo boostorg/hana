@@ -52,20 +52,20 @@ namespace boost { namespace hana {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // _map
+    // map
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Pairs>
-    struct _map : detail::searchable_operators<_map<Pairs...>>, operators::adl {
-        _tuple<Pairs...> storage;
-        using hana = _map;
+    struct map : detail::searchable_operators<map<Pairs...>>, operators::adl {
+        tuple<Pairs...> storage;
+        using hana = map;
         using datatype = Map;
 
-        explicit constexpr _map(_tuple<Pairs...> const& ps)
+        explicit constexpr map(tuple<Pairs...> const& ps)
             : storage(ps)
         { }
 
-        explicit constexpr _map(_tuple<Pairs...>&& ps)
-            : storage(static_cast<_tuple<Pairs...>&&>(ps))
+        explicit constexpr map(tuple<Pairs...>&& ps)
+            : storage(static_cast<tuple<Pairs...>&&>(ps))
         { }
     };
 
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
             "Comparable at compile-time");
         #endif
 
-            return _map<typename std::decay<Pairs>::type...>{
+            return map<typename std::decay<Pairs>::type...>{
                 hana::make_tuple(static_cast<Pairs&&>(pairs)...)
             };
         }
@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename Map>
-    constexpr decltype(auto) _values::operator()(Map&& map) const {
+    constexpr decltype(auto) values_t::operator()(Map&& map) const {
         return hana::transform(static_cast<Map&&>(map).storage, second);
     }
     //! @endcond
@@ -129,12 +129,12 @@ namespace boost { namespace hana {
     struct insert_impl<Map> {
         template <typename M, typename P>
         static constexpr typename std::decay<M>::type
-        insert_helper(M&& map, P&&, decltype(true_))
+        insert_helper(M&& map, P&&, decltype(hana::true_))
         { return static_cast<M&&>(map); }
 
         template <typename M, typename P>
         static constexpr decltype(auto)
-        insert_helper(M&& map, P&& pair, decltype(false_)) {
+        insert_helper(M&& map, P&& pair, decltype(hana::false_)) {
             return hana::unpack(
                 hana::append(static_cast<M&&>(map).storage,
                              static_cast<P&&>(pair)),
@@ -168,7 +168,7 @@ namespace boost { namespace hana {
                         hana::first
                     )
                 ),
-                make<Map>
+                hana::make<Map>
             );
         }
     };
@@ -179,12 +179,12 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Map, Map> {
         template <typename M1, typename M2>
-        static constexpr auto equal_helper(M1 const&, M2 const&, decltype(false_)) {
-            return false_;
+        static constexpr auto equal_helper(M1 const&, M2 const&, decltype(hana::false_)) {
+            return hana::false_;
         }
 
         template <typename M1, typename M2>
-        static constexpr auto equal_helper(M1 const& m1, M2 const& m2, decltype(true_)) {
+        static constexpr auto equal_helper(M1 const& m1, M2 const& m2, decltype(hana::true_)) {
             return hana::all_of(hana::keys(m1), hana::demux(equal)(
                 hana::partial(find, m1),
                 hana::partial(find, m2)
@@ -209,8 +209,8 @@ namespace boost { namespace hana {
         static constexpr auto apply(M&& map, Pred&& pred) {
             return hana::transform(
                 hana::find_if(static_cast<M&&>(map).storage,
-                    hana::compose(static_cast<Pred&&>(pred), first)),
-                second
+                    hana::compose(static_cast<Pred&&>(pred), hana::first)),
+                hana::second
             );
         }
     };

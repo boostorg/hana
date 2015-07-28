@@ -37,10 +37,10 @@ namespace boost { namespace hana {
     constexpr auto is_a = see-documentation;
 #else
     template <typename DataType, typename ...T>
-    struct _is_a;
+    struct is_a_t;
 
     template <typename DataType, typename ...T>
-    constexpr _is_a<DataType, T...> is_a{};
+    constexpr is_a_t<DataType, T...> is_a{};
 #endif
 
     //! @ingroup group-core
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     constexpr auto is_an = is_a<DataType, T...>;
 #else
     template <typename DataType, typename ...T>
-    constexpr _is_a<DataType, T...> is_an{};
+    constexpr is_a_t<DataType, T...> is_an{};
 #endif
 }} // end namespace boost::hana
 

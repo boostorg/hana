@@ -58,38 +58,38 @@ namespace boost { namespace hana {
     };
 #else
     template <std::size_t n, typename = void>
-    struct _arg;
+    struct arg_t;
 
     template <>
-    struct _arg<1> {
+    struct arg_t<1> {
         template <typename X1, typename ...Xn>
         constexpr X1 operator()(X1&& x1, Xn&& ...) const
         { return static_cast<X1&&>(x1); }
     };
 
     template <>
-    struct _arg<2> {
+    struct arg_t<2> {
         template <typename X1, typename X2, typename ...Xn>
         constexpr X2 operator()(X1&&, X2&& x2, Xn&& ...) const
         { return static_cast<X2&&>(x2); }
     };
 
     template <>
-    struct _arg<3> {
+    struct arg_t<3> {
         template <typename X1, typename X2, typename X3, typename ...Xn>
         constexpr X3 operator()(X1&&, X2&&, X3&& x3, Xn&& ...) const
         { return static_cast<X3&&>(x3); }
     };
 
     template <>
-    struct _arg<4> {
+    struct arg_t<4> {
         template <typename X1, typename X2, typename X3, typename X4, typename ...Xn>
         constexpr X4 operator()(X1&&, X2&&, X3&&, X4&& x4, Xn&& ...) const
         { return static_cast<X4&&>(x4); }
     };
 
     template <>
-    struct _arg<5> {
+    struct arg_t<5> {
         template <typename X1, typename X2, typename X3, typename X4,
                   typename X5, typename ...Xn>
         constexpr X5 operator()(X1&&, X2&&, X3&&, X4&&, X5&& x5, Xn&& ...) const
@@ -97,7 +97,7 @@ namespace boost { namespace hana {
     };
 
     template <std::size_t n, typename>
-    struct _arg {
+    struct arg_t {
         static_assert(n > 0,
         "invalid usage of boost::hana::arg<n> with n == 0");
 
@@ -111,12 +111,12 @@ namespace boost { namespace hana {
             // Since compilers will typically try to continue for a bit after
             // an error/static assertion, we must avoid sending the compiler
             // in a very long computation if n == 0.
-            return _arg<n == 0 ? 1 : n - 5>{}(static_cast<Xn&&>(xn)...);
+            return arg_t<n == 0 ? 1 : n - 5>{}(static_cast<Xn&&>(xn)...);
         }
     };
 
     template <std::size_t n>
-    struct _arg<n, std::enable_if_t<(n > 25)>> {
+    struct arg_t<n, std::enable_if_t<(n > 25)>> {
         template <
             typename X1,  typename X2,  typename X3,  typename X4,  typename X5,
             typename X6,  typename X7,  typename X8,  typename X9,  typename X10,
@@ -130,11 +130,11 @@ namespace boost { namespace hana {
                    X11&&, X12&&, X13&&, X14&&, X15&&,
                    X16&&, X17&&, X18&&, X19&&, X20&&,
                    X21&&, X22&&, X23&&, X24&&, X25&&, Xn&& ...xn) const
-        { return _arg<n - 25>{}(static_cast<Xn&&>(xn)...); }
+        { return arg_t<n - 25>{}(static_cast<Xn&&>(xn)...); }
     };
 
     template <std::size_t n>
-    constexpr _arg<n> arg{};
+    constexpr arg_t<n> arg{};
 #endif
 }} // end namespace boost::hana
 

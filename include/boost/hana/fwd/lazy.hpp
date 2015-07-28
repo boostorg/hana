@@ -80,15 +80,12 @@ namespace boost { namespace hana {
         return unspecified-type;
     };
 #else
-    template <typename X>
-    struct _lazy_value;
-
-    struct _lazy {
+    struct lazy_t {
         template <typename X>
         constexpr auto operator()(X&& x) const;
     };
 
-    constexpr _lazy lazy{};
+    constexpr lazy_t lazy{};
 #endif
 }} // end namespace boost::hana
 

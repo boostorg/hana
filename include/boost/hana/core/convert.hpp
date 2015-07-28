@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     };
 
     template <typename To>
-    struct _to {
+    struct to_t {
         template <typename X>
         constexpr decltype(auto) operator()(X&& x) const {
             return to_impl<To, typename datatype<X>::type>::

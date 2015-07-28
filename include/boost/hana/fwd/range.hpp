@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     struct Range { };
 
     template <typename T, T from, T to>
-    struct _range;
+    struct range_t;
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Creates a `Range` representing a half-open interval of

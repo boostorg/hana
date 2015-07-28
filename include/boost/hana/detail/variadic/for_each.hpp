@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_VARIADIC_FOR_EACH_HPP
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
-    struct _for_each {
+    struct for_each_t {
         template <typename F, typename ...Xs>
         constexpr void operator()(F&& f, Xs&& ...xs) const {
             using Swallow = int[];
@@ -21,7 +21,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         }
     };
 
-    constexpr _for_each for_each{};
+    constexpr for_each_t for_each{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_FOR_EACH_HPP

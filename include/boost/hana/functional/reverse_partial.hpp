@@ -46,10 +46,10 @@ namespace boost { namespace hana {
     };
 #else
     template <typename Indices, typename F, typename ...X>
-    struct _reverse_partial;
+    struct reverse_partial_t;
 
     template <std::size_t ...n, typename F, typename ...X>
-    struct _reverse_partial<std::index_sequence<n...>, F, X...>
+    struct reverse_partial_t<std::index_sequence<n...>, F, X...>
         : detail::closure<F, X...>
     {
         using detail::closure<F, X...>::closure;
@@ -81,9 +81,9 @@ namespace boost { namespace hana {
         }
     };
 
-    struct _make_reverse_partial {
+    struct make_reverse_partial_t {
         template <typename F, typename ...X>
-        constexpr _reverse_partial<
+        constexpr reverse_partial_t<
             std::make_index_sequence<sizeof...(X)>,
             typename std::decay<F>::type,
             typename std::decay<X>::type...
@@ -92,7 +92,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _make_reverse_partial reverse_partial{};
+    constexpr make_reverse_partial_t reverse_partial{};
 #endif
 }} // end namespace boost::hana
 

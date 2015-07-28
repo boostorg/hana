@@ -54,15 +54,15 @@ namespace boost { namespace hana {
         : embedding<is_embedded<typename C::value_type, T>{}()>
     {
         template <typename X>
-        struct _constant {
+        struct constant_t {
             static constexpr decltype(auto) get()
             { return to<T>(boost::hana::value<X>()); }
 
-            using hana = _constant;
+            using hana = constant_t;
             using datatype = detail::CanonicalConstant<T>;
         };
         template <typename X>
-        static constexpr _constant<X> apply(X const&)
+        static constexpr constant_t<X> apply(X const&)
         { return {}; }
     };
 }} // end namespace boost::hana

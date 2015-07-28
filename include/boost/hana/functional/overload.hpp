@@ -38,30 +38,30 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F, typename ...G>
-    struct _overload
-        : _overload<F>::type
-        , _overload<G...>::type
+    struct overload_t
+        : overload_t<F>::type
+        , overload_t<G...>::type
     {
-        using type = _overload;
-        using _overload<F>::type::operator();
-        using _overload<G...>::type::operator();
+        using type = overload_t;
+        using overload_t<F>::type::operator();
+        using overload_t<G...>::type::operator();
 
         template <typename F_, typename ...G_>
-        constexpr explicit _overload(F_&& f, G_&& ...g)
-            : _overload<F>::type(static_cast<F_&&>(f))
-            , _overload<G...>::type(static_cast<G_&&>(g)...)
+        constexpr explicit overload_t(F_&& f, G_&& ...g)
+            : overload_t<F>::type(static_cast<F_&&>(f))
+            , overload_t<G...>::type(static_cast<G_&&>(g)...)
         { }
     };
 
     template <typename F>
-    struct _overload<F> { using type = F; };
+    struct overload_t<F> { using type = F; };
 
     template <typename R, typename ...Args>
-    struct _overload<R(*)(Args...)> {
-        using type = _overload;
+    struct overload_t<R(*)(Args...)> {
+        using type = overload_t;
         R (*fptr_)(Args...);
 
-        explicit constexpr _overload(R (*fp)(Args...))
+        explicit constexpr overload_t(R (*fp)(Args...))
             : fptr_(fp)
         { }
 
@@ -69,9 +69,9 @@ namespace boost { namespace hana {
         { return fptr_(static_cast<Args&&>(args)...); }
     };
 
-    struct _make_overload {
+    struct make_overload_t {
         template <typename ...F,
-            typename Overload = typename _overload<
+            typename Overload = typename overload_t<
                 typename std::decay<F>::type...
             >::type
         >
@@ -80,7 +80,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _make_overload overload{};
+    constexpr make_overload_t overload{};
 #endif
 }} // end namespace boost::hana
 

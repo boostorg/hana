@@ -32,8 +32,8 @@ int main() {
     {
         // Implicit and explicit construction
         {
-            constexpr _pair<int, char> p1{1, '2'};      (void)p1;
-            constexpr _pair<int, char> p2 = {1, '2'};   (void)p2;
+            constexpr pair<int, char> p1{1, '2'};      (void)p1;
+            constexpr pair<int, char> p2 = {1, '2'};   (void)p2;
         }
 
         // default constructibility
@@ -43,7 +43,7 @@ int main() {
                 default_constr(default_constr const&) = delete;
                 default_constr(default_constr &&) = delete;
             };
-            constexpr _pair<default_constr, default_constr> p; (void)p;
+            constexpr pair<default_constr, default_constr> p; (void)p;
         }
 
         // pair with non default-constructible elements
@@ -52,30 +52,30 @@ int main() {
                 no_default() = delete;
                 constexpr no_default(int) { }
             };
-            constexpr _pair<no_default, no_default> p{1, 1}; (void)p;
+            constexpr pair<no_default, no_default> p{1, 1}; (void)p;
         }
 
         // pair with non-constexpr default-constructible elements
         {
             struct non_constexpr { non_constexpr() { } };
-            _pair<non_constexpr, non_constexpr> p; (void)p;
+            pair<non_constexpr, non_constexpr> p; (void)p;
         }
 
         // Make sure we do not instantiate wrong constructors when copying
         {
-            _pair<test::trap_construct, int> expr{};
+            pair<test::trap_construct, int> expr{};
             auto implicit_copy = expr;          (void)implicit_copy;
             decltype(expr) explicit_copy(expr); (void)explicit_copy;
         }
         // Make sure the storage of a pair is compressed
         {
             struct empty { };
-            static_assert(sizeof(_pair<empty, int>) == sizeof(int), "");
-            static_assert(sizeof(_pair<int, empty>) == sizeof(int), "");
+            static_assert(sizeof(pair<empty, int>) == sizeof(int), "");
+            static_assert(sizeof(pair<int, empty>) == sizeof(int), "");
         }
         // Make sure we can put non default-constructible elements in a pair.
         {
-            _pair<NoDefault, NoDefault> p{1, 2};
+            pair<NoDefault, NoDefault> p{1, 2};
             (void)p;
         }
     }
@@ -164,7 +164,7 @@ int main() {
 
         // make
         {
-            constexpr _pair<int, char> p = make<Pair>(1, 'x');
+            constexpr pair<int, char> p = make<Pair>(1, 'x');
             static_assert(first(p) == 1, "");
             static_assert(second(p) == 'x', "");
         }

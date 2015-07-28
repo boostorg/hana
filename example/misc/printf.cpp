@@ -25,7 +25,7 @@ constexpr auto formats = make_map(
 
 struct concat_strings {
     template <char ...s1, char ...s2>
-    constexpr auto operator()(_string<s1...>, _string<s2...>) const
+    constexpr auto operator()(string_t<s1...>, string_t<s2...>) const
     { return string<s1..., s2...>; }
 };
 

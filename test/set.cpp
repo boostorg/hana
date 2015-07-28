@@ -41,22 +41,22 @@ int main() {
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(),
-            set()
+            make_set()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(ct_eq<0>{}),
-            set(ct_eq<0>{})
+            make_set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(ct_eq<0>{}, ct_eq<1>{}),
-            set(ct_eq<0>{}, ct_eq<1>{})
+            make_set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             make<Set>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 
@@ -74,33 +74,33 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(), ct_eq<0>{}),
-            set(ct_eq<0>{})
+            insert(make_set(), ct_eq<0>{}),
+            make_set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(ct_eq<0>{}), ct_eq<0>{}),
-            set(ct_eq<0>{})
+            insert(make_set(ct_eq<0>{}), ct_eq<0>{}),
+            make_set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(ct_eq<0>{}), ct_eq<1>{}),
-            set(ct_eq<0>{}, ct_eq<1>{})
+            insert(make_set(ct_eq<0>{}), ct_eq<1>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
-            set(ct_eq<0>{}, ct_eq<1>{})
+            insert(make_set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            insert(make_set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            insert(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<3>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+            insert(make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<3>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
         ));
     }
 
@@ -109,47 +109,47 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(), undefined{}),
-            set()
+            erase_key(make_set(), undefined{}),
+            make_set()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}), ct_eq<0>{}),
-            set()
+            erase_key(make_set(ct_eq<0>{}), ct_eq<0>{}),
+            make_set()
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}), ct_eq<99>{}),
-            set(ct_eq<0>{})
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<0>{}),
-            set(ct_eq<1>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
-            set(ct_eq<0>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<99>{}),
-            set(ct_eq<0>{}, ct_eq<1>{})
+            erase_key(make_set(ct_eq<0>{}), ct_eq<99>{}),
+            make_set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<0>{}),
-            set(ct_eq<1>{}, ct_eq<2>{})
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<0>{}),
+            make_set(ct_eq<1>{})
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<1>{}),
-            set(ct_eq<0>{}, ct_eq<2>{})
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
+            make_set(ct_eq<0>{})
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<2>{}),
-            set(ct_eq<0>{}, ct_eq<1>{})
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}), ct_eq<99>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<0>{}),
+            make_set(ct_eq<1>{}, ct_eq<2>{})
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            erase_key(set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<99>{}),
-            set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<1>{}),
+            make_set(ct_eq<0>{}, ct_eq<2>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<2>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            erase_key(make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), ct_eq<99>{}),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 
@@ -165,7 +165,7 @@ int main() {
         {
             auto check = [=](auto ...xs) {
                 BOOST_HANA_CONSTANT_CHECK(
-                    contains(permutations(list(xs...)), to<L>(set(xs...)))
+                    contains(permutations(list(xs...)), to<L>(make_set(xs...)))
                 );
             };
             check();
@@ -179,38 +179,38 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable()),
-                set()
+                make_set()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{})),
-                set(ct_eq<1>{})
+                make_set(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<1>{})),
-                set(ct_eq<1>{})
+                make_set(ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{})),
-                set(ct_eq<1>{}, ct_eq<2>{})
+                make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<1>{})),
-                set(ct_eq<1>{}, ct_eq<2>{})
+                make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<2>{})),
-                set(ct_eq<1>{}, ct_eq<2>{})
+                make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
-                set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+                make_set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{})),
-                set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+                make_set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
         }
     }
@@ -225,14 +225,14 @@ int main() {
             auto check = [](auto ...keys) {
                 return and_(
                     all_of(permutations(make<Tuple>(keys...)), [=](auto perm) {
-                        return equal(to<Set>(perm), set(keys...));
+                        return equal(to<Set>(perm), make_set(keys...));
                     }),
-                    not_(equal(set(keys...), set(keys..., ct_eq<999>{})))
+                    not_(equal(make_set(keys...), make_set(keys..., ct_eq<999>{})))
                 );
             };
 
-            BOOST_HANA_CONSTANT_CHECK(set(ct_eq<0>{}) == set(ct_eq<0>{}));
-            BOOST_HANA_CONSTANT_CHECK(set(ct_eq<0>{}) != set(ct_eq<1>{}));
+            BOOST_HANA_CONSTANT_CHECK(make_set(ct_eq<0>{}) == make_set(ct_eq<0>{}));
+            BOOST_HANA_CONSTANT_CHECK(make_set(ct_eq<0>{}) != make_set(ct_eq<1>{}));
 
             BOOST_HANA_CONSTANT_CHECK(check());
             BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}));
@@ -250,60 +250,60 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            set(ct_eq<1>{})[ct_eq<1>{}],
+            make_set(ct_eq<1>{})[ct_eq<1>{}],
             ct_eq<1>{}
         ));
 
         // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any_of(set(), equal.to(ct_eq<1>{})))
+                not_(any_of(make_set(), equal.to(ct_eq<1>{})))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(set(ct_eq<1>{}), equal.to(ct_eq<1>{}))
+                any_of(make_set(ct_eq<1>{}), equal.to(ct_eq<1>{}))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any_of(set(ct_eq<1>{}), equal.to(ct_eq<2>{})))
+                not_(any_of(make_set(ct_eq<1>{}), equal.to(ct_eq<2>{})))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{}))
+                any_of(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{}))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{}))
+                any_of(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{}))
             );
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any_of(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})))
+                not_(any_of(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})))
             );
         }
 
         // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(), equal.to(ct_eq<1>{})),
+                find_if(make_set(), equal.to(ct_eq<1>{})),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(ct_eq<1>{}), equal.to(ct_eq<1>{})),
+                find_if(make_set(ct_eq<1>{}), equal.to(ct_eq<1>{})),
                 just(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(ct_eq<1>{}), equal.to(ct_eq<2>{})),
+                find_if(make_set(ct_eq<1>{}), equal.to(ct_eq<2>{})),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{})),
+                find_if(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<1>{})),
                 just(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{})),
+                find_if(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<2>{})),
                 just(ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})),
+                find_if(make_set(ct_eq<1>{}, ct_eq<2>{}), equal.to(ct_eq<3>{})),
                 nothing
             ));
         }
@@ -327,7 +327,7 @@ int main() {
             });
 
             BOOST_HANA_CONSTANT_CHECK(
-                contains(possible_results, unpack(set(xs...), f))
+                contains(possible_results, unpack(make_set(xs...), f))
             );
         };
 

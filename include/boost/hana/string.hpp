@@ -41,13 +41,13 @@ namespace boost { namespace hana {
     // string
     //////////////////////////////////////////////////////////////////////////
     template <char ...s>
-    struct _string
+    struct string_t
         : operators::adl
-        , detail::iterable_operators<_string<s...>>
+        , detail::iterable_operators<string_t<s...>>
     { };
 
     template <char ...s>
-    struct datatype<_string<s...>> {
+    struct datatype<string_t<s...>> {
         using type = String;
     };
 
@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace string_detail {
         template <typename S, std::size_t ...N>
-        constexpr _string<S::get()[N]...>
+        constexpr string_t<S::get()[N]...>
         prepare_impl(S, std::index_sequence<N...>)
         { return {}; }
 
@@ -115,7 +115,7 @@ namespace boost { namespace hana {
         static constexpr char const c_string[sizeof...(c) + 1] = {c..., '\0'};
 
         template <char ...c>
-        static constexpr char const* apply(_string<c...> const&)
+        static constexpr char const* apply(string_t<c...> const&)
         { return c_string<c...>; }
     };
 
@@ -129,11 +129,11 @@ namespace boost { namespace hana {
     struct equal_impl<String, String> {
         template <typename S>
         static constexpr auto apply(S const&, S const&)
-        { return true_; }
+        { return hana::true_; }
 
         template <typename S1, typename S2>
         static constexpr auto apply(S1 const&, S2 const&)
-        { return false_; }
+        { return hana::false_; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -143,11 +143,11 @@ namespace boost { namespace hana {
     struct less_impl<String, String> {
         template <char ...s1, char ...s2>
         static constexpr auto
-        apply(_string<s1...> const&, _string<s2...> const&) {
+        apply(string_t<s1...> const&, string_t<s2...> const&) {
             // We put a '\0' at the end only to avoid empty arrays.
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
-            return bool_<detail::constexpr_::lexicographical_compare(
+            return hana::bool_<detail::constexpr_::lexicographical_compare(
                 c_str1, c_str1 + sizeof...(s1),
                 c_str2, c_str2 + sizeof...(s2)
             )>;
@@ -160,15 +160,15 @@ namespace boost { namespace hana {
     template <>
     struct unpack_impl<String> {
         template <char ...s, typename F>
-        static constexpr decltype(auto) apply(_string<s...> const&, F&& f)
+        static constexpr decltype(auto) apply(string_t<s...> const&, F&& f)
         { return static_cast<F&&>(f)(_char<s>{}...); }
     };
 
     template <>
     struct length_impl<String> {
         template <char ...s>
-        static constexpr auto apply(_string<s...> const&)
-        { return size_t<sizeof...(s)>; }
+        static constexpr auto apply(string_t<s...> const&)
+        { return hana::size_t<sizeof...(s)>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -177,32 +177,32 @@ namespace boost { namespace hana {
     template <>
     struct front_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto apply(_string<x, xs...> const&)
-        { return char_<x>; }
+        static constexpr auto apply(string_t<x, xs...> const&)
+        { return hana::char_<x>; }
     };
 
     template <>
     struct tail_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto apply(_string<x, xs...> const&)
-        { return string<xs...>; }
+        static constexpr auto apply(string_t<x, xs...> const&)
+        { return hana::string<xs...>; }
     };
 
     template <>
     struct is_empty_impl<String> {
         template <char ...s>
-        static constexpr auto apply(_string<s...> const&)
-        { return bool_<sizeof...(s) == 0>; }
+        static constexpr auto apply(string_t<s...> const&)
+        { return hana::bool_<sizeof...(s) == 0>; }
     };
 
     template <>
     struct at_impl<String> {
         template <char ...s, typename N>
-        static constexpr auto apply(_string<s...> const&, N const&) {
+        static constexpr auto apply(string_t<s...> const&, N const&) {
             // We put a '\0' at the end to avoid an empty array.
             constexpr char characters[] = {s..., '\0'};
             constexpr auto n = hana::value<N>();
-            return char_<characters[n]>;
+            return hana::char_<characters[n]>;
         }
     };
 
@@ -218,18 +218,18 @@ namespace boost { namespace hana {
     struct contains_impl<String> {
         template <char ...s, typename C>
         static constexpr auto
-        helper(_string<s...> const&, C const&, decltype(true_)) {
+        helper(string_t<s...> const&, C const&, decltype(hana::true_)) {
             constexpr char const characters[] = {s..., '\0'};
             constexpr char c = hana::value<C>();
-            return bool_<
+            return hana::bool_<
                 detail::constexpr_::find(characters, characters + sizeof...(s), c)
                     != characters + sizeof...(s)
             >;
         }
 
         template <typename S, typename C>
-        static constexpr auto helper(S const&, C const&, decltype(false_))
-        { return false_; }
+        static constexpr auto helper(S const&, C const&, decltype(hana::false_))
+        { return hana::false_; }
 
         template <typename S, typename C>
         static constexpr auto apply(S const& s, C const& c)
@@ -239,10 +239,10 @@ namespace boost { namespace hana {
     template <>
     struct find_impl<String> {
         template <char ...s, typename Char>
-        static constexpr auto apply(_string<s...> const& str, Char const& c) {
+        static constexpr auto apply(string_t<s...> const& str, Char const& c) {
             return hana::if_(hana::contains(str, c),
                 hana::just(c),
-                nothing
+                hana::nothing
             );
         }
     };

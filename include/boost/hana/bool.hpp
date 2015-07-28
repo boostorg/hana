@@ -55,22 +55,22 @@ namespace boost { namespace hana {
 
         template <typename T, T v>
         template <typename F>
-        constexpr void _with_index<T, v>::operator()(F&& f) const
+        constexpr void with_index_t<T, v>::operator()(F&& f) const
         { go<T, ((void)sizeof(&f), v)>::with_index(static_cast<F&&>(f)); }
 
         template <typename T, T v>
         template <typename F>
-        constexpr void _times<T, v>::operator()(F&& f) const
+        constexpr void times_t<T, v>::operator()(F&& f) const
         { go<T, ((void)sizeof(&f), v)>::without_index(static_cast<F&&>(f)); }
 
         // avoid link-time error
         template <typename T, T v>
-        constexpr _with_index<T, v> _times<T, v>::with_index;
+        constexpr with_index_t<T, v> times_t<T, v>::with_index;
     }
 
     // avoid link-time error
     template <typename T, T v>
-    constexpr ic_detail::_times<T, v> _integral_constant<T, v>::times;
+    constexpr ic_detail::times_t<T, v> _integral_constant<T, v>::times;
 
     template <typename T, T v>
     struct datatype<_integral_constant<T, v>> {
@@ -165,12 +165,12 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<IntegralConstant<T>, C, when<
-        _models<Constant, C>{} &&
-        std::is_integral<typename C::value_type>{}
+        _models<Constant, C>::value &&
+        std::is_integral<typename C::value_type>::value
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}>
+        : embedding<is_embedded<typename C::value_type, T>::value>
     {
-        static_assert(std::is_integral<T>{},
+        static_assert(std::is_integral<T>::value,
         "trying to convert a Constant to an IntegralConstant of a non-integral "
         "type; boost::hana::IntegralConstant may only hold integral types");
 
@@ -189,18 +189,18 @@ namespace boost { namespace hana {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
-            return eval_if_impl::apply(bool_<static_cast<bool>(Cond::value)>,
+            return eval_if_impl::apply(hana::bool_<static_cast<bool>(Cond::value)>,
                     static_cast<Then&&>(t), static_cast<Else&&>(e));
         }
 
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        apply(decltype(true_) const&, Then&& t, Else&&)
+        apply(decltype(hana::true_) const&, Then&& t, Else&&)
         { return hana::eval(static_cast<Then&&>(t)); }
 
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        apply(decltype(false_) const&, Then&&, Else&& e)
+        apply(decltype(hana::false_) const&, Then&&, Else&& e)
         { return hana::eval(static_cast<Else&&>(e)); }
     };
 

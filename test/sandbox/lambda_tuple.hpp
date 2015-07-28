@@ -40,8 +40,8 @@ namespace boost { namespace hana { namespace sandbox {
     struct LambdaTuple { };
 
     template <typename Storage>
-    struct _lambda_tuple {
-        explicit constexpr _lambda_tuple(Storage&& s)
+    struct lambda_tuple_t {
+        explicit constexpr lambda_tuple_t(Storage&& s)
             : storage(std::move(s))
         { }
 
@@ -51,7 +51,7 @@ namespace boost { namespace hana { namespace sandbox {
 
     BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
         auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
-        return _lambda_tuple<decltype(storage)>{std::move(storage)};
+        return lambda_tuple_t<decltype(storage)>{std::move(storage)};
     };
 }}} // end namespace boost::hana::sandbox
 

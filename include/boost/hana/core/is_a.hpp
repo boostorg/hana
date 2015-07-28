@@ -23,17 +23,17 @@ namespace boost { namespace hana {
     // is_a
     //////////////////////////////////////////////////////////////////////////
     template <typename DataType, typename T>
-    struct _is_a<DataType, T>
+    struct is_a_t<DataType, T>
         : _integral_constant<bool,
             std::is_same<DataType, typename datatype<T>::type>::value
         >
     { };
 
     template <typename DataType>
-    struct _is_a<DataType> {
+    struct is_a_t<DataType> {
         template <typename T>
         constexpr auto operator()(T const&) const
-        { return is_a<DataType, T>; }
+        { return hana::is_a<DataType, T>; }
     };
 }} // end namespace boost::hana
 

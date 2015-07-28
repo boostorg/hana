@@ -17,7 +17,7 @@ int main() {
 {
 
 //! [make]
-_tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
+tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
 BOOST_HANA_RUNTIME_CHECK(ts == make<Tuple>(1, '2', 3.3, std::string{"abcd"}));
 
 std::string foo{"foo"}; // std::string has no notion of data type

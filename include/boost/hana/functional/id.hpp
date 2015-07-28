@@ -21,14 +21,14 @@ namespace boost { namespace hana {
         return forwarded(x);
     };
 #else
-    struct _id {
+    struct id_t {
         template <typename T>
         constexpr T operator()(T&& t) const {
             return static_cast<T&&>(t);
         }
     };
 
-    constexpr _id id{};
+    constexpr id_t id{};
 #endif
 }} // end namespace boost::hana
 

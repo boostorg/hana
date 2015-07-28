@@ -17,13 +17,13 @@ namespace boost { namespace hana {
         struct MinimalProduct;
 
         template <typename X, typename Y>
-        struct _product {
+        struct product_t {
             X fst;
             Y snd;
             struct hana { using datatype = MinimalProduct; };
         };
 
-        constexpr detail::create<_product> minimal_product{};
+        constexpr detail::create<product_t> minimal_product{};
     }
 
     //////////////////////////////////////////////////////////////////////////

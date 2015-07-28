@@ -23,16 +23,16 @@ int main() {
 
 //! [Comparable]
 BOOST_HANA_CONSTANT_CHECK(
-    set(int_<0>, type<char>, int_<1>) == set(int_<1>, int_<0>, type<char>)
+    make_set(int_<0>, type<char>, int_<1>) == make_set(int_<1>, int_<0>, type<char>)
 );
 
-BOOST_HANA_CONSTANT_CHECK(set(int_<0>, type<char>) != set(int_<1>));
+BOOST_HANA_CONSTANT_CHECK(make_set(int_<0>, type<char>) != make_set(int_<1>));
 //! [Comparable]
 
 }{
 
 //! [Searchable]
-constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
+constexpr auto xs = make_set(int_<0>, int_<1>, int_<2>);
 BOOST_HANA_CONSTANT_CHECK(find(xs, int_<0>) == just(int_<0>));
 BOOST_HANA_CONSTANT_CHECK(find(xs, int_<3>) == nothing);
 
@@ -46,7 +46,7 @@ BOOST_HANA_CONSTANT_CHECK(xs[long_<0>] == int_<0>);
 }{
 
 //! [Foldable]
-constexpr auto xs = set(int_<0>, int_<1>, int_<2>);
+constexpr auto xs = make_set(int_<0>, int_<1>, int_<2>);
 static_assert(minimum(xs) == int_<0>, "");
 static_assert(maximum(xs) == int_<2>, "");
 static_assert(sum<>(xs) == int_<3>, "");
@@ -84,23 +84,23 @@ BOOST_HANA_CONSTANT_CHECK(
 }{
 
 //! [insert]
-constexpr auto xs = set(int_<0>, type<int>);
+constexpr auto xs = make_set(int_<0>, type<int>);
 BOOST_HANA_CONSTANT_CHECK(
     insert(xs, BOOST_HANA_STRING("abc")) ==
-    set(int_<0>, type<int>, BOOST_HANA_STRING("abc"))
+    make_set(int_<0>, type<int>, BOOST_HANA_STRING("abc"))
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    insert(xs, int_<0>) == set(int_<0>, type<int>)
+    insert(xs, int_<0>) == make_set(int_<0>, type<int>)
 );
 //! [insert]
 
 }{
 
 //! [erase_key]
-constexpr auto xs = set(int_<0>, type<int>, type<void>);
+constexpr auto xs = make_set(int_<0>, type<int>, type<void>);
 
-BOOST_HANA_CONSTANT_CHECK(erase_key(xs, type<int>) == set(int_<0>, type<void>));
+BOOST_HANA_CONSTANT_CHECK(erase_key(xs, type<int>) == make_set(int_<0>, type<void>));
 BOOST_HANA_CONSTANT_CHECK(erase_key(xs, type<char>) == xs);
 //! [erase_key]
 

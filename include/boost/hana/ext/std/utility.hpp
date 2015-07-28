@@ -17,14 +17,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace traits {
-    struct _declval {
+    struct declval_t {
         template <typename T>
         typename std::add_rvalue_reference<
             typename T::type
         >::type operator()(T const&) const;
     };
 
-    constexpr _declval declval{};
+    constexpr declval_t declval{};
 }}} // end namespace boost::hana::traits
 
 #endif // !BOOST_HANA_EXT_STD_UTILITY_HPP

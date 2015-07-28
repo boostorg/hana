@@ -57,12 +57,12 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _fix;
+    struct fix_t;
 
-    constexpr detail::create<_fix> fix{};
+    constexpr detail::create<fix_t> fix{};
 
     template <typename F>
-    struct _fix {
+    struct fix_t {
         F f;
 
         template <typename ...X>

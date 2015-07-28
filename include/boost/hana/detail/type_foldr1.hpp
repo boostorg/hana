@@ -12,10 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail {
     template <unsigned n>
-    struct _type_foldr1;
+    struct type_foldr1_t;
 
     template <>
-    struct _type_foldr1<0> {
+    struct type_foldr1_t<0> {
         template <
             template <typename ...> class f,
             typename state
@@ -24,7 +24,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<1> {
+    struct type_foldr1_t<1> {
         template <
             template <typename ...> class f,
             typename x1,
@@ -34,7 +34,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<2> {
+    struct type_foldr1_t<2> {
         template <
             template <typename ...> class f,
             typename x1, typename x2,
@@ -44,7 +44,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<3> {
+    struct type_foldr1_t<3> {
         template <
             template <typename ...> class f,
             typename x1, typename x2, typename x3,
@@ -63,7 +63,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<4> {
+    struct type_foldr1_t<4> {
         template <
             template <typename ...> class f,
             typename x1, typename x2, typename x3, typename x4,
@@ -85,7 +85,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<5> {
+    struct type_foldr1_t<5> {
         template <
             template <typename ...> class f,
             typename x1, typename x2, typename x3, typename x4, typename x5,
@@ -110,7 +110,7 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <>
-    struct _type_foldr1<6> {
+    struct type_foldr1_t<6> {
         template <
             template <typename ...> class f,
             typename x1, typename x2, typename x3, typename x4, typename x5, typename x6,
@@ -127,7 +127,7 @@ namespace boost { namespace hana { namespace detail {
                         x4,
                         typename f<
                             x5,
-                            typename _type_foldr1<(sizeof...(xs) > 6 ? 6 : sizeof...(xs))>::
+                            typename type_foldr1_t<(sizeof...(xs) > 6 ? 6 : sizeof...(xs))>::
                             template result<f, x6, xs...>
                         >::type
                     >::type
@@ -138,7 +138,7 @@ namespace boost { namespace hana { namespace detail {
 
     template <template <typename ...> class f, typename x1, typename ...xn>
     struct type_foldr1 {
-        using type = typename _type_foldr1<(sizeof...(xn) > 6 ? 6 : sizeof...(xn))>
+        using type = typename type_foldr1_t<(sizeof...(xn) > 6 ? 6 : sizeof...(xn))>
                      ::template result<f, x1, xn...>;
     };
 }}} // end namespace boost::hana::detail

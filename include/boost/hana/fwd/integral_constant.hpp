@@ -154,14 +154,14 @@ namespace boost { namespace hana {
 
     namespace ic_detail {
         template <typename T, T v>
-        struct _with_index {
+        struct with_index_t {
             template <typename F>
             constexpr void operator()(F&& f) const;
         };
 
         template <typename T, T v>
-        struct _times {
-            static constexpr _with_index<T, v> with_index{};
+        struct times_t {
+            static constexpr with_index_t<T, v> with_index{};
 
             template <typename F>
             constexpr void operator()(F&& f) const;
@@ -178,7 +178,7 @@ namespace boost { namespace hana {
         constexpr value_type operator()() const noexcept { return value; }
 
         // times
-        static constexpr ic_detail::_times<T, v> times{};
+        static constexpr ic_detail::times_t<T, v> times{};
 
         using hana = _integral_constant;
         using datatype = IntegralConstant<T>;

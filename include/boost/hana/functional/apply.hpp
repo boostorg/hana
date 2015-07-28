@@ -31,16 +31,14 @@ namespace boost { namespace hana {
         return forwarded(f)(forwarded(x)...);
     };
 #else
-    struct _apply {
+    struct apply_t {
         template <typename F, typename ...Args>
         constexpr decltype(auto) operator()(F&& f, Args&& ...args) const {
-            return static_cast<F&&>(f)(
-                static_cast<Args&&>(args)...
-            );
+            return static_cast<F&&>(f)(static_cast<Args&&>(args)...);
         }
     };
 
-    constexpr _apply apply{};
+    constexpr apply_t apply{};
 #endif
 }} // end namespace boost::hana
 

@@ -99,28 +99,28 @@ namespace boost { namespace hana {
     };
 #else
     template <std::size_t n, typename F>
-    struct _curry;
+    struct curry_t;
 
     template <std::size_t n>
-    struct _make_curry {
+    struct make_curry_t {
         template <typename F>
-        constexpr _curry<n, typename std::decay<F>::type>
+        constexpr curry_t<n, typename std::decay<F>::type>
         operator()(F&& f) const { return {static_cast<F&&>(f)}; }
     };
 
     template <std::size_t n>
-    constexpr _make_curry<n> curry{};
+    constexpr make_curry_t<n> curry{};
 
     namespace curry_detail {
         template <std::size_t n>
-        constexpr _make_curry<n> curry_or_call{};
+        constexpr make_curry_t<n> curry_or_call{};
 
         template <>
         constexpr auto curry_or_call<0> = apply;
     }
 
     template <std::size_t n, typename F>
-    struct _curry {
+    struct curry_t {
         F f;
 
         template <typename ...X>
@@ -154,7 +154,7 @@ namespace boost { namespace hana {
     };
 
     template <typename F>
-    struct _curry<0, F> {
+    struct curry_t<0, F> {
         F f;
 
         constexpr decltype(auto) operator()() const&

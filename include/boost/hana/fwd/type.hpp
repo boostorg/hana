@@ -139,12 +139,12 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto decltype_ = see documentation;
 #else
-    struct _decltype {
+    struct decltype_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _decltype decltype_{};
+    constexpr decltype_t decltype_{};
 #endif
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -186,16 +186,16 @@ namespace boost { namespace hana {
     //! @snippet example/type.cpp sizeof_
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sizeof_ = [](auto&& x) {
-        using T = typename decltype(decltype_(x))::type;
-        return size_t<sizeof(T)>;
+        using T = typename decltype(hana::decltype_(x))::type;
+        return hana::size_t<sizeof(T)>;
     };
 #else
-    struct _sizeof {
+    struct sizeof_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _sizeof sizeof_{};
+    constexpr sizeof_t sizeof_{};
 #endif
 
     //! `alignof` keyword, lifted to Hana.
@@ -226,12 +226,12 @@ namespace boost { namespace hana {
         return size_t<alignof(T)>;
     };
 #else
-    struct _alignof {
+    struct alignof_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _alignof alignof_{};
+    constexpr alignof_t alignof_{};
 #endif
 
     //! Checks whether a SFINAE-friendly expression is valid.
@@ -270,7 +270,7 @@ namespace boost { namespace hana {
         };
     };
 #else
-    struct _is_valid {
+    struct is_valid_t {
         template <typename F>
         constexpr auto operator()(F&&) const;
 
@@ -278,7 +278,7 @@ namespace boost { namespace hana {
         constexpr auto operator()(F&&, Args&&...) const;
     };
 
-    constexpr _is_valid is_valid{};
+    constexpr is_valid_t is_valid{};
 #endif
 
     //! @ingroup group-datatypes
@@ -382,10 +382,10 @@ namespace boost { namespace hana {
     };
 #else
     template <template <typename ...> class F>
-    struct _template;
+    struct template_t;
 
     template <template <typename ...> class F>
-    constexpr _template<F> template_{};
+    constexpr template_t<F> template_{};
 #endif
 
     //! Lift a MPL-style metafunction to a function on `Type`s.
@@ -409,10 +409,10 @@ namespace boost { namespace hana {
     };
 #else
     template <template <typename ...> class f>
-    struct _metafunction;
+    struct metafunction_t;
 
     template <template <typename ...> class f>
-    constexpr _metafunction<f> metafunction{};
+    constexpr metafunction_t<f> metafunction{};
 #endif
 
     //! Lift a MPL-style metafunction class to a function on `Type`s.
@@ -436,12 +436,12 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _metafunction_class
-        : _metafunction<F::template apply>
+    struct metafunction_class_t
+        : metafunction_t<F::template apply>
     { };
 
     template <typename F>
-    constexpr _metafunction_class<F> metafunction_class{};
+    constexpr metafunction_class_t<F> metafunction_class{};
 #endif
 
     //! Turn a `Metafunction` into a function taking `Type`s and returning a
@@ -482,15 +482,15 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F>
-    struct _integral;
+    struct integral_t;
 
-    struct _make_integral {
+    struct make_integral_t {
         template <typename F>
-        constexpr _integral<F> operator()(F const&) const
+        constexpr integral_t<F> operator()(F const&) const
         { return {}; }
     };
 
-    constexpr _make_integral integral{};
+    constexpr make_integral_t integral{};
 #endif
 
     //! Alias to `integral(metafunction<F>)`, provided for convenience.

@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-struct _extra { virtual ~_extra() { } };
-_extra extra{};
+struct extra_t { virtual ~extra_t() { } };
+extra_t extra{};
 
 constexpr struct { } invalid{};
 
@@ -55,12 +55,12 @@ constexpr auto valid_call(F&& f, Args&& ...args)
     static_assert(!valid_call(op _, invalid), "");                          \
 /**/
 
-struct _incr {
+struct incr_t {
     template <typename X>
-    constexpr auto operator()(X x) const -> decltype(x+1)
-    { return x+1; }
+    constexpr auto operator()(X x) const -> decltype(x + 1)
+    { return x + 1; }
 };
-constexpr _incr incr{};
+constexpr incr_t incr{};
 
 int main() {
     // Arithmetic

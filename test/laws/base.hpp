@@ -31,14 +31,14 @@ namespace boost { namespace hana {
         struct laws;
 
         template <int i>
-        struct _for_each_n {
+        struct for_each_n_t {
             static_assert(i > 0, "can't use for_each_n with i < 0");
 
             template <typename Xs, typename F>
             constexpr auto operator()(Xs xs, F f) const {
                 hana::for_each(xs,
                     hana::compose(
-                        hana::partial(_for_each_n<i - 1>{}, xs),
+                        hana::partial(for_each_n_t<i - 1>{}, xs),
                         hana::partial(hana::partial, f)
                     )
                 );
@@ -46,7 +46,7 @@ namespace boost { namespace hana {
         };
 
         template <>
-        struct _for_each_n<1> {
+        struct for_each_n_t<1> {
             template <typename Xs, typename F>
             constexpr auto operator()(Xs xs, F f) const {
                 hana::for_each(xs, f);
@@ -54,28 +54,28 @@ namespace boost { namespace hana {
         };
 
         template <int i>
-        constexpr _for_each_n<i> for_each_n{};
+        constexpr for_each_n_t<i> for_each_n{};
 
         auto foreach = hana::for_each;
         constexpr auto foreach3 = for_each_n<3>;
         constexpr auto foreach2 = for_each_n<2>;
 
-        struct _implies {
+        struct implies_t {
             template <typename P, typename Q>
             constexpr decltype(auto) operator()(P&& p, Q&& q) const {
                 return hana::or_(hana::not_(static_cast<P&&>(p)),
                                  static_cast<Q&&>(q));
             }
         };
-        constexpr auto implies = hana::infix(_implies{});
+        constexpr auto implies = hana::infix(implies_t{});
 
-        struct _iff {
+        struct iff_t {
             template <typename P, typename Q>
             constexpr decltype(auto) operator()(P&& p, Q&& q) const {
                 return hana::and_(implies(p, q), implies(q, p));
             }
         };
-        constexpr auto iff = hana::infix(_iff{});
+        constexpr auto iff = hana::infix(iff_t{});
 
         template <typename Cond, typename F>
         constexpr decltype(auto) only_when_(Cond cond, F f) {
@@ -213,10 +213,10 @@ namespace boost { namespace hana {
         struct injection_result {
             struct hana { using datatype = InjectionResult; };
             static constexpr int injection_id = i;
-            boost::hana::_tuple<X...> args;
+            boost::hana::tuple<X...> args;
             Tracked tracker;
 
-            template <typename ...Y, typename = decltype(_tuple<X...>{std::declval<Y>()...})>
+            template <typename ...Y, typename = decltype(tuple<X...>{std::declval<Y>()...})>
             constexpr explicit injection_result(Y&& ...y)
                 : args{static_cast<Y&&>(y)...}, tracker{i}
             { }

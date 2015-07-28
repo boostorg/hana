@@ -48,7 +48,7 @@ struct accumulator {
     constexpr State get() && { return std::move(state); }
 };
 
-struct _foldl {
+struct foldl_t {
     template <typename ...Xs>
     static constexpr decltype(auto) helper(Xs&& ...xs)
     { return (... + static_cast<Xs&&>(xs)); }
@@ -65,7 +65,7 @@ struct _foldl {
     }
 };
 
-constexpr _foldl foldl{};
+constexpr foldl_t foldl{};
 #endif
 
 int main() {

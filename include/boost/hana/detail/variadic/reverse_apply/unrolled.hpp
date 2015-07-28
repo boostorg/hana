@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
-    struct _reverse_apply_unrolled {
+    struct reverse_apply_unrolled_impl {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
             return static_cast<F&&>(f)();
@@ -79,7 +79,7 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
         }
     };
 
-    constexpr _reverse_apply_unrolled reverse_apply_unrolled{};
+    constexpr reverse_apply_unrolled_impl reverse_apply_unrolled{};
 
 }}}} // end namespace boost::hana::detail::variadic
 

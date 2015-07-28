@@ -83,7 +83,7 @@ namespace boost { namespace hana {
         // This needs to be in the same namespace as `operator^` so it can be
         // found by ADL.
         template <bool left, bool right, typename F>
-        struct _infix {
+        struct infix_t {
             F f;
 
             template <typename ...X>
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
         template <bool left, bool right>
         struct make_infix {
             template <typename F>
-            constexpr _infix<left, right, typename std::decay<F>::type>
+            constexpr infix_t<left, right, typename std::decay<F>::type>
             operator()(F&& f) const { return {static_cast<F&&>(f)}; }
         };
 
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
         struct dispatch { using type = Object; };
 
         template <bool left, bool right, typename F>
-        struct dispatch<_infix<left, right, F>> {
+        struct dispatch<infix_t<left, right, F>> {
             using type = Infix<left, right>;
         };
 

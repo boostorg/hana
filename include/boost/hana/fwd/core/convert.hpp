@@ -102,10 +102,10 @@ namespace boost { namespace hana {
     struct to_impl;
 
     template <typename To>
-    struct _to;
+    struct to_t;
 
     template <typename To>
-    constexpr _to<To> to{};
+    constexpr to_t<To> to{};
 #endif
 
     //! @ingroup group-core

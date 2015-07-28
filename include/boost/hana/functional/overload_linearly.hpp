@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     };
 #else
     template <typename F, typename G>
-    struct _overload_linearly {
+    struct overload_linearly_t {
         F f;
         G g;
 
@@ -80,9 +80,9 @@ namespace boost { namespace hana {
         { return which<Args...>(int{})(static_cast<Args&&>(args)...); }
     };
 
-    struct _make_overload_linearly {
+    struct make_overload_linearly_t {
         template <typename F, typename G>
-        constexpr _overload_linearly<
+        constexpr overload_linearly_t<
             typename std::decay<F>::type,
             typename std::decay<G>::type
         > operator()(F&& f, G&& g) const {
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr _make_overload_linearly overload_linearly{};
+    constexpr make_overload_linearly_t overload_linearly{};
 #endif
 }} // end namespace boost::hana
 

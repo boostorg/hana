@@ -101,12 +101,12 @@ namespace boost { namespace hana { namespace traits {
     // Property queries
     constexpr auto alignment_of = trait<std::alignment_of>;
     constexpr auto rank = trait<std::rank>;
-    constexpr struct _extent {
+    constexpr struct extent_t {
         template <typename T, typename N>
         constexpr auto operator()(T&&, N const&) const {
             constexpr unsigned n = hana::value<N>();
             constexpr auto result = std::extent<
-                typename detail::_decltype<T>::type, n
+                typename detail::decltype_t<T>::type, n
             >::value;
             return integral_constant<decltype(result), result>;
         }
@@ -151,7 +151,7 @@ namespace boost { namespace hana { namespace traits {
     constexpr auto remove_all_extents = metafunction<std::remove_all_extents>;
 
     // Miscellaneous transformations
-    constexpr struct _aligned_storage {
+    constexpr struct aligned_storage_t {
         template <typename Len, typename Align>
         constexpr auto operator()(Len const&, Align const&) const {
             constexpr std::size_t len = hana::value<Len>();
@@ -168,12 +168,12 @@ namespace boost { namespace hana { namespace traits {
         }
     } aligned_storage{};
 
-    constexpr struct _aligned_union {
+    constexpr struct aligned_union_t {
         template <typename Len, typename ...T>
         constexpr auto operator()(Len const&, T&&...) const {
             constexpr std::size_t len = hana::value<Len>();
             using Result = typename std::aligned_union<
-                len, typename detail::_decltype<T>::type...
+                len, typename detail::decltype_t<T>::type...
             >::type;
             return type<Result>;
         }

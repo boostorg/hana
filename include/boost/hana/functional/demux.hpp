@@ -169,29 +169,29 @@ namespace boost { namespace hana {
     };
 #else
     template <typename Indices, typename F, typename ...G>
-    struct _demux;
+    struct demux_t;
 
     template <typename F>
-    struct _pre_demux {
+    struct pre_demux_t {
         F f;
 
         template <typename ...G>
-        constexpr _demux<std::make_index_sequence<sizeof...(G)>, F,
+        constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
                          typename std::decay<G>::type...>
         operator()(G&& ...g) const& {
             return {this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
-        constexpr _demux<std::make_index_sequence<sizeof...(G)>, F,
-                         typename std::decay<G>::type...>
+        constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
+                          typename std::decay<G>::type...>
         operator()(G&& ...g) && {
             return {static_cast<F&&>(this->f), static_cast<G&&>(g)...};
         }
     };
 
     template <std::size_t ...n, typename F, typename ...G>
-    struct _demux<std::index_sequence<n...>, F, G...>
+    struct demux_t<std::index_sequence<n...>, F, G...>
         : detail::closure<F, G...>
     {
         using detail::closure<F, G...>::closure;
@@ -221,7 +221,7 @@ namespace boost { namespace hana {
     };
 
     template <typename F, typename G>
-    struct _demux<std::index_sequence<0>, F, G>
+    struct demux_t<std::index_sequence<0>, F, G>
         : detail::closure<F, G>
     {
         using detail::closure<F, G>::closure;
@@ -250,7 +250,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr detail::create<_pre_demux> demux{};
+    constexpr detail::create<pre_demux_t> demux{};
 #endif
 }} // end namespace boost::hana
 

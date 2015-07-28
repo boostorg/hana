@@ -37,18 +37,18 @@ template <int N>
 struct MinimalStruct;
 
 template <typename ...Members>
-struct _minimal_struct {
-    _tuple<Members...> members;
+struct minimal_struct_t {
+    tuple<Members...> members;
     struct hana { using datatype = MinimalStruct<sizeof...(Members)>; };
 };
 
-struct _obj {
+struct obj_t {
     template <typename ...Members>
-    constexpr _minimal_struct<Members...> operator()(Members ...members) const {
+    constexpr minimal_struct_t<Members...> operator()(Members ...members) const {
         return {{static_cast<Members&&>(members)...}};
     }
 };
-constexpr _obj obj{};
+constexpr obj_t obj{};
 
 namespace boost { namespace hana {
     template <int N>

@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     });
 #else
     template <typename F, typename G>
-    struct _on {
+    struct on_t {
         F f; G g;
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
         }
     };
 
-    constexpr auto on = infix(detail::create<_on>{});
+    constexpr auto on = infix(detail::create<on_t>{});
 #endif
 }} // end namespace boost::hana
 

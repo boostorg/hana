@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace detail {
     template <typename Algorithm>
-    struct _by {
+    struct by_t {
         template <typename Predicate, typename Object>
         constexpr decltype(auto)
         operator()(Predicate&& predicate, Object&& object) const;
@@ -22,10 +22,10 @@ namespace boost { namespace hana { namespace detail {
     };
 
     template <typename Algorithm>
-    struct by_holder { static constexpr _by<Algorithm> by{}; };
+    struct by_holder { static constexpr by_t<Algorithm> by{}; };
 
     template <typename Algorithm>
-    constexpr _by<Algorithm> by_holder<Algorithm>::by;
+    constexpr by_t<Algorithm> by_holder<Algorithm>::by;
 
     //! @ingroup group-details
     //! Provides a `.by` static constexpr function object.

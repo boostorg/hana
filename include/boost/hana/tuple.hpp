@@ -58,18 +58,18 @@ namespace boost { namespace hana {
     // tuple
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Xs>
-    struct _tuple
+    struct tuple
         : detail::closure<Xs...>
         , operators::adl
-        , detail::iterable_operators<_tuple<Xs...>>
+        , detail::iterable_operators<tuple<Xs...>>
     {
         using detail::closure<Xs...>::closure; // inherit constructors
-        _tuple(_tuple const&) = default;
-        _tuple(_tuple&&) = default;
-        _tuple() = default;
-        _tuple(_tuple&) = default;
+        tuple(tuple const&) = default;
+        tuple(tuple&&) = default;
+        tuple() = default;
+        tuple(tuple&) = default;
 
-        using hana = _tuple;
+        using hana = tuple;
         using datatype = Tuple;
     };
 
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     template <>
     struct length_impl<Tuple> {
         template <typename ...Xs>
-        static constexpr auto apply(_tuple<Xs...> const&)
+        static constexpr auto apply(tuple<Xs...> const&)
         { return hana::size_t<sizeof...(Xs)>; }
     };
 
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<Tuple> {
         template <typename ...Xs>
-        static constexpr auto apply(_tuple<Xs...> const&)
+        static constexpr auto apply(tuple<Xs...> const&)
         { return hana::bool_<sizeof...(Xs) == 0>; }
     };
 
@@ -163,7 +163,7 @@ namespace boost { namespace hana {
     struct make_impl<Tuple> {
         template <typename ...Xs>
         static constexpr
-        _tuple<typename std::decay<Xs>::type...> apply(Xs&& ...xs)
+        tuple<typename std::decay<Xs>::type...> apply(Xs&& ...xs)
         { return {static_cast<Xs&&>(xs)...}; }
     };
 }} // end namespace boost::hana

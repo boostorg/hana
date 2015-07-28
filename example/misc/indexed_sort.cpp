@@ -26,7 +26,7 @@ int main() {
     auto sorted = indexed_sort(types, [](auto t, auto u) {
         return sizeof_(t) < sizeof_(u);
     });
-    using Tup = decltype(unpack(first(sorted), template_<_tuple>))::type;
+    using Tup = decltype(unpack(first(sorted), template_<tuple>))::type;
     auto indices = second(indexed_sort(second(sorted), less));
 
     // When accessed through the indices sequence, the tuple appears to be
@@ -41,7 +41,7 @@ int main() {
 
     static_assert(std::is_same<
         Tup,
-        _tuple<char[1], char[2], char[3], char[4], char[5]>
+        tuple<char[1], char[2], char[3], char[4], char[5]>
     >{}, "");
 
     (void)a; (void)b; (void)c; (void)d; (void)e;

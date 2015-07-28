@@ -27,12 +27,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // _pair
+    // pair
     //////////////////////////////////////////////////////////////////////////
     template <typename First, typename Second>
-    struct _pair : operators::adl, detail::closure<First, Second> {
+    struct pair : operators::adl, detail::closure<First, Second> {
         using detail::closure<First, Second>::closure;
-        using hana = _pair;
+        using hana = pair;
         using datatype = Pair;
     };
 
@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     template <>
     struct make_impl<Pair> {
         template <typename F, typename S>
-        static constexpr _pair<
+        static constexpr pair<
             typename std::decay<F>::type,
             typename std::decay<S>::type
         > apply(F&& f, S&& s) {

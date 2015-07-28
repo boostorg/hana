@@ -31,12 +31,12 @@ namespace boost { namespace hana {
 
         using Numeric = datatype_t<numeric_type>;
 
-        struct _numeric {
+        struct numeric_t {
             constexpr numeric_type operator()(int x) const {
                 return numeric_type{x};
             }
         };
-        constexpr _numeric numeric{};
+        constexpr numeric_t numeric{};
     }
 
     //////////////////////////////////////////////////////////////////////////

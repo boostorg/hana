@@ -18,33 +18,33 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana { namespace detail { namespace variadic {
-    struct _take_impl2 {
+    struct take_impl2 {
         template <typename F, typename ...Xs>
         constexpr decltype(auto) operator()(F&& f, Xs&& ...xs) const {
             return static_cast<F&&>(f)(static_cast<Xs&&>(xs)...);
         }
     };
 
-    struct _take_impl1 {
+    struct take_impl1 {
         template <typename ...Xs>
         constexpr auto operator()(Xs&& ...xs) const {
             return hana::always(
-                reverse_partial(_take_impl2{},
+                reverse_partial(take_impl2{},
                     static_cast<Xs&&>(xs)...)
             );
         }
     };
 
     template <std::size_t n>
-    struct _take {
+    struct take_t {
         template <typename ...Xs>
         constexpr decltype(auto) operator()(Xs&& ...xs) const {
-            return split_at<n>(static_cast<Xs&&>(xs)...)(_take_impl1{});
+            return variadic::split_at<n>(static_cast<Xs&&>(xs)...)(take_impl1{});
         }
     };
 
     template <std::size_t n>
-    constexpr _take<n> take{};
+    constexpr take_t<n> take{};
 }}}} // end namespace boost::hana::detail::variadic
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_TAKE_HPP

@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     }
 
     template <typename ...X>
-    struct _capture : detail::closure<X...> {
+    struct capture_t : detail::closure<X...> {
         using detail::closure<X...>::closure;
 
         template <typename F>
@@ -74,21 +74,21 @@ namespace boost { namespace hana {
         template <typename F>
         constexpr auto operator()(F&& f) && {
             return detail::apply_capture(
-                static_cast<F&&>(f), static_cast<_capture&&>(*this),
+                static_cast<F&&>(f), static_cast<capture_t&&>(*this),
                 std::make_index_sequence<sizeof...(X)>{}
             );
         }
     };
 
-    struct _make_capture {
+    struct make_capture_t {
         template <typename ...X>
-        constexpr _capture<typename std::decay<X>::type...>
+        constexpr capture_t<typename std::decay<X>::type...>
         operator()(X&& ...x) const {
             return {static_cast<X&&>(x)...};
         }
     };
 
-    constexpr _make_capture capture{};
+    constexpr make_capture_t capture{};
 #endif
 }} // end namespace boost::hana
 

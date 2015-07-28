@@ -49,13 +49,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <typename It>
-    struct models_impl<Iterable, It>
-        : _integral_constant<bool,
-            !is_default<at_impl<It>>{}() &&
-            !is_default<tail_impl<It>>{}() &&
-            !is_default<is_empty_impl<It>>{}()
-        >
-    { };
+    struct models_impl<Iterable, It> {
+        static constexpr bool value = !is_default<at_impl<It>>::value &&
+                                      !is_default<tail_impl<It>>::value &&
+                                      !is_default<is_empty_impl<It>>::value;
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Model of Searchable
@@ -64,7 +62,9 @@ namespace boost { namespace hana {
     struct Iterable::find_if_impl {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::only_when(hana::compose(not_, is_empty), hana::front,
+            return hana::only_when(
+                hana::compose(hana::not_, hana::is_empty),
+                hana::front,
                 hana::drop_while(static_cast<Xs&&>(xs),
                                  hana::compose(hana::not_, static_cast<Pred&&>(pred)))
             );
@@ -77,22 +77,22 @@ namespace boost { namespace hana {
         struct any_of_helper {
             template <typename Xs, typename Pred>
             static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::front(xs)), true_, false_);
+                auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
                 decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
                 constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
-                return prev_cond ? true_
+                return prev_cond ? hana::true_
                     : any_of_impl::any_of_helper<done>::apply(cond,
                                 static_cast<decltype(tail)&&>(tail),
                                 static_cast<Pred&&>(pred));
             }
 
             template <typename Xs, typename Pred>
-            static constexpr auto apply(decltype(true_), Xs&&, Pred&&)
-            { return true_; }
+            static constexpr auto apply(decltype(hana::true_), Xs&&, Pred&&)
+            { return hana::true_; }
 
             template <typename Xs, typename Pred>
-            static constexpr auto apply(decltype(false_), Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::front(xs)), true_, false_);
+            static constexpr auto apply(decltype(hana::false_), Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
                 constexpr bool done = hana::value<decltype(
                     hana::is_empty(hana::tail(xs))
                 )>();
@@ -112,7 +112,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
-            return any_of_impl::any_of_helper<done>::apply(false_,
+            return any_of_impl::any_of_helper<done>::apply(hana::false_,
                                             static_cast<Xs&&>(xs),
                                             static_cast<Pred&&>(pred));
         }

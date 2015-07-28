@@ -37,20 +37,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // _set
+    // set
     //////////////////////////////////////////////////////////////////////////
     template <typename ...Xs>
-    struct _set : operators::adl, detail::searchable_operators<_set<Xs...>> {
-        _tuple<Xs...> storage;
-        using hana = _set;
+    struct set : operators::adl, detail::searchable_operators<set<Xs...>> {
+        tuple<Xs...> storage;
+        using hana = set;
         using datatype = Set;
 
-        explicit constexpr _set(_tuple<Xs...> const& xs)
+        explicit constexpr set(tuple<Xs...> const& xs)
             : storage(xs)
         { }
 
-        explicit constexpr _set(_tuple<Xs...>&& xs)
-            : storage(static_cast<_tuple<Xs...>&&>(xs))
+        explicit constexpr set(tuple<Xs...>&& xs)
+            : storage(static_cast<tuple<Xs...>&&>(xs))
         { }
     };
 
@@ -82,7 +82,7 @@ namespace boost { namespace hana {
             "Comparable at compile-time");
         #endif
 
-            return _set<typename std::decay<Xs>::type...>{
+            return set<typename std::decay<Xs>::type...>{
                 hana::make_tuple(static_cast<Xs&&>(xs)...)
             };
         }
