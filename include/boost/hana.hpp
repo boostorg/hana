@@ -34,6 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/struct.hpp>
 
 // Data types
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/either.hpp>
 #include <boost/hana/integral_constant.hpp>

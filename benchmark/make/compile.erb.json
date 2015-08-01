@@ -16,6 +16,9 @@
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
     }, {
+      "name": "hana::basic_tuple",
+      "data": <%= time_compilation('compile.hana.basic_tuple.erb.cpp', hana) %>
+    }, {
       "name": "std::array",
       "data": <%= time_compilation('compile.std.array.erb.cpp', hana) %>
     }
