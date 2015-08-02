@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/struct_macros.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -28,6 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/searchable.hpp>
 
 #include <boost/hana/accessors.hpp>
+#include <boost/hana/adapt_struct.hpp>
+#include <boost/hana/define_struct.hpp>
 #include <boost/hana/keys.hpp>
 #include <boost/hana/members.hpp>
 

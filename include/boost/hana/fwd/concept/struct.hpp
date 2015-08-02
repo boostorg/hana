@@ -11,6 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
 
 #include <boost/hana/fwd/accessors.hpp>
+#include <boost/hana/fwd/adapt_struct.hpp>
+#include <boost/hana/fwd/define_struct.hpp>
 #include <boost/hana/fwd/keys.hpp>
 #include <boost/hana/fwd/members.hpp>
 
@@ -145,61 +147,6 @@ namespace boost { namespace hana {
     //! is provided for any model of the `Struct` concept.
     //! @snippet example/struct.cpp Searchable
     struct Struct { };
-
-    // Note:
-    // For the two macros below, their weird definition as variables seems to
-    // exploit a glitch in Doxygen, which makes the macros appear in the
-    // related objects of Struct (as we want them to).
-
-    //! Defines members of a structure, while at the same time
-    //! modeling `Struct`.
-    //! @relates Struct
-    //!
-    //! Using this macro in the body of a user-defined type will define the
-    //! given members inside that type, and will also provide a model of the
-    //! `Struct` concept for that user-defined type. This macro is often the
-    //! easiest way to define a model of the `Struct` concept.
-    //!
-    //! @note
-    //! This macro only works if the tag of the user-defined type `T` is `T`
-    //! itself. This is the case unless you specifically asked for something
-    //! different; see `datatype`'s documentation.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/struct.mcd.define_macro.cpp main
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    auto BOOST_HANA_DEFINE_STRUCT(...) = ;
-    #define BOOST_HANA_DEFINE_STRUCT(Name, ...) see documentation
-#else
-    // defined in <boost/hana/detail/struct_macros.hpp>
-#endif
-
-    //! Defines a model of `Struct` with the given members.
-    //! @relates Struct
-    //!
-    //! Using this macro at _global scope_ will define a model of the `Struct`
-    //! concept for the given type. This can be used to easily adapt existing
-    //! user-defined types in a ad-hoc manner. Unlike the
-    //! `BOOST_HANA_DEFINE_STRUCT` macro, this macro does not
-    //! require the types of the members to be specified.
-    //!
-    //! @note
-    //! This macro only works if the tag of the user-defined type `T` is `T`
-    //! itself. This is the case unless you specifically asked for something
-    //! different; see `datatype`'s documentation.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @snippet example/struct.mcd.adapt_macro.cpp main
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    auto BOOST_HANA_ADAPT_STRUCT(...) = ;
-    #define BOOST_HANA_ADAPT_STRUCT(Name, ...) see documentation
-#else
-    // defined in <boost/hana/detail/struct_macros.hpp>
-#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
