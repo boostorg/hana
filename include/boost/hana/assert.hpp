@@ -117,7 +117,7 @@ Distributed under the Boost Software License, Version 1.0.
             auto tmpvar = expr;                                             \
             static_assert(!::boost::hana::_models<                          \
                 ::boost::hana::Constant, decltype(tmpvar)                   \
-            >{}(),                                                          \
+            >::value,                                                       \
             "the expression (" # expr ") yields a Constant; "               \
             "use BOOST_HANA_CONSTANT_" # assert_or_check " instead");       \
                                                                             \
@@ -143,7 +143,7 @@ Distributed under the Boost Software License, Version 1.0.
         auto tmpvar = expr;                                                 \
         static_assert(::boost::hana::_models<                               \
             ::boost::hana::Constant, decltype(tmpvar)                       \
-        >{}(),                                                              \
+        >::value,                                                           \
         "the expression " # expr " does not yield a Constant");             \
                                                                             \
         static_assert(::boost::hana::value(tmpvar), # expr)                 \
@@ -193,7 +193,7 @@ Distributed under the Boost Software License, Version 1.0.
             constexpr auto tmpvar = expr;                                   \
             static_assert(!::boost::hana::_models<                          \
                 ::boost::hana::Constant, decltype(tmpvar)                   \
-            >{}(),                                                          \
+            >::value,                                                       \
             "the expression " # expr " yields a Constant; "                 \
             "use BOOST_HANA_CONSTANT_" #assert_or_check " instead");        \
                                                                             \
