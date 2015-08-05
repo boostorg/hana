@@ -118,11 +118,11 @@ int main() {
 
         // implicit and explicit construction of left and right
         {
-            _right<int> r1{1};       (void)r1;
-            _right<int> r2 = {1};    (void)r2;
+            right_t<int> r1{1};       (void)r1;
+            right_t<int> r2 = {1};    (void)r2;
 
-            _left<int> l1{1};       (void)l1;
-            _left<int> l2 = {1};    (void)l2;
+            left_t<int> l1{1};       (void)l1;
+            left_t<int> l2 = {1};    (void)l2;
         }
     }
 

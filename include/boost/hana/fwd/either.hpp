@@ -103,14 +103,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename X>
-    struct _left;
+    struct left_t;
 
-    struct _make_left {
+    struct make_left_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _make_left left{};
+    constexpr make_left_t left{};
 #endif
 
     //! Create an `Either` containing the given right value.
@@ -126,14 +126,14 @@ namespace boost { namespace hana {
     };
 #else
     template <typename X>
-    struct _right;
+    struct right_t;
 
-    struct _make_right {
+    struct make_right_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr _make_right right{};
+    constexpr make_right_t right{};
 #endif
 
     //! Apply one of two functions to the value inside an `Either`.
