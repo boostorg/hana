@@ -61,12 +61,14 @@ namespace boost { namespace hana {
         hana::_models<hana::Logical, typename C::value_type>::value
     >> {
         using T = typename C::value_type;
+        //! @cond
         template <typename Cond>
         struct constant_t {
             static constexpr decltype(auto) get()
             { return boost::hana::not_(boost::hana::value<Cond>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
+        //! @endcond
         template <typename Cond>
         static constexpr auto apply(Cond const&)
         { return hana::to<C>(constant_t<Cond>{}); }

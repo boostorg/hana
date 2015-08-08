@@ -69,6 +69,7 @@ namespace boost { namespace hana {
         _models<Monoid, typename C::value_type>::value
     >> {
         using T = typename C::value_type;
+        //! @cond
         struct constant_t {
             static constexpr decltype(auto) get()
             { return boost::hana::zero<T>(); }
@@ -76,6 +77,7 @@ namespace boost { namespace hana {
             using hana = constant_t;
             using datatype = detail::CanonicalConstant<T>;
         };
+        //! @endcond
         static constexpr decltype(auto) apply()
         { return hana::to<C>(constant_t{}); }
     };

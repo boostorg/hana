@@ -58,6 +58,7 @@ namespace boost { namespace hana {
     struct any_of_impl<S, when<
         _models<Sequence, S>::value && _models<Foldable, S>::value
     >> {
+        //! @cond
         template <std::size_t k, std::size_t Len>
         struct any_of_helper {
             template <typename Xs, typename Pred>
@@ -100,6 +101,7 @@ namespace boost { namespace hana {
                                             static_cast<Xs&&>(xs),
                                             static_cast<Pred&&>(pred));
         }
+        //! @endcond
     };
 
     template <typename T, std::size_t N>

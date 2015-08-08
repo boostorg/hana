@@ -100,6 +100,7 @@ namespace boost { namespace hana {
         _models<Group, typename C::value_type>::value
     >> {
         using T = typename C::value_type;
+        //! @cond
         template <typename X, typename Y>
         struct constant_t {
             static constexpr decltype(auto) get() {
@@ -110,6 +111,7 @@ namespace boost { namespace hana {
             using hana = constant_t;
             using datatype = detail::CanonicalConstant<T>;
         };
+        //! @endcond
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
         { return hana::to<C>(constant_t<X, Y>{}); }

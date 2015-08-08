@@ -60,6 +60,7 @@ namespace boost { namespace hana {
     struct transform_impl<S, when<
         _models<Sequence, S>::value && _models<Foldable, S>::value
     >> {
+        //! @cond
         template <typename F>
         struct transformer {
             F f;
@@ -68,6 +69,7 @@ namespace boost { namespace hana {
                 return hana::make<S>((*f)(static_cast<Xs&&>(xs))...);
             }
         };
+        //! @endcond
 
         template <typename Xs, typename F>
         static constexpr auto apply(Xs&& xs, F&& f) {

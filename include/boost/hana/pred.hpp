@@ -70,12 +70,14 @@ namespace boost { namespace hana {
         _models<Enumerable, typename C::value_type>::value
     >> {
         using T = typename C::value_type;
+        //! @cond
         template <typename X>
         struct constant_t {
             static constexpr decltype(auto) get()
             { return boost::hana::pred(boost::hana::value<X>()); }
             struct hana { using datatype = detail::CanonicalConstant<T>; };
         };
+        //! @endcond
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
         { return to<C>(constant_t<X>{}); }

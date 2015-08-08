@@ -60,6 +60,7 @@ namespace boost { namespace hana {
     struct fill_impl<S, when<
         _models<Sequence, S>::value && _models<Foldable, S>::value
     >> {
+        //! @cond
         template <typename V>
         struct filler {
             V const& v;
@@ -68,6 +69,7 @@ namespace boost { namespace hana {
                 return hana::make<S>(((void)xs, v)...);
             }
         };
+        //! @endcond
 
         template <typename Xs, typename V>
         static constexpr auto apply(Xs const& xs, V const& v) {
