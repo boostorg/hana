@@ -20,7 +20,6 @@ var group__group_details =
     [ "BOOST_HANA_PP_BACK", "group__group-details.html#ga1be7a4bd805ffff2882fe54995dc41bd", null ],
     [ "BOOST_HANA_PP_DROP_BACK", "group__group-details.html#gadcf0cf5cb650681b8cac90d94ce52d44", null ],
     [ "by", "group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18", null ],
-    [ "closure", "group__group-details.html#ga2c4e8d51409023786e9c2918e460cb51", null ],
     [ "generate_integer_sequence", "group__group-details.html#ga37aa8462ac506500444eb455346f0883", null ],
     [ "generate_index_sequence", "group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453", null ],
     [ "has_common_embedding", "group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b", null ],

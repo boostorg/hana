@@ -3,8 +3,6 @@ var searchData=
   ['tail',['tail',['../structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96',1,'boost::hana::Iterable']]],
   ['take',['take',['../structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1',1,'boost::hana::Sequence']]],
   ['take_5fc',['take_c',['../structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b',1,'boost::hana::Sequence']]],
-  ['take_5fexactly',['take_exactly',['../structboost_1_1hana_1_1Sequence.html#ae1d440b34c38c79b8651e6b50aa41f90',1,'boost::hana::Sequence']]],
-  ['take_5funtil',['take_until',['../structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4',1,'boost::hana::Sequence']]],
   ['take_5fwhile',['take_while',['../structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff',1,'boost::hana::Sequence']]],
   ['tap',['tap',['../structboost_1_1hana_1_1Monad.html#a17ea859a2702ea45ea4999a8a0d2cc63',1,'boost::hana::Monad']]],
   ['template_5f',['template_',['../structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2',1,'boost::hana::Metafunction']]],

@@ -139,7 +139,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Tuple.html','')
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>Tag representing a general purpose index-based heterogeneous sequence with a fixed length. </p>
 <p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> is the bread and butter for static metaprogramming. Conceptually, an object of this kind is like a <code>std::tuple</code>; it is a container able of holding objects of different types and whose size is fixed at compile-time. However, Hana's tuple provides much more functionality than its <code>std</code> counterpart, and it is also much more efficient than all standard library implementations tested so far.</p>
-<p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>s are index-based sequences. If you need an associative sequence with a key-based access, then you should consider the <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> data types instead.</p>
+<p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>s are index-based sequences. If you need an associative sequence with a key-based access, then you should consider the <code><a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing a basic associative array requiring unique and Comparable keys. ">Map</a></code> or <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> data types instead.</p>
 <h2>Modeled concepts </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and all the concepts it refines</p>
 <h2>Provided operators </h2>
@@ -194,7 +194,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs)</div>
-<div class="line">        -&gt; _tuple&lt;std::decay_t&lt;decltype(xs)&gt;...&gt;</div>
+<div class="line">        -&gt; tuple&lt;std::decay_t&lt;decltype(xs)&gt;...&gt;</div>
 <div class="line">    {</div>
 <div class="line">        <span class="keywordflow">return</span> {forwarded(xs)...};</div>
 <div class="line">    }</div>

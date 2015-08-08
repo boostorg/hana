@@ -194,7 +194,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; first, <span class="keyword">auto</span>&amp;&amp; second)</div>
-<div class="line">        -&gt; _pair&lt;std::decay_t&lt;decltype(first)&gt;, std::decay_t&lt;decltype(second)&gt;&gt;</div>
+<div class="line">        -&gt; pair&lt;std::decay_t&lt;decltype(first)&gt;, std::decay_t&lt;decltype(second)&gt;&gt;</div>
 <div class="line">    {</div>
 <div class="line">        <span class="keywordflow">return</span> {forwarded(first), forwarded(second)};</div>
 <div class="line">    }</div>

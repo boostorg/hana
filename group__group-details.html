@@ -203,10 +203,6 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = by_holder&lt; Algorithm &gt;</td></tr>
 <tr class="memdesc:ga1f92c27de855a682eebde5f7d0138d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.by</code> static constexpr function object.  <a href="#ga1f92c27de855a682eebde5f7d0138d18">More...</a><br /></td></tr>
 <tr class="separator:ga1f92c27de855a682eebde5f7d0138d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2c4e8d51409023786e9c2918e460cb51"><td class="memTemplParams" colspan="2">template&lt;typename... Xs&gt; </td></tr>
-<tr class="memitem:ga2c4e8d51409023786e9c2918e460cb51"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga2c4e8d51409023786e9c2918e460cb51">boost::hana::detail::closure</a> = typename make_closure_impl&lt; std::make_index_sequence&lt; sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
-<tr class="memdesc:ga2c4e8d51409023786e9c2918e460cb51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimalistic closure implemented through multiple inheritance.  <a href="#ga2c4e8d51409023786e9c2918e460cb51">More...</a><br /></td></tr>
-<tr class="separator:ga2c4e8d51409023786e9c2918e460cb51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(std::make_index_sequence&lt; N &gt;{}))</td></tr>
 <tr class="memdesc:ga37aa8462ac506500444eb455346f0883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="#ga37aa8462ac506500444eb455346f0883">More...</a><br /></td></tr>
@@ -347,32 +343,6 @@ template&lt;typename Algorithm &gt; </div>
 <div class="line">Predicate -&gt; (Object -&gt; Return)</div>
 </div><!-- fragment --><p>In other words, <code>by</code> is a <code>curry</code>ed and <code>flip</code>ped version of <code>Algo</code>. Note that the function object <code>Algo</code> must be default-constructible, since the algorithm will be called as <code>Algo{}(arguments...)</code> by <code>by</code>.</p>
 <dl class="section note"><dt>Note</dt><dd>This function object is especially useful because it takes care of avoiding ODR violations caused by the nested static constexpr member. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga2c4e8d51409023786e9c2918e460cb51"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga2c4e8d51409023786e9c2918e460cb51">boost::hana::detail::closure</a> = typedef typename make_closure_impl&lt; std::make_index_sequence&lt;sizeof...(Xs)&gt;, Xs... &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="closure_8hpp.html">boost/hana/detail/closure.hpp</a>&gt;</code></p>
-
-<p>Minimalistic closure implemented through multiple inheritance. </p>
-<p>This is intended to be used as a building block for other more complex data structures. The following is guaranteed by a <code>closure</code>: <code>closure&lt;X1, ..., Xn&gt;</code> is a type representing a closure holding objects of types <code>X1, ..., Xn</code> (basically a tuple). More specifically, <code>closure&lt;X1, ..., Xn&gt;</code> is an alias to</p>
-<div class="fragment"><div class="line">closure_impl&lt;</div>
-<div class="line">    element&lt;0, X0&gt;,</div>
-<div class="line">    element&lt;1, X1&gt;,</div>
-<div class="line">    ...,</div>
-<div class="line">    element&lt;n, Xn&gt;</div>
-<div class="line">&gt;</div>
-</div><!-- fragment --><p>Note that this makes <code>closure&lt;X1, ..., Xn&gt;</code> a dependent type, which means that pattern matching is not allowed on it. <code>closure_impl</code> inherits publicly from each of these <code>element</code>s, which makes it possible to retrieve an object from the closure based on its index. Also note that <code>element&lt;n, Xn&gt;</code> is guaranteed to have a nested <code>get_type</code> alias equivalent to <code>Xn</code>, which is handy to retrieve that <code>Xn</code> without having to do pattern matching. </p>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['has_5fcommon',['has_common',['../structboost_1_1hana_1_1has__common.html',1,'boost::hana']]]
+  ['group',['Group',['../structboost_1_1hana_1_1Group.html',1,'boost::hana']]]
 ];

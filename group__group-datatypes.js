@@ -1,5 +1,9 @@
 var group__group_datatypes =
 [
+    [ "BasicTuple", "structboost_1_1hana_1_1BasicTuple.html", [
+      [ "make< BasicTuple >", "structboost_1_1hana_1_1BasicTuple.html#a014ba5f43f643bac0f8181eac92f2db3", null ],
+      [ "make_basic_tuple", "structboost_1_1hana_1_1BasicTuple.html#afe2c3fc2808e83353b7274dddd662c7e", null ]
+    ] ],
     [ "IntegralConstant", "structboost_1_1hana_1_1IntegralConstant.html", [
       [ "integral_constant", "structboost_1_1hana_1_1IntegralConstant.html#a3548ddeed18cbfe945b7de9cb65f873b", null ],
       [ "bool_", "structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87", null ],
@@ -54,7 +58,6 @@ var group__group_datatypes =
     [ "Set", "structboost_1_1hana_1_1Set.html", [
       [ "make< Set >", "structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
       [ "make_set", "structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
-      [ "set", "structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602", null ],
       [ "insert", "structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "erase_key", "structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],

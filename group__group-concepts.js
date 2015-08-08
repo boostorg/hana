@@ -135,7 +135,6 @@ var group__group_concepts =
     [ "Sequence", "structboost_1_1hana_1_1Sequence.html", [
       [ "cartesian_product", "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95", null ],
       [ "drop_back", "structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef", null ],
-      [ "drop_back_exactly", "structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4", null ],
       [ "group", "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330", null ],
       [ "insert", "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "insert_range", "structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea", null ],
@@ -154,8 +153,6 @@ var group__group_concepts =
       [ "subsequence", "structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7", null ],
       [ "take", "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1", null ],
       [ "take_c", "structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b", null ],
-      [ "take_exactly", "structboost_1_1hana_1_1Sequence.html#ae1d440b34c38c79b8651e6b50aa41f90", null ],
-      [ "take_until", "structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4", null ],
       [ "take_while", "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff", null ],
       [ "unfold_left", "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2", null ],
       [ "unfold_right", "structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442", null ],

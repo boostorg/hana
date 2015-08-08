@@ -101,7 +101,7 @@ var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
 "fwd_2group_8hpp.html",
-"index.html#tutorial-type",
+"index.html#tutorial-type-objects",
 "structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9"
 ];
 

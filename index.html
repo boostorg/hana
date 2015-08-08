@@ -419,15 +419,15 @@ A real world example</h2>
 <div class="line"><span class="comment">// r is inferred to be a long long</span></div>
 <div class="line">static_assert(std::is_same&lt;decltype(r), <span class="keywordtype">long</span> <span class="keywordtype">long</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">assert(r == 2ll);</div>
-</div><!-- fragment --><p> We'll now look at how this utility can be implemented using Hana. The first step is to associate each type to a function. To do so, we represent each <code>case_</code> as a <code>std::pair</code> whose first element is a type and whose second element is a function. Furthermore, we (arbitrarily) decide to represent the <code>default_</code> case as a <code>std::pair</code> mapping a dummy type to a function:</p>
+</div><!-- fragment --><p> We'll now look at how this utility can be implemented using Hana. The first step is to associate each type to a function. To do so, we represent each <code>case_</code> as a <code>hana::pair</code> whose first element is a type and whose second element is a function. Furthermore, we (arbitrarily) decide to represent the <code>default_</code> case as a <code>hana::pair</code> mapping a dummy type to a function:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
-<div class="line">  <span class="keywordflow">return</span> std::make_pair(type&lt;T&gt;, f);</div>
+<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;T&gt;, f);</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>_default;</div>
-<div class="line"><span class="keyword">auto</span> default_ = case_&lt;_default&gt;;</div>
-</div><!-- fragment --><p> To provide the interface we showed above, <code>switch_</code> will have to return a function taking the cases. In other words, <code>switch_(a)</code> must be a function taking any number of cases (which are <code>std::pair</code>s), and performing the logic to dispatch <code>a</code> to the right function. This can easily be achieved by having <code>switch_</code> return a C++14 generic lambda:</p>
+<div class="line"><span class="keyword">struct </span>default_t;</div>
+<div class="line"><span class="keyword">auto</span> default_ = case_&lt;default_t&gt;;</div>
+</div><!-- fragment --><p> To provide the interface we showed above, <code>switch_</code> will have to return a function taking the cases. In other words, <code>switch_(a)</code> must be a function taking any number of cases (which are <code>hana::pair</code>s), and performing the logic to dispatch <code>a</code> to the right function. This can easily be achieved by having <code>switch_</code> return a C++14 generic lambda:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
@@ -449,20 +449,20 @@ A real world example</h2>
 <div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first == type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// ...</span></div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p><code>find_if</code> takes a <code>tuple</code> and a predicate, and returns the first element of the tuple which satisfies the predicate. The result is returned as an optional value called an <code>Optional</code>, which is very similar to a <code>std::optional</code>, except whether that optional value is empty or not is known at compile-time. If the predicate is not satisfied for any element of the <code>tuple</code>, <code>find_if</code> returns <code>nothing</code> (an empty value). Otherwise, it returns <code>just(x)</code> (a non-empty value), where <code>x</code> is the first element satisfying the predicate. Unlike predicates used in STL algorithms, the predicate used here must be generic because the tuple's elements are heterogeneous. Furthermore, that predicate must return what Hana calls an <code>IntegralConstant</code>, which means that the predicate's result must be known at compile-time. These details are explained in the section on <a class="el" href="index.html#tutorial-algorithms-cross_phase">cross-phase algorithms</a>. Inside the predicate, we simply compare the type of the case's first element to <code>type&lt;_default&gt;</code>. If you recall that we were using <code>std::pair</code>s to encode cases, this simply means that we're finding the default case among all of the provided cases. But what if no default case was provided? We should fail at compile-time, of course!</p>
+</div><!-- fragment --><p><code>find_if</code> takes a <code>tuple</code> and a predicate, and returns the first element of the tuple which satisfies the predicate. The result is returned as an optional value called an <code>Optional</code>, which is very similar to a <code>std::optional</code>, except whether that optional value is empty or not is known at compile-time. If the predicate is not satisfied for any element of the <code>tuple</code>, <code>find_if</code> returns <code>nothing</code> (an empty value). Otherwise, it returns <code>just(x)</code> (a non-empty value), where <code>x</code> is the first element satisfying the predicate. Unlike predicates used in STL algorithms, the predicate used here must be generic because the tuple's elements are heterogeneous. Furthermore, that predicate must return what Hana calls an <code>IntegralConstant</code>, which means that the predicate's result must be known at compile-time. These details are explained in the section on <a class="el" href="index.html#tutorial-algorithms-cross_phase">cross-phase algorithms</a>. Inside the predicate, we simply compare the type of the case's first element to <code>type&lt;default_t&gt;</code>. If you recall that we were using <code>hana::pair</code>s to encode cases, this simply means that we're finding the default case among all of the provided cases. But what if no default case was provided? We should fail at compile-time, of course!</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
 <div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first == type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
@@ -477,13 +477,13 @@ A real world example</h2>
 <div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first == type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> rest = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first != type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) != type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// ...</span></div>
@@ -496,21 +496,21 @@ A real world example</h2>
 <div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first == type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> rest = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first != type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) != type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
-<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), default_-&gt;second, rest...);</div>
+<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(*default_), rest...);</div>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> <code>unpack</code> takes a <code>tuple</code> and a function, and calls the function with the content of the <code>tuple</code> as arguments. The result of <code>unpack</code> is the result of calling that function. In our case, the function is a generic lambda which in turn calls the <code>process</code> function. Our reason for using <code>unpack</code> here was to turn the <code>rest</code> tuple into a parameter pack of arguments, which are easier to process recursively than tuples. Before we move on to the <code>process</code> function, it is worthwhile to explain what <code>default_-&gt;second</code> is all about. As we explained earlier, <code>default_</code> is an optional value. Like <code>std::optional</code>, this optional value overloads the dereference operator and the arrow operator to allow accessing the value inside the <code>optional</code>. If the optional is empty (<code>nothing</code>), a compile-time error is triggered. Since we know <code>default_</code> is not empty (we checked that just above), what we're doing is simply pass the function associated to the default case to the <code>process</code> function. We're now ready for the final step, which is the implementation of the <code>process</code> function:</p>
+</div><!-- fragment --><p> <code>unpack</code> takes a <code>tuple</code> and a function, and calls the function with the content of the <code>tuple</code> as arguments. The result of <code>unpack</code> is the result of calling that function. In our case, the function is a generic lambda which in turn calls the <code>process</code> function. Our reason for using <code>unpack</code> here was to turn the <code>rest</code> tuple into a parameter pack of arguments, which are easier to process recursively than tuples. Before we move on to the <code>process</code> function, it is worthwhile to explain what <code>second(*default_)</code> is all about. As we explained earlier, <code>default_</code> is an optional value. Like <code>std::optional</code>, this optional value overloads the dereference operator (and the arrow operator) to allow accessing the value inside the <code>optional</code>. If the optional is empty (<code>nothing</code>), a compile-time error is triggered. Since we know <code>default_</code> is not empty (we checked that just above), what we're doing is simply pass the function associated to the default case to the <code>process</code> function. We're now ready for the final step, which is the implementation of the <code>process</code> function:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any, <span class="keyword">typename</span> Default&gt;</div>
 <div class="line"><span class="keyword">auto</span> process(Any&amp;, std::type_index <span class="keyword">const</span>&amp;, Default&amp; default_) {</div>
 <div class="line">  <span class="keywordflow">return</span> default_();</div>
@@ -520,8 +520,8 @@ A real world example</h2>
 <div class="line"><span class="keyword">auto</span> process(Any&amp; a, std::type_index <span class="keyword">const</span>&amp; t, Default&amp; default_,</div>
 <div class="line">             Case&amp; case_, Rest&amp; ...rest)</div>
 <div class="line">{</div>
-<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(case_.first)::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
-<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? case_.second(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
+<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(case_))::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
+<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> There are two overloads of this function: an overload for when there is at least one case to process, and the base case overload for when there's only the default case. As we would expect, the base case simply calls the default function and returns that result. The other overload is slightly more interesting. First, we retrieve the type associated to that case and store it in <code>T</code>. This <code>decltype(...)::type</code> dance might seem convoluted, but it is actually quite simple. Roughly speaking, this takes a type represented as an object (a <code>type&lt;T&gt;</code>) and pulls it back down to the type level (a <code>T</code>). The details are explained in the section on <a class="el" href="index.html#tutorial-type">type-level computations</a>. Then, we compare whether the dynamic type of the <code>any</code> matches this case, and if so we call the function associated to this case with the <code>any</code> casted to the proper type. Otherwise, we simply call <code>process</code> recursively with the rest of the cases. Pretty simple, wasn't it? Here's the final solution:</p>
@@ -537,11 +537,11 @@ A real world example</h2>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
-<div class="line">  <span class="keywordflow">return</span> std::make_pair(type&lt;T&gt;, f);</div>
+<div class="line">  <span class="keywordflow">return</span> make_pair(type&lt;T&gt;, f);</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>_default;</div>
-<div class="line"><span class="keyword">auto</span> default_ = case_&lt;_default&gt;;</div>
+<div class="line"><span class="keyword">struct </span>default_t;</div>
+<div class="line"><span class="keyword">auto</span> default_ = case_&lt;default_t&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any, <span class="keyword">typename</span> Default&gt;</div>
 <div class="line"><span class="keyword">auto</span> process(Any&amp;, std::type_index <span class="keyword">const</span>&amp;, Default&amp; default_) {</div>
@@ -552,8 +552,8 @@ A real world example</h2>
 <div class="line"><span class="keyword">auto</span> process(Any&amp; a, std::type_index <span class="keyword">const</span>&amp; t, Default&amp; default_,</div>
 <div class="line">             Case&amp; case_, Rest&amp; ...rest)</div>
 <div class="line">{</div>
-<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(case_.first)::type;</div>
-<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? case_.second(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
+<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+first(case_))::type;</div>
+<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? second(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
 <div class="line">}</div>
 <div class="line"></div>
@@ -563,17 +563,17 @@ A real world example</h2>
 <div class="line">    <span class="keyword">auto</span> cases = make_tuple(cases_...);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> default_ = find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first == type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> first(c) == type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line">    static_assert(default_ != nothing,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> rest = filter(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> c.first != type&lt;_default&gt;;</div>
+<div class="line">      <span class="keywordflow">return</span> first(c) != type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> unpack(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
-<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), default_-&gt;second, rest...);</div>
+<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), second(*default_), rest...);</div>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
@@ -640,8 +640,6 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(sequence[, n])</code> </td><td align="left">Drop the last <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an IntegralConstant. When not provided, <code>n</code> defaults to 1. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#aec8e997908f6dd39b512958c1c8a10d4">drop_back_exactly</a>(sequence[, n])</code> </td><td align="left">Drop the last <code>n</code> elements from a sequence. <code>n</code> must be an IntegralConstant and the sequence must have at least <code>n</code> elements. When not provided, <code>n</code> defaults to 1. </td></tr>
-<tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(sequence, predicate)</code> </td><td align="left">Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(sequence, value)</code> </td><td align="left">Replace all the elements of a sequence with some value. </td></tr>
@@ -707,10 +705,6 @@ Cheatsheet</h2>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(sequence)</code> </td><td align="left">Returns all the elements except the first one. Analogous to <code>pop_front</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a>(sequence, number)</code> </td><td align="left">Take the first n elements of a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. n must be an <code>IntegralConstant</code>. </td></tr>
-<tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#ae1d440b34c38c79b8651e6b50aa41f90">take_exactly</a>(sequence, number)</code> </td><td align="left">Take the first n elements of a sequence. n must be an <code>IntegralConstant</code> and the sequence must have at least <code>n</code> elements. </td></tr>
-<tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a27aa67fa9ffc3d89b23a6dce018013d4">take_until</a>(sequence, predicate)</code> </td><td align="left">Take elements of a sequence until some predicate is satisfied, and return that. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff">take_while</a>(sequence, predicate)</code> </td><td align="left">Take elements of a sequence while some predicate is satisfied, and return that. </td></tr>
 <tr>
@@ -1628,7 +1622,7 @@ Compile-time performance</h2>
 <p>Below is a chart showing the time required to include different libraries. The chart shows the time for including everything in the (non-external) public API of each library. For example, for Hana this means the <code>&lt;<a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a>&gt;</code> header, which excludes the external adapters. For other libraries like Boost.Fusion, this means including all the public headers in the <code>boost/fusion/</code> directory, but not the adapters for external libraries like the MPL.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.including.compile.json"> </div><p>In addition to reduced preprocessing times, Hana uses modern techniques to implement heterogeneous sequences and algorithms in the most compile-time efficient way possible. Before jumping to the compile-time performance of the algorithms, we will have a look at the compile-time cost of creating heterogeneous sequences. Indeed, since we will be presenting algorithms that work on sequences, we must be aware of the cost of creating the sequences themselves, since that will influence the benchmarks for the algorithms. The following chart presents the compile-time cost of creating a sequence of <code>n</code> heterogeneous elements.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.make.compile.json"> </div><dl class="section note"><dt>Note</dt><dd>You can zoom on the chart by selecting an area to zoom into. Also, you can hide a series of points by clicking on it in the legend on the right.</dd></dl>
-<p>The benchmark methodology is to always create the sequences in the most efficient way possible. For Hana, and <code>std::tuple</code>, this simply means using the appropriate <code>make_tuple</code> function. However, for the MPL, this means creating a <code>mpl::vectorN</code> of size up to 20, and then using <code>mpl::push_back</code> to create larger vectors. We use a similar technique for Fusion sequences. The reason for doing so is that Fusion and MPL sequences have fixed size limits, and the techniques used here have been found to be the fastest way to create longer sequences.</p>
+<p>The benchmark methodology is to always create the sequences in the most efficient way possible. For Hana and <code>std::tuple</code>, this simply means using the appropriate <code>make_tuple</code> function. However, for the MPL, this means creating a <code>mpl::vectorN</code> of size up to 20, and then using <code>mpl::push_back</code> to create larger vectors. We use a similar technique for Fusion sequences. The reason for doing so is that Fusion and MPL sequences have fixed size limits, and the techniques used here have been found to be the fastest way to create longer sequences.</p>
 <p>For completeness, we also present the compile-time cost of creating a <code>std::array</code> with <code>n</code> elements. However, note that <code>std::array</code> can only hold elements with a single type, so we're comparing apples and oranges here. As you can see, the cost of creating a <code>std::array</code> is constant and essentially inexistent. Hence, while Hana provides improved compile-times over other heterogeneous containers, please stick with normal homogeneous containers if that's all you need for your application; your compile-times will be much faster that way.</p>
 <p>Now, as you can see, Hana's compile-time <em>complexity</em> is better than the other heterogeneous alternatives, because its curve is flatter. However, if you look closer at the curves, you will see that the MPL and <code>std::tuple</code> have lower compile-times for small numbers of elements. This is because including Hana's <code>Tuple</code> takes more time than including <code>mpl::vector</code> or <code>std::tuple</code>, and you are witnessing that slowdown by a constant amount. The reason why including Hana's <code>Tuple</code> is slower than including <code>std::tuple</code> or <code>mpl::vector</code> is because they both include no functionality whatsoever besides the container itself, while Hana's <code>Tuple</code> includes all the algorithms it can be used with. For <code>std::tuple</code>, there's also no way of getting more functionality because the standard does not provide it. For <code>mpl::vector</code>, however, you often end up manually including a bunch headers to get the functionality you need, which makes this constant slowdown inexistent in real code and forces you to write huge numbers of includes.</p>
 <p>You can also see that creating sequences has a non-negligible cost. Actually, this is really the most expensive part of doing heterogeneous computations, as you will see in the following charts showing the compile-time performance of algorithms. When you look at the charts here and elsewhere in the library, keep in mind the cost of merely creating the sequences. Also note that only the most important algorithms will be presented here, but micro benchmarks for compile-time performance are scattered in the reference documentation. Also, the benchmarks we present compare several different libraries. However, since Hana and Fusion can work with values and not only types, comparing their algorithms with type-only libraries like MPL is not really fair. Indeed, Hana and Fusion algorithms are more powerful since they also allow runtime effects to be performed. However, the comparison between Fusion and Hana is fair, because both libraries are just as powerful (strictly speaking). Finally, we can't show benchmarks of the algorithms for <code>std::tuple</code>, because the standard does not provide equivalent algorithms. Of course, we could use Hana's external adapters, but that would not be a faithful comparison.</p>
@@ -1660,7 +1654,7 @@ Integration with external libraries</h1>
 <hr/>
 <p>Hana provides out-of-the-box integration with some existing libraries. Specifically, this means that you can use some containers from these libraries in Hana's algorithms by simply including the appropriate header making the bridge between Hana and the external component.</p>
 <p>For a component named <code>xxx</code> in a namespace <code>ns</code>, the external adapter lives in the <code>boost/hana/ext/ns/xxx.hpp</code> header. For example, the external adapter for <code>std::tuple</code> lives in the <code><a class="el" href="ext_2std_2tuple_8hpp.html" title="Defines boost::hana::ext::std::Tuple. ">boost/hana/ext/std/tuple.hpp</a></code> header, while the external adapter for <code>boost::mpl::vector</code> is in <code><a class="el" href="boost_2mpl_2vector_8hpp.html" title="Defines boost::hana::ext::boost::mpl::Vector. ">boost/hana/ext/boost/mpl/vector.hpp</a></code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000057">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000058">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
 <li><code>std::tuple</code><br />
  Models <code>Sequence</code>. It can basically be used like a Hana <code>Tuple</code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
 <li><code>std::integral_constant</code><br />
@@ -1816,7 +1810,7 @@ Tag dispatching</h2>
 <div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-core-creating_concepts"></a>
 Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000058">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000059">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -2051,7 +2045,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000059">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -2099,7 +2093,7 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000061">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix II: A minimal MPL</h1>
 <hr/>
@@ -2184,10 +2178,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">struct </span>pair : decltype(hana::make_pair(hana::type&lt;T&gt;, hana::type&lt;U&gt;)) { };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P&gt;</div>
-<div class="line"><span class="keyword">struct </span>first : decltype(hana::first(P{})) { };</div>
+<div class="line"><span class="keyword">struct </span>first : decltype(+hana::first(P{})) { };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P&gt;</div>
-<div class="line"><span class="keyword">struct </span>second : decltype(hana::second(P{})) { };</div>
+<div class="line"><span class="keyword">struct </span>second : decltype(+hana::second(P{})) { };</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Miscellaneous metafunctions</span></div>

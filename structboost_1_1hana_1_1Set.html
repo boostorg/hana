@@ -142,19 +142,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Set.html','');}
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two sets are equal iff they contain the same elements, regardless of the order. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;char&gt;, int_&lt;1&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;1&gt;, int_&lt;0&gt;, type&lt;char&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;char&gt;, int_&lt;1&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;1&gt;, int_&lt;0&gt;, type&lt;char&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;char&gt;) != <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;1&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;char&gt;) != <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;1&gt;));</div>
 </div><!-- fragment --></li>
 <li><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a><br />
-Folding a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
+Folding a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line">static_assert(minimum(xs) == int_&lt;0&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(maximum(xs) == int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(sum&lt;&gt;(xs) == int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --></li>
 <li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
-The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. Also note that <code>operator[]</code> can be used instead of the <code>at_key</code> function. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
+The elements in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code> act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. Also note that <code>operator[]</code> can be used instead of the <code>at_key</code> function. <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;0&gt;) == just(int_&lt;0&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find(xs, int_&lt;3&gt;) == nothing);</div>
 <div class="line"></div>
@@ -181,9 +181,6 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html">Set</a>&gt;</td></tr>
 <tr class="memdesc:af38c23fb98d8eec68c1491a8bca9ce43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a>&gt;</code>; provided for convenience.  <a href="#af38c23fb98d8eec68c1491a8bca9ce43">More...</a><br /></td></tr>
 <tr class="separator:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c6caacd6df4a89e8b62b369007d9602"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html">Set</a>&gt;</td></tr>
-<tr class="memdesc:a7c6caacd6df4a89e8b62b369007d9602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a>&gt;</code>, provided for convenience.  <a href="#a7c6caacd6df4a89e8b62b369007d9602">More...</a><br /></td></tr>
-<tr class="separator:a7c6caacd6df4a89e8b62b369007d9602"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
 <tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,28 +245,6 @@ template&lt;&gt; </div>
 </div><!-- fragment -->
 </div>
 </div>
-<a class="anchor" id="a7c6caacd6df4a89e8b62b369007d9602"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto set = make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html">Set</a>&gt;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing a basic unordered container requiring Comparable elements. ">Set</a>&gt;</code>, provided for convenience. </p>
-
-</div>
-</div>
 <a class="anchor" id="a5791e6dc0e27d8e3a113e4d94482550f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -287,7 +262,7 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -301,14 +276,14 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;);</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;int&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, int_&lt;0&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;)</div>
+<div class="line">    <a class="code" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(xs, int_&lt;0&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;int&gt;)</div>
 <div class="line">);</div>
 </div><!-- fragment -->
 </div>
@@ -330,7 +305,7 @@ template&lt;&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -344,9 +319,9 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;int&gt;, type&lt;void&gt;);</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;int&gt;, type&lt;void&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(xs, type&lt;int&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#a7c6caacd6df4a89e8b62b369007d9602">set</a>(int_&lt;0&gt;, type&lt;void&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(xs, type&lt;int&gt;) == <a class="code" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(int_&lt;0&gt;, type&lt;void&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a>(xs, type&lt;char&gt;) == xs);</div>
 </div><!-- fragment -->
 </div>
