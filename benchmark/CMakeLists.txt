@@ -80,28 +80,30 @@ file(GLOB_RECURSE BOOST_HANA_JSON_TEMPLATES *.erb.json)
 foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
     boost_hana_target_name_for(_target ${_template} ".erb.json")
     list(APPEND BOOST_HANA_BENCHMARKS "${_target}")
-    get_filename_component(_template_dir "${_template}" DIRECTORY)
+    get_filename_component(_dir "${_template}" DIRECTORY)
 
-    set(_conf_template "${CMAKE_CURRENT_BINARY_DIR}/${_target}.erb.json")
-    configure_file("${_template}" "${_conf_template}" @ONLY)
+    file(GLOB _cpp_benchmarks ${_dir}/*.erb.cpp)
 
-    set(_output_file "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
-    add_custom_command(OUTPUT "${_output_file}"
+    set(_erb_json "${CMAKE_CURRENT_BINARY_DIR}/${_target}.erb.json")
+    configure_file("${_template}" "${_erb_json}" @ONLY)
+
+    set(_json "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
+    add_custom_command(OUTPUT "${_json}"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "json = Tilt::ERBTemplate.new('${_conf_template}').render"
-            -e "File.open('${_output_file}', 'w') { |f| f.write(json) } "
-        WORKING_DIRECTORY ${_template_dir}
-        DEPENDS "${_conf_template}"
+            -e "json = Tilt::ERBTemplate.new('${_erb_json}').render"
+            -e "File.open('${_json}', 'w') { |f| f.write(json) } "
+        WORKING_DIRECTORY ${_dir}
+        DEPENDS ${_erb_json} ${_cpp_benchmarks}
         VERBATIM
         COMMENT "Generating benchmarks for ${_target}")
-    add_custom_target(${_target} DEPENDS "${_output_file}")
+    add_custom_target(${_target} DEPENDS "${_json}")
     add_dependencies(benchmarks ${_target})
 
     add_test(NAME ${_target}
         COMMAND ${CMAKE_COMMAND} -E env check.benchmarks=true
         ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "Tilt::ERBTemplate.new('${_conf_template}').render"
-        WORKING_DIRECTORY ${_template_dir})
+            -e "Tilt::ERBTemplate.new('${_erb_json}').render"
+        WORKING_DIRECTORY ${_dir})
     set_tests_properties(${_target} PROPERTIES
         RESOURCE_LOCK ${CMAKE_CURRENT_SOURCE_DIR}/measure.cpp)
 endforeach()
