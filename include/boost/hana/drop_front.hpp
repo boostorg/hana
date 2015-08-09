@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/functional/id.hpp>
+#include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/is_empty.hpp>
