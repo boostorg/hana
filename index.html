@@ -1826,6 +1826,8 @@ Header organization</h1>
  This subdirectory contains the machinery for tag dispatching and other related utilities like <code>make</code> and <code>to</code>.</li>
 <li><code>boost/hana/fwd/</code><br />
  This subdirectory contains the forward declaration of everything in the library. It is essentially a mirror of the <code>boost/hana/</code> directory, except all the headers contain only forward declarations and documentation. For example, to include the <code>Tuple</code> container, one can use the <code><a class="el" href="tuple_8hpp.html" title="Defines boost::hana::Tuple. ">boost/hana/tuple.hpp</a></code> header. However, if one only wants the forward declaration of that container, the <code><a class="el" href="fwd_2tuple_8hpp.html" title="Forward declares boost::hana::Tuple. ">boost/hana/fwd/tuple.hpp</a></code> header can be used instead. Note that forward declarations for headers in <code>boost/hana/ext/</code> and <code>boost/hana/functional/</code> are not provided.</li>
+<li><code>boost/hana/functional/</code><br />
+ This subdirectory contains various function objects that are often useful, but that do not necessarily belong to a concept.</li>
 <li><code>boost/hana/ext/</code><br />
  This directory contains adapters for external libraries. Only the strict minimum required to adapt the external components is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example: <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span> <span class="comment">// still required to create a tuple</span></div>
@@ -1868,6 +1870,8 @@ Using the reference</h1>
 </li>
 <li><a class="el" href="group__group-datatypes.html">Data types</a><br />
  Documentation for all the data structures provided with the library. Since most of these data structures have an unspecified type, they are documented by the tag representing them (<code>Tuple</code>, <code>Optional</code>, etc.). Each data type documents the concept(s) it models, and how it does so. It also documents the methods tied to that data type but not to any concept, for example <code>from_just</code> for <code>Optional</code>.</li>
+<li><a class="el" href="group__group-functional.html">Functional</a><br />
+ General purpose function objects that are generally useful in a purely functional setting. These are currently not tied to any concept or data type.</li>
 <li><a class="el" href="group__group-ext.html">External adapters</a><br />
  Documentation for all the adapters for external libraries. Basically, we assign a tag to some objects in external libraries and we document them as if they were normal data types provided by Hana.</li>
 <li><a class="el" href="group__group-config.html">Configuration options</a><br />
