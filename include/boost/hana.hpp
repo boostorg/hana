@@ -61,14 +61,7 @@ Distributed under the Boost Software License, Version 1.0.
 //! General purpose data types provided by the library.
 
 //! @defgroup group-functional Functional
-//! @ingroup group-details
 //! General purpose function objects.
-//!
-//! @warning
-//! This module is currently considered as an implementation detail because
-//! it might be replaced by the [Fit][1] library in the future.
-//!
-//! [1]: https://github.com/pfultz2/Fit
 
 //! @defgroup group-core Core
 //! Core utilities of the library.

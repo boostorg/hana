@@ -2713,6 +2713,10 @@ the headers provided by the library is also available in the panel on the left
     header can be used instead. Note that forward declarations for headers
     in `boost/hana/ext/` and `boost/hana/functional/` are not provided.
 
+  - `boost/hana/functional/`\n
+    This subdirectory contains various function objects that are often useful,
+    but that do not necessarily belong to a concept.
+
   - `boost/hana/ext/`\n
     This directory contains adapters for external libraries. Only the strict
     minimum required to adapt the external components is included in these
@@ -2815,6 +2819,11 @@ the left) goes as follow:
   documents the concept(s) it models, and how it does so. It also documents
   the methods tied to that data type but not to any concept, for example
   `from_just` for `Optional`.
+
+- @ref group-functional\n
+  General purpose function objects that are generally useful in a purely
+  functional setting. These are currently not tied to any concept or data
+  type.
 
 - @ref group-ext\n
   Documentation for all the adapters for external libraries. Basically, we
