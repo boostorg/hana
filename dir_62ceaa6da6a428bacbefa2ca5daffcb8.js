@@ -9,6 +9,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "accessors.hpp", "accessors_8hpp.html", [
       [ "accessors_t", "structboost_1_1hana_1_1accessors__t.html", null ]
     ] ],
+    [ "adapt_struct.hpp", "adapt__struct_8hpp.html", null ],
     [ "adjust.hpp", "adjust_8hpp.html", null ],
     [ "adjust_if.hpp", "adjust__if_8hpp.html", null ],
     [ "all.hpp", "all_8hpp.html", null ],
@@ -38,6 +39,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     ] ],
     [ "count_if.hpp", "count__if_8hpp.html", null ],
     [ "cycle.hpp", "cycle_8hpp.html", null ],
+    [ "define_struct.hpp", "define__struct_8hpp.html", null ],
     [ "drop_back.hpp", "drop__back_8hpp.html", null ],
     [ "drop_front.hpp", "drop__front_8hpp.html", null ],
     [ "drop_front_exactly.hpp", "drop__front__exactly_8hpp.html", null ],
