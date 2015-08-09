@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp partial
+    //! @include example/functional/partial.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto partial = [](auto&& f, auto&& ...x) {
         return [perfect-capture](auto&& ...y) -> decltype(auto) {

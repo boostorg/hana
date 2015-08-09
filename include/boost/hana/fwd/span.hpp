@@ -47,9 +47,6 @@ namespace boost { namespace hana {
     //! sequence, and returning a `Logical. In the current implementation of
     //! the library, `predicate` has to return a compile-time `Logical`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp span
-    //!
     //!
     //! Syntactic sugar (`span.by`)
     //! ---------------------------
@@ -63,8 +60,10 @@ namespace boost { namespace hana {
     //! where `span(-, predicate)` denotes the partial application of
     //! `span` to `predicate`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp span.by
+    //!
+    //! Example
+    //! -------
+    //! @include example/span.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto span = [](auto&& xs, auto&& predicate) {
         return tag-dispatched;

@@ -8,8 +8,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <iostream>
 #include <string>
-using namespace boost::hana::literals;
-using namespace boost::hana;
+namespace hana = boost::hana;
+using namespace hana::literals;
 using namespace std::literals;
 
 
@@ -27,8 +27,9 @@ int main() {
 //! [for_each]
 Person john{"John", 30};
 
-for_each(john, [](auto pair) {
-  std::cout << to<char const*>(first(pair)) << ": " << second(pair) << std::endl;
+hana::for_each(john, [](auto pair) {
+  std::cout << hana::to<char const*>(hana::first(pair)) << ": "
+            << hana::second(pair) << std::endl;
 });
 
 // name: John
@@ -36,8 +37,8 @@ for_each(john, [](auto pair) {
 //! [for_each]
 
 //! [for_each.fuse]
-for_each(john, fuse([](auto name, auto member) {
-  std::cout << to<char const*>(name) << ": " << member << std::endl;
+hana::for_each(john, hana::fuse([](auto name, auto member) {
+  std::cout << hana::to<char const*>(name) << ": " << member << std::endl;
 }));
 //! [for_each.fuse]
 
@@ -46,17 +47,17 @@ for_each(john, fuse([](auto name, auto member) {
 {
 
 //! [at_key]
-std::string name = at_key(john, "name"_s);
+std::string name = hana::at_key(john, "name"_s);
 BOOST_HANA_RUNTIME_CHECK(name == "John");
 
-int age = at_key(john, "age"_s);
+int age = hana::at_key(john, "age"_s);
 BOOST_HANA_RUNTIME_CHECK(age == 30);
 //! [at_key]
 
 }{
 
 //! [to<Map>]
-auto map = insert(to<Map>(john), make_pair("last name"_s, "Doe"s));
+auto map = hana::insert(hana::to<hana::Map>(john), hana::make_pair("last name"_s, "Doe"s));
 
 std::string name = map["name"_s];
 BOOST_HANA_RUNTIME_CHECK(name == "John");

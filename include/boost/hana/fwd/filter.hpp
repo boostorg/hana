@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp filter
+    //! @include example/filter.cpp
     //!
     //! Benchmarks
     //! ----------

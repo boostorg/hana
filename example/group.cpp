@@ -5,26 +5,61 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/comparing.hpp>
+#include <boost/hana/group.hpp>
 #include <boost/hana/integral_constant.hpp>
-using namespace boost::hana;
+#include <boost/hana/length.hpp>
+#include <boost/hana/range.hpp>
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
+namespace hana = boost::hana;
 
 
-int main() {
+// group without a predicate
+BOOST_HANA_CONSTANT_CHECK(
+    hana::group(hana::make_tuple(hana::int_<1>, hana::long_<1>, hana::type<int>, hana::char_<'x'>, hana::char_<'x'>))
+        == hana::make_tuple(
+            hana::make_tuple(hana::int_<1>, hana::long_<1>),
+            hana::make_tuple(hana::type<int>),
+            hana::make_tuple(hana::char_<'x'>, hana::char_<'x'>)
+        )
+);
 
-{
 
-//! [minus]
-BOOST_HANA_CONSTANT_CHECK(minus(int_<3>, int_<5>) == int_<-2>);
-BOOST_HANA_CONSTEXPR_CHECK(minus(1, 2) == -1);
-//! [minus]
+// group with a predicate
+constexpr auto tuples = hana::make_tuple(
+    hana::range_c<int, 0, 1>,
+    hana::range_c<int, 0, 2>,
+    hana::range_c<int, 1, 3>,
+    hana::range_c<int, 2, 6>
+);
 
-}{
+BOOST_HANA_CONSTANT_CHECK(
+    hana::group(tuples, hana::comparing(hana::length))
+        == hana::make_tuple(
+            hana::make_tuple(
+                hana::range_c<int, 0, 1>
+            ),
+            hana::make_tuple(
+                hana::range_c<int, 0, 2>,
+                hana::range_c<int, 1, 3>
+            ),
+            hana::make_tuple(
+                hana::range_c<int, 2, 6>
+            )
+        )
+);
 
-//! [negate]
-BOOST_HANA_CONSTANT_CHECK(negate(int_<3>) == int_<-3>);
-BOOST_HANA_CONSTEXPR_CHECK(negate(2) == -2);
-//! [negate]
 
-}
+// group.by is syntactic sugar
+static_assert(
+    hana::group.by(hana::comparing(hana::decltype_),
+                   hana::make_tuple(1, 2, 3, 'x', 'y', 4.4, 5.5))
+        == hana::make_tuple(
+            hana::make_tuple(1, 2, 3),
+            hana::make_tuple('x', 'y'),
+            hana::make_tuple(4.4, 5.5)
+        )
+, "");
 
-}
+int main() { }

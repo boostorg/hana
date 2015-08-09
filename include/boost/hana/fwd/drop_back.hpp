@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp drop_back
+    //! @include example/drop_back.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_back = [](auto&& xs[, auto&& n]) {
         return tag-dispatched;

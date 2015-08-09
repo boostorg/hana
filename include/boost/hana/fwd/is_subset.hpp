@@ -29,7 +29,6 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! For convenience, `is_subset` can also be applied in infix notation.
-    //! @snippet example/searchable.cpp is_subset.infix
     //!
     //!
     //! Cross-type version of the method
@@ -58,7 +57,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp is_subset
+    //! @include example/is_subset.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_subset = [](auto&& xs, auto&& ys) {
         return tag-dispatched;

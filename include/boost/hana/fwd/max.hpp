@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/orderable.cpp max
+    //! @include example/max.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto max = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

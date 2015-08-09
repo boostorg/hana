@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/ring.cpp power
+    //! @include example/power.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto power = [](auto&& x, auto&& n) -> decltype(auto) {
         return tag-dispatched;

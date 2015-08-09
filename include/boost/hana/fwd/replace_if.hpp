@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp replace_if
+    //! @include example/replace_if.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto replace_if = [](auto&& xs, auto&& predicate, auto&& value) {
         return tag-dispatched;

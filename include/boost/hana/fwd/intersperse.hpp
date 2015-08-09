@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp intersperse
+    //! @include example/intersperse.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto intersperse = [](auto&& xs, auto&& z) {
         return tag-dispatched;

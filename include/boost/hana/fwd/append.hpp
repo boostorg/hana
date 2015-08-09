@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp append
+    //! @include example/append.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto append = [](auto&& xs, auto&& x) {
         return tag-dispatched;

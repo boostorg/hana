@@ -5,11 +5,14 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/find_if.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
 
 #include <string>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 // We have an utility in the Functional module that does pretty much the
@@ -18,10 +21,10 @@ using namespace boost::hana;
 
 auto overload_linearly = [](auto ...candidates) {
     return [=](auto ...args) {
-        auto maybe_function = find_if(make_tuple(candidates...), [=](auto f) {
-            return is_just(sfinae(f)(args...));
+        auto maybe_function = hana::find_if(hana::make_tuple(candidates...), [=](auto f) {
+            return hana::is_valid(f)(args...);
         });
-        auto result = transform(maybe_function, [=](auto f) {
+        auto result = hana::transform(maybe_function, [=](auto f) {
             return f(args...);
         });
         return result;
@@ -35,6 +38,6 @@ int main() {
         [](double f) { return f + 2; }
     );
 
-    BOOST_HANA_RUNTIME_CHECK(f(1) == just(1 + 1));
-    BOOST_HANA_RUNTIME_CHECK(f(2.3) == just(static_cast<int>(2.3) + 1));
+    BOOST_HANA_RUNTIME_CHECK(f(1) == hana::just(1 + 1));
+    BOOST_HANA_RUNTIME_CHECK(f(2.3) == hana::just(static_cast<int>(2.3) + 1));
 }

@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/lazy.cpp eval
+    //! @include example/eval.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto eval = [](auto&& see_documentation) -> decltype(auto) {
         return tag-dispatched;

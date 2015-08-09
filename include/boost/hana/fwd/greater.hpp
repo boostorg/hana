@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/orderable.cpp greater
+    //! @include example/greater.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto greater = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/ring.cpp mult
+    //! @include example/mult.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto mult = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp concat
+    //! @include example/concat.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto concat = [](auto&& xs, auto&& ys) {
         return tag-dispatched;

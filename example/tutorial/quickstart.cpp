@@ -22,44 +22,44 @@ struct Dog  { std::string name; };
 
 //! [includes]
 #include <boost/hana.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 //! [includes]
 
 
 int main() {
 
 //! [animals]
-auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+auto animals = hana::make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
 //! [animals]
 
 //! [algorithms]
-using namespace boost::hana::literals;
+using namespace hana::literals;
 
 // Access tuple elements with operator[] instead of std::get.
 Cat garfield = animals[1_c];
 
 // Perform high level algorithms on tuples (this is like std::transform)
-auto names = transform(animals, [](auto a) {
+auto names = hana::transform(animals, [](auto a) {
   return a.name;
 });
 
-assert(reverse(names) == make_tuple("Snoopy", "Garfield", "Nemo"));
+assert(hana::reverse(names) == hana::make_tuple("Snoopy", "Garfield", "Nemo"));
 //! [algorithms]
 
 
 //! [type-level]
-auto animal_types = make_tuple(type<Fish*>, type<Cat&>, type<Dog>);
+auto animal_types = hana::make_tuple(hana::type<Fish*>, hana::type<Cat&>, hana::type<Dog>);
 
-auto no_pointers = remove_if(animal_types, [](auto a) {
-  return traits::is_pointer(a);
+auto no_pointers = hana::remove_if(animal_types, [](auto a) {
+  return hana::traits::is_pointer(a);
 });
 
-static_assert(no_pointers == make_tuple(type<Cat&>, type<Dog>), "");
+static_assert(no_pointers == hana::make_tuple(hana::type<Cat&>, hana::type<Dog>), "");
 //! [type-level]
 
 
 //! [has_name]
-auto has_name = is_valid([](auto&& x) -> decltype((void)x.name) { });
+auto has_name = hana::is_valid([](auto&& x) -> decltype((void)x.name) { });
 
 static_assert(has_name(garfield), "");
 static_assert(!has_name(1), "");
@@ -68,8 +68,8 @@ static_assert(!has_name(1), "");
 #if 0
 //! [screw_up]
 auto serialize = [](std::ostream& os, auto const& object) {
-  for_each(os, [&](auto member) {
-    //     ^^ oopsie daisy!
+  hana::for_each(os, [&](auto member) {
+    //           ^^ oopsie daisy!
     os << member << std::endl;
   });
 };
@@ -87,7 +87,7 @@ struct Person {
 
 // 2. Write a generic serializer (bear with std::ostream for the example)
 auto serialize = [](std::ostream& os, auto const& object) {
-  for_each(members(object), [&](auto member) {
+  hana::for_each(hana::members(object), [&](auto member) {
     os << member << std::endl;
   });
 };

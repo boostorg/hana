@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/group.cpp negate
+    //! @include example/negate.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto negate = [](auto&& x) -> decltype(auto) {
         return tag-dispatched;

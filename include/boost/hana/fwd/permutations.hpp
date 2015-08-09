@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp permutations
+    //! @include example/permutations.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto permutations = [](auto&& xs) {
         return tag-dispatched;

@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp sum
+    //! @include example/sum.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sum = see documentation;
 #else

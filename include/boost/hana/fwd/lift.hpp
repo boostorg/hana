@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @include example/applicative/lift.cpp
+    //! @include example/lift.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename A>
     constexpr auto lift = [](auto&& x) {

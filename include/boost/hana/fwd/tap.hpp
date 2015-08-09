@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad.cpp tap
+    //! @include example/tap.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto tap = [](auto&& f) {

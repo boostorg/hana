@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp count_if
+    //! @include example/count_if.cpp
     //!
     //! Benchmarks
     //! ----------

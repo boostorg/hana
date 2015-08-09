@@ -35,8 +35,16 @@ namespace boost { namespace hana {
     //! For simplicity, we'll use a unary lambda as our unary callable.
     //! Our lambda must accept a parameter (usually called `_`), which
     //! can be used to defer the compile-time evaluation of expressions
-    //! as required. Here's an example:
-    //! @snippet example/logical.cpp eval_if.fact
+    //! as required. For example,
+    //! @code
+    //!     template <typename N>
+    //!     auto fact(N n) {
+    //!         return hana::eval_if(n == hana::int_<0>,
+    //!             [] { return hana::int_<1>; },
+    //!             [=](auto _) { return n * fact(_(n) - hana::int_<1>); }
+    //!         );
+    //!     }
+    //! @endcode
     //!
     //! What happens here is that `eval_if` will call `eval` on the selected
     //! branch. In turn, `eval` will call the selected branch either with
@@ -66,25 +74,51 @@ namespace boost { namespace hana {
     //! templates instead. For example, instead of writing
     //! @code
     //!     template <typename T>
-    //!     struct pointerize : decltype(eval_if(traits::is_pointer(type<T>),
-    //!             [] { return type<T>; },
-    //!             [](auto _) { return _(traits::add_pointer)(type<T>); }
+    //!     struct pointerize : decltype(
+    //!         hana::eval_if(hana::traits::is_pointer(hana::type<T>),
+    //!             [] { return hana::type<T>; },
+    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type<T>); }
     //!         ))
     //!     { };
     //! @endcode
     //!
     //! you could instead write
     //!
-    //! @snippet example/logical.cpp eval_if.pointerize
+    //! @code
+    //!     template <typename T>
+    //!     auto pointerize_impl(T t) {
+    //!         return hana::eval_if(hana::traits::is_pointer(t),
+    //!             [] { return hana::type<T>; },
+    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type<T>); }
+    //!         );
+    //!     }
+    //!
+    //!     template <typename T>
+    //!     using pointerize = decltype(pointerize_impl(type<T>));
+    //! @endcode
     //!
     //! > __Note__: This example would actually be implemented more easily
-    //! > with partial specializations, but my bag of examples is empty
+    //! > with partial specializations, but my bag of good examples is empty
     //! > at the time of writing this.
     //!
     //! Now, this hoop-jumping only has to be done in one place, because
     //! you should use normal function notation everywhere else in your
     //! metaprogram to perform type computations. So the syntactic
     //! cost is amortized over the whole program.
+    //!
+    //! Another way to work around this limitation of the language would be
+    //! to use `Lazy` branches. However, this is only suitable when the
+    //! branches are not too complicated. With `Lazy`, you could write the
+    //! previous example as
+    //! @code
+    //!     template <typename T>
+    //!     struct pointerize : decltype(
+    //!         hana::eval_if(hana::traits::is_pointer(hana::type<T>),
+    //!             hana::lazy(hana::type<T>),
+    //!             hana::lazy(hana::traits::add_pointer)(hana::type<T>)
+    //!         ))
+    //!     { };
+    //! @endcode
     //!
     //!
     //! @param cond
@@ -97,13 +131,9 @@ namespace boost { namespace hana {
     //! A function called as `eval(else_)` if `cond` is false-valued.
     //!
     //!
-    //! Example (purely compile-time condition)
-    //! ---------------------------------------
-    //! @snippet example/logical.cpp eval_if.heterogeneous
-    //!
-    //! Example (runtime or `constexpr` condition)
-    //! ------------------------------------------
-    //! @snippet example/logical.cpp eval_if.homogeneous
+    //! Example
+    //! -------
+    //! @include example/eval_if.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto eval_if = [](auto&& cond, auto&& then, auto&& else_) -> decltype(auto) {
         return tag-dispatched;

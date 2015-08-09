@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad.cpp flatten
+    //! @include example/flatten.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto flatten = [](auto&& xs) {
         return tag-dispatched;

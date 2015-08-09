@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/orderable.cpp less_equal
+    //! @include example/less_equal.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto less_equal = [](auto&& x, auto&& y) {
         return tag-dispatched;

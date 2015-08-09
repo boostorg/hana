@@ -120,7 +120,7 @@ namespace boost { namespace hana {
     //! and the values are both the elements in the structure. Searching for
     //! a key is just doing a linear search through the elements of the
     //! structure.
-    //! @snippet example/iterable.cpp Searchable
+    //! @include example/iterable/searchable.cpp
     //!
     //! 2. `Foldable` for finite `Iterable`s\n
     //! Every finite `Iterable` gives rise to a model of  `Foldable`. For
@@ -132,10 +132,6 @@ namespace boost { namespace hana {
     //! models have to be consistent. By the laws presented here, it also
     //! means that the `Foldable` model for finite `Iterable`s has to be
     //! consistent with the `Searchable` model.
-    //!
-    //! Furthermore, for finite
-    //! `Iterable`s, providing a definition of `length` is sufficient to be a
-    //! model of `Foldable`;
     //!
     //! For convenience, finite `Iterable`s must only provide a definition of
     //! `length` to model the `Foldable` concept; defining the more powerful

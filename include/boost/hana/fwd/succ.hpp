@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/enumerable.cpp succ
+    //! @include example/succ.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto succ = [](auto&& num) -> decltype(auto) {
         return tag-dispatched;

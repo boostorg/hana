@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 
 #include "matrix/det.hpp"
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace cppcon;
 
 

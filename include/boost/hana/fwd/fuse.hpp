@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp fuse
+    //! @include example/fuse.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto fuse = [](auto&& f) {
         return [perfect-capture](auto&& xs) -> decltype(auto) {

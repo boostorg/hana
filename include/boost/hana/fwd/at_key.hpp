@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp at_key
+    //! @include example/at_key.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto at_key = [](auto&& xs, auto&& key) -> decltype(auto) {
         return tag-dispatched;

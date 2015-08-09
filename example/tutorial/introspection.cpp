@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <string>
 #include <type_traits>
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 struct yes { std::string toString() const { return "yes"; } };
@@ -34,11 +34,11 @@ static_assert(!has_toString<no>::value, "");
 }
 
 //! [has_toString.now]
-auto has_toString = is_valid([](auto&& obj) -> decltype(obj.toString()) { });
+auto has_toString = hana::is_valid([](auto&& obj) -> decltype(obj.toString()) { });
 //! [has_toString.now]
 
 BOOST_HANA_CONSTANT_CHECK(has_toString(yes{}));
-BOOST_HANA_CONSTANT_CHECK(not_(has_toString(no{})));
+BOOST_HANA_CONSTANT_CHECK(hana::not_(has_toString(no{})));
 
 namespace optionalToString_then {
 //! [optionalToString.then]
@@ -61,7 +61,7 @@ template std::string optionalToString(no const&);
 //! [optionalToString]
 template <typename T>
 std::string optionalToString(T const& obj) {
-  return if_(has_toString(obj),
+  return hana::if_(has_toString(obj),
     [](auto& x) { return x.toString(); },
     [](auto& x) { return "toString not defined"; }
   )(obj);
@@ -77,7 +77,7 @@ BOOST_HANA_RUNTIME_CHECK(optionalToString(no{}) == "toString not defined");
 {
 
 //! [non_static_member_from_object]
-auto has_member = is_valid([](auto&& x) -> decltype((void)x.member) { });
+auto has_member = hana::is_valid([](auto&& x) -> decltype((void)x.member) { });
 
 struct Foo { int member[4]; };
 struct Bar { };
@@ -88,28 +88,28 @@ BOOST_HANA_CONSTANT_CHECK(!has_member(Bar{}));
 }{
 
 //! [non_static_member_from_type]
-auto has_member = is_valid([](auto t) -> decltype(
-  (void)traits::declval(t).member
+auto has_member = hana::is_valid([](auto t) -> decltype(
+  (void)hana::traits::declval(t).member
 ) { });
 
 struct Foo { int member[4]; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
 //! [non_static_member_from_type]
 
 }{
 
 //! [nested_type_name]
-auto has_member = is_valid([](auto t) -> decltype(type<
+auto has_member = hana::is_valid([](auto t) -> decltype(hana::type<
   typename decltype(t)::type::member
 //^^^^^^^^ needed because of the dependent context
 >) { });
 
 struct Foo { struct member; /* not defined! */ };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
 //! [nested_type_name]
 
 }
@@ -118,27 +118,27 @@ BOOST_HANA_CONSTANT_CHECK(!has_member(type<Bar>));
 
 namespace static_member {
 //! [static_member]
-auto has_member = is_valid([](auto t) -> decltype(
+auto has_member = hana::is_valid([](auto t) -> decltype(
   (void)decltype(t)::type::member
 ) { });
 
 struct Foo { static int member[4]; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
 //! [static_member]
 }
 
 namespace nested_template {
 //! [nested_template]
-auto has_member = is_valid([](auto t) -> decltype(template_<
+auto has_member = hana::is_valid([](auto t) -> decltype(hana::template_<
   decltype(t)::type::template member
   //                 ^^^^^^^^ needed because of the dependent context
 >) { });
 
 struct Foo { template <typename ...> struct member; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
 //! [nested_template]
 }

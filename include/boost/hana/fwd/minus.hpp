@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/group.cpp minus
+    //! @include example/minus.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto minus = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

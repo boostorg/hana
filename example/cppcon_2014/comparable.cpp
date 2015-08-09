@@ -5,48 +5,50 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/not.hpp>
 
 #include "matrix/comparable.hpp"
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace cppcon;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_CHECK(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
         matrix(row(1, 2)),
         matrix(row(1, 2))
     ));
-    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(hana::not_(hana::equal(
         matrix(row(1, 2)),
         matrix(row(1, 5))
     )));
 
-    BOOST_HANA_CONSTEXPR_CHECK(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(1, 2),
                row(3, 4))
     ));
-    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(hana::not_(hana::equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(1, 2),
                row(0, 4))
     )));
-    BOOST_HANA_CONSTEXPR_CHECK(not_(equal(
+    BOOST_HANA_CONSTEXPR_CHECK(hana::not_(hana::equal(
         matrix(row(1, 2),
                row(3, 4)),
         matrix(row(0, 2),
                row(3, 4))
     )));
 
-    BOOST_HANA_CONSTANT_CHECK(not_(equal(
+    BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
         matrix(row(1),
                row(2)),
         matrix(row(3, 4),
                row(5, 6))
     )));
-    BOOST_HANA_CONSTANT_CHECK(not_(equal(
+    BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
         matrix(row(1),
                row(2)),
         matrix(row(3, 4))

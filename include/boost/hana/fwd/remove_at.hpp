@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp remove_at
+    //! @include example/remove_at.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto remove_at = [](auto&& xs, auto&& n) {
         return tag-dispatched;
@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp remove_at_c
+    //! @include example/remove_at_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto remove_at_c = [](auto&& xs) {

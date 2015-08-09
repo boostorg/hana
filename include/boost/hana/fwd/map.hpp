@@ -31,20 +31,20 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two maps are equal iff all their keys are equal and are associated
     //! to equal values.
-    //! @snippet example/map.cpp Comparable
+    //! @include example/map/comparable.cpp
     //!
     //! 2. `Searchable`\n
     //! A map can be searched by its keys with a predicate yielding a
     //! compile-time `Logical`. Also note that `operator[]` can be used
     //! instead of `at_key`.
-    //! @snippet example/map.cpp Searchable
+    //! @include example/map/searchable.cpp
     //!
     //! 3. `Foldable`\n
     //! Folding a map is equivalent to folding a list of the key/value pairs
     //! it contains. In particular, since that list is not guaranteed to be
     //! in any specific order, folding a map with an operation that is not
     //! both commutative and associative will yield non-deterministic behavior.
-    //! @snippet example/map.cpp Foldable
+    //! @include example/map/foldable.cpp
     //!
     //!
     //! Provided constructions
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //! Converts a `Foldable` of `Product`s to a `Map`. If the structure
     //! contains duplicate keys, only the value associated to the first
     //! occurence of each key is kept.
-    //! @snippet example/map.cpp from_Foldable
+    //! @include example/map/convert.cpp
     struct Map { };
 
     template <typename ...Pairs>
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp make<Map>
+    //! @include example/map/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<Map> = [](auto&& ...pairs) {
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp make_map
+    //! @include example/map/make.cpp
     constexpr auto make_map = make<Map>;
 
     //! Returns a Sequence of the keys of the map, in unspecified order.
@@ -92,7 +92,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp keys
+    //! @include example/map/keys.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& map) -> decltype(auto) {
         return unspecified-type;
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp values
+    //! @include example/map/values.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto values = [](auto&& map) -> decltype(auto) {
         return unspecified-type;
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp insert
+    //! @include example/map/insert.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& map, auto&& pair) -> decltype(auto) {
         return tag-dispatched;
@@ -162,7 +162,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/map.cpp erase_key
+    //! @include example/map/erase_key.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto erase_key = [](auto&& map, auto&& key) -> decltype(auto) {
         return tag-dispatched;

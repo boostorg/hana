@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp fold
+    //! @include example/fold.cpp
     constexpr auto fold = fold_left;
 }} // end namespace boost::hana
 

@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp length
+    //! @include example/length.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto length = [](auto&& xs) {
         return tag-dispatched;

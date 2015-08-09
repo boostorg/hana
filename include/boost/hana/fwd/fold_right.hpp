@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp fold_right
+    //! @include example/fold_right.cpp
     //!
     //!
     //! Benchmarks

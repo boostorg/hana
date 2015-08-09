@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     //! element of the pair, respectively. `make` must take two arguments `x`
     //! and `y` representing the first and the second element of the pair,
     //! and return a pair `p` such that `first(p) == x` and `second(p) == y`.
-    //! @snippet example/product.cpp make
+    //! @include example/product/make.cpp
     //!
     //!
     //! Laws
@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (free model)\n
     //! Two products `x` and `y` are equal iff they are equal element-wise,
     //! by comparing the first element before the second element.
-    //! @snippet example/product.cpp comparable
+    //! @include example/product/comparable.cpp
     //!
     //! 2. `Orderable` (free model)\n
     //! Products are ordered using a lexicographical ordering as-if they

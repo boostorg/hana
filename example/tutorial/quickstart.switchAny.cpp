@@ -18,12 +18,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <typeindex>
 #include <typeinfo>
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 //! [cases]
 template <typename T>
 auto case_ = [](auto f) {
-  return make_pair(type<T>, f);
+  return hana::make_pair(hana::type<T>, f);
 };
 
 struct default_t;
@@ -40,8 +40,8 @@ template <typename Any, typename Default, typename Case, typename ...Rest>
 auto process(Any& a, std::type_index const& t, Default& default_,
              Case& case_, Rest& ...rest)
 {
-  using T = typename decltype(+first(case_))::type;
-  return t == typeid(T) ? second(case_)(*boost::unsafe_any_cast<T>(&a))
+  using T = typename decltype(+hana::first(case_))::type;
+  return t == typeid(T) ? hana::second(case_)(*boost::unsafe_any_cast<T>(&a))
                         : process(a, t, default_, rest...);
 }
 //! [process]
@@ -50,20 +50,20 @@ auto process(Any& a, std::type_index const& t, Default& default_,
 template <typename Any>
 auto switch_(Any& a) {
   return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
+    auto cases = hana::make_tuple(cases_...);
 
-    auto default_ = find_if(cases, [](auto const& c) {
-      return first(c) == type<default_t>;
+    auto default_ = hana::find_if(cases, [](auto const& c) {
+      return hana::first(c) == hana::type<default_t>;
     });
-    static_assert(default_ != nothing,
+    static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
-    auto rest = filter(cases, [](auto const& c) {
-      return first(c) != type<default_t>;
+    auto rest = hana::filter(cases, [](auto const& c) {
+      return hana::first(c) != hana::type<default_t>;
     });
 
-    return unpack(rest, [&](auto& ...rest) {
-      return process(a, a.type(), second(*default_), rest...);
+    return hana::unpack(rest, [&](auto& ...rest) {
+      return process(a, a.type(), hana::second(*default_), rest...);
     });
   };
 }
@@ -73,7 +73,6 @@ auto switch_(Any& a) {
 
 int main() {
 using namespace std::literals;
-using ::default_; // disambiguate with boost::hana::default_
 
 {
 

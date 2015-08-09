@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/make.cpp make
+    //! @include example/core/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Datatype>
     constexpr auto make = [](auto&& ...x) -> decltype(auto) {

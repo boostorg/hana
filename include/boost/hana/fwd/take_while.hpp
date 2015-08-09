@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp take_while
+    //! @include example/take_while.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto take_while = [](auto&& xs, auto&& predicate) {
         return tag-dispatched;

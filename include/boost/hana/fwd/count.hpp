@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp count
+    //! @include example/count.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto count = [](auto&& xs, auto&& value) {
         return tag-dispatched;

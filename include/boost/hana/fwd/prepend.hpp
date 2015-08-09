@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp prepend
+    //! @include example/prepend.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto prepend = [](auto&& xs, auto&& x) {
         return tag-dispatched;

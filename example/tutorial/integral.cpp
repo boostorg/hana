@@ -84,8 +84,8 @@ static_assert(mpl::equal_to<
 
 
 namespace now {
-using namespace boost::hana;
-using namespace boost::hana::literals;
+namespace hana = boost::hana;
+using namespace hana::literals;
 
 template <typename X, typename Y>
 struct _point {

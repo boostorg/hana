@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! 1. `Functor`\n
     //! Applying a function over a lazy value with `transform` returns the
     //! result of applying the function, as a lazy value.
-    //! @snippet example/lazy.cpp functor
+    //! @include example/lazy/functor.cpp
     //!
     //! 2. `Applicative`\n
     //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
@@ -39,14 +39,14 @@ namespace boost { namespace hana {
     //! The `Lazy` monad allows combining lazy computations into larger
     //! lazy computations. Note that the `|` operator can be used in place
     //! of the `chain` function.
-    //! @snippet example/lazy.monad.cpp monad
+    //! @include example/lazy/monad.cpp
     //!
     //! 4. `Comonad`\n
     //! The `Lazy` comonad allows evaluating a lazy computation to get its
     //! result and lazily applying functions taking lazy inputs to lazy
     //! values. This [blog post][1]  goes into more details about lazy
     //! evaluation and comonads.
-    //! @snippet example/lazy.cpp comonad
+    //! @include example/lazy/comonad.cpp
     //!
     //!
     //! @note
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/lazy.cpp lazy
+    //! @include example/lazy/lazy.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lazy = [](auto&& x) {
         return unspecified-type;

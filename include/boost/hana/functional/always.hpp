@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! ### Example
-    //! @snippet example/functional.cpp always
+    //! @include example/functional/always.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto always = [](auto&& x) {
         return [perfect-capture](auto const& ...y) -> decltype(auto) {

@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/comonad.cpp duplicate
+    //! @include example/duplicate.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto duplicate = [](auto&& w) -> decltype(auto) {
         return tag-dispatched;

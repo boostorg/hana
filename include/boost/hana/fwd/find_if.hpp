@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp find_if
+    //! @include example/find_if.cpp
     //!
     //! Benchmarks
     //! ----------

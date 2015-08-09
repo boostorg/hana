@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! then the call is ambiguous.
     //!
     //! ### Example
-    //! @snippet example/functional.cpp overload
+    //! @include example/functional/overload.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto overload = [](auto&& f1, auto&& f2, ..., auto&& fn) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {

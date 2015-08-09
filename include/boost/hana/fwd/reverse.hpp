@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp reverse
+    //! @include example/reverse.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto reverse = [](auto&& xs) {
         return tag-dispatched;

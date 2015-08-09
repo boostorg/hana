@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp at
+    //! @include example/at.cpp
     //!
     //!
     //! Benchmarks
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp at_c
+    //! @include example/at_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto at_c = [](auto&& xs) -> decltype(auto) {

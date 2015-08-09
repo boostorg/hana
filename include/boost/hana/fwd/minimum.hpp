@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //! or a compile-time Logical if the structure is heterogeneous.
     //!
     //! ### Example
-    //! @snippet example/foldable.cpp minimum
+    //! @include example/minimum.cpp
     //!
     //!
     //! Syntactic sugar (`minimum.by`)
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     //! `minimum` to `predicate`.
     //!
     //! ### Example
-    //! @snippet example/foldable.cpp minimum.by
+    //! @include example/minimum_by.cpp
     //!
     //!
     //! Tag dispatching

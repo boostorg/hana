@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monoid.cpp plus
+    //! @include example/plus.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto plus = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

@@ -251,15 +251,15 @@ int main() {
             ));
         }
 
-        // make_maybe
+        // make_optional
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make_maybe(),
+                make_optional(),
                 make<Optional>()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make_maybe(ct_eq<0>{}),
+                make_optional(ct_eq<0>{}),
                 make<Optional>(ct_eq<0>{})
             ));
         }

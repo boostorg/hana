@@ -37,12 +37,12 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a Logical `Bool` and a Comparable `B`, the signature is
-    //! @f$ \mathrm{comparing} : (A \to B) \to (A \times A \to Bool) @f$.
+    //! @f$ \mathtt{comparing} : (A \to B) \to (A \times A \to Bool) @f$.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/comparable.cpp comparing
+    //! @include example/comparing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto comparing = [](auto&& f) {
         return [perfect-capture](auto&& x, auto&& y) {

@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/struct.cpp accessors
+    //! @include example/accessors.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename S>
     constexpr auto accessors = []() {

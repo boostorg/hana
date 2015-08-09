@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/mpl/vector.hpp>
 #include <type_traits>
-using namespace boost::hana;
+namespace hana = boost::hana;
 namespace mpl = boost::mpl;
 
 
@@ -26,10 +26,10 @@ int main() {
 
 //! [Comparable]
 BOOST_HANA_CONSTANT_CHECK(
-    equal(mpl::vector2<int, char>{}, mpl::vector<int, char>{})
+    hana::equal(mpl::vector2<int, char>{}, mpl::vector<int, char>{})
 );
 BOOST_HANA_CONSTANT_CHECK(
-    not_equal(mpl::vector2<int, char>{}, mpl::vector<int, char, float>{})
+    hana::not_equal(mpl::vector2<int, char>{}, mpl::vector<int, char, float>{})
 );
 //! [Comparable]
 
@@ -37,29 +37,29 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [Foldable]
 auto types = mpl::vector<long, float, short, float, long, long double>{};
-auto number_of_floats = fold_left(types, int_<0>, [](auto count, auto t) {
-    return if_(trait<std::is_floating_point>(t),
-        count + int_<1>,
+auto number_of_floats = hana::fold_left(types, hana::int_<0>, [](auto count, auto t) {
+    return hana::if_(hana::trait<std::is_floating_point>(t),
+        count + hana::int_<1>,
         count
     );
 });
 
-BOOST_HANA_CONSTANT_CHECK(number_of_floats == int_<3>);
+BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_<3>);
 //! [Foldable]
 
 }{
 
 //! [Iterable]
-BOOST_HANA_CONSTANT_CHECK(front(mpl::vector<int, char, void>{}) == type<int>);
+BOOST_HANA_CONSTANT_CHECK(hana::front(mpl::vector<int, char, void>{}) == hana::type<int>);
 
-BOOST_HANA_CONSTANT_CHECK(equal(
-    tail(mpl::vector<int, char, void>{}),
+BOOST_HANA_CONSTANT_CHECK(hana::equal(
+    hana::tail(mpl::vector<int, char, void>{}),
     mpl::vector<char, void>{}
 ));
 
-BOOST_HANA_CONSTANT_CHECK(equal(
-    drop_while(mpl::vector<float, double const, int, float&>{},
-               trait<std::is_floating_point>),
+BOOST_HANA_CONSTANT_CHECK(hana::equal(
+    hana::drop_while(mpl::vector<float, double const, int, float&>{},
+                     hana::trait<std::is_floating_point>),
     mpl::vector<int, float&>{}
 ));
 //! [Iterable]
@@ -68,15 +68,15 @@ BOOST_HANA_CONSTANT_CHECK(equal(
 
 //! [Searchable]
 BOOST_HANA_CONSTANT_CHECK(
-    find_if(mpl::vector<int, float, char const*>{}, equal.to(type<float>))
+    hana::find_if(mpl::vector<int, float, char const*>{}, hana::equal.to(hana::type<float>))
     ==
-    just(type<float>)
+    hana::just(hana::type<float>)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    find(mpl::vector<int, float, char const*>{}, type<void>)
+    hana::find(mpl::vector<int, float, char const*>{}, hana::type<void>)
     ==
-    nothing
+    hana::nothing
 );
 //! [Searchable]
 
@@ -88,15 +88,15 @@ BOOST_HANA_CONSTANT_CHECK(
 {
 
 //! [from_Foldable]
-auto xs = make_tuple(1, '2', 3.0);
+auto xs = hana::make_tuple(1, '2', 3.0);
 static_assert(std::is_same<
-    decltype(to<ext::boost::mpl::Vector>(xs)),
+    decltype(hana::to<hana::ext::boost::mpl::Vector>(xs)),
     mpl::vector<int, char, double>
 >{}, "");
 
-auto ys = make_tuple(1, '2', type<void>);
+auto ys = hana::make_tuple(1, '2', hana::type<void>);
 static_assert(std::is_same<
-    decltype(to<ext::boost::mpl::Vector>(ys)),
+    decltype(hana::to<hana::ext::boost::mpl::Vector>(ys)),
     mpl::vector<int, char, void>
 >{}, "");
 //! [from_Foldable]

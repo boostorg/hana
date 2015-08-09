@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/product.cpp first
+    //! @include example/first.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto first = [](auto&& product) -> decltype(auto) {
         return tag-dispatched;

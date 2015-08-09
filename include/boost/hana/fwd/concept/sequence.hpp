@@ -92,11 +92,11 @@ namespace boost { namespace hana {
     //! 1. `Comparable` (definition provided automatically)\n
     //! Two `Sequence`s are equal if and only if they contain the same number
     //! of elements and their elements at any given index are equal.
-    //! @snippet example/sequence.cpp Comparable
+    //! @include example/sequence/comparable.cpp
     //!
     //! 2. `Orderable` (definition provided automatically)\n
     //! `Sequence`s are ordered using the traditional lexicographical ordering.
-    //! @snippet example/sequence.cpp Orderable
+    //! @include example/sequence/orderable.cpp
     //!
     //! 3. `Functor` (definition provided automatically)\n
     //! `Sequence`s implement `transform` as the mapping of a function over
@@ -104,7 +104,7 @@ namespace boost { namespace hana {
     //! `std::transform` does to ranges of iterators. Also note that mapping
     //! a function over an empty sequence returns an empty sequence and never
     //! applies the function, as would be expected.
-    //! @snippet example/sequence.cpp Functor
+    //! @include example/sequence/functor.cpp
     //!
     //! 4. `Applicative` (definition provided automatically)\n
     //! First, `lift`ing a value into a `Sequence` is the same as creating a
@@ -120,7 +120,7 @@ namespace boost { namespace hana {
     //!     ]
     //! @endcode
     //! Example:
-    //! @snippet example/sequence.cpp Applicative
+    //! @include example/sequence/applicative.cpp
     //!
     //! 5. `Monad` (definition provided automatically)\n
     //! First, `flaten`ning a `Sequence` takes a sequence of sequences and
@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     //! sequence of sequences instead of a variadic pack of sequences to
     //! flatten.\n
     //! __Example__:
-    //! @snippet example/sequence.cpp Monad.ints
+    //! @include example/sequence/monad.ints.cpp
     //!
     //! Also note that the model of `Monad` for `Sequence`s can be seen as
     //! modeling nondeterminism. A nondeterministic computation can be
@@ -144,31 +144,31 @@ namespace boost { namespace hana {
     //! i.e. a sequence of all the values applied to all the functions in
     //! the sequences.\n
     //! __Example__:
-    //! @snippet example/sequence.cpp Monad.types
+    //! @include example/sequence/monad.types.cpp
     //!
     //! 6. `MonadPlus` (definition provided automatically)\n
     //! `Sequence`s are models of the `MonadPlus` concept by considering the
     //! empty sequence as the unit of `concat`, and sequence concatenation
     //! as `concat`.
-    //! @snippet example/sequence.cpp MonadPlus
+    //! @include example/sequence/monad_plus.cpp
     //!
     //! 7. `Foldable`\n
     //! The model of `Foldable` for `Sequence`s is uniquely determined by the
     //! model of `Iterable`.
-    //! @snippet example/sequence.cpp Foldable
+    //! @include example/sequence/foldable.cpp
     //!
     //! 8. `Iterable`\n
     //! The model of `Iterable` for `Sequence`s corresponds to iteration over
     //! each element of the sequence, in order. This model is not provided
     //! automatically, and it is in fact part of the minimal complete
     //! definition for the `Sequence` concept.
-    //! @snippet example/sequence.cpp Iterable
+    //! @include example/sequence/iterable.cpp
     //!
     //! 9. `Searchable` (definition provided automatically)\n
     //! Searching through a `Sequence` is equivalent to just searching through
     //! a list of the values it contains. The keys and the values on which
     //! the search is performed are both the elements of the sequence.
-    //! @snippet example/sequence.cpp Searchable
+    //! @include example/sequence/searchable.cpp
     //!
     //!
     //! Concrete models

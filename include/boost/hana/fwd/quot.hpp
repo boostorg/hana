@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/integral_domain.cpp quot
+    //! @include example/quot.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto quot = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

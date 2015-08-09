@@ -91,7 +91,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/convert.to.cpp to
+    //! @include example/core/convert/to.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename To>
     constexpr auto to = [](auto&& x) -> decltype(auto) {
@@ -118,7 +118,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/convert.to.cpp is_convertible
+    //! @include example/core/convert/is_convertible.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename From, typename To>
     struct is_convertible { see documentation };
@@ -144,7 +144,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/convert.embedding.cpp embedding
+    //! @include example/core/convert/embedding.cpp
     template <bool = true>
     struct embedding { };
 
@@ -158,7 +158,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/convert.embedding.cpp is_embedded
+    //! @include example/core/convert/is_embedded.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename From, typename To>
     struct is_embedded { see documentation };

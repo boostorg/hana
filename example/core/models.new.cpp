@@ -13,24 +13,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <iostream>
 #include <type_traits>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 struct Printable { };
 
 template <typename T>
-struct print_impl : default_ {
+struct print_impl : hana::default_ {
     /* no definition; `print(x)` fails at compile-time by default */
 };
 
 auto print = [](std::ostream& os, auto const& x) -> decltype(auto) {
-    return print_impl<datatype_t<decltype(x)>>::apply(os, x);
+    return print_impl<hana::datatype_t<decltype(x)>>::apply(os, x);
 };
 
 namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Printable, T>
-        : std::integral_constant<bool, !is_default<print_impl<T>>{}>
+        : std::integral_constant<bool, !is_default<print_impl<T>>::value>
     { };
 }}
 
@@ -44,7 +44,7 @@ struct print_impl<Person> {
     }
 };
 
-static_assert(_models<Printable, Person>{}, "");
+static_assert(hana::_models<Printable, Person>{}, "");
 
 int main() {
     print(std::cout, Person{"Louis"});

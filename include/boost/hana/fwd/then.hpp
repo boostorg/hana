@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad.cpp then
+    //! @include example/then.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto then = [](auto&& before, auto&& xs) -> decltype(auto) {
         return tag-dispatched;

@@ -9,8 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #   undef NDEBUG
 #endif
 
-#include <boost/hana.hpp>
-
 #include <boost/fusion/include/comparison.hpp>
 #include <boost/fusion/include/make_vector.hpp>
 #include <boost/fusion/include/transform.hpp>
@@ -27,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <sstream>
 #include <string>
 #include <vector>
-using namespace boost::hana;
 namespace fusion = boost::fusion;
 namespace mpl = boost::mpl;
 using namespace std::literals;

@@ -4,8 +4,9 @@
 #include <string>
 #include <type_traits>
 #include <utility>
-using namespace boost::hana;
-using namespace boost::hana::literals;
+namespace hana = boost::hana;
+using namespace hana::literals;
+using hana::_;
 using namespace std::literals;
 
 
@@ -22,7 +23,7 @@ using namespace std::literals;
 // 1. Define some utilities
 template <typename Xs>
 std::string join(Xs&& xs, std::string sep) {
-  return fold(intersperse(std::forward<Xs>(xs), sep), "", _ + _);
+  return hana::fold(hana::intersperse(std::forward<Xs>(xs), sep), "", _ + _);
 }
 
 std::string quote(std::string s) { return "\"" + s + "\""; }
@@ -38,11 +39,11 @@ std::string to_json(std::string s) { return quote(s); }
 
 // 2. Define how to print user-defined types
 template <typename T>
-  std::enable_if_t<models<Struct, T>(),
+  std::enable_if_t<hana::models<hana::Struct, T>(),
 std::string> to_json(T const& x) {
-  auto json = transform(keys(x), [&](auto name) {
-    auto const& member = at_key(x, name);
-    return quote(to<char const*>(name)) + " : " + to_json(member);
+  auto json = hana::transform(hana::keys(x), [&](auto name) {
+    auto const& member = hana::at_key(x, name);
+    return quote(hana::to<char const*>(name)) + " : " + to_json(member);
   });
 
   return "{" + join(std::move(json), ", ") + "}";
@@ -50,9 +51,9 @@ std::string> to_json(T const& x) {
 
 // 3. Define how to print Sequences
 template <typename Xs>
-  std::enable_if_t<models<Sequence, Xs>(),
+  std::enable_if_t<hana::models<hana::Sequence, Xs>(),
 std::string> to_json(Xs const& xs) {
-  auto json = transform(xs, [](auto const& x) {
+  auto json = hana::transform(xs, [](auto const& x) {
     return to_json(x);
   });
 
@@ -71,7 +72,7 @@ struct Car {
 
 int main() {
   // 5. Generate beautiful JSON without hassle. Enjoy!
-  auto cars = make_tuple(
+  auto cars = hana::make_tuple(
     Car{"BMW", "Z3"},
     Car{"Audi", "A4"},
     Car{"Ferrari", "F40"},

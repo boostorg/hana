@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/when.cpp when
+    //! @include example/core/when.cpp
     template <bool condition>
     struct when;
 
@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/when.cpp when_valid
+    //! @include example/core/when_valid.cpp
     //!
     //!
     //! @bug

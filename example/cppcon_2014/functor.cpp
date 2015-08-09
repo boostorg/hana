@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix/comparable.hpp"
 #include "matrix/functor.hpp"
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace cppcon;
 
 
@@ -18,17 +18,17 @@ int main() {
     // transform
     {
         auto m = matrix(
-            row(1,       int_<2>, 3),
-            row(int_<4>, 5,       6),
-            row(7,       8,       int_<9>)
+            row(1,              hana::int_<2>,  3),
+            row(hana::int_<4>,  5,              6),
+            row(7,              8,              hana::int_<9>)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            transform(m, _ + int_<1>),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::transform(m, hana::_ + hana::int_<1>),
             matrix(
-                row(2,       int_<3>, 4),
-                row(int_<5>, 6,       7),
-                row(8,       9,       int_<10>)
+                row(2,              hana::int_<3>,  4),
+                row(hana::int_<5>,  6,              7),
+                row(8,              9,              hana::int_<10>)
             )
         ));
     }

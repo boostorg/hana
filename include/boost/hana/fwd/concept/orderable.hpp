@@ -186,8 +186,7 @@ namespace boost { namespace hana {
     //! for example `less.than(x)(y)` is equivalent to `less(y, x)`, not
     //! `less(x, y)`. This is because those variants are meant to be used
     //! with higher order algorithms, where the chosen application order
-    //! makes sense:
-    //! @snippet example/orderable.cpp less.than
+    //! makes sense.
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Total_order

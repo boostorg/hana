@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/constant.cpp value
+    //! @include example/value.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T>
     constexpr auto value = []() -> decltype(auto) {
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/constant.cpp value_of
+    //! @include example/value_of.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto value_of = [](auto const& c) -> decltype(auto) {
         return hana::value(c);

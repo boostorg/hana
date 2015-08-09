@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp reverse_fold
+    //! @include example/reverse_fold.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto reverse_fold = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {
         return fold_right(forwarded(xs), forwarded(state), flip(forwarded(f)));

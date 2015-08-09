@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/datatype.cpp datatype
+    //! @include example/core/datatype.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, optional when-based enabler>
     struct datatype { unspecified };
@@ -109,7 +109,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/datatype.cpp datatype_t
+    //! @include example/core/datatype_t.cpp
     template <typename T>
     using datatype_t = typename datatype<T>::type;
 }} // end namespace boost::hana

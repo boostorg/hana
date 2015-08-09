@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp remove_if
+    //! @include example/remove_if.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto remove_if = [](auto&& xs, auto&& predicate) {
         return tag-dispatched;

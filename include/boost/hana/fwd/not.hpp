@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/logical.cpp not_
+    //! @include example/not.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto not_ = [](auto&& x) -> decltype(auto) {
         return tag-dispatched;

@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp fill
+    //! @include example/fill.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto fill = [](auto&& xs, auto&& value) {
         return tag-dispatched;

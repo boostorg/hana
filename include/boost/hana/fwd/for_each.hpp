@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp for_each
+    //! @include example/for_each.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto for_each = [](auto&& xs, auto&& f) -> void {
         return tag-dispatched;

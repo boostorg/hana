@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/is_a.cpp is_a
+    //! @include example/core/is_a.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename DataType, typename optional_T>
     constexpr auto is_a = see-documentation;

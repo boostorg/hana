@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp size
+    //! @include example/size.cpp
     constexpr auto size = hana::length;
 }} // end namespace boost::hana
 

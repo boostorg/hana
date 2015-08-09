@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/integral_c.hpp>
 #include <boost/mpl/long.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 namespace mpl = boost::mpl;
 
 
@@ -19,11 +19,11 @@ int main() {
 {
 
 //! [constant]
-static_assert(value(mpl::integral_c<int, 3>{}) == 3, "");
+static_assert(hana::value(mpl::integral_c<int, 3>{}) == 3, "");
 
-BOOST_HANA_CONSTANT_CHECK(equal(mpl::integral_c<int, 3>{}, mpl::int_<3>{}));
-BOOST_HANA_CONSTANT_CHECK(equal(mpl::integral_c<int, 3>{}, mpl::long_<3>{}));
-BOOST_HANA_CONSTANT_CHECK(not_equal(mpl::integral_c<int, 3>{}, mpl::int_<0>{}));
+BOOST_HANA_CONSTANT_CHECK(hana::equal(mpl::integral_c<int, 3>{}, mpl::int_<3>{}));
+BOOST_HANA_CONSTANT_CHECK(hana::equal(mpl::integral_c<int, 3>{}, mpl::long_<3>{}));
+BOOST_HANA_CONSTANT_CHECK(hana::not_equal(mpl::integral_c<int, 3>{}, mpl::int_<0>{}));
 //! [constant]
 
 }

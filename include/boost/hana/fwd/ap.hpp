@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @include example/applicative/ap.cpp
+    //! @include example/ap.cpp
     //!
     //! @todo
     //! Consider giving access to all the arguments to the tag-dispatched

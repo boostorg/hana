@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp cycle
+    //! @include example/cycle.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto cycle = [](auto&& xs, auto&& n) {
         return tag-dispatched;

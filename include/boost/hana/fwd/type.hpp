@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two `Type`s are equal if and only if they represent the same C++ type.
     //! Hence, equality is equivalent to the `std::is_same` type trait.
-    //! @snippet example/type.cpp comparable
+    //! @include example/type/comparable.cpp
     struct Type { };
 
     //! Creates an object representing the C++ type `T`.
@@ -135,7 +135,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp decltype_
+    //! @include example/type/decltype.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto decltype_ = see documentation;
 #else
@@ -154,7 +154,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp make<Type>
+    //! @include example/type/make.cpp
     template <>
     constexpr auto make<Type> = decltype_;
 #endif
@@ -183,7 +183,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp sizeof_
+    //! @include example/type/sizeof.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sizeof_ = [](auto&& x) {
         using T = typename decltype(hana::decltype_(x))::type;
@@ -219,7 +219,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp alignof_
+    //! @include example/type/alignof.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto alignof_ = [](auto&& x) {
         using T = typename decltype(decltype_(x))::type;
@@ -262,7 +262,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp is_valid
+    //! @include example/type/is_valid.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_valid = [](auto&& f) {
         return [](auto&& ...args) {
@@ -327,7 +327,7 @@ namespace boost { namespace hana {
     //! this should not be a problem.
     //!
     //! __Example of a non-liftable metafunction__
-    //! @snippet example/type.cpp non_liftable_metafunction
+    //! @include example/type/non_liftable_metafunction.cpp
     //!
     //!
     //! In addition to being Callable, `Metafunction`s provide a nested `apply`
@@ -372,7 +372,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp template
+    //! @include example/type/template.cpp
     //!
     //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -401,7 +401,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp metafunction
+    //! @include example/type/metafunction.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
     constexpr auto metafunction = [](_type<T>-or-T ...) {
@@ -428,7 +428,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp metafunction_class
+    //! @include example/type/metafunction_class.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename F>
     constexpr auto metafunction_class = [](_type<T>-or-T ...) {
@@ -473,7 +473,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp integral
+    //! @include example/type/integral.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto integral = [](auto f) {
         return [](_type<T>-or-T ...) {
@@ -499,7 +499,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/type.cpp trait
+    //! @include example/type/trait.cpp
     template <template <typename ...> class F>
     constexpr auto trait = integral(metafunction<F>);
 }} // end namespace boost::hana

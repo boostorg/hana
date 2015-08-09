@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp drop_front
+    //! @include example/drop_front.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_front = [](auto&& xs[, auto&& n]) {
         return tag-dispatched;

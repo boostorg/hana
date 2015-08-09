@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/comonad.cpp extend
+    //! @include example/extend.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto extend = [](auto&& w, auto&& f) -> decltype(auto) {
         return tag-dispatched;

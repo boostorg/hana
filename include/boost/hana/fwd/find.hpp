@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp find
+    //! @include example/find.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto find = [](auto&& xs, auto&& key) {
         return tag-dispatched;

@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //! @endinternal
     //!
     //! ### Example
-    //! @snippet example/functional.cpp arg
+    //! @include example/functional/arg.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto arg = [](auto&& x1, ..., auto&& xm) -> decltype(auto) {

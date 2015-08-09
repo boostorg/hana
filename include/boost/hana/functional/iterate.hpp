@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //! Given a function \f$ f : T \to T \f$ and `x` and argument of data
     //! type `T`, the signature is
     //! \f$
-    //!     \mathrm{iterate_n} : (T \to T) \times T \to T
+    //!     \mathtt{iterate_n} : (T \to T) \times T \to T
     //! \f$
     //!
     //! @tparam n
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp iterate
+    //! @include example/functional/iterate.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto iterate = [](auto&& f) {

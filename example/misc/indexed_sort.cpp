@@ -4,30 +4,43 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/back.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/front.hpp>
+#include <boost/hana/functional/on.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/length.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
+#include <boost/hana/sort.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
-#include <boost/hana/type.hpp>
+#include <boost/hana/zip.hpp>
 
 #include <type_traits>
-using namespace boost::hana;
-using namespace boost::hana::literals;
+namespace hana = boost::hana;
+using namespace hana::literals;
 
 
 auto indexed_sort = [](auto list, auto predicate) {
-    auto indexed_list = zip(list, to<Tuple>(range(0_c, size(list))));
-    auto sorted = sort.by(predicate ^on^ front, indexed_list);
-    return make_pair(transform(sorted, front), transform(sorted, back));
+    auto indexed_list = hana::zip(
+        list,
+        hana::to<hana::Tuple>(hana::make_range(0_c, hana::length(list)))
+    );
+    auto sorted = hana::sort.by(predicate ^hana::on^ hana::front, indexed_list);
+    return hana::make_pair(hana::transform(sorted, hana::front),
+                           hana::transform(sorted, hana::back));
 };
 
 int main() {
-    auto types = tuple_t<char[4], char[2], char[1], char[5], char[3]>;
+    auto types = hana::tuple_t<char[4], char[2], char[1], char[5], char[3]>;
     auto sorted = indexed_sort(types, [](auto t, auto u) {
-        return sizeof_(t) < sizeof_(u);
+        return hana::sizeof_(t) < hana::sizeof_(u);
     });
-    using Tup = decltype(unpack(first(sorted), template_<tuple>))::type;
-    auto indices = second(indexed_sort(second(sorted), less));
+    using Tup = decltype(
+        hana::unpack(hana::first(sorted), hana::template_<hana::tuple>)
+    )::type;
+    auto indices = hana::second(indexed_sort(hana::second(sorted), hana::less));
 
     // When accessed through the indices sequence, the tuple appears to be
     // ordered as the `types` above. However, as can be seen in the
@@ -41,7 +54,7 @@ int main() {
 
     static_assert(std::is_same<
         Tup,
-        tuple<char[1], char[2], char[3], char[4], char[5]>
+        hana::tuple<char[1], char[2], char[3], char[4], char[5]>
     >{}, "");
 
     (void)a; (void)b; (void)c; (void)d; (void)e;

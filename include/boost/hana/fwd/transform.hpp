@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp transform
+    //! @include example/transform.cpp
     //!
     //! Benchmarks
     //! ----------

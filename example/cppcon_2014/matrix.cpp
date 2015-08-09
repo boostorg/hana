@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 
 #include "matrix/comparable.hpp"
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace cppcon;
 
 
@@ -20,7 +20,7 @@ int main() {
             row(4, '5', 6)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
             transpose(m),
             matrix(
                 row(1, 4),
@@ -32,7 +32,7 @@ int main() {
 
     // vector
     {
-        auto v = vector(1, '2', int_<3>, 4.2f);
+        auto v = vector(1, '2', hana::int_<3>, 4.2f);
         BOOST_HANA_CONSTEXPR_CHECK(v.size() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.nrows() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.ncolumns() == 1ul);
@@ -42,27 +42,27 @@ int main() {
     {
         auto m = matrix(
             row(1, '2', 3),
-            row('4', char_<'5'>, 6),
-            row(int_<7>, '8', 9.3)
+            row('4', hana::char_<'5'>, 6),
+            row(hana::int_<7>, '8', 9.3)
         );
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<0>) == 1);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<1>) == '2');
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<0>, int_<2>) == 3);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<0>) == 1);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<1>) == '2');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<2>) == 3);
 
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<1>, int_<0>) == '4');
-        BOOST_HANA_CONSTANT_CHECK(m.at(int_<1>, int_<1>) == char_<'5'>);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<1>, int_<2>) == 6);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<1>, hana::int_<0>) == '4');
+        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_<1>, hana::int_<1>) == hana::char_<'5'>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<1>, hana::int_<2>) == 6);
 
-        BOOST_HANA_CONSTANT_CHECK(m.at(int_<2>, int_<0>) == int_<7>);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<2>, int_<1>) == '8');
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(int_<2>, int_<2>) == 9.3);
+        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_<2>, hana::int_<0>) == hana::int_<7>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<2>, hana::int_<1>) == '8');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<2>, hana::int_<2>) == 9.3);
     }
 
     // size, ncolumns, nrows
     {
         auto m = matrix(
             row(1, '2', 3),
-            row('4', char_<'5'>, 6)
+            row('4', hana::char_<'5'>, 6)
         );
         BOOST_HANA_CONSTEXPR_CHECK(m.size() == 6ul);
         BOOST_HANA_CONSTEXPR_CHECK(m.ncolumns() == 3ul);

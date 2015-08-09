@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp cartesian_product
+    //! @include example/cartesian_product.cpp
     //!
     //!
     //! Benchmarks

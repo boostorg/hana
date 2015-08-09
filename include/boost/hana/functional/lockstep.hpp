@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp lockstep
+    //! @include example/functional/lockstep.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto lockstep = [](auto&& f, auto&& ...g) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {

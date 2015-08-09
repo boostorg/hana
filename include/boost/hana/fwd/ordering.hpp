@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/orderable.cpp ordering
+    //! @include example/ordering.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto ordering = [](auto&& f) {
         return [perfect-capture](auto&& x, auto&& y) -> decltype(auto) {

@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //!
     //! For convenience, `on` also supports infix application as provided
     //! by `infix`.
-    //! @snippet example/functional.cpp on.infix
+    //!
     //!
     //! @note
     //! `on` is associative, i.e. `on(f, on(g, h))` is equivalent to
@@ -47,8 +47,9 @@ namespace boost { namespace hana {
     //! @endcode
     //! @endinternal
     //!
+    //!
     //! ### Example
-    //! @snippet example/functional.cpp on.normal
+    //! @include example/functional/on.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto on = infix([](auto&& f, auto&& g) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {

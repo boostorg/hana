@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/logical.cpp or_
+    //! @include example/or.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto or_ = [](auto&& x, auto&& ...y) -> decltype(auto) {
         return tag-dispatched;

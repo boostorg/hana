@@ -82,7 +82,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.monadic_fold_left.cpp monadic_fold_left
+    //! @include example/monadic_fold_left.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto monadic_fold_left = [](auto&& xs[, auto&& state], auto&& f) -> decltype(auto) {

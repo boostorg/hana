@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 #include <vector>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 struct yes { std::string toString() const { return "yes"; } };
@@ -17,11 +17,11 @@ struct no { };
 //! [optionalToString.sfinae]
 template <typename T>
 std::string optionalToString(T const& obj) {
-  auto maybe_toString = sfinae([](auto&& x) -> decltype(x.toString()) {
+  auto maybe_toString = hana::sfinae([](auto&& x) -> decltype(x.toString()) {
     return x.toString();
   });
 
-  return from_maybe("toString not defined", maybe_toString(obj));
+  return hana::from_maybe("toString not defined", maybe_toString(obj));
 }
 //! [optionalToString.sfinae]
 
@@ -32,14 +32,14 @@ BOOST_HANA_RUNTIME_CHECK(optionalToString(no{}) == "toString not defined");
 {
 
 //! [maybe_add]
-auto maybe_add = sfinae([](auto x, auto y) -> decltype(x + y) {
+auto maybe_add = hana::sfinae([](auto x, auto y) -> decltype(x + y) {
   return x + y;
 });
 
-maybe_add(1, 2); // just(3)
+maybe_add(1, 2); // hana::just(3)
 
 std::vector<int> v;
-maybe_add(v, "foobar"); // nothing
+maybe_add(v, "foobar"); // hana::nothing
 //! [maybe_add]
 
 }

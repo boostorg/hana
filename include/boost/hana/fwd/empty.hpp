@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp empty
+    //! @include example/empty.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto empty = []() {

@@ -23,11 +23,8 @@ namespace boost { namespace hana {
     //! Specifically, returns whether any of the keys of the structure is
     //! equal to the given `key`. If the structure is not finite, an equal
     //! key has to appear at a finite "index" in the structure for this
-    //! method to finish.
-    //!
-    //! @note
-    //! For convenience, `contains` can also be applied in infix notation.
-    //! @snippet example/searchable.cpp contains.infix
+    //! method to finish. For convenience, `contains` can also be applied in
+    //! infix notation.
     //!
     //!
     //! @param xs
@@ -40,7 +37,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp contains
+    //! @include example/contains.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto contains = [](auto&& xs, auto&& key) {
         return tag-dispatched;
@@ -69,7 +66,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp in
+    //! @include example/in.cpp
     constexpr auto in = hana::infix(hana::flip(hana::contains));
 }} // end namespace boost::hana
 

@@ -124,7 +124,7 @@ namespace boost { namespace hana {
     //! sequence with that. More specifically, given a `Foldable` `xs` with a
     //! linearization of `[x1, ..., xn]` and a `Sequence` tag `S`, `to<S>(xs)`
     //! is equivalent to `make<S>(x1, ..., xn)`.
-    //! @snippet example/foldable.cpp conversion
+    //! @include example/foldable/to.cpp
     //!
     //!
     //! Free model for builtin arrays

@@ -60,9 +60,6 @@ namespace boost { namespace hana {
     //! return a `Constant Logical` when called with any two elements of the
     //! sequence. When the predicate is not specified, this defaults to `less`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp sort
-    //!
     //!
     //! Syntactic sugar (`sort.by`)
     //! ---------------------------
@@ -76,9 +73,10 @@ namespace boost { namespace hana {
     //! where `sort(-, predicate)` denotes the partial application of
     //! `sort` to `predicate`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp sort.by
     //!
+    //! Example
+    //! -------
+    //! @include example/sort.cpp
     //!
     //! [1]: http://en.wikipedia.org/wiki/Strict_weak_ordering
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

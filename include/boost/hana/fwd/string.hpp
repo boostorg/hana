@@ -38,28 +38,28 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two `String`s are equal if and only if they have the same number of
     //! characters and characters at corresponding indices are equal.
-    //! @snippet example/string.cpp Comparable
+    //! @include example/string/comparable.cpp
     //!
     //! 2. `Orderable`\n
     //! The total order implemented for `Orderable` is the usual
     //! lexicographical comparison of strings.
-    //! @snippet example/string.cpp Orderable
+    //! @include example/string/Orderable.cpp
     //!
     //! 3. `Foldable`\n
     //! Folding a `String` is equivalent to folding the sequence of its
     //! characters.
-    //! @snippet example/string.cpp Foldable
+    //! @include example/string/foldable.cpp
     //!
     //! 4. `Iterable`\n
     //! Iterating over a `String` is equivalent to iterating over the sequence
     //! of its characters. Also note that `operator[]` can be used instead of
     //! the `at` function.
-    //! @snippet example/string.cpp Iterable
+    //! @include example/string/iterable.cpp
     //!
     //! 5. `Searchable`\n
     //! Searching through a `String` is equivalent to searching through the
     //! sequence of its characters.
-    //! @snippet example/string.cpp Searchable
+    //! @include example/string/searchable.cpp
     //!
     //!
     //! Conversion to `char const*`
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     //! turn a compile-time string into a runtime string. However, note that
     //! this conversion is not an embedding, because `char const*` does not
     //! model the same concepts as `String` does.
-    //! @snippet example/string.cpp to<char const*>
+    //! @include example/string/convert.cpp
     //!
     //!
     //! > #### Rationale for `String` not being a `Constant`
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/string.cpp string
+    //! @include example/string/string.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <char ...s>
     constexpr unspecified-type string{};
@@ -111,7 +111,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/string.cpp BOOST_HANA_STRING
+    //! @include example/string/macro.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     auto BOOST_HANA_STRING(s) = see documentation;
     #define BOOST_HANA_STRING(s) see documentation
@@ -153,7 +153,7 @@ namespace boost { namespace hana {
         //!
         //! Example
         //! -------
-        //! @snippet example/string.cpp _s
+        //! @include example/string/literal.cpp
         //!
         //! [Hana.issue80]: https://github.com/ldionne/hana/issues/80
         template <typename CharT, CharT ...s>

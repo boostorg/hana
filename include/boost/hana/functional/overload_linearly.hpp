@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp overload_linearly
+    //! @include example/functional/overload_linearly.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto overload_linearly = [](auto&& f1, auto&& f2, ..., auto&& fn) {
         return [perfect-capture](auto&& ...x) -> decltype(auto) {

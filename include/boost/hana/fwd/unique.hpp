@@ -48,9 +48,6 @@ namespace boost { namespace hana {
     //! defaults to `equal` if it is not provided, which then requires the
     //! elements of the sequence to be compile-time `Comparable`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp unique
-    //!
     //!
     //! Syntactic sugar (`unique.by`)
     //! -----------------------------
@@ -67,7 +64,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp unique.by
+    //! @include example/unique.cpp
     //!
     //! [1]: http://en.wikipedia.org/wiki/Equivalence_relation#Definition
 #if defined(BOOST_HANA_DOXYGEN_INVOKED)

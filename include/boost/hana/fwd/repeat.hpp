@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp repeat
+    //! @include example/repeat.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto repeat = [](auto&& x, auto&& n) {

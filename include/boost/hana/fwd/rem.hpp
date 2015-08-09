@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/integral_domain.cpp rem
+    //! @include example/rem.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto rem = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

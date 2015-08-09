@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp none_of
+    //! @include example/none_of.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto none_of = [](auto&& xs, auto&& predicate) {
         return tag-dispatched;

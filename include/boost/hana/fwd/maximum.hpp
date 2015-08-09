@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //! or a compile-time Logical if the structure is heterogeneous.
     //!
     //! ### Example
-    //! @snippet example/foldable.cpp maximum
+    //! @include example/maximum.cpp
     //!
     //!
     //! Syntactic sugar (`maximum.by`)
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     //! `maximum` to `predicate`.
     //!
     //! ### Example
-    //! @snippet example/foldable.cpp maximum.by
+    //! @include example/maximum_by.cpp
     //!
     //!
     //! Tag dispatching

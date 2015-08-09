@@ -42,9 +42,6 @@ namespace boost { namespace hana {
     //! component of the resulting `Product`. Otherwise, `x` is added to the
     //! sequence in the second component.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp partition
-    //!
     //!
     //! Syntactic sugar (`partition.by`)
     //! --------------------------------
@@ -58,8 +55,10 @@ namespace boost { namespace hana {
     //! where `partition(-, predicate)` denotes the partial application of
     //! `partition` to `predicate`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp partition.by
+    //!
+    //! Example
+    //! -------
+    //! @include example/partition.cpp
     //!
     //!
     //! Benchmarks

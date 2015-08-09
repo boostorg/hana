@@ -12,20 +12,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <iterator>
 #include <sstream>
 #include <vector>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
-//! [default_]
 // In the header defining the concept of a Printable
 template <typename T>
-struct print_impl : default_ {
+struct print_impl : hana::default_ {
     template <typename Stream, typename X>
     static void apply(Stream& out, X const& x)
     { out << x; }
 };
 
 auto print = [](auto& stream, auto const& x) {
-    return print_impl<datatype_t<decltype(x)>>::apply(stream, x);
+    return print_impl<hana::datatype_t<decltype(x)>>::apply(stream, x);
 };
 
 // In some other header
@@ -39,9 +38,8 @@ struct print_impl<std::vector<T>> {
     }
 };
 
-static_assert(is_default<print_impl<int>>{}, "");
-static_assert(!is_default<print_impl<std::vector<int>>>{}, "");
-//! [default_]
+static_assert(hana::is_default<print_impl<int>>{}, "");
+static_assert(!hana::is_default<print_impl<std::vector<int>>>{}, "");
 
 int main() {
     {

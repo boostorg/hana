@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //! this allows `Optional` to interact seamlessly with SFINAE-friendly
     //! metafunctions.
     //! Example:
-    //! @snippet example/optional.cpp sfinae_friendly_metafunctions
+    //! @include example/optional/sfinae_friendly_metafunctions.cpp
     //!
     //!
     //! Modeled concepts
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two `Optional`s are equal if and only if they are both empty or they
     //! both contain a value and those values are equal.
-    //! @snippet example/optional.cpp comparable
+    //! @include example/optional/comparable.cpp
     //!
     //! 2. `Orderable`\n
     //! `Optional`s can be ordered by considering the value they are holding,
@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     //!     nothing < just(anything)
     //! @endcode
     //! Example:
-    //! @snippet example/optional.cpp orderable
+    //! @include example/optional/orderable.cpp
     //!
     //! 3. `Functor`\n
     //! A `Optional` can be seen as a `List` containing either one element
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     //!     transform(nothing, f) == nothing
     //! @endcode
     //! Example:
-    //! @snippet example/optional.cpp functor
+    //! @include example/optional/functor.cpp
     //!
     //! 4. `Applicative`\n
     //! First, a value can be made optional with `lift<Optional>`, which is
@@ -90,9 +90,9 @@ namespace boost { namespace hana {
     //!     ap(nothing, nothing) == nothing
     //! @endcode
     //! A simple example:
-    //! @snippet example/optional.cpp applicative
+    //! @include example/optional/applicative.cpp
     //! A more complex example:
-    //! @snippet example/optional.complex.cpp applicative
+    //! @include example/optional/applicative.complex.cpp
     //!
     //! 5. `Monad`\n
     //! The `Optional` `Monad` makes it easy to compose actions that might fail.
@@ -102,26 +102,26 @@ namespace boost { namespace hana {
     //! `Optional`ness removed with `flatten`. Also note that the `|` operator
     //! can be used in place of the `chain` function.
     //! Example:
-    //! @snippet example/optional.cpp monad
+    //! @include example/optional/monad.cpp
     //!
     //! 6. `MonadPlus`\n
     //! The `Optional` MonadPlus makes it easy to choose the first valid value
     //! of two optional values. If both optional values are `nothing`s, then
     //! `concat` will return `nothing`.
     //! Example:
-    //! @snippet example/optional.cpp monad_plus
+    //! @include example/optional/monad_plus.cpp
     //!
     //! 7. `Foldable`\n
     //! Folding an `Optional` is equivalent to folding a `List` containing
     //! either no elements (for `nothing`) or `x` (for `just(x)`).
     //! Example:
-    //! @snippet example/optional.cpp foldable
+    //! @include example/optional/foldable.cpp
     //!
     //! 8. `Searchable`\n
     //! Searching an `Optional` is equivalent to searching a list containing
     //! `x` for `just(x)` and an empty list for `nothing`.
     //! Example:
-    //! @snippet example/optional.cpp searchable
+    //! @include example/optional/searchable.cpp
     struct Optional { };
 
     //! Create an optional value.
@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp make<Optional>
+    //! @include example/optional/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<Optional> = []([auto&& x]) {
@@ -148,8 +148,8 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp make_maybe
-    constexpr auto make_maybe = make<Optional>;
+    //! @include example/optional/make.cpp
+    constexpr auto make_optional = make<Optional>;
 
     //! Create an optional value containing `x`.
     //! @relates Optional
@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp just
+    //! @include example/optional/just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
         return unspecified-type;
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp nothing
+    //! @include example/optional/nothing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr unspecified-type nothing{};
 #else
@@ -220,7 +220,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp only_when
+    //! @include example/optional/only_when.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto only_when = [](auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
         if (forwarded(predicate)(x))
@@ -261,7 +261,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp maybe
+    //! @include example/optional/maybe.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto maybe = [](auto&& default_, auto&& f, auto&& m) -> decltype(auto) {
         if (m is a just(x)) {
@@ -301,7 +301,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp is_just
+    //! @include example/optional/is_just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_just = [](auto const& m) {
         return m is a just(x);
@@ -324,7 +324,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp is_nothing
+    //! @include example/optional/is_nothing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_nothing = [](auto const& m) {
         return m is a nothing;
@@ -354,7 +354,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp from_maybe
+    //! @include example/optional/from_maybe.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto from_maybe = [](auto&& default_, auto&& m) -> decltype(auto) {
         return maybe(forwarded(default_), id, forwarded(m));
@@ -380,7 +380,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp from_just
+    //! @include example/optional/from_just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto from_just = [](auto&& m) -> decltype(auto) {
         static_assert(m is a just(x),
@@ -418,7 +418,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/optional.cpp sfinae
+    //! @include example/optional/sfinae.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     auto sfinae = [](auto&& f) {
         return [perfect-capture](auto&& ...x) {

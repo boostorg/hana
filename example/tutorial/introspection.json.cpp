@@ -10,14 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <string>
 #include <type_traits>
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace std::literals;
 
 
 //! [utilities]
 template <typename Xs>
 std::string join(Xs&& xs, std::string sep) {
-  return fold(intersperse(std::forward<Xs>(xs), sep), "", _ + _);
+  return hana::fold(hana::intersperse(std::forward<Xs>(xs), sep), "", hana::_ + hana::_);
 }
 
 std::string quote(std::string s) { return "\"" + s + "\""; }
@@ -33,11 +33,11 @@ std::string to_json(std::string s) { return quote(s); }
 
 //! [Struct]
 template <typename T>
-  std::enable_if_t<models<Struct, T>(),
+  std::enable_if_t<hana::models<hana::Struct, T>(),
 std::string> to_json(T const& x) {
-  auto json = transform(keys(x), [&](auto name) {
-    auto const& member = at_key(x, name);
-    return quote(to<char const*>(name)) + " : " + to_json(member);
+  auto json = hana::transform(hana::keys(x), [&](auto name) {
+    auto const& member = hana::at_key(x, name);
+    return quote(hana::to<char const*>(name)) + " : " + to_json(member);
   });
 
   return "{" + join(std::move(json), ", ") + "}";
@@ -46,9 +46,9 @@ std::string> to_json(T const& x) {
 
 //! [Sequence]
 template <typename Xs>
-  std::enable_if_t<models<Sequence, Xs>(),
+  std::enable_if_t<hana::models<hana::Sequence, Xs>(),
 std::string> to_json(Xs const& xs) {
-  auto json = transform(xs, [](auto const& x) {
+  auto json = hana::transform(xs, [](auto const& x) {
     return to_json(x);
   });
 
@@ -77,7 +77,7 @@ struct Person {
 Car bmw{"BMW", "Z3"}, audi{"Audi", "A4"};
 Person john{"John", "Doe", 30};
 
-auto tuple = make_tuple(john, audi, bmw);
+auto tuple = hana::make_tuple(john, audi, bmw);
 std::cout << to_json(tuple) << std::endl;
 //! [usage]
 }

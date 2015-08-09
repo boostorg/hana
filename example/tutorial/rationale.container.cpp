@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 namespace fusion = boost::fusion;
 namespace mpl = boost::mpl;
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 int main() {
@@ -22,18 +22,18 @@ int main() {
 {
 
 //! [hana]
-auto tuple = make_tuple(1, 'x', 3.4f);
+auto tuple = hana::make_tuple(1, 'x', 3.4f);
 
-auto result = find_if(tuple, [](auto const& x) {
-  return traits::is_integral(x);
+auto result = hana::find_if(tuple, [](auto const& x) {
+  return hana::traits::is_integral(x);
 });
 //! [hana]
 (void)result;
 
 #if 0
 //! [hana-explicit]
-some_type result = find_if(tuple, [](auto const& x) {
-  return traits::is_integral(x);
+some_type result = hana::find_if(tuple, [](auto const& x) {
+  return hana::traits::is_integral(x);
 });
 //! [hana-explicit]
 #endif

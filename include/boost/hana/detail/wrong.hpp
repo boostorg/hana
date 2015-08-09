@@ -23,7 +23,7 @@ namespace boost { namespace hana { namespace detail {
     //!
     //! Example
     //! -------
-    //! @snippet example/detail/wrong.cpp wrong
+    //! @include example/detail/wrong.cpp
     template <typename ...>
     struct wrong : std::false_type { };
 }}} // end namespace boost::hana::detail

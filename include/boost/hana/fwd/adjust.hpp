@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp adjust
+    //! @include example/adjust.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto adjust = [](auto&& xs, auto&& value, auto&& f) {
         return tag-dispatched;

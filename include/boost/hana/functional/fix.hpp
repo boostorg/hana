@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     //! in the `fix(f)(x...)` expression and `self` is `fix(f)`.
     //!
     //! ### Example
-    //! @snippet example/functional.cpp fix
+    //! @include example/functional/fix.cpp
     //!
     //! [Y-combinator]: http://en.wikipedia.org/wiki/Fixed-point_combinator
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

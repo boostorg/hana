@@ -41,12 +41,12 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two ranges are equal if and only if they are both empty or they both
     //! span the same interval.
-    //! @snippet example/range.cpp comparable
+    //! @include example/range/comparable.cpp
     //!
     //! 2. `Foldable`\n
     //! Folding a `Range` is equivalent to folding a list of the
     //! `IntegralConstant`s in the interval it spans.
-    //! @snippet example/range.cpp foldable
+    //! @include example/range/foldable.cpp
     //!
     //! 3. `Iterable`\n
     //! Iterating over a `Range` is equivalent to iterating over a list of
@@ -54,12 +54,12 @@ namespace boost { namespace hana {
     //! `[from, to)` is equivalent to iterating over a list containing
     //! `from, from+1, from+2, ..., to-1`. Also note that `operator[]` can
     //! be used in place of the `at` function.
-    //! @snippet example/range.cpp iterable
+    //! @include example/range/iterable.cpp
     //!
     //! 4. `Searchable`\n
     //! Searching a `Range` is equivalent to searching a list of the values
     //! in the range `[from, to)`, but it is much more compile-time efficient.
-    //! @snippet example/range.cpp searchable
+    //! @include example/range/searchable.cpp
     struct Range { };
 
     template <typename T, T from, T to>
@@ -81,7 +81,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/range.cpp make<Range>
+    //! @include example/range/make.cpp
     template <>
     constexpr auto make<Range> = [](auto from, auto to) {
         return a Range [from, to) of an unspecified type;
@@ -124,7 +124,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/range.cpp range_c
+    //! @include example/range/range_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T from, T to>
     constexpr auto range_c = make<Range>(integral_constant<T, from>,

@@ -26,7 +26,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp tail
+    //! @include example/tail.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto tail = [](auto&& xs) {
         return tag-dispatched;

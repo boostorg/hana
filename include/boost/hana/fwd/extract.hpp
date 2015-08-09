@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/comonad.cpp extract
+    //! @include example/extract.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto extract = [](auto&& w) -> decltype(auto) {
         return tag-dispatched;

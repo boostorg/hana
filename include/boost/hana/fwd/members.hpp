@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/struct.cpp members
+    //! @include example/members.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto members = [](auto&& object) {
         return tag-dispatched;

@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp unfold_left
+    //! @include example/unfold_left.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename S>
     constexpr auto unfold_left = [](auto&& state, auto&& f) {

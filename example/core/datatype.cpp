@@ -7,28 +7,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/datatype.hpp>
 
 #include <type_traits>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
-namespace example1 {
-//! [datatype]
-static_assert(std::is_same<datatype<int>::type, int>{}, "");
-static_assert(std::is_same<datatype<int&>::type, int>{}, "");
-static_assert(std::is_same<datatype<int const&>::type, int>{}, "");
+static_assert(std::is_same<hana::datatype<int>::type, int>{}, "");
+static_assert(std::is_same<hana::datatype<int&>::type, int>{}, "");
+static_assert(std::is_same<hana::datatype<int const&>::type, int>{}, "");
 
 struct Datatype;
 struct Person { struct hana { using datatype = Datatype; }; };
-static_assert(std::is_same<datatype<Person>::type, Datatype>{}, "");
-static_assert(std::is_same<datatype<Person volatile&&>::type, Datatype>{}, "");
-//! [datatype]
-}
-
-namespace example2 {
-//! [datatype_t]
-struct Datatype;
-struct Person { struct hana { using datatype = Datatype; }; };
-static_assert(std::is_same<datatype_t<Person>, Datatype>{}, "");
-//! [datatype_t]
-}
+static_assert(std::is_same<hana::datatype<Person>::type, Datatype>{}, "");
+static_assert(std::is_same<hana::datatype<Person volatile&&>::type, Datatype>{}, "");
 
 int main() { }

@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/models.cpp models
+    //! @include example/core/models.cpp
     //!
     //!
     //! How does it work

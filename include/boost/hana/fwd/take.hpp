@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp take
+    //! @include example/take.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto take = [](auto&& xs, auto&& n) {
         return tag-dispatched;
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp take_c
+    //! @include example/take_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto take_c = [](auto&& xs) {

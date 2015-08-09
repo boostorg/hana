@@ -57,7 +57,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp insert
+    //! @include example/insert.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& xs, auto&& n, auto&& element) {
         return tag-dispatched;

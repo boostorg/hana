@@ -9,21 +9,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <string>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 int main() {
+    hana::tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
+    BOOST_HANA_RUNTIME_CHECK(ts == hana::make_tuple(1, '2', 3.3, std::string{"abcd"}));
 
-{
-
-//! [make]
-tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
-BOOST_HANA_RUNTIME_CHECK(ts == make<Tuple>(1, '2', 3.3, std::string{"abcd"}));
-
-std::string foo{"foo"}; // std::string has no notion of data type
-BOOST_HANA_RUNTIME_CHECK(make<std::string>("foo") == foo);
-//! [make]
-
-}
-
+    // std::string has no notion of data type, but it still works with make<>
+    std::string foo{"foo"};
+    BOOST_HANA_RUNTIME_CHECK(hana::make<std::string>("foo") == foo);
 }

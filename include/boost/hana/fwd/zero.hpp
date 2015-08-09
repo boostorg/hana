@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monoid.cpp zero
+    //! @include example/zero.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
     constexpr auto zero = []() -> decltype(auto) {

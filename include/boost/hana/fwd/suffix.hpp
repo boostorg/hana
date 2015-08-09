@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp suffix
+    //! @include example/suffix.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto suffix = [](auto&& xs, auto&& sfx) {
         return tag-dispatched;

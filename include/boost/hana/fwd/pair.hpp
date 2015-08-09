@@ -28,12 +28,12 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two pairs `(x, y)` and `(x', y')` are equal if and only if both
     //! `x == x'` and `y == y'`.
-    //! @snippet example/pair.cpp comparable
+    //! @include example/pair/comparable.cpp
     //!
     //! 2. `Orderable`\n
     //! Pairs are ordered as-if they were 2-element tuples, using a
     //! lexicographical ordering.
-    //! @snippet example/pair.cpp orderable
+    //! @include example/pair/orderable.cpp
     //!
     //! 3. `Foldable`\n
     //! Folding a `Pair` is equivalent to folding a 2-element tuple. In other
@@ -43,12 +43,12 @@ namespace boost { namespace hana {
     //!     fold_right(make_pair(x, y), s, f) == f(x, f(y, s))
     //! @endcode
     //! Example:
-    //! @snippet example/pair.cpp foldable
+    //! @include example/pair/foldable.cpp
     //!
     //! 4. `Product`\n
     //! The model of `Product` is the simplest one possible; the first element
     //! of a pair `(x, y)` is `x`, and its second element is `y`.
-    //! @snippet example/pair.cpp product
+    //! @include example/pair/product.cpp
     struct Pair { };
 
     template <typename First, typename Second>
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/pair.cpp make<Pair>
+    //! @include example/pair/make.cpp
     template <>
     constexpr auto make<Pair> = [](auto&& first, auto&& second)
         -> pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/pair.cpp make_pair
+    //! @include example/pair/make.cpp
     constexpr auto make_pair = make<Pair>;
 }} // end namespace boost::hana
 

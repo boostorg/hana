@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! ---------
     //! Given a Logical `Bool` and two Comparables `A` and `B` that
     //! share a common embedding, the signature is
-    //! @f$ \mathrm{not\_equal} : A \times B \to Bool @f$.
+    //! @f$ \mathtt{not\_equal} : A \times B \to Bool @f$.
     //!
     //! @param x, y
     //! Two objects to compare for inequality.
@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/comparable.cpp not_equal
+    //! @include example/not_equal.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto not_equal = [](auto&& x, auto&& y) {
         return tag-dispatched;

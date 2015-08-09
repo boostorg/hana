@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 
 #include <iostream>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 namespace pure {
@@ -15,8 +15,8 @@ namespace pure {
 template <typename X>
 auto identity(X x) { return x; }
 
-auto x = identity(bool_<true>);
-static_assert(value(x), "");
+auto x = identity(hana::bool_<true>);
+static_assert(hana::value(x), "");
 //! [pure]
 }
 
@@ -30,8 +30,8 @@ auto identity(X x) {
 //! [impure_identity]
 
 //! [impure]
-auto x = identity(bool_<true>);
-static_assert(value(x), "");
+auto x = identity(hana::bool_<true>);
+static_assert(hana::value(x), "");
 //! [impure]
 }
 

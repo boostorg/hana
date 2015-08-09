@@ -7,13 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
-//! [is_a]
-static_assert(is_a<Tuple, decltype(make_tuple(1, '2', 3.3))>, "");
-static_assert(!is_a<Tuple, void>, "");
-static_assert(is_an<IntegralConstant<int>>(int_<10>), "");
-//! [is_a]
+static_assert(hana::is_a<hana::Tuple, decltype(hana::make_tuple(1, '2', 3.3))>, "");
+static_assert(!hana::is_a<hana::Tuple, void>, "");
+static_assert(hana::is_an<hana::IntegralConstant<int>>(hana::int_<10>), "");
 
 int main() { }

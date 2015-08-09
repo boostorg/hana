@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/foldable.cpp unpack
+    //! @include example/unpack.cpp
     //!
     //!
     //! Rationale: `unpack`'s name and parameter order

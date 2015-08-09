@@ -45,17 +45,17 @@ namespace cppcon {
     auto row = boost::hana::make_tuple;
 
     auto matrix = [](auto&& ...rows) -> decltype(auto) {
-        using namespace boost::hana;
-        auto storage = make<Tuple>(std::forward<decltype(rows)>(rows)...);
-        auto ncolumns = length(front(storage));
+        namespace hana = boost::hana;
+        auto storage = hana::make_tuple(std::forward<decltype(rows)>(rows)...);
+        auto ncolumns = hana::length(hana::front(storage));
         BOOST_HANA_CONSTANT_CHECK(
-            all_of(tail(storage), [&](auto const& row) {
-                return length(row) == ncolumns;
+            hana::all_of(hana::tail(storage), [&](auto const& row) {
+                return hana::length(row) == ncolumns;
             })
         );
 
         return matrix_type<
-            sizeof...(rows), value(ncolumns), decltype(storage)
+            sizeof...(rows), hana::value(ncolumns), decltype(storage)
         >{std::move(storage)};
     };
 
@@ -79,10 +79,10 @@ namespace cppcon {
     };
 
     auto element_wise = [](auto&& f) -> decltype(auto) {
-        using namespace boost::hana;
+        namespace hana = boost::hana;
         return [f(std::forward<decltype(f)>(f))](auto&& ...m) -> decltype(auto) {
-            return unpack(
-                zip_with(partial(zip_with, f),
+            return hana::unpack(
+                hana::zip_with(hana::partial(hana::zip_with, f),
                     rows(std::forward<decltype(m)>(m))...
                 ),
                 matrix
@@ -92,8 +92,8 @@ namespace cppcon {
 
     namespace detail {
         auto tuple_scalar_product = [](auto&& u, auto&& v) -> decltype(auto) {
-            using namespace boost::hana;
-            return sum<>(zip_with(mult,
+            namespace hana = boost::hana;
+            return hana::sum<>(hana::zip_with(hana::mult,
                 std::forward<decltype(u)>(u),
                 std::forward<decltype(v)>(v)
             ));

@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/searchable.cpp any
+    //! @include example/any.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto any = [](auto&& xs) {
         return tag-dispatched;

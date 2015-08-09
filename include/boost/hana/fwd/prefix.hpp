@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad_plus.cpp prefix
+    //! @include example/prefix.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto prefix = [](auto&& xs, auto&& pref) {
         return tag-dispatched;

@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp is_empty
+    //! @include example/is_empty.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_empty = [](auto&& xs) {
         return tag-dispatched;

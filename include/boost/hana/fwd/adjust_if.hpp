@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functor.cpp adjust_if
+    //! @include example/adjust_if.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto adjust_if = [](auto&& xs, auto&& predicate, auto&& f) {
         return tag-dispatched;

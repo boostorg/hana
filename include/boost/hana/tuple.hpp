@@ -21,11 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/detail/generate_integer_sequence.hpp>
-#include <boost/hana/detail/operators/adl.hpp>
-#include <boost/hana/detail/operators/comparable.hpp>
-#include <boost/hana/detail/operators/iterable.hpp>
-#include <boost/hana/detail/operators/monad.hpp>
-#include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/detail/type_foldl1.hpp>
 #include <boost/hana/detail/type_foldr1.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
@@ -46,7 +41,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/type.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/detail/closure.hpp>
+#include <boost/hana/detail/operators/adl.hpp>
+#include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/detail/operators/iterable.hpp>
+#include <boost/hana/detail/operators/monad.hpp>
+#include <boost/hana/detail/operators/orderable.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -155,9 +164,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, Tuple>
-        : decltype(hana::true_)
-    { };
+    struct models_impl<Sequence, Tuple> {
+        static constexpr bool value = true;
+    };
 
     template <>
     struct make_impl<Tuple> {

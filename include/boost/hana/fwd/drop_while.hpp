@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/iterable.cpp drop_while
+    //! @include example/drop_while.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto drop_while = [](auto&& iterable, auto&& predicate) {
         return tag-dispatched;

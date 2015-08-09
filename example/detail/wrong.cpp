@@ -5,17 +5,16 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/detail/wrong.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
-//! [wrong]
 template <typename T, typename U>
 struct base_template {
     // Can't write this because the assertion would always fire up:
     // static_assert(false, "...");
 
     // So instead we write this:
-    static_assert(detail::wrong<base_template<T, U>>{},
+    static_assert(hana::detail::wrong<base_template<T, U>>{},
     "base_template does not have a valid default definition");
 };
 
@@ -23,6 +22,5 @@ template <>
 struct base_template<int, int> {
     // something useful
 };
-//! [wrong]
 
 int main() { }

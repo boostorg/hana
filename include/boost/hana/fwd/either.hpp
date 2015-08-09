@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two `Either`s are equal if and only if they both contain left values
     //! or they both contain right values and those values are equal.
-    //! @snippet example/either.cpp comparable
+    //! @include example/either/comparable.cpp
     //!
     //! 2. `Orderable`\n
     //! `Either`s are ordered by considering any `left` value as less than any
@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     //!     right(x) < right(y) if and only if x < y
     //! @endcode
     //! Example:
-    //! @snippet example/either.cpp orderable
+    //! @include example/either/orderable.cpp
     //!
     //! 3. `Functor`\n
     //! Since `Either` can contain one of two possible values of different
@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //!     transform(right(x), f) == right(f(x))
     //! @endcode
     //! Example:
-    //! @snippet example/either.cpp functor
+    //! @include example/either/functor.cpp
     //!
     //! 4. `Applicative`\n
     //! The instance of `Applicative` for `Either` follows naturally from
@@ -68,7 +68,7 @@ namespace boost { namespace hana {
     //!     lift<Either>(x) == right(x)
     //! @endcode
     //! Example:
-    //! @snippet example/either.applicative.cpp main
+    //! @include example/either/applicative.cpp
     //!
     //! 5. `Monad`\n
     //! The instance of `Monad` for `Either` follows naturally from
@@ -80,14 +80,14 @@ namespace boost { namespace hana {
     //! Also note that the `|` operator can be used in place of the `chain`
     //! function.
     //! Example:
-    //! @snippet example/either.cpp monad
+    //! @include example/either/monad.cpp
     //!
     //! 6. `Foldable`\n
     //! For the purpose of being folded, an `Either` is considered empty if
     //! it is a `left`, and it is considered equivalent to a one element list
     //! if it is a `right`.
     //! Example:
-    //! @snippet example/either.cpp foldable
+    //! @include example/either/foldable.cpp
     struct Either { };
 
     //! Create an `Either` containing the given left value.
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/either.cpp left
+    //! @include example/either/left.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto left = [](auto&& x) {
         return unspecified-type;
@@ -119,7 +119,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/either.cpp right
+    //! @include example/either/right.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto right = [](auto&& x) {
         return unspecified-type;
@@ -158,7 +158,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/either.cpp either
+    //! @include example/either/either.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto either = [](auto&& f, auto&& g, auto&& e) -> decltype(auto) {
         if (e is a left(x))

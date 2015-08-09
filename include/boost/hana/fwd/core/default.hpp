@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/default.cpp default_
+    //! @include example/core/default.cpp
     struct default_ { };
 
     //! @ingroup group-core
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/default.cpp default_
+    //! @include example/core/default.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename Method>
     struct is_default { see documentation };

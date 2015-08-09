@@ -24,14 +24,14 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two sets are equal iff they contain the same elements, regardless of
     //! the order.
-    //! @snippet example/set.cpp Comparable
+    //! @include example/set/Comparable.cpp
     //!
     //! 2. Foldable\n
     //! Folding a `Set` is equivalent to folding the sequence of its values.
     //! However, note that the values are not required to be in any specific
     //! order, so using the folds provided here with an operation that is not
     //! both commutative and associative will yield non-deterministic behavior.
-    //! @snippet example/set.cpp Foldable
+    //! @include example/set/Foldable.cpp
     //!
     //! 3. Searchable\n
     //! The elements in a `Set` act as both its keys and its values. Since the
@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //! either the only element which is equal to the searched value, or
     //! `nothing`. Also note that `operator[]` can be used instead of the
     //! `at_key` function.
-    //! @snippet example/set.cpp Searchable
+    //! @include example/set/Searchable.cpp
     //!
     //!
     //! Conversion from any `Foldable`
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! __Example__
-    //! @snippet example/set.cpp from_Foldable
+    //! @include example/set/convert.cpp
     struct Set { };
 
     //! Function object for creating a `Set`.
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/set.cpp make<Set>
+    //! @include example/set/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<Set> = [](auto&& ...xs) {
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/set.cpp make_set
+    //! @include example/set/make.cpp
     constexpr auto make_set = make<Set>;
 
     //! Insert an element in a `Set`.
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/set.cpp insert
+    //! @include example/set/insert.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert = [](auto&& set, auto&& element) -> decltype(auto) {
         return tag-dispatched;
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/set.cpp erase_key
+    //! @include example/set/erase_key.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto erase_key = [](auto&& set, auto&& element) -> decltype(auto) {
         return tag-dispatched;

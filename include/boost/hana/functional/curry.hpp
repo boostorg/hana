@@ -74,12 +74,11 @@ namespace boost { namespace hana {
     //! is a nullary function; whereas the classical definition for currying
     //! seems to leave this case undefined, as nullary functions don't make
     //! much sense in purely functional languages.
-    //! @snippet example/functional.cpp curry0
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp curry
+    //! @include example/functional/curry.cpp
     //!
     //!
     //! [Wikipedia.currying]: http://en.wikipedia.org/wiki/Currying

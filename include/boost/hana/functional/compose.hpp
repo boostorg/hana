@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //! @endinternal
     //!
     //! ### Example
-    //! @snippet example/functional.cpp compose
+    //! @include example/functional/compose.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto compose = [](auto&& f1, auto&& f2, ..., auto&& fn) {
         return [perfect-capture](auto&& x, auto&& ...xs) -> decltype(auto) {

@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad.cpp monadic_compose
+    //! @include example/monadic_compose.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto monadic_compose = [](auto&& f, auto&& g) {
         return [perfect-capture](auto&& x) -> decltype(auto) {

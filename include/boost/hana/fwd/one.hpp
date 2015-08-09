@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/ring.cpp one
+    //! @include example/one.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename R>
     constexpr auto one = []() -> decltype(auto) {

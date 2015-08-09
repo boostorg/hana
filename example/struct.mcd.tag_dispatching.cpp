@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 //! [main]
@@ -26,8 +26,8 @@ struct Person {
 };
 
 // The keys can be anything as long as they are compile-time comparable.
-constexpr auto name = integral_constant<std::string Person::*, &Person::name>;
-constexpr auto age = string<'a', 'g', 'e'>;
+constexpr auto name = hana::integral_constant<std::string Person::*, &Person::name>;
+constexpr auto age = hana::string<'a', 'g', 'e'>;
 
 namespace boost { namespace hana {
     template <>
@@ -48,20 +48,20 @@ namespace boost { namespace hana {
 
 int main() {
     Person john{"John", 30}, bob{"Bob", 40};
-    BOOST_HANA_RUNTIME_CHECK(equal(john, john));
-    BOOST_HANA_RUNTIME_CHECK(not_equal(john, bob));
+    BOOST_HANA_RUNTIME_CHECK(hana::equal(john, john));
+    BOOST_HANA_RUNTIME_CHECK(hana::not_equal(john, bob));
 
-    BOOST_HANA_RUNTIME_CHECK(find(john, name) == just("John"));
-    BOOST_HANA_RUNTIME_CHECK(find(john, age) == just(30));
-    BOOST_HANA_CONSTANT_CHECK(find(john, BOOST_HANA_STRING("foo")) == nothing);
+    BOOST_HANA_RUNTIME_CHECK(hana::find(john, name) == hana::just("John"));
+    BOOST_HANA_RUNTIME_CHECK(hana::find(john, age) == hana::just(30));
+    BOOST_HANA_CONSTANT_CHECK(hana::find(john, BOOST_HANA_STRING("foo")) == hana::nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(to<Tuple>(john) == make<Tuple>(
-        make<Pair>(name, "John"),
-        make<Pair>(age, 30)
+    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::Tuple>(john) == hana::make_tuple(
+        hana::make_pair(name, "John"),
+        hana::make_pair(age, 30)
     ));
 
-    BOOST_HANA_RUNTIME_CHECK(to<Map>(john) == make<Map>(
-        make<Pair>(name, "John"),
-        make<Pair>(age, 30)
+    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::Map>(john) == hana::make_map(
+        hana::make_pair(name, "John"),
+        hana::make_pair(age, 30)
     ));
 }

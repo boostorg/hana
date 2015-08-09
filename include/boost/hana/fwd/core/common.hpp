@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/common.cpp common
+    //! @include example/core/common/common.cpp
     //!
     //!
     //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/common.cpp has_common
+    //! @include example/core/common/has_common.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, typename U>
     struct has_common { whether common<T, U>::type is well-formed };
@@ -92,7 +92,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/core/common.cpp common_t
+    //! @include example/core/common/common_t.cpp
     template <typename T, typename U>
     using common_t = typename common<T, U>::type;
 }} // end namespace boost::hana

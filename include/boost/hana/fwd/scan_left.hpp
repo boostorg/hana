@@ -80,7 +80,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp scan_left
+    //! @include example/scan_left.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto scan_left = [](auto&& xs[, auto&& state], auto&& f) {
         return tag-dispatched;

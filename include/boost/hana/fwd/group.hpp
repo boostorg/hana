@@ -59,9 +59,6 @@ namespace boost { namespace hana {
     //! equivalence relation as defined by the `Comparable` concept.
     //! When this predicate is not provided, it defaults to `equal`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp group
-    //!
     //!
     //! Syntactic sugar (`group.by`)
     //! ----------------------------
@@ -75,8 +72,10 @@ namespace boost { namespace hana {
     //! where `group(-, predicate)` denotes the partial application of
     //! `group` to `predicate`.
     //!
-    //! ### Example
-    //! @snippet example/sequence.cpp group.by
+    //!
+    //! Example
+    //! -------
+    //! @include example/group.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto group = [](auto&& xs[, auto&& predicate]) {
         return tag-dispatched;

@@ -341,7 +341,7 @@ into a tuple so we can manipulate them:
 template <typename Any>
 auto switch_(Any& a) {
   return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
+    auto cases = hana::make_tuple(cases_...);
     // ...
   };
 }
@@ -358,10 +358,10 @@ like `std::find_if`:
 template <typename Any>
 auto switch_(Any& a) {
   return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
+    auto cases = hana::make_tuple(cases_...);
 
-    auto default_ = find_if(cases, [](auto const& c) {
-      return first(c) == type<default_t>;
+    auto default_ = hana::find_if(cases, [](auto const& c) {
+      return hana::first(c) == hana::type<default_t>;
     });
 
     // ...
@@ -391,12 +391,12 @@ compile-time, of course!
 template <typename Any>
 auto switch_(Any& a) {
   return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
+    auto cases = hana::make_tuple(cases_...);
 
-    auto default_ = find_if(cases, [](auto const& c) {
-      return first(c) == type<default_t>;
+    auto default_ = hana::find_if(cases, [](auto const& c) {
+      return hana::first(c) == hana::type<default_t>;
     });
-    static_assert(default_ != nothing,
+    static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
     // ...
@@ -416,16 +416,16 @@ satisfying the predicate:
 template <typename Any>
 auto switch_(Any& a) {
   return [&a](auto ...cases_) {
-    auto cases = make_tuple(cases_...);
+    auto cases = hana::make_tuple(cases_...);
 
-    auto default_ = find_if(cases, [](auto const& c) {
-      return first(c) == type<default_t>;
+    auto default_ = hana::find_if(cases, [](auto const& c) {
+      return hana::first(c) == hana::type<default_t>;
     });
-    static_assert(default_ != nothing,
+    static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
-    auto rest = filter(cases, [](auto const& c) {
-      return first(c) != type<default_t>;
+    auto rest = hana::filter(cases, [](auto const& c) {
+      return hana::first(c) != hana::type<default_t>;
     });
 
     // ...
@@ -489,7 +489,7 @@ description of what each of them does.
 @subsection tutorial-quickstart-cheatsheet Cheatsheet
 
 ### Remarks
-- Algorithms work on both types and values (see the section on
+- Most algorithms work on both types and values (see the section on
   [type computations](@ref tutorial-type))
 - Algorithms always return their result as a new container; no in-place
   mutation is ever performed (see the section on [algorithms]
@@ -505,9 +505,10 @@ container          | description
 <code>[Set](@ref boost::hana::Set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[Pair](@ref boost::hana::Pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but interacts better with Hana.
-<code>[String](@ref boost::hana::String)</code>                     | Container able to represent strings at compile-time.
+<code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
 <code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[IntegralConstant](@ref boost::hana::IntegralConstant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
+<code>[Lazy](@ref boost::hana::Lazy)</code>                         | Encapsulates a lazy value or computation.
 
 
 function                                                                            | description
@@ -739,9 +740,9 @@ type-level approach, aren't we? But there's more; we can also use
 [C++14 user defined literals][C++14.udl] to make this process even simpler:
 
 @code{cpp}
-template <char ...c>
+template <char ...digits>
 constexpr auto operator"" _c() {
-  // parse the characters and return an integral_constant
+  // parse the digits and return an integral_constant
 }
 
 auto three = 1_c + 3_c;
@@ -759,7 +760,7 @@ part of the `boost::hana::literals` namespace, and you should import it
 into your namespace before using it:
 
 @code{cpp}
-using namespace boost::hana::literals;
+using namespace hana::literals;
 
 auto three = 1_c + 3_c;
 @endcode
@@ -813,7 +814,7 @@ for loop unrolling:
 __attribute__((noinline)) void f() { }
 
 int main() {
-    int_<10>.times(f);
+    hana::int_<10>.times(f);
 }
 @endcode
 
@@ -830,7 +831,7 @@ with `std::get`, Hana's `Tuple` can be accessed using the familiar `operator[]`
 used for standard library containers:
 
 @code{cpp}
-auto values = make_tuple(1, 'x', 3.4f);
+auto values = hana::make_tuple(1, 'x', 3.4f);
 char x = values[1_c];
 @endcode
 
@@ -909,11 +910,11 @@ constexpr _type<T*> add_pointer(_type<T> const&)
 
 template <typename T>
 constexpr auto is_pointer(_type<T> const&)
-{ return false_; }
+{ return hana::false_; }
 
 template <typename T>
 constexpr auto is_pointer(_type<T*> const&)
-{ return true_; }
+{ return hana::true_; }
 @endcode
 
 We've just written metafunctions that look like functions, just like we wrote
@@ -942,10 +943,10 @@ BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
 @endcode
 
 @note
-This is not exactly how the `type` variable template is implemented in Hana
+This is not exactly how the `hana::type` variable template is implemented
 because of some subtleties; things were dumbed down here for the sake of the
 explanation. Please check the reference for `Type` to know exactly what you
-can expect from a `type<...>`.
+can expect from a `hana::type<...>`.
 
 
 @subsection tutorial-type-benefits Benefits of this representation
@@ -1017,7 +1018,7 @@ representation. For example, how could we declare a variable whose type is the
 result of a type computation?
 
 @code{cpp}
-auto t = add_pointer(type<int>); // could be a complex type computation
+auto t = add_pointer(hana::type<int>); // could be a complex type computation
 using T = the-type-represented-by-t;
 
 T var = ...;
@@ -1041,15 +1042,15 @@ This way, we can use `decltype` to easily access the actual C++ type
 represented by a `type<...>` object:
 
 @code{cpp}
-auto t = add_pointer(type<int>);
-using T = decltype(t)::type; // fetches _type<T>::type
+auto t = add_pointer(hana::type<int>);
+using T = decltype(t)::type; // fetches hana::_type<T>::type
 
 T var = ...;
 @endcode
 
 In general, doing type-level metaprogramming with Hana is a three step process:
 
-1. Represent types as objects by wrapping them with `type<...>`
+1. Represent types as objects by wrapping them with `hana::type<...>`
 2. Perform type transformations with value syntax
 3. Unwrap the result with `decltype(...)::%type`
 
@@ -1058,7 +1059,7 @@ is very manageable for several reasons. First, this wrapping and unwrapping
 only needs to happen at some very thin boundaries.
 
 @code{cpp}
-auto t = type<T>;
+auto t = hana::type<T>;
 auto result = huge_type_computation(t);
 using Result = decltype(result)::type;
 @endcode
@@ -1077,7 +1078,7 @@ sometimes one just needs to do a type-level computation and query something
 about the result, without necessarily fetching the result as a normal C++ type:
 
 @code{cpp}
-auto t = type<T>;
+auto t = hana::type<T>;
 auto result = type_computation(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(result)); // third step skipped
 @endcode
@@ -1113,8 +1114,8 @@ looked like:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(_type<T> const&) {
-  return type<T*>;
+constexpr auto add_pointer(hana::_type<T> const&) {
+  return hana::type<T*>;
 }
 @endcode
 
@@ -1122,8 +1123,8 @@ While it looks more complicated, we could also write it as:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(_type<T> const&) {
-  return type<typename std::add_pointer<T>::type>;
+constexpr auto add_pointer(hana::_type<T> const&) {
+  return hana::type<typename std::add_pointer<T>::type>;
 }
 @endcode
 
@@ -1136,16 +1137,16 @@ write almost the same thing:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_const(_type<T> const&)
-{ return type<typename std::add_const<T>::type>; }
+constexpr auto add_const(hana::_type<T> const&)
+{ return hana::type<typename std::add_const<T>::type>; }
 
 template <typename T>
-constexpr auto add_volatile(_type<T> const&)
-{ return type<typename std::add_volatile<T>::type>; }
+constexpr auto add_volatile(hana::_type<T> const&)
+{ return hana::type<typename std::add_volatile<T>::type>; }
 
 template <typename T>
-constexpr auto add_lvalue_reference(_type<T> const&)
-{ return type<typename std::add_lvalue_reference<T>::type>; }
+constexpr auto add_lvalue_reference(hana::_type<T> const&)
+{ return hana::type<typename std::add_lvalue_reference<T>::type>; }
 
 // etc...
 @endcode
@@ -1160,22 +1161,22 @@ arguments, which brings us to the following less naive implementation:
 
 @snippet example/tutorial/type.cpp metafunction2
 
-Hana provides a similar generic metafunction lifter called `metafunction`.
-One small improvement is that Hana's `metafunction<F>` is a function object
+Hana provides a similar generic metafunction lifter called `hana::metafunction`.
+One small improvement is that `hana::metafunction<F>` is a function object
 instead of an overloaded function, so one can pass it to higher-order
 algorithms. The process we explored in this section does not only apply
 to metafunctions; it also applies to templates. Indeed, we could define:
 
 @snippet example/tutorial/type.cpp template_
 
-Hana provides a generic lifter for templates named `template_`, and it also
-provides a generic lifter for MPL metafunction classes named `metafunction_class`.
-This gives us a way to uniformly represent "legacy" type-level computations as
-functions, so that any code written using a classic type-level metaprogramming
-library can almost trivially be used with Hana. For example, say you have a
-large chunk of MPL-based code and you'd like to interface with Hana. The
-process of doing so is no harder than wrapping your metafunctions with the
-lifter provided by Hana:
+Hana provides a generic lifter for templates named `hana::template_`, and it
+also provides a generic lifter for MPL metafunction classes named
+`hana::metafunction_class`. This gives us a way to uniformly represent "legacy"
+type-level computations as functions, so that any code written using a classic
+type-level metaprogramming library can almost trivially be used with Hana. For
+example, say you have a large chunk of MPL-based code and you'd like to
+interface with Hana. The process of doing so is no harder than wrapping your
+metafunctions with the lifter provided by Hana:
 
 @code{cpp}
 template <typename T>
@@ -1183,14 +1184,14 @@ struct legacy {
   using type = ...; // something you really don't want to mess with
 };
 
-auto types = make_tuple(...);
-auto use = transform(types, metafunction<legacy>);
+auto types = hana::make_tuple(...);
+auto use = hana::transform(types, hana::metafunction<legacy>);
 @endcode
 
 Finally, since metafunctions provided by the `<type_traits>` header are used
 so frequently, Hana provides a lifted version for every one of them. Those
-lifted traits are in the `boost::hana::traits` namespace, and they live in
-the `<boost/hana/ext/std/type_traits.hpp>` header:
+lifted traits are in the `hana::traits` namespace, and they live in the
+`<boost/hana/ext/std/type_traits.hpp>` header:
 
 @snippet example/tutorial/type.cpp traits
 
@@ -1404,11 +1405,12 @@ alternate implementation can be better suited:
 This validity checker is different from what we saw earlier because the
 generic lambda is not expecting an usual object anymore; it is now expecting
 a `Type` (which is an object, but still represents a type). We then use the
-`traits::declval` lifted metafunction from the `<boost/hana/ext/std/utility.hpp>`
-header to create an rvalue of the type represented by `t`, which we can then
-use to check for a non-static member. Finally, instead of passing an actual
-object to `has_member` (like `Foo{}` or `Bar{}`), we now pass a `type<...>`.
-This implementation is ideal for when no object is lying around.
+`hana::traits::declval` lifted metafunction from the
+`<boost/hana/ext/std/utility.hpp>` header to create an rvalue of the type
+represented by `t`, which we can then use to check for a non-static member.
+Finally, instead of passing an actual object to `has_member` (like `Foo{}`
+or `Bar{}`), we now pass a `type<...>`. This implementation is ideal for
+when no object is lying around.
 
 
 @subsubsection tutorial-introspection-is_valid-static Static members
@@ -1815,7 +1817,7 @@ For example, calling the `permutations` algorithm on a large sequence is
 a stupid idea, because Hana will actually compute all the permutations:
 
 @code{cpp}
-    auto perms = permutations(make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    auto perms = hana::permutations(hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     // perms has 3 628 800 elements, and your compiler just crashed
 @endcode
 
@@ -1839,8 +1841,8 @@ sequence are known at compile-time, it makes sense that we can unroll the
 loop over the sequence. For example, let's consider the `for_each` algorithm:
 
 @code{cpp}
-auto xs = make_tuple(0, 1, 2, 3);
-for_each(xs, f);
+auto xs = hana::make_tuple(0, 1, 2, 3);
+hana::for_each(xs, f);
 @endcode
 
 If `xs` was a runtime sequence instead of a tuple, its length would only be
@@ -1910,10 +1912,10 @@ According to the previous section on unrolling, this algorithm should be
 expanded into something like:
 
 @code{cpp}
-auto xs = make_tuple("hello"s, 1.2, 3);
+auto xs = hana::make_tuple("hello"s, 1.2, 3);
 auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
 
-auto r = bool_<
+auto r = hana::bool_<
   pred(xs[0_c]) ? true :
   pred(xs[1_c]) ? true :
   pred(xs[2_c]) ? true :
@@ -1943,7 +1945,7 @@ a particular object is used. Regarding the order of evaluation, consider the
 `transform` algorithm, which is specified (for `Tuple`s) as:
 
 @code{cpp}
-transform(make_tuple(x1, ..., xn), f) == make_tuple(f(x1), ..., f(xn))
+hana::transform(hana::make_tuple(x1, ..., xn), f) == hana::make_tuple(f(x1), ..., f(xn))
 @endcode
 
 Since `make_tuple` is a function, and since the evaluation order for the
@@ -2054,9 +2056,9 @@ sequence. For example, consider what happens when we try to filter a
 heterogeneous sequence as follows:
 
 @code{cpp}
-auto animals = make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
+auto animals = hana::make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
 
-auto no_garfield = filter(animals, [](auto animal) {
+auto no_garfield = hana::filter(animals, [](auto animal) {
   return animal.name != "Garfield"s;
 });
 @endcode
@@ -2409,10 +2411,10 @@ generally, the question is: when an algorithm is passed a temporary object,
 does it seize the opportunity to avoid unnecessary copies? Consider:
 
 @code{cpp}
-auto xs = make_tuple("some"s, "huge"s, "string"s);
+auto xs = hana::make_tuple("some"s, "huge"s, "string"s);
 
 // No copy of xs's elements should be made: they should only be moved around.
-auto ys = reverse(std::move(xs));
+auto ys = hana::reverse(std::move(xs));
 @endcode
 
 To answer this question, we'll look at the chart generated when benchmarking

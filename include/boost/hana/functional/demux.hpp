@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //! ---------
     //! The signature of `demux` is
     //! \f[
-    //!     \mathrm{demux} :
+    //!     \mathtt{demux} :
     //!         (B_1 \times \dotsb \times B_n \to C)
     //!             \to ((A_1 \times \dotsb \times A_n \to B_1)
     //!                 \times \dotsb
@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     //!
     //! This can be rewritten more tersely as
     //! \f[
-    //!     \mathrm{demux} :
+    //!     \mathtt{demux} :
     //!         \left(\prod_{i=1}^n B_i \to C \right)
     //!         \to \prod_{j=1}^n \left(\prod_{i=1}^n A_i \to B_j \right)
     //!         \to \left(\prod_{i=1}^n A_i \to C \right)
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     //! ----------------------------
     //! The signature of `compose` is
     //! \f[
-    //!     \mathrm{compose} : (B \to C) \times (A \to B) \to (A \to C)
+    //!     \mathtt{compose} : (B \to C) \times (A \to B) \to (A \to C)
     //! \f]
     //!
     //! A valid observation is that this coincides exactly with the type
@@ -84,7 +84,7 @@ namespace boost { namespace hana {
     //! However, let's now consider the curried version of `compose`,
     //! `curry<2>(compose)`:
     //! \f[
-    //!     \mathrm{curry_2(compose)} : (B \to C) \to ((A \to B) \to (A \to C))
+    //!     \mathtt{curry_2(compose)} : (B \to C) \to ((A \to B) \to (A \to C))
     //! \f]
     //!
     //! For the rest of this explanation, we'll just consider the curried
@@ -92,13 +92,13 @@ namespace boost { namespace hana {
     //! `curry<2>(compose)` to lighten the notation. With currying, we can
     //! now consider `compose` applied to itself:
     //! \f[
-    //!     \mathrm{compose(compose, compose)} :
+    //!     \mathtt{compose(compose, compose)} :
     //!         (B \to C) \to (A_1 \to A_2 \to B) \to (A_1 \to A_2 \to C)
     //! \f]
     //!
     //! If we uncurry deeply the above expression, we obtain
     //! \f[
-    //!     \mathrm{compose(compose, compose)} :
+    //!     \mathtt{compose(compose, compose)} :
     //!         (B \to C) \times (A_1 \times A_2 \to B) \to (A_1 \times A_2 \to C)
     //! \f]
     //!
@@ -107,14 +107,14 @@ namespace boost { namespace hana {
     //! We can also generalize this further by considering
     //! `compose(compose(compose, compose), compose)`:
     //! \f[
-    //!     \mathrm{compose(compose(compose, compose), compose)} :
+    //!     \mathtt{compose(compose(compose, compose), compose)} :
     //!         (B \to C) \to (A_1 \to A_2 \to A_3 \to B)
     //!             \to (A_1 \to A_2 \to A_3 \to C)
     //! \f]
     //!
     //! which uncurries to
     //! \f[
-    //!     \mathrm{compose(compose(compose, compose), compose)} :
+    //!     \mathtt{compose(compose(compose, compose), compose)} :
     //!         (B \to C) \times (A_1 \times A_2 \times A_3 \to B)
     //!             \to (A_1 \times A_2 \times A_3 \to C)
     //! \f]
@@ -154,7 +154,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/functional.cpp demux
+    //! @include example/functional/demux.cpp
     //!
     //! [1]: http://stackoverflow.com/q/5821089/627587
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

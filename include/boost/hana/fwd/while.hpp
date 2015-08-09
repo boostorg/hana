@@ -47,13 +47,9 @@ namespace boost { namespace hana {
     //! but only if `pred(f(stateN))` returns a compile-time `Logical`.
     //!
     //!
-    //! Example (purely compile-time condition)
-    //! ---------------------------------------
-    //! @snippet example/logical.cpp while.heterogeneous
-    //!
-    //! Example (runtime or `constexpr` condition)
-    //! ------------------------------------------
-    //! @snippet example/logical.cpp while.homogeneous
+    //! Example
+    //! -------
+    //! @include example/while.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto while_ = [](auto&& pred, auto&& state, auto&& f) -> decltype(auto) {
         return tag-dispatched;

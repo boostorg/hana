@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/orderable.cpp min
+    //! @include example/min.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto min = [](auto&& x, auto&& y) -> decltype(auto) {
         return tag-dispatched;

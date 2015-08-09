@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! For a monad `M`, given a monadic value of type `M(A)` and a monadic
     //! function @f$ f : A \to M(B) @f$, `chain` has the signature
     //! @f$
-    //!     \mathrm{chain} : M(A) \times (A \to M(B)) \to M(B)
+    //!     \mathtt{chain} : M(A) \times (A \to M(B)) \to M(B)
     //! @f$.
     //!
     //! @param xs
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/monad.chain.cpp chain
+    //! @include example/chain.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto chain = [](auto&& xs, auto&& f) -> decltype(auto) {
         return tag-dispatched;

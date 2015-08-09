@@ -41,7 +41,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp slice
+    //! @include example/slice.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto slice = [](auto&& xs, auto&& from, auto&& to) {
         return tag-dispatched;
@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp slice_c
+    //! @include example/slice_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t from, std::size_t to>
     constexpr auto slice_c = [](auto&& xs) {

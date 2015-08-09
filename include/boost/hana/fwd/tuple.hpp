@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/tuple.cpp make<Tuple>
+    //! @include example/tuple/make.cpp
     template <>
     constexpr auto make<Tuple> = [](auto&& ...xs)
         -> tuple<std::decay_t<decltype(xs)>...>
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/tuple.cpp tuple_t
+    //! @include example/tuple/tuple_t.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...T>
     constexpr unspecified-type tuple_t{};
@@ -115,7 +115,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/tuple.cpp tuple_c
+    //! @include example/tuple/tuple_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T ...v>
     constexpr unspecified-type tuple_c{};

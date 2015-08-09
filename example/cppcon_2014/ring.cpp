@@ -8,7 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix/comparable.hpp"
 #include "matrix/ring.hpp"
-using namespace boost::hana;
+namespace hana = boost::hana;
 using namespace cppcon;
 
 
@@ -26,8 +26,8 @@ int main() {
             row(5, 6)
         );
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            mult(a, b),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::mult(a, b),
             matrix(
                 row(1*1 + 2*3 + 5*3, 1*2 + 2*4 + 3*6),
                 row(4*1 + 3*5 + 5*6, 4*2 + 5*4 + 6*6)
@@ -37,23 +37,23 @@ int main() {
 
     // one
     {
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<1, 1>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<1, 1>>(),
             matrix(
                 row(1)
             )
         ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<2, 2>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<2, 2>>(),
             matrix(
                 row(1, 0),
                 row(0, 1)
             )
         ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<3, 3>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<3, 3>>(),
             matrix(
                 row(1, 0, 0),
                 row(0, 1, 0),
@@ -61,8 +61,8 @@ int main() {
             )
         ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<4, 4>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<4, 4>>(),
             matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),
@@ -71,8 +71,8 @@ int main() {
             )
         ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<4, 5>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<4, 5>>(),
             matrix(
                 row(1, 0, 0, 0, 0),
                 row(0, 1, 0, 0, 0),
@@ -81,8 +81,8 @@ int main() {
             )
         ));
 
-        BOOST_HANA_CONSTEXPR_CHECK(equal(
-            one<Matrix<5, 4>>(),
+        BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+            hana::one<Matrix<5, 4>>(),
             matrix(
                 row(1, 0, 0, 0),
                 row(0, 1, 0, 0),

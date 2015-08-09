@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp zip_shortest
+    //! @include example/zip_shortest.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto zip_shortest = [](auto&& x1, ..., auto&& xn) {
         return tag-dispatched;

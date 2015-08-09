@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp subsequence
+    //! @include example/subsequence.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto subsequence = [](auto&& xs, auto&& indices) {
         return tag-dispatched;

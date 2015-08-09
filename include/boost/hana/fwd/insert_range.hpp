@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/sequence.cpp insert_range
+    //! @include example/insert_range.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto insert_range = [](auto&& xs, auto&& n, auto&& elements) {
         return tag-dispatched;

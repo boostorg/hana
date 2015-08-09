@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //! ---------
     //! Given a Logical `Bool` and two Comparables `A` and `B` that
     //! share a common embedding, the signature is
-    //! @f$ \mathrm{equal} : A \times B \to Bool @f$.
+    //! @f$ \mathtt{equal} : A \times B \to Bool @f$.
     //!
     //! @param x, y
     //! Two objects to compare for equality.
@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @snippet example/comparable.cpp equal
+    //! @include example/equal.cpp
     //!
     //!
     //! > #### Rationale for the arity of `equal`
