@@ -34,6 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/contains.hpp>
 #include <boost/hana/find.hpp>
 #include <boost/hana/find_if.hpp>
+#include <boost/hana/is_disjoint.hpp>
 #include <boost/hana/is_subset.hpp>
 #include <boost/hana/none.hpp>
 #include <boost/hana/none_of.hpp>

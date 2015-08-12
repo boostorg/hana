@@ -70,26 +70,31 @@ namespace boost { namespace hana { namespace test {
                     );
 
                     BOOST_HANA_CHECK(
-                        hana::all(xs) ^iff^ hana::all_of(xs, id)
+                        hana::all(xs) ^iff^ hana::all_of(xs, hana::id)
                     );
 
                     BOOST_HANA_CHECK(
-                        hana::none(xs) ^iff^ hana::none_of(xs, id)
+                        hana::none(xs) ^iff^ hana::none_of(xs, hana::id)
                     );
                 })(xs));
 
-
                 // find_if(xs, always(false_)) == nothing
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::find_if(xs, hana::always(false_)),
-                    nothing
+                    hana::find_if(xs, hana::always(hana::false_)),
+                    hana::nothing
                 ));
 
                 hana::for_each(searchables, hana::capture(xs)([](auto xs, auto ys) {
                     // is_subset(xs, ys) <=> all_of(xs, [](auto x) { return contains(ys, x); })
                     BOOST_HANA_CHECK(
                         hana::is_subset(xs, ys) ^iff^
-                            hana::all_of(xs, hana::partial(contains, ys))
+                            hana::all_of(xs, hana::partial(hana::contains, ys))
+                    );
+
+                    // is_disjoint(xs, ys) <=> none_of(xs, [](auto x) { return contains(ys, x); })
+                    BOOST_HANA_CHECK(
+                        hana::is_disjoint(xs, ys) ^iff^
+                            hana::none_of(xs, hana::partial(hana::contains, ys))
                     );
                 }));
 
@@ -97,13 +102,13 @@ namespace boost { namespace hana { namespace test {
                     // find(xs, x) == find_if(xs, [](auto y) { return y == x; })
                     BOOST_HANA_CHECK(hana::equal(
                         hana::find(xs, key),
-                        hana::find_if(xs, equal.to(key))
+                        hana::find_if(xs, hana::equal.to(key))
                     ));
 
                     // contains(xs, x) <=> any_of(xs, [](auto y) { return y == x; })
                     BOOST_HANA_CHECK(
                         hana::contains(xs, key) ^iff^
-                        hana::any_of(xs, equal.to(key))
+                        hana::any_of(xs, hana::equal.to(key))
                     );
 
                     only_when_(hana::contains(xs, key),
@@ -121,7 +126,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestSearchable<S, when<_models<Sequence, S>{}()>>
+    struct TestSearchable<S, when<_models<Sequence, S>::value>>
         : TestSearchable<S, laws>
     {
         template <int i>
@@ -522,6 +527,60 @@ namespace boost { namespace hana { namespace test {
                 BOOST_HANA_CONSTANT_CHECK(
                     list(x<0>{}, x<1>{}) ^is_subset^ list(x<1>{}, x<0>{})
                 );
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // is_disjoint
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(),
+                    list(undefined{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(undefined{}),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(x<0>{}),
+                    list(x<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(x<1>{}),
+                    list(x<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_disjoint(
+                    list(x<0>{}),
+                    list(x<0>{})
+                )));
+
+
+                BOOST_HANA_CONSTANT_CHECK(not_(is_disjoint(
+                    list(x<0>{}, x<1>{}),
+                    list(x<0>{})
+                )));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_disjoint(
+                    list(x<0>{}),
+                    list(x<0>{}, x<1>{})
+                )));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_disjoint(
+                    list(x<1>{}, x<0>{}),
+                    list(x<0>{}, x<1>{})
+                )));
+                BOOST_HANA_CONSTANT_CHECK(not_(is_disjoint(
+                    list(x<0>{}, x<1>{}),
+                    list(x<1>{}, x<2>{})
+                )));
+                BOOST_HANA_CONSTANT_CHECK(is_disjoint(
+                    list(x<0>{}, x<1>{}),
+                    list(x<2>{}, x<3>{})
+                ));
             }
         }
     };

@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/contains.hpp>
 #include <boost/hana/fwd/find.hpp>
 #include <boost/hana/fwd/find_if.hpp>
+#include <boost/hana/fwd/is_disjoint.hpp>
 #include <boost/hana/fwd/is_subset.hpp>
 #include <boost/hana/fwd/none.hpp>
 #include <boost/hana/fwd/none_of.hpp>
@@ -91,6 +92,7 @@ namespace boost { namespace hana {
     //!     find_if(xs, always(false_)) == nothing
     //!
     //!     is_subset(xs, ys) <=> all_of(xs, [](auto x) { return contains(ys, x); })
+    //!     is_disjoint(xs, ys) <=> none_of(xs, [](auto x) { return contains(ys, x); })
     //! @endcode
     //!
     //! Additionally, if all the keys of the `Searchable` are `Logical`s,
