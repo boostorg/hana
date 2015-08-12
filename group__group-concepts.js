@@ -128,6 +128,7 @@ var group__group_concepts =
       [ "in", "structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074", null ],
       [ "find", "structboost_1_1hana_1_1Searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66", null ],
       [ "find_if", "structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220", null ],
+      [ "is_disjoint", "structboost_1_1hana_1_1Searchable.html#a8d02fba3a74d476e179b4d9d8be6b6bb", null ],
       [ "is_subset", "structboost_1_1hana_1_1Searchable.html#a386ac8af7123ea1e8ea1fa2bbd4cbf3d", null ],
       [ "none", "structboost_1_1hana_1_1Searchable.html#a9365b793fe547271e48fa719a7f4854d", null ],
       [ "none_of", "structboost_1_1hana_1_1Searchable.html#abf1dbf83a1d98c62994e207ea18eea8a", null ]

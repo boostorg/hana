@@ -12,6 +12,7 @@ var searchData=
   ['intersperse',['intersperse',['../structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec',1,'boost::hana::Sequence']]],
   ['is_5fa',['is_a',['../group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9',1,'boost::hana']]],
   ['is_5fan',['is_an',['../group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9',1,'boost::hana']]],
+  ['is_5fdisjoint',['is_disjoint',['../structboost_1_1hana_1_1Searchable.html#a8d02fba3a74d476e179b4d9d8be6b6bb',1,'boost::hana::Searchable']]],
   ['is_5fempty',['is_empty',['../structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a',1,'boost::hana::Iterable']]],
   ['is_5fjust',['is_just',['../structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7',1,'boost::hana::Optional']]],
   ['is_5fnothing',['is_nothing',['../structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f',1,'boost::hana::Optional']]],

@@ -158,6 +158,7 @@ In a lazy evaluation context, any <code><a class="el" href="structboost_1_1hana_
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(xs, <a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(false_)) == nothing</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#a386ac8af7123ea1e8ea1fa2bbd4cbf3d">is_subset</a>(xs, ys) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1Searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, [](auto x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Searchable.html#a1b4a67c4fd522de62b101ed99bb423e3">contains</a>(ys, x); })</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#a8d02fba3a74d476e179b4d9d8be6b6bb">is_disjoint</a>(xs, ys) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1Searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">none_of</a>(xs, [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Searchable.html#a1b4a67c4fd522de62b101ed99bb423e3">contains</a>(ys, x); })</div>
 </div><!-- fragment --><p>Additionally, if all the keys of the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> are <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>s, the following laws should be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#a67dd29f7921b76f7d2bd372605f73f7c">any</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(xs, <span class="keywordtype">id</span>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">all</a>(xs)  &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1Searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(xs, <span class="keywordtype">id</span>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Searchable.html#a9365b793fe547271e48fa719a7f4854d">none</a>(xs) &lt;=&gt; <a class="code" href="structboost_1_1hana_1_1Searchable.html#abf1dbf83a1d98c62994e207ea18eea8a">none_of</a>(xs, <span class="keywordtype">id</span>)</div>
@@ -201,6 +202,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ade889e960898a96ac6502c9301827220"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a></td></tr>
 <tr class="memdesc:ade889e960898a96ac6502c9301827220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the value associated to the first key satisfying a predicate.  <a href="#ade889e960898a96ac6502c9301827220">More...</a><br /></td></tr>
 <tr class="separator:ade889e960898a96ac6502c9301827220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d02fba3a74d476e179b4d9d8be6b6bb"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Searchable.html#a8d02fba3a74d476e179b4d9d8be6b6bb">is_disjoint</a></td></tr>
+<tr class="memdesc:a8d02fba3a74d476e179b4d9d8be6b6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether two <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s are disjoint.  <a href="#a8d02fba3a74d476e179b4d9d8be6b6bb">More...</a><br /></td></tr>
+<tr class="separator:a8d02fba3a74d476e179b4d9d8be6b6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a386ac8af7123ea1e8ea1fa2bbd4cbf3d"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Searchable.html#a386ac8af7123ea1e8ea1fa2bbd4cbf3d">is_subset</a></td></tr>
 <tr class="memdesc:a386ac8af7123ea1e8ea1fa2bbd4cbf3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a structure contains a subset of the keys of another structure.  <a href="#a386ac8af7123ea1e8ea1fa2bbd4cbf3d">More...</a><br /></td></tr>
 <tr class="separator:a386ac8af7123ea1e8ea1fa2bbd4cbf3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -573,6 +577,85 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">);</div>
 </div><!-- fragment --> <h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.find_if.compile.json"> </div> 
+</div>
+</div>
+<a class="anchor" id="a8d02fba3a74d476e179b4d9d8be6b6bb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto is_disjoint</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; xs, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; ys) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns whether two <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s are disjoint. </p>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s <code>xs</code> and <code>ys</code>, <code>is_disjoint</code> returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether the keys in <code>xs</code> are disjoint from the keys in <code>ys</code>, i.e. whether both structures have no keys in common.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs,ys</td><td>Two <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s to test for disjointness.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="is__disjoint_8hpp.html">boost/hana/is_disjoint.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="comment">// Tuples</span></div>
+<div class="line">    <span class="keyword">auto</span> xs = hana::make_tuple(hana::int_&lt;1&gt;, <span class="stringliteral">&quot;alfa&quot;</span>s, hana::type&lt;int&gt;);</div>
+<div class="line">    <span class="keyword">auto</span> ys = hana::make_tuple(hana::type&lt;void&gt;, hana::int_&lt;3&gt;, <span class="stringliteral">&quot;bravo&quot;</span>s);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::is_disjoint(xs, ys));</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// Sets</span></div>
+<div class="line">    <span class="keyword">auto</span> s1 = hana::make_set(hana::int_&lt;1&gt;, hana::type&lt;void&gt;, hana::int_&lt;2&gt;);</div>
+<div class="line">    <span class="keyword">auto</span> s2 = hana::make_set(hana::type&lt;char&gt;, hana::type&lt;int&gt;, hana::int_&lt;1&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_disjoint(s1, s2));</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// Maps</span></div>
+<div class="line">    <span class="keyword">auto</span> vowels = hana::make_map(</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;alfa&quot;</span>s),</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;e&#39;&gt;, <span class="stringliteral">&quot;echo&quot;</span>s),</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;i&#39;&gt;, <span class="stringliteral">&quot;india&quot;</span>s)</div>
+<div class="line">        <span class="comment">// ...</span></div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> consonants = hana::make_map(</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;b&#39;&gt;, <span class="stringliteral">&quot;bravo&quot;</span>s),</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;c&#39;&gt;, <span class="stringliteral">&quot;charlie&quot;</span>s),</div>
+<div class="line">        hana::make_pair(hana::char_&lt;&#39;f&#39;&gt;, <span class="stringliteral">&quot;foxtrot&quot;</span>s)</div>
+<div class="line">        <span class="comment">// ...</span></div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_disjoint(vowels, consonants));</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.is_disjoint.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="a386ac8af7123ea1e8ea1fa2bbd4cbf3d"></a>
