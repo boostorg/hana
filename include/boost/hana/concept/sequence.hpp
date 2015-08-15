@@ -106,64 +106,19 @@ namespace boost { namespace hana {
                 );
             }
         };
-
-        template <typename T, typename U,
-            bool = hana::_models<hana::Foldable, T>::value &&
-                   hana::_models<hana::Foldable, U>::value>
-        struct sequence_compare;
-
-        template <typename T, typename U>
-        struct sequence_compare<T, U, true> {
-            template <typename Xs, typename Ys>
-            static constexpr auto apply(Xs const& xs, Ys const& ys) {
-                constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
-                constexpr std::size_t ys_size = hana::value<decltype(hana::length(ys))>();
-                detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
-                return comp.template apply<0>(hana::bool_<xs_size == 0>,
-                                              hana::bool_<xs_size == ys_size>);
-            }
-        };
-
-        template <typename T, typename U>
-        struct sequence_compare<T, U, false> {
-            template <typename Xs, typename Ys>
-            static constexpr decltype(auto)
-            equal_helper(Xs const& xs, Ys const& ys, decltype(true_)) {
-                return hana::and_(hana::is_empty(xs), hana::is_empty(ys));
-            }
-
-            template <typename Xs, typename Ys>
-            static constexpr decltype(auto)
-            equal_helper(Xs const& xs, Ys const& ys, decltype(false_)) {
-                return hana::and_(
-                    hana::equal(hana::front(xs), hana::front(ys)),
-                    sequence_compare::apply(hana::tail(xs), hana::tail(ys))
-                );
-            }
-
-            template <typename Xs, typename Ys>
-            static constexpr decltype(auto)
-            equal_helper(Xs const& xs, Ys const& ys, bool cond) {
-                return cond
-                    ? hana::and_(hana::is_empty(xs), hana::is_empty(ys))
-                    : hana::and_(
-                        hana::equal(hana::front(xs), hana::front(ys)),
-                        sequence_compare::apply(hana::tail(xs), hana::tail(ys))
-                      );
-            }
-
-            template <typename Xs, typename Ys>
-            static constexpr decltype(auto) apply(Xs const& xs, Ys const& ys) {
-                auto done = hana::or_(hana::is_empty(xs), hana::is_empty(ys));
-                return equal_helper(xs, ys, hana::if_(done, true_, false_));
-            }
-        };
     }
 
     template <typename T, typename U>
-    struct Sequence::equal_impl
-        : detail::sequence_compare<T, U>
-    { };
+    struct Sequence::equal_impl {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs const& xs, Ys const& ys) {
+            constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t ys_size = hana::value<decltype(hana::length(ys))>();
+            detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
+            return comp.template apply<0>(hana::bool_<xs_size == 0>,
+                                          hana::bool_<xs_size == ys_size>);
+        }
+    };
 
     template <typename T, typename U>
     struct equal_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>>
