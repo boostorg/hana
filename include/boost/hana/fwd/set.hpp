@@ -24,14 +24,14 @@ namespace boost { namespace hana {
     //! 1. `Comparable`\n
     //! Two sets are equal iff they contain the same elements, regardless of
     //! the order.
-    //! @include example/set/Comparable.cpp
+    //! @include example/set/comparable.cpp
     //!
     //! 2. Foldable\n
     //! Folding a `Set` is equivalent to folding the sequence of its values.
     //! However, note that the values are not required to be in any specific
     //! order, so using the folds provided here with an operation that is not
     //! both commutative and associative will yield non-deterministic behavior.
-    //! @include example/set/Foldable.cpp
+    //! @include example/set/foldable.cpp
     //!
     //! 3. Searchable\n
     //! The elements in a `Set` act as both its keys and its values. Since the
@@ -39,7 +39,7 @@ namespace boost { namespace hana {
     //! either the only element which is equal to the searched value, or
     //! `nothing`. Also note that `operator[]` can be used instead of the
     //! `at_key` function.
-    //! @include example/set/Searchable.cpp
+    //! @include example/set/searchable.cpp
     //!
     //!
     //! Conversion from any `Foldable`

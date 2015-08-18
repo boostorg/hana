@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     //! 2. `Orderable`\n
     //! The total order implemented for `Orderable` is the usual
     //! lexicographical comparison of strings.
-    //! @include example/string/Orderable.cpp
+    //! @include example/string/orderable.cpp
     //!
     //! 3. `Foldable`\n
     //! Folding a `String` is equivalent to folding the sequence of its
