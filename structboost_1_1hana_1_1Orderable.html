@@ -191,10 +191,8 @@ Since <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="Th
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(x)(y)    == <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(y, x)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>.than(x)(y) == <a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(y, x)</div>
-</div><!-- fragment --><p>Take good note that the order of the arguments is reversed, so for example <code>less.than(x)(y)</code> is equivalent to <code>less(y, x)</code>, not <code>less(x, y)</code>. This is because those variants are meant to be used with higher order algorithms, where the chosen application order makes sense: </p><div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(all_of(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>.than(5)));</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(tuple_c&lt;int, 1, 2, 3, 4&gt;, <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(int_&lt;4&gt;)));</div>
-</div><!-- fragment --></div><table class="memberdecls">
+</div><!-- fragment --><p>Take good note that the order of the arguments is reversed, so for example <code>less.than(x)(y)</code> is equivalent to <code>less(y, x)</code>, not <code>less(x, y)</code>. This is because those variants are meant to be used with higher order algorithms, where the chosen application order makes sense. </p>
+</div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a1c9f968a4217ff87b9fdd6c3bbea72bc"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a></td></tr>
@@ -251,9 +249,23 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(4, 1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(int_&lt;1&gt;, int_&lt;3&gt;));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="greater_8hpp.html">boost/hana/greater.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::greater(4, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater(hana::int_&lt;1&gt;, hana::int_&lt;3&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a062300116ac52000449518ec546e65a3"></a>
@@ -287,10 +299,24 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(4, 1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(1, 1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(int_&lt;1&gt;, int_&lt;2&gt;));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="greater__equal_8hpp.html">boost/hana/greater_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::greater_equal(4, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::greater_equal(1, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater_equal(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a8012cbd416c2067be764046dcd0c2a23"></a>
@@ -324,10 +350,24 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 4));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(1, 1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less__equal_8hpp.html">boost/hana/less_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::less_equal(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::less_equal(1, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less_equal(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a9fb8718f43756efef3953635f34fd67e"></a>
@@ -354,9 +394,23 @@ Synopsis of associated functions</h2></td></tr>
 <p>Returns the greatest of its arguments according to the <code>less</code> ordering. </p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(1, 4) == 4);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;7&gt;);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="max_8hpp.html">boost/hana/max.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::max(1, 4) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::max(hana::int_&lt;7&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;7&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="af10ea2fee24c0a780758f67721bb5bfa"></a>
@@ -383,9 +437,23 @@ Synopsis of associated functions</h2></td></tr>
 <p>Returns the smallest of its arguments according to the <code>less</code> ordering. </p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(1, 4) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>(int_&lt;7&gt;, int_&lt;5&gt;) == int_&lt;5&gt;);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="min_8hpp.html">boost/hana/min.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::min(1, 4) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::min(hana::int_&lt;7&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;5&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aaeb89edbf804237ca6710cba8cab9c37"></a>
@@ -419,13 +487,28 @@ Synopsis of associated functions</h2></td></tr>
 <h2>Signature </h2>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and an <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> <code>B</code>, the signature is \( \mathrm{ordering} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sorted = sort.by(<a class="code" href="structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(sizeof_), tuple_t&lt;</div>
-<div class="line">    <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[15]</div>
-<div class="line">&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(sorted == tuple_t&lt;</div>
-<div class="line">    <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[15]</div>
-<div class="line">&gt;);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ordering_8hpp.html">boost/hana/ordering.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="sort_8hpp.html">boost/hana/sort.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> sorted = hana::sort.by(hana::ordering(hana::sizeof_),</div>
+<div class="line">    hana::tuple_t&lt;<span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[15]&gt;</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(sorted == hana::tuple_t&lt;<span class="keywordtype">char</span>[1], <span class="keywordtype">char</span>[2], <span class="keywordtype">char</span>[3], <span class="keywordtype">char</span>[15]&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

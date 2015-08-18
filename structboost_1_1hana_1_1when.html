@@ -144,14 +144,28 @@ struct boost::hana::when&lt; condition &gt;</h3>
 <p><code>when</code> is used to control the priority of partial specializations in a finer grained manner than what can be achieved with the usual <code>typename Enable = void</code> and <code>std::enable_if</code> pattern. For example, a partially specialized tag-dispatched method will have a higher priority than an equivalent specialization that uses <code>when</code>. </p>
 </blockquote>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = when&lt;true&gt;&gt;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2when_8hpp.html">boost/hana/core/when.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = hana::when&lt;true&gt;&gt;</div>
 <div class="line"><span class="keyword">struct </span>base_template;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>base_template&lt;T, when&lt;<a class="code" href="namespacestd.html">std</a>::is_integral&lt;T&gt;{}&gt;&gt; {</div>
+<div class="line"><span class="keyword">struct </span>base_template&lt;T, hana::when&lt;std::is_integral&lt;T&gt;::value&gt;&gt; {</div>
 <div class="line">    <span class="comment">// something useful...</span></div>
 <div class="line">};</div>
-</div><!-- fragment --></div></div><!-- contents -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->

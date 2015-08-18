@@ -240,9 +240,29 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(1, 4));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(int_&lt;3&gt;, int_&lt;2&gt;));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all__of_8hpp.html">boost/hana/all_of.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::less(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// less.than is syntactic sugar</span></div>
+<div class="line">static_assert(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less.than(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less_equal.than(hana::int_&lt;4&gt;)));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

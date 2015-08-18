@@ -208,8 +208,23 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#afad82256757090063fe46aab188dd0e1">duplicate</a>(lazy(3)))) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="duplicate_8hpp.html">boost/hana/duplicate.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extract_8hpp.html">boost/hana/extract.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> very_lazy = hana::duplicate(hana::lazy(3));</div>
+<div class="line">    static_assert(hana::extract(hana::extract(very_lazy)) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ad060d73b868bea1e0f4aa8037d5a3447"></a>
@@ -245,21 +260,44 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">std::stringstream s; s &lt;&lt; <span class="stringliteral">&quot;1 2 3&quot;</span>;</div>
-<div class="line"><span class="keyword">auto</span> i = lazy([&amp;] {</div>
-<div class="line">    <span class="keywordtype">int</span> i;</div>
-<div class="line">    s &gt;&gt; i;</div>
-<div class="line">    <span class="keywordflow">return</span> i;</div>
-<div class="line">})();</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> i_plus_one = <a class="code" href="structboost_1_1hana_1_1Comonad.html#ad060d73b868bea1e0f4aa8037d5a3447">extend</a>(i, [](<span class="keyword">auto</span> lazy_int) {</div>
-<div class="line">    <span class="keywordflow">return</span> succ(eval(lazy_int));</div>
-<div class="line">});</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="eval_8hpp.html">boost/hana/eval.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extend_8hpp.html">boost/hana/extend.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extract_8hpp.html">boost/hana/extract.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(i_plus_one) == 2);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(i_plus_one) == 3);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(i_plus_one) == 4);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;istream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">auto</span> read_one = [](std::istream&amp; s) {</div>
+<div class="line">    T value;</div>
+<div class="line">    s &gt;&gt; value;</div>
+<div class="line">    <span class="keywordflow">return</span> value;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    std::stringstream s;</div>
+<div class="line">    s &lt;&lt; <span class="stringliteral">&quot;1 2 3&quot;</span>;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> from_stream = hana::extend(hana::lazy(read_one&lt;int&gt;)(std::ref(s)), [](<span class="keyword">auto</span> i) {</div>
+<div class="line">        <span class="keywordflow">return</span> hana::eval(i) + 1;</div>
+<div class="line">    });</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(from_stream) == 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(from_stream) == 3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(from_stream) == 4);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a5b42ad77d8de0ba34a0d7cafef951d75"></a>
@@ -294,9 +332,23 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75">extract</a>(lazy(succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extract_8hpp.html">boost/hana/extract.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::extract(hana::lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::extract(hana::lazy(hana::succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

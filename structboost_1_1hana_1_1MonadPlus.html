@@ -233,10 +233,23 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(make_tuple(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="append_8hpp.html">boost/hana/append.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::append(hana::make_tuple(), 1) == hana::make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::append(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>), 3.3) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::append(hana::append(hana::append(hana::make_tuple(), 1), <span class="charliteral">&#39;2&#39;</span>), 3.3) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a30a6926751dfcafbe2bb67738e2da3c4"></a>
@@ -273,11 +286,27 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4">concat</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
-<div class="line">                     make_tuple(3.3, 4_c)) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="concat_8hpp.html">boost/hana/concat.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>hana::literals;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::concat(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>), hana::make_tuple(3.3, 4_c))</div>
+<div class="line">        ==</div>
+<div class="line">    hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, 4_c)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a15cd26f8259bdd4306cd0907ef578b47"></a>
@@ -317,8 +346,22 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), size_t&lt;2&gt;) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="cycle_8hpp.html">boost/hana/cycle.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::cycle(hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), hana::size_t&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a91ad3cf817440c20f200f91d4fa4e789"></a>
@@ -354,9 +397,24 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Tuple&gt;() == make_tuple());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Optional&gt;() == nothing);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="empty_8hpp.html">boost/hana/empty.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::Tuple&gt;() == hana::make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::Optional&gt;() == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a929370eddd43bb1a4a11b00a7880eadb"></a>
@@ -401,10 +459,29 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(make_tuple(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make_tuple(1, 3), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3), trait&lt;std::is_integral&gt;) == just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(just(3.0), trait&lt;std::is_integral&gt;) == nothing);</div>
-</div><!-- fragment --> <h2>Benchmarks </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="filter_8hpp.html">boost/hana/filter.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::filter(hana::make_tuple(1, 2.0, 3, 4.0), hana::trait&lt;std::is_integral&gt;) == hana::make_tuple(1, 3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::filter(hana::just(3), hana::trait&lt;std::is_integral&gt;) == hana::just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::filter(hana::just(3.0), hana::trait&lt;std::is_integral&gt;) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.filter.compile.json"> </div> 
 </div>
 </div>
@@ -445,13 +522,29 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008">prefix</a>(make_tuple(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s), <span class="stringliteral">&quot;my&quot;</span>s) ==</div>
-<div class="line">    make_tuple(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;house&quot;</span>)</div>
-<div class="line">);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="prefix_8hpp.html">boost/hana/prefix.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>std::literals;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">        hana::prefix(hana::make_tuple(<span class="stringliteral">&quot;dog&quot;</span>s, <span class="stringliteral">&quot;car&quot;</span>s, <span class="stringliteral">&quot;house&quot;</span>s), <span class="stringliteral">&quot;my&quot;</span>s)</div>
+<div class="line">            ==</div>
+<div class="line">        hana::make_tuple(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;dog&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;car&quot;</span>, <span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;house&quot;</span>)</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a3e173a5524274624703353bb3ac4c129"></a>
@@ -492,9 +585,22 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(make_tuple(), 1) == make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129">prepend</a>(make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3), 1) == make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="prepend_8hpp.html">boost/hana/prepend.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::prepend(hana::make_tuple(), 1) == hana::make_tuple(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::prepend(hana::make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3), 1) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a08e2f3034ed81a7bfff513a5b5f82031"></a>
@@ -530,10 +636,26 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(tuple_t&lt;int, char, float&gt;, type&lt;char&gt;) == tuple_t&lt;int, float&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(just(type&lt;int&gt;), type&lt;char&gt;) == just(type&lt;int&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<span class="keyword">remove</span>(just(type&lt;int&gt;), type&lt;int&gt;) == nothing);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="remove_8hpp.html">boost/hana/remove.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::tuple_t&lt;int, char, float&gt;, hana::type&lt;char&gt;) == hana::tuple_t&lt;int, float&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type&lt;int&gt;), hana::type&lt;char&gt;) == hana::just(hana::type&lt;int&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type&lt;int&gt;), hana::type&lt;int&gt;) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ad993eca017378409ad0b3a2e6b6807ff"></a>
@@ -569,10 +691,29 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(make_tuple(1, 2.0, 3, 4.0), trait&lt;std::is_integral&gt;) == make_tuple(2.0, 4.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3.0), trait&lt;std::is_integral&gt;) == just(3.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(just(3), trait&lt;std::is_integral&gt;) == nothing);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="remove__if_8hpp.html">boost/hana/remove_if.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::remove_if(hana::make_tuple(1, 2.0, 3, 4.0), hana::trait&lt;std::is_integral&gt;) == hana::make_tuple(2.0, 4.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::remove_if(hana::just(3.0), hana::trait&lt;std::is_integral&gt;) == hana::just(3.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove_if(hana::just(3), hana::trait&lt;std::is_integral&gt;) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="acbf4797cf95bb19dfe33a16cf86fe3c9"></a>
@@ -617,11 +758,26 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(repeat&lt;Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="repeat_8hpp.html">boost/hana/repeat.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::repeat&lt;hana::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an Optional.</span></div>
-<div class="line">static_assert(repeat&lt;Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, size_t&lt;2&gt;) == just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line">static_assert(hana::repeat&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a9b6622ade385d42bf03dd18f226cd080"></a>
@@ -661,10 +817,23 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a>(make_tuple(1, 2, 3, 4), 0) == make_tuple(1, 0, 2, 0, 3, 0, 4, 0)</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="suffix_8hpp.html">boost/hana/suffix.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::suffix(hana::make_tuple(1, 2, 3, 4), 0) == hana::make_tuple(1, 0, 2, 0, 3, 0, 4, 0)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

@@ -312,7 +312,7 @@ Quick start</h1>
 <hr/>
 <p> The goal of this section is to introduce the main concepts of the library from a very high level and at a fairly rapid pace; don't worry if you don't understand everything that's about to be thrown at you. However, this tutorial assumes the reader is already at least <em>familiar</em> with basic metaprogramming and the <a href="http://en.wikipedia.org/wiki/C%2B%2B14">C++14 standard</a>. First, let's include the library:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 </div><!-- fragment --><p> Unless specified otherwise, the documentation assumes the above lines to be present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. For the purpose of the quickstart, let's now include some additional headers and define some lovely animal types that we'll need below:</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type__traits_8hpp.html">boost/hana/ext/std/type_traits.hpp</a>&gt;</span> <span class="comment">// for traits::is_pointer</span></div>
 <div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
@@ -323,31 +323,31 @@ Quick start</h1>
 <div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
 </div><!-- fragment --><p> If you are reading this documentation, chances are you already know <code>std::tuple</code> and <code>std::make_tuple</code>. Hana provides its own tuple and <code>make_tuple</code>:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> animals = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> animals = hana::make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
 </div><!-- fragment --><p> This creates a tuple, which is like an array, except that it can hold elements with different types. Containers that can hold elements with different types such as this are called heterogeneous containers. While the standard library provides very few operations to manipulate <code>std::tuple</code>s, Hana provides several operations and algorithms to manipulate its own tuples:</p>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>hana::literals;</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Access tuple elements with operator[] instead of std::get.</span></div>
 <div class="line">Cat garfield = animals[1_c];</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Perform high level algorithms on tuples (this is like std::transform)</span></div>
-<div class="line"><span class="keyword">auto</span> names = transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line"><span class="keyword">auto</span> names = hana::transform(animals, [](<span class="keyword">auto</span> a) {</div>
 <div class="line">  <span class="keywordflow">return</span> a.name;</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line">assert(reverse(names) == make_tuple(<span class="stringliteral">&quot;Snoopy&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Nemo&quot;</span>));</div>
+<div class="line">assert(hana::reverse(names) == hana::make_tuple(<span class="stringliteral">&quot;Snoopy&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Nemo&quot;</span>));</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>1_c</code> is a <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user-defined literal</a> creating a <a class="el" href="index.html#tutorial-integral">compile-time number</a>. These user-defined literals are contained in the <code>boost::hana::literals</code> namespace, hence the <code>using</code> directive.</dd></dl>
 <p>Notice how we pass a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambda</a> to <code>transform</code>; this is required because the lambda will first be called with a <code>Fish</code>, then a <code>Cat</code>, and finally a <code>Dog</code>, which all have different types. Hana provides most of the algorithms provided by the C++ standard library, except they work on tuples and related heterogeneous containers instead of <code>std::vector</code> &amp; friends. In addition to working with heterogeneous values, Hana makes it possible to perform type-level computations with a natural syntax, all at compile-time and with no overhead whatsoever. This compiles and does just what you would expect:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> animal_types = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(type&lt;Fish*&gt;, type&lt;Cat&amp;&gt;, type&lt;Dog&gt;);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> animal_types = hana::make_tuple(hana::type&lt;Fish*&gt;, hana::type&lt;Cat&amp;&gt;, hana::type&lt;Dog&gt;);</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> no_pointers = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(animal_types, [](<span class="keyword">auto</span> a) {</div>
-<div class="line">  <span class="keywordflow">return</span> traits::is_pointer(a);</div>
+<div class="line"><span class="keyword">auto</span> no_pointers = hana::remove_if(animal_types, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::traits::is_pointer(a);</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line">static_assert(no_pointers == <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(type&lt;Cat&amp;&gt;, type&lt;Dog&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(no_pointers == hana::make_tuple(hana::type&lt;Cat&amp;&gt;, hana::type&lt;Dog&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>type&lt;...&gt;</code> is not a type! It is a <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Variable_templates">C++14 variable template</a> yielding an object representing a type for Hana. This is explained in the section on <a class="el" href="index.html#tutorial-type">type computations</a>.</dd></dl>
 <p>In addition to heterogeneous and compile-time sequences, Hana provides several features to make your metaprogramming nightmares a thing of the past. For example, one can check for the existence of a struct member with one easy line instead of relying on <a href="http://stackoverflow.com/a/257382/627587">clunky SFINAE hacks</a>:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_name = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.name) { });</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_name = hana::is_valid([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.name) { });</div>
 <div class="line"></div>
 <div class="line">static_assert(has_name(garfield), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
@@ -362,7 +362,7 @@ Quick start</h1>
 <div class="line"></div>
 <div class="line"><span class="comment">// 2. Write a generic serializer (bear with std::ostream for the example)</span></div>
 <div class="line"><span class="keyword">auto</span> serialize = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; object) {</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(<a class="code" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">members</a>(<span class="keywordtype">object</span>), [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">  hana::for_each(hana::members(<span class="keywordtype">object</span>), [&amp;](<span class="keyword">auto</span> member) {</div>
 <div class="line">    os &lt;&lt; member &lt;&lt; std::endl;</div>
 <div class="line">  });</div>
 <div class="line">};</div>
@@ -376,8 +376,8 @@ Quick start</h1>
 <div class="line"><span class="comment">// 30</span></div>
 </div><!-- fragment --><p> That's cool, but I can already hear you complaining about incomprehensible error messages. However, it turns out Hana was built for humans, not professional template metaprogrammers, and this shows. Let's intentionally screw up and see what kind of mess is thrown at us. First, the mistake:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> serialize = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; object) {</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(os, [&amp;](<span class="keyword">auto</span> member) {</div>
-<div class="line">    <span class="comment">//     ^^ oopsie daisy!</span></div>
+<div class="line">  hana::for_each(os, [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">    <span class="comment">//           ^^ oopsie daisy!</span></div>
 <div class="line">    os &lt;&lt; member &lt;&lt; std::endl;</div>
 <div class="line">  });</div>
 <div class="line">};</div>
@@ -422,7 +422,7 @@ A real world example</h2>
 </div><!-- fragment --><p> We'll now look at how this utility can be implemented using Hana. The first step is to associate each type to a function. To do so, we represent each <code>case_</code> as a <code>hana::pair</code> whose first element is a type and whose second element is a function. Furthermore, we (arbitrarily) decide to represent the <code>default_</code> case as a <code>hana::pair</code> mapping a dummy type to a function:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;T&gt;, f);</div>
+<div class="line">  <span class="keywordflow">return</span> hana::make_pair(hana::type&lt;T&gt;, f);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>default_t;</div>
@@ -438,7 +438,7 @@ A real world example</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line">    <span class="comment">// ...</span></div>
 <div class="line">  };</div>
 <div class="line">}</div>
@@ -446,10 +446,10 @@ A real world example</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> default_ = hana::find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) == hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// ...</span></div>
@@ -459,12 +459,12 @@ A real world example</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> default_ = hana::find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) == hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
-<div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
+<div class="line">    static_assert(default_ != hana::nothing,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// ...</span></div>
@@ -474,16 +474,16 @@ A real world example</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> default_ = hana::find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) == hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
-<div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
+<div class="line">    static_assert(default_ != hana::nothing,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> rest = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) != type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> rest = hana::filter(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) != hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// ...</span></div>
@@ -493,20 +493,20 @@ A real world example</h2>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> default_ = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) == type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> default_ = hana::find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) == hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
-<div class="line">    static_assert(default_ != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>,</div>
+<div class="line">    static_assert(default_ != hana::nothing,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> rest = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(c) != type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> rest = hana::filter(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) != hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
-<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(*default_), rest...);</div>
+<div class="line">    <span class="keywordflow">return</span> hana::unpack(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
+<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), hana::second(*default_), rest...);</div>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
@@ -520,8 +520,8 @@ A real world example</h2>
 <div class="line"><span class="keyword">auto</span> process(Any&amp; a, std::type_index <span class="keyword">const</span>&amp; t, Default&amp; default_,</div>
 <div class="line">             Case&amp; case_, Rest&amp; ...rest)</div>
 <div class="line">{</div>
-<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(case_))::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
-<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
+<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+hana::first(case_))::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
+<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? hana::second(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> There are two overloads of this function: an overload for when there is at least one case to process, and the base case overload for when there's only the default case. As we would expect, the base case simply calls the default function and returns that result. The other overload is slightly more interesting. First, we retrieve the type associated to that case and store it in <code>T</code>. This <code>decltype(...)::type</code> dance might seem convoluted, but it is actually quite simple. Roughly speaking, this takes a type represented as an object (a <code>type&lt;T&gt;</code>) and pulls it back down to the type level (a <code>T</code>). The details are explained in the section on <a class="el" href="index.html#tutorial-type">type-level computations</a>. Then, we compare whether the dynamic type of the <code>any</code> matches this case, and if so we call the function associated to this case with the <code>any</code> casted to the proper type. Otherwise, we simply call <code>process</code> recursively with the rest of the cases. Pretty simple, wasn't it? Here's the final solution:</p>
@@ -533,11 +533,11 @@ A real world example</h2>
 <div class="line"><span class="preprocessor">#include &lt;typeindex&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
-<div class="line">  <span class="keywordflow">return</span> make_pair(type&lt;T&gt;, f);</div>
+<div class="line">  <span class="keywordflow">return</span> hana::make_pair(hana::type&lt;T&gt;, f);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>default_t;</div>
@@ -552,28 +552,28 @@ A real world example</h2>
 <div class="line"><span class="keyword">auto</span> process(Any&amp; a, std::type_index <span class="keyword">const</span>&amp; t, Default&amp; default_,</div>
 <div class="line">             Case&amp; case_, Rest&amp; ...rest)</div>
 <div class="line">{</div>
-<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+first(case_))::type;</div>
-<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? second(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
+<div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+hana::first(case_))::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
+<div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? hana::second(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
-<div class="line">    <span class="keyword">auto</span> cases = make_tuple(cases_...);</div>
+<div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> default_ = find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> first(c) == type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> default_ = hana::find_if(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) == hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
-<div class="line">    static_assert(default_ != nothing,</div>
+<div class="line">    static_assert(default_ != hana::nothing,</div>
 <div class="line">      <span class="stringliteral">&quot;switch is missing a default_ case&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> rest = filter(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
-<div class="line">      <span class="keywordflow">return</span> first(c) != type&lt;default_t&gt;;</div>
+<div class="line">    <span class="keyword">auto</span> rest = hana::filter(cases, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c) {</div>
+<div class="line">      <span class="keywordflow">return</span> hana::first(c) != hana::type&lt;default_t&gt;;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <span class="keywordflow">return</span> unpack(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
-<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), second(*default_), rest...);</div>
+<div class="line">    <span class="keywordflow">return</span> hana::unpack(rest, [&amp;](<span class="keyword">auto</span>&amp; ...rest) {</div>
+<div class="line">      <span class="keywordflow">return</span> process(a, a.type(), hana::second(*default_), rest...);</div>
 <div class="line">    });</div>
 <div class="line">  };</div>
 <div class="line">}</div>
@@ -582,7 +582,7 @@ A real world example</h2>
 Cheatsheet</h2>
 <h3>Remarks</h3>
 <ul>
-<li>Algorithms work on both types and values (see the section on <a class="el" href="index.html#tutorial-type">type computations</a>)</li>
+<li>Most algorithms work on both types and values (see the section on <a class="el" href="index.html#tutorial-type">type computations</a>)</li>
 <li>Algorithms always return their result as a new container; no in-place mutation is ever performed (see the section on <a class="el" href="index.html#tutorial-algorithms">algorithms</a>)</li>
 <li>All algorithms are <code>constexpr</code> function objects</li>
 </ul>
@@ -602,11 +602,13 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Pair.html">Pair</a></code> </td><td align="left">Container holding two heterogeneous objects. Like <code>std::pair</code>, but interacts better with Hana. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1String.html">String</a></code> </td><td align="left">Container able to represent strings at compile-time. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1String.html">String</a></code> </td><td align="left">Compile-time string. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Type.html">Type</a></code> </td><td align="left">Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations). </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html">IntegralConstant</a></code> </td><td align="left">Represents a compile-time number. This is very similar to <code>std::integral_constant</code>, except that Hana's <code>IntegralConstant</code> also defines operators and more syntactic sugar. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Lazy.html">Lazy</a></code> </td><td align="left">Encapsulates a lazy value or computation. </td></tr>
 </table>
 <table class="doxtable">
 <tr>
@@ -801,14 +803,14 @@ Compile-time arithmetic</h2>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> three = int_&lt;1&gt; + int_&lt;2&gt;;</div>
 </div><!-- fragment --><p>Now we're talking about a visible gain in expressiveness over the initial type-level approach, aren't we? But there's more; we can also use <a href="http://en.wikipedia.org/wiki/C%2B%2B11#User-defined_literals">C++14 user defined literals</a> to make this process even simpler:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> ...c&gt;</div>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> ...digits&gt;</div>
 <div class="line">constexpr <span class="keyword">auto</span> <span class="keyword">operator</span><span class="stringliteral">&quot;&quot;</span> _c() {</div>
-<div class="line">  <span class="comment">// parse the characters and return an integral_constant</span></div>
+<div class="line">  <span class="comment">// parse the digits and return an integral_constant</span></div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> three = 1_c + 3_c;</div>
 </div><!-- fragment --><p>Hana provides its own <code>integral_constant</code>s, which define arithmetic operators just like we showed above. Hana also provides variable templates to easily create different kinds of <code>integral_constant</code>s: <code>int_</code>, <code>long_</code>, <code>bool_</code>, etc... However, note that <code>integral_constant</code> in Hana is a variable template instead of a type, so <code>integral_constant&lt;int, 1&gt;</code> is actually an object, unlike <code>std::integral_constant&lt;int, 1&gt;</code>, which is a type. This allows you to omit the trailing <code>{}</code> braces otherwise required to value-initialize <code>integral_constant</code>s. Of course, the <code>_c</code> suffix is also provided; it is part of the <code>boost::hana::literals</code> namespace, and you should import it into your namespace before using it:</p>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span>hana::literals;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> three = 1_c + 3_c;</div>
 </div><!-- fragment --><p>This way, you may do compile-time arithmetic without having to struggle with awkward type-level idiosyncrasies, and your coworkers will now be able to understand what's going on.</p>
@@ -858,12 +860,12 @@ Why stop here?</h2>
 <div class="fragment"><div class="line">__attribute__((noinline)) void f() { }</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    int_&lt;10&gt;.times(f);</div>
+<div class="line">    hana::int_&lt;10&gt;.times(f);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>In the above code, the 10 calls to <code>f</code> are expanded at compile-time. In other words, this is equivalent to writing</p>
 <div class="fragment"><div class="line">f(); f(); ... f(); <span class="comment">// 10 times</span></div>
 </div><!-- fragment --><p>Another nice use of <code>IntegralConstant</code>s is to define good-looking operators for indexing heterogeneous sequences. Whereas <code>std::tuple</code> must be accessed with <code>std::get</code>, Hana's <code>Tuple</code> can be accessed using the familiar <code>operator[]</code> used for standard library containers:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a> = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, <span class="charliteral">&#39;x&#39;</span>, 3.4f);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a> = hana::make_tuple(1, <span class="charliteral">&#39;x&#39;</span>, 3.4f);</div>
 <div class="line"><span class="keywordtype">char</span> x = <a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a>[1_c];</div>
 </div><!-- fragment --><p>How this works is very simple. Basically, Hana's <code>Tuple</code> defines an <code>operator[]</code> taking an <code>IntegralConstant</code> instead of a normal integer, in a way similar to</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
@@ -894,11 +896,11 @@ Types as objects</h2>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">constexpr <span class="keyword">auto</span> is_pointer(_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1IntegralConstant.html#a1fb33fb686dbbe3e9718071ba2630641">false_</a>; }</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::false_; }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">constexpr <span class="keyword">auto</span> is_pointer(_type&lt;T*&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1IntegralConstant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">true_</a>; }</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::true_; }</div>
 </div><!-- fragment --><p>We've just written metafunctions that look like functions, just like we wrote compile-time arithmetic metafunctions as heterogeneous C++ operators in the previous section. Here's how we can use them:</p>
 <div class="fragment"><div class="line">_type&lt;int&gt; t{};</div>
 <div class="line"><span class="keyword">auto</span> p = add_pointer(t);</div>
@@ -910,14 +912,14 @@ Types as objects</h2>
 <div class="line"><span class="keyword">auto</span> t = type&lt;int&gt;;</div>
 <div class="line"><span class="keyword">auto</span> p = add_pointer(t);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_pointer(p));</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not exactly how the <code>type</code> variable template is implemented in Hana because of some subtleties; things were dumbed down here for the sake of the explanation. Please check the reference for <code>Type</code> to know exactly what you can expect from a <code>type&lt;...&gt;</code>.</dd></dl>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not exactly how the <code>hana::type</code> variable template is implemented because of some subtleties; things were dumbed down here for the sake of the explanation. Please check the reference for <code>Type</code> to know exactly what you can expect from a <code>hana::type&lt;...&gt;</code>.</dd></dl>
 <h2><a class="anchor" id="tutorial-type-benefits"></a>
 Benefits of this representation</h2>
 <p>But what does that buy us? Well, since a <code>type&lt;...&gt;</code> is just an object, we can store it in a heterogeneous sequence like a tuple, we can move it around and pass it to (or return it from) functions, and we can do basically anything else that requires an object:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> types = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(type&lt;int*&gt;, type&lt;char&amp;&gt;, type&lt;void&gt;);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> types = hana::make_tuple(hana::type&lt;int*&gt;, hana::type&lt;char&amp;&gt;, hana::type&lt;void&gt;);</div>
 <div class="line"><span class="keyword">auto</span> char_ref = types[1_c];</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(char_ref == type&lt;char&amp;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(char_ref == hana::type&lt;char&amp;&gt;);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Writing <code>make_tuple(type&lt;T&gt;...)</code> can be annoying when there are several types. For this reason, Hana provides the <code>tuple_t&lt;T...&gt;</code> variable template, which is syntactic sugar for <code>make_tuple(type&lt;T&gt;...)</code>.</dd></dl>
 <p>Also, notice that since the above tuple is really just a normal heterogeneous sequence, we can apply heterogeneous algorithms on that sequence just like we could on a tuple of <code>int</code>s, for example. Furthermore, since we're just manipulating objects, we can now use the full language instead of just the small subset available at the type-level. For example, consider the task of removing all the types that are not a reference or a pointer from a sequence of types. With the MPL, we would have to use a placeholder expression to express the predicate, which is clunky:</p>
 <div class="fragment"><div class="line"><span class="keyword">using</span> types = mpl::vector&lt;int, char&amp;, void*&gt;;</div>
@@ -928,13 +930,13 @@ Benefits of this representation</h2>
 <div class="line"></div>
 <div class="line">static_assert(mpl::equal&lt;ts, mpl::vector&lt;char&amp;, void*&gt;&gt;::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> Now, since we're manipulating objects, we can use the full language and use a generic lambda instead, which leads to much more readable code:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> types = tuple_t&lt;int*, char&amp;, void&gt;;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int*, char&amp;, void&gt;;</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(types, [](<span class="keyword">auto</span> t) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(is_pointer(t), is_reference(t));</div>
+<div class="line"><span class="keyword">auto</span> ts = hana::filter(types, [](<span class="keyword">auto</span> t) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::or_(is_pointer(t), is_reference(t));</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ts == tuple_t&lt;int*, char&amp;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ts == hana::tuple_t&lt;int*, char&amp;&gt;);</div>
 </div><!-- fragment --><p> Since Hana handles all heterogeneous containers uniformly, this approach of representing types as values also has the benefit that a single library is now needed for both heterogeneous computations and type level computations. Indeed, whereas we would normally need two different libraries to perform almost identical tasks, we now need a single library. Again, consider the task of filtering a sequence with a predicate. With MPL and Fusion, this is what we must do:</p>
 <div class="fragment"><div class="line"><span class="comment">// types (MPL)</span></div>
 <div class="line"><span class="keyword">using</span> types = mpl::vector&lt;int*, char&amp;, void&gt;;</div>
@@ -946,14 +948,14 @@ Benefits of this representation</h2>
 <div class="line"><span class="keyword">auto</span> vs = fusion::filter_if&lt;std::is_integral&lt;mpl::_1&gt;&gt;(<a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a>);</div>
 </div><!-- fragment --><p> With Hana, a single library is required (notice how we use the same <code>filter</code> algorithm and the same container):</p>
 <div class="fragment"><div class="line"><span class="comment">// types</span></div>
-<div class="line"><span class="keyword">auto</span> types = tuple_t&lt;int*, char&amp;, void&gt;;</div>
-<div class="line"><span class="keyword">auto</span> ts = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(types, [](<span class="keyword">auto</span> t) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">or_</a>(is_pointer(t), is_reference(t));</div>
+<div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int*, char&amp;, void&gt;;</div>
+<div class="line"><span class="keyword">auto</span> ts = hana::filter(types, [](<span class="keyword">auto</span> t) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::or_(is_pointer(t), is_reference(t));</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// values</span></div>
-<div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a> = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, <span class="charliteral">&#39;c&#39;</span>, <span class="keyword">nullptr</span>, 3.5);</div>
-<div class="line"><span class="keyword">auto</span> vs = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(values, [](<span class="keyword">auto</span> t) {</div>
+<div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a> = hana::make_tuple(1, <span class="charliteral">&#39;c&#39;</span>, <span class="keyword">nullptr</span>, 3.5);</div>
+<div class="line"><span class="keyword">auto</span> vs = hana::filter(values, [](<span class="keyword">auto</span> t) {</div>
 <div class="line">  <span class="keywordflow">return</span> is_integral(t);</div>
 <div class="line">});</div>
 </div><!-- fragment --><p> But that is not all. Indeed, having a unified syntax for type-level and value-level computations allows us to achieve greater consistency in the interface of heterogeneous containers. For example, consider the simple task of creating a heterogeneous map associating types to values, and then accessing an element of it. With Fusion, what's happening is far from obvious to the untrained eye:</p>
@@ -964,20 +966,20 @@ Benefits of this representation</h2>
 <div class="line">std::string Int = fusion::at_key&lt;int&gt;(map);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(Int == <span class="stringliteral">&quot;int&quot;</span>);</div>
 </div><!-- fragment --><p> However, with a unified syntax for types and values, the same thing becomes much clearer:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> map = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;char&gt;,   <span class="stringliteral">&quot;char&quot;</span>),</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;int&gt;,    <span class="stringliteral">&quot;int&quot;</span>),</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;long&gt;,   <span class="stringliteral">&quot;long&quot;</span>),</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;float&gt;,  <span class="stringliteral">&quot;float&quot;</span>),</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;double&gt;, <span class="stringliteral">&quot;double&quot;</span>)</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> map = hana::make_map(</div>
+<div class="line">  hana::make_pair(hana::type&lt;char&gt;,   <span class="stringliteral">&quot;char&quot;</span>),</div>
+<div class="line">  hana::make_pair(hana::type&lt;int&gt;,    <span class="stringliteral">&quot;int&quot;</span>),</div>
+<div class="line">  hana::make_pair(hana::type&lt;long&gt;,   <span class="stringliteral">&quot;long&quot;</span>),</div>
+<div class="line">  hana::make_pair(hana::type&lt;float&gt;,  <span class="stringliteral">&quot;float&quot;</span>),</div>
+<div class="line">  hana::make_pair(hana::type&lt;double&gt;, <span class="stringliteral">&quot;double&quot;</span>)</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line">std::string Int = map[type&lt;int&gt;];</div>
+<div class="line">std::string Int = map[hana::type&lt;int&gt;];</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(Int == <span class="stringliteral">&quot;int&quot;</span>);</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-type-working"></a>
 Working with this representation</h2>
 <p>So far, we can represent types as values and perform type-level computations on those objects using the usual C++ syntax. This is nice, but it is not very useful because we have no way to get back a normal C++ type from an object representation. For example, how could we declare a variable whose type is the result of a type computation?</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(type&lt;int&gt;); <span class="comment">// could be a complex type computation</span></div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(hana::type&lt;int&gt;); <span class="comment">// could be a complex type computation</span></div>
 <div class="line"><span class="keyword">using</span> T = the-<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>-represented-<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>-t;</div>
 <div class="line"></div>
 <div class="line">T var = ...;</div>
@@ -988,37 +990,38 @@ Working with this representation</h2>
 <div class="line">};</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is equivalent to making <code>_type</code> a metafunction in the MPL sense.</dd></dl>
 <p>This way, we can use <code>decltype</code> to easily access the actual C++ type represented by a <code>type&lt;...&gt;</code> object:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(type&lt;int&gt;);</div>
-<div class="line"><span class="keyword">using</span> T = decltype(t)::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>; <span class="comment">// fetches _type&lt;T&gt;::type</span></div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(hana::type&lt;int&gt;);</div>
+<div class="line"><span class="keyword">using</span> T = decltype(t)::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>; <span class="comment">// fetches hana::_type&lt;T&gt;::type</span></div>
 <div class="line"></div>
 <div class="line">T var = ...;</div>
 </div><!-- fragment --><p>In general, doing type-level metaprogramming with Hana is a three step process:</p>
 <ol type="1">
-<li>Represent types as objects by wrapping them with <code>type&lt;...&gt;</code></li>
+<li>Represent types as objects by wrapping them with <code>hana::type&lt;...&gt;</code></li>
 <li>Perform type transformations with value syntax</li>
 <li>Unwrap the result with <code>decltype(...)::type</code></li>
 </ol>
 <p>Now, you must be thinking that this is incredibly cumbersome. In reality, it is very manageable for several reasons. First, this wrapping and unwrapping only needs to happen at some very thin boundaries.</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> t = type&lt;T&gt;;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> t = hana::type&lt;T&gt;;</div>
 <div class="line"><span class="keyword">auto</span> result = huge_type_computation(t);</div>
 <div class="line"><span class="keyword">using</span> Result = decltype(result)::<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>;</div>
 </div><!-- fragment --><p>Furthermore, since you get the advantage of working with objects (without having to wrap/unwrap) inside the computation, the cost of wrapping and unwrapping is amortized on the whole computation. Hence, for complex type computations, the syntactic noise of this three step process quickly becomes negligible in light of the expressiveness gain of working with values inside that computation. Also, using values instead of types means that we can avoid typing <code>typename</code> and <code>template</code> all around the place, which accounted for a lot of syntactic noise in classic metaprogramming.</p>
 <p>Another point is that the three full steps are not always required. Indeed, sometimes one just needs to do a type-level computation and query something about the result, without necessarily fetching the result as a normal C++ type:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> t = type&lt;T&gt;;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> t = hana::type&lt;T&gt;;</div>
 <div class="line"><span class="keyword">auto</span> result = type_computation(t);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_pointer(result)); <span class="comment">// third step skipped</span></div>
 </div><!-- fragment --><p>In this case, we were able to skip the third step because we did not need to access the actual type represented by <code>result</code>. In other cases, the first step can be avoided, like when using <code>tuple_t</code>, which has no more syntactic noise than any other pure type-level approach:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> types = tuple_t&lt;int*, char&amp;, void&gt;; <span class="comment">// first step skipped</span></div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int*, char&amp;, void&gt;; <span class="comment">// first step skipped</span></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> pointers = <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(types, [](<span class="keyword">auto</span> t) {</div>
+<div class="line"><span class="keyword">auto</span> pointers = hana::transform(types, [](<span class="keyword">auto</span> t) {</div>
 <div class="line">  <span class="keywordflow">return</span> add_pointer(t);</div>
 <div class="line">});</div>
 </div><!-- fragment --><p> For skeptical readers, let's consider the task of finding the smallest type in a sequence of types. This is a very good example of a short type-only computation, which is where we would expect the new paradigm to suffer the most. As you will see, things stay manageable even for small computations. First, let's implement it with the MPL:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
 <div class="line"><span class="keyword">struct </span>smallest</div>
-<div class="line">  : deref&lt;</div>
-<div class="line">    typename min_element&lt;</div>
-<div class="line">      vector&lt;T...&gt;, less&lt;sizeof_&lt;_1&gt;, sizeof_&lt;_2&gt;&gt;</div>
+<div class="line">  : mpl::deref&lt;</div>
+<div class="line">    typename mpl::min_element&lt;</div>
+<div class="line">      mpl::vector&lt;T...&gt;,</div>
+<div class="line">      mpl::less&lt;mpl::sizeof_&lt;mpl::_1&gt;, mpl::sizeof_&lt;mpl::_2&gt;&gt;</div>
 <div class="line">    &gt;::type</div>
 <div class="line">  &gt;</div>
 <div class="line">{ };</div>
@@ -1032,8 +1035,8 @@ Working with this representation</h2>
 <div class="line">&gt;::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> The result is quite readable (for anyone familiar with the MPL). Let's now implement the same thing using Hana:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><span class="keyword">auto</span> smallest = <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(<a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(type&lt;T&gt;...), [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(t) &lt; <a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(u);</div>
+<div class="line"><span class="keyword">auto</span> smallest = hana::minimum(hana::make_tuple(hana::type&lt;T&gt;...), [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::sizeof_(t) &lt; hana::sizeof_(u);</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
@@ -1047,66 +1050,66 @@ Working with this representation</h2>
 The generic lifting process</h2>
 <p>The first type-level computation that we introduced in the form of a function looked like:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> add_pointer(_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
-<div class="line">  <span class="keywordflow">return</span> type&lt;T*&gt;;</div>
+<div class="line">constexpr <span class="keyword">auto</span> add_pointer(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::type&lt;T*&gt;;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>While it looks more complicated, we could also write it as:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> add_pointer(_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
-<div class="line">  <span class="keywordflow">return</span> type&lt;typename std::add_pointer&lt;T&gt;::type&gt;;</div>
+<div class="line">constexpr <span class="keyword">auto</span> add_pointer(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::type&lt;typename std::add_pointer&lt;T&gt;::type&gt;;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>However, this implementation emphasizes the fact that we're really emulating an existing metafunction and simply representing it as a function. In other words, we're <em>lifting</em> a metafunction (<code>std::add_pointer</code>) to the world of values by creating our own <code>add_pointer</code> function. It turns out that this lifting process is a generic one. Indeed, given any metafunction, we could write almost the same thing:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> add_const(_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> type&lt;typename std::add_const&lt;T&gt;::type&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> add_const(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;typename std::add_const&lt;T&gt;::type&gt;; }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> add_volatile(_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> type&lt;typename std::add_volatile&lt;T&gt;::type&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> add_volatile(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;typename std::add_volatile&lt;T&gt;::type&gt;; }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> add_lvalue_reference(_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> type&lt;typename std::add_lvalue_reference&lt;T&gt;::type&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> add_lvalue_reference(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;typename std::add_lvalue_reference&lt;T&gt;::type&gt;; }</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// etc...</span></div>
 </div><!-- fragment --><p>This mechanical transformation is easy to abstract into a generic metafunction lifter as follows:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span>&gt; <span class="keyword">class </span>F, <span class="keyword">typename</span> T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>(_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
-<div class="line">{ <span class="keywordflow">return</span> type&lt;typename F&lt;T&gt;::type&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp;)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;typename F&lt;T&gt;::type&gt;; }</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> t = type&lt;int&gt;;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction&lt;std::add_pointer&gt;(t) == type&lt;int*&gt;);</div>
+<div class="line"><span class="keyword">auto</span> t = hana::type&lt;int&gt;;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(metafunction&lt;std::add_pointer&gt;(t) == hana::type&lt;int*&gt;);</div>
 </div><!-- fragment --><p> More generally, we'll want to allow metafunctions with any number of arguments, which brings us to the following less naive implementation:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F, <span class="keyword">typename</span> ...T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>(_type&lt;T&gt; <span class="keyword">const</span>&amp; ...)</div>
-<div class="line">{ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;<span class="keyword">typename</span> F&lt;T...&gt;::type&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#adc27574958fb3f1252b6a41d71a2a085">metafunction</a>(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp; ...)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;<span class="keyword">typename</span> F&lt;T...&gt;::type&gt;; }</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">  metafunction&lt;std::common_type&gt;(type&lt;int&gt;, type&lt;long&gt;) == type&lt;long&gt;</div>
+<div class="line">  metafunction&lt;std::common_type&gt;(hana::type&lt;int&gt;, hana::type&lt;long&gt;) == hana::type&lt;long&gt;</div>
 <div class="line">);</div>
-</div><!-- fragment --><p> Hana provides a similar generic metafunction lifter called <code>metafunction</code>. One small improvement is that Hana's <code>metafunction&lt;F&gt;</code> is a function object instead of an overloaded function, so one can pass it to higher-order algorithms. The process we explored in this section does not only apply to metafunctions; it also applies to templates. Indeed, we could define:</p>
+</div><!-- fragment --><p> Hana provides a similar generic metafunction lifter called <code>hana::metafunction</code>. One small improvement is that <code>hana::metafunction&lt;F&gt;</code> is a function object instead of an overloaded function, so one can pass it to higher-order algorithms. The process we explored in this section does not only apply to metafunctions; it also applies to templates. Indeed, we could define:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>F, <span class="keyword">typename</span> ...T&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2">template_</a>(_type&lt;T&gt; <span class="keyword">const</span>&amp; ...)</div>
-<div class="line">{ <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;F&lt;T...&gt;&gt;; }</div>
+<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2">template_</a>(hana::_type&lt;T&gt; <span class="keyword">const</span>&amp; ...)</div>
+<div class="line">{ <span class="keywordflow">return</span> hana::type&lt;F&lt;T...&gt;&gt;; }</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">  template_&lt;std::vector&gt;(type&lt;int&gt;) == <a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;std::vector&lt;int&gt;&gt;</div>
+<div class="line">  template_&lt;std::vector&gt;(hana::type&lt;int&gt;) == hana::type&lt;std::vector&lt;int&gt;&gt;</div>
 <div class="line">);</div>
-</div><!-- fragment --><p> Hana provides a generic lifter for templates named <code>template_</code>, and it also provides a generic lifter for MPL metafunction classes named <code>metafunction_class</code>. This gives us a way to uniformly represent "legacy" type-level computations as functions, so that any code written using a classic type-level metaprogramming library can almost trivially be used with Hana. For example, say you have a large chunk of MPL-based code and you'd like to interface with Hana. The process of doing so is no harder than wrapping your metafunctions with the lifter provided by Hana:</p>
+</div><!-- fragment --><p> Hana provides a generic lifter for templates named <code>hana::template_</code>, and it also provides a generic lifter for MPL metafunction classes named <code>hana::metafunction_class</code>. This gives us a way to uniformly represent "legacy" type-level computations as functions, so that any code written using a classic type-level metaprogramming library can almost trivially be used with Hana. For example, say you have a large chunk of MPL-based code and you'd like to interface with Hana. The process of doing so is no harder than wrapping your metafunctions with the lifter provided by Hana:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>legacy {</div>
 <div class="line">  <span class="keyword">using</span> type = ...; <span class="comment">// something you really don&#39;t want to mess with</span></div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> types = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(...);</div>
-<div class="line"><span class="keyword">auto</span> use = <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(types, metafunction&lt;legacy&gt;);</div>
-</div><!-- fragment --><p>Finally, since metafunctions provided by the <code>&lt;type_traits&gt;</code> header are used so frequently, Hana provides a lifted version for every one of them. Those lifted traits are in the <code>boost::hana::traits</code> namespace, and they live in the <code>&lt;<a class="el" href="type__traits_8hpp.html" title="Defines adapters for standard components in the <type_traits> header, and also most things in the boo...">boost/hana/ext/std/type_traits.hpp</a>&gt;</code> header:</p>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(traits::add_pointer(type&lt;int&gt;) == type&lt;int*&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(traits::common_type(type&lt;int&gt;, type&lt;long&gt;) == type&lt;long&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(traits::is_integral(type&lt;int&gt;));</div>
+<div class="line"><span class="keyword">auto</span> types = hana::make_tuple(...);</div>
+<div class="line"><span class="keyword">auto</span> use = hana::transform(types, hana::metafunction&lt;legacy&gt;);</div>
+</div><!-- fragment --><p>Finally, since metafunctions provided by the <code>&lt;type_traits&gt;</code> header are used so frequently, Hana provides a lifted version for every one of them. Those lifted traits are in the <code>hana::traits</code> namespace, and they live in the <code>&lt;<a class="el" href="type__traits_8hpp.html" title="Defines adapters for standard components in the <type_traits> header, and also most things in the boo...">boost/hana/ext/std/type_traits.hpp</a>&gt;</code> header:</p>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::add_pointer(hana::type&lt;int&gt;) == hana::type&lt;int*&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::common_type(hana::type&lt;int&gt;, hana::type&lt;long&gt;) == hana::type&lt;long&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::is_integral(hana::type&lt;int&gt;));</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> types = tuple_t&lt;int, char, long&gt;;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Searchable.html#adadd57241c497cbe1a2ce5ac57549080">all_of</a>(types, traits::is_integral));</div>
+<div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int, char, long&gt;;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(types, hana::traits::is_integral));</div>
 </div><!-- fragment --><p> This is the end of the section on type computations. While this new paradigm for type level programming might be difficult to grok at first, it will make more sense as you use it more and more. You will also come to appreciate how it blurs the line between types and values, opening new exciting possibilities and simplifying many tasks.</p>
 <dl class="section note"><dt>Note</dt><dd>Curious or skeptical readers should consider checking the minimal reimplementation of the MPL presented in the <a class="el" href="index.html#tutorial-appendix-MPL">appendices</a>.</dd></dl>
 <h1><a class="anchor" id="tutorial-introspection"></a>
@@ -1156,7 +1159,7 @@ Checking expression validity</h2>
 <div class="line">}</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Of course, this implementation won't actually work because both branches of the <code>if</code> statement will be compiled. If <code>obj</code> does not have a <code>toString</code> method, the compilation of the <code>if</code> branch will fail. We will address this issue in a moment.</dd></dl>
 <p>Instead of the above SFINAE trick, Hana provides a <code>is_valid</code> function that can be combined with <a href="http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas">C++14 generic lambdas</a> to obtain a much cleaner implementation of the same thing:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_toString = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span>&amp;&amp; obj) -&gt; decltype(obj.toString()) { });</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_toString = hana::is_valid([](<span class="keyword">auto</span>&amp;&amp; obj) -&gt; decltype(obj.toString()) { });</div>
 </div><!-- fragment --><p> This leaves us with a function object <code>has_toString</code> which returns whether the given expression is valid on the argument we pass to it. The result is returned as an <code>IntegralConstant</code>, so <code>constexpr</code>-ness is not an issue here because the result of the function is represented as a type anyway. Now, in addition to being less verbose (that's a one liner!), the intent is much clearer. Other benefits are the fact that <code>has_toString</code> can be passed to higher order algorithms and it can also be defined at function scope, so there is no need to pollute the namespace scope with implementation details. Here is how we would now write <code>optionalToString</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
@@ -1179,7 +1182,7 @@ Checking expression validity</h2>
 <p>While this implementation is perfectly valid, it is still pretty cumbersome because it requires writing two different functions and going through the hoops of SFINAE explicitly by using <code>std::enable_if</code>. Since this pattern of branching at compile-time is so widely used, Hana provides an <code>if_</code> function that can be used to emulate a <code>static_if</code> functionality. Here is how we could write <code>optionalToString</code> with Hana's <code>if_</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Logical.html#a06927a2badb729e1522b9030d18234df">if_</a>(has_toString(obj),</div>
+<div class="line">  <span class="keywordflow">return</span> hana::if_(has_toString(obj),</div>
 <div class="line">    [](<span class="keyword">auto</span>&amp; x) { <span class="keywordflow">return</span> x.toString(); },</div>
 <div class="line">    [](<span class="keyword">auto</span>&amp; x) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;toString not defined&quot;</span>; }</div>
 <div class="line">  )(obj);</div>
@@ -1190,59 +1193,59 @@ Checking expression validity</h2>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-non_static"></a>
 Non-static members</h3>
 <p>The previous example presented the case of a non-static member function. For completeness, we show how to check the presence of a non-static member. First, we can do it in a similar way as we did for the previous example:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.member) { });</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = hana::is_valid([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype((<span class="keywordtype">void</span>)x.member) { });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Foo { <span class="keywordtype">int</span> member[4]; };</div>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(Foo{}));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(Bar{}));</div>
 </div><!-- fragment --><p> Notice how we cast the result of <code>x.member</code> to <code>void</code>? This is to make sure that our detection also works for types that can't be returned from functions, like array types. Also, it is important to use a reference as the parameter to our generic lambda, because that would otherwise require <code>x</code> to be <a href="http://en.cppreference.com/w/cpp/concept/CopyConstructible">CopyConstructible</a>, which is not what we're trying to check. This approach is simple and the most convenient when an object is available. However, when the checker is intended to be used with no object around, the following alternate implementation can be better suited:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
-<div class="line">  (<span class="keywordtype">void</span>)traits::declval(t).member</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = hana::is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
+<div class="line">  (<span class="keywordtype">void</span>)hana::traits::declval(t).member</div>
 <div class="line">) { });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Foo { <span class="keywordtype">int</span> member[4]; };</div>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
-</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>Type</code> (which is an object, but still represents a type). We then use the <code>traits::declval</code> lifted metafunction from the <code>&lt;<a class="el" href="utility_8hpp.html" title="Defines adapters for components in the <utility> header. ">boost/hana/ext/std/utility.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type&lt;Bar&gt;));</div>
+</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>Type</code> (which is an object, but still represents a type). We then use the <code>hana::traits::declval</code> lifted metafunction from the <code>&lt;<a class="el" href="utility_8hpp.html" title="Defines adapters for components in the <utility> header. ">boost/hana/ext/std/utility.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-static"></a>
 Static members</h3>
 <p>Checking for a static member is easy, and it is provided for completeness:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = hana::is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(</div>
 <div class="line">  (<span class="keywordtype">void</span>)decltype(t)::type::member</div>
 <div class="line">) { });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">static</span> <span class="keywordtype">int</span> member[4]; };</div>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type&lt;Bar&gt;));</div>
 </div><!-- fragment --><p> Again, we expect a <code>Type</code> to be passed to the checker. Inside the generic lambda, we use <code>decltype(t)::type</code> to fetch the actual C++ type represented by the <code>t</code> object, as explained in the section on <a class="el" href="index.html#tutorial-type-working">type computations</a>. Then, we fetch the static member inside that type and cast it to <code>void</code>, for the same reason as we did for non-static members.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-typename"></a>
 Nested type names</h3>
 <p>Checking for a nested type name is not hard, but it requires a bit more typing than the previous cases:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = hana::is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(hana::type&lt;</div>
 <div class="line">  <span class="keyword">typename</span> decltype(t)::type::member</div>
 <div class="line"><span class="comment">//^^^^^^^^ needed because of the dependent context</span></div>
 <div class="line">&gt;) { });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">struct </span>member; <span class="comment">/* not defined! */</span> };</div>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type&lt;Bar&gt;));</div>
 </div><!-- fragment --><p> One might wonder why we use <code>-&gt; decltype(type&lt;typename-expression&gt;)</code> instead of simply <code>-&gt; typename-expression</code>. Again, the reason is that we want to support types that can't be returned from functions, like array types or incomplete types.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-template"></a>
 Nested templates</h3>
 <p>Checking for a nested template name is similar to checking for a nested type name, except we use <code>template_&lt;...&gt;</code> instead of <code>type&lt;...&gt;</code> in the generic lambda:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(<a class="code" href="structboost_1_1hana_1_1Metafunction.html#a2d1a544fac1be2f9d9ac3ed2aeb5e9d2">template_</a>&lt;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> has_member = hana::is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(hana::template_&lt;</div>
 <div class="line">  decltype(t)::type::template member</div>
 <div class="line">  <span class="comment">//                 ^^^^^^^^ needed because of the dependent context</span></div>
 <div class="line">&gt;) { });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Foo { <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">struct </span>member; };</div>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(type&lt;Foo&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(type&lt;Bar&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type&lt;Foo&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type&lt;Bar&gt;));</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-introspection-sfinae"></a>
 Taking control of SFINAE</h2>
 <p>Doing something only if an expression is well-formed is a very common pattern in C++. Indeed, the <code>optionalToString</code> function is just one instance of the following pattern, which is very general:</p>
@@ -1254,14 +1257,14 @@ Taking control of SFINAE</h2>
 <div class="line">    <span class="keywordflow">return</span> something <span class="keywordflow">else</span>;</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>To encapsulate this pattern, Hana provides the <code>sfinae</code> function, which allows executing an expression, but only if it is well-formed:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> maybe_add = <a class="code" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) -&gt; decltype(x + y) {</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> maybe_add = hana::sfinae([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) -&gt; decltype(x + y) {</div>
 <div class="line">  <span class="keywordflow">return</span> x + y;</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line">maybe_add(1, 2); <span class="comment">// just(3)</span></div>
+<div class="line">maybe_add(1, 2); <span class="comment">// hana::just(3)</span></div>
 <div class="line"></div>
 <div class="line">std::vector&lt;int&gt; v;</div>
-<div class="line">maybe_add(v, <span class="stringliteral">&quot;foobar&quot;</span>); <span class="comment">// nothing</span></div>
+<div class="line">maybe_add(v, <span class="stringliteral">&quot;foobar&quot;</span>); <span class="comment">// hana::nothing</span></div>
 </div><!-- fragment --><p> Here, we create a <code>maybe_add</code> function, which is simply a generic lambda wrapped with Hana's <code>sfinae</code> function. <code>maybe_add</code> is a function which takes two inputs and returns <code>just</code> the result of the generic lambda if that call is well-formed, and <code>nothing</code> otherwise. <code>just(...)</code> and <code>nothing</code> both belong to a type of container called <code>Optional</code>, which is essentially a compile-time <code>std::optional</code>. All in all, <code>maybe_add</code> is morally equivalent to the following function returning a <code>std::optional</code>, except that the check is done at compile-time:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> maybe_add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">  <span class="keywordflow">if</span> (x + y is well formed)</div>
@@ -1272,11 +1275,11 @@ Taking control of SFINAE</h2>
 </div><!-- fragment --><p>It turns out that we can take advantage of <code>sfinae</code> and <code>Optional</code> to implement the <code>optionalToString</code> function as follows:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::string optionalToString(T <span class="keyword">const</span>&amp; obj) {</div>
-<div class="line">  <span class="keyword">auto</span> maybe_toString = <a class="code" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a>([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(x.toString()) {</div>
+<div class="line">  <span class="keyword">auto</span> maybe_toString = hana::sfinae([](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(x.toString()) {</div>
 <div class="line">    <span class="keywordflow">return</span> x.toString();</div>
 <div class="line">  });</div>
 <div class="line"></div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="stringliteral">&quot;toString not defined&quot;</span>, maybe_toString(obj));</div>
+<div class="line">  <span class="keywordflow">return</span> hana::from_maybe(<span class="stringliteral">&quot;toString not defined&quot;</span>, maybe_toString(obj));</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> First, we wrap <code>toString</code> with the <code>sfinae</code> function. Hence, <code>maybe_toString</code> is a function which either returns <code>just(x.toString())</code> if that is well-formed, or <code>nothing</code> otherwise. Secondly, we use the <code>from_maybe</code> function to extract the optional value from the container. <code>from_maybe</code> takes a default value and an optional value. If the optional value is <code>nothing</code>, <code>from_maybe</code> returns the default value; otherwise, it returns the value inside the <code>just</code> (here <code>x.toString()</code>). This way of seeing SFINAE as a special case of computations that might fail is very clean and powerful, especially since <code>sfinae</code>'d functions can be combined through the <code>Optional</code> <code>Monad</code>, which is left to the reference documentation.</p>
 <h2><a class="anchor" id="tutorial-introspection-adapting"></a>
@@ -1291,25 +1294,26 @@ Introspecting user-defined types</h2>
 </div><!-- fragment --><p> This macro defines two members (<code>name</code> and <code>age</code>) with the given types. Then, it defines some boilerplate inside a <code>Person::hana</code> nested <code>struct</code>, which is required to make <code>Person</code> a model of the <code>Struct</code> concept. No constructors are defined (so <a href="http://en.cppreference.com/w/cpp/concept/PODType">POD-ness</a> is retained), the members are defined in the same order as they appear here and the macro can be used with template <code>struct</code>s just as well, and at any scope. Also note that you are free to add more members to the <code>Person</code> type after or before you use the macro. However, only members defined with the macro will be picked up when introspecting the <code>Person</code> type. Easy enough? Now, a <code>Person</code> can be accessed programmatically:</p>
 <div class="fragment"><div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(john, [](<span class="keyword">auto</span> pair) {</div>
-<div class="line">  std::cout &lt;&lt; to&lt;char const*&gt;(<a class="code" href="structboost_1_1hana_1_1Product.html#ab6548bd227a06799a2e5abdfd9e9b0b9">first</a>(pair)) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; <a class="code" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">second</a>(pair) &lt;&lt; std::endl;</div>
+<div class="line">hana::for_each(john, [](<span class="keyword">auto</span> pair) {</div>
+<div class="line">  std::cout &lt;&lt; hana::to&lt;char const*&gt;(hana::first(pair)) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span></div>
+<div class="line">            &lt;&lt; hana::second(pair) &lt;&lt; std::endl;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// name: John</span></div>
 <div class="line"><span class="comment">// age: 30</span></div>
 </div><!-- fragment --><p> Iteration over a <code>Struct</code> is done as if the <code>Struct</code> was a sequence of pairs, where the first element of a pair is the key associated to a member, and the second element is the member itself. When a <code>Struct</code> is defined through the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, the key associated to any member is a compile-time <code>String</code> representing the name of that member. This is why the function used with <code>for_each</code> takes a single argument <code>pair</code>, and then uses <code>first</code> and <code>second</code> to access the subparts of the pair. Also, notice how the <code>to&lt;char const*&gt;</code> function is used on the name of the member? This converts the compile-time <code>String</code> to a <code>constexpr char const*</code> so it can <code>cout</code>ed. Since it can be annoying to always use <code>first</code> and <code>second</code> to fetch the subparts of the pair, we can also use the <code>fuse</code> function to wrap our lambda and make it a binary lambda instead:</p>
-<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(john, <a class="code" href="structboost_1_1hana_1_1Foldable.html#a0840e48f29a87467e23d801ca0ca122a">fuse</a>([](<span class="keyword">auto</span> name, <span class="keyword">auto</span> member) {</div>
-<div class="line">  std::cout &lt;&lt; to&lt;char const*&gt;(name) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; member &lt;&lt; std::endl;</div>
+<div class="fragment"><div class="line">hana::for_each(john, hana::fuse([](<span class="keyword">auto</span> name, <span class="keyword">auto</span> member) {</div>
+<div class="line">  std::cout &lt;&lt; hana::to&lt;char const*&gt;(name) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; member &lt;&lt; std::endl;</div>
 <div class="line">}));</div>
 </div><!-- fragment --><p> Now, it looks much cleaner. As we just mentioned, <code>Struct</code>s are seen as a kind of sequence of pairs for the purpose of iteration. In fact, a <code>Struct</code> can even be searched like an associative data structure whose keys are the names of the members, and whose values are the members themselves:</p>
-<div class="fragment"><div class="line">std::string name = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34">at_key</a>(john, <span class="stringliteral">&quot;name&quot;</span>_s);</div>
+<div class="fragment"><div class="line">std::string name = hana::at_key(john, <span class="stringliteral">&quot;name&quot;</span>_s);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(name == <span class="stringliteral">&quot;John&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> age = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34">at_key</a>(john, <span class="stringliteral">&quot;age&quot;</span>_s);</div>
+<div class="line"><span class="keywordtype">int</span> age = hana::at_key(john, <span class="stringliteral">&quot;age&quot;</span>_s);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(age == 30);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The <code>_s</code> user-defined literal creates a compile-time Hana <code>String</code>. It is located in the <code>boost::hana::literals</code> namespace. Note that it is not part of the standard yet, but it is supported by Clang and GCC. If you want to stay 100% standard, you can use the <code>BOOST_HANA_STRING</code> macro instead.</dd></dl>
 <p>The main difference between a <code>Struct</code> and a <code>Map</code> is that a <code>Map</code> can be modified (keys can be added and removed), while a <code>Struct</code> is immutable. However, you can easily convert a <code>Struct</code> into a <code>Map</code> by using <code>to&lt;Map&gt;</code>, and then you can manipulate it in a more flexible way.</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> map = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(to&lt;Map&gt;(john), <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(<span class="stringliteral">&quot;last name&quot;</span>_s, <span class="stringliteral">&quot;Doe&quot;</span>s));</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> map = hana::insert(hana::to&lt;hana::Map&gt;(john), hana::make_pair(<span class="stringliteral">&quot;last name&quot;</span>_s, <span class="stringliteral">&quot;Doe&quot;</span>s));</div>
 <div class="line"></div>
 <div class="line">std::string name = map[<span class="stringliteral">&quot;name&quot;</span>_s];</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(name == <span class="stringliteral">&quot;John&quot;</span>);</div>
@@ -1351,7 +1355,7 @@ Example: generating JSON</h2>
 <div class="line">Car bmw{<span class="stringliteral">&quot;BMW&quot;</span>, <span class="stringliteral">&quot;Z3&quot;</span>}, audi{<span class="stringliteral">&quot;Audi&quot;</span>, <span class="stringliteral">&quot;A4&quot;</span>};</div>
 <div class="line">Person john{<span class="stringliteral">&quot;John&quot;</span>, <span class="stringliteral">&quot;Doe&quot;</span>, 30};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> tuple = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(john, audi, bmw);</div>
+<div class="line"><span class="keyword">auto</span> tuple = hana::make_tuple(john, audi, bmw);</div>
 <div class="line">std::cout &lt;&lt; to_json(tuple) &lt;&lt; std::endl;</div>
 </div><!-- fragment --><p> And the output, after passing it through a JSON pretty-printer, should look like</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;[</div>
@@ -1372,7 +1376,7 @@ Example: generating JSON</h2>
 </div><!-- fragment --><p>First, let's define a couple of utility functions to make string manipulation easier:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs&gt;</div>
 <div class="line">std::string join(Xs&amp;&amp; xs, std::string sep) {</div>
-<div class="line">  <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Foldable.html#a4e8e653553829fc2bf88f13ab907def1">fold</a>(<a class="code" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">intersperse</a>(std::forward&lt;Xs&gt;(xs), sep), <span class="stringliteral">&quot;&quot;</span>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>);</div>
+<div class="line">  <span class="keywordflow">return</span> hana::fold(hana::intersperse(std::forward&lt;Xs&gt;(xs), sep), <span class="stringliteral">&quot;&quot;</span>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>);</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line">std::string quote(std::string s) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;\&quot;&quot;</span> + s + <span class="stringliteral">&quot;\&quot;&quot;</span>; }</div>
@@ -1386,9 +1390,9 @@ Example: generating JSON</h2>
 <div class="line">std::string to_json(std::string s) { <span class="keywordflow">return</span> quote(s); }</div>
 </div><!-- fragment --><p> The <code>quote</code> and the <code>to_json</code> overloads are pretty self-explanatory. The <code>join</code> function, however, might need a bit of explanation. Basically, the <code>intersperse</code> function takes a sequence and a separator, and returns a new sequence with the separator in between each pair of elements of the original sequence. In other words, we take a sequence of the form <code>[x1, ..., xn]</code> and turn it into a sequence of the form <code>[x1, seq, x2, sep, ..., sep, xn]</code>. Finally, we fold the resulting sequence with the <code>_ + _</code> function object, which is equivalent to <code>std::plus&lt;&gt;{}</code>. Since our sequence contains <code>std::string</code>s (we assume it does), this has the effect of concatenating all the strings of the sequence into one big string. Now, let's define how to print a <code>Sequence</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs&gt;</div>
-<div class="line">  std::enable_if_t&lt;models&lt;Sequence, Xs&gt;(),</div>
+<div class="line">  std::enable_if_t&lt;hana::models&lt;hana::Sequence, Xs&gt;(),</div>
 <div class="line">std::string&gt; to_json(Xs <span class="keyword">const</span>&amp; xs) {</div>
-<div class="line">  <span class="keyword">auto</span> json = <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">  <span class="keyword">auto</span> json = hana::transform(xs, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
 <div class="line">    <span class="keywordflow">return</span> to_json(x);</div>
 <div class="line">  });</div>
 <div class="line"></div>
@@ -1396,11 +1400,11 @@ Example: generating JSON</h2>
 <div class="line">}</div>
 </div><!-- fragment --><p> First, we use the <code>transform</code> algorithm to turn our sequence of objects into a sequence of <code>std::string</code>s in JSON format. Then, we join that sequence with commas and we enclose it with <code>[]</code> to denote a sequence in JSON notation. Simple enough? Let's now take a look at how to print user-defined types:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">  std::enable_if_t&lt;models&lt;Struct, T&gt;(),</div>
+<div class="line">  std::enable_if_t&lt;hana::models&lt;hana::Struct, T&gt;(),</div>
 <div class="line">std::string&gt; to_json(T <span class="keyword">const</span>&amp; x) {</div>
-<div class="line">  <span class="keyword">auto</span> json = <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac">keys</a>(x), [&amp;](<span class="keyword">auto</span> name) {</div>
-<div class="line">    <span class="keyword">auto</span> <span class="keyword">const</span>&amp; member = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34">at_key</a>(x, name);</div>
-<div class="line">    <span class="keywordflow">return</span> quote(to&lt;char const*&gt;(name)) + <span class="stringliteral">&quot; : &quot;</span> + to_json(member);</div>
+<div class="line">  <span class="keyword">auto</span> json = hana::transform(hana::keys(x), [&amp;](<span class="keyword">auto</span> name) {</div>
+<div class="line">    <span class="keyword">auto</span> <span class="keyword">const</span>&amp; member = hana::at_key(x, name);</div>
+<div class="line">    <span class="keywordflow">return</span> quote(hana::to&lt;char const*&gt;(name)) + <span class="stringliteral">&quot; : &quot;</span> + to_json(member);</div>
 <div class="line">  });</div>
 <div class="line"></div>
 <div class="line">  <span class="keywordflow">return</span> <span class="stringliteral">&quot;{&quot;</span> + join(std::move(json), <span class="stringliteral">&quot;, &quot;</span>) + <span class="stringliteral">&quot;}&quot;</span>;</div>
@@ -1413,10 +1417,10 @@ Generalities on containers</h1>
 <h2><a class="anchor" id="tutorial-containers-creating"></a>
 Container creation</h2>
 <p>Just like one can create a <code>std::tuple</code> with <code>std::make_tuple</code>, a Hana tuple can be created with <code>hana::make_tuple</code>. However, in general, containers in Hana may be created with the <code>make</code> function:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make&lt;hana::Tuple&gt;(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s);</div>
 </div><!-- fragment --><p> Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;Tuple&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">boost::hana::Tuple</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code>Range</code> of compile-time integers with <code>make&lt;Range&gt;</code>:</p>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1Range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(int_&lt;3&gt;, int_&lt;10&gt;);</div>
-<div class="line">static_assert(r == <a class="code" href="structboost_1_1hana_1_1Range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(int_&lt;3&gt;, int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = hana::make&lt;hana::Range&gt;(hana::int_&lt;3&gt;, hana::int_&lt;10&gt;);</div>
+<div class="line">static_assert(r == hana::make_range(hana::int_&lt;3&gt;, hana::int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
 <p>But what are these types with a capital letter that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code>Range</code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_range</code>, while the actual type of such an object is left unspecified. These tags are very useful because they represent families of C++ types that are strongly related, but that are not required to have the same representation. These tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>.</p>
 <h2><a class="anchor" id="tutorial-containers-elements"></a>
@@ -1426,7 +1430,7 @@ Container elements</h2>
 <div class="line">std::vector&lt;char&gt; world = {<span class="charliteral">&#39;W&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;d&#39;</span>};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// hello is copied, world is moved-in</span></div>
-<div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(hello, std::move(world));</div>
+<div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(hello, std::move(world));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// s is a reference to the copy of hello inside xs.</span></div>
 <div class="line"><span class="comment">// It becomes a dangling reference as soon as xs is destroyed.</span></div>
@@ -1435,18 +1439,18 @@ Container elements</h2>
 <div class="fragment"><div class="line">std::vector&lt;int&gt; ints = { <span class="comment">/* huge vector of ints */</span> };</div>
 <div class="line">std::vector&lt;std::string&gt; strings = { <span class="comment">/* huge vector of strings */</span> };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> map = <a class="code" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a>(</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;int&gt;, std::ref(ints)),</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(type&lt;std::string&gt;, std::ref(strings))</div>
+<div class="line"><span class="keyword">auto</span> map = hana::make_map(</div>
+<div class="line">  hana::make_pair(hana::type&lt;int&gt;, std::ref(ints)),</div>
+<div class="line">  hana::make_pair(hana::type&lt;std::string&gt;, std::ref(strings))</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span>&amp; v = map[type&lt;int&gt;].get();</div>
+<div class="line"><span class="keyword">auto</span>&amp; v = map[hana::type&lt;int&gt;].get();</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(&amp;v == &amp;ints);</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-containers-types"></a>
 Container types</h2>
 <p>So far, we have only created containers with the <code>make_xxx</code> family of functions, and we always let the compiler deduce the actual type of the container by using <code>auto</code>. We will now clarify what can be expected from the types of Hana's containers:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
-<div class="line"><span class="keyword">auto</span> ints = <a class="code" href="structboost_1_1hana_1_1Range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(int_&lt;0&gt;, int_&lt;100&gt;);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> ints = hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;100&gt;);</div>
 <div class="line"><span class="comment">// what can we say about the types of xs and ints?</span></div>
 </div><!-- fragment --><p> The answer is quite simple, actually. In general, you can't expect anything from the type of a container in Hana. This is indicated by the documentation of the <code>make</code> function for that container, which will return an <a class="el" href="index.html#tutorial-glossary-unspecified_type">unspecified-type</a> if the type is, well, unspecified. Otherwise, if the type of the container is specified, it will be documented properly by the return type of the <code>make</code> function for that container. There are several reasons for leaving the type of a container unspecified; they are explained in the <a class="el" href="index.html#tutorial-rationales-container_types">rationales</a>. However, leaving the type of containers completely unspecified makes some things very difficult to achieve, like overloading functions on heterogeneous containers:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
@@ -1464,7 +1468,7 @@ Container types</h2>
 <div class="line">  <span class="comment">// ...</span></div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs, <span class="keyword">typename</span> = std::enable_if_t&lt;is_a&lt;Tuple, Xs&gt;()&gt;&gt;</div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs, <span class="keyword">typename</span> = std::enable_if_t&lt;hana::is_a&lt;hana::Tuple, Xs&gt;()&gt;&gt;</div>
 <div class="line"><span class="keywordtype">void</span> f(Xs xs) {</div>
 <div class="line">  <span class="comment">// ...</span></div>
 <div class="line">}</div>
@@ -1482,32 +1486,32 @@ By-value semantics</h2>
 <div class="line">  <span class="keywordflow">return</span> ss.str();</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(<a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, to_str)) == <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(<span class="stringliteral">&quot;bcde&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;2.2&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>)</div>
+<div class="line">  hana::reverse(hana::transform(xs, to_str)) == hana::make_tuple(<span class="stringliteral">&quot;bcde&quot;</span>, <span class="stringliteral">&quot;a&quot;</span>, <span class="stringliteral">&quot;2.2&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>)</div>
 <div class="line">);</div>
 </div><!-- fragment --><p> This is different from the algorithms of the standard library, where one has to provide iterators to the underlying sequence. For reasons documented in the <a class="el" href="index.html#tutorial-rationales-iterators">rationales</a>, an iterator-based design was considered but was quickly dismissed in favor of composable and efficient abstractions better suited to the very particular context of heterogeneous programming.</p>
 <p>One might also think that returning full sequences that own their elements from an algorithm would lead to tons of undesirable copies. For example, when using <code>reverse</code> and <code>transform</code>, one could think that an intermediate copy is made after the call to <code>transform</code>:</p>
-<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, to_str) <span class="comment">// &lt;-- copy into reverse(...) here?</span></div>
+<div class="fragment"><div class="line">hana::reverse(</div>
+<div class="line">  hana::transform(xs, to_str) <span class="comment">// &lt;-- copy into reverse(...) here?</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><p> To make sure this does not happen, Hana uses perfect forwarding and move semantics heavily so it can provide an almost optimal runtime performance. So instead of doing a copy, a move occurs between <code>reverse</code> and <code>transform</code>:</p>
-<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(xs, to_str) <span class="comment">// &lt;-- nope, move from the temporary instead!</span></div>
+<div class="fragment"><div class="line">hana::reverse(</div>
+<div class="line">  hana::transform(xs, to_str) <span class="comment">// &lt;-- nope, move from the temporary instead!</span></div>
 <div class="line">);</div>
 </div><!-- fragment --><p> Ultimately, the goal is that code written using Hana should be equivalent to clever hand-written code, except it should be enjoyable to write. Performance considerations are explained in depth in their own <a class="el" href="index.html#tutorial-performance">section</a>.</p>
 <h2><a class="anchor" id="tutorial-algorithms-laziness"></a>
 (Non-)Laziness</h2>
 <p>Algorithms in Hana are not lazy. When an algorithm is called, it does its job and returns a new sequence containing the result, end of the story. For example, calling the <code>permutations</code> algorithm on a large sequence is a stupid idea, because Hana will actually compute all the permutations:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> perms = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1">permutations</a>(<a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> perms = hana::permutations(hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));</div>
 <div class="line"><span class="comment">// perms has 3 628 800 elements, and your compiler just crashed</span></div>
 </div><!-- fragment --><p>To contrast, algorithms in Boost.Fusion return views which hold the original sequence by reference and apply the algorithm on demand, as the elements of the sequence are accessed. This leads to subtle lifetime issues, like having a view that refers to a sequence that was destroyed. Hana's design assumes that most of the time, we want to access all or almost all the elements in a sequence anyway, and hence performance is not a big argument in favor of laziness.</p>
 <h2><a class="anchor" id="tutorial-algorithms-codegen"></a>
 What is generated?</h2>
 <p>Algorithms in Hana are a bit special with respect to the runtime code they are expanded into. The goal of this subsection is not to explain exactly what code is generated, which depends on the compiler anyway, but to give a feel for things. Basically, a Hana algorithm is like an unrolled version of an equivalent classical algorithm. Indeed, since the bounds of the processed sequence are known at compile-time, it makes sense that we can unroll the loop over the sequence. For example, let's consider the <code>for_each</code> algorithm:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(0, 1, 2, 3);</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(xs, f);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(0, 1, 2, 3);</div>
+<div class="line">hana::for_each(xs, f);</div>
 </div><!-- fragment --><p>If <code>xs</code> was a runtime sequence instead of a tuple, its length would only be known at runtime and the above code would have to be implemented as a loop:</p>
 <div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; xs.size(); ++i) {</div>
 <div class="line">  f(xs[i]);</div>
@@ -1524,17 +1528,17 @@ What is generated?</h2>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-algorithms-effects"></a>
 Side effects and purity</h2>
 <p>By default, Hana assumes functions to be pure. A pure function is a function that has no side-effects at all. In other words, it is a function whose effect on the program is solely determined by its return value. In particular, such a function may not access any state that outlives a single invocation of the function. These functions have very nice properties, like the ability to reason mathematically about them, to reorder or even eliminate calls, and so on. Except where specified otherwise, all functions used with Hana (i.e. used in higher order algorithms) should be pure. In particular, functions passed to higher order algorithms are not guaranteed to be called any specific number of times. Furthermore, the order of execution is generally not specified and should therefore not be taken for granted. If this lack of guarantees about function invocations seems crazy, consider the following use of the <code>any_of</code> algorithm:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(<a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3), [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> r = hana::any_of(hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3), [](<span class="keyword">auto</span> x) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{};</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(r);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>According to the previous section on unrolling, this algorithm should be expanded into something like:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
 <div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a> = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;</div>
+<div class="line"><span class="keyword">auto</span> r = hana::bool_&lt;</div>
 <div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[0_c]) ? <span class="keyword">true</span> :</div>
 <div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[1_c]) ? <span class="keyword">true</span> :</div>
 <div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[2_c]) ? <span class="keyword">true</span> :</div>
@@ -1543,10 +1547,10 @@ Side effects and purity</h2>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(r);</div>
 </div><!-- fragment --><p>Of course, the above code can't work as-is, because we're calling <code>pred</code> inside something that would have to be a constant expression, but <code>pred</code> is a lambda (and lambdas can't be called in constant expressions). However, whether any of these objects has an integral type is clearly known at compile-time, and hence we would expect that computing the answer only involves compile-time computations. In fact, this is exactly what Hana does, and the above algorithm is expanded into something like:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
 <div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a> = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> r = <a class="code" href="structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87">bool_</a>&lt;</div>
+<div class="line"><span class="keyword">auto</span> r = hana::bool_&lt;</div>
 <div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[0_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
 <div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[1_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
 <div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[2_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
@@ -1556,7 +1560,7 @@ Side effects and purity</h2>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(r);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>As you will be able to deduce from the next section on cross-phase computations, the implementation of <code>any_of</code> must actually be more general than this. However, this <a href="http://en.wikipedia.org/wiki/Lie-to-children">lie-to-children</a> is perfect for educational purposes.</dd></dl>
 <p>As you can see, the predicate is never even executed; only its result type on a particular object is used. Regarding the order of evaluation, consider the <code>transform</code> algorithm, which is specified (for <code>Tuple</code>s) as:</p>
-<div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(<a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(x1, ..., xn), f) == <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(f(x1), ..., f(xn))</div>
+<div class="fragment"><div class="line">hana::transform(hana::make_tuple(x1, ..., xn), f) == hana::make_tuple(f(x1), ..., f(xn))</div>
 </div><!-- fragment --><p>Since <code>make_tuple</code> is a function, and since the evaluation order for the arguments of a function is unspecified, the order in which <code>f</code> is called on each element of the tuple is unspecified too. If one sticks to pure functions, everything works fine and the resulting code is often easier to understand. However, some exceptional algorithms like <code>for_each</code> do expect impure functions, and they guarantee an order of evaluation. Indeed, a <code>for_each</code> algorithm that would only take pure functions would be pretty much useless. When an algorithm can accept an impure function or guarantees some order of evaluation, the documentation for that algorithm will mention it explicitly. However, by default, no guarantees may be taken for granted.</p>
 <h2><a class="anchor" id="tutorial-algorithms-cross_phase"></a>
 Cross-phase algorithms</h2>
@@ -1566,45 +1570,45 @@ Cross-phase algorithms</h2>
 <div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
 <div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> animals = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
+<div class="line"><span class="keyword">auto</span> animals = hana::make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
 <div class="line"><span class="comment">//   ^^^^^^^ not a compile-time value</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(animals) == size_t&lt;3&gt;);</div>
-<div class="line"><span class="comment">//                        ^^^^^^^^^^^^^^^ assert done at compile-time</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(animals) == hana::size_t&lt;3&gt;);</div>
+<div class="line"><span class="comment">//                        ^^^^^^^^^^^^^^^^^^^^^ assertion done at compile-time</span></div>
 </div><!-- fragment --><p> Obviously, the tuple can't be made <code>constexpr</code>, since it contains runtime <code>std::string</code>s. Still, even though it is not called on a constant expression, <code>length</code> returns something that can be used at compile-time. If you think of it, the size of the tuple is known at compile-time regardless of its content, and hence it would only make sense for this information to be available to us at compile-time. If that seems surprising, think about <code>std::tuple</code> and <code>std::tuple_size</code>:</p>
 <div class="fragment"><div class="line">std::tuple&lt;int, char, std::string&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, std::string{<span class="stringliteral">&quot;345&quot;</span>}};</div>
 <div class="line">static_assert(std::tuple_size&lt;decltype(xs)&gt;::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> == 3u, <span class="stringliteral">&quot;&quot;</span>);</div>
 </div><!-- fragment --><p> Since the size of the tuple is encoded in its type, it is always available at compile-time regardless of whether the tuple is <code>constexpr</code> or not. In Hana, this is implemented by having <code>length</code> return an <code>IntegralConstant</code>. Since an <code>IntegralConstant</code>'s value is encoded in its type, the result of <code>length</code> is contained in the type of the object it returns, and the length is therefore known at compile-time. Because <code>length</code> goes from a runtime value (the container) to a compile-time value (the <code>IntegralConstant</code>), <code>length</code> is a trivial example of a cross-phase algorithm (trivial because it does not really manipulate the tuple). Another algorithm that is very similar to <code>length</code> is the <code>is_empty</code> algorithm, which returns whether a container is empty:</p>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(animals));</div>
-<div class="line"><span class="comment">//                         ^^^^^^^^^^^^^^^^^ assert done at compile-time</span></div>
+<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_empty(animals));</div>
+<div class="line"><span class="comment">//                         ^^^^^^^^^^^^^^^^^^^^^^^ assertion done at compile-time</span></div>
 </div><!-- fragment --><p> More generally, any algorithm that takes a container whose value is known at runtime but queries something that can be known at compile-time should be able to return an <code>IntegralConstant</code> or another similar compile-time value. Let's make things slightly more complicated by considering the <code>any_of</code> algorithm, which we already encountered in the previous section:</p>
-<div class="fragment"><div class="line"><span class="keywordtype">bool</span> any_garfield = <a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](<span class="keyword">auto</span> animal) {</div>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> any_garfield = hana::any_of(animals, [](<span class="keyword">auto</span> animal) {</div>
 <div class="line">  <span class="keywordflow">return</span> animal.name == <span class="stringliteral">&quot;Garfield&quot;</span>s;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(any_garfield);</div>
 </div><!-- fragment --><p> In this example, the result can't be known at compile-time, because the predicate returns a <code>bool</code> that is the result of comparing two <code>std::string</code>s. Since <code>std::string</code>s can't be compared at compile-time, the predicate must operate at runtime, and the overall result of the algorithm can then only be known at runtime too. However, let's say we used <code>any_of</code> with the following predicate instead:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> any_cat = <a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](<span class="keyword">auto</span> x) {</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> any_cat = hana::any_of(animals, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Cat&gt;{};</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(any_cat);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>First, since the predicate is only querying information about the type of each element of the tuple, it is clear that its result can be known at compile-time. Since the number of elements in the tuple is also known at compile-time, the overall result of the algorithm can, in theory, be known at compile-time. More precisely, what happens is that the predicate returns a value initialized <code>std::is_same&lt;...&gt;</code>, which inherits from <code>std::integral_constant</code>. Hana recognizes these objects, and the algorithm is written in such a way that it preserves the <code>compile-time</code>ness of the predicate's result. In the end, <code>any_of</code> hence returns an <code>IntegralConstant</code> holding the result of the algorithm, and we use the compiler's type deduction in a clever way to make it look easy. Hence, it would be equivalent to write (but then you would need to already know the result of the algorithm!):</p>
-<div class="fragment"><div class="line">decltype(<a class="code" href="structboost_1_1hana_1_1IntegralConstant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">true_</a>) any_cat = <a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](auto x) {</div>
+<div class="fragment"><div class="line">decltype(hana::true_) any_cat = hana::<a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](auto x) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Cat&gt;{};</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(any_cat);</div>
 </div><!-- fragment --><p> Ok, so some algorithms are able to return compile-time values when their input satisfies some constraints with respect to <code>compile-time</code>ness. However, other algorithms are more restrictive and they <em>require</em> their inputs to satisfy some constraints regarding <code>compile-time</code>ness, without which they are not able to operate at all. An example of this is <code>filter</code>, which takes a sequence and a predicate, and returns a new sequence containing only those elements for which the predicate is satisfied. <code>filter</code> requires the predicate to return an <code>IntegralConstant</code>. While this requirement may seem stringent, it really makes sense if you think about it. Indeed, since we're removing some elements from the heterogeneous sequence, the type of the resulting sequence depends on the result of the predicate. Hence, the result of the predicate has to be known at compile-time for the compiler to be able to assign a type to the returned sequence. For example, consider what happens when we try to filter a heterogeneous sequence as follows:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> animals = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> animals = hana::make_tuple(Fish{<span class="stringliteral">&quot;Nemo&quot;</span>}, Cat{<span class="stringliteral">&quot;Garfield&quot;</span>}, Dog{<span class="stringliteral">&quot;Snoopy&quot;</span>});</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> no_garfield = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(animals, [](<span class="keyword">auto</span> animal) {</div>
+<div class="line"><span class="keyword">auto</span> no_garfield = hana::filter(animals, [](<span class="keyword">auto</span> animal) {</div>
 <div class="line">  <span class="keywordflow">return</span> animal.name != <span class="stringliteral">&quot;Garfield&quot;</span>s;</div>
 <div class="line">});</div>
 </div><!-- fragment --><p>Clearly, we know that the predicate will only return false on the second element, and hence the result <em>should be</em> a <code>[Fish, Dog]</code> tuple. However, the compiler has no way of knowing this since the predicate's result is the result of a runtime computation, which happens way after the compiler has finished its job. Hence, the compiler does not have enough information to determine the return type of the algorithm. However, we could <code>filter</code> the same sequence with any predicate whose result is available at compile-time:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> mammals = <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(animals, [](<span class="keyword">auto</span> animal) {</div>
-<div class="line">  <span class="keywordflow">return</span> type&lt;decltype(animal)&gt; != type&lt;Fish&gt;;</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> mammals = hana::filter(animals, [](<span class="keyword">auto</span> animal) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::type&lt;decltype(animal)&gt; != hana::type&lt;Fish&gt;;</div>
 <div class="line">});</div>
 </div><!-- fragment --><p> Since the predicate returns an <code>IntegralConstant</code>, we know which elements of the heterogeneous sequence we'll be keeping at compile-time. Hence, the compiler is able to figure out the return type of the algorithm. Other algorithms like <code>partition</code> and <code>sort</code> work similarly; special algorithm requirements are always documented, just read the reference documentation of an algorithm before using it to avoid surprises.</p>
 <p>This is the end of the section on algorithms. While this constitutes a fairly complete explanation of phase interaction inside algorithms, a deeper understanding can be gained by reading the <a class="el" href="index.html#tutorial-appendix-constexpr">advanced section</a> on <code>constexpr</code> and the reference for <code>Constant</code> and <code>IntegralConstant</code>.</p>
@@ -1642,10 +1646,10 @@ Runtime performance</h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.transform.bloat.json"> </div><p>As you can see, code bloat does not seem to be an issue, at least not one that can be detected in micro benchmarks such as this one. Let's now take a look at the <code>fold</code> algorithm, which is used very frequently:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.execute.json"> </div><p>Here, you can see that everybody is performing pretty much the same, which is a good sign that Hana is at least not screwing things up. Again, let's look at the executable size:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.bloat.json"> </div><p>Here again, the code size did not explode. So at least for moderate usages of Hana (and Fusion for that matter, since they have the same problem), code bloat should not be a major concern. The containers in the charts we just presented contain randomly generated <code>int</code>s, which is cheap to copy around and lends itself well to micro benchmarks. However, what happens when we chain multiple algorithms on a container whose elements are expensive to copy? More generally, the question is: when an algorithm is passed a temporary object, does it seize the opportunity to avoid unnecessary copies? Consider:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(<span class="stringliteral">&quot;some&quot;</span>s, <span class="stringliteral">&quot;huge&quot;</span>s, <span class="stringliteral">&quot;string&quot;</span>s);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;some&quot;</span>s, <span class="stringliteral">&quot;huge&quot;</span>s, <span class="stringliteral">&quot;string&quot;</span>s);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// No copy of xs&#39;s elements should be made: they should only be moved around.</span></div>
-<div class="line"><span class="keyword">auto</span> ys = <a class="code" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a>(std::move(xs));</div>
+<div class="line"><span class="keyword">auto</span> ys = hana::reverse(std::move(xs));</div>
 </div><!-- fragment --><p>To answer this question, we'll look at the chart generated when benchmarking the above code for strings of about 1k characters. However, note that it does not really make sense to benchmark this for standard library algorithms, because they do not return containers.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.reverse.move.json"> </div><p>As you can see, Hana is faster than Fusion, probably because of a more consistent use of move semantics in the implementation. If we had not provided a temporary container to <code>reverse</code>, no move could have been performed by Hana and both libraries would have performed similarly:</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.reverse.nomove.json"> </div><p>This concludes the section on runtime performance. Hopefully you are now convinced that Hana was built for speed. Performance is important to us: if you ever encounter a scenario where Hana causes bad code to be generated (and the fault is not on the compiler), please open an <a href="https://github.com/ldionne/hana/issues">issue</a> so the problem can be addressed.</p>
@@ -1831,12 +1835,12 @@ Header organization</h1>
 <li><code>boost/hana/ext/</code><br />
  This directory contains adapters for external libraries. Only the strict minimum required to adapt the external components is included in these headers (e.g. a forward declaration). This means that the definition of the external component should still be included when one wants to use it. For example: <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span> <span class="comment">// still required to create a tuple</span></div>
-<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">  constexpr std::tuple&lt;int, char, float&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.0f};</div>
-<div class="line">  static_assert(front(xs) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">  static_assert(hana::front(xs) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>boost/hana/detail/</code><br />
@@ -1948,14 +1952,14 @@ Why no iterators?</h2>
 <h2><a class="anchor" id="tutorial-rationales-container_types"></a>
 Why leave container types unspecified?</h2>
 <p>First, it gives much more wiggle room for the implementation to perform compile-time and runtime optimizations by using clever representations for specific containers. For example, a tuple containing homogeneous objects of type <code>T</code> could be implemented as an array of type <code>T</code> instead, which is more efficient at compile-time. Secondly, and most importantly, it turns out that knowing the type of a <em>heterogeneous</em> container is not as useful as you would think. Indeed, in the context of heterogeneous programming, the type of the object returned by a computation is usually part of the computation too. In other words, there is no way to know the type of the object returned by an algorithm without actually performing the algorithm. For example, consider the <code>find_if</code> algorithm:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> tuple = <a class="code" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a>(1, <span class="charliteral">&#39;x&#39;</span>, 3.4f);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> tuple = hana::make_tuple(1, <span class="charliteral">&#39;x&#39;</span>, 3.4f);</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> result = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(tuple, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
-<div class="line">  <span class="keywordflow">return</span> traits::is_integral(x);</div>
+<div class="line"><span class="keyword">auto</span> result = hana::find_if(tuple, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::traits::is_integral(x);</div>
 <div class="line">});</div>
 </div><!-- fragment --><p> If the predicate is satisfied for some element of the tuple, result will be equal to <code>just(x)</code>. Otherwise, <code>result</code> will be equal to <code>nothing</code>. However, the <code>nothing</code>ness of the result is known at compile-time, which requires <code>just(x)</code> and <code>nothing</code> to have different types. Now, say you wanted to explicitly write the type of the result:</p>
-<div class="fragment"><div class="line">some_type result = <a class="code" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(tuple, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
-<div class="line">  <span class="keywordflow">return</span> traits::is_integral(x);</div>
+<div class="fragment"><div class="line">some_type result = hana::find_if(tuple, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line">  <span class="keywordflow">return</span> hana::traits::is_integral(x);</div>
 <div class="line">});</div>
 </div><!-- fragment --><p> In order to possess the knowledge of what <code>some_type</code> is, you would need to actually perform the algorithm, because <code>some_type</code> depends on whether the predicate is satisfied or not for some element in the container. In other words, if you were able to write the above, then you would already know what the result of the algorithm is and you would not need to perform the algorithm in the first place. In Boost.Fusion, this problem is addressed by having a separate <code>result_of</code> namespace, which contains a metafunction computing the result type of any algorithm given the types of the arguments passed to it. For example, the above example could be rewritten with Fusion as:</p>
 <div class="fragment"><div class="line"><span class="keyword">using</span> Container = fusion::result_of::make_vector&lt;int, char, float&gt;::type;</div>

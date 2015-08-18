@@ -211,10 +211,23 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment --><p>This overload works by taking a <code>const&amp;</code> to its argument, and then forwarding to the first version of <code>value</code>. Since it does not use its argument, the result can still be a constant expression, even if the argument is not a constant expression.</p>
 <dl class="section note"><dt>Note</dt><dd><code>value&lt;T&gt;()</code> is tag-dispatched as <code>value_impl&lt;C&gt;::apply&lt;T&gt;()</code>, where <code>C</code> is the data type of <code>T</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> i = integral_constant&lt;int, 3&gt;; <span class="comment">// notice no constexpr</span></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>&lt;decltype(i)&gt;() == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>(i) == 3, <span class="stringliteral">&quot;value(i) is always a constant expression!&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="value_8hpp.html">boost/hana/value.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="keyword">auto</span> i = hana::integral_constant&lt;int, 3&gt;; <span class="comment">// notice no constexpr</span></div>
+<div class="line">    static_assert(hana::value&lt;decltype(i)&gt;() == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::value(i) == 3, <span class="stringliteral">&quot;value(i) is always a constant expression!&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ad06a1ad6dece8a0337c3a9e754067051"></a>
@@ -242,10 +255,24 @@ template&lt;typename T &gt; </div>
 <p>This function object is equivalent to <code>value</code>, except it can be passed to higher order algorithms because it is a function object. <code>value</code> can't be passed to higher-order algorithms because it is implemented as an overloaded function.</p>
 <dl class="section note"><dt>Note</dt><dd>This function is a simple alias to <code>value</code>, and hence it is not tag-dispatched and can't be customized.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = tuple_c&lt;int, 1, 2, 3, 4, 5&gt;;</div>
-<div class="line">constexpr <span class="keyword">auto</span> vs = transform(xs, <a class="code" href="structboost_1_1hana_1_1Constant.html#ad06a1ad6dece8a0337c3a9e754067051">value_of</a>);</div>
-<div class="line">static_assert(vs == make&lt;Tuple&gt;(1, 2, 3, 4, 5), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="value_8hpp.html">boost/hana/value.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::tuple_c&lt;int, 1, 2, 3, 4, 5&gt;;</div>
+<div class="line">    constexpr <span class="keyword">auto</span> vs = hana::transform(xs, hana::value_of);</div>
+<div class="line">    static_assert(vs == hana::make_tuple(1, 2, 3, 4, 5), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

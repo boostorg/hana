@@ -224,9 +224,21 @@ Variables</h2></td></tr>
 <p>Specifically, <code>always(x)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(x)(y...) == x</div>
 </div><!-- fragment --><p> for any <code>y...</code>. A copy of <code>x</code> is made and it is owned by the <code>always(x)</code> function. When <code>always(x)</code> is called, it will return a reference to the <code>x</code> it owns. This reference is valid as long as <code>always(x)</code> is in scope.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(1)() == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(<span class="charliteral">&#39;2&#39;</span>)(1, 2, 3) == <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="always_8hpp.html">boost/hana/functional/always.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">hana::always</a>(1)() == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">hana::always</a>(<span class="charliteral">&#39;2&#39;</span>)(1, 2, 3) == <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga30027c383676084be151ef3c6cf2829f"></a>
@@ -253,8 +265,21 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(plus, 1, 2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="apply_8hpp.html">boost/hana/functional/apply.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">hana::apply</a>(hana::plus, 1, 2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga6acc765a35c4dc85f0deab4785831a3d"></a>
@@ -293,12 +318,24 @@ template&lt;std::size_t n&gt; </div>
 <h3>Rationale for <code>n</code> being a non-type template parameter</h3>
 <p>I claim that the only interesting use case is with a compile-time <code>n</code>, which means that the usage would become <code>arg(int_&lt;n&gt;)(x...)</code>, which is more cumbersome to write than <code>arg&lt;n&gt;(x...)</code>. This is open for discussion. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">// arg&lt;0&gt;(1, &#39;2&#39;, 3.3); // static assertion (regardless of the number of arguments)</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(arg&lt;1&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(arg&lt;2&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <span class="charliteral">&#39;2&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(arg&lt;3&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 3.3);</div>
-<div class="line"><span class="comment">// arg&lt;4&gt;(1, &#39;2&#39;, 3.3); // static assertion</span></div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="arg_8hpp.html">boost/hana/functional/arg.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// hana::arg&lt;0&gt;(1, &#39;2&#39;, 3.3); // static assertion (regardless of the number of arguments)</span></div>
+<div class="line">static_assert(hana::arg&lt;1&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::arg&lt;2&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::arg&lt;3&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3) == 3.3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="comment">// hana::arg&lt;4&gt;(1, &#39;2&#39;, 3.3); // static assertion</span></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga41ada6b336e9d5bcb101ff0c737acbd0"></a>
@@ -324,13 +361,27 @@ template&lt;std::size_t n&gt; </div>
 <p>Create a function capturing the given variables. </p>
 <p>Given 0 or more variables and a function <code>f</code>, <code>capture</code> returns a function equivalent to <code>f</code> except that the first arguments sent to <code>f</code> are the captured variables. Specifically, <code>capture(vars...)(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(vars...)(f)(args...) == f(vars..., args...)</div>
 </div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sum = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + y + z;</div>
-<div class="line">};</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(1, 2, 3)(sum)() == 6);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(1, 2)(sum)(3) == 6);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="capture_8hpp.html">boost/hana/functional/capture.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sum = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2, 3)(sum)() == 6);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2)(sum)(3) == 6);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga3b16146e53efcdf9ecbb9a7b21f8cd0b"></a>
@@ -368,16 +419,30 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g), h)(x, xs...) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(h(x), xs...)</div>
 <div class="line">                                    == f(g(h(x)), xs...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> to_char = [](<span class="keywordtype">int</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(x + 48);</div>
-<div class="line">};</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + 1;</div>
-<div class="line">};</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="compose_8hpp.html">boost/hana/functional/compose.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(to_char, increment)(3) == <span class="charliteral">&#39;4&#39;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> to_char = [](<span class="keywordtype">int</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(x + 48);</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + 1;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">hana::compose</a>(to_char, increment)(3) == <span class="charliteral">&#39;4&#39;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga49ea872ade5ac8f6c10052c495302e89"></a>
@@ -416,20 +481,37 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment --><p>Note that the <code>n</code> has to be specified explicitly because the existence of functions with variadic arguments in C++ make it impossible to know when currying should stop.</p>
 <p>Unlike usual currying, this implementation also allows a curried function to be called with several arguments at a time. Hence, the following always holds </p><div class="fragment"><div class="line">curry&lt;n&gt;(f)(x1, ..., xk) == <a class="code" href="group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89">curry</a>&lt;n - k&gt;(f)(x1)...(xk)</div>
 </div><!-- fragment --><p>Of course, this requires <code>k</code> to be less than or equal to <code>n</code>; failure to satisfy this will trigger a static assertion. This syntax is supported because it makes curried functions usable where normal functions are expected.</p>
-<p>Another "extension" is that <code>curry&lt;0&gt;(f)</code> is supported: <code>curry&lt;0&gt;(f)</code> is a nullary function; whereas the classical definition for currying seems to leave this case undefined, as nullary functions don't make much sense in purely functional languages. </p><div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> two = []() {</div>
-<div class="line">    <span class="keywordflow">return</span> 2;</div>
-<div class="line">};</div>
+<p>Another "extension" is that <code>curry&lt;0&gt;(f)</code> is supported: <code>curry&lt;0&gt;(f)</code> is a nullary function; whereas the classical definition for currying seems to leave this case undefined, as nullary functions don't make much sense in purely functional languages.</p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(curry&lt;0&gt;(two)() == two());</div>
-</div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + y + z;</div>
-<div class="line">};</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="curry_8hpp.html">boost/hana/functional/curry.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(curry&lt;3&gt;(add)(1)(2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(curry&lt;3&gt;(add)(1, 2, 3) == curry&lt;3&gt;(add)(1)(2)(3));</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> add = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1, 2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// curry with a nullary function</span></div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> two = []() {</div>
+<div class="line">        <span class="keywordflow">return</span> 2;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;0&gt;(two)() == two());</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga3a8316acd5efa22c3d1861b62d5df3c2"></a>
@@ -461,30 +543,30 @@ template&lt;std::size_t n&gt; </div>
 <dl class="section note"><dt>Note</dt><dd>When used with two functions only, <code>demux</code> is associative. In other words (and noting <code>demux(f, g) = demux(f)(g)</code> to ease the notation), it is true that <code>demux(demux(f, g), h) == demux(f, demux(g, h))</code>.</dd></dl>
 <h2>Signature </h2>
 <p>The signature of <code>demux</code> is </p><p class="formulaDsp">
-\[ \mathrm{demux} : (B_1 \times \dotsb \times B_n \to C) \to ((A_1 \times \dotsb \times A_n \to B_1) \times \dotsb \times (A_1 \times \dotsb \times A_n \to B_n)) \to (A_1 \times \dotsb \times A_n \to C) \]
+\[ \mathtt{demux} : (B_1 \times \dotsb \times B_n \to C) \to ((A_1 \times \dotsb \times A_n \to B_1) \times \dotsb \times (A_1 \times \dotsb \times A_n \to B_n)) \to (A_1 \times \dotsb \times A_n \to C) \]
 </p>
 <p>This can be rewritten more tersely as </p><p class="formulaDsp">
-\[ \mathrm{demux} : \left(\prod_{i=1}^n B_i \to C \right) \to \prod_{j=1}^n \left(\prod_{i=1}^n A_i \to B_j \right) \to \left(\prod_{i=1}^n A_i \to C \right) \]
+\[ \mathtt{demux} : \left(\prod_{i=1}^n B_i \to C \right) \to \prod_{j=1}^n \left(\prod_{i=1}^n A_i \to B_j \right) \to \left(\prod_{i=1}^n A_i \to C \right) \]
 </p>
 <h2>Link with normal composition </h2>
 <p>The signature of <code>compose</code> is </p><p class="formulaDsp">
-\[ \mathrm{compose} : (B \to C) \times (A \to B) \to (A \to C) \]
+\[ \mathtt{compose} : (B \to C) \times (A \to B) \to (A \to C) \]
 </p>
 <p>A valid observation is that this coincides exactly with the type of <code>demux</code> when used with a single unary function. Actually, both functions are equivalent: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g)(x) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(x)</div>
 </div><!-- fragment --><p>However, let's now consider the curried version of <code>compose</code>, <code>curry&lt;2&gt;(compose)</code>: </p><p class="formulaDsp">
-\[ \mathrm{curry_2(compose)} : (B \to C) \to ((A \to B) \to (A \to C)) \]
+\[ \mathtt{curry_2(compose)} : (B \to C) \to ((A \to B) \to (A \to C)) \]
 </p>
 <p>For the rest of this explanation, we'll just consider the curried version of <code>compose</code> and so we'll use <code>compose</code> instead of <code>curry&lt;2&gt;(compose)</code> to lighten the notation. With currying, we can now consider <code>compose</code> applied to itself: </p><p class="formulaDsp">
-\[ \mathrm{compose(compose, compose)} : (B \to C) \to (A_1 \to A_2 \to B) \to (A_1 \to A_2 \to C) \]
+\[ \mathtt{compose(compose, compose)} : (B \to C) \to (A_1 \to A_2 \to B) \to (A_1 \to A_2 \to C) \]
 </p>
 <p>If we uncurry deeply the above expression, we obtain </p><p class="formulaDsp">
-\[ \mathrm{compose(compose, compose)} : (B \to C) \times (A_1 \times A_2 \to B) \to (A_1 \times A_2 \to C) \]
+\[ \mathtt{compose(compose, compose)} : (B \to C) \times (A_1 \times A_2 \to B) \to (A_1 \times A_2 \to C) \]
 </p>
 <p>This signature is exactly the same as that of <code>demux</code> when given a single binary function, and indeed they are equivalent definitions. We can also generalize this further by considering <code>compose(compose(compose, compose), compose)</code>: </p><p class="formulaDsp">
-\[ \mathrm{compose(compose(compose, compose), compose)} : (B \to C) \to (A_1 \to A_2 \to A_3 \to B) \to (A_1 \to A_2 \to A_3 \to C) \]
+\[ \mathtt{compose(compose(compose, compose), compose)} : (B \to C) \to (A_1 \to A_2 \to A_3 \to B) \to (A_1 \to A_2 \to A_3 \to C) \]
 </p>
 <p>which uncurries to </p><p class="formulaDsp">
-\[ \mathrm{compose(compose(compose, compose), compose)} : (B \to C) \times (A_1 \times A_2 \times A_3 \to B) \to (A_1 \times A_2 \times A_3 \to C) \]
+\[ \mathtt{compose(compose(compose, compose), compose)} : (B \to C) \times (A_1 \times A_2 \times A_3 \to B) \to (A_1 \times A_2 \times A_3 \to C) \]
 </p>
 <p>This signature is exactly the same as that of <code>demux</code> when given a single ternary function. Hence, for a single n-ary function <code>g</code>, <code>demux(f)(g)</code> is equivalent to the n-times composition of <code>compose</code> with itself, applied to <code>g</code> and <code>f</code>: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g) == fold_left([<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>, ..., <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>], <span class="keywordtype">id</span>, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>)(g, f)</div>
 <div class="line">                      <span class="comment">//  ^^^^^^^^^^^^^^^^^^^^^ n times</span></div>
@@ -496,7 +578,20 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">                            == f(g(h(x...)))</div>
 </div><!-- fragment --><p>and hence <code>demux</code> is associative in the binary case.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(make&lt;Tuple&gt;)(</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="demux_8hpp.html">boost/hana/functional/demux.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">hana::demux</a>(hana::make_tuple)(</div>
 <div class="line">    <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
 <div class="line">    _ - <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
 <div class="line">    _ * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>,</div>
@@ -504,14 +599,17 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line">static_assert(</div>
-<div class="line">    f(10, 4) == make&lt;Tuple&gt;(</div>
+<div class="line">    f(10, 4) == hana::make_tuple(</div>
 <div class="line">        10 + 4,</div>
 <div class="line">        10 - 4,</div>
 <div class="line">        10 * 4,</div>
 <div class="line">        10 / 4</div>
 <div class="line">    )</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga1393f40da2e8da6e0c12fce953e56a6c"></a>
@@ -545,13 +643,27 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) -&gt; <span class="keywordtype">int</span> {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="fix_8hpp.html">boost/hana/functional/fix.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> factorial = <a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">hana::fix</a>([](<span class="keyword">auto</span> fact, <span class="keyword">auto</span> n) -&gt; <span class="keywordtype">int</span> {</div>
 <div class="line">    <span class="keywordflow">if</span> (n == 0) <span class="keywordflow">return</span> 1;</div>
 <div class="line">    <span class="keywordflow">else</span>        <span class="keywordflow">return</span> n * fact(n - 1);</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(factorial(5) == 120);</div>
-</div><!-- fragment -->
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(factorial(5) == 120);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga004f884cdbb85c2efe3383c1db450094"></a>
@@ -575,16 +687,30 @@ template&lt;std::size_t n&gt; </div>
 <p>Invoke a function with its two first arguments reversed. </p>
 <p>Specifically, <code>flip(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f)(x, y, z...) == f(y, x, z...)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> minus = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="flip_8hpp.html">boost/hana/functional/flip.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> minus = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
 <div class="line">    <span class="keywordflow">return</span> x - y - z;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0) == 3 - 0);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(minus)(3, 0) == 0 - 3);</div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0) == 3 - 0);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0) == 0 - 3);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0, 1) == 3 - 0 - 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(minus)(3, 0, 1) == 0 - 3 - 1);</div>
-</div><!-- fragment -->
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0, 1) == 3 - 0 - 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0, 1) == 0 - 3 - 1);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gaef38cf34324c8edbd3597ae71811d00d"></a>
@@ -604,9 +730,21 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>The identity function &ndash; returns its argument unchanged. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">static_assert(<span class="keywordtype">id</span>(1) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<span class="keywordtype">id</span>(<span class="charliteral">&#39;x&#39;</span>) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">hana::id</a>(1) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">hana::id</a>(<span class="charliteral">&#39;x&#39;</span>) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga7bdafba6dc801f1d2d83731ad9714557"></a>
@@ -644,13 +782,28 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> divmod = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">infix</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="infix_8hpp.html">boost/hana/functional/infix.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> divmod = <a class="code" href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">hana::infix</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="comment">// this could be a more efficient implementation</span></div>
-<div class="line">    <span class="keywordflow">return</span> make_pair(x / y, x % y);</div>
+<div class="line">    <span class="keywordflow">return</span> hana::make_pair(x / y, x % y);</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((42 ^divmod^ 23) == make_pair(1, 19));</div>
-</div><!-- fragment -->
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((42 ^divmod^ 23) == hana::make_pair(1, 19));</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gad1b8669c022d8675d68e5974451073d1"></a>
@@ -680,7 +833,7 @@ template&lt;std::size_t n&gt; </div>
 <p>In addition to what's documented above, <code>iterate</code> can also be partially applied to the function argument out-of-the-box. In other words, <code>iterate&lt;n&gt;(f)</code> is a function object applying <code>f</code> <code>n</code> times to the argument it is called with, which means that </p><div class="fragment"><div class="line">iterate&lt;n&gt;(f)(x) == iterate&lt;n&gt;(f, x)</div>
 </div><!-- fragment --><p>This is provided for convenience, and it turns out to be especially useful in conjunction with higher-order algorithms.</p>
 <h2>Signature </h2>
-<p>Given a function \( f : T \to T \) and <code>x</code> and argument of data type <code>T</code>, the signature is \( \mathrm{iterate_n} : (T \to T) \times T \to T \)</p>
+<p>Given a function \( f : T \to T \) and <code>x</code> and argument of data type <code>T</code>, the signature is \( \mathtt{iterate_n} : (T \to T) \times T \to T \)</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">n</td><td>An unsigned integer representing the number of times that <code>f</code> should be applied to its argument.</td></tr>
@@ -695,12 +848,27 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> next_10 = iterate&lt;10&gt;(succ);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tail_8hpp.html">boost/hana/tail.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> next_10 = hana::iterate&lt;10&gt;(hana::succ);</div>
 <div class="line">static_assert(next_10(3) == 13, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
-<div class="line">static_assert(iterate&lt;5&gt;(tail, xs) == make&lt;Tuple&gt;(6, 7, 8, 9, 10), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
+<div class="line">static_assert(hana::iterate&lt;5&gt;(hana::tail, xs) == hana::make_tuple(6, 7, 8, 9, 10), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gafca60c09e1f7a32a2b52baaf6515c279"></a>
@@ -725,16 +893,26 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>lockstep(f)(g1, ..., gN)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(f)(g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))</div>
 </div><!-- fragment --><p>Since each <code>g</code> is invoked on its corresponding argument in lockstep, the number of arguments must match the number of <code>g</code>s.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> to_int = [](<span class="keywordtype">char</span> c) {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lockstep_8hpp.html">boost/hana/functional/lockstep.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keywordtype">int</span> to_int(<span class="keywordtype">char</span> c) {</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(c) - 48;</div>
-<div class="line">};</div>
+<div class="line">}</div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + 1;</div>
-<div class="line">};</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">hana::lockstep</a>(hana::plus)(to_int, hana::succ)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(plus)(to_int, inc)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5);</div>
-</div><!-- fragment -->
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga35c4fc3c5677b9f558150b90e74d3ab1"></a>
@@ -758,18 +936,8 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
-</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>. </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> sorted = sort.by(less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ first, make&lt;Tuple&gt;(</div>
-<div class="line">    make_pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
-<div class="line">    make_pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">    make_pair(int_&lt;2&gt;, 9876)</div>
-<div class="line">));</div>
-<div class="line"></div>
-<div class="line">static_assert(sorted == make&lt;Tuple&gt;(</div>
-<div class="line">    make_pair(int_&lt;1&gt;, type&lt;void&gt;),</div>
-<div class="line">    make_pair(int_&lt;2&gt;, 9876),</div>
-<div class="line">    make_pair(int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>on</code> is associative, i.e. <code>on(f, on(g, h))</code> is equivalent to <code>on(on(f, g), h)</code>.</dd></dl>
+</div><!-- fragment --><p>For convenience, <code>on</code> also supports infix application as provided by <code>infix</code>.</p>
+<dl class="section note"><dt>Note</dt><dd><code>on</code> is associative, i.e. <code>on(f, on(g, h))</code> is equivalent to <code>on(on(f, g), h)</code>.</dd></dl>
 <h3>Proof of associativity</h3>
 <div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, <a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h))(xs...) == f(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(g, h)(xs)...)</div>
 <div class="line">                       == f(g(h(xs))...)</div>
@@ -777,15 +945,45 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g), h)(xs...) == <a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(h(xs)...)</div>
 <div class="line">                       == f(g(h(xs))...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + 1;</div>
-<div class="line">};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(mult, increment)(2, 4) == 3 * 5);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> x = make_pair(1, 2);</div>
-<div class="line">constexpr <span class="keyword">auto</span> y = make_pair(10, 20);</div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(plus, first)(x, y) == 1 + 10, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="first_8hpp.html">boost/hana/first.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="on_8hpp.html">boost/hana/functional/on.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="sort_8hpp.html">boost/hana/sort.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// infix application</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> sorted = hana::sort.by(hana::less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>^ hana::first, hana::make_tuple(</div>
+<div class="line">    hana::make_pair(hana::int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type&lt;void&gt;),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;2&gt;, 9876)</div>
+<div class="line">));</div>
+<div class="line"></div>
+<div class="line">static_assert(sorted == hana::make_tuple(</div>
+<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type&lt;void&gt;),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;2&gt;, 9876),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
+<div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// function call syntax</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> x = hana::make_pair(1, 2);</div>
+<div class="line">constexpr <span class="keyword">auto</span> y = hana::make_pair(10, 20);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>(hana::plus, hana::first)(x, y) == 1 + 10, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga83e71bae315e299f9f5f9de77b012139"></a>
@@ -810,7 +1008,21 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>overload(f1, f2, ..., fn)</code> is a function object such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139">overload</a>(f1, f2, ..., fn)(x...) == fk(x...)</div>
 </div><!-- fragment --><p>where <code>fk</code> is the function of <code>f1, ..., fn</code> that would be called if overload resolution was performed amongst that set of functions only. If more than one function <code>fk</code> would be picked by overload resolution, then the call is ambiguous.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> on_string = [](std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="overload_8hpp.html">boost/hana/functional/overload.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> on_string = [](std::string <span class="keyword">const</span>&amp; s) {</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;matched std::string: &quot;</span> &lt;&lt; s &lt;&lt; std::endl;</div>
 <div class="line">    <span class="keywordflow">return</span> s;</div>
 <div class="line">};</div>
@@ -820,14 +1032,16 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    <span class="keywordflow">return</span> i;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139">overload</a>(on_int, on_string);</div>
+<div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139">hana::overload</a>(on_int, on_string);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// prints &quot;matched int: 1&quot;</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139">BOOST_HANA_CHECK</a>(f(1) == 1);</div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="comment">// prints &quot;matched int: 1&quot;</span></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 1);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// prints &quot;matched std::string: abcdef&quot;</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139">BOOST_HANA_CHECK</a>(f(<span class="stringliteral">&quot;abcdef&quot;</span>) == std::string{<span class="stringliteral">&quot;abcdef&quot;</span>});</div>
-</div><!-- fragment -->
+<div class="line">    <span class="comment">// prints &quot;matched std::string: abcdef&quot;</span></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abcdef&quot;</span>) == std::string{<span class="stringliteral">&quot;abcdef&quot;</span>});</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gaa46de6f618d9f14edb1589b36b6e75ec"></a>
@@ -852,16 +1066,31 @@ template&lt;std::size_t n&gt; </div>
 <p>Given functions <code>f1, ..., fn</code>, <code>overload_linearly(f1, ..., fn)</code> is a new function that calls the first <code>fk</code> producing a valid call expression with the given arguments. Specifically, </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">overload_linearly</a>(f1, ..., fn)(args...) == fk(args...)</div>
 </div><!-- fragment --><p>where <code>fk</code> is the <em>first</em> function such that <code>fk(args...)</code> is a valid expression.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">overload_linearly</a>(</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="overload__linearly_8hpp.html">boost/hana/functional/overload_linearly.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">hana::overload_linearly</a>(</div>
 <div class="line">    [](<span class="keywordtype">int</span> i) { <span class="keywordflow">return</span> i + 1; },</div>
 <div class="line">    [](std::string s) { <span class="keywordflow">return</span> s + <span class="stringliteral">&quot;d&quot;</span>; },</div>
 <div class="line">    [](double) { <span class="keywordflow">throw</span> <span class="stringliteral">&quot;never called&quot;</span>; }</div>
 <div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 2);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abc&quot;</span>) == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(2.2) == static_cast&lt;int&gt;(2.2) + 1);</div>
-</div><!-- fragment -->
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abc&quot;</span>) == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(2.2) == static_cast&lt;int&gt;(2.2) + 1);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga778b2daa27882e71d28b6f2b38982ddf"></a>
@@ -886,9 +1115,22 @@ template&lt;std::size_t n&gt; </div>
 <p>Given a function <code>f</code> and some arguments, <code>partial</code> returns a new function corresponding to the partially applied function <code>f</code>. This allows providing some arguments to a function and letting the rest of the arguments be provided later. Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(plus, 1);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="partial_8hpp.html">boost/hana/functional/partial.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">hana::partial</a>(hana::plus, 1);</div>
 <div class="line">static_assert(increment(2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gaefe9fd152cba94be71c2b5b9de689d23"></a>
@@ -920,18 +1162,30 @@ template&lt;std::size_t n&gt; </div>
 </ul>
 <p>More complex functionality like the ability to compose placeholders into larger function objects inline are not supported. This is on purpose; you should either use C++14 generic lambdas or a library like <a href="http://www.boost.org/doc/libs/release/libs/phoenix/doc/html/index.html">Boost.Phoenix</a> if you need bigger guns. The goal here is to save you a couple of characters in simple situations.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(plus(1, 2) == 1 + 2);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> increment = _ + 1;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(increment(1) == 2);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> double_ = 2 * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(double_(1) == 2);</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> plus = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>;</div>
+<div class="line">static_assert(plus(1, 2) == 1 + 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> increment = hana::_ + 1;</div>
+<div class="line">static_assert(increment(1) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> twice = 2 * <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>;</div>
+<div class="line">static_assert(twice(1) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Extra arguments are ignored.</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(double_(1, <span class="stringliteral">&quot;ignored&quot;</span>) == 2);</div>
-</div><!-- fragment -->
+<div class="line">static_assert(twice(1, <span class="stringliteral">&quot;ignored&quot;</span>) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga6e648f0d3fc0209ec024e9d759a5e8f8"></a>
@@ -956,10 +1210,23 @@ template&lt;std::size_t n&gt; </div>
 <p>Given a function <code>f</code> and some arguments, <code>reverse_partial</code> returns a new function corresponding to <code>f</code> whose last arguments are partially applied. Specifically, <code>reverse_partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">reverse_partial</a>(f, x...)(y...) == f(y..., x...)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">reverse_partial</a>(quot, 2);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="reverse__partial_8hpp.html">boost/hana/functional/reverse_partial.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="quot_8hpp.html">boost/hana/quot.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">hana::reverse_partial</a>(hana::quot, 2);</div>
 <div class="line">static_assert(half(4) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(half(8) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

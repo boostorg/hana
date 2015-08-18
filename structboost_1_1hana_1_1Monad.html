@@ -226,7 +226,7 @@ Synopsis of associated functions</h2></td></tr>
 <p>Feed a monadic value into a monadic computation. </p>
 <p>Given a monadic value and a monadic function, <code>chain</code> feeds the monadic value into the function, thus performing some Monad-specific effects, and returns the result. An implementation of <code>chain</code> must satisfy </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(xs, f) == <a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(transform(xs, f))</div>
 </div><!-- fragment --><h2>Signature </h2>
-<p>For a monad <code>M</code>, given a monadic value of type <code>M(A)</code> and a monadic function \( f : A \to M(B) \), <code>chain</code> has the signature \( \mathrm{chain} : M(A) \times (A \to M(B)) \to M(B) \).</p>
+<p>For a monad <code>M</code>, given a monadic value of type <code>M(A)</code> and a monadic function \( f : A \to M(B) \), <code>chain</code> has the signature \( \mathtt{chain} : M(A) \times (A \to M(B)) \to M(B) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>A monadic value to be fed to the function <code>f</code>.</td></tr>
@@ -235,7 +235,20 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="chain_8hpp.html">boost/hana/chain.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> deref = [](<span class="keyword">auto</span> x) -&gt; decltype(*x) {</div>
 <div class="line">    <span class="keywordflow">return</span> *x;</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -244,7 +257,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">chain</a>(sfinae(deref)(x), sfinae(age));</div>
+<div class="line">    <span class="keywordflow">return</span> hana::chain(hana::sfinae(deref)(x), hana::sfinae(age));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Person {</div>
@@ -256,15 +269,15 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    Person john{30};</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// Can&#39;t dereference a non-pointer.</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(f(john) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(f(john) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// `int` has no member named `age`.</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(f(1) == nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(f(1) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// All is good.</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(f(&amp;john) == just(30u));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(f(&amp;john) == hana::just(30u));</div>
 <div class="line">}</div>
-</div><!-- fragment -->
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a45985423d0658e88f0403773146af110"></a>
@@ -300,16 +313,33 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(make&lt;Tuple&gt;(make&lt;Tuple&gt;(1, 2, 3), make&lt;Tuple&gt;(4, 5), make&lt;Tuple&gt;(6, 7, 8, 9)))</div>
-<div class="line">    ==</div>
-<div class="line">    make&lt;Tuple&gt;(1, 2, 3, 4, 5, 6, 7, 8, 9)</div>
-<div class="line">);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(nothing) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(just(1))) == just(1));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(just(nothing)) == nothing);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="flatten_8hpp.html">boost/hana/flatten.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::flatten(hana::make_tuple(hana::make_tuple(1, 2, 3),</div>
+<div class="line">                                   hana::make_tuple(4, 5),</div>
+<div class="line">                                   hana::make_tuple(6, 7, 8, 9)))</div>
+<div class="line">    ==</div>
+<div class="line">    hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::flatten(hana::nothing) == hana::nothing);</div>
+<div class="line">static_assert(hana::flatten(hana::just(hana::just(1))) == hana::just(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::flatten(hana::just(hana::nothing)) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a0e9320a2061eb61136c4ea0ea74b22ce"></a>
@@ -349,22 +379,41 @@ Synopsis of associated functions</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This method is not tag-dispatched, so it can't be customized directly.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> block = [](<span class="keyword">auto</span> ...types) {</div>
-<div class="line">    <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x) {</div>
-<div class="line">        <span class="keywordflow">return</span> if_(contains(make_tuple(types...), decltype_(x)),</div>
-<div class="line">            nothing,</div>
-<div class="line">            just(x)</div>
-<div class="line">        );</div>
-<div class="line">    };</div>
-<div class="line">};</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = block(type&lt;double&gt;);</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = block(type&lt;int&gt;);</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> h = <a class="code" href="structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce">monadic_compose</a>(g, f);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1)    == nothing); <span class="comment">// fails inside g; 1 has type int</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1.2)  == nothing); <span class="comment">// fails inside f; 1.2 has type double</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(h(<span class="charliteral">&#39;x&#39;</span>) == just(<span class="charliteral">&#39;x&#39;</span>)); <span class="comment">// ok; &#39;x&#39; has type char</span></div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="contains_8hpp.html">boost/hana/contains.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="if_8hpp.html">boost/hana/if.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="monadic__compose_8hpp.html">boost/hana/monadic_compose.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> block = [](<span class="keyword">auto</span> ...types) {</div>
+<div class="line">        <span class="keywordflow">return</span> [=](<span class="keyword">auto</span> x) {</div>
+<div class="line">            <span class="keywordflow">return</span> hana::if_(hana::contains(hana::make_tuple(types...), hana::decltype_(x)),</div>
+<div class="line">                hana::nothing,</div>
+<div class="line">                hana::just(x)</div>
+<div class="line">            );</div>
+<div class="line">        };</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = block(hana::type&lt;double&gt;);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = block(hana::type&lt;int&gt;);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> h = hana::monadic_compose(g, f);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1)    == hana::nothing); <span class="comment">// fails inside g; 1 has type int</span></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1.2)  == hana::nothing); <span class="comment">// fails inside f; 1.2 has type double</span></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(h(<span class="charliteral">&#39;x&#39;</span>) == hana::just(<span class="charliteral">&#39;x&#39;</span>)); <span class="comment">// ok; &#39;x&#39; has type char</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a17ea859a2702ea45ea4999a8a0d2cc63"></a>
@@ -406,17 +455,33 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">std::stringstream before, after;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> xs = make&lt;Tuple&gt;(1, 2, 3)</div>
-<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
-<div class="line">    | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> make&lt;Tuple&gt;(x, -x); }</div>
-<div class="line">    | tap&lt;Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tap_8hpp.html">boost/hana/tap.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(xs == make&lt;Tuple&gt;(1, -1, 2, -2, 3, -3));</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    std::stringstream before, after;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3)</div>
+<div class="line">        | hana::tap&lt;hana::Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
+<div class="line">        | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> hana::make_tuple(x, -x); }</div>
+<div class="line">        | hana::tap&lt;hana::Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(xs == hana::make_tuple(1, -1, 2, -2, 3, -3));</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="abfc7efb0044a87a21f663b1a151dac56"></a>
@@ -449,14 +514,29 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>undefined { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Monad.html#abfc7efb0044a87a21f663b1a151dac56">then</a>(make&lt;Tuple&gt;(undefined{}, undefined{}), make&lt;Tuple&gt;(1, 2, 3)) == make&lt;Tuple&gt;(</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="then_8hpp.html">boost/hana/then.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>undefined { };</div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::then(hana::make_tuple(undefined{}, undefined{}), hana::make_tuple(1, 2, 3))</div>
+<div class="line">        ==</div>
+<div class="line">    hana::make_tuple(</div>
 <div class="line">        1, 2, 3,</div>
 <div class="line">        1, 2, 3</div>
 <div class="line">    )</div>
-<div class="line">);</div>
-</div><!-- fragment -->
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

@@ -140,127 +140,275 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Optional.html',
 <div class="textblock"><p>Tag representing an optional value whose optional-ness is known at compile-time. </p>
 <p>An <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). In essence, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is pretty much like a <code>boost::optional</code> or the upcoming <code>std::optional</code>, except the fact that an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is empty or not is known at compile-time. This can be particularly useful for returning from a function that might fail, when the reason of failure is unimportant. However, there is an important distinction to make between <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> and <code>std::optional</code>: <code>just(x)</code> and <code>nothing</code> do not share the same type. Hence, whether a <code>just</code> or a <code>nothing</code> will be returned from a function has to be known at compile-time for the return type to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> well suited for static metaprogramming tasks but very poor for anything dynamic.</p>
 <h2>Interoperation with <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s </h2>
-<p>When a <code>just</code> contains an object of type <code>T</code> which is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> common_type_impl = <a class="code" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a>([](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) -&gt; decltype(type&lt;</div>
-<div class="line">    decltype(<span class="keyword">true</span> ? traits::declval(t) : traits::declval(u))</div>
+<p>When a <code>just</code> contains an object of type <code>T</code> which is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="utility_8hpp.html">boost/hana/ext/std/utility.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt;</div>
+<div class="line"><span class="keyword">using</span> void_t = void;</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = <span class="keywordtype">void</span>&gt;</div>
+<div class="line"><span class="keyword">struct </span>has_type : std::false_type { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>has_type&lt;T, void_t&lt;typename T::type&gt;&gt;</div>
+<div class="line">    : std::true_type</div>
+<div class="line">{ };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> common_type_impl = hana::sfinae([](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) -&gt; decltype(hana::type&lt;</div>
+<div class="line">    decltype(<span class="keyword">true</span> ? hana::traits::declval(t) : hana::traits::declval(u))</div>
 <div class="line">&gt;) { <span class="keywordflow">return</span> {}; });</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><span class="keyword">using</span> common_type2 = decltype(common_type_impl(type&lt;T&gt;, type&lt;U&gt;));</div>
+<div class="line"><span class="keyword">using</span> common_type2 = decltype(common_type_impl(hana::type&lt;T&gt;, hana::type&lt;U&gt;));</div>
 <div class="line"></div>
 <div class="line">static_assert(!has_type&lt;common_type2&lt;int, int*&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(std::is_same&lt;common_type2&lt;int, float&gt;::type, <span class="keywordtype">float</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
-Two <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> == <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;y&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>) != <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
+Two <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing == hana::nothing);</div>
+<div class="line">static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>) != hana::just(<span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(<span class="charliteral">&#39;x&#39;</span>) != hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>s can be ordered by considering the value they are holding, if any. To handle the case of an empty <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(0) &gt; <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1) &lt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(3) &gt; <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing &lt; hana::just(3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(0) &gt; hana::nothing);</div>
+<div class="line">static_assert(hana::just(1) &lt; hana::just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::just(3) &gt; hana::just(2), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 A <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> can be seen as a <code>List</code> containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to applying it to its value if there is one and to <code>nothing</code> otherwise: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>, f) == nothing</div>
-</div><!-- fragment --> Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> x + 1; };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(transform(nothing, inc) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(transform(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::transform(hana::nothing, hana::succ) == hana::nothing);</div>
+<div class="line">static_assert(hana::transform(hana::just(1), hana::succ) == hana::just(2), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise: <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">ap(nothing, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == nothing</div>
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), nothing) == nothing</div>
 <div class="line">ap(nothing, nothing) == nothing</div>
-</div><!-- fragment --> A simple example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(ap(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(succ), <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;y&#39;</span>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ap(nothing, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ap(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(succ), nothing) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ap(nothing, nothing) == nothing);</div>
-</div><!-- fragment -->A more complex example: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> op&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> <span class="keyword">function</span> = <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>;</div>
+</div><!-- fragment --> A simple example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ap_8hpp.html">boost/hana/ap.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::ap(hana::just(hana::succ), hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::just(<span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::just(hana::succ), hana::nothing) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::nothing) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> A more complex example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ap_8hpp.html">boost/hana/ap.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="if_8hpp.html">boost/hana/if.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lift_8hpp.html">boost/hana/lift.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> op&gt;</div>
+<div class="line">constexpr <span class="keyword">auto</span> <span class="keyword">function</span> = hana::nothing;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> function&lt;&#39;+&#39;&gt; = hana::just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x + y;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <span class="keyword">function</span>&lt;<span class="charliteral">&#39;-&#39;</span>&gt; = hana::just([](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
 <div class="line">    <span class="keywordflow">return</span> x - y;</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// and so on...</span></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> digit = if_(bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(static_cast&lt;int&gt;(n - 48)),</div>
-<div class="line">    nothing</div>
+<div class="line">constexpr <span class="keyword">auto</span> digit = hana::if_(hana::bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
+<div class="line">    hana::just(static_cast&lt;int&gt;(n - 48)),</div>
+<div class="line">    hana::nothing</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> x, <span class="keywordtype">char</span> op, <span class="keywordtype">char</span> y&gt;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> evaluate = ap(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> evaluate = hana::ap(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1 + 2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::just(1 + 2));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(lift&lt;Optional&gt;(123) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(123));</div>
+<div class="line">    static_assert(hana::lift&lt;hana::Optional&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>ness removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x + 1);</div>
-<div class="line">};</div>
+The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>ness removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(chain(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1), inc) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(chain(nothing, inc) == nothing);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="chain_8hpp.html">boost/hana/chain.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="flatten_8hpp.html">boost/hana/flatten.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(flatten(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2))) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> inc = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">        <span class="keywordflow">return</span> hana::just(x + 1);</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::chain(hana::just(1), inc) == hana::just(2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::chain(hana::nothing, inc) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::flatten(hana::just(hana::just(2))) == hana::just(2));</div>
+<div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> makes it easy to choose the first valid value of two optional values. If both optional values are <code>nothing</code>s, then <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    concat(nothing, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line">);</div>
+The <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> makes it easy to choose the first valid value of two optional values. If both optional values are <code>nothing</code>s, then <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    concat(nothing, nothing) == nothing</div>
-<div class="line">);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="concat_8hpp.html">boost/hana/concat.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="empty_8hpp.html">boost/hana/empty.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    concat(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>), <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;y&#39;</span>)) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)</div>
-<div class="line">);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(empty&lt;Optional&gt;() == nothing);</div>
+<div class="line">static_assert(hana::concat(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::concat(hana::nothing, hana::nothing) == hana::nothing);</div>
+<div class="line">static_assert(hana::concat(hana::just(<span class="charliteral">&#39;x&#39;</span>), hana::just(<span class="charliteral">&#39;y&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::Optional&gt;() == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Folding an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to folding a <code>List</code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> plus = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + y;</div>
-<div class="line">};</div>
+Folding an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to folding a <code>List</code> containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold_right(nothing, 1, plus) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(fold_right(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(4), 1, plus) == 5);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="fold__right_8hpp.html">boost/hana/fold_right.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::fold_right(hana::nothing, 1, hana::plus) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::fold_right(hana::just(4), 1, hana::plus) == 5, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-Searching an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt; != int_&lt;0&gt;;</div>
+Searching an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all__of_8hpp.html">boost/hana/all_of.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="find__if_8hpp.html">boost/hana/find_if.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x % hana::int_&lt;2&gt; != hana::int_&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find_if(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;3&gt;), odd) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;3&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find_if(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;2&gt;), odd) == nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(find_if(nothing, odd) == nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_&lt;3&gt;), odd) == hana::just(hana::int_&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_&lt;2&gt;), odd) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::nothing, odd) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;3&gt;), odd));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(all_of(nothing, odd));</div>
-</div><!-- fragment --></li>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::just(hana::int_&lt;3&gt;), odd));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::nothing, odd));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </li>
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -269,9 +417,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">make&lt; Optional &gt;</a></td></tr>
 <tr class="memdesc:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value.  <a href="#a69dbbfcfdefd5f68dbf3291859f727c7">More...</a><br /></td></tr>
 <tr class="separator:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf4ab68c4ab1a6a517637548838f0e0b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b">make_maybe</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td></tr>
-<tr class="memdesc:adf4ab68c4ab1a6a517637548838f0e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;</code>; provided for convenience.  <a href="#adf4ab68c4ab1a6a517637548838f0e0b">More...</a><br /></td></tr>
-<tr class="separator:adf4ab68c4ab1a6a517637548838f0e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1105a435d6435a2437cb5dc162ba463"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html#af1105a435d6435a2437cb5dc162ba463">make_optional</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td></tr>
+<tr class="memdesc:af1105a435d6435a2437cb5dc162ba463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;</code>; provided for convenience.  <a href="#af1105a435d6435a2437cb5dc162ba463">More...</a><br /></td></tr>
+<tr class="separator:af1105a435d6435a2437cb5dc162ba463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
 <tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
 <tr class="separator:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -327,15 +475,31 @@ template&lt;&gt; </div>
 <p>Create an optional value. </p>
 <p>Specifically, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;()</code> is equivalent to <code>nothing</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;(x)</code> is equivalent to <code>just(x)</code>. This is provided for consistency with the other <code>make&lt;...&gt;</code> functions.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> x = <a class="code" href="structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">make&lt;Optional&gt;</a>();</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(x));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">make&lt;Optional&gt;</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(just_x));</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::Optional&gt;();</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line"></div>
+<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="adf4ab68c4ab1a6a517637548838f0e0b"></a>
+<a class="anchor" id="af1105a435d6435a2437cb5dc162ba463"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -343,7 +507,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_maybe = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td>
+          <td class="memname">constexpr auto make_optional = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -355,12 +519,28 @@ template&lt;&gt; </div>
 
 <p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> x = <a class="code" href="structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b">make_maybe</a>();</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(x));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b">make_maybe</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(just_x));</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::Optional&gt;();</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line"></div>
+<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a8ad818d6df7379b0adefa45d2ac844d0"></a>
@@ -386,9 +566,21 @@ template&lt;&gt; </div>
 </div><!-- fragment -->
 <p>Create an optional value containing <code>x</code>. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> just_x = <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(just_x));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> just_x = hana::just(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aaede0403a5f0093e82a7346b5cae0bc4"></a>
@@ -411,9 +603,22 @@ template&lt;&gt; </div>
 
 <p>An empty optional value. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> x = <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(x));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> x = hana::nothing;</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a0d8246013d58b0809b6f18d894525b6c"></a>
@@ -451,17 +656,31 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x % int_&lt;2&gt; == int_&lt;0&gt;;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x % hana::int_&lt;2&gt; == hana::int_&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x / int_&lt;2&gt;;</div>
+<div class="line"><span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x / hana::int_&lt;2&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;4&gt;) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(int_&lt;2&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a>(even, half, int_&lt;3&gt;) == <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
-</div><!-- fragment -->
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_&lt;4&gt;) == hana::just(hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_&lt;3&gt;) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a6529e11cb228e99a05e81071752807d5"></a>
@@ -500,9 +719,22 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, succ, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 2);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(<span class="charliteral">&#39;x&#39;</span>, succ, <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::maybe(<span class="charliteral">&#39;x&#39;</span>, hana::succ, hana::just(1)) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::maybe(<span class="charliteral">&#39;x&#39;</span>, hana::succ, hana::nothing) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a1047a69893a62cd36eb0d2934f85e0e7"></a>
@@ -529,10 +761,23 @@ template&lt;&gt; </div>
 <p>Return whether an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> contains a value. </p>
 <p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(hana::nothing)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_just(hana::nothing));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a4eb266d123883c23853f7731a6c5953f"></a>
@@ -559,10 +804,23 @@ template&lt;&gt; </div>
 <p>Return whether an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> is empty. </p>
 <p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>)));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_nothing(hana::nothing));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(hana::nothing)));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="afb98884a58d911687bf2aa64a411d623"></a>
@@ -596,9 +854,22 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(1)) == 1);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a>(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>) == <span class="charliteral">&#39;x&#39;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::from_maybe(<span class="charliteral">&#39;x&#39;</span>, hana::just(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::from_maybe(<span class="charliteral">&#39;x&#39;</span>, hana::nothing) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a2ebdc9b916940e038e6f2e3043e4f796"></a>
@@ -627,12 +898,28 @@ template&lt;&gt; </div>
 <p>Extract the content of an <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code> or fail at compile-time. </p>
 <p>Specifically, returns <code>x</code> if the optional value is <code>just(x)</code>, and triggers a static assertion otherwise. For convenience, the pointer dereference operators (<code>*</code> and <code>-&gt;</code>) can be used as an equivalent way of calling this method or calling this method and accessing a member of the returned object, respectively.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(type&lt;int&gt;) == type&lt;int&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="comment">// from_just(nothing); // compile-time static assertion</span></div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    static_assert(hana::from_just(hana::just(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type&lt;int&gt;) == hana::type&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// hana::from_just(hana::nothing); // compile-time error</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aa4c8c0b1ef3d8206974734b93646c9fd"></a>
@@ -665,15 +952,29 @@ template&lt;&gt; </div>
 <p>Given a function <code>f</code>, <code>sfinae</code> returns a new function applying <code>f</code> to its arguments and returning <code>just</code> the result if the call is well-formed, and <code>nothing</code> otherwise. In other words, <code>sfinae(f)(x...)</code> is <code>just(f(x...))</code> if that expression is well-formed, and <code>nothing</code> otherwise. Note, however, that it is possible for an expression <code>f(x...)</code> to be well-formed as far as SFINAE is concerned, but trying to actually compile <code>f(x...)</code> still fails. In this case, <code>sfinae</code> won't be able to detect it and a hard failure is likely to happen.</p>
 <dl class="section note"><dt>Note</dt><dd>The function given to <code>sfinae</code> must not return <code>void</code>, since <code>just(void)</code> does not make sense. A compilation error is triggered if the function returns void.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> incr = [](<span class="keyword">auto</span> x) -&gt; decltype(x + 1) {</div>
-<div class="line">    <span class="keywordflow">return</span> x + 1;</div>
-<div class="line">};</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a>(incr)(1) == <a class="code" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(2));</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>invalid { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a>(incr)(invalid{}) == <a class="code" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">nothing</a>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> incr = [](<span class="keyword">auto</span> x) -&gt; decltype(x + 1) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + 1;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::sfinae(incr)(1) == hana::just(2));</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">struct </span>invalid { };</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::sfinae(incr)(invalid{}) == hana::nothing);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

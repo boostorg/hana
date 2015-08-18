@@ -226,8 +226,25 @@ template&lt;typename T , typename U &gt; </div>
 
 <p>Alias to <code>common&lt;T, U&gt;::type</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(std::is_same&lt;common_t&lt;int, float&gt;, common&lt;int, float&gt;::type&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2common_8hpp.html">boost/hana/core/common.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;</div>
+<div class="line">    hana::common_t&lt;int, float&gt;,</div>
+<div class="line">    hana::common&lt;int, float&gt;::type</div>
+<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gae3cedd3772d00ac7c4de9dc3d719f321"></a>
@@ -246,10 +263,24 @@ template&lt;typename T &gt; </div>
 
 <p>Alias to <code>datatype&lt;T&gt;::type</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Datatype;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Datatype;</div>
 <div class="line"><span class="keyword">struct </span>Person { <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Datatype; }; };</div>
-<div class="line">static_assert(std::is_same&lt;datatype_t&lt;Person&gt;, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line">static_assert(std::is_same&lt;hana::datatype_t&lt;Person&gt;, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga0f5d717bbf6646619bb6219b104384dc"></a>
@@ -269,13 +300,27 @@ template&lt;typename... &gt; </div>
 <p>Variant of <code>when</code> allowing specializations to be enabled only if an expression is well-formed. </p>
 <p><code>when_valid&lt;...&gt;</code> is always equivalent to <code>when&lt;true&gt;</code>. However, when used inside a partial specialization, SFINAE will cause the partial specialization to be ignored when the expression is ill-formed.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = when&lt;true&gt;&gt;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2when_8hpp.html">boost/hana/core/when.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = hana::when&lt;true&gt;&gt;</div>
 <div class="line"><span class="keyword">struct </span>base_template;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>base_template&lt;T, <a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;typename T::value_type&gt;&gt; {</div>
+<div class="line"><span class="keyword">struct </span>base_template&lt;T, hana::<a class="code" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">when_valid</a>&lt;typename T::value_type&gt;&gt; {</div>
 <div class="line">    <span class="comment">// something useful...</span></div>
 <div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>Using <code>when_valid</code> seems to trigger ambiguous partial specializations on GCC. </dd></dl>
 
 </div>
@@ -324,7 +369,20 @@ template&lt;typename To &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
 <div class="line"><span class="keyword">struct </span>Triple {</div>
 <div class="line">    X first;</div>
 <div class="line">    Y second;</div>
@@ -339,17 +397,17 @@ template&lt;typename To &gt; </div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
 <div class="line">    <span class="keyword">struct </span>to_impl&lt;Tuple, Triple&lt;X, Y, Z&gt;&gt; {</div>
 <div class="line">        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Triple&lt;X, Y, Z&gt; xs) {</div>
-<div class="line">            <span class="keywordflow">return</span> make&lt;Tuple&gt;(xs.first, xs.second, xs.third);</div>
+<div class="line">            <span class="keywordflow">return</span> make_tuple(xs.first, xs.second, xs.third);</div>
 <div class="line">        }</div>
 <div class="line">    };</div>
 <div class="line">}}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">        to&lt;Tuple&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">        hana::to&lt;hana::Tuple&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment -->
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga38cf78e1e3e262f7f1c71ddd9ca70cd9"></a>
@@ -370,10 +428,24 @@ template&lt;typename DataType , typename optional_T &gt; </div>
 <p>Given a data type <code>D</code> and a C++ type <code>T</code>, <code>is_a&lt;D, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether the data type of <code>T</code> is exactly <code>D</code>. In other words, it is equivalent to </p><div class="fragment"><div class="line">std::is_same&lt;D, datatype_t&lt;T&gt;&gt;</div>
 </div><!-- fragment --><p>For convenience, an alternate syntax is provided for using <code>is_a</code>. Specifically, <code>is_a&lt;D&gt;</code> is a function object returning whether the argument it is passed is of data type <code>D</code>. In other words, </p><div class="fragment"><div class="line">is_a&lt;D&gt;(x) == <a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;D, decltype(x)&gt;</div>
 </div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;Tuple, decltype(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!is_a&lt;Tuple, void&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">is_an</a>&lt;IntegralConstant&lt;int&gt;&gt;(int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">hana::is_a</a>&lt;hana::Tuple, decltype(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!hana::is_a&lt;hana::Tuple, void&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">hana::is_an</a>&lt;hana::IntegralConstant&lt;int&gt;&gt;(hana::int_&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga1d92480f0af1029878e773dafa3e2f60"></a>
@@ -399,12 +471,29 @@ template&lt;typename Datatype &gt; </div>
 <p>Finally, the default implementation of <code>make</code> is equivalent to calling the constructor of the given data type with the corresponding arguments. In other words, by default, </p><div class="fragment"><div class="line">make&lt;T&gt;(args...) == T(args...)</div>
 </div><!-- fragment --><p>Note that the arguments are perfectly forwarded and the form of construction which is used is exactly as documented, i.e. <code>T(args...)</code>. However, if <code>T(args...)</code> is not a valid expression, a compilation error is triggered. This default behavior is useful because it makes foreign C++ types that have no notion of <em>data type</em> constructible with <code>make</code> out-of-the-box, since their data type is exactly themselves.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">tuple&lt;int, char, double, std::string&gt; ts{1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abcd&quot;</span>};</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ts == make&lt;Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">std::string foo{<span class="stringliteral">&quot;foo&quot;</span>}; <span class="comment">// std::string has no notion of data type</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    hana::tuple&lt;int, char, double, std::string&gt; ts{1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abcd&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ts == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// std::string has no notion of data type, but it still works with make&lt;&gt;</span></div>
+<div class="line">    std::string foo{<span class="stringliteral">&quot;foo&quot;</span>};</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga91ecb6ee4fe2f7d156e5026e37df8946"></a>
@@ -426,8 +515,23 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <p>A few concepts (like <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>) do not introduce methods that suffice to provide a minimal complete definition. They provide semantic guarantees through laws and refined concepts, and they usually also provide methods that do useful things with existing methods and those additional guarantees. In this case, it is usually necessary to explicitly specialize <code>models_impl</code> in the <code>boost::hana</code> namespace. When this is the case, the concept should document it.</p>
 <dl class="section note"><dt>Note</dt><dd><code>models</code> is a tag-dispatched method. More specifically, <code>models&lt;Concept, T&gt;</code> dispatches to <code>models_impl&lt;Concept, datatype_t&lt;T&gt;&gt;</code>, which should be a metafunction with a nested boolean <code><a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> representing whether <code>datatype_t&lt;T&gt;</code> models the concept <code>Concept</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(models&lt;Iterable, Tuple&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">models</a>&lt;Iterable, IntegralConstant&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="concept_2iterable_8hpp.html">boost/hana/concept/iterable.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2models_8hpp.html">boost/hana/core/models.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::models&lt;hana::Iterable, hana::Tuple&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">hana::models</a>&lt;hana::Iterable, hana::IntegralConstant&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>How does it work </h2>
 <p>When a concept writer provides minimal complete definitions in terms of other methods introduced by the concept, they specialize the <code>models_impl</code> metafunction so that whenever a proper minimal complete definition is provided by the user, <code>models</code> returns true. Here's an example of how a simple concept could support <code>models</code>:</p>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -445,24 +549,24 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Printable { };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl : <a class="code" href="structboost_1_1hana_1_1default__.html">default_</a> {</div>
+<div class="line"><span class="keyword">struct </span>print_impl : hana::default_ {</div>
 <div class="line">    <span class="comment">/* no definition; `print(x)` fails at compile-time by default */</span></div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">    <span class="keywordflow">return</span> print_impl&lt;datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
+<div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">    <span class="keyword">struct </span>models_impl&lt;Printable, T&gt;</div>
-<div class="line">        : std::integral_constant&lt;bool, !is_default&lt;print_impl&lt;T&gt;&gt;{}&gt;</div>
+<div class="line">        : std::integral_constant&lt;bool, !is_default&lt;print_impl&lt;T&gt;&gt;::value&gt;</div>
 <div class="line">    { };</div>
 <div class="line">}}</div>
 <div class="line"></div>
@@ -476,7 +580,7 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line">static_assert(_models&lt;Printable, Person&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::_models&lt;Printable, Person&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    print(std::cout, Person{<span class="stringliteral">&quot;Louis&quot;</span>});</div>

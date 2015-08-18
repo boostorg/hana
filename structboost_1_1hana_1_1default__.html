@@ -137,16 +137,33 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1default__.html'
 <div class="textblock"><p>Mark a tag-dispatched method implementation as a default implementation. </p>
 <p>When defining a new concept with tag-dispatched methods, it is sometimes possible to provide a default implementation for some method(s). Making <code><a class="el" href="structboost_1_1hana_1_1default__.html" title="Mark a tag-dispatched method implementation as a default implementation. ">default_</a></code> a base class of such a default implementation makes it possible to detect whether the method was dispatched to the default implementation afterwards.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// In the header defining the concept of a Printable</span></div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2default_8hpp.html">boost/hana/core/default.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;iterator&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// In the header defining the concept of a Printable</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl : default_ {</div>
+<div class="line"><span class="keyword">struct </span>print_impl : hana::default_ {</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Stream, <span class="keyword">typename</span> X&gt;</div>
 <div class="line">    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Stream&amp; out, X <span class="keyword">const</span>&amp; x)</div>
 <div class="line">    { out &lt;&lt; x; }</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> print = [](<span class="keyword">auto</span>&amp; stream, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
-<div class="line">    <span class="keywordflow">return</span> print_impl&lt;datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(stream, x);</div>
+<div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(stream, x);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// In some other header</span></div>
@@ -160,9 +177,23 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1default__.html'
 <div class="line">    }</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line">static_assert(is_default&lt;print_impl&lt;int&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!is_default&lt;print_impl&lt;std::vector&lt;int&gt;&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --></div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<div class="line">static_assert(hana::is_default&lt;print_impl&lt;int&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!hana::is_default&lt;print_impl&lt;std::vector&lt;int&gt;&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    {</div>
+<div class="line">        std::stringstream s;</div>
+<div class="line">        print(s, std::vector&lt;int&gt;{1, 2, 3});</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s.str() == <span class="stringliteral">&quot;[1, 2, 3, ]&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    {</div>
+<div class="line">        std::stringstream s;</div>
+<div class="line">        print(s, <span class="stringliteral">&quot;abcd&quot;</span>);</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s.str() == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for boost::hana::default_:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>

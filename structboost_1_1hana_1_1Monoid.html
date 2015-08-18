@@ -212,10 +212,24 @@ Synopsis of associated functions</h2></td></tr>
 </ol>
 <p>The definition of <code>plus</code> for data types satisfying the above properties is obtained by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
 </div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(int_&lt;3&gt;, int_&lt;5&gt;) == int_&lt;8&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(1, 2) == 3);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(1.5f, 2.4) == 3.9);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::plus(hana::int_&lt;3&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;8&gt;);</div>
+<div class="line">static_assert(hana::plus(1, 2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::plus(1.5f, 2.4) == 3.9, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a52bd77cbc25ea1180fcbb2c10c61e988"></a>
@@ -249,9 +263,23 @@ template&lt;typename M &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a52bd77cbc25ea1180fcbb2c10c61e988">zero</a>&lt;IntegralConstant&lt;int&gt;&gt;() == int_&lt;0&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(zero&lt;long&gt;() == 0l);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="zero_8hpp.html">boost/hana/zero.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::zero&lt;hana::IntegralConstant&lt;int&gt;&gt;() == hana::int_&lt;0&gt;);</div>
+<div class="line">static_assert(hana::zero&lt;long&gt;() == 0l, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

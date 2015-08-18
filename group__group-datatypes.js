@@ -35,7 +35,7 @@ var group__group_datatypes =
     ] ],
     [ "Optional", "structboost_1_1hana_1_1Optional.html", [
       [ "make< Optional >", "structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7", null ],
-      [ "make_maybe", "structboost_1_1hana_1_1Optional.html#adf4ab68c4ab1a6a517637548838f0e0b", null ],
+      [ "make_optional", "structboost_1_1hana_1_1Optional.html#af1105a435d6435a2437cb5dc162ba463", null ],
       [ "just", "structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
       [ "nothing", "structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4", null ],
       [ "only_when", "structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c", null ],

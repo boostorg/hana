@@ -159,25 +159,56 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Iterable.html',
 <h2>Refined concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> (free model)<br />
-Any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, where the keys and the values are both the elements in the structure. Searching for a key is just doing a linear search through the elements of the structure. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    find_if(make_tuple(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait&lt;std::is_integral&gt;) == just(2)</div>
-<div class="line">);</div>
+Any <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>, where the keys and the values are both the elements in the structure. Searching for a key is just doing a linear search through the elements of the structure. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="find_8hpp.html">boost/hana/find.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="find__if_8hpp.html">boost/hana/find_if.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::find_if(hana::make_tuple(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), hana::trait&lt;std::is_integral&gt;)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::just(2)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    find_if(make_tuple(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), trait&lt;std::is_class&gt;) == nothing</div>
+<div class="line">    hana::find_if(hana::make_tuple(1.0, 2, <span class="charliteral">&#39;3&#39;</span>), hana::trait&lt;std::is_class&gt;)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::nothing</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    find(make_tuple(int_&lt;1&gt;, char_&lt;&#39;c&#39;&gt;, type&lt;void&gt;), type&lt;void&gt;) == just(type&lt;void&gt;)</div>
+<div class="line">    hana::find(hana::make_tuple(hana::int_&lt;1&gt;, hana::char_&lt;&#39;c&#39;&gt;, hana::type&lt;void&gt;), hana::type&lt;void&gt;)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::just(hana::type&lt;void&gt;)</div>
 <div class="line">);</div>
+<div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    find(make_tuple(int_&lt;1&gt;, char_&lt;&#39;c&#39;&gt;, type&lt;void&gt;), type&lt;int&gt;) == nothing</div>
+<div class="line">    hana::find(hana::make_tuple(hana::int_&lt;1&gt;, hana::char_&lt;&#39;c&#39;&gt;, hana::type&lt;void&gt;), hana::type&lt;int&gt;)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::nothing</div>
 <div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s<br />
 Every finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> gives rise to a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. For these models to be consistent, we require the models of both <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> to have the same linearization.</li>
 </ol>
 <dl class="section note"><dt>Note</dt><dd>As explained above, <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s are also <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s and their models have to be consistent. By the laws presented here, it also means that the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> model for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s has to be consistent with the <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> model.</dd></dl>
-<p>Furthermore, for finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s, providing a definition of <code>length</code> is sufficient to be a model of <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>;</p>
 <p>For convenience, finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s must only provide a definition of <code>length</code> to model the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> concept; defining the more powerful <code>unpack</code> or <code>fold_left</code> is not necessary (but still possible). The default implementation of <code>unpack</code> derived from <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> + <code>length</code> uses the fact that <code>at(xs, i)</code> denotes the <code>i</code>th element of <code>xs</code>'s linearization, and that the linearization of a finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> must be the same as its linearization as a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>.</p>
 <h2>Concrete models </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>, <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a compile-time half-open interval of IntegralConstants. ">Range</a></code> </p>
@@ -245,9 +276,25 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;0&gt;) == 0);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;1&gt;) == <span class="charliteral">&#39;1&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0), int_&lt;2&gt;) == 2.0);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::at(xs, hana::size_t&lt;0&gt;) == 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::at(xs, hana::size_t&lt;1&gt;) == <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::at(xs, hana::size_t&lt;2&gt;) == 2.0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.at.compile.json"> </div> 
 </div>
@@ -277,10 +324,25 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>Equivalent to <code>at</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;0&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 0);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;1&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == <span class="charliteral">&#39;1&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(at_c&lt;2&gt;(make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0)) == 2.0);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::at_c&lt;0&gt;(xs) == 0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::at_c&lt;1&gt;(xs) == <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::at_c&lt;2&gt;(xs) == 2.0, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a506a9445ba4459cf38668e9662f76895"></a>
@@ -307,9 +369,22 @@ template&lt;std::size_t n&gt; </div>
 <p>Returns the last element of a non-empty and finite iterable. </p>
 <p>Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895">back</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 3.3, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895">back</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == <span class="keyword">nullptr</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="back_8hpp.html">boost/hana/back.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::back(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == 3.3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::back(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == <span class="keyword">nullptr</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aa9cb52d0c5c6dac2f10ab70bd3863df5"></a>
@@ -344,16 +419,32 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs, size_t&lt;0&gt;) == xs, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs, size_t&lt;1&gt;) == make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs, size_t&lt;2&gt;) == make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs, size_t&lt;3&gt;) == make_tuple());</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs, size_t&lt;4&gt;) == make_tuple());</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front_8hpp.html">boost/hana/drop_front.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(xs) == make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::drop_front(xs, hana::size_t&lt;0&gt;) == xs, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::drop_front(xs, hana::size_t&lt;1&gt;) == hana::make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::drop_front(xs, hana::size_t&lt;2&gt;) == hana::make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::drop_front(xs, hana::size_t&lt;3&gt;) == hana::make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::drop_front(xs, hana::size_t&lt;4&gt;) == hana::make_tuple());</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// drop_front(xs) is equivalent to drop_front(xs, size_t&lt;1&gt;)</span></div>
+<div class="line">static_assert(hana::drop_front(xs) == hana::make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a94000a394f176d5055e3877534c7a008"></a>
@@ -388,14 +479,30 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(xs, size_t&lt;1&gt;) == make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(xs, size_t&lt;2&gt;) == make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(xs, size_t&lt;3&gt;) == make_tuple());</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front__exactly_8hpp.html">boost/hana/drop_front_exactly.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(xs) == make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::drop_front_exactly(xs, hana::size_t&lt;1&gt;) == hana::make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::drop_front_exactly(xs, hana::size_t&lt;2&gt;) == hana::make_tuple(2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::drop_front_exactly(xs, hana::size_t&lt;3&gt;) == hana::make_tuple());</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// drop_front_exactly(xs) is equivalent to drop_front_exactly(xs, size_t&lt;1&gt;)</span></div>
+<div class="line">static_assert(hana::drop_front_exactly(xs) == hana::make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.0), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aab3e80f4ae219afb61b12201738d28b8"></a>
@@ -429,19 +536,39 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespaceboost_1_1hana_1_1literals.html">boost::hana::literals</a>;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> negative = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x &lt; int_&lt;0&gt;;</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__while_8hpp.html">boost/hana/drop_while.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>hana::literals;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> negative = [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    <span class="keywordflow">return</span> x &lt; hana::int_&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(range(int_&lt;-3&gt;, int_&lt;6&gt;), negative) == range(int_&lt;0&gt;, int_&lt;6&gt;)</div>
+<div class="line">    hana::drop_while(hana::make_range(hana::int_&lt;-3&gt;, hana::int_&lt;6&gt;), negative)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;6&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(make_tuple(1_c, -2_c, 4_c, 5_c), negative) == make_tuple(1_c, -2_c, 4_c, 5_c)</div>
+<div class="line">    hana::drop_while(hana::make_tuple(1_c, -2_c, 4_c, 5_c), negative)</div>
+<div class="line">        ==</div>
+<div class="line">    hana::make_tuple(1_c, -2_c, 4_c, 5_c)</div>
 <div class="line">);</div>
-</div><!-- fragment -->
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ab1730f0d9051da9757a5d3956136c571"></a>
@@ -468,8 +595,21 @@ template&lt;std::size_t n&gt; </div>
 <p>Returns the first element of a non-empty iterable. </p>
 <p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="front_8hpp.html">boost/hana/front.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::front(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a4193ecf811f29479c60022564afa512a"></a>
@@ -496,9 +636,23 @@ template&lt;std::size_t n&gt; </div>
 <p>Returns whether the iterable is empty. </p>
 <p><code>is_empty</code> must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether the iterable is empty.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( <a class="code" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(make_tuple()));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="is__empty_8hpp.html">boost/hana/is_empty.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_empty(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_empty(hana::make_tuple()));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ab15783aae10d4373e2399abe728f3f96"></a>
@@ -525,10 +679,25 @@ template&lt;std::size_t n&gt; </div>
 <p>Returns a new iterable containing all but the first element of a non-empty iterable. </p>
 <p>Given a non-empty <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>tail(xs)</code> is an <a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a> of the same data type whose linearization is <code>[x2, ..., xN]</code>. In particular, <code>tail(xs)</code> is functionally equivalent to <code>drop(xs, size_t&lt;1&gt;)</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)) == make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
-<div class="line">);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tail_8hpp.html">boost/hana/tail.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(</div>
+<div class="line">    hana::tail(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>))</div>
+<div class="line">        ==</div>
+<div class="line">    hana::make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>)</div>
+<div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

@@ -173,15 +173,29 @@ If compile-time performance is a serious concern, consider specializing the <cod
 Consider using <code>datatype_t</code> alias instead of <code>datatype</code>, which reduces the amount of typing in dependent contexts. </p>
 </blockquote>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(std::is_same&lt;datatype&lt;int&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(std::is_same&lt;datatype&lt;int&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(std::is_same&lt;datatype&lt;int const&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;hana::datatype&lt;int&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(std::is_same&lt;hana::datatype&lt;int&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(std::is_same&lt;hana::datatype&lt;int const&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>Datatype;</div>
 <div class="line"><span class="keyword">struct </span>Person { <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Datatype; }; };</div>
-<div class="line">static_assert(std::is_same&lt;datatype&lt;Person&gt;::type, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(std::is_same&lt;datatype&lt;Person volatile&amp;&amp;&gt;::type, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --></div></div><!-- contents -->
+<div class="line">static_assert(std::is_same&lt;hana::datatype&lt;Person&gt;::type, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(std::is_same&lt;hana::datatype&lt;Person volatile&amp;&amp;&gt;::type, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->

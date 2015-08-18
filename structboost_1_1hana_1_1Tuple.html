@@ -202,10 +202,27 @@ template&lt;&gt; </div>
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. </p>
 <p>Given zero or more objects <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> containing those objects. The elements are held by value inside the resulting tuple, and they are hence copied or moved in. This is analogous to <code>std::make_tuple</code> for creating Hana tuples.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = <a class="code" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(1, 2, <span class="charliteral">&#39;3&#39;</span>, std::string{<span class="stringliteral">&quot;456&quot;</span>});</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = <a class="code" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(1, <span class="charliteral">&#39;2&#39;</span>, 3.456);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="keyword">auto</span> xs = hana::make&lt;hana::Tuple&gt;(1, 2, <span class="charliteral">&#39;3&#39;</span>, std::string{<span class="stringliteral">&quot;456&quot;</span>});</div>
+<div class="line"></div>
+<div class="line">    constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::Tuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.456);</div>
+<div class="line">    static_assert(ys == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.456), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="af3c175cfb83276339f91e867d738a2e6"></a>
@@ -253,12 +270,27 @@ template&lt;typename... T&gt; </div>
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> specialized for holding <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s. </p>
 <p>This is functionally equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;(type&lt;T&gt;...)</code>, except that using <code>tuple_t</code> allows the library to perform some compile-time optimizations. Also note that the type of the objects returned by <code>tuple_t</code> and an equivalent call to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;</code> may differ.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    to&lt;Tuple&gt;(<a class="code" href="structboost_1_1hana_1_1Tuple.html#aaa14e68d483c13fcc034639a75ab48a8">tuple_t</a>&lt;<span class="keywordtype">int</span>, <span class="keywordtype">char</span>, <span class="keywordtype">void</span>, <span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
-<div class="line">    ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(type&lt;int&gt;, type&lt;char&gt;, type&lt;void&gt;, type&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
-<div class="line">);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">        hana::to&lt;hana::Tuple&gt;(hana::tuple_t&lt;<span class="keywordtype">int</span>, <span class="keywordtype">char</span>, <span class="keywordtype">void</span>, <span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
+<div class="line">            ==</div>
+<div class="line">        hana::make&lt;hana::Tuple&gt;(hana::type&lt;int&gt;, hana::type&lt;char&gt;, hana::type&lt;void&gt;, hana::type&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
+<div class="line">    );</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a718ca253f469ca8705677260e1a0def5"></a>
@@ -284,13 +316,30 @@ template&lt;typename T , T... v&gt; </div>
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> specialized for holding <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s. </p>
 <p>This is functionally equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;(integral_constant&lt;T, v&gt;...)</code>, except that using <code>tuple_c</code> allows the library to perform some compile-time optimizations. Also note that the type of the objects returned by <code>tuple_c</code> and an equivalent call to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a>&gt;</code> may differ.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    to&lt;Tuple&gt;(tuple_c&lt;int, 0, 1, 2&gt;)</div>
-<div class="line">    ==</div>
-<div class="line">    <a class="code" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">make&lt;Tuple&gt;</a>(int_&lt;0&gt;, int_&lt;1&gt;, int_&lt;2&gt;)</div>
-<div class="line">);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(front(tuple_c&lt;int, 0, 1, 2&gt;) == int_&lt;0&gt;);</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="front_8hpp.html">boost/hana/front.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">        hana::to&lt;hana::Tuple&gt;(hana::tuple_c&lt;int, 0, 1, 2&gt;)</div>
+<div class="line">            ==</div>
+<div class="line">        hana::make_tuple(hana::int_&lt;0&gt;, hana::int_&lt;1&gt;, hana::int_&lt;2&gt;)</div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(hana::tuple_c&lt;int, 0, 1, 2&gt;) == hana::int_&lt;0&gt;);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

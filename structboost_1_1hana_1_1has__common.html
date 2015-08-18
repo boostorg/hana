@@ -140,9 +140,21 @@ struct boost::hana::has_common&lt; T, U, typename &gt;</h3>
 <p><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a> returning whether two data types share a common data type. </p>
 <p>Given two data types <code>T</code> and <code>U</code>, this metafunction simply returns whether <code>common&lt;T, U&gt;::type</code> is well-formed.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(has_common&lt;int, float&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!has_common&lt;void, float&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --></div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2common_8hpp.html">boost/hana/core/common.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::has_common&lt;int, float&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!hana::has_common&lt;void, float&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </div>
 <p>Inherits false_type.</p>
 </div><!-- contents -->
 </div><!-- doc-content -->

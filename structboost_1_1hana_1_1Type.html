@@ -150,11 +150,24 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Type.html','');
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
-Two <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="keyword">struct </span>T;</div>
+Two <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>T;</div>
 <div class="line"><span class="keyword">struct </span>U;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(type&lt;T&gt; == type&lt;T&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(type&lt;T&gt; != type&lt;U&gt;);</div>
-</div><!-- fragment --></li>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::type&lt;T&gt; == hana::type&lt;T&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::type&lt;T&gt; != hana::type&lt;U&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </li>
 </ol>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
@@ -232,15 +245,28 @@ template&lt;typename T &gt; </div>
 <div class="line"><span class="keyword">auto</span> result = metafunction&lt;F&gt;(i);</div>
 </div><!-- fragment --><p>Hence, always discarding references seems to be the least painful solution.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(X{}) == type&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;X&gt;) == type&lt;X&gt;);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(1) == type&lt;int&gt;);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(X{}) == hana::type&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(hana::type&lt;X&gt;) == hana::type&lt;X&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(1) == hana::type&lt;int&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> <span class="keyword">const</span>&amp; i = 1;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(i) == type&lt;int const&gt;);</div>
-</div><!-- fragment -->
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(i) == hana::type&lt;int const&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a3c8833c714e03f37d7e593915a407e6a"></a>
@@ -265,10 +291,24 @@ template&lt;&gt; </div>
 
 <p>Equivalent to <code>decltype_</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt;Type&gt;</a>(X{}) == <a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(X{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt;Type&gt;</a>(type&lt;X&gt;) == <a class="code" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a>(type&lt;X&gt;));</div>
-</div><!-- fragment -->
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::Type&gt;(X{}) == hana::decltype_(X{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::Type&gt;(hana::type&lt;X&gt;) == hana::decltype_(hana::type&lt;X&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a26b702b280ca02f118affaaca9112a8c"></a>
@@ -298,12 +338,24 @@ template&lt;&gt; </div>
 </div><!-- fragment --><p>However, given a <a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a> object, <code>sizeof_</code> will simply fetch the size of the C++ type represented by that object. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;T&gt;) == size_t&lt;sizeof(T)&gt;</div>
 </div><!-- fragment --><p>The behavior of <code>sizeof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>sizeof_</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;X&gt;) == <span class="keyword">sizeof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(1) == <span class="keyword">sizeof</span>(1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type&lt;int&gt;) == <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line">static_assert(hana::sizeof_(hana::type&lt;X&gt;) == <span class="keyword">sizeof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::sizeof_(1) == <span class="keyword">sizeof</span>(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::sizeof_(hana::type&lt;int&gt;) == <span class="keyword">sizeof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a6fd9ac456f4b5574dcb16384dbb85736"></a>
@@ -333,12 +385,24 @@ template&lt;&gt; </div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;T&gt;) == size_t&lt;alignof(T)&gt;</div>
 </div><!-- fragment --><p>The behavior of <code>alignof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>alignof_</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;X&gt;) == <span class="keyword">alignof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(1) == <span class="keyword">alignof</span>(decltype(1)), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type&lt;int&gt;) == <span class="keyword">alignof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line">static_assert(hana::alignof_(hana::type&lt;X&gt;) == <span class="keyword">alignof</span>(X), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::alignof_(1) == <span class="keyword">alignof</span>(decltype(1)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::alignof_(hana::type&lt;int&gt;) == <span class="keyword">alignof</span>(<span class="keywordtype">int</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"></a>
@@ -370,23 +434,39 @@ template&lt;&gt; </div>
 </div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
 <dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Checking for a member</span></div>
-<div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
-<div class="line"><span class="keyword">auto</span> has_name = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype((<span class="keywordtype">void</span>)p.name) { });</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">Person joe{<span class="stringliteral">&quot;Joe&quot;</span>};</div>
-<div class="line">static_assert(has_name(joe), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Checking for a nested type</span></div>
-<div class="line"><span class="keyword">auto</span> has_value_type = <a class="code" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>([](<span class="keyword">auto</span> t) -&gt; decltype(<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;</div>
-<div class="line">    <span class="keyword">typename</span> decltype(t)::type::value_type</div>
-<div class="line">&gt;) { });</div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="comment">// Checking for a member</span></div>
+<div class="line">    <span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line">    <span class="keyword">auto</span> has_name = hana::is_valid([](<span class="keyword">auto</span>&amp;&amp; p) -&gt; decltype((<span class="keywordtype">void</span>)p.name) { });</div>
 <div class="line"></div>
-<div class="line">static_assert(has_value_type(<a class="code" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a>&lt;std::vector&lt;int&gt;&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!has_value_type(type&lt;Person&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line">    Person joe{<span class="stringliteral">&quot;Joe&quot;</span>};</div>
+<div class="line">    static_assert(has_name(joe), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(!has_name(1), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// Checking for a nested type</span></div>
+<div class="line">    <span class="keyword">auto</span> has_value_type = hana::is_valid([](<span class="keyword">auto</span> t) -&gt; decltype(hana::type&lt;</div>
+<div class="line">        <span class="keyword">typename</span> decltype(t)::type::value_type</div>
+<div class="line">    &gt;) { });</div>
+<div class="line"></div>
+<div class="line">    static_assert(has_value_type(hana::type&lt;std::vector&lt;int&gt;&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(!has_value_type(hana::type&lt;Person&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->

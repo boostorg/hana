@@ -218,32 +218,50 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment --><p> or, equivalently, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(f)(x, y) == <a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(f(x), f(y))</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not a tag-dispatched method (hence it can't be customized), but just a convenience function provided with the <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> concept.</dd></dl>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> <code>B</code>, the signature is \( \mathrm{comparing} : (A \to B) \to (A \times A \to Bool) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a> <code>B</code>, the signature is \( \mathtt{comparing} : (A \to B) \to (A \times A \to Bool) \).</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> grouped = group.by(<a class="code" href="structboost_1_1hana_1_1Comparable.html#a350ae6cc37fa971f203065bb628a7948">comparing</a>(length), make_tuple(</div>
-<div class="line">    make_tuple(1, 2, 3),</div>
-<div class="line">    make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>),</div>
-<div class="line">    range_c&lt;long, 0, 1&gt;,</div>
-<div class="line">    tuple_t&lt;char, int&gt;,</div>
-<div class="line">    range_c&lt;int, 0, 2&gt;,</div>
-<div class="line">    make_tuple(123.4, <span class="keyword">nullptr</span>)</div>
-<div class="line">));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(grouped == make_tuple(</div>
-<div class="line">    make_tuple(</div>
-<div class="line">        make_tuple(1, 2, 3),</div>
-<div class="line">        make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)</div>
-<div class="line">    ),</div>
-<div class="line">    make_tuple(</div>
-<div class="line">        range_c&lt;long, 0, 1&gt;</div>
-<div class="line">    ),</div>
-<div class="line">    make_tuple(</div>
-<div class="line">        tuple_t&lt;char, int&gt;,</div>
-<div class="line">        range_c&lt;int, 0, 2&gt;,</div>
-<div class="line">        make_tuple(123.4, <span class="keyword">nullptr</span>)</div>
-<div class="line">    )</div>
-<div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="comparing_8hpp.html">boost/hana/comparing.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="group_8hpp.html">boost/hana/group.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="length_8hpp.html">boost/hana/length.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    constexpr <span class="keyword">auto</span> sequences = hana::make_tuple(</div>
+<div class="line">        hana::make_tuple(1, 2, 3),</div>
+<div class="line">        hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>),</div>
+<div class="line">        hana::range_c&lt;long, 0, 1&gt;,</div>
+<div class="line">        hana::tuple_t&lt;char, int&gt;,</div>
+<div class="line">        hana::range_c&lt;int, 0, 2&gt;,</div>
+<div class="line">        hana::make_tuple(123.4, <span class="keyword">nullptr</span>)</div>
+<div class="line">    );</div>
+<div class="line"></div>
+<div class="line">    constexpr <span class="keyword">auto</span> grouped = hana::group.by(hana::comparing(hana::length), sequences);</div>
+<div class="line"></div>
+<div class="line">    static_assert(grouped == hana::make_tuple(</div>
+<div class="line">        hana::make_tuple(</div>
+<div class="line">            hana::make_tuple(1, 2, 3),</div>
+<div class="line">            hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;z&#39;</span>)</div>
+<div class="line">        ),</div>
+<div class="line">        hana::make_tuple(</div>
+<div class="line">            hana::range_c&lt;long, 0, 1&gt;</div>
+<div class="line">        ),</div>
+<div class="line">        hana::make_tuple(</div>
+<div class="line">            hana::tuple_t&lt;char, int&gt;,</div>
+<div class="line">            hana::range_c&lt;int, 0, 2&gt;,</div>
+<div class="line">            hana::make_tuple(123.4, <span class="keyword">nullptr</span>)</div>
+<div class="line">        )</div>
+<div class="line">    ), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="aa3d0a020ddd527610472c91f5a8cc627"></a>
@@ -272,7 +290,7 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment --><p>However, it may also be partially applied to an argument by using <code>equal.to</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(x)(y) == <a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(x, y)</div>
 </div><!-- fragment --><p>In other words, <code>equal.to(x)</code> is a function object that is equivalent to <code>partial(equal, x)</code>. This is provided to enhance the readability of some constructs, especially when using higher order algorithms.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathrm{equal} : A \times B \to Bool \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathtt{equal} : A \times B \to Bool \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x,y</td><td>Two objects to compare for equality.</td></tr>
@@ -280,11 +298,26 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(1, 2)), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!<a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!<a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(any_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">equal</a>.to(2)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="any__of_8hpp.html">boost/hana/any_of.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    static_assert(hana::equal(hana::make_tuple(1, 2), hana::make_tuple(1, 2)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(!hana::equal(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::equal(hana::make_tuple(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="line"></div>
+<div class="line">    static_assert(hana::any_of(hana::make_tuple(1, 2, 3), hana::equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(2)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
 </div><!-- fragment --><blockquote class="doxtable">
 <h4>Rationale for the arity of <code>equal</code></h4>
 <p>It is a valid question whether <code>equal</code> should accept more than 2 arguments and have semantics matching those of Python's <code>==</code>. This is not supported right now for the following reasons:</p><ul>
@@ -321,7 +354,7 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment --><p>However, it may also be partially applied to an argument by using <code>not_equal.to</code>: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(x)(y) == <a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(x, y)</div>
 </div><!-- fragment --><p>In other words, <code>not_equal.to(x)</code> is a function object that is equivalent to <code>partial(not_equal, x)</code>. This is provided to enhance the readability of some constructs, especially when using higher order algorithms.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathrm{not\_equal} : A \times B \to Bool \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Comparables <code>A</code> and <code>B</code> that share a common embedding, the signature is \( \mathtt{not\_equal} : A \times B \to Bool \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x,y</td><td>Two objects to compare for inequality.</td></tr>
@@ -329,12 +362,27 @@ Synopsis of associated functions</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), make&lt;Tuple&gt;(3)), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>(make&lt;Tuple&gt;(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line">static_assert(all_of(make&lt;Tuple&gt;(1, 2, 3), <a class="code" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">not_equal</a>.to(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all__of_8hpp.html">boost/hana/all_of.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not__equal_8hpp.html">boost/hana/not_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    static_assert(hana::not_equal(hana::make_tuple(1, 2), hana::make_tuple(3)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::not_equal(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(hana::make_tuple(1, 2), <span class="charliteral">&#39;y&#39;</span>));</div>
+<div class="line"></div>
+<div class="line">    static_assert(hana::all_of(hana::make_tuple(1, 2, 3), hana::not_equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
