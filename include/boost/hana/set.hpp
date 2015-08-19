@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/set.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/logical.hpp>
@@ -94,11 +95,19 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Set, Set> {
         template <typename S1, typename S2>
+        static constexpr auto equal_helper(S1 const& s1, S2 const& s2, decltype(hana::true_))
+        { return hana::is_subset(s1, s2); }
+
+        template <typename S1, typename S2>
+        static constexpr auto equal_helper(S1 const&, S2 const&, decltype(hana::false_))
+        { return hana::false_; }
+
+        template <typename S1, typename S2>
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
-            return hana::and_(
-                hana::equal(hana::length(s1.storage), hana::length(s2.storage)),
-                hana::is_subset(static_cast<S1&&>(s1), static_cast<S2&&>(s2))
-            );
+            constexpr bool same_length = hana::value<decltype(
+                hana::equal(hana::length(s1.storage), hana::length(s2.storage)
+            ))>();
+            return equal_helper(s1, s2, hana::bool_<same_length>);
         }
     };
 
