@@ -249,7 +249,8 @@ script:
   # Build and run the unit tests and examples.
   ############################################################################
   - export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests.quick examples -k -j2 &>/dev/null; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make examples -k -j2 &>/dev/null; fi
+  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests.quick -k -j2 &>/dev/null; fi
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests -k -j2; fi
   - if [[ "${UNIT_TESTS}" == "true" ]]; then make check -k; fi
 
