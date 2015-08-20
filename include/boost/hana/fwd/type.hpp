@@ -353,6 +353,38 @@ namespace boost { namespace hana {
     //! So `f` is called with the type of its arguments, but since `decltype_`
     //! is just the identity for `Type`s, only non-`Type`s are lifted to the
     //! `Type` level.
+    //!
+    //!
+    //! Rationale: Why aren't `Metafunction`s `Comparable`?
+    //! ---------------------------------------------------
+    //! When seeing `hana::template_`, a question that naturally arises is
+    //! whether `Metafunction`s should be made `Comparable`. Indeed, it would
+    //! seem to make sense to compare two templates `F` and `G` with
+    //! `template_<F> == template_<G>`. However, in the case where `F` and/or
+    //! `G` are alias templates, it makes sense to talk about two types of
+    //! comparisons. The first one is _shallow_ comparison, and it determines
+    //! that two alias templates are equal if they are the same alias template.
+    //! The second one is _deep_ comparison, and it determines that two template
+    //! aliases are equal if they alias the same type for any template argument.
+    //! For example, given `F` and `G` defined as
+    //! @code
+    //!     template <typename T>
+    //!     using F = void;
+    //!
+    //!     template <typename T>
+    //!     using G = void;
+    //! @endcode
+    //!
+    //! shallow comparison would determine that `F` and `G` are different
+    //! because they are two different template aliases, while deep comparison
+    //! would determine that `F` and `G` are equal because they always
+    //! expand to the same type, `void`. Unfortunately, deep comparison is
+    //! impossible to implement because one would have to check `F` and `G`
+    //! on all possible types. On the other hand, shallow comparison is not
+    //! satisfactory because `Metafunction`s are nothing but functions on
+    //! `Type`s, and the equality of two functions is normally defined with
+    //! deep comparison. Hence, we adopt a conservative stance and avoid
+    //! providing comparison for `Metafunction`s.
     struct Metafunction { };
 
     //! Lift a template to a Metafunction.
