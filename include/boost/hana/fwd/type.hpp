@@ -327,7 +327,7 @@ namespace boost { namespace hana {
     //! this should not be a problem.
     //!
     //! __Example of a non-liftable metafunction__
-    //! @include example/type/non_liftable_metafunction.cpp
+    //! @snippet example/type/non_liftable_metafunction.cpp extent
     //!
     //!
     //! In addition to being Callable, `Metafunction`s provide a nested `apply`

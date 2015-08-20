@@ -14,10 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
+//! [extent]
 auto extent = [](auto t, auto n) {
     return std::extent<typename decltype(t)::type, hana::value(n)>{};
 };
 BOOST_HANA_CONSTANT_CHECK(extent(hana::type<char>, hana::int_<1>) == hana::size_t<0>);
 BOOST_HANA_CONSTANT_CHECK(extent(hana::type<char[1][2]>, hana::int_<1>) == hana::size_t<2>);
+//! [extent]
 
 int main() { }
