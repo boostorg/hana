@@ -110,7 +110,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestLogical<C, when<_models<Constant, C>{}()>>
+    struct TestLogical<C, when<_models<Constant, C>::value>>
         : TestLogical<C, laws>
     {
         template <typename Xs>

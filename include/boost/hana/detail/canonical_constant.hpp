@@ -48,10 +48,10 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<detail::CanonicalConstant<T>, C, when<
-        _models<Constant, C>{}() &&
-        is_convertible<typename C::value_type, T>{}()
+        _models<Constant, C>::value &&
+        is_convertible<typename C::value_type, T>::value
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}()>
+        : embedding<is_embedded<typename C::value_type, T>::value>
     {
         template <typename X>
         struct constant_t {

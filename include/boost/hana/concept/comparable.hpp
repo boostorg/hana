@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct models_impl<Comparable, T>
         : _integral_constant<bool,
-            !is_default<equal_impl<T, T>>{}()
+            !is_default<equal_impl<T, T>>::value
         >
     { };
 }} // end namespace boost::hana

@@ -238,7 +238,7 @@ namespace boost { namespace hana {
     // Construction from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<Map, F, when<_models<Foldable, F>{}()>> {
+    struct to_impl<Map, F, when<_models<Foldable, F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(

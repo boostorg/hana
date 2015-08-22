@@ -115,7 +115,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonad<S, when<_models<Sequence, S>{}()>>
+    struct TestMonad<S, when<_models<Sequence, S>::value>>
         : TestMonad<S, laws>
     {
         template <typename Xs, typename XXs>

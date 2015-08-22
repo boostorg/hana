@@ -85,7 +85,7 @@ namespace boost { namespace hana { namespace test {
                         to<U>(c),
                         make<U>(hana::value(c))
                     ));
-                    static_assert(is_embedded<C, U>{}() ^iff^ is_embedded<T, U>{}(), "");
+                    static_assert(is_embedded<C, U>::value ^iff^ is_embedded<T, U>::value, "");
 
                     // common data type
                     static_assert(std::is_same<

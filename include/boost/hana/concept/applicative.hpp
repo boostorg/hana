@@ -46,8 +46,8 @@ namespace boost { namespace hana {
     template <typename A>
     struct models_impl<Applicative, A>
         : _integral_constant<bool,
-            !is_default<ap_impl<A>>{}() &&
-            !is_default<lift_impl<A>>{}()
+            !is_default<ap_impl<A>>::value &&
+            !is_default<lift_impl<A>>::value
         >
     { };
 }} // end namespace boost::hana

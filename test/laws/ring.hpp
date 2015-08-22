@@ -93,7 +93,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestRing<C, when<_models<Constant, C>{}()>>
+    struct TestRing<C, when<_models<Constant, C>::value>>
         : TestRing<C, laws>
     {
         template <typename Xs>

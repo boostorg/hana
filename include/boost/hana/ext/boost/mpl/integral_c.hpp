@@ -70,10 +70,10 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<ext::boost::mpl::IntegralC<T>, C, when<
-        _models<Constant, C>{}() &&
-        std::is_integral<typename C::value_type>{}()
+        _models<Constant, C>::value &&
+        std::is_integral<typename C::value_type>::value
     >>
-        : embedding<is_embedded<typename C::value_type, T>{}()>
+        : embedding<is_embedded<typename C::value_type, T>::value>
     {
         static_assert(std::is_integral<T>{},
         "trying to convert a Constant to a Boost.MPL IntegralConstant of a "

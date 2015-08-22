@@ -81,7 +81,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestOrderable<C, when<_models<Constant, C>{}()>>
+    struct TestOrderable<C, when<_models<Constant, C>::value>>
         : TestOrderable<C, laws>
     {
         template <typename Xs>
@@ -98,7 +98,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestOrderable<P, when<_models<Product, P>{}()>>
+    struct TestOrderable<P, when<_models<Product, P>::value>>
         : TestOrderable<P, laws>
     {
         template <typename Products>
@@ -121,7 +121,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestOrderable<S, when<_models<Sequence, S>{}()>>
+    struct TestOrderable<S, when<_models<Sequence, S>::value>>
         : TestOrderable<S, laws>
     {
         struct invalid { };

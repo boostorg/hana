@@ -27,11 +27,11 @@ namespace boost { namespace hana { namespace detail {
     >> {
         using Common = typename common<T, U>::type;
         using type = std::integral_constant<bool,
-            _models<Concept, T>{}() &&
-            _models<Concept, U>{}() &&
-            _models<Concept, Common>{}() &&
-            is_embedded<T, Common>{}() &&
-            is_embedded<U, Common>{}()
+            _models<Concept, T>::value &&
+            _models<Concept, U>::value &&
+            _models<Concept, Common>::value &&
+            is_embedded<T, Common>::value &&
+            is_embedded<U, Common>::value
         >;
     };
 

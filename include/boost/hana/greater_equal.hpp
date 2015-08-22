@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct greater_equal_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<Orderable, T, U>{}()
+        detail::has_nontrivial_common_embedding<Orderable, T, U>::value
     >> {
         using C = typename hana::common<T, U>::type;
         template <typename X, typename Y>

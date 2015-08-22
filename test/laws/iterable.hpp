@@ -110,7 +110,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestIterable<S, when<_models<Sequence, S>{}()>>
+    struct TestIterable<S, when<_models<Sequence, S>::value>>
         : TestIterable<S, laws>
     {
         template <int i>

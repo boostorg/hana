@@ -34,8 +34,8 @@ namespace boost { namespace hana {
     template <typename F>
     struct models_impl<Functor, F>
         : _integral_constant<bool,
-            !is_default<transform_impl<F>>{}() ||
-            !is_default<adjust_if_impl<F>>{}()
+            !is_default<transform_impl<F>>::value ||
+            !is_default<adjust_if_impl<F>>::value
         >
     { };
 }} // end namespace boost::hana

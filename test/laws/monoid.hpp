@@ -61,7 +61,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestMonoid<C, when<_models<Constant, C>{}()>>
+    struct TestMonoid<C, when<_models<Constant, C>::value>>
         : TestMonoid<C, laws>
     {
         template <typename Xs>

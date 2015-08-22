@@ -106,7 +106,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestApplicative<S, when<_models<Sequence, S>{}()>>
+    struct TestApplicative<S, when<_models<Sequence, S>::value>>
         : TestApplicative<S, laws>
     {
         template <typename Applicatives>

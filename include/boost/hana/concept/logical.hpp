@@ -45,9 +45,9 @@ namespace boost { namespace hana {
     template <typename L>
     struct models_impl<Logical, L>
         : _integral_constant<bool,
-            !is_default<eval_if_impl<L>>{}() &&
-            !is_default<not_impl<L>>{}() &&
-            !is_default<while_impl<L>>{}()
+            !is_default<eval_if_impl<L>>::value &&
+            !is_default<not_impl<L>>::value &&
+            !is_default<while_impl<L>>::value
         >
     { };
 }} // end namespace boost::hana

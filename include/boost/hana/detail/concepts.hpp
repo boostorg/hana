@@ -38,9 +38,9 @@ namespace boost { namespace hana { namespace detail {
             decltype(static_cast<U&&>(*(U*)0) != static_cast<T&&>(*(T*)0) ? 0:0),
             typename detail::std_common_type<T, U>::type
     >>::type> : std::integral_constant<bool,
-        EqualityComparable<T>{}() &&
-        EqualityComparable<U>{}() &&
-        EqualityComparable<typename detail::std_common_type<T, U>::type>{}()
+        EqualityComparable<T>::value &&
+        EqualityComparable<U>::value &&
+        EqualityComparable<typename detail::std_common_type<T, U>::type>::value
     > { };
 
 
@@ -57,7 +57,7 @@ namespace boost { namespace hana { namespace detail {
 
     template <typename T, typename U>
     struct LessThanComparable<T, U, std::enable_if_t<
-        !std::is_same<T, U>{}(),
+        !std::is_same<T, U>::value,
         detail::void_t<
             decltype(static_cast<T&&>(*(T*)0) < static_cast<U&&>(*(U*)0) ? 0:0),
             decltype(static_cast<U&&>(*(U*)0) < static_cast<T&&>(*(T*)0) ? 0:0),
@@ -65,9 +65,9 @@ namespace boost { namespace hana { namespace detail {
         >
     >>
         : std::integral_constant<bool,
-            LessThanComparable<T>{}() &&
-            LessThanComparable<U>{}() &&
-            LessThanComparable<typename detail::std_common_type<T, U>::type>{}()
+            LessThanComparable<T>::value &&
+            LessThanComparable<U>::value &&
+            LessThanComparable<typename detail::std_common_type<T, U>::type>::value
         >
     { };
 }}} // end namespace boost::hana::detail

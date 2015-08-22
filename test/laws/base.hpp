@@ -389,7 +389,7 @@ namespace boost { namespace hana {
     template <test::Policy policy, typename C>
     struct to_impl<test::Integer<policy>, C, when<
         (policy & test::Policy::Constant) &&
-        _models<Constant, C>{}() &&
+        _models<Constant, C>::value &&
         std::is_integral<typename C::value_type>{}
     >>
         : embedding<is_embedded<typename C::value_type, int>{}>

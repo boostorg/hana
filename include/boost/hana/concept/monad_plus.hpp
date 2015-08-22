@@ -44,8 +44,8 @@ namespace boost { namespace hana {
     template <typename M>
     struct models_impl<MonadPlus, M>
         : _integral_constant<bool,
-            !is_default<concat_impl<M>>{}() &&
-            !is_default<empty_impl<M>>{}()
+            !is_default<concat_impl<M>>::value &&
+            !is_default<empty_impl<M>>::value
         >
     { };
 }} // end namespace boost::hana

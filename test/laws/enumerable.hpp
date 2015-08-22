@@ -44,7 +44,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestEnumerable<C, when<_models<Constant, C>{}()>>
+    struct TestEnumerable<C, when<_models<Constant, C>::value>>
         : TestEnumerable<C, laws>
     {
         template <typename Xs>

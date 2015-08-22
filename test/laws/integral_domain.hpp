@@ -61,7 +61,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestIntegralDomain<C, when<_models<Constant, C>{}()>>
+    struct TestIntegralDomain<C, when<_models<Constant, C>::value>>
         : TestIntegralDomain<C, laws>
     {
         template <typename Xs>

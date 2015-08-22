@@ -41,8 +41,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct to_impl<ext::std::Ratio, C, when<
-        _models<Constant, C>{}() &&
-        std::is_integral<typename C::value_type>{}()
+        _models<Constant, C>::value &&
+        std::is_integral<typename C::value_type>::value
     >> {
         template <typename N>
         static constexpr auto apply(N const&) {

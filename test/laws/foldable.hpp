@@ -91,7 +91,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestFoldable<P, when<_models<Product, P>{}()>>
+    struct TestFoldable<P, when<_models<Product, P>::value>>
         : TestFoldable<P, laws>
     {
         template <typename Products>
@@ -108,7 +108,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFoldable<S, when<_models<Sequence, S>{}()>>
+    struct TestFoldable<S, when<_models<Sequence, S>::value>>
         : TestFoldable<S, laws>
     {
         template <int i>
