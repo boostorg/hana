@@ -38,7 +38,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/symmetric_difference.hpp>
 #include <boost/hana/union.hpp>
 
+#include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -50,6 +52,7 @@ namespace boost { namespace hana {
         tuple<Xs...> storage;
         using hana = set;
         using datatype = Set;
+        static constexpr std::size_t size = sizeof...(Xs);
 
         explicit constexpr set(tuple<Xs...> const& xs)
             : storage(xs)
@@ -133,19 +136,48 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct find_if_impl<Set> {
-        template <typename Set, typename Pred>
-        static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::find_if(static_cast<Set&&>(set).storage,
-                              static_cast<Pred&&>(pred));
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            return hana::find_if(static_cast<Xs&&>(xs).storage, static_cast<Pred&&>(pred));
         }
     };
 
     template <>
     struct any_of_impl<Set> {
-        template <typename Set, typename Pred>
-        static constexpr decltype(auto) apply(Set&& set, Pred&& pred) {
-            return hana::any_of(static_cast<Set&&>(set).storage,
-                                static_cast<Pred&&>(pred));
+        template <typename Pred>
+        struct any_of_helper {
+            Pred const& pred;
+            template <typename ...X>
+            constexpr auto operator()(X const& ...x) const {
+                return hana::or_(pred(x)...);
+            }
+            constexpr auto operator()() const {
+                return hana::false_;
+            }
+        };
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs const& xs, Pred const& pred) {
+            return hana::unpack(xs.storage, any_of_helper<Pred>{pred});
+        }
+    };
+
+    template <>
+    struct is_subset_impl<Set, Set> {
+        template <typename Ys>
+        struct all_contained {
+            Ys const& ys;
+            template <typename ...X>
+            constexpr auto operator()(X const& ...x) const {
+                return hana::bool_<detail::fast_and<
+                    hana::value<decltype(hana::contains(ys, x))>()...
+                >::value>;
+            }
+        };
+
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs const& xs, Ys const& ys) {
+            return hana::unpack(xs, all_contained<Ys>{ys});
         }
     };
 
@@ -167,23 +199,26 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<Set> {
-        struct insert_helper {
-            template <typename Xs, typename X>
-            constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
-                return hana::unpack(
-                    hana::append(static_cast<Xs&&>(xs).storage,
-                                 static_cast<X&&>(x)),
-                    hana::make_set
-                );
-            }
-        };
+        template <typename Xs, typename X, typename Indices>
+        static constexpr auto
+        insert_helper(Xs&& xs, X&&, decltype(hana::true_), Indices) {
+            return static_cast<Xs&&>(xs);
+        }
+
+        template <typename Xs, typename X, std::size_t ...n>
+        static constexpr auto
+        insert_helper(Xs&& xs, X&& x, decltype(hana::false_), std::index_sequence<n...>) {
+            return hana::make_set(
+                hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<X&&>(x)
+            );
+        }
 
         template <typename Xs, typename X>
-        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
-            return hana::eval_if(hana::contains(xs, x),
-                hana::lazy(xs),
-                hana::lazy(insert_helper{})(xs, x)
-            );
+        static constexpr auto apply(Xs&& xs, X&& x) {
+            constexpr bool c = hana::value<decltype(hana::contains(xs, x))>();
+            constexpr std::size_t size = std::remove_reference<Xs>::type::size;
+            return insert_helper(static_cast<Xs&&>(xs), static_cast<X&&>(x),
+                                 hana::bool_<c>, std::make_index_sequence<size>{});
         }
     };
 

@@ -412,6 +412,36 @@ int main() {
             ));
         }
 
+        // is_subset
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_map(),
+                make_map()
+            ));
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_map(),
+                make_map(p<1, 1>())
+            ));
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_map(),
+                make_map(p<1, 1>(), p<2, 2>())
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_map(p<1, 1>()),
+                make_map(p<1, 1>(), p<2, 2>())
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_map(p<2, 2>(), p<1, 1>()),
+                make_map(p<1, 1>(), p<2, 2>())
+            ));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_subset(
+                make_map(p<3, 3>(), p<1, 1>()),
+                make_map(p<1, 1>(), p<2, 2>())
+            )));
+        }
+
         // laws
         test::TestSearchable<Map>{eq_maps, eq_keys};
     }

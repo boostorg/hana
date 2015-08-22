@@ -582,6 +582,39 @@ int main() {
             ));
         }
 
+        // is_subset
+        {
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_set(),
+                make_set(ct_eq<0>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<0>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<0>{}, ct_eq<1>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(is_subset(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(not_(is_subset(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<3>{}),
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            )));
+        }
+
         // laws
         test::TestSearchable<Set>{eqs, keys};
     }

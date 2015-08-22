@@ -58,6 +58,14 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @include example/is_subset.cpp
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.is_subset.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_subset = [](auto&& xs, auto&& ys) {
         return tag-dispatched;

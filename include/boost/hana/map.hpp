@@ -222,6 +222,26 @@ namespace boost { namespace hana {
         { return hana::any_of(hana::keys(map), pred); }
     };
 
+    template <>
+    struct is_subset_impl<Map, Map> {
+        template <typename Ys>
+        struct all_contained {
+            Ys const& ys;
+            template <typename ...X>
+            constexpr auto operator()(X const& ...x) const {
+                return hana::bool_<detail::fast_and<
+                    hana::value<decltype(hana::contains(ys, x))>()...
+                >::value>;
+            }
+        };
+
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs const& xs, Ys const& ys) {
+            auto ys_keys = hana::keys(ys);
+            return hana::unpack(hana::keys(xs), all_contained<decltype(ys_keys)>{ys_keys});
+        }
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
