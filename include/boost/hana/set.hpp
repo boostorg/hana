@@ -33,6 +33,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/tuple.hpp>
 
+#include <boost/hana/difference.hpp>
+#include <boost/hana/intersection.hpp>
+#include <boost/hana/symmetric_difference.hpp>
+#include <boost/hana/union.hpp>
+
 #include <type_traits>
 
 
@@ -163,21 +168,21 @@ namespace boost { namespace hana {
     template <>
     struct insert_impl<Set> {
         struct insert_helper {
-            template <typename S, typename X>
-            constexpr decltype(auto) operator()(S&& s, X&& x) const {
+            template <typename Xs, typename X>
+            constexpr decltype(auto) operator()(Xs&& xs, X&& x) const {
                 return hana::unpack(
-                    hana::append(static_cast<S&&>(s).storage,
+                    hana::append(static_cast<Xs&&>(xs).storage,
                                  static_cast<X&&>(x)),
-                    hana::make<Set>
+                    hana::make_set
                 );
             }
         };
 
-        template <typename S, typename X>
-        static constexpr decltype(auto) apply(S&& set, X&& x) {
-            return hana::eval_if(hana::contains(set, x),
-                hana::lazy(set),
-                hana::lazy(insert_helper{})(set, x)
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
+            return hana::eval_if(hana::contains(xs, x),
+                hana::lazy(xs),
+                hana::lazy(insert_helper{})(xs, x)
             );
         }
     };
@@ -187,13 +192,74 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct erase_key_impl<Set> {
-        template <typename S, typename X>
-        static constexpr decltype(auto) apply(S&& set, X&& x) {
+        template <typename Xs, typename X>
+        static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::unpack(
-                hana::remove(static_cast<S&&>(set).storage,
+                hana::remove(static_cast<Xs&&>(xs).storage,
                              static_cast<X&&>(x)),
-                make<Set>
+                hana::make_set
             );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // intersection
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename Ys>
+        struct set_insert_if_contains {
+            Ys const& ys;
+
+            template <typename Result, typename Key>
+            static constexpr auto helper(Result&& result, Key&& key, decltype(hana::true_)) {
+                return hana::insert(static_cast<Result&&>(result), static_cast<Key&&>(key));
+            }
+
+            template <typename Result, typename Key>
+            static constexpr auto helper(Result&& result, Key&&, decltype(hana::false_)) {
+                return static_cast<Result&&>(result);
+            }
+
+            template <typename Result, typename Key>
+            constexpr auto operator()(Result&& result, Key&& key) const {
+                constexpr bool keep = hana::value<decltype(hana::contains(ys, key))>();
+                return set_insert_if_contains::helper(static_cast<Result&&>(result),
+                                                      static_cast<Key&&>(key),
+                                                      hana::bool_<keep>);
+            }
+        };
+    }
+
+    template <>
+    struct intersection_impl<Set> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys const& ys) {
+            return hana::fold_left(static_cast<Xs&&>(xs), hana::make_set(),
+                                   detail::set_insert_if_contains<Ys>{ys});
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // union_
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct union_impl<Set> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            return hana::fold_left(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
+                                   hana::insert);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // difference
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct difference_impl<Set> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            return hana::fold_left(static_cast<Ys&&>(ys), static_cast<Xs&&>(xs),
+                                   hana::erase_key);
         }
     };
 }} // end namespace boost::hana

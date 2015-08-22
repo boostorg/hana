@@ -154,6 +154,274 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
+    // intersection
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(),
+                make_set()
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}),
+                make_set()
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(),
+                make_set(ct_eq<0>{})
+            ),
+            make_set()
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<0>{})
+            ),
+            make_set(ct_eq<0>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set(ct_eq<2>{}, ct_eq<3>{})
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set(ct_eq<1>{}, ct_eq<2>{})
+            ),
+            make_set(ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set(ct_eq<1>{}, ct_eq<0>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+                make_set(ct_eq<1>{}, ct_eq<0>{}, ct_eq<4>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            intersection(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
+                make_set(ct_eq<1>{}, ct_eq<0>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<4>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // union_
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(),
+                make_set()
+            ),
+            make_set()
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(),
+                make_set(ct_eq<0>{})
+            ),
+            make_set(ct_eq<0>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<0>{})
+            ),
+            make_set(ct_eq<0>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}),
+                make_set(ct_eq<1>{}, ct_eq<0>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            union_(
+                make_set(ct_eq<0>{}, ct_eq<2>{}, ct_eq<5>{}),
+                make_set(ct_eq<1>{}, ct_eq<3>{}, ct_eq<4>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}, ct_eq<5>{})
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // difference
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(),
+                make_set()
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<2>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{}, ct_eq<3>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<2>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{}, ct_eq<3>{}, ct_eq<2>{})
+            ),
+            make_set(ct_eq<0>{})
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // symmetric_difference
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(),
+                make_set()
+            ),
+            make_set()
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set()
+            ),
+            make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<2>{})
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{}, ct_eq<3>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<2>{}, ct_eq<3>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            symmetric_difference(
+                make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+                make_set(ct_eq<1>{}, ct_eq<3>{}, ct_eq<2>{})
+            ),
+            make_set(ct_eq<0>{}, ct_eq<3>{})
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     {
