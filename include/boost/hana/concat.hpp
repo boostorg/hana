@@ -19,10 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
-#include <boost/hana/fold_right.hpp>
-#include <boost/hana/functional/flip.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/prepend.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -32,7 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct MonadPlus; //! @todo include the forward declaration instead
-    struct Foldable;
     struct Sequence;
 
     //! @cond
@@ -63,9 +59,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct concat_impl<S, when<
-        _models<Sequence, S>::value && _models<Foldable, S>::value
-    >> {
+    struct concat_impl<S, when<_models<Sequence, S>::value>> {
         template <typename Xs, typename Ys, std::size_t ...xi, std::size_t ...yi>
         static constexpr auto
         concat_helper(Xs&& xs, Ys&& ys, std::index_sequence<xi...>,
@@ -84,18 +78,6 @@ namespace boost { namespace hana {
             return concat_helper(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
                                  std::make_index_sequence<xi>{},
                                  std::make_index_sequence<yi>{});
-        }
-    };
-
-    template <typename S>
-    struct concat_impl<S, when<
-        _models<Sequence, S>::value && !_models<Foldable, S>::value
-    >> {
-        template <typename Xs, typename Ys>
-        static constexpr auto apply(Xs&& xs, Ys&& ys) {
-            return hana::fold_right(static_cast<Xs&&>(xs),
-                                    static_cast<Ys&&>(ys),
-                                    hana::flip(hana::prepend));
         }
     };
 }} // end namespace boost::hana
