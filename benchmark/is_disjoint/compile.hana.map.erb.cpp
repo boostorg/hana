@@ -17,7 +17,7 @@ int main() {
             "hana::make_pair(hana::int_<#{n*2}>, hana::int_<#{n*2}>)"
         }.join(', ') %>
     );
-    constexpr auto odd = hana::make_tuple(
+    constexpr auto odd = hana::make_map(
         <%= (1..input_size).map { |n|
             "hana::make_pair(hana::int_<#{n*2+1}>, hana::int_<#{n*2+1}>)"
         }.join(', ') %>
