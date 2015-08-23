@@ -1,12 +1,12 @@
 #include <boost/hana.hpp>
 
+#include <functional>
 #include <iostream>
 #include <string>
 #include <type_traits>
 #include <utility>
 namespace hana = boost::hana;
 using namespace hana::literals;
-using hana::_;
 using namespace std::literals;
 
 
@@ -23,7 +23,7 @@ using namespace std::literals;
 // 1. Define some utilities
 template <typename Xs>
 std::string join(Xs&& xs, std::string sep) {
-  return hana::fold(hana::intersperse(std::forward<Xs>(xs), sep), "", _ + _);
+  return hana::fold(hana::intersperse(std::forward<Xs>(xs), sep), "", std::plus<>{});
 }
 
 std::string quote(std::string s) { return "\"" + s + "\""; }
