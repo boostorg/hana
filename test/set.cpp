@@ -491,21 +491,27 @@ int main() {
         // equal
         {
             auto check = [](auto ...keys) {
-                return and_(
-                    all_of(permutations(make<Tuple>(keys...)), [=](auto perm) {
-                        return equal(to<Set>(perm), make_set(keys...));
-                    }),
-                    not_(equal(make_set(keys...), make_set(keys..., ct_eq<999>{})))
-                );
+                auto keys_set = make_set(keys...);
+                auto keys_tuple = make_tuple(keys...);
+                auto possible_arrangements = permutations(keys_tuple);
+
+                BOOST_HANA_CONSTANT_CHECK(all_of(possible_arrangements, [&](auto perm) {
+                    return equal(to<Set>(perm), keys_set);
+                }));
+
+                BOOST_HANA_CONSTANT_CHECK(not_(equal(
+                    keys_set,
+                    make_set(keys..., ct_eq<999>{})
+                )));
             };
 
             BOOST_HANA_CONSTANT_CHECK(make_set(ct_eq<0>{}) == make_set(ct_eq<0>{}));
             BOOST_HANA_CONSTANT_CHECK(make_set(ct_eq<0>{}) != make_set(ct_eq<1>{}));
 
-            BOOST_HANA_CONSTANT_CHECK(check());
-            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}));
-            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}, ct_eq<1>{}));
-            BOOST_HANA_CONSTANT_CHECK(check(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}));
+            check();
+            check(ct_eq<0>{});
+            check(ct_eq<0>{}, ct_eq<1>{});
+            check(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
         }
 
         // laws
