@@ -17,7 +17,7 @@ int main() {
     );
 
     constexpr auto ys = hana::make_set(
-        <%= (half..input_size)).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (half..input_size).map { |n| "hana::int_<#{n}>" }.join(', ') %>
     );
 
     constexpr auto result = hana::intersection(xs, ys);
