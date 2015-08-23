@@ -16,5 +16,6 @@ var searchData=
   ['subsequence',['subsequence',['../structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7',1,'boost::hana::Sequence']]],
   ['succ',['succ',['../structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0',1,'boost::hana::Enumerable']]],
   ['suffix',['suffix',['../structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080',1,'boost::hana::MonadPlus']]],
-  ['sum',['sum',['../structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]]
+  ['sum',['sum',['../structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]],
+  ['symmetric_5fdifference',['symmetric_difference',['../structboost_1_1hana_1_1Set.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::Set']]]
 ];

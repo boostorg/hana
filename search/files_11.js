@@ -29,12 +29,14 @@ var searchData=
   ['struct_2ehpp',['struct.hpp',['../fwd_2concept_2struct_8hpp.html',1,'']]],
   ['struct_2ehpp',['struct.hpp',['../concept_2struct_8hpp.html',1,'']]],
   ['struct_5fmacros_2ehpp',['struct_macros.hpp',['../struct__macros_8hpp.html',1,'']]],
-  ['subsequence_2ehpp',['subsequence.hpp',['../fwd_2subsequence_8hpp.html',1,'']]],
   ['subsequence_2ehpp',['subsequence.hpp',['../subsequence_8hpp.html',1,'']]],
-  ['succ_2ehpp',['succ.hpp',['../fwd_2succ_8hpp.html',1,'']]],
+  ['subsequence_2ehpp',['subsequence.hpp',['../fwd_2subsequence_8hpp.html',1,'']]],
   ['succ_2ehpp',['succ.hpp',['../succ_8hpp.html',1,'']]],
-  ['suffix_2ehpp',['suffix.hpp',['../suffix_8hpp.html',1,'']]],
+  ['succ_2ehpp',['succ.hpp',['../fwd_2succ_8hpp.html',1,'']]],
   ['suffix_2ehpp',['suffix.hpp',['../fwd_2suffix_8hpp.html',1,'']]],
+  ['suffix_2ehpp',['suffix.hpp',['../suffix_8hpp.html',1,'']]],
+  ['sum_2ehpp',['sum.hpp',['../sum_8hpp.html',1,'']]],
   ['sum_2ehpp',['sum.hpp',['../fwd_2sum_8hpp.html',1,'']]],
-  ['sum_2ehpp',['sum.hpp',['../sum_8hpp.html',1,'']]]
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]],
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]]
 ];

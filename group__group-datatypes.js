@@ -56,10 +56,14 @@ var group__group_datatypes =
       [ "range_c", "structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "Set", "structboost_1_1hana_1_1Set.html", [
+      [ "difference", "structboost_1_1hana_1_1Set.html#a718ddfe86437adbbca1e1a5db651d139", null ],
+      [ "intersection", "structboost_1_1hana_1_1Set.html#a3b3430482d4e88052e621f63a234f3eb", null ],
       [ "make< Set >", "structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
       [ "make_set", "structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
       [ "insert", "structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
-      [ "erase_key", "structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
+      [ "erase_key", "structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
+      [ "symmetric_difference", "structboost_1_1hana_1_1Set.html#a8bcb2455eb9f7074185d8fb61a99801e", null ],
+      [ "union_", "structboost_1_1hana_1_1Set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ]
     ] ],
     [ "String", "structboost_1_1hana_1_1String.html", [
       [ "string", "structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9", null ],

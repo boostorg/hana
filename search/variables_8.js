@@ -9,6 +9,7 @@ var searchData=
   ['int_5f',['int_',['../structboost_1_1hana_1_1IntegralConstant.html#a776055a433487d978a18afe4b60c2641',1,'boost::hana::IntegralConstant']]],
   ['integral',['integral',['../structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5',1,'boost::hana::Metafunction']]],
   ['integral_5fconstant',['integral_constant',['../structboost_1_1hana_1_1IntegralConstant.html#a3548ddeed18cbfe945b7de9cb65f873b',1,'boost::hana::IntegralConstant']]],
+  ['intersection',['intersection',['../structboost_1_1hana_1_1Set.html#a3b3430482d4e88052e621f63a234f3eb',1,'boost::hana::Set']]],
   ['intersperse',['intersperse',['../structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec',1,'boost::hana::Sequence']]],
   ['is_5fa',['is_a',['../group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9',1,'boost::hana']]],
   ['is_5fan',['is_an',['../group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9',1,'boost::hana']]],

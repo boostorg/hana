@@ -40,6 +40,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "count_if.hpp", "count__if_8hpp.html", null ],
     [ "cycle.hpp", "cycle_8hpp.html", null ],
     [ "define_struct.hpp", "define__struct_8hpp.html", null ],
+    [ "difference.hpp", "difference_8hpp.html", null ],
     [ "drop_back.hpp", "drop__back_8hpp.html", null ],
     [ "drop_front.hpp", "drop__front_8hpp.html", null ],
     [ "drop_front_exactly.hpp", "drop__front__exactly_8hpp.html", null ],
@@ -83,6 +84,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "insert.hpp", "insert_8hpp.html", null ],
     [ "insert_range.hpp", "insert__range_8hpp.html", null ],
     [ "integral_constant.hpp", "integral__constant_8hpp.html", null ],
+    [ "intersection.hpp", "intersection_8hpp.html", null ],
     [ "intersperse.hpp", "intersperse_8hpp.html", [
       [ "intersperse_impl< S, when< condition > >", "structboost_1_1hana_1_1intersperse__impl_3_01S_00_01when_3_01condition_01_4_01_4.html", null ]
     ] ],
@@ -158,6 +160,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "succ.hpp", "succ_8hpp.html", null ],
     [ "suffix.hpp", "suffix_8hpp.html", null ],
     [ "sum.hpp", "sum_8hpp.html", null ],
+    [ "symmetric_difference.hpp", "symmetric__difference_8hpp.html", null ],
     [ "tail.hpp", "tail_8hpp.html", [
       [ "tail_impl< It, when< condition > >", "structboost_1_1hana_1_1tail__impl_3_01It_00_01when_3_01condition_01_4_01_4.html", null ]
     ] ],
@@ -170,6 +173,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "type.hpp", "type_8hpp.html", null ],
     [ "unfold_left.hpp", "unfold__left_8hpp.html", null ],
     [ "unfold_right.hpp", "unfold__right_8hpp.html", null ],
+    [ "union.hpp", "union_8hpp.html", null ],
     [ "unique.hpp", "unique_8hpp.html", null ],
     [ "unpack.hpp", "unpack_8hpp.html", null ],
     [ "value.hpp", "value_8hpp.html", null ],
