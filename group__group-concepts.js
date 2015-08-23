@@ -144,6 +144,8 @@ var group__group_concepts =
       [ "permutations", "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1", null ],
       [ "remove_at", "structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b", null ],
       [ "remove_at_c", "structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec", null ],
+      [ "remove_range", "structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96", null ],
+      [ "remove_range_c", "structboost_1_1hana_1_1Sequence.html#af53da1ba4620bb48ef50cbc1d7812131", null ],
       [ "reverse", "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0", null ],
       [ "scan_left", "structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423", null ],
       [ "scan_right", "structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82", null ],

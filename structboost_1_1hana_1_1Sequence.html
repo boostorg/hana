@@ -497,6 +497,13 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aa597b243b348503860e1179065c508ec"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec">remove_at_c</a></td></tr>
 <tr class="memdesc:aa597b243b348503860e1179065c508ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>remove_at</code>; provided for convenience.  <a href="#aa597b243b348503860e1179065c508ec">More...</a><br /></td></tr>
 <tr class="separator:aa597b243b348503860e1179065c508ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b84e0e0a256620d98ed5062b456c96"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96">remove_range</a></td></tr>
+<tr class="memdesc:aa1b84e0e0a256620d98ed5062b456c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the elements inside a given range of indices from a sequence.  <a href="#aa1b84e0e0a256620d98ed5062b456c96">More...</a><br /></td></tr>
+<tr class="separator:aa1b84e0e0a256620d98ed5062b456c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af53da1ba4620bb48ef50cbc1d7812131"><td class="memTemplParams" colspan="2">template&lt;std::size_t from, std::size_t to&gt; </td></tr>
+<tr class="memitem:af53da1ba4620bb48ef50cbc1d7812131"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#af53da1ba4620bb48ef50cbc1d7812131">remove_range_c</a></td></tr>
+<tr class="memdesc:af53da1ba4620bb48ef50cbc1d7812131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>remove_range</code>; provided for convenience.  <a href="#af53da1ba4620bb48ef50cbc1d7812131">More...</a><br /></td></tr>
+<tr class="separator:af53da1ba4620bb48ef50cbc1d7812131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4471413ccc3835db5e48658683b8aba0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0">reverse</a></td></tr>
 <tr class="memdesc:a4471413ccc3835db5e48658683b8aba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reverse a sequence.  <a href="#a4471413ccc3835db5e48658683b8aba0">More...</a><br /></td></tr>
 <tr class="separator:a4471413ccc3835db5e48658683b8aba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1155,6 +1162,7 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment -->
 <p>Remove the element at a given index from a sequence. </p>
 <p><code>remove_at</code> returns a new sequence identical to the original, except that the element at the given index is removed. Specifically, <code>remove_at([x0, ..., xn-1, xn, xn+1, ..., xm], n)</code> is a new sequence equivalent to <code>[x0, ..., xn-1, xn+1, ..., xm]</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The behavior is undefined if the index is out of the bounds of the sequence.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>A sequence from which an element is to be removed.</td></tr>
@@ -1222,6 +1230,102 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u);</div>
 <div class="line"></div>
 <div class="line">static_assert(hana::remove_at_c&lt;2&gt;(xs) == hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 3u), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="aa1b84e0e0a256620d98ed5062b456c96"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto remove_range</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; from, <span class="keyword">auto</span>&amp;&amp; <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Remove the elements inside a given range of indices from a sequence. </p>
+<p><code>remove_range</code> returns a new sequence identical to the original, except that elements at indices in the provided range are removed. Specifically, <code>remove_range([x0, ..., xn], from, to)</code> is a new sequence equivalent to <code>[x0, ..., x_from-1, x_to, ..., xn]</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>The behavior is undefined if the range contains any index out of the bounds of the sequence.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>A sequence from which elements are removed.</td></tr>
+    <tr><td class="paramname">[from,to)</td><td>An half-open interval of <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s holding unsigned integral values, and representing the indices of the elements to be removed from the sequence.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="remove__range_8hpp.html">boost/hana/remove_range.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u, 4, 5.5);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::remove_range(xs, hana::size_t&lt;2&gt;, hana::size_t&lt;4&gt;) == hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 4, 5.5), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="af53da1ba4620bb48ef50cbc1d7812131"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;std::size_t from, std::size_t to&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto remove_range_c</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
+<div class="line">        <span class="keywordflow">return</span> hana::remove_range(forwarded(xs), hana::size_t&lt;from&gt;, hana::size_t&lt;to&gt;);</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Equivalent to <code>remove_range</code>; provided for convenience. </p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="remove__range_8hpp.html">boost/hana/remove_range.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3u, 4, 5.5);</div>
+<div class="line"></div>
+<div class="line">static_assert(hana::remove_range_c&lt;2, 4&gt;(xs) == hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 4, 5.5), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

@@ -624,7 +624,7 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#ae469094a7fee3a0f7dfcc900da9b07b4">append</a>(sequence, value)</code> </td><td align="left">Append an element to a sequence. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(sequence, index)</code> </td><td align="left">Returns the n-th element of a sequence. The index must be an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(sequence, index)</code> </td><td align="left">Returns the n-th element of a sequence. The index must be an <code>IntegralConstant</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895">back</a>(sequence)</code> </td><td align="left">Returns the last element of a non-empty sequence. </td></tr>
 <tr>
@@ -636,21 +636,21 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a21ca48cce90274a5f54354f9d4622930">count_if</a>(sequence, predicate)</code> </td><td align="left">Returns the number of elements that satisfy the predicate. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(sequence[, n])</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an IntegralConstant. When not provided, <code>n</code> defaults to 1. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5">drop_front</a>(sequence[, n])</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an <code>IntegralConstant</code>. When not provided, <code>n</code> defaults to 1. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(sequence[, n])</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence. <code>n</code> must be an IntegralConstant and the sequence must have at least <code>n</code> elements. When not provided, <code>n</code> defaults to 1. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008">drop_front_exactly</a>(sequence[, n])</code> </td><td align="left">Drop the first <code>n</code> elements from a sequence. <code>n</code> must be an <code>IntegralConstant</code> and the sequence must have at least <code>n</code> elements. When not provided, <code>n</code> defaults to 1. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(sequence[, n])</code> </td><td align="left">Drop the last <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an IntegralConstant. When not provided, <code>n</code> defaults to 1. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">drop_back</a>(sequence[, n])</code> </td><td align="left">Drop the last <code>n</code> elements from a sequence, or the whole sequence if <code>length(sequence) &lt;= n</code>. <code>n</code> must be an <code>IntegralConstant</code>. When not provided, <code>n</code> defaults to 1. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(sequence, predicate)</code> </td><td align="left">Drops elements from a sequence while a predicate is satisfied. The predicate must return an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8">drop_while</a>(sequence, predicate)</code> </td><td align="left">Drops elements from a sequence while a predicate is satisfied. The predicate must return an <code>IntegralConstant</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">fill</a>(sequence, value)</code> </td><td align="left">Replace all the elements of a sequence with some value. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(sequence, predicate)</code> </td><td align="left">Remove all the elements that do not satisfy a predicate. The predicate must return an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#a929370eddd43bb1a4a11b00a7880eadb">filter</a>(sequence, predicate)</code> </td><td align="left">Remove all the elements that do not satisfy a predicate. The predicate must return an <code>IntegralConstant</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(sequence, value)</code> </td><td align="left">Find the first element of a sequence which compares equal to some value and return <code>just</code> it, or return nothing. See Optional. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Searchable.html#a2772d97163d2e2ca3f51b2d16d13ff66">find</a>(sequence, value)</code> </td><td align="left">Find the first element of a sequence which compares equal to some value and return <code>just</code> it, or return <code>nothing</code>. See <code>Optional</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(sequence, predicate)</code> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See Optional. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220">find_if</a>(sequence, predicate)</code> </td><td align="left">Find the first element of a sequence satisfying the predicate and return <code>just</code> it, or return <code>nothing</code>. See <code>Optional</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Monad.html#a45985423d0658e88f0403773146af110">flatten</a>(sequence)</code> </td><td align="left">Flatten a sequence of sequences, a bit like <code>std::tuple_cat</code>. </td></tr>
 <tr>
@@ -664,19 +664,19 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">front</a>(sequence)</code> </td><td align="left">Returns the first element of a non-empty sequence. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(sequence[, predicate])</code> </td><td align="left">Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be Comparable. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330">group</a>(sequence[, predicate])</code> </td><td align="left">Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be <code>Comparable</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>(sequence, index, element)</code> </td><td align="left">Insert an element at a given index. The index must be an <code>IntegralConstant</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea">insert_range</a>(sequence, index, elements)</code> </td><td align="left">Insert a sequence of elements at a given index. The index must be an <code>IntegralConstant</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(sequence)</code> </td><td align="left">Returns whether a sequence is empty as an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a>(sequence)</code> </td><td align="left">Returns whether a sequence is empty as an <code>IntegralConstant</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(sequence)</code> </td><td align="left">Returns the length of a sequence as an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">length</a>(sequence)</code> </td><td align="left">Returns the length of a sequence as an <code>IntegralConstant</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(sequence[, predicate])</code> </td><td align="left">Returns the greatest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(sequence[, predicate])</code> </td><td align="left">Returns the greatest element of a sequence, optionally according to a predicate. The elements must be <code>Orderable</code> if no predicate is provided. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(sequence[, predicate])</code> </td><td align="left">Returns the smallest element of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(sequence[, predicate])</code> </td><td align="left">Returns the smallest element of a sequence, optionally according to a predicate. The elements must be <code>Orderable</code> if no predicate is provided. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816">partition</a>(sequence, predicate)</code> </td><td align="left">Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it. </td></tr>
 <tr>
@@ -686,7 +686,9 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b">remove_at</a>(sequence, index)</code> </td><td align="left">Remove the element at the given index. The index must be an <code>IntegralConstant</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(sequence, predicate)</code> </td><td align="left">Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a>(sequence, predicate)</code> </td><td align="left">Remove all the elements that satisfy a predicate. The predicate must return an <code>IntegralConstant</code>. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96">remove_range</a>(sequence, from, to)</code> </td><td align="left">Remove the elements at indices in the given <code>[from, to)</code> half-open interval. The indices must be <code>IntegralConstant</code>s. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967">replace</a>(sequence, oldval, newval)</code> </td><td align="left">Replace the elements of a sequence that compare equal to some value by some other value. </td></tr>
 <tr>
@@ -700,7 +702,7 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>(sequence, from, to)</code> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(sequence[, predicate])</code> </td><td align="left">Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be Orderable if no predicate is provided. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(sequence[, predicate])</code> </td><td align="left">Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be <code>Orderable</code> if no predicate is provided. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">subsequence</a>(sequence, indices)</code> </td><td align="left">Returns the elements of a sequence at the <code>indices</code> in the given sequence. </td></tr>
 <tr>
@@ -712,7 +714,7 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">transform</a>(sequence, f)</code> </td><td align="left">Apply a function to each element of a sequence and return the result. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(sequence[, predicate])</code> </td><td align="left">Removes all consecutive duplicates from a Sequence. The predicate defaults to equality, in which case the elements must be Comparable. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">unique</a>(sequence[, predicate])</code> </td><td align="left">Removes all consecutive duplicates from a sequence. The predicate defaults to equality, in which case the elements must be <code>Comparable</code>. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">unpack</a>(sequence, f)</code> </td><td align="left">Calls a function with the contents of a sequence. Equivalent to <code>f(x1, ..., xN)</code>. </td></tr>
 <tr>
@@ -1658,7 +1660,7 @@ Integration with external libraries</h1>
 <hr/>
 <p>Hana provides out-of-the-box integration with some existing libraries. Specifically, this means that you can use some containers from these libraries in Hana's algorithms by simply including the appropriate header making the bridge between Hana and the external component.</p>
 <p>For a component named <code>xxx</code> in a namespace <code>ns</code>, the external adapter lives in the <code>boost/hana/ext/ns/xxx.hpp</code> header. For example, the external adapter for <code>std::tuple</code> lives in the <code><a class="el" href="ext_2std_2tuple_8hpp.html" title="Defines boost::hana::ext::std::Tuple. ">boost/hana/ext/std/tuple.hpp</a></code> header, while the external adapter for <code>boost::mpl::vector</code> is in <code><a class="el" href="boost_2mpl_2vector_8hpp.html" title="Defines boost::hana::ext::boost::mpl::Vector. ">boost/hana/ext/boost/mpl/vector.hpp</a></code>.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000060">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000061">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
 <li><code>std::tuple</code><br />
  Models <code>Sequence</code>. It can basically be used like a Hana <code>Tuple</code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
 <li><code>std::integral_constant</code><br />
@@ -1814,7 +1816,7 @@ Tag dispatching</h2>
 <div class="line">constexpr _print print{};</div>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-core-creating_concepts"></a>
 Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000061">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000062">Todo:</a></b></dt><dd>Write this section.</dd></dl>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -2053,7 +2055,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000062">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000063">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -2101,7 +2103,7 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000063">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000064">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix II: A minimal MPL</h1>
 <hr/>

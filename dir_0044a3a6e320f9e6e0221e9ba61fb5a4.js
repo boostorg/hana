@@ -107,6 +107,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "remove.hpp", "fwd_2remove_8hpp.html", null ],
     [ "remove_at.hpp", "fwd_2remove__at_8hpp.html", null ],
     [ "remove_if.hpp", "fwd_2remove__if_8hpp.html", null ],
+    [ "remove_range.hpp", "fwd_2remove__range_8hpp.html", null ],
     [ "repeat.hpp", "fwd_2repeat_8hpp.html", null ],
     [ "replace.hpp", "fwd_2replace_8hpp.html", null ],
     [ "replace_if.hpp", "fwd_2replace__if_8hpp.html", null ],

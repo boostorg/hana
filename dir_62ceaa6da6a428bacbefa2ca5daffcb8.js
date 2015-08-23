@@ -140,6 +140,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "remove.hpp", "remove_8hpp.html", null ],
     [ "remove_at.hpp", "remove__at_8hpp.html", null ],
     [ "remove_if.hpp", "remove__if_8hpp.html", null ],
+    [ "remove_range.hpp", "remove__range_8hpp.html", null ],
     [ "repeat.hpp", "repeat_8hpp.html", null ],
     [ "replace.hpp", "replace_8hpp.html", null ],
     [ "replace_if.hpp", "replace__if_8hpp.html", null ],
