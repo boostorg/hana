@@ -7,16 +7,45 @@
   <script src="http://code.highcharts.com/highcharts.js"></script>
   <script src="http://code.highcharts.com/modules/data.js"></script>
   <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
   <script src="chart.js"></script>
 
   <script type="text/javascript">
-    var setDataset = function(dataset) {
-      $.getJSON(dataset, function(options) {
-        if ($("#container").highcharts())
-          $("#container").highcharts().destroy();
+    var github = new Github({});
+    var hana = github.getRepo('ldionne', 'hana');
 
-        Hana.initChart($("#container"), options);
-        $("#container").highcharts().redraw();
+    var updateCompilers = function(dataset, configuration) {
+      var compilers = $("#compilers")[0];
+      compilers.options.length = 0; // clear all existing options
+
+      hana.getTree('datasets?recursive=true', function(err, tree) {
+        tree.forEach(function(file) {
+          var re = new RegExp([configuration, "(.+)", dataset].join("/"));
+          var match = file.path.match(re);
+          if (file.type == "blob" && match) {
+            var compiler = document.createElement('option');
+            compiler.value = compiler.text = match[1];
+            compilers.add(compiler);
+          }
+        });
+
+        $("#compilers").html($("#compilers option").sort(function (a, b) {
+            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+        }));
+        compilers.onchange();
+      });
+    };
+
+    var redrawChart = function(dataset, configuration, compiler) {
+      hana.getRef('heads/datasets', function(err, sha) {
+        var path = ["https://cdn.rawgit.com/ldionne/hana", sha, configuration, compiler, dataset].join("/");
+        $.getJSON(path, function(options) {
+          if ($("#container").highcharts())
+            $("#container").highcharts().destroy();
+
+          Hana.initChart($("#container"), options);
+          $('#container').highcharts().redraw();
+        });
       });
     };
   </script>
@@ -24,7 +53,13 @@
 
 <body>
   <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-  <input type="text" size=100 name="dataset" class="enter" value="" onchange="setDataset(this.value)" />
+  <input type="text" size=100 id="dataset" class="enter" value="" onchange="updateCompilers(this.value, $('#configurations')[0].value)"/>
+  <select id="configurations" onchange="updateCompilers($('#dataset')[0].value, this.value)">
+    <option value="release" selected>Release</option>
+    <option value="debug">Debug</option>
+    <option value="default">Default</option>
+  </select>
+  <select id="compilers" onchange="redrawChart($('#dataset')[0].value, $('#configurations')[0].value, this.value)"/>
 </body>
 
 </html>
