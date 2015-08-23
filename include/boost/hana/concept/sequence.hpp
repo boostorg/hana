@@ -49,6 +49,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/partition.hpp>
 #include <boost/hana/permutations.hpp>
 #include <boost/hana/remove_at.hpp>
+#include <boost/hana/remove_range.hpp>
 #include <boost/hana/reverse.hpp>
 #include <boost/hana/scan_left.hpp>
 #include <boost/hana/scan_right.hpp>

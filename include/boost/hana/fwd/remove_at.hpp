@@ -24,6 +24,10 @@ namespace boost { namespace hana {
     //! `remove_at([x0, ..., xn-1, xn, xn+1, ..., xm], n)` is a new
     //! sequence equivalent to `[x0, ..., xn-1, xn+1, ..., xm]`.
     //!
+    //! @note
+    //! The behavior is undefined if the index is out of the bounds of the
+    //! sequence.
+    //!
     //!
     //! @param xs
     //! A sequence from which an element is to be removed.

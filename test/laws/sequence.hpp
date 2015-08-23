@@ -526,6 +526,98 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
+            // remove_range
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(), size_t<0>, size_t<0>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(), size_t<1>, size_t<1>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(), size_t<2>, size_t<2>),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}), size_t<0>, size_t<0>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}), size_t<0>, size_t<1>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}), size_t<1>, size_t<1>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}), size_t<2>, size_t<2>),
+                    list(eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<0>, size_t<0>),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<0>, size_t<1>),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<1>, size_t<2>),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<0>, size_t<2>),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<2>, size_t<2>),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}), size_t<9999>, size_t<9999>),
+                    list(eq<0>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<0>, size_t<2>),
+                    list(eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}, eq<2>{}), size_t<1>, size_t<3>),
+                    list(eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<0>, size_t<2>),
+                    list(eq<2>{}, eq<3>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}), size_t<2>, size_t<3>),
+                    list(eq<0>{}, eq<1>{}, eq<3>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{},
+                                      eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{}),
+                                 size_t<4>, size_t<7>),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<7>{}, eq<8>{}, eq<9>{})
+                ));
+
+                // remove_range_c
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    remove_range_c<4, 7>(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{},
+                                              eq<5>{}, eq<6>{}, eq<7>{}, eq<8>{}, eq<9>{})),
+                    list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<7>{}, eq<8>{}, eq<9>{})
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
             // reverse
             //////////////////////////////////////////////////////////////////
             {

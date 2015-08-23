@@ -550,6 +550,7 @@ function                                                                        
 <code>[remove](@ref boost::hana::MonadPlus::remove)(sequence, value)</code>                      | Remove all the elements that are equal to a given value.
 <code>[remove_at](@ref boost::hana::Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `IntegralConstant`.
 <code>[remove_if](@ref boost::hana::MonadPlus::remove_if)(sequence, predicate)</code>            | Remove all the elements that satisfy a predicate. The predicate must return an IntegralConstant.
+<code>[remove_range](@ref boost::hana::Sequence::remove_range)(sequence, from, to)</code>        | Remove the elements at indices in the given `[from, to)` half-open interval. The indices must be `IntegralConstant`s.
 <code>[replace](@ref boost::hana::Functor::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
 <code>[replace_if](@ref boost::hana::Functor::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
 <code>[reverse](@ref boost::hana::Sequence::reverse)(sequence)</code>                            | Reverse the order of the elements in a sequence.
