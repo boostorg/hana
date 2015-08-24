@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct Sequence; //! @todo include the forward declaration instead
-    struct Foldable;
     struct Functor;
 
     //! @cond
@@ -57,9 +56,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct transform_impl<S, when<
-        _models<Sequence, S>::value && _models<Foldable, S>::value
-    >> {
+    struct transform_impl<S, when<_models<Sequence, S>::value>> {
         //! @cond
         template <typename F>
         struct transformer {

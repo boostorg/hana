@@ -34,8 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     struct MonadPlus; //! @todo include the forward declaration instead
-    struct Foldable; //! @todo include the forward declaration instead
-    struct Sequence; //! @todo include the forward declaration instead
+    struct Sequence;
 
     //! @cond
     template <typename Xs, typename Pred>
@@ -111,10 +110,7 @@ namespace boost { namespace hana {
     }
 
     template <typename M>
-    struct filter_impl<M, when<
-        _models<Foldable, M>::value &&
-        _models<Sequence, M>::value
-    >> {
+    struct filter_impl<M, when<_models<Sequence, M>::value>> {
         template <typename Pred, typename Xs, std::size_t ...i>
         static constexpr auto filter_indices(Xs&& xs, std::index_sequence<i...>) {
             using info = detail::filter_central<

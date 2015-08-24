@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 
-#include <boost/hana/all.hpp>
+#include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/zip_shortest_with.hpp>
 
@@ -28,10 +28,9 @@ namespace boost { namespace hana {
     template <typename Xs, typename ...Ys>
     constexpr auto zip_shortest_t::operator()(Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        constexpr bool models_of_Sequence[] = {
-            _models<Sequence, Xs>{}, _models<Sequence, Ys>{}...
-        };
-        static_assert(hana::all(models_of_Sequence),
+        static_assert(detail::fast_and<
+            _models<Sequence, Xs>::value, _models<Sequence, Ys>::value...
+        >::value,
         "hana::zip_shortest(xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 

@@ -34,7 +34,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     struct Monad; //! @todo include the forward declaration instead
     struct Sequence;
-    struct Foldable;
 
     //! @cond
     template <typename Xs>
@@ -92,9 +91,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct flatten_impl<S, when<
-        _models<Sequence, S>::value && _models<Foldable, S>::value
-    >> {
+    struct flatten_impl<S, when<_models<Sequence, S>::value>> {
         template <typename ...Xs>
         auto operator()(Xs const& ...xs) const -> detail::flatten_indices<
             hana::value<decltype(hana::length(xs))>()...

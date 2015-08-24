@@ -30,7 +30,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     struct Searchable; //! @todo include the forward declaration instead
     struct Sequence;
-    struct Foldable;
 
     //! @cond
     template <typename Xs, typename Pred>
@@ -84,9 +83,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct find_if_impl<S, when<
-        _models<Sequence, S>::value && _models<Foldable, S>::value
-    >> {
+    struct find_if_impl<S, when<_models<Sequence, S>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&&) {
             constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();

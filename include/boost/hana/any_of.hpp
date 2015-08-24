@@ -27,8 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Foldable; //! @todo include the forward declaration instead
-    struct Sequence;
+    struct Sequence; //! @todo include the forward declaration instead
     struct Searchable;
 
     //! @cond
@@ -55,9 +54,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct any_of_impl<S, when<
-        _models<Sequence, S>::value && _models<Foldable, S>::value
-    >> {
+    struct any_of_impl<S, when<_models<Sequence, S>::value>> {
         //! @cond
         template <std::size_t k, std::size_t Len>
         struct any_of_helper {
