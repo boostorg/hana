@@ -23,6 +23,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    struct Monad; //! @todo include the forward declaration instead
+
     //! @cond
     template <typename Xs, typename F>
     constexpr decltype(auto) chain_t::operator()(Xs&& xs, F&& f) const {

@@ -7,10 +7,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_IDENTITY_HPP
 #define BOOST_HANA_TEST_TEST_IDENTITY_HPP
 
+#include <boost/hana/chain.hpp>
+#include <boost/hana/concept/logical.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/transform.hpp>
 
 // models
 #include <boost/hana/concept/applicative.hpp>
@@ -112,9 +115,15 @@ namespace boost { namespace hana {
     };
 #else
     template <>
-    struct ap_impl<test::Identity>
-        : Monad::ap_impl<test::Identity>
-    { };
+    struct ap_impl<test::Identity> {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
+            return hana::chain(
+                static_cast<F&&>(f),
+                hana::partial(hana::transform, static_cast<X&&>(x))
+            );
+        }
+    };
 #endif
 
     //////////////////////////////////////////////////////////////////////////

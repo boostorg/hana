@@ -115,7 +115,7 @@ namespace boost { namespace hana {
     //! since the domains and codomains of `f` and `g` do not match properly.
     //! Instead, we'll need a new operator -- let's call it `monadic_compose`:
     //! @f[
-    //!     \mathrm{monadic\_compose} :
+    //!     \mathtt{monadic\_compose} :
     //!         (B \to F(C)) \times (A \to F(B)) \to (A \to F(C))
     //! @f]
     //!
@@ -173,20 +173,11 @@ namespace boost { namespace hana {
     //! 1. `Functor`
     //! 2. `Applicative` (free implementation of `ap`)\n
     //! When the minimal complete definition for `Monad` and `Functor` are
-    //! both satisfied, it is possible to automatically implement `ap` by
-    //! setting
+    //! both satisfied, it is possible to implement `ap` by setting
     //! @code
     //!     ap(fs, xs) = chain(fs, [](auto f) {
     //!         return transform(xs, f);
     //!     })
-    //! @endcode
-    //! This implementation is provided through the `Monad::ap_impl` type,
-    //! which you can use as follows:
-    //! @code
-    //!     template <>
-    //!     struct ap_impl<YourDatatype>
-    //!         : Monad::ap_impl<YourDatatype>
-    //!     { };
     //! @endcode
     //!
     //!
@@ -196,10 +187,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
-    struct Monad {
-        template <typename M>
-        struct ap_impl;
-    };
+    struct Monad { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_MONAD_HPP

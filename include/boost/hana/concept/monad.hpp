@@ -14,8 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/transform.hpp>
 
 #include <boost/hana/chain.hpp>
 #include <boost/hana/flatten.hpp>
@@ -25,27 +23,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // models
-    //////////////////////////////////////////////////////////////////////////
     template <typename M>
     struct models_impl<Monad, M> {
         static constexpr bool value = !is_default<flatten_impl<M>>::value ||
                                       !is_default<chain_impl<M>>::value;
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Monad::ap_impl
-    //////////////////////////////////////////////////////////////////////////
-    template <typename M>
-    struct Monad::ap_impl {
-        template <typename F, typename X>
-        static constexpr decltype(auto) apply(F&& f, X&& x) {
-            return hana::chain(
-                static_cast<F&&>(f),
-                hana::partial(hana::transform, static_cast<X&&>(x))
-            );
-        }
     };
 }} // end namespace boost::hana
 

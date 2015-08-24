@@ -15,10 +15,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/and.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/chain.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/front.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/ap.hpp>
 #include <boost/hana/fwd/lift.hpp>
 #include <boost/hana/if.hpp>
@@ -27,6 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/less.hpp>
 #include <boost/hana/or.hpp>
 #include <boost/hana/tail.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/value.hpp>
 
 #include <boost/hana/cartesian_product.hpp>
@@ -186,9 +189,15 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct ap_impl<S, when<_models<Sequence, S>::value>>
-        : Monad::ap_impl<S>
-    { };
+    struct ap_impl<S, when<_models<Sequence, S>::value>> {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
+            return hana::chain(
+                static_cast<F&&>(f),
+                hana::partial(hana::transform, static_cast<X&&>(x))
+            );
+        }
+    };
 
     template <typename S>
     struct lift_impl<S, when<_models<Sequence, S>::value>>
