@@ -1,4 +1,3 @@
-#include <boost/hana/concept/product.hpp>
 /*!
 @file
 Defines `boost::hana::second`.
