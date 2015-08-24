@@ -12,15 +12,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/product.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/and.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/less.hpp>
+#include <boost/hana/less_equal.hpp>
+#include <boost/hana/or.hpp>
+
+#include <boost/hana/concept/foldable.hpp> //! @todo Remove this include
 
 #include <boost/hana/first.hpp>
 #include <boost/hana/second.hpp>
@@ -31,12 +33,10 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename P>
-    struct models_impl<Product, P>
-        : _integral_constant<bool,
-            !is_default<first_impl<P>>::value &&
-            !is_default<second_impl<P>>::value
-        >
-    { };
+    struct models_impl<Product, P> {
+        static constexpr bool value = !is_default<first_impl<P>>::value &&
+                                      !is_default<second_impl<P>>::value;
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable

@@ -12,19 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/searchable.hpp>
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/functional/compose.hpp>
-#include <boost/hana/functional/id.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/optional.hpp>
 
 #include <boost/hana/all.hpp>
 #include <boost/hana/all_of.hpp>
@@ -39,18 +28,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/none.hpp>
 #include <boost/hana/none_of.hpp>
 
-#include <cstddef>
-#include <type_traits>
-
 
 namespace boost { namespace hana {
     template <typename S>
-    struct models_impl<Searchable, S>
-        : _integral_constant<bool,
-            !is_default<any_of_impl<S>>::value &&
-            !is_default<find_if_impl<S>>::value
-        >
-    { };
+    struct models_impl<Searchable, S> {
+        static constexpr bool value = !is_default<any_of_impl<S>>::value &&
+                                      !is_default<find_if_impl<S>>::value;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_SEARCHABLE_HPP

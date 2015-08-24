@@ -12,17 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/constant.hpp>
 
-//! @todo Get rid of these includes
-#include <boost/hana/bool.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 
 #include <boost/hana/value.hpp>
 
@@ -34,22 +29,21 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
-    struct models_impl<Constant, C>
-        : _integral_constant<bool,
-            !is_default<value_impl<C>>::value
-        >
-    { };
+    struct models_impl<Constant, C> {
+        static constexpr bool value = !is_default<value_impl<C>>::value;
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Conversion to the underlying data type
     //////////////////////////////////////////////////////////////////////////
     template <typename To, typename From>
     struct to_impl<To, From, when<
-        _models<Constant, From>::value && is_convertible<typename From::value_type, To>::value
+        _models<Constant, From>::value &&
+        is_convertible<typename From::value_type, To>::value
     >> : embedding<is_embedded<typename From::value_type, To>::value> {
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
-        { return to<To>(hana::value<X>()); }
+        { return hana::to<To>(hana::value<X>()); }
     };
 
     //////////////////////////////////////////////////////////////////////////

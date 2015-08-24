@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>

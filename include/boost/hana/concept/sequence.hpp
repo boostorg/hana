@@ -12,33 +12,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/sequence.hpp>
 
-#include <boost/hana/concept/applicative.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/and.hpp>
+#include <boost/hana/at.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by.hpp> // needed by xxx.by
-#include <boost/hana/insert.hpp>
-#include <boost/hana/detail/variadic/foldr1.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/functional/compose.hpp>
-#include <boost/hana/functional/curry.hpp>
-#include <boost/hana/functional/flip.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/pair.hpp>
-#include <boost/hana/concept/product.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/tuple.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/front.hpp>
+#include <boost/hana/fwd/ap.hpp>
+#include <boost/hana/fwd/lift.hpp>
+#include <boost/hana/if.hpp>
+#include <boost/hana/is_empty.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/less.hpp>
+#include <boost/hana/or.hpp>
+#include <boost/hana/tail.hpp>
+#include <boost/hana/value.hpp>
 
 #include <boost/hana/cartesian_product.hpp>
 #include <boost/hana/drop_back.hpp>
@@ -68,7 +57,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/zip_with.hpp>
 
 #include <cstddef>
-#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -205,21 +193,6 @@ namespace boost { namespace hana {
     template <typename S>
     struct lift_impl<S, when<_models<Sequence, S>::value>>
         : Sequence::lift_impl<S>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Automatic model of Searchable
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S>
-    struct find_if_impl<S, when<_models<Sequence, S>::value &&
-                                !_models<Foldable, S>::value>>
-        : Iterable::find_if_impl<S>
-    { };
-
-    template <typename S>
-    struct any_of_impl<S, when<_models<Sequence, S>::value &&
-                               !_models<Foldable, S>::value>>
-        : Iterable::any_of_impl<S>
     { };
 }} // end namespace boost::hana
 

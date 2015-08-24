@@ -12,28 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/iterable.hpp>
 
-//! @todo Get rid of those includes
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/concept/enumerable.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/functional/iterate.hpp>
-#include <boost/hana/functional/lockstep.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/integral_constant.hpp>
-#include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/if.hpp>
+#include <boost/hana/not.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/concept/monoid.hpp>
-#include <boost/hana/pair.hpp>
-#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/value.hpp>
 
 #include <boost/hana/at.hpp>
 #include <boost/hana/back.hpp>

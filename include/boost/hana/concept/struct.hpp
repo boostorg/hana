@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/struct.hpp>
 
-#include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
@@ -38,11 +37,9 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models_impl<Struct, S>
-        : _integral_constant<bool,
-            !is_default<accessors_impl<S>>::value
-        >
-    { };
+    struct models_impl<Struct, S> {
+        static constexpr bool value = !is_default<accessors_impl<S>>::value;
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Model of Comparable
@@ -122,7 +119,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(
                 hana::find_if(hana::accessors<S>(),
-                    hana::compose(static_cast<Pred&&>(pred), first)
+                    hana::compose(static_cast<Pred&&>(pred), hana::first)
                 ),
                 struct_detail::get_member<X>{static_cast<X&&>(x)}
             );

@@ -28,11 +28,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <typename Ord>
-    struct models_impl<Orderable, Ord>
-        : _integral_constant<bool,
-            !is_default<less_impl<Ord, Ord>>::value
-        >
-    { };
+    struct models_impl<Orderable, Ord> {
+        static constexpr bool value = !is_default<less_impl<Ord, Ord>>::value;
+    };
 
     template <typename T, typename U>
     struct Orderable::equal_impl {
