@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename U>
-    struct Sequence::equal_impl {
+    struct equal_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
             constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
@@ -112,16 +112,11 @@ namespace boost { namespace hana {
         }
     };
 
-    template <typename T, typename U>
-    struct equal_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>>
-        : Sequence::equal_impl<T, U>
-    { };
-
     //////////////////////////////////////////////////////////////////////////
     // Automatic model of Orderable
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct Sequence::less_impl {
+    struct less_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>> {
         template <typename Xs, typename Ys>
         static constexpr auto
         less_helper(Xs const&, Ys const&, decltype(true_), decltype(true_))
@@ -172,37 +167,6 @@ namespace boost { namespace hana {
                 hana::if_(hana::is_empty(ys), true_, false_));
         }
     };
-
-    template <typename T, typename U>
-    struct less_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>>
-        : Sequence::less_impl<T, U>
-    { };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Automatic model of Applicative
-    //////////////////////////////////////////////////////////////////////////
-    template <typename S>
-    struct Sequence::lift_impl {
-        template <typename X>
-        static constexpr decltype(auto) apply(X&& x)
-        { return hana::make<S>(static_cast<X&&>(x)); }
-    };
-
-    template <typename S>
-    struct ap_impl<S, when<_models<Sequence, S>::value>> {
-        template <typename F, typename X>
-        static constexpr decltype(auto) apply(F&& f, X&& x) {
-            return hana::chain(
-                static_cast<F&&>(f),
-                hana::partial(hana::transform, static_cast<X&&>(x))
-            );
-        }
-    };
-
-    template <typename S>
-    struct lift_impl<S, when<_models<Sequence, S>::value>>
-        : Sequence::lift_impl<S>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_SEQUENCE_HPP

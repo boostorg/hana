@@ -177,13 +177,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
-    struct Sequence {
-        template <typename T, typename U> struct equal_impl;
-        template <typename T, typename U> struct less_impl;
-
-        template <typename S> struct lift_impl;
-        template <typename S> struct ap_impl;
-    };
+    struct Sequence { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP

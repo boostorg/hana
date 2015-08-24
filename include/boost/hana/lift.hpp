@@ -14,12 +14,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 
 
 namespace boost { namespace hana {
+    struct Sequence; //! @todo include the fwd decl instead
+
     template <typename A>
     struct lift_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -41,6 +44,13 @@ namespace boost { namespace hana {
     struct lift_impl<A, when<condition>> : default_ {
         template <typename ...Args>
         static constexpr auto apply(Args&& ...args) = delete;
+    };
+
+    template <typename S>
+    struct lift_impl<S, when<_models<Sequence, S>::value>> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X&& x)
+        { return hana::make<S>(static_cast<X&&>(x)); }
     };
 }} // end namespace boost::hana
 

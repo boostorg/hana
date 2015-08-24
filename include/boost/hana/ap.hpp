@@ -18,12 +18,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
 
+#include <boost/hana/chain.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/functional/curry.hpp>
+#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/transform.hpp>
 
 
 namespace boost { namespace hana {
+    struct Sequence; //! @todo include the fwd decl instead
+
     template <typename A, bool condition>
     struct ap_impl<A, when<condition>> : default_ {
         template <typename ...Args>
@@ -63,6 +67,17 @@ namespace boost { namespace hana {
         );
     }
     //! @endcond
+
+    template <typename S>
+    struct ap_impl<S, when<_models<Sequence, S>::value>> {
+        template <typename F, typename X>
+        static constexpr decltype(auto) apply(F&& f, X&& x) {
+            return hana::chain(
+                static_cast<F&&>(f),
+                hana::partial(hana::transform, static_cast<X&&>(x))
+            );
+        }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_AP_HPP
