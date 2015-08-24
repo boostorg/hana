@@ -76,15 +76,6 @@ namespace boost { namespace hana {
     //! @code
     //!     equal(x, y) = less_equal(x, y) && less_equal(y, x)
     //! @endcode
-    //! An equivalent implementation of `equal` is provided as
-    //! `Orderable::equal_impl`. To use it, simply inherit
-    //! `Orderable::equal_impl` in your definition of `equal_impl`:
-    //! @code
-    //!     template <>
-    //!     struct equal_impl<YourType, YourType>
-    //!         : Orderable::equal_impl<YourType, YourType>
-    //!     { };
-    //! @endcode
     //!
     //!
     //! Concrete models
@@ -193,10 +184,7 @@ namespace boost { namespace hana {
     //! [2]: http://en.cppreference.com/w/cpp/concept/LessThanComparable
     //! [3]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf
     //! [4]: http://en.wikipedia.org/wiki/Strict_weak_ordering
-    struct Orderable {
-        template <typename T, typename U>
-        struct equal_impl;
-    };
+    struct Orderable { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_ORDERABLE_HPP

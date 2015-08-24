@@ -12,10 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/orderable.hpp>
 
-#include <boost/hana/and.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/not.hpp>
 
 #include <boost/hana/greater.hpp>
 #include <boost/hana/greater_equal.hpp>
@@ -30,15 +28,6 @@ namespace boost { namespace hana {
     template <typename Ord>
     struct models_impl<Orderable, Ord> {
         static constexpr bool value = !is_default<less_impl<Ord, Ord>>::value;
-    };
-
-    template <typename T, typename U>
-    struct Orderable::equal_impl {
-        template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X const& x, Y const& y) {
-            return hana::and_(hana::not_(hana::less(x, y)),
-                              hana::not_(hana::less(y, x)));
-        }
     };
 }} // end namespace boost::hana
 
