@@ -20,21 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // Applicative::transform_impl
-    //////////////////////////////////////////////////////////////////////////
-    template <typename A>
-    struct Applicative::transform_impl {
-        template <typename X, typename F>
-        static constexpr decltype(auto) apply(X&& x, F&& f) {
-            return hana::ap(hana::lift<A>(static_cast<F&&>(f)),
-                            static_cast<X&&>(x));
-        }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // models
-    //////////////////////////////////////////////////////////////////////////
     template <typename A>
     struct models_impl<Applicative, A> {
         static constexpr bool value = !is_default<ap_impl<A>>::value &&

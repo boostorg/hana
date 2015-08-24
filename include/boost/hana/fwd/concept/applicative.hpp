@@ -84,15 +84,6 @@ namespace boost { namespace hana {
     //! @code
     //!     transform(xs, f) = ap(lift<F>(f), xs)
     //! @endcode
-    //! This implementation of `transform` is provided as
-    //! `Applicative::transform_impl`. To use it, simply inherit
-    //! `Applicative::transform_impl` in your definition of `transform_impl`:
-    //! @code
-    //!     template <>
-    //!     struct transform_impl<YourApplicative>
-    //!         : Applicative::transform_impl<YourApplicative>
-    //!     { };
-    //! @endcode
     //!
     //!
     //! Concrete models
@@ -112,10 +103,7 @@ namespace boost { namespace hana {
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
     //! @endcode
-    struct Applicative {
-        template <typename A>
-        struct transform_impl;
-    };
+    struct Applicative { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_APPLICATIVE_HPP
