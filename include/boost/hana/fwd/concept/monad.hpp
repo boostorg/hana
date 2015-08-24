@@ -192,7 +192,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Either`, `Lazy`, `Optional`, `Tuple`
+    //! `Lazy`, `Optional`, `Tuple`
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
