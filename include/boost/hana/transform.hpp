@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TRANSFORM_HPP
 #define BOOST_HANA_TRANSFORM_HPP
 
-#include <boost/hana/fwd/concept/functor.hpp>
+#include <boost/hana/fwd/transform.hpp>
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>

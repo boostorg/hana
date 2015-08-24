@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EVAL_IF_HPP
 #define BOOST_HANA_EVAL_IF_HPP
 
-#include <boost/hana/fwd/concept/logical.hpp>
+#include <boost/hana/fwd/eval_if.hpp>
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/datatype.hpp>

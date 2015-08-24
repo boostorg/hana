@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FOLD_RIGHT_HPP
 #define BOOST_HANA_FOLD_RIGHT_HPP
 
-#include <boost/hana/fwd/concept/foldable.hpp>
+#include <boost/hana/fwd/fold_right.hpp>
 
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>

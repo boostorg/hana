@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_LESS_EQUAL_HPP
 #define BOOST_HANA_LESS_EQUAL_HPP
 
-#include <boost/hana/fwd/concept/orderable.hpp>
+#include <boost/hana/fwd/less_equal.hpp>
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
