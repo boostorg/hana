@@ -19,8 +19,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/front.hpp>
 #include <boost/hana/if.hpp>
+#include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/tail.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -99,6 +102,50 @@ namespace boost { namespace hana {
                                             static_cast<Pred&&>(pred));
         }
         //! @endcond
+    };
+
+    template <typename It>
+    struct any_of_impl<It, when<
+        _models<Iterable, It>::value &&
+        !_models<Sequence, It>::value
+    >> {
+        template <typename Xs, typename Pred>
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_), bool prev_cond, Xs&& xs, Pred&& pred) {
+            auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
+            decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
+            constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
+            return prev_cond ? hana::true_
+                : lazy_any_of_helper(hana::bool_<done>, cond,
+                                     static_cast<decltype(tail)&&>(tail),
+                                     static_cast<Pred&&>(pred));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_), decltype(hana::true_), Xs&&, Pred&&)
+        { return hana::true_; }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_), decltype(hana::false_), Xs&& xs, Pred&& pred) {
+            auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
+            constexpr bool done = hana::value<decltype(
+                hana::is_empty(hana::tail(xs))
+            )>();
+            return lazy_any_of_helper(hana::bool_<done>, cond,
+                                      hana::tail(static_cast<Xs&&>(xs)),
+                                      static_cast<Pred&&>(pred));
+        }
+
+        template <typename Cond, typename Xs, typename Pred>
+        static constexpr auto lazy_any_of_helper(decltype(hana::true_), Cond cond, Xs&&, Pred&&)
+        { return cond; }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
+            return lazy_any_of_helper(hana::bool_<done>, hana::false_,
+                                      static_cast<Xs&&>(xs),
+                                      static_cast<Pred&&>(pred));
+        }
     };
 
     template <typename T, std::size_t N>

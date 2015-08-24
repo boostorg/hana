@@ -14,6 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
@@ -24,13 +29,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/logical.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/searchable.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -210,11 +210,6 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_if_impl<String>
-        : Iterable::find_if_impl<String>
-    { };
-
-    template <>
     struct contains_impl<String> {
         template <char ...s, typename C>
         static constexpr auto
@@ -246,11 +241,6 @@ namespace boost { namespace hana {
             );
         }
     };
-
-    template <>
-    struct any_of_impl<String>
-        : Iterable::any_of_impl<String>
-    { };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_STRING_HPP

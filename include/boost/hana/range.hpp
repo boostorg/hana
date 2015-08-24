@@ -14,19 +14,19 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
-#include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/concept/searchable.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -197,16 +197,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct find_if_impl<Range>
-        : Iterable::find_if_impl<Range>
-    { };
-
-    template <>
-    struct any_of_impl<Range>
-        : Iterable::any_of_impl<Range>
-    { };
-
     template <>
     struct find_impl<Range> {
         template <typename T, T from, typename N>

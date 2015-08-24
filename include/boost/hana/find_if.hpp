@@ -19,7 +19,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/drop_while.hpp>
+#include <boost/hana/front.hpp>
+#include <boost/hana/functional/compose.hpp>
+#include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/not.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/value.hpp>
 
@@ -30,6 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     struct Searchable; //! @todo include the forward declaration instead
     struct Sequence;
+    struct Iterable;
 
     //! @cond
     template <typename Xs, typename Pred>
@@ -89,6 +95,22 @@ namespace boost { namespace hana {
             constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
             return detail::advance_until<Xs&&, Pred&&, 0, N, false>::apply(
                 static_cast<Xs&&>(xs)
+            );
+        }
+    };
+
+    template <typename It>
+    struct find_if_impl<It, when<
+        _models<Iterable, It>::value &&
+        !_models<Sequence, It>::value
+    >> {
+        template <typename Xs, typename Pred>
+        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
+            return hana::only_when(
+                hana::compose(hana::not_, hana::is_empty),
+                hana::front,
+                hana::drop_while(static_cast<Xs&&>(xs),
+                                 hana::compose(hana::not_, static_cast<Pred&&>(pred)))
             );
         }
     };

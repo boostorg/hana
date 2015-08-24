@@ -4,9 +4,15 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/any_of.hpp>
+#include <boost/hana/find_if.hpp>
+
 #include <boost/hana/assert.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/bool.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/value.hpp>
@@ -22,7 +28,7 @@ namespace boost { namespace hana {
     struct at_impl<counter<i>> {
         template <typename N>
         static constexpr auto apply(counter<i>, N const&) {
-            return int_<i + hana::value<N>()>;
+            return hana::int_<i + hana::value<N>()>;
         }
     };
 
@@ -33,21 +39,14 @@ namespace boost { namespace hana {
 
     template <int i>
     struct is_empty_impl<counter<i>> {
-        static constexpr auto apply(counter<i>) { return false_; }
+        static constexpr auto apply(counter<i>) { return hana::false_; }
     };
-
-
-    template <int i>
-    struct any_of_impl<counter<i>> : Iterable::any_of_impl<counter<i>> { };
-
-    template <int i>
-    struct find_if_impl<counter<i>> : Iterable::find_if_impl<counter<i>> { };
 }}
 
 
 int main() {
-    // Even though the Iterable is infinite, the Searchable instances should
-    // stop because they should short-circuit their search.
+    // find_if and any_of should short-circuit and stop even though the
+    // Iterable is infinite.
     BOOST_HANA_CONSTANT_CHECK(any_of(counter<1>{}, equal.to(int_<4>)));
 
     BOOST_HANA_CONSTANT_CHECK(equal(
