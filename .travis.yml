@@ -5,21 +5,19 @@ sudo: false
 
 
 matrix:
-  allow_failures:
-    - env: BOOST_VERSION=trunk
-    - env: COMPILER=clang++-3.7
-
   include:
-    # clang 3.5
+    ##########################################################################
+    # Clang 3.5
+    #
+    # Note that we use the memory checker only for one Boost version to speed
+    # up builds. There would be little benefit to run the memory checker on
+    # different Boost versions.
+    ##########################################################################
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang35
         apt:
-          packages:
-            - clang-3.5
-            - valgrind
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
+          packages: ["clang-3.5", "valgrind"]
+          sources: &sources ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5", "llvm-toolchain-precise-3.6"]
 
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang35
@@ -30,16 +28,14 @@ matrix:
     - env: COMPILER=clang++-3.5 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang35
 
-    # clang 3.6
+    ##########################################################################
+    # Clang 3.6
+    ##########################################################################
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 UNIT_TESTS=true
       addons: &clang36
         apt:
-          packages:
-            - clang-3.6
-            - valgrind
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
+          packages: ["clang-3.6", "valgrind"]
+          sources: *sources
 
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang36
@@ -50,68 +46,36 @@ matrix:
     - env: COMPILER=clang++-3.6 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang36
 
-    # clang 3.6, with concept checks disabled
+    ##########################################################################
+    # Build without concept checks
+    ##########################################################################
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
       addons: *clang36
 
-    # clang 3.6, with libstdc++ instead of libc++
-    - env: COMPILER=clang++-3.6 STDLIB=stdc++ BOOST_VERSION=1.59.0 UNIT_TESTS=true
+    ##########################################################################
+    # Build with libstdc++ instead of libc++
+    ##########################################################################
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true STDLIB=libstdc++
       addons:
         apt:
-          packages:
-            - clang-3.6
-            - valgrind
-            - g++-5
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
+          packages: ["clang-3.6", "g++-5"]
+          sources: *sources
 
-    # TODO: Clang 3.7 is disabled right now, because the clang-3.7 package
-    #       can't be found for some obscure reason.
-    #
-    # clang 3.7 (trunk)
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
-    #   addons: &clang37
-    #     apt:
-    #       packages:
-    #         - clang-3.7
-    #         - valgrind
-    #       sources:
-    #         - ubuntu-toolchain-r-test
-    #         - llvm-toolchain-precise # latest
-
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
-    #   addons: *clang37
-
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-    #   addons: *clang37
-
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
-    #   addons: *clang37
-
-    # Release benchmarks
+    ##########################################################################
+    # Benchmarks
+    ##########################################################################
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
+      addons: *clang35
+
+    # Clang 3.5 does not support debug info for `auto`, so we use the Default build type instead.
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 BENCHMARKS=true
       addons: *clang35
 
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
       addons: *clang36
 
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
-    #   addons: *clang37
-
-    # Debug benchmarks
-    #
-    # Note: We do _not_ run the Debug benchmarks on Clang 3.5, because it does not
-    # have support for debug information for `auto`, and it produces compilation
-    # errors. So we use the default build type instead for Clang 3.5.
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 BENCHMARKS=true
-      addons: *clang35
-
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang36
-
-    # - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
-    #   addons: *clang37
 
 
 env:
@@ -121,21 +85,25 @@ env:
     # ${GITHUB_TOKEN} environment variable.
     - secure: "gikHKTxWGN9FnJ9m+F53Y5j7jWGAOKlL2ylcFM2o0KoXOkoNAK9bJpilNppRwWhgwpC3yTJDN0k7xh9I6Ec8L0G46Q2QZdtJ/NFvWbafpzQcrAg6+872yKlP8h3GHexwEDdAdxCv8g2HeavFrDcqynssI8IoIHyZmsR6Dwym+eo="
 
-  # We define the documentation job here instead of in matrix.include, because
-  # otherwise we end up with a job that has no environment variables at all in
-  # the matrix.
+  ##########################################################################
+  # Documentation
+  #
+  # The Documentation job must be defined here instead of in matrix.include,
+  # because we otherwise end up with a job that has no environment variables
+  # at all in the matrix.
+  ##########################################################################
   matrix:
     - COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 DOCUMENTATION=true
 
-# Those addons are just for the documentation job.
+# Those addons apply only to the documentation job.
 addons: *clang36
 
 
 install:
   ############################################################################
-  # All the dependencies are installed to the deps/ subdirectory.
+  # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
   ############################################################################
-  - DEPS_DIR="${PWD}/deps"
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
   ############################################################################
@@ -144,47 +112,50 @@ install:
   - if [[ "${BOOST_VERSION}" == "1.57.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
   - if [[ "${BOOST_VERSION}" == "1.58.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz"; fi
   - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
-  - if [[ "${BOOST_VERSION}" == "trunk" ]];  then BOOST_URL="http://github.com/boostorg/boost.git"; fi
-
   - if [[ "${BOOST_VERSION}" != "trunk" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
-  - if [[ "${BOOST_VERSION}" == "trunk" ]]; then travis_retry git clone --depth 1 --recursive --quiet ${BOOST_URL}; fi
-  - if [[ "${BOOST_VERSION}" == "trunk" ]]; then (cd boost && ./bootstrap.sh && ./b2 headers); fi
+
+  - |
+    if [[ "${BOOST_VERSION}" == "trunk" ]]; then
+      BOOST_URL="http://github.com/boostorg/boost.git"
+      travis_retry git clone --depth 1 --recursive --quiet ${BOOST_URL}
+      (cd boost && ./bootstrap.sh && ./b2 headers)
+    fi
 
   ############################################################################
   # Install a recent CMake
   ############################################################################
   - CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.1-Linux-x86_64.tar.gz"
-  - mkdir cmake
-  - travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
-  - export PATH=${PWD}/cmake/bin:${PATH}
+  - mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
   ############################################################################
   # Install libc++ and libc++abi
   # Note: We install libc++[abi] 3.6 even with Clang 3.5, because the 3.5
   #       version does not seem to provide <ciso646>, which we require.
   ############################################################################
-  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LLVM_URL="http://llvm.org/releases/3.6.2/llvm-3.6.2.src.tar.xz"; fi
-  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LIBCXX_URL="http://llvm.org/releases/3.6.2/libcxx-3.6.2.src.tar.xz"; fi
-  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then LIBCXXABI_URL="http://llvm.org/releases/3.6.2/libcxxabi-3.6.2.src.tar.xz"; fi
-  - if [[ "${COMPILER}" =~ clang\+\+-3\.[56] ]]; then TAR_FMT="-xJ"; fi
+  - |
+    if [[ "${STDLIB}" != "libstdc++" ]]; then
+      LLVM_URL="http://llvm.org/releases/3.6.2/llvm-3.6.2.src.tar.xz"
+      LIBCXX_URL="http://llvm.org/releases/3.6.2/libcxx-3.6.2.src.tar.xz"
+      LIBCXXABI_URL="http://llvm.org/releases/3.6.2/libcxxabi-3.6.2.src.tar.xz"
 
-  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_URL="https://github.com/llvm-mirror/llvm/archive/master.tar.gz"; fi
-  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LIBCXX_URL="https://github.com/llvm-mirror/libcxx/archive/master.tar.gz"; fi
-  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then LIBCXXABI_URL="https://github.com/llvm-mirror/libcxxabi/archive/master.tar.gz"; fi
-  - if [[ "${COMPILER}" == "clang++-3.7" ]]; then TAR_FMT="-xz"; fi
+      mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
+      travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
+      travis_retry wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
+      travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
+      (cd llvm/build && cmake .. -DCMAKE_CXX_COMPILER=clang++ && make cxxabi cxx -j2)
 
-  - mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-  - travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 ${TAR_FMT} -C llvm
-  - travis_retry wget --quiet -O - ${LIBCXX_URL} | tar --strip-components=1 ${TAR_FMT} -C llvm/projects/libcxx
-  - travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 ${TAR_FMT} -C llvm/projects/libcxxabi
-  - (cd llvm/build && cmake .. -DCMAKE_CXX_COMPILER=clang++ && make cxx -j2)
+      export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"
+      export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"
+      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"
+    fi
 
   ############################################################################
   # Install a recent Doxygen
   ############################################################################
   - DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.linux.bin.tar.gz"
   - mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
-  - export PATH=${PWD}/doxygen/bin:${PATH}
+  - export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
 
   ############################################################################
   # Install and use a more recent Ruby and install the gems for the benchmarks
@@ -195,36 +166,15 @@ install:
 
 before_script:
   ############################################################################
-  # Go back to the root of the project.
-  ############################################################################
-  - cd ${TRAVIS_BUILD_DIR}
-
-  ############################################################################
   # Set the git identity (for pushing the documentation and the benchmarks)
   ############################################################################
   - git config --global user.name "Travis bot"
 
   ############################################################################
-  # Check baseline memory usage; useful to know when OOMs occur
+  # Go back to the root of the project and setup the build directory
   ############################################################################
-  - free
-  - vmstat
-  - ps aux --sort=-rss | head -n 10
-
-  ############################################################################
-  # Setup the build directory
-  ############################################################################
-  - mkdir build
-  - cd build
-  - if [[ "${STDLIB}" != "stdc++" ]]; then export CXXFLAGS="-I ${DEPS_DIR}/llvm/build/include/c++/v1"; fi
-  - if [[ "${STDLIB}" != "stdc++" ]]; then export LDFLAGS="-L ${DEPS_DIR}/llvm/build/lib -l c++ -l c++abi"; fi
-  - if [[ "${STDLIB}" != "stdc++" ]]; then export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/build/lib"; fi
-
-  # We only use the memory checker for some builds, because otherwise it takes
-  # too long for very little benefit. Concretely, if we have a memory leak or
-  # something like that, it's either a compiler bug or an error that will show
-  # up regardless of the Boost version. Hence, we use the memory checker only
-  # once for each compiler.
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir build && cd build
   - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
   - if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_MEMCHECK=ON; fi
   - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
@@ -236,8 +186,14 @@ script:
   # it builds properly. When we push, we disable the output to avoid leaking
   # the GitHub token.
   ############################################################################
-  - if [[ "${DOCUMENTATION}" == "true" && ("${TRAVIS_PULL_REQUEST}" == "true" || "${TRAVIS_BRANCH}" != "master") ]]; then make doc; fi
-  - if [[ "${DOCUMENTATION}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make gh-pages.push &>/dev/null; fi
+  - |
+    if [[ "${DOCUMENTATION}" == "true" ]]; then
+      if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
+        make gh-pages.push &>/dev/null
+      else
+        make doc
+      fi
+    fi
 
   ############################################################################
   # We only run the full benchmarks on `master` when we're not in a pull
@@ -251,18 +207,24 @@ script:
   # we push, we use travis_retry to try again if we encounter a push conflict,
   # and we disable the output to avoid leaking the GitHub token.
   ############################################################################
-  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make benchmarks; fi
-  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then make datasets.clone; fi
-  - if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then travis_retry make datasets.push &>/dev/null; fi
+  - |
+    if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
+      make benchmarks
+      make datasets.clone
+      travis_retry make datasets.push &>/dev/null
+    fi
 
   ############################################################################
   # Build and run the unit tests and examples.
   ############################################################################
-  - export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make examples -k -j2 &>/dev/null; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests.quick -k -j2 &>/dev/null; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make tests -k -j2; fi
-  - if [[ "${UNIT_TESTS}" == "true" ]]; then make check -k; fi
+  - |
+    if [[ "${UNIT_TESTS}" == "true" ]]; then
+      export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
+      make examples -k -j2 &>/dev/null
+      make tests.quick -k -j2 &>/dev/null
+      make tests -k -j2
+      make check -k
+    fi
 
 
 notifications:
