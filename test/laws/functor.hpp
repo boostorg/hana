@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename Elements>
         TestFunctor(Xs xs, Elements elements) {
             hana::for_each(xs, hana::capture(elements)([](auto elements, auto x) {
-                static_assert(_models<Functor, decltype(x)>{}, "");
+                static_assert(Functor<decltype(x)>::value, "");
 
                 test::_injection<0> f{};
                 test::_injection<1> g{};
@@ -91,7 +91,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFunctor<S, when<_models<Sequence, S>::value>>
+    struct TestFunctor<S, when<Sequence<S>::value>>
         : TestFunctor<S, laws>
     {
         struct undefined { };

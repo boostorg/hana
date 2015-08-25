@@ -43,7 +43,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename Convertibles>
         TestConstant(Xs xs, Convertibles types) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<Constant, decltype(x)>{}, "");
+                static_assert(Constant<decltype(x)>::value, "");
             });
 
             hana::for_each(xs, hana::capture(types)([](auto types, auto c) {

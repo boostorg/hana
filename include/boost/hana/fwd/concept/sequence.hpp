@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP
 #define BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP
 
+#include <boost/hana/core/when.hpp>
+
+
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Sequence` concept represents generic index-based sequences.
@@ -149,7 +152,13 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism
-    struct Sequence { };
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename S>
+    struct Sequence;
+#else
+    template <typename S, typename = void>
+    struct Sequence : Sequence<S, when<true>> { };
+#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP

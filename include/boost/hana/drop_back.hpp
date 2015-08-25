@@ -31,15 +31,15 @@ namespace boost { namespace hana {
     constexpr auto drop_back_t::operator()(Xs&& xs, N&& n) const {
         using S = typename hana::tag_of<Xs>::type;
         using DropBack = BOOST_HANA_DISPATCH_IF(drop_back_impl<S>,
-            _models<Sequence, S>::value &&
-            _models<Constant, N>::value
+            Sequence<S>::value &&
+            Constant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::drop_back(xs, n) requires 'xs' to be a Sequence");
 
-        static_assert(_models<Constant, N>::value,
+        static_assert(Constant<N>::value,
         "hana::drop_back(xs, n) requires 'n' to be a Constant");
     #endif
 

@@ -31,19 +31,19 @@ namespace boost { namespace hana {
     constexpr auto remove_range_t::operator()(Xs&& xs, From&& from, To&& to) const {
         using S = typename hana::tag_of<Xs>::type;
         using RemoveRange = BOOST_HANA_DISPATCH_IF(remove_range_impl<S>,
-            _models<Sequence, S>::value &&
-            _models<Constant, From>::value &&
-            _models<Constant, To>::value
+            Sequence<S>::value &&
+            Constant<From>::value &&
+            Constant<To>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::remove_range(xs, from, to) requires 'xs' to be a Sequence");
 
-        static_assert(_models<Constant, From>::value,
+        static_assert(Constant<From>::value,
         "hana::remove_range(xs, from, to) requires 'from' to be a Constant");
 
-        static_assert(_models<Constant, To>::value,
+        static_assert(Constant<To>::value,
         "hana::remove_range(xs, from, to) requires 'to' to be a Constant");
     #endif
 

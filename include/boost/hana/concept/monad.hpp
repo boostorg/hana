@@ -14,15 +14,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/chain.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/flatten.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {
     template <typename M>
-    struct models_impl<Monad, M> {
-        static constexpr bool value = !is_default<flatten_impl<M>>::value ||
-                                      !is_default<chain_impl<M>>::value;
+    struct Monad {
+        using Tag = typename tag_of<M>::type;
+        static constexpr bool value = !is_default<flatten_impl<Tag>>::value ||
+                                      !is_default<chain_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

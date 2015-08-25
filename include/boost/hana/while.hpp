@@ -30,11 +30,11 @@ namespace boost { namespace hana {
         using Cond = decltype(pred(state));
         using Bool = typename hana::tag_of<Cond>::type;
         using While = BOOST_HANA_DISPATCH_IF(while_impl<Bool>,
-            hana::_models<hana::Logical, Bool>::value
+            hana::Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(hana::_models<hana::Logical, Bool>::value,
+        static_assert(hana::Logical<Bool>::value,
         "hana::while_(pred, state, f) requires 'pred(state)' to be a Logical");
     #endif
 
@@ -73,8 +73,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct while_impl<C, hana::when<
-        hana::_models<hana::Constant, C>::value &&
-        hana::_models<hana::Logical, typename C::value_type>::value
+        hana::Constant<C>::value &&
+        hana::Logical<typename C::value_type>::value
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State

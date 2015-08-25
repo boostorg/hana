@@ -36,11 +36,11 @@ namespace boost { namespace hana {
     constexpr auto filter_t::operator()(Xs&& xs, Pred&& pred) const {
         using M = typename hana::tag_of<Xs>::type;
         using Filter = BOOST_HANA_DISPATCH_IF(filter_impl<M>,
-            _models<MonadPlus, M>::value
+            MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::filter(xs, pred) requires 'xs' to be a MonadPlus");
     #endif
 
@@ -106,7 +106,7 @@ namespace boost { namespace hana {
     }
 
     template <typename M>
-    struct filter_impl<M, when<_models<Sequence, M>::value>> {
+    struct filter_impl<M, when<Sequence<M>::value>> {
         template <typename Pred, typename Xs, std::size_t ...i>
         static constexpr auto filter_indices(Xs&& xs, std::index_sequence<i...>) {
             using info = detail::filter_central<

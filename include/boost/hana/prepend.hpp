@@ -32,11 +32,11 @@ namespace boost { namespace hana {
     constexpr auto prepend_t::operator()(Xs&& xs, X&& x) const {
         using M = typename hana::tag_of<Xs>::type;
         using Prepend = BOOST_HANA_DISPATCH_IF(prepend_impl<M>,
-            _models<MonadPlus, M>::value
+            MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::prepend(xs, x) requires 'xs' to be a MonadPlus");
     #endif
 
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct prepend_impl<S, when<_models<Sequence, S>::value>> {
+    struct prepend_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename X, std::size_t ...i>
         static constexpr auto prepend_helper(Xs&& xs, X&& x, std::index_sequence<i...>) {
             return hana::make<S>(

@@ -32,15 +32,15 @@ namespace boost { namespace hana {
         using U = typename hana::tag_of<Y>::type;
         using GreaterEqual = BOOST_HANA_DISPATCH_IF(
             decltype(greater_equal_impl<T, U>{}),
-            _models<Orderable, T>::value &&
-            _models<Orderable, U>::value
+            Orderable<T>::value &&
+            Orderable<U>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Orderable, T>::value,
+        static_assert(Orderable<T>::value,
         "hana::greater_equal(x, y) requires 'x' to be Orderable");
 
-        static_assert(_models<Orderable, U>::value,
+        static_assert(Orderable<U>::value,
         "hana::greater_equal(x, y) requires 'y' to be Orderable");
     #endif
 

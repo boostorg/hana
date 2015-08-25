@@ -85,11 +85,11 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::fast_and<_models<Comparable, Xs>::value...>::value,
+            static_assert(detail::fast_and<Comparable<Xs>::value...>::value,
             "hana::make_set(xs...) requires all the 'xs' to be Comparable");
 
             static_assert(detail::fast_and<
-                _models<Constant, decltype(hana::equal(xs, xs))>::value...
+                Constant<decltype(hana::equal(xs, xs))>::value...
             >::value,
             "hana::make_set(xs...) requires all the 'xs' to be "
             "Comparable at compile-time");
@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<set_tag, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<set_tag, F, when<Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(static_cast<Xs&&>(xs),

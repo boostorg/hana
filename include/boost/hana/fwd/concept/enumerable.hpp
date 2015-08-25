@@ -55,7 +55,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.wikipedia.org/wiki/Successor_function
     //! [2]: http://en.wikipedia.org/wiki/Countable_set
-    struct Enumerable { };
+    template <typename E>
+    struct Enumerable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_ENUMERABLE_HPP

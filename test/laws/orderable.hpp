@@ -28,7 +28,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestOrderable(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<Orderable, decltype(x)>{}, "");
+                static_assert(Orderable<decltype(x)>::value, "");
             });
 
             foreach2(xs, [](auto a, auto b) {
@@ -81,7 +81,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestOrderable<C, when<_models<Constant, C>::value>>
+    struct TestOrderable<C, when<Constant<C>::value>>
         : TestOrderable<C, laws>
     {
         template <typename Xs>
@@ -98,7 +98,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestOrderable<P, when<_models<Product, P>::value>>
+    struct TestOrderable<P, when<Product<P>::value>>
         : TestOrderable<P, laws>
     {
         template <typename Products>
@@ -121,7 +121,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestOrderable<S, when<_models<Sequence, S>::value>>
+    struct TestOrderable<S, when<Sequence<S>::value>>
         : TestOrderable<S, laws>
     {
         struct invalid { };

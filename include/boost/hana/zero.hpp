@@ -25,13 +25,13 @@ namespace boost { namespace hana {
     template <typename M>
     struct zero_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monoid, M>::value,
+        static_assert(Monoid<M>::value,
         "hana::zero<M>() requires 'M' to be a Monoid");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using Zero = BOOST_HANA_DISPATCH_IF(zero_impl<M>,
-                _models<Monoid, M>::value
+                Monoid<M>::value
             );
 
             return Zero::apply();
@@ -61,8 +61,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct zero_impl<C, when<
-        _models<Constant, C>::value &&
-        _models<Monoid, typename C::value_type>::value
+        Constant<C>::value &&
+        Monoid<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

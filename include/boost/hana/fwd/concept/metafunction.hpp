@@ -88,7 +88,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.cppreference.com/w/cpp/concept/FunctionObject
     //! [2]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
-    struct Metafunction { };
+    template <typename F>
+    struct Metafunction;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_METAFUNCTION_HPP

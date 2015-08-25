@@ -26,7 +26,7 @@ namespace boost { namespace hana {
                 using M = typename hana::tag_of<decltype(g(x))>::type;
 
             #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-                static_assert(_models<Monad, M>::value,
+                static_assert(Monad<M>::value,
                 "hana::monadic_compose(f, g) requires 'g' to return a monadic value");
             #endif
 

@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestGroup(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<Group, decltype(x)>{}, "");
+                static_assert(Group<decltype(x)>::value, "");
             });
 
             foreach2(xs, [](auto x, auto y) {
@@ -67,7 +67,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestGroup<C, when<_models<Constant, C>::value>>
+    struct TestGroup<C, when<Constant<C>::value>>
         : TestGroup<C, laws>
     {
         template <typename Xs>

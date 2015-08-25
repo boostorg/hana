@@ -12,25 +12,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/void_t.hpp>
 
 #include <type_traits>
 
 
 namespace boost { namespace hana { namespace detail {
-    template <typename Concept, typename T, typename U, typename = void>
+    template <template <typename...> class Concept, typename T, typename U, typename = void>
     struct has_common_embedding_impl : std::false_type { };
 
-    template <typename Concept, typename T, typename U>
+    template <template <typename...> class Concept, typename T, typename U>
     struct has_common_embedding_impl<Concept, T, U, detail::void_t<
         typename common<T, U>::type
     >> {
         using Common = typename common<T, U>::type;
         using type = std::integral_constant<bool,
-            _models<Concept, T>::value &&
-            _models<Concept, U>::value &&
-            _models<Concept, Common>::value &&
+            Concept<T>::value &&
+            Concept<U>::value &&
+            Concept<Common>::value &&
             is_embedded<T, Common>::value &&
             is_embedded<U, Common>::value
         >;
@@ -42,16 +41,15 @@ namespace boost { namespace hana { namespace detail {
     //!
     //! If `T` and `U` do not have a common-type, this metafunction returns
     //! false.
-    template <typename Concept, typename T, typename U>
-    using has_common_embedding =
-                    typename has_common_embedding_impl<Concept, T, U>::type;
+    template <template <typename...> class Concept, typename T, typename U>
+    using has_common_embedding = typename has_common_embedding_impl<Concept, T, U>::type;
 
-    template <typename Concept, typename T, typename U>
+    template <template <typename...> class Concept, typename T, typename U>
     struct has_nontrivial_common_embedding_impl
         : has_common_embedding_impl<Concept, T, U>
     { };
 
-    template <typename Concept, typename T>
+    template <template <typename...> class Concept, typename T>
     struct has_nontrivial_common_embedding_impl<Concept, T, T>
         : std::false_type
     { };
@@ -62,7 +60,7 @@ namespace boost { namespace hana { namespace detail {
     //!
     //! If `T` and `U` do not have a common-type, this metafunction returns
     //! false.
-    template <typename Concept, typename T, typename U>
+    template <template <typename...> class Concept, typename T, typename U>
     using has_nontrivial_common_embedding =
         typename has_nontrivial_common_embedding_impl<Concept, T, U>::type;
 }}} // end namespace boost::hana::detail

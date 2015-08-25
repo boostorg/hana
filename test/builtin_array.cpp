@@ -65,7 +65,7 @@ int main() {
             ));
         }
 
-        static_assert(models<Foldable, int[3]>, "");
+        static_assert(Foldable<int[3]>::value, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -117,6 +117,6 @@ int main() {
             ));
         }
 
-        static_assert(models<Searchable, int[3]>, "");
+        static_assert(Searchable<int[3]>::value, "");
     }
 }

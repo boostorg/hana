@@ -32,18 +32,16 @@ constexpr auto print(T const& t) {
 }
 
 // Define the `Printable` concept
-struct Printable { };
+template <typename T>
+struct Printable {
+    using Tag = typename hana::tag_of<T>::type;
+    static constexpr bool value = !hana::is_default<print_impl<Tag>>::value;
+};
 
-namespace boost { namespace hana {
-    template <typename T>
-    struct models_impl<Printable, T> {
-        static constexpr bool value = !hana::is_default<print_impl<T>>::value;
-    };
-}}
 
 // model for Sequences
 template <typename S>
-struct print_impl<S, hana::when<hana::models<hana::Sequence, S>()>> {
+struct print_impl<S, hana::when<hana::Sequence<S>::value>> {
     template <typename Xs>
     static auto apply(Xs const& xs) {
         std::string result = "(";
@@ -96,8 +94,8 @@ struct print_impl<hana::map_tag> {
 // model for Constants holding a `Printable`
 template <typename C>
 struct print_impl<C, hana::when<
-    hana::models<hana::Constant, C>() &&
-    hana::models<Printable, typename C::value_type>()
+    hana::Constant<C>::value &&
+    Printable<typename C::value_type>::value
 >> {
     template <typename T>
     static auto apply(T const&) {
@@ -108,7 +106,7 @@ struct print_impl<C, hana::when<
 
 // model for Products
 template <typename P>
-struct print_impl<P, hana::when<hana::models<hana::Product, P>()>> {
+struct print_impl<P, hana::when<hana::Product<P>::value>> {
     template <typename T>
     static auto apply(T const& t) {
         return '(' + print(hana::first(t)) + ", " + print(hana::second(t)) + ')';

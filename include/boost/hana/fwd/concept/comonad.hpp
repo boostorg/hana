@@ -94,7 +94,8 @@ namespace boost { namespace hana {
     `hana::lazy`
 
     */
-    struct Comonad { };
+    template <typename W>
+    struct Comonad;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_COMONAD_HPP

@@ -14,17 +14,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/at.hpp>
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
     template <typename It>
-    struct models_impl<Iterable, It> {
-        static constexpr bool value = !is_default<at_impl<It>>::value &&
-                                      !is_default<tail_impl<It>>::value &&
-                                      !is_default<is_empty_impl<It>>::value;
+    struct Iterable {
+        using Tag = typename tag_of<It>::type;
+        static constexpr bool value = !is_default<at_impl<Tag>>::value &&
+                                      !is_default<tail_impl<Tag>>::value &&
+                                      !is_default<is_empty_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

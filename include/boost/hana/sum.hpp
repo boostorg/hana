@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct sum_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monoid, M>::value,
+        static_assert(Monoid<M>::value,
         "hana::sum<M> requires 'M' to be a Monoid");
     #endif
 
@@ -33,11 +33,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using S = typename hana::tag_of<Xs>::type;
             using Sum = BOOST_HANA_DISPATCH_IF(sum_impl<S>,
-                _models<Foldable, S>::value
+                Foldable<S>::value
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>::value,
+            static_assert(Foldable<S>::value,
             "hana::sum<M>(xs) requires 'xs' to be Foldable");
         #endif
 

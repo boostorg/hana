@@ -40,7 +40,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestLogical(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<Logical, decltype(x)>{}, "");
+                static_assert(Logical<decltype(x)>::value, "");
             });
 
             foreach3(xs, hana::capture(xs)([](auto xs, auto a, auto b, auto c) {
@@ -110,7 +110,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestLogical<C, when<_models<Constant, C>::value>>
+    struct TestLogical<C, when<Constant<C>::value>>
         : TestLogical<C, laws>
     {
         template <typename Xs>

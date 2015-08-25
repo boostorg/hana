@@ -30,16 +30,16 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Plus = BOOST_HANA_DISPATCH_IF(decltype(plus_impl<T, U>{}),
-            _models<Monoid, T>::value &&
-            _models<Monoid, U>::value &&
+            Monoid<T>::value &&
+            Monoid<U>::value &&
             !is_default<plus_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monoid, T>::value,
+        static_assert(Monoid<T>::value,
         "hana::plus(x, y) requires 'x' to be a Monoid");
 
-        static_assert(_models<Monoid, U>::value,
+        static_assert(Monoid<U>::value,
         "hana::plus(x, y) requires 'y' to be a Monoid");
 
         static_assert(!is_default<plus_impl<T, U>>::value,
@@ -88,8 +88,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct plus_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<Monoid, typename C::value_type>::value
+        Constant<C>::value &&
+        Monoid<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

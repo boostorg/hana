@@ -30,16 +30,16 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Quot = BOOST_HANA_DISPATCH_IF(decltype(quot_impl<T, U>{}),
-            _models<IntegralDomain, T>::value &&
-            _models<IntegralDomain, U>::value &&
+            IntegralDomain<T>::value &&
+            IntegralDomain<U>::value &&
             !is_default<quot_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<IntegralDomain, T>::value,
+        static_assert(IntegralDomain<T>::value,
         "hana::quot(x, y) requires 'x' to be an IntegralDomain");
 
-        static_assert(_models<IntegralDomain, U>::value,
+        static_assert(IntegralDomain<U>::value,
         "hana::quot(x, y) requires 'y' to be an IntegralDomain");
 
         static_assert(!is_default<quot_impl<T, U>>::value,
@@ -86,8 +86,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct quot_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<IntegralDomain, typename C::value_type>::value
+        Constant<C>::value &&
+        IntegralDomain<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

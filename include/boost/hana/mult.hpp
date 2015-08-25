@@ -30,16 +30,16 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Mult = BOOST_HANA_DISPATCH_IF(decltype(mult_impl<T, U>{}),
-            _models<Ring, T>::value &&
-            _models<Ring, U>::value &&
+            Ring<T>::value &&
+            Ring<U>::value &&
             !is_default<mult_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Ring, T>::value,
+        static_assert(Ring<T>::value,
         "hana::mult(x, y) requires 'x' to be in a Ring");
 
-        static_assert(_models<Ring, U>::value,
+        static_assert(Ring<U>::value,
         "hana::mult(x, y) requires 'y' to be in a Ring");
 
         static_assert(!is_default<mult_impl<T, U>>::value,
@@ -86,8 +86,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct mult_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<Ring, typename C::value_type>::value
+        Constant<C>::value &&
+        Ring<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

@@ -211,9 +211,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, sandbox::LambdaTuple>
-        : decltype(true_)
-    { };
+    struct Sequence<sandbox::LambdaTuple> {
+        static constexpr bool value = true;
+    };
 
     template <>
     struct take_impl<sandbox::LambdaTuple> {

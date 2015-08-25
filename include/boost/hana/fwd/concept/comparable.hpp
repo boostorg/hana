@@ -150,7 +150,8 @@ namespace boost { namespace hana {
     //! [2]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf
     //! [3]: http://en.cppreference.com/w/cpp/concept/EqualityComparable
     //! [4]: http://en.wikipedia.org/wiki/Injective_function
-    struct Comparable { };
+    template <typename T>
+    struct Comparable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP

@@ -85,17 +85,16 @@ namespace boost { namespace hana {
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::fast_and<_models<Product, Pairs>::value...>::value,
+            static_assert(detail::fast_and<Product<Pairs>::value...>::value,
             "hana::make_map(pairs...) requires all the 'pairs' to be Products");
 
             static_assert(detail::fast_and<
-                _models<Comparable, decltype(hana::first(pairs))>::value...
+                Comparable<decltype(hana::first(pairs))>::value...
             >::value,
             "hana::make_map(pairs...) requires all the keys to be Comparable");
 
             static_assert(detail::fast_and<
-                _models<
-                    Constant,
+                Constant<
                     decltype(hana::equal(hana::first(pairs), hana::first(pairs)))
                 >::value...
             >::value,
@@ -266,7 +265,7 @@ namespace boost { namespace hana {
     // Construction from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<map_tag, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<map_tag, F, when<Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(

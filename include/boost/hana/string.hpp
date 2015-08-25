@@ -247,7 +247,7 @@ namespace boost { namespace hana {
 
         template <typename S, typename C>
         static constexpr auto apply(S const& s, C const& c)
-        { return helper(s, c, _models<Constant, C>{}); }
+        { return helper(s, c, hana::bool_c<hana::Constant<C>::value>); }
     };
 
     template <>

@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) if_t::operator()(Cond&& cond, Then&& then, Else&& else_) const {
         using Bool = typename hana::tag_of<Cond>::type;
         using If = BOOST_HANA_DISPATCH_IF(if_impl<Bool>,
-            _models<Logical, Bool>::value
+            Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Logical, Bool>::value,
+        static_assert(Logical<Bool>::value,
         "hana::if_(cond, then, else) requires 'cond' to be a Logical");
     #endif
 

@@ -33,11 +33,11 @@ namespace boost { namespace hana {
     constexpr auto cycle_t::operator()(Xs&& xs, N&& n) const {
         using M = typename hana::tag_of<Xs>::type;
         using Cycle = BOOST_HANA_DISPATCH_IF(cycle_impl<M>,
-            _models<MonadPlus, M>::value
+            MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::cycle(xs, n) requires 'xs' to be a MonadPlus");
     #endif
 
@@ -98,7 +98,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct cycle_impl<S, when<_models<Sequence, S>::value>> {
+    struct cycle_impl<S, when<Sequence<S>::value>> {
         template <typename Indices, typename Xs, std::size_t ...i>
         static constexpr auto cycle_helper(Xs&& xs, std::index_sequence<i...>) {
             constexpr auto indices = Indices::value;

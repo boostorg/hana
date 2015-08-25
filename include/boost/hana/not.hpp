@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) not_t::operator()(X&& x) const {
         using Bool = typename hana::tag_of<X>::type;
         using Not = BOOST_HANA_DISPATCH_IF(hana::not_impl<Bool>,
-            hana::_models<Logical, Bool>::value
+            hana::Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Logical, Bool>::value,
+        static_assert(hana::Logical<Bool>::value,
         "hana::not_(cond) requires 'cond' to be a Logical");
     #endif
 
@@ -54,8 +54,8 @@ namespace boost { namespace hana {
 
     template <typename C>
     struct not_impl<C, hana::when<
-        hana::_models<hana::Constant, C>::value &&
-        hana::_models<hana::Logical, typename C::value_type>::value
+        hana::Constant<C>::value &&
+        hana::Logical<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

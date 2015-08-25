@@ -25,11 +25,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) fold_left_t::operator()(Xs&& xs, State&& state, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::fold_left(xs, state, f) requires 'xs' to be Foldable");
     #endif
 
@@ -42,11 +42,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) fold_left_t::operator()(Xs&& xs, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::fold_left(xs, f) requires 'xs' to be Foldable");
     #endif
 

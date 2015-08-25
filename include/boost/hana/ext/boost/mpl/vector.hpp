@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     // Conversion from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<ext::boost::mpl::vector_tag, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<ext::boost::mpl::vector_tag, F, when<Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             auto vector_type = hana::unpack(static_cast<Xs&&>(xs),

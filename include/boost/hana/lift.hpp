@@ -22,14 +22,14 @@ namespace boost { namespace hana {
     template <typename A>
     struct lift_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Applicative, A>::value,
+        static_assert(Applicative<A>::value,
         "hana::lift<A> requires 'A' to be an Applicative");
     #endif
 
         template <typename X>
         constexpr auto operator()(X&& x) const {
             using Lift = BOOST_HANA_DISPATCH_IF(lift_impl<A>,
-                _models<Applicative, A>::value
+                Applicative<A>::value
             );
 
             return Lift::apply(static_cast<X&&>(x));
@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct lift_impl<S, when<_models<Sequence, S>::value>> {
+    struct lift_impl<S, when<Sequence<S>::value>> {
         template <typename X>
         static constexpr decltype(auto) apply(X&& x)
         { return hana::make<S>(static_cast<X&&>(x)); }

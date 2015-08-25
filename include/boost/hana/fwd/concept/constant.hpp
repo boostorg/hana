@@ -199,7 +199,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType
-    struct Constant { };
+    template <typename C>
+    struct Constant;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP

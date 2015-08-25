@@ -28,11 +28,11 @@ namespace boost { namespace hana {
     constexpr auto transform_t::operator()(Xs&& xs, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using Transform = BOOST_HANA_DISPATCH_IF(transform_impl<S>,
-            _models<Functor, S>::value
+            Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Functor, S>::value,
+        static_assert(Functor<S>::value,
         "hana::transform(xs, f) requires 'xs' to be a Functor");
     #endif
 
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct transform_impl<S, when<_models<Sequence, S>::value>> {
+    struct transform_impl<S, when<Sequence<S>::value>> {
         //! @cond
         template <typename F>
         struct transformer {

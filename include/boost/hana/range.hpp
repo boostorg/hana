@@ -78,10 +78,10 @@ namespace boost { namespace hana {
         static constexpr auto apply(From const&, To const&) {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Constant, From>::value,
+            static_assert(Constant<From>::value,
             "hana::make_range(from, to) requires 'from' to be a Constant");
 
-            static_assert(_models<Constant, To>::value,
+            static_assert(Constant<To>::value,
             "hana::make_range(from, to) requires 'to' to be a Constant");
         #endif
 

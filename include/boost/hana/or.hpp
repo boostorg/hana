@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) or_t::operator()(X&& x, Y&& y) const {
         using Bool = typename hana::tag_of<X>::type;
         using Or = BOOST_HANA_DISPATCH_IF(or_impl<Bool>,
-            hana::_models<Logical, Bool>::value
+            hana::Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(hana::_models<Logical, Bool>::value,
+        static_assert(hana::Logical<Bool>::value,
         "hana::or_(x, y) requires 'x' to be a Logical");
     #endif
 

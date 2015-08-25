@@ -35,11 +35,11 @@ namespace boost { namespace hana {
     constexpr auto flatten_t::operator()(Xs&& xs) const {
         using M = typename hana::tag_of<Xs>::type;
         using Flatten = BOOST_HANA_DISPATCH_IF(flatten_impl<M>,
-            _models<Monad, M>::value
+            Monad<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monad, M>::value,
+        static_assert(Monad<M>::value,
         "hana::flatten(xs) requires 'xs' to be a Monad");
     #endif
 
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct flatten_impl<S, when<_models<Sequence, S>::value>> {
+    struct flatten_impl<S, when<Sequence<S>::value>> {
         template <typename ...Xs>
         auto operator()(Xs const& ...xs) const -> detail::flatten_indices<
             hana::value<decltype(hana::length(xs))>()...

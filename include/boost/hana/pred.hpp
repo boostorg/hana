@@ -28,11 +28,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) pred_t::operator()(N&& n) const {
         using E = typename hana::tag_of<N>::type;
         using Pred = BOOST_HANA_DISPATCH_IF(pred_impl<E>,
-            _models<Enumerable, E>::value
+            Enumerable<E>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Enumerable, E>::value,
+        static_assert(Enumerable<E>::value,
         "hana::pred(n) requires 'n' to be Enumerable");
     #endif
 
@@ -63,8 +63,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct pred_impl<C, when<
-        _models<Constant, C>::value &&
-        _models<Enumerable, typename C::value_type>::value
+        Constant<C>::value &&
+        Enumerable<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

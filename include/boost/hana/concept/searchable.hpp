@@ -14,15 +14,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/any_of.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/find_if.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {
     template <typename S>
-    struct models_impl<Searchable, S> {
-        static constexpr bool value = !is_default<any_of_impl<S>>::value &&
-                                      !is_default<find_if_impl<S>>::value;
+    struct Searchable {
+        using Tag = typename tag_of<S>::type;
+        static constexpr bool value = !is_default<any_of_impl<Tag>>::value &&
+                                      !is_default<find_if_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

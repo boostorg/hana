@@ -32,7 +32,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename XXs>
         TestMonad(Xs xs, XXs xxs) {
             hana::for_each(xs, [](auto m) {
-                static_assert(_models<Monad, decltype(m)>{}, "");
+                static_assert(Monad<decltype(m)>::value, "");
 
                 auto f = hana::compose(lift<M>, test::_injection<0>{});
                 auto g = hana::compose(lift<M>, test::_injection<1>{});
@@ -115,7 +115,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonad<S, when<_models<Sequence, S>::value>>
+    struct TestMonad<S, when<Sequence<S>::value>>
         : TestMonad<S, laws>
     {
         template <typename Xs, typename XXs>

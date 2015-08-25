@@ -28,15 +28,15 @@ namespace boost { namespace hana {
         using It = typename hana::tag_of<Xs>::type;
         using DropFrontExactly = BOOST_HANA_DISPATCH_IF(
             drop_front_exactly_impl<It>,
-            _models<Iterable, It>::value &&
-            _models<Constant, N>::value
+            Iterable<It>::value &&
+            Constant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Iterable, It>::value,
+        static_assert(Iterable<It>::value,
         "hana::drop_front_exactly(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(_models<Constant, N>::value,
+        static_assert(Constant<N>::value,
         "hana::drop_front_exactly(xs, n) requires 'n' to be a Constant");
     #endif
 

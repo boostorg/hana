@@ -108,7 +108,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, ext::boost::tuple_tag> {
+    struct Sequence<ext::boost::tuple_tag> {
         static constexpr bool value = true;
     };
 

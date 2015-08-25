@@ -48,8 +48,8 @@ int main() {
         // and no model is provided for two objects of the same data type.
         struct Random1 { }; struct Random2 { };
         BOOST_HANA_CONSTANT_CHECK(not_(equal(Random1{}, Random2{})));
-        static_assert(!_models<Comparable, Random1>{}, "");
-        static_assert(!_models<Comparable, Random2>{}, "");
+        static_assert(!Comparable<Random1>::value, "");
+        static_assert(!Comparable<Random2>::value, "");
 
         // Provided model for EqualityComparable types
         BOOST_HANA_CONSTEXPR_CHECK(equal(eq1{0}, eq1{0}));

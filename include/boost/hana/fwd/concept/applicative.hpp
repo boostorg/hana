@@ -99,7 +99,8 @@ namespace boost { namespace hana {
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
     //! @endcode
-    struct Applicative { };
+    template <typename A>
+    struct Applicative;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_APPLICATIVE_HPP

@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr auto count_t::operator()(Xs&& xs, Value&& value) const {
         using S = typename hana::tag_of<Xs>::type;
         using Count = BOOST_HANA_DISPATCH_IF(count_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::count(xs, value) requires 'xs' to be Foldable");
     #endif
 

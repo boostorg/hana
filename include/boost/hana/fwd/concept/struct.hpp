@@ -140,7 +140,8 @@ namespace boost { namespace hana {
     //! members associated to those names. By default, a model of `Searchable`
     //! is provided for any model of the `Struct` concept.
     //! @include example/struct/searchable.cpp
-    struct Struct { };
+    template <typename S>
+    struct Struct;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_STRUCT_HPP

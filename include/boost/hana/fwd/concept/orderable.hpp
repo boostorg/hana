@@ -176,7 +176,8 @@ namespace boost { namespace hana {
     //! [2]: http://en.cppreference.com/w/cpp/concept/LessThanComparable
     //! [3]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf
     //! [4]: http://en.wikipedia.org/wiki/Strict_weak_ordering
-    struct Orderable { };
+    template <typename Ord>
+    struct Orderable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_ORDERABLE_HPP

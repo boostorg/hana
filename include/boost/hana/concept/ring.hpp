@@ -13,16 +13,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/ring.hpp>
 
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/mult.hpp>
 #include <boost/hana/one.hpp>
 
 
 namespace boost { namespace hana {
     template <typename R>
-    struct models_impl<Ring, R> {
-        static constexpr bool value = !is_default<one_impl<R>>::value &&
-                                      !is_default<mult_impl<R, R>>::value;
+    struct Ring {
+        using Tag = typename tag_of<R>::type;
+        static constexpr bool value = !is_default<one_impl<Tag>>::value &&
+                                      !is_default<mult_impl<Tag, Tag>>::value;
     };
 }} // end namespace boost::hana
 

@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestRing(Xs xs) {
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
-                static_assert(_models<Ring, decltype(x)>{}, "");
+                static_assert(Ring<decltype(x)>::value, "");
 
                 foreach2(xs, hana::capture(x)([](auto x, auto y, auto z) {
                     // associativity
@@ -93,7 +93,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestRing<C, when<_models<Constant, C>::value>>
+    struct TestRing<C, when<Constant<C>::value>>
         : TestRing<C, laws>
     {
         template <typename Xs>

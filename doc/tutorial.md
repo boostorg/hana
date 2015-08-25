@@ -270,7 +270,7 @@ Now, the punishment:
 
 @code{cpp}
 error: static_assert failed "hana::for_each(xs, f) requires xs to be Foldable"
-            static_assert(_models<Foldable, S>{},
+            static_assert(Foldable<S>::value,
             ^             ~~~~~~~~~~~~~~~~~~~~~~
 note: in instantiation of function template specialization
       'boost::hana::_for_each::operator()<

@@ -22,14 +22,14 @@ namespace boost { namespace hana {
     template <typename M>
     struct tap_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monad, M>::value,
+        static_assert(Monad<M>::value,
         "hana::tap<M> requires 'M' to be a Monad");
     #endif
 
         template <typename F>
         constexpr auto operator()(F&& f) const {
             using Tap = BOOST_HANA_DISPATCH_IF(tap_impl<M>,
-                _models<Monad, M>::value
+                Monad<M>::value
             );
 
             return Tap::apply(static_cast<F&&>(f));

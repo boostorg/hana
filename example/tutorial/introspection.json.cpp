@@ -33,7 +33,7 @@ std::string to_json(std::string s) { return quote(s); }
 
 //! [Struct]
 template <typename T>
-  std::enable_if_t<hana::models<hana::Struct, T>(),
+  std::enable_if_t<hana::Struct<T>::value,
 std::string> to_json(T const& x) {
   auto json = hana::transform(hana::keys(x), [&](auto name) {
     auto const& member = hana::at_key(x, name);
@@ -46,7 +46,7 @@ std::string> to_json(T const& x) {
 
 //! [Sequence]
 template <typename Xs>
-  std::enable_if_t<hana::models<hana::Sequence, Xs>(),
+  std::enable_if_t<hana::Sequence<Xs>::value,
 std::string> to_json(Xs const& xs) {
   auto json = hana::transform(xs, [](auto const& x) {
     return to_json(x);

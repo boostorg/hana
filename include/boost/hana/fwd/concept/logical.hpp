@@ -155,7 +155,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Boolean_algebra_(structure)
-    struct Logical { };
+    template <typename L>
+    struct Logical;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_LOGICAL_HPP

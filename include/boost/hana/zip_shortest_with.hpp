@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     zip_shortest_with_t::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(detail::fast_and<
-            _models<Sequence, Xs>::value, _models<Sequence, Ys>::value...
+            Sequence<Xs>::value, Sequence<Ys>::value...
         >::value,
         "hana::zip_shortest_with(f, xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif

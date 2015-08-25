@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::minimum(xs) requires 'xs' to be Foldable");
     #endif
 
@@ -42,11 +42,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs, Predicate&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_pred_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::minimum(xs, predicate) requires 'xs' to be Foldable");
     #endif
 

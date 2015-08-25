@@ -84,12 +84,12 @@ namespace boost { namespace hana { namespace test {
 
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
             //////////////////////////////////////////////////////////////////
-            // Check for models<...>
+            // Check for Sequence<...>
             //////////////////////////////////////////////////////////////////
-            static_assert(_models<Sequence, decltype(list())>{}, "");
-            static_assert(_models<Sequence, decltype(list(1))>{}, "");
-            static_assert(_models<Sequence, decltype(list(1, '2'))>{}, "");
-            static_assert(_models<Sequence, decltype(list(1, '2', 3.4))>{}, "");
+            static_assert(Sequence<decltype(list())>::value, "");
+            static_assert(Sequence<decltype(list(1))>::value, "");
+            static_assert(Sequence<decltype(list(1, '2'))>::value, "");
+            static_assert(Sequence<decltype(list(1, '2', 3.4))>::value, "");
 
             //////////////////////////////////////////////////////////////////
             // Check for basic tag consistency

@@ -124,7 +124,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.wikipedia.org/wiki/Functor
     //! [2]: http://en.wikipedia.org/wiki/Category_theory
-    struct Functor { };
+    template <typename F>
+    struct Functor;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_FUNCTOR_HPP

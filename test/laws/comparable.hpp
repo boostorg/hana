@@ -28,7 +28,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestComparable(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<Comparable, decltype(x)>{}, "");
+                static_assert(Comparable<decltype(x)>::value, "");
             });
 
             foreach2(xs, [](auto a, auto b) {
@@ -75,7 +75,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestComparable<C, when<_models<Constant, C>::value>>
+    struct TestComparable<C, when<Constant<C>::value>>
         : TestComparable<C, laws>
     {
         template <typename Xs>
@@ -90,7 +90,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestComparable<P, when<_models<Product, P>::value>>
+    struct TestComparable<P, when<Product<P>::value>>
         : TestComparable<P, laws>
     {
         template <typename Products>
@@ -108,7 +108,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestComparable<S, when<_models<Sequence, S>::value>>
+    struct TestComparable<S, when<Sequence<S>::value>>
         : TestComparable<S, laws>
     {
         template <int i>

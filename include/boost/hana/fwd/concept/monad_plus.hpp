@@ -71,7 +71,8 @@ namespace boost { namespace hana {
     //! Concrete models
     //! ---------------
     //! `hana::optional`, `hana::tuple`
-    struct MonadPlus { };
+    template <typename M>
+    struct MonadPlus;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_MONAD_PLUS_HPP

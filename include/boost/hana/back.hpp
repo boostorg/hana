@@ -28,11 +28,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) back_t::operator()(Xs&& xs) const {
         using It = typename hana::tag_of<Xs>::type;
         using Back = BOOST_HANA_DISPATCH_IF(back_impl<It>,
-            _models<Iterable, It>::value
+            Iterable<It>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Iterable, It>::value,
+        static_assert(Iterable<It>::value,
         "hana::back(xs) requires 'xs' to be an Iterable");
     #endif
 

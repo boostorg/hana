@@ -25,11 +25,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) at_t::operator()(Xs&& xs, N&& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using At = BOOST_HANA_DISPATCH_IF(at_impl<It>,
-            _models<Iterable, It>::value
+            Iterable<It>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Iterable, It>::value,
+        static_assert(Iterable<It>::value,
         "hana::at(xs, n) requires 'xs' to be an Iterable");
     #endif
 

@@ -100,7 +100,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.wikipedia.org/wiki/Group_(mathematics)
     //! [2]: http://en.wikipedia.org/wiki/Group_homomorphism
-    struct Group { };
+    template <typename G>
+    struct Group;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_GROUP_HPP

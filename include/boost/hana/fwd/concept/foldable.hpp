@@ -130,7 +130,8 @@ namespace boost { namespace hana {
     //! return `nothing`). If, however, all the reduction steps succeed,
     //! then `just` the result would be returned. Different monads will of
     //! course result in different effects.
-    struct Foldable { };
+    template <typename T>
+    struct Foldable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP

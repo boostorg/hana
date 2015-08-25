@@ -92,7 +92,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Product_(category_theory)
-    struct Product { };
+    template <typename P>
+    struct Product;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_PRODUCT_HPP

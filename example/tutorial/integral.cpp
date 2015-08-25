@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/minus.hpp>
@@ -27,7 +26,7 @@ namespace hana = boost::hana;
 
 
 template <typename T, typename = std::enable_if_t<
-  !hana::models<hana::Constant, T>()
+  !hana::Constant<T>::value
 >>
 constexpr T sqrt(T x) {
   T inf = 0, sup = (x == 1 ? 1 : x/2);
@@ -42,7 +41,7 @@ constexpr T sqrt(T x) {
 }
 
 template <typename T, typename = std::enable_if_t<
-  hana::models<hana::Constant, T>()
+  hana::Constant<T>::value
 >>
 constexpr auto sqrt(T const&) {
   return hana::integral_c<typename T::value_type, sqrt(T::value)>;

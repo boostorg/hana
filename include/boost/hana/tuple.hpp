@@ -291,7 +291,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, tuple_tag> {
+    struct Sequence<tuple_tag> {
         static constexpr bool value = true;
     };
 

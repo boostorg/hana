@@ -27,15 +27,15 @@ namespace boost { namespace hana {
     constexpr auto insert_range_t::operator()(Xs&& xs, N&& n, Elements&& elements) const {
         using S = typename hana::tag_of<Xs>::type;
         using InsertRange = BOOST_HANA_DISPATCH_IF(insert_range_impl<S>,
-            _models<Sequence, Xs>::value &&
-            _models<Foldable, Elements>::value
+            Sequence<Xs>::value &&
+            Foldable<Elements>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, Xs>::value,
+        static_assert(Sequence<Xs>::value,
         "hana::insert_range(xs, n, elements) requires 'xs' to be a Sequence");
 
-        static_assert(_models<Foldable, Elements>::value,
+        static_assert(Foldable<Elements>::value,
         "hana::insert_range(xs, n, elements) requires 'elements' to be a Foldable");
     #endif
 

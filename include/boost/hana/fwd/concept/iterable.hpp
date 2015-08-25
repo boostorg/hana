@@ -138,7 +138,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: https://github.com/ldionne/hana/issues/40
-    struct Iterable { };
+    template <typename It>
+    struct Iterable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_ITERABLE_HPP

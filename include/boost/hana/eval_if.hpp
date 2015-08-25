@@ -28,11 +28,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) eval_if_t::operator()(Cond&& cond, Then&& then, Else&& else_) const {
         using Bool = typename hana::tag_of<Cond>::type;
         using EvalIf = BOOST_HANA_DISPATCH_IF(eval_if_impl<Bool>,
-            _models<Logical, Bool>::value
+            Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Logical, Bool>::value,
+        static_assert(Logical<Bool>::value,
         "hana::eval_if(cond, then, else) requires 'cond' to be a Logical");
     #endif
 
@@ -65,8 +65,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct eval_if_impl<C, when<
-        _models<Constant, C>::value &&
-        _models<Logical, typename C::value_type>::value
+        Constant<C>::value &&
+        Logical<typename C::value_type>::value
     >> {
         template <typename Then, typename Else>
         static constexpr decltype(auto)

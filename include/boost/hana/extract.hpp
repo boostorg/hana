@@ -22,11 +22,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) extract_t::operator()(W_&& w) const {
         using W = typename hana::tag_of<W_>::type;
         using Extract = BOOST_HANA_DISPATCH_IF(extract_impl<W>,
-            _models<Comonad, W>::value
+            Comonad<W>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Comonad, W>::value,
+        static_assert(Comonad<W>::value,
         "hana::extract(w) requires 'w' to be a Comonad");
     #endif
 

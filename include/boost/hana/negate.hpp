@@ -26,11 +26,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) negate_t::operator()(X&& x) const {
         using G = typename hana::tag_of<X>::type;
         using Negate = BOOST_HANA_DISPATCH_IF(negate_impl<G>,
-            _models<Group, G>::value
+            Group<G>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Group, G>::value,
+        static_assert(Group<G>::value,
         "hana::negate(x) requires 'x' to be in a Group");
     #endif
 

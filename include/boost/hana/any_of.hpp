@@ -37,11 +37,11 @@ namespace boost { namespace hana {
     constexpr auto any_of_t::operator()(Xs&& xs, Pred&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using AnyOf = BOOST_HANA_DISPATCH_IF(any_of_impl<S>,
-            _models<Searchable, S>::value
+            Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Searchable, S>::value,
+        static_assert(Searchable<S>::value,
         "hana::any_of(xs, pred) requires 'xs' to be a Searchable");
     #endif
 
@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct any_of_impl<S, when<_models<Sequence, S>::value>> {
+    struct any_of_impl<S, when<Sequence<S>::value>> {
         //! @cond
         template <std::size_t k, std::size_t Len>
         struct any_of_helper {
@@ -105,8 +105,8 @@ namespace boost { namespace hana {
 
     template <typename It>
     struct any_of_impl<It, when<
-        _models<Iterable, It>::value &&
-        !_models<Sequence, It>::value
+        Iterable<It>::value &&
+        !Sequence<It>::value
     >> {
         template <typename Xs, typename Pred>
         static constexpr auto lazy_any_of_helper(decltype(hana::false_c), bool prev_cond, Xs&& xs, Pred&& pred) {
@@ -182,7 +182,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct any_of_impl<S, when<_models<Struct, S>::value>> {
+    struct any_of_impl<S, when<Struct<S>::value>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X const&, Pred&& pred) {
             return hana::any_of(hana::accessors<S>(),

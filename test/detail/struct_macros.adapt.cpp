@@ -41,11 +41,11 @@ BOOST_HANA_ADAPT_STRUCT(ns::Data2, member1, member2);
 BOOST_HANA_ADAPT_STRUCT(ns::Data3, member1, member2, member3);
 BOOST_HANA_ADAPT_STRUCT(ns::MemberArray, array);
 
-static_assert(_models<Struct, ns::Data0>{}, "");
-static_assert(_models<Struct, ns::Data1>{}, "");
-static_assert(_models<Struct, ns::Data2>{}, "");
-static_assert(_models<Struct, ns::Data3>{}, "");
-static_assert(_models<Struct, ns::MemberArray>{}, "");
+static_assert(Struct<ns::Data0>::value, "");
+static_assert(Struct<ns::Data1>::value, "");
+static_assert(Struct<ns::Data2>::value, "");
+static_assert(Struct<ns::Data3>::value, "");
+static_assert(Struct<ns::MemberArray>::value, "");
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ ns::Data1{});

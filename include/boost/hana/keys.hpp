@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct keys_impl<S, when<_models<Struct, S>::value>> {
+    struct keys_impl<S, when<Struct<S>::value>> {
         template <typename Object>
         static constexpr auto apply(Object const&) {
             return hana::transform(hana::accessors<S>(), hana::first);

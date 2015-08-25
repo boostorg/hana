@@ -99,7 +99,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Integral_domain
-    struct IntegralDomain { };
+    template <typename D>
+    struct IntegralDomain;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_INTEGRAL_DOMAIN_HPP

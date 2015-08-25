@@ -27,14 +27,14 @@ namespace boost { namespace hana {
     template <typename M>
     struct repeat_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::repeat<M>(x, n) requires 'M' to be a MonadPlus");
     #endif
 
         template <typename X, typename N>
         constexpr auto operator()(X&& x, N&& n) const {
             using Repeat = BOOST_HANA_DISPATCH_IF(repeat_impl<M>,
-                _models<MonadPlus, M>::value
+                MonadPlus<M>::value
             );
 
             return Repeat::apply(static_cast<X&&>(x), static_cast<N&&>(n));
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct repeat_impl<S, when<_models<Sequence, S>::value>> {
+    struct repeat_impl<S, when<Sequence<S>::value>> {
         template <typename X, std::size_t ...i>
         static constexpr auto repeat_helper(X&& x, std::index_sequence<i...>)
         { return hana::make<S>(((void)i, x)...); }

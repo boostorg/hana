@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr auto replace_if_t::operator()(Xs&& xs, Pred&& pred, Value&& value) const {
         using S = typename hana::tag_of<Xs>::type;
         using ReplaceIf = BOOST_HANA_DISPATCH_IF(replace_if_impl<S>,
-            _models<Functor, S>::value
+            Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Functor, S>::value,
+        static_assert(Functor<S>::value,
         "hana::replace_if(xs, pred, value) requires 'xs' to be a Functor");
     #endif
 

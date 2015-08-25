@@ -17,8 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <type_traits>
-
 
 namespace boost { namespace hana {
     namespace test {
@@ -34,7 +32,7 @@ namespace boost { namespace hana {
         struct seq_t {
             template <typename ...Xs>
             constexpr decltype(auto) operator()(Xs ...xs) const {
-                auto storage = make<tuple_tag>(xs...);
+                auto storage = hana::make_tuple(xs...);
                 return seq_type<decltype(storage)>(storage);
             }
         };
@@ -112,9 +110,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, test::Seq>
-        : std::true_type
-    { };
+    struct Sequence<test::Seq> {
+        static constexpr bool value = true;
+    };
 
     template <>
     struct make_impl<test::Seq> {

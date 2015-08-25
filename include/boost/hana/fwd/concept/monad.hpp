@@ -180,7 +180,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
-    struct Monad { };
+    template <typename M>
+    struct Monad;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_MONAD_HPP

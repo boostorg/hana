@@ -26,11 +26,11 @@ namespace boost { namespace hana {
     constexpr auto adjust_if_t::operator()(Xs&& xs, Pred&& pred, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using AdjustIf = BOOST_HANA_DISPATCH_IF(adjust_if_impl<S>,
-            _models<Functor, S>::value
+            Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Functor, S>::value,
+        static_assert(Functor<S>::value,
         "hana::adjust_if(xs, pred, f) requires 'xs' to be a Functor");
     #endif
 

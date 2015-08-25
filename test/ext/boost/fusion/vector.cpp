@@ -156,9 +156,9 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // models<Sequence>
+    // Sequence
     //////////////////////////////////////////////////////////////////////////
     {
-        BOOST_HANA_CONSTANT_CHECK(hana::models<hana::Sequence, hana::ext::boost::fusion::vector_tag>);
+        static_assert(hana::Sequence<hana::ext::boost::fusion::vector_tag>::value, "");
     }
 }

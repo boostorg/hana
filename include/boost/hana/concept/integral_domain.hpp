@@ -13,16 +13,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/integral_domain.hpp>
 
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/quot.hpp>
 #include <boost/hana/rem.hpp>
 
 
 namespace boost { namespace hana {
     template <typename D>
-    struct models_impl<IntegralDomain, D> {
-        static constexpr bool value = !is_default<rem_impl<D, D>>::value &&
-                                      !is_default<quot_impl<D, D>>::value;
+    struct IntegralDomain {
+        using Tag = typename tag_of<D>::type;
+        static constexpr bool value = !is_default<rem_impl<Tag, Tag>>::value &&
+                                      !is_default<quot_impl<Tag, Tag>>::value;
     };
 }} // end namespace boost::hana
 

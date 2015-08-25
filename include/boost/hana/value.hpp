@@ -32,11 +32,11 @@ namespace boost { namespace hana {
         >::type;
         using C = typename hana::tag_of<RawT>::type;
         using Value = BOOST_HANA_DISPATCH_IF(
-            value_impl<C>, _models<Constant, C>::value
+            value_impl<C>, Constant<C>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Constant, C>::value,
+        static_assert(Constant<C>::value,
         "hana::value<T>() requires 'T' to be a Constant");
     #endif
 

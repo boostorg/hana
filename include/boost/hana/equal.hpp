@@ -98,8 +98,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct equal_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<Comparable, typename C::value_type>::value
+        Constant<C>::value &&
+        Comparable<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {
@@ -113,9 +113,7 @@ namespace boost { namespace hana {
     // Comparable for Products
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<
-        _models<Product, T>::value && _models<Product, U>::value
-    >> {
+    struct equal_impl<T, U, when<Product<T>::value && Product<U>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::and_(
@@ -163,7 +161,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T, typename U>
-    struct equal_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>> {
+    struct equal_impl<T, U, when<Sequence<T>::value && Sequence<U>::value>> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
             constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
@@ -186,7 +184,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct equal_impl<S, S, when<_models<Struct, S>::value>> {
+    struct equal_impl<S, S, when<Struct<S>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
             return hana::all_of(hana::accessors<S>(),

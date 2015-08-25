@@ -42,11 +42,11 @@ namespace boost { namespace hana {
     constexpr auto find_if_t::operator()(Xs&& xs, Pred&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using FindIf = BOOST_HANA_DISPATCH_IF(find_if_impl<S>,
-            _models<Searchable, S>::value
+            Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Searchable, S>::value,
+        static_assert(Searchable<S>::value,
         "hana::find_if(xs, pred) requires 'xs' to be a Searchable");
     #endif
 
@@ -89,7 +89,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct find_if_impl<S, when<_models<Sequence, S>::value>> {
+    struct find_if_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&&) {
             constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
@@ -101,8 +101,8 @@ namespace boost { namespace hana {
 
     template <typename It>
     struct find_if_impl<It, when<
-        _models<Iterable, It>::value &&
-        !_models<Sequence, It>::value
+        Iterable<It>::value &&
+        !Sequence<It>::value
     >> {
         template <typename Xs, typename Pred>
         static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     }
 
     template <typename S>
-    struct find_if_impl<S, when<_models<Struct, S>::value>> {
+    struct find_if_impl<S, when<Struct<S>::value>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(

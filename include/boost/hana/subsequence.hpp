@@ -28,15 +28,15 @@ namespace boost { namespace hana {
     constexpr auto subsequence_t::operator()(Xs&& xs, Indices&& indices) const {
         using S = typename hana::tag_of<Xs>::type;
         using Subsequence = BOOST_HANA_DISPATCH_IF(subsequence_impl<S>,
-            _models<Sequence, S>::value &&
-            _models<Foldable, typename hana::tag_of<Indices>::type>::value
+            Sequence<S>::value &&
+            Foldable<Indices>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::subsequence(xs, indices) requires 'xs' to be a Sequence");
 
-        static_assert(_models<Foldable, typename hana::tag_of<Indices>::type>::value,
+        static_assert(Foldable<Indices>::value,
         "hana::subsequence(xs, indices) requires 'indices' to be Foldable");
     #endif
 

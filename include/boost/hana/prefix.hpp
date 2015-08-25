@@ -26,11 +26,11 @@ namespace boost { namespace hana {
     constexpr auto prefix_t::operator()(Xs&& xs, Pref&& pref) const {
         using M = typename hana::tag_of<Xs>::type;
         using Prefix = BOOST_HANA_DISPATCH_IF(prefix_impl<M>,
-            _models<MonadPlus, M>::value
+            MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::prefix(xs, pref) requires 'xs' to be a MonadPlus");
     #endif
 

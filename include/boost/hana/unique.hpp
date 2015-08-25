@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     constexpr auto unique_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Unique = BOOST_HANA_DISPATCH_IF(unique_impl<S>,
-            _models<Sequence, S>::value
+            Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::unique(xs) requires 'xs' to be a Sequence");
     #endif
 
@@ -42,11 +42,11 @@ namespace boost { namespace hana {
     constexpr auto unique_t::operator()(Xs&& xs, Predicate&& predicate) const {
         using S = typename hana::tag_of<Xs>::type;
         using Unique = BOOST_HANA_DISPATCH_IF(unique_impl<S>,
-            _models<Sequence, S>::value
+            Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::unique(xs, predicate) requires 'xs' to be a Sequence");
     #endif
 

@@ -13,16 +13,17 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/product.hpp>
 
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/first.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/second.hpp>
 
 
 namespace boost { namespace hana {
     template <typename P>
-    struct models_impl<Product, P> {
-        static constexpr bool value = !is_default<first_impl<P>>::value &&
-                                      !is_default<second_impl<P>>::value;
+    struct Product {
+        using Tag = typename tag_of<P>::type;
+        static constexpr bool value = !is_default<first_impl<Tag>>::value &&
+                                      !is_default<second_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

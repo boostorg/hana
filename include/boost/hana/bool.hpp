@@ -164,7 +164,7 @@ namespace boost { namespace hana {
 
     template <typename T, typename C>
     struct to_impl<integral_constant_tag<T>, C, when<
-        _models<Constant, C>::value &&
+        Constant<C>::value &&
         std::is_integral<typename C::value_type>::value
     >>
         : embedding<is_embedded<typename C::value_type, T>::value>

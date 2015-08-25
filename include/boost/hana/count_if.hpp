@@ -30,11 +30,11 @@ namespace boost { namespace hana {
     constexpr auto count_if_t::operator()(Xs&& xs, Pred&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using CountIf = BOOST_HANA_DISPATCH_IF(count_if_impl<S>,
-            _models<Foldable, S>::value
+            Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>::value,
+        static_assert(Foldable<S>::value,
         "hana::count_if(xs, pred) requires 'xs' to be Foldable");
     #endif
 
@@ -48,8 +48,9 @@ namespace boost { namespace hana {
         struct count_pred {
             Pred pred;
             template <typename ...Xs, typename = typename std::enable_if<
-                detail::fast_and<_models<Constant,
-                    decltype((*pred)(std::declval<Xs&&>()))>::value...>::value
+                detail::fast_and<
+                    Constant<decltype((*pred)(std::declval<Xs&&>()))>::value...
+                >::value
             >::type>
             constexpr auto operator()(Xs&& ...xs) const {
                 constexpr bool results[] = {false, // <-- avoid empty array
@@ -62,8 +63,9 @@ namespace boost { namespace hana {
             }
 
             template <typename ...Xs, typename = void, typename = typename std::enable_if<
-                !detail::fast_and<_models<Constant,
-                    decltype((*pred)(std::declval<Xs&&>()))>::value...>::value
+                !detail::fast_and<
+                    Constant<decltype((*pred)(std::declval<Xs&&>()))>::value...
+                >::value
             >::type>
             constexpr auto operator()(Xs&& ...xs) const {
                 std::size_t total = 0;

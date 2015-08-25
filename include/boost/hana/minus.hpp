@@ -33,15 +33,15 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Minus = BOOST_HANA_DISPATCH_IF(decltype(minus_impl<T, U>{}),
-            _models<Group, T>::value &&
-            _models<Group, U>::value
+            Group<T>::value &&
+            Group<U>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Group, T>::value,
+        static_assert(Group<T>::value,
         "hana::minus(x, y) requires 'x' to be in a Group");
 
-        static_assert(_models<Group, U>::value,
+        static_assert(Group<U>::value,
         "hana::minus(x, y) requires 'y' to be in a Group");
     #endif
 
@@ -93,8 +93,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct minus_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<Group, typename C::value_type>::value
+        Constant<C>::value &&
+        Group<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

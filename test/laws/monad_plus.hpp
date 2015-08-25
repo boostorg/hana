@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename Predicates, typename Values>
         TestMonadPlus(Xs xs, Predicates predicates, Values values) {
             hana::for_each(xs, [](auto a) {
-                static_assert(_models<MonadPlus, decltype(a)>{}, "");
+                static_assert(MonadPlus<decltype(a)>::value, "");
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(
@@ -90,7 +90,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestMonadPlus<S, when<_models<Sequence, S>::value>>
+    struct TestMonadPlus<S, when<Sequence<S>::value>>
         : TestMonadPlus<S, laws>
     {
         template <int i>

@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestIntegralDomain(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(_models<IntegralDomain, decltype(x)>{}, "");
+                static_assert(IntegralDomain<decltype(x)>::value, "");
             });
 
             foreach2(xs, [](auto a, auto b) {
@@ -61,7 +61,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestIntegralDomain<C, when<_models<Constant, C>::value>>
+    struct TestIntegralDomain<C, when<Constant<C>::value>>
         : TestIntegralDomain<C, laws>
     {
         template <typename Xs>

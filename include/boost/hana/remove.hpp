@@ -26,11 +26,11 @@ namespace boost { namespace hana {
     constexpr auto remove_t::operator()(Xs&& xs, Value&& value) const {
         using M = typename hana::tag_of<Xs>::type;
         using Remove = BOOST_HANA_DISPATCH_IF(remove_impl<M>,
-            _models<MonadPlus, M>::value
+            MonadPlus<M>::value
         );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<MonadPlus, M>::value,
+            static_assert(MonadPlus<M>::value,
             "hana::remove(xs, value) requires 'xs' to be a MonadPlus");
         #endif
 

@@ -159,17 +159,17 @@ namespace boost { namespace hana {
     // models
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
-    struct models_impl<Metafunction, template_t<F>> {
+    struct Metafunction<template_t<F>> {
         static constexpr bool value = true;
     };
 
     template <template <typename ...> class F>
-    struct models_impl<Metafunction, metafunction_t<F>> {
+    struct Metafunction<metafunction_t<F>> {
         static constexpr bool value = true;
     };
 
     template <typename F>
-    struct models_impl<Metafunction, metafunction_class_t<F>> {
+    struct Metafunction<metafunction_class_t<F>> {
         static constexpr bool value = true;
     };
 

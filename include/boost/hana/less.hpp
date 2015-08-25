@@ -42,16 +42,16 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Less = BOOST_HANA_DISPATCH_IF(decltype(less_impl<T, U>{}),
-            _models<Orderable, T>::value &&
-            _models<Orderable, U>::value &&
+            Orderable<T>::value &&
+            Orderable<U>::value &&
             !is_default<less_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Orderable, T>::value,
+        static_assert(Orderable<T>::value,
         "hana::less(x, y) requires 'x' to be Orderable");
 
-        static_assert(_models<Orderable, U>::value,
+        static_assert(Orderable<U>::value,
         "hana::less(x, y) requires 'y' to be Orderable");
 
         static_assert(!is_default<less_impl<T, U>>::value,
@@ -98,8 +98,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct less_impl<C, C, when<
-        _models<Constant, C>::value &&
-        _models<Orderable, typename C::value_type>::value
+        Constant<C>::value &&
+        Orderable<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {
@@ -113,9 +113,7 @@ namespace boost { namespace hana {
     // Model for Products
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct less_impl<T, U, when<
-        _models<Product, T>::value && _models<Product, U>::value
-    >> {
+    struct less_impl<T, U, when<Product<T>::value && Product<U>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const& x, Y const& y) {
             return hana::or_(
@@ -133,7 +131,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
     struct less_impl<T, U, when<
-        _models<Sequence, T>::value && _models<Sequence, U>::value
+        Sequence<T>::value && Sequence<U>::value
     >> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys)

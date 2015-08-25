@@ -29,11 +29,11 @@ namespace boost { namespace hana {
     constexpr auto slice_t::operator()(Xs&& xs, From&& from, To&& to) const {
         using S = typename hana::tag_of<Xs>::type;
         using Slice = BOOST_HANA_DISPATCH_IF(slice_impl<S>,
-            _models<Sequence, S>::value
+            Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::slice(xs, from, to) requires 'xs' to be a Sequence");
     #endif
 

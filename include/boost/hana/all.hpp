@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr auto all_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using All = BOOST_HANA_DISPATCH_IF(all_impl<S>,
-            _models<Searchable, S>::value
+            Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Searchable, S>::value,
+        static_assert(Searchable<S>::value,
         "hana::all(xs) requires 'xs' to be a Searchable");
     #endif
 

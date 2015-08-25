@@ -22,13 +22,13 @@ namespace boost { namespace hana {
     template <typename M>
     struct empty_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::empty<M>() requires 'M' to be a MonadPlus");
     #endif
 
         constexpr auto operator()() const {
             using Empty = BOOST_HANA_DISPATCH_IF(empty_impl<M>,
-                _models<MonadPlus, M>::value
+                MonadPlus<M>::value
             );
 
             return Empty::apply();
@@ -42,7 +42,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct empty_impl<S, when<_models<Sequence, S>::value>> {
+    struct empty_impl<S, when<Sequence<S>::value>> {
         static constexpr auto apply() {
             return hana::make<S>();
         }

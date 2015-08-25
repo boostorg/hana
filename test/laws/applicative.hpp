@@ -32,8 +32,8 @@ namespace boost { namespace hana { namespace test {
     struct TestApplicative<F, laws> {
         template <typename Applicatives>
         TestApplicative(Applicatives applicatives) {
-            hana::for_each(applicatives, [](auto const& a) {
-                static_assert(_models<Applicative, decltype(a)>{}, "");
+            hana::for_each(applicatives, [](auto a) {
+                static_assert(Applicative<decltype(a)>::value, "");
             });
 
             auto functions1 = hana::take(
@@ -106,7 +106,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestApplicative<S, when<_models<Sequence, S>::value>>
+    struct TestApplicative<S, when<Sequence<S>::value>>
         : TestApplicative<S, laws>
     {
         template <typename Applicatives>

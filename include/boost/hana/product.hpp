@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct product_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Ring, R>::value,
+        static_assert(Ring<R>::value,
         "hana::product<R> requires 'R' to be a Ring");
     #endif
 
@@ -33,11 +33,11 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using S = typename hana::tag_of<Xs>::type;
             using Product = BOOST_HANA_DISPATCH_IF(product_impl<S>,
-                _models<Foldable, S>::value
+                Foldable<S>::value
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Foldable, S>::value,
+            static_assert(Foldable<S>::value,
             "hana::product<R>(xs) requires 'xs' to be Foldable");
         #endif
 

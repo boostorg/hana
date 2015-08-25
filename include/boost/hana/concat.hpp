@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     constexpr auto concat_t::operator()(Xs&& xs, Ys&& ys) const {
         using M = typename hana::tag_of<Xs>::type;
         using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
-            _models<MonadPlus, M>::value &&
+            MonadPlus<M>::value &&
             std::is_same<typename hana::tag_of<Ys>::type, M>::value
         );
 
@@ -39,7 +39,7 @@ namespace boost { namespace hana {
         static_assert(std::is_same<typename hana::tag_of<Ys>::type, M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same tag");
 
-        static_assert(_models<MonadPlus, M>::value,
+        static_assert(MonadPlus<M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to be MonadPlus");
     #endif
 
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct concat_impl<S, when<_models<Sequence, S>::value>> {
+    struct concat_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename Ys, std::size_t ...xi, std::size_t ...yi>
         static constexpr auto
         concat_helper(Xs&& xs, Ys&& ys, std::index_sequence<xi...>,

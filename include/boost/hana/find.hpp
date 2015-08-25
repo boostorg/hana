@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr auto find_t::operator()(Xs&& xs, Key&& key) const {
         using S = typename hana::tag_of<Xs>::type;
         using Find = BOOST_HANA_DISPATCH_IF(find_impl<S>,
-            _models<Searchable, S>::value
+            Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Searchable, S>::value,
+        static_assert(Searchable<S>::value,
         "hana::find(xs, key) requires 'xs' to be Searchable");
     #endif
 

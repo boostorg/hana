@@ -22,11 +22,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) first_t::operator()(Pair&& pair) const {
         using P = typename hana::tag_of<Pair>::type;
         using First = BOOST_HANA_DISPATCH_IF(first_impl<P>,
-            _models<Product, P>::value
+            Product<P>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Product, P>::value,
+        static_assert(Product<P>::value,
         "hana::first(pair) requires 'pair' to be a Product");
     #endif
 

@@ -131,7 +131,8 @@ namespace boost { namespace hana {
     //! As usual, such a structure-preserving transformation is said to
     //! be an embedding if it is also injective, i.e. if it is a lossless
     //! transformation.
-    struct Searchable { };
+    template <typename S>
+    struct Searchable;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_SEARCHABLE_HPP

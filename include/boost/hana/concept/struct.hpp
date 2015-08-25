@@ -14,13 +14,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/core/tag_of.hpp>
 
 
 namespace boost { namespace hana {
     template <typename S>
-    struct models_impl<Struct, S> {
-        static constexpr bool value = !is_default<accessors_impl<S>>::value;
+    struct Struct {
+        using Tag = typename tag_of<S>::type;
+        static constexpr bool value = !is_default<accessors_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

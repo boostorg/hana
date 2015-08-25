@@ -34,11 +34,11 @@ namespace boost { namespace hana {
     constexpr auto group_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
-            _models<Sequence, S>::value
+            Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::group(xs) requires 'xs' to be a Sequence");
     #endif
 
@@ -49,11 +49,11 @@ namespace boost { namespace hana {
     constexpr auto group_t::operator()(Xs&& xs, Predicate&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
-            _models<Sequence, S>::value
+            Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::group(xs, predicate) requires 'xs' to be a Sequence");
     #endif
 

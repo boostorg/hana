@@ -95,7 +95,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.wikipedia.org/wiki/Ring_(mathematics)
     //! [2]: http://en.wikipedia.org/wiki/Ring_homomorphism
-    struct Ring { };
+    template <typename R>
+    struct Ring;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_RING_HPP

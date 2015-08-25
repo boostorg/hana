@@ -90,7 +90,8 @@ namespace boost { namespace hana {
     //!
     //! [1]: http://en.wikipedia.org/wiki/Monoid
     //! [2]: http://en.wikipedia.org/wiki/Monoid#Monoid_homomorphisms
-    struct Monoid { };
+    template <typename M>
+    struct Monoid;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_MONOID_HPP

@@ -46,7 +46,8 @@ namespace tc1 {
     constexpr auto r = metafunction<f>(t);
 
     // Make sure we model the Metafunction concept
-    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction<f>));
+    static_assert(Metafunction<decltype(metafunction<f>)>::value, "");
+    static_assert(Metafunction<decltype(metafunction<f>)&>::value, "");
 
     // `metafunction` with non-type arguments
     // 1 arg
@@ -131,7 +132,8 @@ namespace tc2 {
     constexpr auto r = metafunction_class<f>(t);
 
     // Make sure we model the Metafunction concept
-    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction_class<f>));
+    static_assert(Metafunction<decltype(metafunction_class<f>)>::value, "");
+    static_assert(Metafunction<decltype(metafunction_class<f>)&>::value, "");
 
     // `metafunction_class` with non-type arguments
     // 1 arg
@@ -207,7 +209,8 @@ namespace tc3 {
     static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
 
     // Make sure we model the Metafunction concept
-    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(template_<f>));
+    static_assert(Metafunction<decltype(template_<f>)>::value, "");
+    static_assert(Metafunction<decltype(template_<f>)&>::value, "");
 
     // `template_` with non-type arguments
     // 1 arg

@@ -8,11 +8,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_PRODUCT_HPP
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/bool.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/concept/product.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/first.hpp>
+#include <boost/hana/second.hpp>
 
 #include <laws/base.hpp>
 
@@ -28,7 +29,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Elements>
         TestProduct(Elements elements) {
             foreach2(elements, [](auto x, auto y) {
-                static_assert(_models<Product, decltype(hana::make<P>(x, y))>{}, "");
+                static_assert(Product<decltype(hana::make<P>(x, y))>::value, "");
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::first(hana::make<P>(x, y)),

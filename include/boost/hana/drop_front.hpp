@@ -37,15 +37,15 @@ namespace boost { namespace hana {
     constexpr auto drop_front_t::operator()(Xs&& xs, N&& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using DropFront = BOOST_HANA_DISPATCH_IF(drop_front_impl<It>,
-            _models<Iterable, It>::value &&
-            _models<Constant, N>::value
+            Iterable<It>::value &&
+            Constant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Iterable, It>::value,
+        static_assert(Iterable<It>::value,
         "hana::drop_front(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(_models<Constant, N>::value,
+        static_assert(Constant<N>::value,
         "hana::drop_front(xs, n) requires 'n' to be a Constant");
     #endif
 
@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct drop_front_impl<It, when<_models<Sequence, It>::value>> {
+    struct drop_front_impl<It, when<Sequence<It>::value>> {
         template <std::size_t n, typename Xs, std::size_t ...i>
         static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
             return hana::make<It>(

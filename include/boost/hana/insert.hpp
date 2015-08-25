@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct insert_impl<S, when<_models<Sequence, S>::value>> {
+    struct insert_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename N, typename Element>
         static constexpr auto apply(Xs&& xs, N const& n, Element&& e) {
             return hana::concat(hana::append(hana::take(xs, n),

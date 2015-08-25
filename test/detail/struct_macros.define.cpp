@@ -43,10 +43,10 @@ struct Data3 {
     );
 };
 
-static_assert(_models<Struct, Data0>{}, "");
-static_assert(_models<Struct, Data1>{}, "");
-static_assert(_models<Struct, Data2>{}, "");
-static_assert(_models<Struct, Data3>{}, "");
+static_assert(Struct<Data0>::value, "");
+static_assert(Struct<Data1>::value, "");
+static_assert(Struct<Data2>::value, "");
+static_assert(Struct<Data3>::value, "");
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ Data1{});

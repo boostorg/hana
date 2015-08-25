@@ -136,7 +136,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename To, typename From>
     struct to_impl<To, From, when<
-        _models<Constant, From>::value &&
+        Constant<From>::value &&
         is_convertible<typename From::value_type, To>::value
     >> : embedding<is_embedded<typename From::value_type, To>::value> {
         template <typename X>
@@ -149,9 +149,9 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename F>
     struct to_impl<S, F, when<
-        _models<Sequence, S>::value &&
-        _models<Foldable, F>::value
-    >> : embedding<_models<Sequence, F>::value> {
+        Sequence<S>::value &&
+        Foldable<F>::value
+    >> : embedding<Sequence<F>::value> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::unpack(static_cast<Xs&&>(xs), hana::make<S>); }

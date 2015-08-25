@@ -33,7 +33,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Searchables, typename Keys>
         TestSearchable(Searchables searchables, Keys keys) {
             hana::for_each(searchables, [](auto xs) {
-                static_assert(_models<Searchable, decltype(xs)>{}, "");
+                static_assert(Searchable<decltype(xs)>::value, "");
             });
 
             auto predicates = hana::concat(
@@ -64,7 +64,10 @@ namespace boost { namespace hana { namespace test {
                 // any(xs)  <=> any_of(xs, id)
                 // all(xs)  <=> all_of(xs, id)
                 // none(xs) <=> none_of(xs, id)
-                only_when_(hana::all_of(xs, models<Logical>), hana::make_lazy([](auto xs) {
+                auto all_logicals = hana::all_of(xs, [](auto x) {
+                    return hana::bool_c<hana::Logical<decltype(x)>::value>;
+                });
+                only_when_(all_logicals, hana::make_lazy([](auto xs) {
                     BOOST_HANA_CHECK(
                         hana::any(xs) ^iff^ hana::any_of(xs, id)
                     );
@@ -126,7 +129,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestSearchable<S, when<_models<Sequence, S>::value>>
+    struct TestSearchable<S, when<Sequence<S>::value>>
         : TestSearchable<S, laws>
     {
         template <int i>

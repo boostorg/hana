@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/concept/sequence.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -42,7 +41,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t n = hana::value<N>();
-            return ::boost::fusion::at_c<n>(static_cast<Xs&&>(xs));
+            return boost::fusion::at_c<n>(static_cast<Xs&&>(xs));
         }
     };
 
@@ -50,7 +49,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<S, when<detail::is_fusion_sequence<S>::value>> {
         template <typename Xs>
         static constexpr auto apply(Xs&& xs) {
-            using Empty = decltype(::boost::fusion::empty(xs));
+            using Empty = decltype(boost::fusion::empty(xs));
             return hana::bool_c<Empty::value>;
         }
     };
@@ -62,7 +61,7 @@ namespace boost { namespace hana {
     struct length_impl<S, when<detail::is_fusion_sequence<S>::value>> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
-            using Size = typename ::boost::fusion::result_of::size<Xs>::type;
+            using Size = typename boost::fusion::result_of::size<Xs>::type;
             return hana::size_c<Size::value>;
         }
     };
@@ -71,7 +70,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <typename S>
-    struct models_impl<Sequence, S, when<detail::is_fusion_sequence<S>::value>> {
+    struct Sequence<S, when<detail::is_fusion_sequence<S>::value>> {
         static constexpr bool value = true;
     };
 }} // end namespace boost::hana

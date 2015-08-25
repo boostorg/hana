@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestIterable(Xs xs) {
             hana::for_each(xs, [](auto xs) {
-                static_assert(_models<Iterable, decltype(xs)>{}, "");
+                static_assert(Iterable<decltype(xs)>::value, "");
 
                 BOOST_HANA_CONSTANT_CHECK(
                     hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<tuple_tag>(xs))
@@ -110,7 +110,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestIterable<S, when<_models<Sequence, S>::value>>
+    struct TestIterable<S, when<Sequence<S>::value>>
         : TestIterable<S, laws>
     {
         template <int i>

@@ -22,11 +22,11 @@ namespace boost { namespace hana {
     constexpr auto tail_t::operator()(Xs&& xs) const {
         using It = typename hana::tag_of<Xs>::type;
         using Tail = BOOST_HANA_DISPATCH_IF(tail_impl<It>,
-            _models<Iterable, It>::value
+            Iterable<It>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Iterable, It>::value,
+        static_assert(Iterable<It>::value,
         "hana::tail(xs) requires 'xs' to be an Iterable");
     #endif
 

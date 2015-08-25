@@ -25,11 +25,11 @@ namespace boost { namespace hana {
     constexpr auto members_t::operator()(Object&& object) const {
         using S = typename hana::tag_of<Object>::type;
         using Members = BOOST_HANA_DISPATCH_IF(members_impl<S>,
-            _models<Struct, S>::value
+            Struct<S>::value
         );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(_models<Struct, S>::value,
+            static_assert(Struct<S>::value,
             "hana::members(object) requires 'object' to be a Struct");
         #endif
 

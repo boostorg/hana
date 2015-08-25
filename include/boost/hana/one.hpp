@@ -25,13 +25,13 @@ namespace boost { namespace hana {
     template <typename R>
     struct one_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Ring, R>::value,
+        static_assert(Ring<R>::value,
         "hana::one<R>() requires 'R' to be a Ring");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using One = BOOST_HANA_DISPATCH_IF(one_impl<R>,
-                _models<Ring, R>::value
+                Ring<R>::value
             );
 
             return One::apply();
@@ -59,8 +59,8 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct one_impl<C, when<
-        _models<Constant, C>::value &&
-        _models<Ring, typename C::value_type>::value
+        Constant<C>::value &&
+        Ring<typename C::value_type>::value
     >> {
         using T = typename C::value_type;
         //! @cond

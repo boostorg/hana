@@ -13,18 +13,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/logical.hpp>
 
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/eval_if.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/while.hpp>
 
 
 namespace boost { namespace hana {
     template <typename L>
-    struct models_impl<Logical, L> {
-        static constexpr bool value = !is_default<eval_if_impl<L>>::value &&
-                                      !is_default<not_impl<L>>::value &&
-                                      !is_default<while_impl<L>>::value;
+    struct Logical {
+        using Tag = typename tag_of<L>::type;
+        static constexpr bool value = !is_default<eval_if_impl<Tag>>::value &&
+                                      !is_default<not_impl<Tag>>::value &&
+                                      !is_default<while_impl<Tag>>::value;
     };
 }} // end namespace boost::hana
 

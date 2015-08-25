@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     constexpr decltype(auto) chain_t::operator()(Xs&& xs, F&& f) const {
         using M = typename hana::tag_of<Xs>::type;
         using Chain = BOOST_HANA_DISPATCH_IF(chain_impl<M>,
-            _models<Monad, M>::value
+            Monad<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Monad, M>::value,
+        static_assert(Monad<M>::value,
         "hana::chain(xs, f) requires 'xs' to be a Monad");
     #endif
 

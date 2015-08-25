@@ -20,13 +20,13 @@ namespace boost { namespace hana {
     template <typename S>
     struct accessors_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Struct, S>::value,
+        static_assert(Struct<S>::value,
         "hana::accessors<S> requires 'S' to be a Struct");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using Accessors = BOOST_HANA_DISPATCH_IF(accessors_impl<S>,
-                _models<Struct, S>::value
+                Struct<S>::value
             );
 
             return Accessors::apply();

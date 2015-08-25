@@ -74,8 +74,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        _models<Constant, A>::value &&
-        _models<Constant, B>::value &&
+        Constant<A>::value &&
+        Constant<B>::value &&
         has_common<typename A::value_type, typename B::value_type>::value
     >> {
         using type = typename constant_detail::which<
@@ -87,8 +87,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        _models<Constant, A>::value &&
-        !_models<Constant, B>::value &&
+        Constant<A>::value &&
+        !Constant<B>::value &&
         has_common<typename A::value_type, B>::value
     >> {
         using type = typename common<typename A::value_type, B>::type;
@@ -96,8 +96,8 @@ namespace boost { namespace hana {
 
     template <typename A, typename B>
     struct common<A, B, when<
-        !_models<Constant, A>::value &&
-        _models<Constant, B>::value &&
+        !Constant<A>::value &&
+        Constant<B>::value &&
         has_common<A, typename B::value_type>::value
     >> {
         using type = typename common<A, typename B::value_type>::type;

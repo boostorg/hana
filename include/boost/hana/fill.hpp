@@ -27,11 +27,11 @@ namespace boost { namespace hana {
     constexpr auto fill_t::operator()(Xs&& xs, Value&& value) const {
         using S = typename hana::tag_of<Xs>::type;
         using Fill = BOOST_HANA_DISPATCH_IF(fill_impl<S>,
-            _models<Functor, S>::value
+            Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Functor, S>::value,
+        static_assert(Functor<S>::value,
         "hana::fill(xs, value) requires 'xs' to be a Functor");
     #endif
 
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct fill_impl<S, when<_models<Sequence, S>::value>> {
+    struct fill_impl<S, when<Sequence<S>::value>> {
         //! @cond
         template <typename V>
         struct filler {

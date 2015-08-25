@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Foldables>
         TestFoldable(Foldables foldables) {
             hana::for_each(foldables, [](auto xs) {
-                static_assert(_models<Foldable, decltype(xs)>{}, "");
+                static_assert(Foldable<decltype(xs)>::value, "");
 
                 _injection<0> f{};
                 ct_eq<999> s{};
@@ -91,7 +91,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename P>
-    struct TestFoldable<P, when<_models<Product, P>::value>>
+    struct TestFoldable<P, when<Product<P>::value>>
         : TestFoldable<P, laws>
     {
         template <typename Products>
@@ -108,7 +108,7 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename S>
-    struct TestFoldable<S, when<_models<Sequence, S>::value>>
+    struct TestFoldable<S, when<Sequence<S>::value>>
         : TestFoldable<S, laws>
     {
         template <int i>

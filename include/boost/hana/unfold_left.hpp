@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     template <typename S>
     struct unfold_left_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Sequence, S>::value,
+        static_assert(Sequence<S>::value,
         "hana::unfold_left<S> requires 'S' to be a Sequence");
     #endif
 
