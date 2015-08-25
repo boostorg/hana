@@ -82,7 +82,9 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup group-details Details
 //! Implementation details.
 
-//! Namespace containing C++14 user-defined literals provided by Hana.
-namespace literals { }
+namespace boost { namespace hana {
+    //! Namespace containing C++14 user-defined literals provided by Hana.
+    namespace literals { }
+}}
 
 #endif // !BOOST_HANA_HPP
