@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_INTEGRAL_DOMAIN_HPP
 #define BOOST_HANA_FWD_CONCEPT_INTEGRAL_DOMAIN_HPP
 
-#include <boost/hana/fwd/quot.hpp>
-#include <boost/hana/fwd/rem.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `IntegralDomain` concept represents a commutative `Ring` whose

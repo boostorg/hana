@@ -13,16 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/front.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/core/dispatch.hpp>
 
 
 namespace boost { namespace hana {
-    struct Iterable; //! @todo Include the fwd decl instead
-
     //! @cond
     template <typename Xs>
     constexpr decltype(auto) front_t::operator()(Xs&& xs) const {

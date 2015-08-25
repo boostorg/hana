@@ -11,11 +11,15 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/less.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
 #include <array>
@@ -81,8 +85,9 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<ext::std::Array> {
         template <typename T, std::size_t N>
-        static constexpr _integral_constant<bool, N == 0>
-        apply(std::array<T, N> const&) { return {}; }
+        static constexpr auto apply(std::array<T, N> const&) {
+            return hana::bool_<N == 0>;
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

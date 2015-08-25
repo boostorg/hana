@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_PRODUCT_HPP
 #define BOOST_HANA_FWD_CONCEPT_PRODUCT_HPP
 
-#include <boost/hana/fwd/first.hpp>
-#include <boost/hana/fwd/second.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! Represents types that are generic containers of two elements.

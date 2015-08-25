@@ -15,14 +15,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/chain.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/lift.hpp>
@@ -33,9 +31,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct MonadPlus; //! @todo include the forward declaration instead
-    struct Sequence;
-
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto filter_t::operator()(Xs&& xs, Pred&& pred) const {

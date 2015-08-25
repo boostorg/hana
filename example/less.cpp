@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/less.hpp>
+#include <boost/hana/not.hpp>
 #include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
 

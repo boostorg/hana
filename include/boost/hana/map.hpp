@@ -12,30 +12,39 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/map.hpp>
 
+#include <boost/hana/all_of.hpp>
+#include <boost/hana/any_of.hpp>
+#include <boost/hana/append.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/concept/logical.hpp>
 #include <boost/hana/concept/product.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
-#include <boost/hana/erase_key.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/find.hpp>
+#include <boost/hana/find_if.hpp>
+#include <boost/hana/first.hpp>
+#include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/insert.hpp>
+#include <boost/hana/is_subset.hpp>
 #include <boost/hana/keys.hpp>
-#include <boost/hana/lazy.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/remove_if.hpp>
+#include <boost/hana/second.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/unpack.hpp>
+#include <boost/hana/value.hpp>
 
 #include <type_traits>
 
@@ -108,7 +117,7 @@ namespace boost { namespace hana {
     struct keys_impl<Map> {
         template <typename Map>
         static constexpr decltype(auto) apply(Map&& map) {
-            return hana::transform(static_cast<Map&&>(map).storage, first);
+            return hana::transform(static_cast<Map&&>(map).storage, hana::first);
         }
     };
 
@@ -118,7 +127,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Map>
     constexpr decltype(auto) values_t::operator()(Map&& map) const {
-        return hana::transform(static_cast<Map&&>(map).storage, second);
+        return hana::transform(static_cast<Map&&>(map).storage, hana::second);
     }
     //! @endcond
 
@@ -186,8 +195,8 @@ namespace boost { namespace hana {
         template <typename M1, typename M2>
         static constexpr auto equal_helper(M1 const& m1, M2 const& m2, decltype(hana::true_)) {
             return hana::all_of(hana::keys(m1), hana::demux(equal)(
-                hana::partial(find, m1),
-                hana::partial(find, m2)
+                hana::partial(hana::find, m1),
+                hana::partial(hana::find, m2)
             ));
         }
 

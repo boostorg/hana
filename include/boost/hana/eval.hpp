@@ -12,9 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/eval.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/functional/id.hpp>
 

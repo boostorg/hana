@@ -5,8 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/plus.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>

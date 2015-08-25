@@ -12,21 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/searchable.hpp>
 
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
-#include <boost/hana/all.hpp>
-#include <boost/hana/all_of.hpp>
-#include <boost/hana/any.hpp>
 #include <boost/hana/any_of.hpp>
-#include <boost/hana/at_key.hpp>
-#include <boost/hana/contains.hpp>
-#include <boost/hana/find.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/find_if.hpp>
-#include <boost/hana/is_disjoint.hpp>
-#include <boost/hana/is_subset.hpp>
-#include <boost/hana/none.hpp>
-#include <boost/hana/none_of.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {

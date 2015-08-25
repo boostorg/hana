@@ -11,17 +11,21 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_RATIO_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/concept/group.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
-#include <boost/hana/concept/monoid.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/ring.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/less.hpp>
+#include <boost/hana/fwd/minus.hpp>
+#include <boost/hana/fwd/mult.hpp>
+#include <boost/hana/fwd/one.hpp>
+#include <boost/hana/fwd/plus.hpp>
+#include <boost/hana/fwd/quot.hpp>
+#include <boost/hana/fwd/rem.hpp>
+#include <boost/hana/fwd/zero.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstdint>
 #include <ratio>
@@ -58,7 +62,7 @@ namespace boost { namespace hana {
     struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return bool_<std::ratio_equal<R1, R2>::value>; }
+        { return hana::bool_<std::ratio_equal<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -68,7 +72,7 @@ namespace boost { namespace hana {
     struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return bool_<std::ratio_less<R1, R2>::value>; }
+        { return hana::bool_<std::ratio_less<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////

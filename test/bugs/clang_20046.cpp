@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/type.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <typename ...> struct F { struct type; };
@@ -14,9 +14,9 @@ struct T;
 
 int main() {
     // See http://llvm.org/bugs/show_bug.cgi?id=20046
-    [](auto) { return trait<F>; }(1);
-    [](auto) { return type<T>; }(1);
-    [](auto) { return template_<F>; }(1);
-    [](auto) { return metafunction<F>; }(1);
-    [](auto) { return metafunction_class<M>; }(1);
+    [](auto) { return hana::trait<F>; }(1);
+    [](auto) { return hana::type<T>; }(1);
+    [](auto) { return hana::template_<F>; }(1);
+    [](auto) { return hana::metafunction<F>; }(1);
+    [](auto) { return hana::metafunction_class<M>; }(1);
 }

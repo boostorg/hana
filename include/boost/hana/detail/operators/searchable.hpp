@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_OPERATORS_SEARCHABLE_HPP
 #define BOOST_HANA_DETAIL_OPERATORS_SEARCHABLE_HPP
 
-#include <boost/hana/fwd/concept/searchable.hpp>
+#include <boost/hana/fwd/at_key.hpp>
 
 
 namespace boost { namespace hana { namespace detail {

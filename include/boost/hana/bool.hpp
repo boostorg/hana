@@ -1,7 +1,6 @@
 /*!
 @file
-Defines `boost::hana::IntegralConstant` and includes `Logical` and
-`Comparable`.
+Defines the `Logical` and `Comparable` models of `boost::hana::IntegralConstant`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -13,22 +12,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/bool.hpp>
 
-#include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/operators/arithmetic.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/logical.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/lazy.hpp>
-
-// provided models; the rest is included in <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/eval.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/eval_if.hpp>
+#include <boost/hana/fwd/if.hpp>
+#include <boost/hana/fwd/value.hpp>
 
 #include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -209,7 +208,7 @@ namespace boost { namespace hana {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
-            return if_impl::apply(bool_<static_cast<bool>(Cond::value)>,
+            return if_impl::apply(hana::bool_<static_cast<bool>(Cond::value)>,
                     static_cast<Then&&>(t), static_cast<Else&&>(e));
         }
 
@@ -219,12 +218,12 @@ namespace boost { namespace hana {
         //! should be changed, but more thought needs to be given.
         template <typename Then, typename Else>
         static constexpr auto
-        apply(decltype(true_) const&, Then&& t, Else&&)
+        apply(decltype(hana::true_) const&, Then&& t, Else&&)
         { return static_cast<Then&&>(t); }
 
         template <typename Then, typename Else>
         static constexpr auto
-        apply(decltype(false_) const&, Then&&, Else&& e)
+        apply(decltype(hana::false_) const&, Then&&, Else&& e)
         { return static_cast<Else&&>(e); }
     };
 }} // end namespace boost::hana

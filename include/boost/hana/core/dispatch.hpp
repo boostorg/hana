@@ -1,23 +1,19 @@
 /*!
 @file
-Defines the @ref group-core module.
+Includes all the headers needed to setup tag-dispatching.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_CORE_HPP
-#define BOOST_HANA_CORE_HPP
+#ifndef BOOST_HANA_CORE_DISPATCH_HPP
+#define BOOST_HANA_CORE_DISPATCH_HPP
 
-#include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/core/is_a.hpp>
-#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 
-#endif // !BOOST_HANA_CORE_HPP
+#endif // !BOOST_HANA_CORE_DISPATCH_HPP

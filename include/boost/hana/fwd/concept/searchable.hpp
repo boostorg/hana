@@ -10,20 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_SEARCHABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_SEARCHABLE_HPP
 
-#include <boost/hana/fwd/all.hpp>
-#include <boost/hana/fwd/all_of.hpp>
-#include <boost/hana/fwd/any.hpp>
-#include <boost/hana/fwd/any_of.hpp>
-#include <boost/hana/fwd/at_key.hpp>
-#include <boost/hana/fwd/contains.hpp>
-#include <boost/hana/fwd/find.hpp>
-#include <boost/hana/fwd/find_if.hpp>
-#include <boost/hana/fwd/is_disjoint.hpp>
-#include <boost/hana/fwd/is_subset.hpp>
-#include <boost/hana/fwd/none.hpp>
-#include <boost/hana/fwd/none_of.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Searchable` concept represents structures that can be searched.

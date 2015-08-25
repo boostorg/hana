@@ -5,7 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
+#include <boost/hana/not_equal.hpp>
 
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/integral_c.hpp>

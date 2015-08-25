@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_ARRAY_HPP
 #define BOOST_HANA_SANDBOX_ARRAY_HPP
 
+#include <boost/hana.hpp>
+
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 
 #include <cstddef>      // for std::size_t and std::ptrdiff_t

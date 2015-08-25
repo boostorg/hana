@@ -10,13 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
 #define BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
 
-#include <boost/hana/fwd/accessors.hpp>
-#include <boost/hana/fwd/adapt_struct.hpp>
-#include <boost/hana/fwd/define_struct.hpp>
-#include <boost/hana/fwd/keys.hpp>
-#include <boost/hana/fwd/members.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Struct` concept represents `struct`-like user-defined types.

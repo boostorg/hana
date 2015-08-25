@@ -12,14 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/any_of.hpp>
 
+#include <boost/hana/accessors.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/first.hpp>
 #include <boost/hana/front.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
@@ -30,9 +32,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo include the forward declaration instead
-    struct Searchable;
-
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto any_of_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -179,6 +178,15 @@ namespace boost { namespace hana {
                                                                   hana::false_);
             return any_of_helper(cond, static_cast<Xs&&>(xs),
                                        static_cast<Pred&&>(pred));
+        }
+    };
+
+    template <typename S>
+    struct any_of_impl<S, when<_models<Struct, S>::value>> {
+        template <typename X, typename Pred>
+        static constexpr decltype(auto) apply(X const&, Pred&& pred) {
+            return hana::any_of(hana::accessors<S>(),
+                    hana::compose(static_cast<Pred&&>(pred), hana::first));
         }
     };
 }} // end namespace boost::hana

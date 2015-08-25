@@ -12,18 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/fold_right.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/variadic/foldr1.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 
 
 namespace boost { namespace hana {
-    struct Foldable; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Xs, typename State, typename F>
     constexpr decltype(auto) fold_right_t::operator()(Xs&& xs, State&& state, F&& f) const {

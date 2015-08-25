@@ -13,11 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/comonad.hpp>
 
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
 #include <boost/hana/duplicate.hpp>
 #include <boost/hana/extend.hpp>
 #include <boost/hana/extract.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {

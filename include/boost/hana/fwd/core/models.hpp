@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CORE_MODELS_HPP
 #define BOOST_HANA_FWD_CORE_MODELS_HPP
 
+#include <boost/hana/core/when.hpp>
+
+
 namespace boost { namespace hana {
     //! @ingroup group-core
     //! Returns whether the data type of an object is a model of the
@@ -62,7 +65,7 @@ namespace boost { namespace hana {
     constexpr auto models = see-documentation;
 #else
     template <typename Concept, typename DataType, typename = void>
-    struct models_impl;
+    struct models_impl : models_impl<Concept, DataType, when<true>> { };
 
     template <typename Concept, typename ...T>
     struct _models;

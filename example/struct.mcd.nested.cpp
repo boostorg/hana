@@ -5,13 +5,15 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/struct.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/map.hpp>
+#include <boost/hana/not_equal.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/concept/struct.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <string>

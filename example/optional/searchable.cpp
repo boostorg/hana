@@ -6,9 +6,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/assert.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/not_equal.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/rem.hpp>
 namespace hana = boost::hana;
 
 

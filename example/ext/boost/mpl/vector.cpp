@@ -5,9 +5,18 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/drop_while.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/ext/boost/mpl/vector.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/find.hpp>
+#include <boost/hana/find_if.hpp>
+#include <boost/hana/front.hpp>
+#include <boost/hana/not_equal.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/plus.hpp>
+#include <boost/hana/tail.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 

@@ -12,19 +12,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/less.hpp>
 
+#include <boost/hana/and.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/concept/product.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/concepts.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/nested_than.hpp> // required by fwd decl
+#include <boost/hana/equal.hpp>
+#include <boost/hana/first.hpp>
+#include <boost/hana/front.hpp>
 #include <boost/hana/if.hpp>
+#include <boost/hana/is_empty.hpp>
+#include <boost/hana/less_equal.hpp>
+#include <boost/hana/or.hpp>
+#include <boost/hana/second.hpp>
+#include <boost/hana/tail.hpp>
 #include <boost/hana/value.hpp>
 
 
@@ -99,6 +108,81 @@ namespace boost { namespace hana {
             constexpr auto less = hana::less(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(less, true, false);
             return hana::bool_<truth_value>;
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Products
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U>
+    struct less_impl<T, U, when<
+        _models<Product, T>::value && _models<Product, U>::value
+    >> {
+        template <typename X, typename Y>
+        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+            return hana::or_(
+                hana::less(hana::first(x), hana::first(y)),
+                hana::and_(
+                    hana::less_equal(hana::first(x), hana::first(y)),
+                    hana::less(hana::second(x), hana::second(y))
+                )
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Sequences
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T, typename U>
+    struct less_impl<T, U, when<_models<Sequence, T>::value && _models<Sequence, U>::value>> {
+        template <typename Xs, typename Ys>
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(true_), decltype(true_))
+        { return false_; }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(true_), decltype(false_))
+        { return true_; }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto
+        less_helper(Xs const&, Ys const&, decltype(false_), decltype(true_))
+        { return false_; }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto
+        less_helper(Xs const& xs, Ys const& ys, decltype(false_), decltype(false_)) {
+            return hana::or_(
+                hana::less(hana::front(xs), hana::front(ys)),
+                hana::and_(
+                    hana::equal(hana::front(xs), hana::front(ys)),
+                    less_impl::apply(hana::tail(xs), hana::tail(ys))
+                )
+            );
+        }
+
+        template <typename Xs, typename Ys>
+        static constexpr bool
+        less_helper(Xs const& xs, Ys const& ys, bool e_xs, bool e_ys) {
+                 if (e_xs && e_ys) return false;
+            else if (e_xs && !e_ys) return true;
+            else if (!e_xs && e_ys) return false;
+
+            return hana::or_(
+                hana::less(hana::front(xs), hana::front(ys)),
+                hana::and_(
+                    hana::equal(hana::front(xs), hana::front(ys)),
+                    less_impl::apply(hana::tail(xs), hana::tail(ys))
+                )
+            );
+        }
+
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs const& xs, Ys const& ys) {
+            return less_helper(xs, ys,
+                hana::if_(hana::is_empty(xs), true_, false_),
+                hana::if_(hana::is_empty(ys), true_, false_));
         }
     };
 }} // end namespace boost::hana

@@ -10,14 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_LOGICAL_HPP
 #define BOOST_HANA_FWD_CONCEPT_LOGICAL_HPP
 
-#include <boost/hana/fwd/and.hpp>
-#include <boost/hana/fwd/eval_if.hpp>
-#include <boost/hana/fwd/if.hpp>
-#include <boost/hana/fwd/not.hpp>
-#include <boost/hana/fwd/or.hpp>
-#include <boost/hana/fwd/while.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Logical` concept represents types with a truth value.

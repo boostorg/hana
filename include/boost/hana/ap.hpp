@@ -12,13 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ap.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
 #include <boost/hana/chain.hpp>
+#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -26,8 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo include the fwd decl instead
-
     template <typename A, bool condition>
     struct ap_impl<A, when<condition>> : default_ {
         template <typename ...Args>
@@ -45,10 +40,10 @@ namespace boost { namespace hana {
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Applicative, Function>{},
+        static_assert(_models<Applicative, Function>::value,
         "hana::ap(f, x) requires 'f' to be an Applicative");
 
-        static_assert(_models<Applicative, Value>{},
+        static_assert(_models<Applicative, Value>::value,
         "hana::ap(f, x) requires 'x' to be an Applicative");
     #endif
 

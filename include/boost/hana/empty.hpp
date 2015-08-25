@@ -12,18 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/empty.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 
 
 namespace boost { namespace hana {
-    struct MonadPlus; //! @todo include the forward declaration instead
-    struct Sequence;
-
     template <typename M>
     struct empty_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS

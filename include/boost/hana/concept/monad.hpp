@@ -12,14 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/monad.hpp>
 
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
 #include <boost/hana/chain.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/flatten.hpp>
-#include <boost/hana/monadic_compose.hpp>
-#include <boost/hana/tap.hpp>
-#include <boost/hana/then.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {

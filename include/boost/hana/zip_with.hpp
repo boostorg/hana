@@ -12,13 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/zip_with.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
 #include <boost/hana/at.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/length.hpp>
@@ -29,8 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename F, typename Xs, typename ...Ys>
     constexpr auto zip_with_t::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {

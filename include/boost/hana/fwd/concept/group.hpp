@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_GROUP_HPP
 #define BOOST_HANA_FWD_CONCEPT_GROUP_HPP
 
-#include <boost/hana/fwd/minus.hpp>
-#include <boost/hana/fwd/negate.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Group` concept represents `Monoid`s where all objects have

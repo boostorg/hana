@@ -12,20 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/members.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
 #include <boost/hana/accessors.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/second.hpp>
 #include <boost/hana/transform.hpp>
 
 
 namespace boost { namespace hana {
-    struct Struct; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Object>
     constexpr auto members_t::operator()(Object&& object) const {

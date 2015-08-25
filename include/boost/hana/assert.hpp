@@ -10,12 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_ASSERT_HPP
 #define BOOST_HANA_ASSERT_HPP
 
-#include <boost/hana/bool.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/if.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstdio>
 #include <cstdlib>

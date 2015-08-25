@@ -10,13 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_MONAD_HPP
 #define BOOST_HANA_FWD_CONCEPT_MONAD_HPP
 
-#include <boost/hana/fwd/chain.hpp>
-#include <boost/hana/fwd/flatten.hpp>
-#include <boost/hana/fwd/monadic_compose.hpp>
-#include <boost/hana/fwd/tap.hpp>
-#include <boost/hana/fwd/then.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Monad` concept represents `Applicative`s with the ability to

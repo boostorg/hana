@@ -10,34 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP
 #define BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP
 
-#include <boost/hana/fwd/cartesian_product.hpp>
-#include <boost/hana/fwd/drop_back.hpp>
-#include <boost/hana/fwd/group.hpp>
-#include <boost/hana/fwd/insert.hpp>
-#include <boost/hana/fwd/insert.hpp>
-#include <boost/hana/fwd/insert_range.hpp>
-#include <boost/hana/fwd/intersperse.hpp>
-#include <boost/hana/fwd/partition.hpp>
-#include <boost/hana/fwd/permutations.hpp>
-#include <boost/hana/fwd/remove_at.hpp>
-#include <boost/hana/fwd/reverse.hpp>
-#include <boost/hana/fwd/scan_left.hpp>
-#include <boost/hana/fwd/scan_right.hpp>
-#include <boost/hana/fwd/slice.hpp>
-#include <boost/hana/fwd/sort.hpp>
-#include <boost/hana/fwd/span.hpp>
-#include <boost/hana/fwd/subsequence.hpp>
-#include <boost/hana/fwd/take.hpp>
-#include <boost/hana/fwd/take_while.hpp>
-#include <boost/hana/fwd/unfold_left.hpp>
-#include <boost/hana/fwd/unfold_right.hpp>
-#include <boost/hana/fwd/unique.hpp>
-#include <boost/hana/fwd/zip.hpp>
-#include <boost/hana/fwd/zip_shortest.hpp>
-#include <boost/hana/fwd/zip_shortest_with.hpp>
-#include <boost/hana/fwd/zip_with.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Sequence` concept represents generic index-based sequences.

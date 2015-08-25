@@ -9,12 +9,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "matrix.hpp"
 
-#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/fwd/mult.hpp>
+#include <boost/hana/fwd/one.hpp>
+#include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/concept/ring.hpp>
+#include <boost/hana/repeat.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/unpack.hpp>
+#include <boost/hana/zip_with.hpp>
 
 #include <utility>
 

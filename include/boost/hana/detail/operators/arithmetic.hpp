@@ -11,10 +11,12 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_OPERATORS_ARITHMETIC_HPP
 
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/fwd/concept/group.hpp>
-#include <boost/hana/fwd/concept/integral_domain.hpp>
-#include <boost/hana/fwd/concept/monoid.hpp>
-#include <boost/hana/fwd/concept/ring.hpp>
+#include <boost/hana/fwd/minus.hpp>
+#include <boost/hana/fwd/mult.hpp>
+#include <boost/hana/fwd/negate.hpp>
+#include <boost/hana/fwd/plus.hpp>
+#include <boost/hana/fwd/quot.hpp>
+#include <boost/hana/fwd/rem.hpp>
 
 #include <type_traits>
 

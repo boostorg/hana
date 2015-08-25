@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_APPLICATIVE_HPP
 #define BOOST_HANA_FWD_CONCEPT_APPLICATIVE_HPP
 
-#include <boost/hana/fwd/ap.hpp>
-#include <boost/hana/fwd/lift.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Applicative` concept represents `Functor`s with the ability

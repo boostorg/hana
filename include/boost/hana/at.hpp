@@ -12,19 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/at.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 #include <cstddef>
 
 
 namespace boost { namespace hana {
-    struct Iterable; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Xs, typename N>
     constexpr decltype(auto) at_t::operator()(Xs&& xs, N&& n) const {

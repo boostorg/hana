@@ -12,20 +12,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/minimum.hpp>
 
+#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/by.hpp> // required by fwd decl
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/less.hpp>
 
 
 namespace boost { namespace hana {
-    struct Foldable; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Xs>
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs) const {
@@ -50,7 +46,7 @@ namespace boost { namespace hana {
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(_models<Foldable, S>{},
+        static_assert(_models<Foldable, S>::value,
         "hana::minimum(xs, predicate) requires 'xs' to be Foldable");
     #endif
 

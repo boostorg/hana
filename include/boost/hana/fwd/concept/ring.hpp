@@ -10,11 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_RING_HPP
 #define BOOST_HANA_FWD_CONCEPT_RING_HPP
 
-#include <boost/hana/fwd/mult.hpp>
-#include <boost/hana/fwd/one.hpp>
-#include <boost/hana/fwd/power.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Ring` concept represents `Group`s that also form a `Monoid`

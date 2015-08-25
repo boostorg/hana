@@ -10,25 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP
 
-#include <boost/hana/fwd/count.hpp>
-#include <boost/hana/fwd/count_if.hpp>
-#include <boost/hana/fwd/fold.hpp>
-#include <boost/hana/fwd/fold_left.hpp>
-#include <boost/hana/fwd/fold_right.hpp>
-#include <boost/hana/fwd/for_each.hpp>
-#include <boost/hana/fwd/fuse.hpp>
-#include <boost/hana/fwd/length.hpp>
-#include <boost/hana/fwd/maximum.hpp>
-#include <boost/hana/fwd/minimum.hpp>
-#include <boost/hana/fwd/monadic_fold_left.hpp>
-#include <boost/hana/fwd/monadic_fold_right.hpp>
-#include <boost/hana/fwd/product.hpp>
-#include <boost/hana/fwd/reverse_fold.hpp>
-#include <boost/hana/fwd/size.hpp>
-#include <boost/hana/fwd/sum.hpp>
-#include <boost/hana/fwd/unpack.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Foldable` concept represents data structures that can be reduced

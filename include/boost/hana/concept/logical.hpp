@@ -13,13 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/logical.hpp>
 
 #include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
-#include <boost/hana/and.hpp>
 #include <boost/hana/eval_if.hpp>
-#include <boost/hana/if.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/not.hpp>
-#include <boost/hana/or.hpp>
 #include <boost/hana/while.hpp>
 
 

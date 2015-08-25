@@ -12,20 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/monad_plus.hpp>
 
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
-#include <boost/hana/append.hpp>
 #include <boost/hana/concat.hpp>
-#include <boost/hana/cycle.hpp>
+#include <boost/hana/core/default.hpp>
 #include <boost/hana/empty.hpp>
-#include <boost/hana/filter.hpp>
-#include <boost/hana/prefix.hpp>
-#include <boost/hana/prepend.hpp>
-#include <boost/hana/remove.hpp>
-#include <boost/hana/remove_if.hpp>
-#include <boost/hana/repeat.hpp>
-#include <boost/hana/suffix.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 
 
 namespace boost { namespace hana {

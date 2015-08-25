@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! [main]
 #include <boost/hana/ext/std/tuple.hpp>
+#include <boost/hana/front.hpp>
 #include <tuple> // still required to create a tuple
 namespace hana = boost::hana;
 

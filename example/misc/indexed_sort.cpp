@@ -4,17 +4,20 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/back.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/less.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/sort.hpp>
 #include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
 #include <boost/hana/zip.hpp>
 
 #include <type_traits>

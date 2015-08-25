@@ -10,16 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_ITERABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_ITERABLE_HPP
 
-#include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/back.hpp>
-#include <boost/hana/fwd/drop_front.hpp>
-#include <boost/hana/fwd/drop_front_exactly.hpp>
-#include <boost/hana/fwd/drop_while.hpp>
-#include <boost/hana/fwd/front.hpp>
-#include <boost/hana/fwd/is_empty.hpp>
-#include <boost/hana/fwd/tail.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Iterable` concept represents data structures supporting external

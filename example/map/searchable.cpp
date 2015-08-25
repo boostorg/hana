@@ -5,6 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/at_key.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/find.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/map.hpp>

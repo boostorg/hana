@@ -12,31 +12,34 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/set.hpp>
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/erase_key.hpp>
-#include <boost/hana/functional/flip.hpp>
-#include <boost/hana/functional/id.hpp>
-#include <boost/hana/fwd/concept/constant.hpp>
+#include <boost/hana/find_if.hpp>
+#include <boost/hana/fold_left.hpp>
+#include <boost/hana/fwd/any_of.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/difference.hpp>
+#include <boost/hana/fwd/intersection.hpp>
+#include <boost/hana/fwd/union.hpp>
 #include <boost/hana/insert.hpp>
-#include <boost/hana/lazy.hpp>
+#include <boost/hana/is_subset.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/or.hpp>
+#include <boost/hana/remove.hpp>
 #include <boost/hana/tuple.hpp>
-
-#include <boost/hana/difference.hpp>
-#include <boost/hana/intersection.hpp>
-#include <boost/hana/symmetric_difference.hpp>
-#include <boost/hana/union.hpp>
+#include <boost/hana/unpack.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -189,7 +192,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(static_cast<Xs&&>(xs),
-                                   hana::make<Set>(),
+                                   hana::make_set(),
                                    hana::insert);
         }
     };

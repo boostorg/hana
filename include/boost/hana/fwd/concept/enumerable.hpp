@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_ENUMERABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_ENUMERABLE_HPP
 
-#include <boost/hana/fwd/pred.hpp>
-#include <boost/hana/fwd/succ.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! Represents data types whose values can be enumerated.

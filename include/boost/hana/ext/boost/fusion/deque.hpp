@@ -10,11 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
 
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/tail.hpp>
 
 #include <boost/fusion/container/deque.hpp>
 #include <boost/fusion/container/generation/make_deque.hpp>

@@ -13,21 +13,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/transform.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/fwd/adjust_if.hpp>
 #include <boost/hana/unpack.hpp>
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo include the forward declaration instead
-    struct Functor;
-
     //! @cond
     template <typename Xs, typename F>
     constexpr auto transform_t::operator()(Xs&& xs, F&& f) const {

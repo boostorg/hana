@@ -4,6 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana.hpp>
+
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 
@@ -240,16 +242,18 @@ namespace boost { namespace hana { namespace sandbox {
 #include <iostream>
 using namespace boost::hana;
 using namespace sandbox::literals;
-using sandbox::string;
+
 
 
 namespace test_capacity {
+    using sandbox::string;
     static_assert(string{""}.size() == 0, "");
     static_assert(string{"a"}.size() == 1, "");
     static_assert(string{"abcd"}.size() == 4, "");
 }
 
 namespace test_access {
+    using sandbox::string;
     constexpr string s{"abcdef"};
     static_assert(s[0] == 'a' && s[1] == 'b', "");
     // non-const operator[] will be preferred, but it is deleted
@@ -257,6 +261,7 @@ namespace test_access {
 }
 
 namespace test_comparison {
+    using sandbox::string;
     static_assert(string{"foo"} < string{"fool"}, "");
     static_assert(string{"abc"} < string{"abd"}, "");
     static_assert(string{"fool"} > string{"foo"}, "");
@@ -270,11 +275,13 @@ namespace test_comparison {
 }
 
 namespace test_literals {
+    using sandbox::string;
     static_assert("abcd"_s == string{"abcd"}, "");
 }
 
 
 int main() {
+    using sandbox::string;
     constexpr string hello{"hello"}, world{"world"};
     static_assert(!hello.empty(), "");
     static_assert(hello.size() == 5, "");

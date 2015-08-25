@@ -11,12 +11,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -45,7 +46,7 @@ namespace boost { namespace hana {
             // sizeof...(xs) != sizeof...(ys)
             char(*)[sizeof...(xs) == sizeof...(ys)] = 0)
         {
-            return bool_<std::is_same<
+            return hana::bool_<std::is_same<
                std::integer_sequence<bool, (xs == ys)...>,
                std::integer_sequence<bool, ((void)xs, true)...>
             >::value>;
@@ -53,7 +54,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs, Ys, ...)
-        { return false_; }
+        { return hana::false_; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -94,7 +95,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<ext::std::IntegerSequence> {
         template <typename T, T ...xs>
         static constexpr auto apply(std::integer_sequence<T, xs...>)
-        { return bool_<sizeof...(xs) == 0>; }
+        { return hana::bool_<sizeof...(xs) == 0>; }
     };
 }} // end namespace boost::hana
 

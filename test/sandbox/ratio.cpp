@@ -4,9 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#include <boost/hana.hpp>
+
 #include <type_traits>
 
 
+namespace sandbox {
 constexpr struct sign_ {
     template <typename X>
     constexpr X operator()(X x) const {
@@ -165,6 +168,6 @@ static_assert(two + three == 5_r, "");
 static_assert(two * three < 10_r, "");
 
 static_assert(1_r / 2_r == ratio<int>{1, 2}, "");
-
+} // end namespace sandbox
 
 int main() { }

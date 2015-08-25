@@ -5,6 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/at_key.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/find.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/set.hpp>
@@ -19,6 +22,6 @@ int main() {
     // operator[] is equivalent to at_key
     BOOST_HANA_CONSTANT_CHECK(xs[hana::int_<2>] == hana::int_<2>);
 
-    // long_<0> == hana::int_<0>, and therefore hana::int_<0> is found
+    // long_<0> == int_<0>, and therefore int_<0> is found
     BOOST_HANA_CONSTANT_CHECK(xs[hana::long_<0>] == hana::int_<0>);
 }

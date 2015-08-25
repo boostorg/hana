@@ -10,16 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_FUNCTOR_HPP
 #define BOOST_HANA_FWD_CONCEPT_FUNCTOR_HPP
 
-#include <boost/hana/core/when.hpp>
-
-#include <boost/hana/fwd/transform.hpp>
-#include <boost/hana/fwd/fill.hpp>
-#include <boost/hana/fwd/adjust_if.hpp>
-#include <boost/hana/fwd/adjust.hpp>
-#include <boost/hana/fwd/replace.hpp>
-#include <boost/hana/fwd/replace_if.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Functor` concept represents types that can be mapped over.

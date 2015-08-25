@@ -12,18 +12,14 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/keys.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/when.hpp>
-
 #include <boost/hana/accessors.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/transform.hpp>
 
 
 namespace boost { namespace hana {
-    struct Struct; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Map>
     constexpr auto keys_t::operator()(Map&& map) const {

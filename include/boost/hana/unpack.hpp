@@ -12,15 +12,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/unpack.hpp>
 
+#include <boost/hana/accessors.hpp>
 #include <boost/hana/at.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/first.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/fold_left.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/pair.hpp>
+#include <boost/hana/second.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -28,9 +31,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Foldable; //! @todo include the forward declaration instead
-    struct Iterable;
-
     //! @cond
     template <typename Xs, typename F>
     constexpr decltype(auto) unpack_t::operator()(Xs&& xs, F&& f) const {
@@ -89,6 +89,51 @@ namespace boost { namespace hana {
             return unpack_impl::unpack_helper(static_cast<Xs&&>(xs),
                                               static_cast<F&&>(f),
                                               std::make_index_sequence<N>{});
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Products
+    //////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    struct unpack_impl<T, when<_models<Product, T>::value>> {
+        template <typename P, typename F>
+        static constexpr decltype(auto) apply(P&& p, F&& f) {
+            return static_cast<F&&>(f)(
+                hana::first(static_cast<P&&>(p)),
+                hana::second(static_cast<P&&>(p))
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Model for Structs
+    //////////////////////////////////////////////////////////////////////////
+    namespace struct_detail {
+        // This is equivalent to `demux`, except that `demux` can't forward
+        // the `udt` because it does not know the `g`s are accessors. Hence,
+        // this can result in faster code.
+        struct almost_demux {
+            template <typename F, typename Udt, typename ...Members>
+            constexpr decltype(auto)
+            operator()(F&& f, Udt&& udt, Members&& ...g) const {
+                return static_cast<F&&>(f)(hana::make_pair(
+                    hana::first(static_cast<Members&&>(g)),
+                    hana::second(static_cast<Members&&>(g))
+                                                (static_cast<Udt&&>(udt))
+                )...);
+            }
+        };
+    }
+
+    template <typename S>
+    struct unpack_impl<S, when<_models<Struct, S>::value>> {
+        template <typename Udt, typename F>
+        static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
+            return hana::unpack(hana::accessors<S>(),
+                hana::partial(struct_detail::almost_demux{},
+                              static_cast<F&&>(f),
+                              static_cast<Udt&&>(udt)));
         }
     };
 }} // end namespace boost::hana

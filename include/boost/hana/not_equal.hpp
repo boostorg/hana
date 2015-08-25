@@ -12,26 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/not_equal.hpp>
 
-//! @todo Get rid of these includes
-#include <boost/hana/bool.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/common.hpp>
+#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/concepts.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
-#include <boost/hana/detail/has_common_embedding.hpp>
-#include <boost/hana/functional/partial.hpp>
-#include <boost/hana/concept/logical.hpp>
-
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/nested_to.hpp> // required by fwd decl
 #include <boost/hana/equal.hpp>
@@ -39,8 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Comparable; //! @todo Include the fwd decl instead
-
     //! @cond
     template <typename X, typename Y>
     constexpr auto not_equal_t::operator()(X&& x, Y&& y) const {

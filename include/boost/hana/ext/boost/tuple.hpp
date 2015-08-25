@@ -11,11 +11,14 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_TUPLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
 #include <boost/tuple/tuple.hpp>
@@ -105,9 +108,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, ext::boost::Tuple>
-        : decltype(hana::true_)
-    { };
+    struct models_impl<Sequence, ext::boost::Tuple> {
+        static constexpr bool value = true;
+    };
 
     template <>
     struct make_impl<ext::boost::Tuple> {

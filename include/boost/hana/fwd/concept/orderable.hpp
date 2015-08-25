@@ -10,15 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_ORDERABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_ORDERABLE_HPP
 
-#include <boost/hana/fwd/greater.hpp>
-#include <boost/hana/fwd/greater_equal.hpp>
-#include <boost/hana/fwd/less.hpp>
-#include <boost/hana/fwd/less_equal.hpp>
-#include <boost/hana/fwd/max.hpp>
-#include <boost/hana/fwd/min.hpp>
-#include <boost/hana/fwd/ordering.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Orderable` concept represents totally ordered data types.

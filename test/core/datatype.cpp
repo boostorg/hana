@@ -5,27 +5,28 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/when.hpp>
 
 #include <type_traits>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <typename T, typename ExpectedDatatype>
 struct test {
-    static_assert(std::is_same<datatype_t<T>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T volatile>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const volatile>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T volatile>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const volatile>, ExpectedDatatype>{}, "");
 
-    static_assert(std::is_same<datatype_t<T&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T volatile&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const volatile&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T volatile&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const volatile&>, ExpectedDatatype>{}, "");
 
-    static_assert(std::is_same<datatype_t<T&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T volatile&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<datatype_t<T const volatile&&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T&&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const&&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T volatile&&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::datatype_t<T const volatile&&>, ExpectedDatatype>{}, "");
 };
 
 struct NestedDatatype;
@@ -65,7 +66,7 @@ struct PredicatedDatatype;
 struct Predicated { static constexpr bool predicate = true; };
 namespace boost { namespace hana {
     template <typename T>
-    struct datatype<T, when<T::predicate>> {
+    struct datatype<T, hana::when<T::predicate>> {
         using type = PredicatedDatatype;
     };
 }}

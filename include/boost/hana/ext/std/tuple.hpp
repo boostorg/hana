@@ -11,16 +11,17 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_TUPLE_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/applicative.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/empty.hpp>
+#include <boost/hana/fwd/flatten.hpp>
+#include <boost/hana/fwd/front.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/lift.hpp>
+#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
@@ -87,8 +88,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs xs) {
             using Raw = typename std::remove_reference<Xs>::type;
             constexpr std::size_t len = std::tuple_size<Raw>::value;
-            return flatten_helper(xs,
-                    std::make_index_sequence<len>{});
+            return flatten_helper(xs, std::make_index_sequence<len>{});
         }
     };
 
@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<ext::std::Tuple> {
         template <typename ...Xs>
         static constexpr auto apply(std::tuple<Xs...> const&)
-        { return bool_<sizeof...(Xs) == 0>; }
+        { return hana::bool_<sizeof...(Xs) == 0>; }
     };
 
     template <>
@@ -164,9 +164,9 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, ext::std::Tuple>
-        : decltype(true_)
-    { };
+    struct models_impl<Sequence, ext::std::Tuple> {
+        static constexpr bool value = true;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_TUPLE_HPP

@@ -12,24 +12,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
-#include <boost/hana/concept/applicative.hpp>
-#include <boost/hana/concept/comonad.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
-#include <boost/hana/detail/wrong.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/compose.hpp>
-#include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/on.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/concept/monad.hpp>
-
-#include <boost/hana/eval.hpp>
+#include <boost/hana/fwd/ap.hpp>
+#include <boost/hana/fwd/duplicate.hpp>
+#include <boost/hana/fwd/eval.hpp>
+#include <boost/hana/fwd/extend.hpp>
+#include <boost/hana/fwd/extract.hpp>
+#include <boost/hana/fwd/flatten.hpp>
+#include <boost/hana/fwd/lift.hpp>
+#include <boost/hana/fwd/transform.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -190,7 +186,7 @@ namespace boost { namespace hana {
     struct flatten_impl<Lazy> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr) {
-            return hana::lazy(hana::compose(eval, eval))(
+            return hana::lazy(hana::compose(hana::eval, hana::eval))(
                 static_cast<Expr&&>(expr)
             );
         }
@@ -217,8 +213,7 @@ namespace boost { namespace hana {
     struct extend_impl<Lazy> {
         template <typename Expr, typename F>
         static constexpr decltype(auto) apply(Expr&& expr, F&& f) {
-            return hana::lazy(static_cast<F&&>(f))(
-                                        static_cast<Expr&&>(expr));
+            return hana::lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));
         }
     };
 }} // end namespace boost::hana

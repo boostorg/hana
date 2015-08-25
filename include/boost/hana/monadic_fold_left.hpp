@@ -13,10 +13,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/monadic_fold_left.hpp>
 
 #include <boost/hana/chain.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/monad.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/fold_right.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -26,8 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Monad; //! @todo Include the fwd decl instead
-
     template <typename M>
     struct monadic_fold_left_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -70,7 +68,6 @@ namespace boost { namespace hana {
     };
 
     namespace detail {
-
         struct foldlM_helper {
             template <typename F, typename X, typename K, typename Z>
             constexpr decltype(auto) operator()(F&& f, X&& x, K&& k, Z&& z) const {

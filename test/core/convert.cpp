@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <string>
 #include <type_traits>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <typename X, typename Y>
@@ -51,39 +51,39 @@ namespace boost { namespace hana {
 
 template <typename F, typename T>
 void check_convert(F f, T t) {
-    using From = datatype_t<F>;
-    using To = datatype_t<T>;
+    using From = hana::datatype_t<F>;
+    using To = hana::datatype_t<T>;
 
     // Check From -> To conversion
-    BOOST_HANA_RUNTIME_CHECK(to<To>(f) == t);
+    BOOST_HANA_RUNTIME_CHECK(hana::to<To>(f) == t);
     static_assert(std::is_same<
-        datatype_t<decltype(to<To>(f))>, To
+        hana::datatype_t<decltype(hana::to<To>(f))>, To
     >{}, "");
 
-    static_assert(is_convertible<From, To>{}, "");
+    static_assert(hana::is_convertible<From, To>{}, "");
 
 
     // Make sure From -> From and To -> To are the identity.
-    BOOST_HANA_RUNTIME_CHECK(to<From>(f) == f);
+    BOOST_HANA_RUNTIME_CHECK(hana::to<From>(f) == f);
     static_assert(std::is_same<
-        datatype_t<decltype(to<From>(f))>, From
+        hana::datatype_t<decltype(hana::to<From>(f))>, From
     >{}, "");
 
-    BOOST_HANA_RUNTIME_CHECK(to<To>(t) == t);
+    BOOST_HANA_RUNTIME_CHECK(hana::to<To>(t) == t);
     static_assert(std::is_same<
-        datatype_t<decltype(to<To>(t))>, To
+        hana::datatype_t<decltype(hana::to<To>(t))>, To
     >{}, "");
 
-    static_assert(is_convertible<From, From>{}, "");
-    static_assert(is_convertible<To, To>{}, "");
+    static_assert(hana::is_convertible<From, From>{}, "");
+    static_assert(hana::is_convertible<To, To>{}, "");
 
-    static_assert(is_embedded<From, From>{}, "");
-    static_assert(is_embedded<To, To>{}, "");
+    static_assert(hana::is_embedded<From, From>{}, "");
+    static_assert(hana::is_embedded<To, To>{}, "");
 }
 
 template <typename X>
 void check_variable_template_in_dependent_context(X x) {
-    to<int>(x);
+    hana::to<int>(x);
 }
 
 int main() {
@@ -100,9 +100,9 @@ int main() {
     check_convert(Other{1}, Other{1});
     check_convert(specialized_from{1}, specialized_to{1});
 
-    static_assert(!is_convertible<void, int>{}, "");
-    static_assert(!is_embedded<void, int>{}, "");
+    static_assert(!hana::is_convertible<void, int>{}, "");
+    static_assert(!hana::is_embedded<void, int>{}, "");
 
-    static_assert(is_convertible<int, void>{}, "");
-    static_assert(!is_embedded<int, void>{}, "");
+    static_assert(hana::is_convertible<int, void>{}, "");
+    static_assert(!hana::is_embedded<int, void>{}, "");
 }

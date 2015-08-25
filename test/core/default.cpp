@@ -5,16 +5,16 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/core/default.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <typename T>
-struct method_impl : default_ { };
+struct method_impl : hana::default_ { };
 
 template <>
 struct method_impl<int> { };
 
-static_assert(is_default<method_impl<void>>{}, "");
-static_assert(!is_default<method_impl<int>>{}, "");
+static_assert(hana::is_default<method_impl<void>>{}, "");
+static_assert(!hana::is_default<method_impl<int>>{}, "");
 
 int main() { }

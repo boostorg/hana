@@ -12,9 +12,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/core/convert.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/common.hpp>
+#include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/wrong.hpp>
+#include <boost/hana/unpack.hpp>
+#include <boost/hana/value.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -124,6 +130,32 @@ namespace boost { namespace hana {
     struct is_embedded<From, To, decltype((void)
         static_cast<embedding<true>>(*(to_impl<To, From>*)0)
     )> : std::true_type { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Conversion for Constants
+    //////////////////////////////////////////////////////////////////////////
+    template <typename To, typename From>
+    struct to_impl<To, From, when<
+        _models<Constant, From>::value &&
+        is_convertible<typename From::value_type, To>::value
+    >> : embedding<is_embedded<typename From::value_type, To>::value> {
+        template <typename X>
+        static constexpr decltype(auto) apply(X const&)
+        { return hana::to<To>(hana::value<X>()); }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Foldable -> Sequence
+    //////////////////////////////////////////////////////////////////////////
+    template <typename S, typename F>
+    struct to_impl<S, F, when<
+        _models<Sequence, S>::value &&
+        _models<Foldable, F>::value
+    >> : embedding<_models<Sequence, F>::value> {
+        template <typename Xs>
+        static constexpr decltype(auto) apply(Xs&& xs)
+        { return hana::unpack(static_cast<Xs&&>(xs), hana::make<S>); }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_CONVERT_HPP

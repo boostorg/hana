@@ -12,16 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/first.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/product.hpp>
+#include <boost/hana/core/dispatch.hpp>
 
 
 namespace boost { namespace hana {
-    struct Product; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Pair>
     constexpr decltype(auto) first_t::operator()(Pair&& pair) const {

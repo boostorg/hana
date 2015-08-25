@@ -9,15 +9,15 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <typename T>
 decltype(auto) call_always(T&& x) {
-    return always(std::forward<T>(x))();
+    return hana::always(std::forward<T>(x))();
 }
 
 int main() {
-    auto copy = call_always(test::Tracked{1});
+    auto copy = call_always(hana::test::Tracked{1});
     (void)copy;
 }

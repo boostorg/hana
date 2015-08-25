@@ -12,24 +12,37 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/range.hpp>
 
-#include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/back.hpp>
+#include <boost/hana/fwd/contains.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
+#include <boost/hana/fwd/drop_front_exactly.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/find.hpp>
+#include <boost/hana/fwd/front.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/maximum.hpp>
+#include <boost/hana/fwd/minimum.hpp>
+#include <boost/hana/fwd/product.hpp>
+#include <boost/hana/fwd/sum.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
 #include <boost/hana/optional.hpp>
+#include <boost/hana/value.hpp>
 
 #include <cstddef>
-#include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -42,7 +55,7 @@ namespace boost { namespace hana {
         , detail::iterable_operators<range_t<T, From, To>>
     {
         static_assert(From <= To,
-        "invalid usage of boost::hana::range(from, to) with from > to");
+        "invalid usage of boost::hana::make_range(from, to) with from > to");
 
         using value_type = T;
         static constexpr value_type from = From;
@@ -126,7 +139,7 @@ namespace boost { namespace hana {
     struct length_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(range_t<T, from, to> const&)
-        { return size_t<static_cast<std::size_t>(to - from)>; }
+        { return hana::size_t<static_cast<std::size_t>(to - from)>; }
     };
 
     template <>

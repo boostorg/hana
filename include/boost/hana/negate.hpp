@@ -12,12 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/negate.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
+#include <boost/hana/concept/group.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/fwd/minus.hpp>
 #include <boost/hana/zero.hpp>
 

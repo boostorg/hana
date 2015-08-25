@@ -10,9 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_PAIR_HPP
 #define BOOST_HANA_EXT_STD_PAIR_HPP
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/concept/product.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/first.hpp>
+#include <boost/hana/fwd/second.hpp>
 
 #include <utility>
 

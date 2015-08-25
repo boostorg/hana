@@ -10,14 +10,17 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_SANDBOX_SEARCHABLE_SET_HPP
 #define BOOST_HANA_SANDBOX_SEARCHABLE_SET_HPP
 
+#include <boost/hana.hpp>
+
 #include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/concept/functor.hpp>
 #include <boost/hana/concept/logical.hpp>
 #include <boost/hana/concept/monad.hpp>
-#include <boost/hana/optional.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/config.hpp>
+#include <boost/hana/optional.hpp>
+#include <boost/hana/union.hpp>
 
 
 namespace boost { namespace hana {
@@ -47,8 +50,12 @@ namespace boost { namespace hana {
         });
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto union_ = [](auto xs, auto ys) {
-        return flatten(doubleton(xs, ys));
+    template <>
+    struct union_impl<SearchableSet> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs xs, Ys ys) {
+            return flatten(doubleton(xs, ys));
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

@@ -12,29 +12,30 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/optional.hpp>
 
-#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/functional/always.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/eval_if.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/partial.hpp>
-#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/fwd/any_of.hpp>
+#include <boost/hana/fwd/ap.hpp>
+#include <boost/hana/fwd/concat.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/empty.hpp>
+#include <boost/hana/fwd/find_if.hpp>
+#include <boost/hana/fwd/flatten.hpp>
+#include <boost/hana/fwd/lift.hpp>
+#include <boost/hana/fwd/transform.hpp>
 #include <boost/hana/fwd/type.hpp>
+#include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/less.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -153,7 +154,7 @@ namespace boost { namespace hana {
     template <typename Pred, typename F, typename X>
     constexpr decltype(auto) only_when_t::operator()(Pred&& pred, F&& f, X&& x) const {
         return hana::eval_if(static_cast<Pred&&>(pred)(x),
-            hana::lazy(hana::compose(just, static_cast<F&&>(f)))(
+            hana::lazy(hana::compose(hana::just, static_cast<F&&>(f)))(
                 static_cast<X&&>(x)
             ),
             hana::lazy(hana::nothing)
@@ -214,14 +215,14 @@ namespace boost { namespace hana {
     struct less_impl<Optional, Optional> {
         template <typename T>
         static constexpr auto apply(nothing_t const&, just_t<T> const&)
-        { return true_; }
+        { return hana::true_; }
 
         static constexpr auto apply(nothing_t const&, nothing_t const&)
-        { return false_; }
+        { return hana::false_; }
 
         template <typename T>
         static constexpr auto apply(just_t<T> const&, nothing_t const&)
-        { return false_; }
+        { return hana::false_; }
 
         template <typename T, typename U>
         static constexpr auto apply(just_t<T> const& x, just_t<U> const& y)
@@ -236,8 +237,8 @@ namespace boost { namespace hana {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& m, F&& f) {
             return hana::maybe(
-                nothing,
-                hana::compose(just, static_cast<F&&>(f)),
+                hana::nothing,
+                hana::compose(hana::just, static_cast<F&&>(f)),
                 static_cast<M&&>(m)
             );
         }
@@ -266,11 +267,12 @@ namespace boost { namespace hana {
 
         template <typename F, typename X>
         static constexpr auto apply(F&& f, X&& x) {
-            auto f_is_just = hana::is_just(f);
-            auto x_is_just = hana::is_just(x);
-            return apply_impl(
+            return ap_impl::apply_impl(
                 static_cast<F&&>(f), static_cast<X&&>(x),
-                hana::bool_<hana::value(f_is_just) && hana::value(x_is_just)>
+                hana::bool_<
+                    decltype(hana::is_just(f))::value &&
+                    decltype(hana::is_just(x))::value
+                >
             );
         }
     };

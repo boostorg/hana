@@ -13,14 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/group.hpp>
 
 #include <boost/hana/at.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/by.hpp> // required by fwd decl
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/value.hpp>
@@ -30,8 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo Include the fwd decl instead
-
     //! @cond
     template <typename Xs>
     constexpr auto group_t::operator()(Xs&& xs) const {

@@ -12,7 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/core/common.hpp>
 
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std_common_type.hpp>
 #include <boost/hana/detail/void_t.hpp>
 
@@ -46,6 +49,59 @@ namespace boost { namespace hana {
     struct has_common<T, U, detail::void_t<typename common<T, U>::type>>
         : std::true_type
     { };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Provided common data types for Constants
+    //////////////////////////////////////////////////////////////////////////
+    namespace constant_detail {
+        //! @todo
+        //! This is an awful hack to avoid having
+        //! @code
+        //!     common<IntegralConstant<int>, IntegralConstant<long>>
+        //!         ==
+        //!     CanonicalConstant<long>
+        //! @endcode
+        template <typename A, typename B, typename C>
+        struct which {
+            using type = detail::CanonicalConstant<C>;
+        };
+
+        template <template <typename ...> class A, typename T, typename U, typename C>
+        struct which<A<T>, A<U>, C> {
+            using type = A<C>;
+        };
+    }
+
+    template <typename A, typename B>
+    struct common<A, B, when<
+        _models<Constant, A>::value &&
+        _models<Constant, B>::value &&
+        has_common<typename A::value_type, typename B::value_type>::value
+    >> {
+        using type = typename constant_detail::which<
+            A, B,
+            typename common<typename A::value_type,
+                            typename B::value_type>::type
+        >::type;
+    };
+
+    template <typename A, typename B>
+    struct common<A, B, when<
+        _models<Constant, A>::value &&
+        !_models<Constant, B>::value &&
+        has_common<typename A::value_type, B>::value
+    >> {
+        using type = typename common<typename A::value_type, B>::type;
+    };
+
+    template <typename A, typename B>
+    struct common<A, B, when<
+        !_models<Constant, A>::value &&
+        _models<Constant, B>::value &&
+        has_common<A, typename B::value_type>::value
+    >> {
+        using type = typename common<A, typename B::value_type>::type;
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_COMMON_HPP

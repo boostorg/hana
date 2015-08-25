@@ -12,20 +12,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/find_if.hpp>
 
+#include <boost/hana/accessors.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
+#include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_while.hpp>
+#include <boost/hana/first.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/second.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -33,10 +37,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Searchable; //! @todo include the forward declaration instead
-    struct Sequence;
-    struct Iterable;
-
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto find_if_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -129,6 +129,32 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             return find_if_helper(static_cast<Xs&&>(xs),
                 hana::bool_<hana::value<decltype(pred(xs[0]))>()>
+            );
+        }
+    };
+
+    namespace struct_detail {
+        template <typename X>
+        struct get_member {
+            X x;
+            template <typename Member>
+            constexpr decltype(auto) operator()(Member&& member) && {
+                return hana::second(static_cast<Member&&>(member))(
+                    static_cast<X&&>(x)
+                );
+            }
+        };
+    }
+
+    template <typename S>
+    struct find_if_impl<S, when<_models<Struct, S>::value>> {
+        template <typename X, typename Pred>
+        static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
+            return hana::transform(
+                hana::find_if(hana::accessors<S>(),
+                    hana::compose(static_cast<Pred&&>(pred), hana::first)
+                ),
+                struct_detail::get_member<X>{static_cast<X&&>(x)}
             );
         }
     };

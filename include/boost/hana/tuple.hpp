@@ -12,35 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/tuple.hpp>
 
-//! @todo Remove these old includes
-#include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/generate_integer_sequence.hpp>
-#include <boost/hana/detail/type_foldl1.hpp>
-#include <boost/hana/detail/type_foldr1.hpp>
-#include <boost/hana/detail/variadic/foldl1.hpp>
-#include <boost/hana/detail/variadic/foldr1.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/functional/apply.hpp>
-#include <boost/hana/functional/curry.hpp>
-#include <boost/hana/functional/overload_linearly.hpp>
-#include <boost/hana/concept/functor.hpp>
-#include <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/lazy.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/optional.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/type.hpp>
-
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -55,6 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/type.hpp> // required by fwd decl of tuple_t
 #include <boost/hana/value.hpp>
 
 #include <cstddef>

@@ -10,10 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_MONOID_HPP
 #define BOOST_HANA_FWD_CONCEPT_MONOID_HPP
 
-#include <boost/hana/fwd/plus.hpp>
-#include <boost/hana/fwd/zero.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Monoid` concept represents data types with an associative

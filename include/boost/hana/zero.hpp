@@ -12,13 +12,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/zero.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
+#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/monoid.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 
 #include <type_traits>
@@ -27,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     template <typename M>
     struct zero_t {
-
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Monoid, M>::value,
         "hana::zero<M>() requires 'M' to be a Monoid");

@@ -10,9 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP
 #define BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP
 
-#include <boost/hana/fwd/value.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Constant` concept represents data that can be manipulated at

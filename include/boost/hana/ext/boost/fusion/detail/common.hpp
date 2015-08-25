@@ -11,12 +11,13 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_FUSION_DETAIL_COMMON_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/concept/sequence.hpp>
+#include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/value.hpp>
 
 #include <boost/fusion/sequence/intrinsic/at.hpp>
 #include <boost/fusion/sequence/intrinsic/empty.hpp>

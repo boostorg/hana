@@ -12,14 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/functor.hpp>
 
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-
-#include <boost/hana/adjust.hpp>
 #include <boost/hana/adjust_if.hpp>
-#include <boost/hana/fill.hpp>
-#include <boost/hana/replace.hpp>
-#include <boost/hana/replace_if.hpp>
+#include <boost/hana/core/default.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/transform.hpp>
 
 

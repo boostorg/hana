@@ -10,11 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP
 
-#include <boost/hana/fwd/comparing.hpp>
-#include <boost/hana/fwd/equal.hpp>
-#include <boost/hana/fwd/not_equal.hpp>
-
-
 namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `Comparable` concept defines equality and inequality.

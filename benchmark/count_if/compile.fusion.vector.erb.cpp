@@ -11,7 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/include/count_if.hpp>
 #include <boost/fusion/include/make_vector.hpp>
 
+#include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/rem.hpp>
 
 
 struct is_even {

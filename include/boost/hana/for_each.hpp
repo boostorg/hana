@@ -12,15 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/for_each.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/unpack.hpp>
 
 
 namespace boost { namespace hana {
-    struct Foldable; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Xs, typename F>
     constexpr void for_each_t::operator()(Xs&& xs, F&& f) const {

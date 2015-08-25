@@ -5,18 +5,17 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/any_of.hpp>
-#include <boost/hana/find_if.hpp>
-
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/equal.hpp>
+#include <boost/hana/find_if.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/value.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 // A simple infinite Iterable.
@@ -47,10 +46,10 @@ namespace boost { namespace hana {
 int main() {
     // find_if and any_of should short-circuit and stop even though the
     // Iterable is infinite.
-    BOOST_HANA_CONSTANT_CHECK(any_of(counter<1>{}, equal.to(int_<4>)));
+    BOOST_HANA_CONSTANT_CHECK(hana::any_of(counter<1>{}, hana::equal.to(hana::int_<4>)));
 
-    BOOST_HANA_CONSTANT_CHECK(equal(
-        find_if(counter<1>{}, equal.to(int_<4>)),
-        just(int_<4>)
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::find_if(counter<1>{}, hana::equal.to(hana::int_<4>)),
+        hana::just(hana::int_<4>)
     ));
 }

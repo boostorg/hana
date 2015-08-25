@@ -2210,37 +2210,21 @@ over other heterogeneous containers, please stick with normal homogeneous
 containers if that's all you need for your application; your compile-times
 will be much faster that way.
 
-Now, as you can see, Hana's compile-time _complexity_ is better than the
-other heterogeneous alternatives, because its curve is flatter. However,
-if you look closer at the curves, you will see that the MPL and `std::tuple`
-have lower compile-times for small numbers of elements. This is because
-including Hana's `Tuple` takes more time than including `mpl::vector` or
-`std::tuple`, and you are witnessing that slowdown by a constant amount.
-The reason why including Hana's `Tuple` is slower than including `std::tuple`
-or `mpl::vector` is because they both include no functionality whatsoever
-besides the container itself, while Hana's `Tuple` includes all the algorithms
-it can be used with. For `std::tuple`, there's also no way of getting more
-functionality because the standard does not provide it. For `mpl::vector`,
-however, you often end up manually including a bunch headers to get the
-functionality you need, which makes this constant slowdown inexistent in
-real code and forces you to write huge numbers of includes.
-
 You can also see that creating sequences has a non-negligible cost. Actually,
-this is really the most expensive part of doing heterogeneous computations, as
-you will see in the following charts showing the compile-time performance of
-algorithms. When you look at the charts here and elsewhere in the library,
-keep in mind the cost of merely creating the sequences. Also note that only
-the most important algorithms will be presented here, but micro benchmarks for
-compile-time performance are scattered in the reference documentation. Also,
-the benchmarks we present compare several different libraries. However, since
-Hana and Fusion can work with values and not only types, comparing their
-algorithms with type-only libraries like MPL is not really fair. Indeed,
-Hana and Fusion algorithms are more powerful since they also allow runtime
-effects to be performed. However, the comparison between Fusion and Hana is
-fair, because both libraries are just as powerful (strictly speaking).
-Finally, we can't show benchmarks of the algorithms for `std::tuple`, because
-the standard does not provide equivalent algorithms. Of course, we could use
-Hana's external adapters, but that would not be a faithful comparison.
+this is really the most expensive part of doing heterogeneous computations,
+as you will see in the following charts. When you look at the charts here and
+elsewhere in the library, keep in mind the cost of merely creating the sequences.
+Also note that only the most important algorithms will be presented here, but
+micro benchmarks for compile-time performance are scattered in the reference
+documentation. Also, the benchmarks we present compare several different
+libraries. However, since Hana and Fusion can work with values and not only
+types, comparing their algorithms with type-only libraries like MPL is not
+really fair. Indeed, Hana and Fusion algorithms are more powerful since they
+also allow runtime effects to be performed. However, the comparison between
+Fusion and Hana is fair, because both libraries are just as powerful (strictly
+speaking). Finally, we can't show benchmarks of the algorithms for `std::tuple`,
+because the standard does not provide equivalent algorithms. Of course, we
+could use Hana's external adapters, but that would not be a faithful comparison.
 
 The first algorithm which is ubiquitous in metaprogramming is `transform`.
 It takes a sequence and a function, and returns a new sequence containing the

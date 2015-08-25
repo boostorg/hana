@@ -5,6 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/cartesian_product.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 namespace hana = boost::hana;

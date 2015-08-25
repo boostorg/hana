@@ -6,8 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/map.hpp>
 #include <boost/hana/optional.hpp>
+namespace hana = boost::hana;
 
 
-auto opt = boost::hana::just(boost::hana::make_map());
+auto opt = hana::just(hana::make_map());
 
 int main() { }

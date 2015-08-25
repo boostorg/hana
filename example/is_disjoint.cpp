@@ -7,8 +7,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/is_disjoint.hpp>
 #include <boost/hana/map.hpp>
+#include <boost/hana/not.hpp>
 #include <boost/hana/set.hpp>
 #include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
 
 #include <string>
 namespace hana = boost::hana;

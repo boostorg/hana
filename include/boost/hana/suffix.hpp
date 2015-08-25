@@ -12,13 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/suffix.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
 #include <boost/hana/chain.hpp>
+#include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/lift.hpp>
 #include <boost/hana/prepend.hpp>

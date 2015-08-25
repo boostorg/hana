@@ -12,14 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/insert_range.hpp>
 
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
-#include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
-
 #include <boost/hana/concat.hpp>
+#include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
 #include <boost/hana/take.hpp>
 

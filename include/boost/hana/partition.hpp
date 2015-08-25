@@ -13,14 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/partition.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/core/datatype.hpp>
-#include <boost/hana/core/default.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/by.hpp> // required by fwd decl
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/constexpr/array.hpp>
-#include <boost/hana/detail/dispatch_if.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
@@ -30,8 +28,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    struct Sequence; //! @todo include the forward declaration instead
-
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto partition_t::operator()(Xs&& xs, Pred&& pred) const {

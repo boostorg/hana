@@ -13,25 +13,30 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/string.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/contains.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/find.hpp>
+#include <boost/hana/fwd/front.hpp>
+#include <boost/hana/fwd/is_empty.hpp>
+#include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/less.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 
+#include <utility>
 #include <cstddef>
 #include <type_traits>
 
