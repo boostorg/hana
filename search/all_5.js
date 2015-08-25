@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['either',['Either',['../structboost_1_1hana_1_1Either.html',1,'boost::hana']]],
-  ['either',['either',['../structboost_1_1hana_1_1Either.html#ad53196ce1c8235c53dc237668780cd36',1,'boost::hana::Either']]],
-  ['either_2ehpp',['either.hpp',['../fwd_2either_8hpp.html',1,'']]],
-  ['either_2ehpp',['either.hpp',['../either_8hpp.html',1,'']]],
   ['embedding',['embedding',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
   ['embedding_3c_20_5fmodels_3c_20sequence_2c_20f_20_3e_3a_3avalue_20_3e',['embedding&lt; _models&lt; Sequence, F &gt;::value &gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
   ['embedding_3c_20is_5fembedded_3c_20c_3a_3avalue_5ftype_2c_20t_20_3e_3a_3avalue_20_3e',['embedding&lt; is_embedded&lt; C::value_type, T &gt;::value &gt;',['../structboost_1_1hana_1_1embedding.html',1,'boost::hana']]],
@@ -27,8 +23,8 @@ var searchData=
   ['eval_2ehpp',['eval.hpp',['../eval_8hpp.html',1,'']]],
   ['eval_2ehpp',['eval.hpp',['../fwd_2eval_8hpp.html',1,'']]],
   ['eval_5fif',['eval_if',['../structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e',1,'boost::hana::Logical']]],
-  ['eval_5fif_2ehpp',['eval_if.hpp',['../eval__if_8hpp.html',1,'']]],
   ['eval_5fif_2ehpp',['eval_if.hpp',['../fwd_2eval__if_8hpp.html',1,'']]],
+  ['eval_5fif_2ehpp',['eval_if.hpp',['../eval__if_8hpp.html',1,'']]],
   ['extend',['extend',['../structboost_1_1hana_1_1Comonad.html#ad060d73b868bea1e0f4aa8037d5a3447',1,'boost::hana::Comonad']]],
   ['extend_2ehpp',['extend.hpp',['../extend_8hpp.html',1,'']]],
   ['extend_2ehpp',['extend.hpp',['../fwd_2extend_8hpp.html',1,'']]],

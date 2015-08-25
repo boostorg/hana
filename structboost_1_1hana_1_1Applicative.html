@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
 <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
     // We parse the code snippets and italicize the words from the pseudo-code
@@ -161,14 +161,10 @@ For all objects <code>x</code> of tag <code>A</code> and functions-in-an-applica
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> (free model)<br />
 As a consequence of the laws, any <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a> F</code> can be made a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code> by setting <div class="fragment"><div class="line">transform(xs, f) = <a class="code" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(lift&lt;F&gt;(f), xs)</div>
-</div><!-- fragment --> This implementation of <code>transform</code> is provided as <code>Applicative::transform_impl</code>. To use it, simply inherit <code>Applicative::transform_impl</code> in your definition of <code>transform_impl</code>: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>transform_impl&lt;YourApplicative&gt;</div>
-<div class="line">    : Applicative::transform_impl&lt;YourApplicative&gt;</div>
-<div class="line">{ };</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
 <p><a class="anchor" id="applicative-transformation"></a></p><h2>Structure-preserving functions </h2>
 <p>An <em>applicative transformation</em> is a function \( t : F(X) \to G(X) \) between two Applicatives <code>F</code> and <code>G</code>, where <code>X</code> can be any tag, and which preserves the operations of an <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a>. In other words, for all objects <code>x</code> of tag <code>X</code>, functions-in-an-applicative \( fs : F(X \to Y) \) and objects <code>xs</code> of tag <code>F(X)</code>, </p><div class="fragment"><div class="line">t(lift&lt;F&gt;(x)) == lift&lt;G&gt;(x)</div>
 <div class="line">t(<a class="code" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(fs, xs)) == <a class="code" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>(t(fs), t(xs))</div>
@@ -268,7 +264,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">        hana::nothing</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000030">Todo:</a></b></dt><dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes. </dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes. </dd></dl>
 
 </div>
 </div>

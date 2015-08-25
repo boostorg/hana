@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
 <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/fb54ae3856341ef4bd3acf877ccf24836fc079d9/github.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
     // We parse the code snippets and italicize the words from the pseudo-code
@@ -155,14 +155,10 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Orderable.html'
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> (free model)<br />
 Since <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> requires <code>less_equal</code> to be a total order, a model of <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> may always be obtained by setting <div class="fragment"><div class="line">equal(x, y) = <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(x, y) &amp;&amp; <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(y, x)</div>
-</div><!-- fragment --> An equivalent implementation of <code>equal</code> is provided as <code>Orderable::equal_impl</code>. To use it, simply inherit <code>Orderable::equal_impl</code> in your definition of <code>equal_impl</code>: <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>equal_impl&lt;YourType, YourType&gt;</div>
-<div class="line">    : Orderable::equal_impl&lt;YourType, YourType&gt;</div>
-<div class="line">{ };</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Either.html" title="Tag representing a value with two possibilities. ">Either</a></code>, <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code>, <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing a generic container of two elements. ">Pair</a></code>, <code><a class="el" href="structboost_1_1hana_1_1String.html" title="Tag representing a compile-time string. ">String</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code></p>
 <h2>Free model for <code>LessThanComparable</code> data types </h2>
 <p>Two data types <code>T</code> and <code>U</code> that model the cross-type version of the usual <a href="http://en.cppreference.com/w/cpp/concept/LessThanComparable">LessThanComparable</a> C++ concept are automatically a model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> by setting </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y) = (x &lt; y)</div>
 </div><!-- fragment --><p> The cross-type version of the LessThanComparable concept is analogous to the cross-type version of the EqualityComparable concept presented in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a>, which is compatible with the usual single type definition. However, note that the LessThanComparable concept only requires <code>&lt;</code> to be a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a>, which is a weaker requirement than being a total order. Hence, if <code>less</code> is used with objects of a LessThanComparable data type that do not define a total order, some algorithms may have an unexpected behavior. It is the author's opinion that defining <code>operator&lt;</code> as a non-total order is a bad idea, but this is debatable and so the design choice of providing a model for LessThanComparable data types is open to debate. Waiting for some user input.</p>
@@ -392,7 +388,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the greatest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000031">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -435,7 +431,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the smallest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000032">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
