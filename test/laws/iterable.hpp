@@ -119,6 +119,8 @@ namespace boost { namespace hana { namespace test {
         template <int i = 0>
         struct invalid { };
 
+        struct undefined { };
+
         template <typename Xs>
         TestIterable(Xs xs) : TestIterable<S, laws>{xs} {
             constexpr auto list = make<S>;
@@ -438,6 +440,94 @@ namespace boost { namespace hana { namespace test {
                 drop_while(list(x<0>{}, x<1>{}, x<2>{}, x<3>{}), not_equal.to(x<0>{})),
                 list(x<0>{}, x<1>{}, x<2>{}, x<3>{})
             ));
+
+            //////////////////////////////////////////////////////////////////
+            // lexicographical_compare
+            //////////////////////////////////////////////////////////////////
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(),
+                list()
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(),
+                list(undefined{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(undefined{}),
+                list()
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}),
+                list(ct_ord<0>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}),
+                list(ct_ord<1>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<1>{}),
+                list(ct_ord<0>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, undefined{}),
+                list(ct_ord<0>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}),
+                list(ct_ord<0>{}, undefined{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<0>{}),
+                list(ct_ord<0>{}, ct_ord<1>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}),
+                list(ct_ord<0>{}, ct_ord<0>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<3>{}, undefined{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{})
+            )));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<3>{}, undefined{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<3>{})
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::lexicographical_compare(
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<3>{}),
+                list(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, undefined{})
+            )));
         }
     };
 }}} // end namespace boost::hana::test

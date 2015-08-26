@@ -543,6 +543,7 @@ function                                                                        
 <code>[insert_range](@ref boost::hana::Sequence::insert_range)(sequence, index, elements)</code> | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
 <code>[is_empty](@ref boost::hana::Iterable::is_empty)(sequence)</code>                          | Returns whether a sequence is empty as an `IntegralConstant`.
 <code>[length](@ref boost::hana::Foldable::length)(sequence)</code>                              | Returns the length of a sequence as an `IntegralConstant`.
+<code>[lexicographical_compare](@ref boost::hana::Iterable::lexicographical_compare)(sequence1, sequence2[, predicate])</code> | Performs a lexicographical comparison of two sequences, optionally with a custom predicate, by default with `hana::less`.
 <code>[maximum](@ref boost::hana::Foldable::maximum)(sequence[, predicate])</code>               | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
 <code>[minimum](@ref boost::hana::Foldable::minimum)(sequence[, predicate])</code>               | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
 <code>[partition](@ref boost::hana::Sequence::partition)(sequence, predicate)</code>             | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.

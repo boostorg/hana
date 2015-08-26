@@ -116,6 +116,7 @@ namespace boost { namespace hana {
 #include <boost/hana/length.hpp>
 #include <boost/hana/less.hpp>
 #include <boost/hana/less_equal.hpp>
+#include <boost/hana/lexicographical_compare.hpp>
 #include <boost/hana/lift.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/max.hpp>

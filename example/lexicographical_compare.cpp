@@ -1,0 +1,41 @@
+/*
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#include <boost/hana/assert.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/less.hpp>
+#include <boost/hana/lexicographical_compare.hpp>
+#include <boost/hana/tuple.hpp>
+#include <boost/hana/type.hpp>
+namespace hana = boost::hana;
+
+
+int main() {
+    // works with elements whose `less` does not return a Constant
+    {
+        constexpr auto xs = hana::make_tuple(1, 2, 3, 4);
+        constexpr auto ys = hana::make_tuple(1, 6, 3, 4);
+        static_assert(hana::lexicographical_compare(xs, ys), "");
+    }
+
+    // and with those that do
+    {
+        auto xs = hana::make_tuple(hana::int_<1>, hana::int_<2>, hana::int_<3>);
+        auto ys = hana::make_tuple(hana::int_<1>, hana::int_<5>, hana::int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(xs, ys));
+    }
+
+    // it also accepts a custom predicate
+    {
+        auto xs = hana::make_tuple(hana::type<int>, hana::type<char>, hana::type<void*>);
+        auto ys = hana::make_tuple(hana::type<int>, hana::type<long>, hana::type<void*>);
+        BOOST_HANA_CONSTANT_CHECK(
+            hana::lexicographical_compare(xs, ys, [](auto t, auto u) {
+                return hana::sizeof_(t) < hana::sizeof_(u);
+            })
+        );
+    }
+}
