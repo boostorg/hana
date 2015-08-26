@@ -17,11 +17,11 @@ namespace hana = boost::hana;
 
 
 template <typename T>
-auto read_one = [](std::istream& s) {
+T read_one(std::istream& s) {
     T value;
     s >> value;
     return value;
-};
+}
 
 int main() {
     std::stringstream s;

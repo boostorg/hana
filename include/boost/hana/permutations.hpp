@@ -56,6 +56,7 @@ namespace boost { namespace hana {
         static constexpr auto
         nth_permutation(Xs const& xs, std::index_sequence<i...>) {
             constexpr auto indices = detail::permutation_indices<sizeof...(i)>::value;
+            (void)indices; // workaround GCC warning when sizeof...(i) == 0
             return hana::make<S>(hana::at_c<indices[n][i]>(xs)...);
         }
 

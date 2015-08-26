@@ -97,6 +97,7 @@ namespace boost { namespace hana {
             template <typename S, typename Xs, std::size_t ...i>
             static constexpr auto finish(Xs&& xs, std::index_sequence<i...>) {
                 constexpr auto keep = get_indices();
+                (void)keep; // workaround GCC warning when sizeof...(i) == 0
                 return hana::make<S>(
                     hana::at_c<keep[i]>(static_cast<Xs&&>(xs))...
                 );

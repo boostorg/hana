@@ -148,7 +148,7 @@ namespace boost { namespace hana { namespace detail {
         // Note: We use dummy to delay the instantiation of that constructor.
         template <std::size_t dummy = 0>
         explicit constexpr closure_impl()
-            : element<(dummy, n), Xn>()...
+            : element<((void)dummy, n), Xn>()...
         { }
 
         // 2) & 3)

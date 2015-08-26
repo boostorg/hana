@@ -102,6 +102,7 @@ namespace boost { namespace hana {
         template <typename Indices, typename Xs, std::size_t ...i>
         static constexpr auto cycle_helper(Xs&& xs, std::index_sequence<i...>) {
             constexpr auto indices = Indices::value;
+            (void)indices; // workaround GCC warning when sizeof...(i) == 0
             return hana::make<S>(hana::at_c<indices[i]>(xs)...);
         }
 

@@ -306,7 +306,7 @@ namespace boost { namespace hana {
         { return static_cast<Y&&>(y); }
 
         template <typename X, typename Y>
-        static constexpr auto apply(X&& x, Y const&)
+        static constexpr auto apply(X&& x, Y&&)
         { return static_cast<X&&>(x); }
     };
 
