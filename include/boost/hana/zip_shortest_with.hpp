@@ -14,12 +14,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/detail/constexpr/algorithm.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/minimum.hpp>
 #include <boost/hana/take.hpp>
-#include <boost/hana/tuple.hpp>
+#include <boost/hana/value.hpp>
 #include <boost/hana/zip_with.hpp>
+
+#include <cstddef>
 
 
 namespace boost { namespace hana {
@@ -46,9 +49,12 @@ namespace boost { namespace hana {
     struct zip_shortest_with_impl<S, when<condition>> : default_ {
         template <typename F, typename ...Xs>
         static constexpr decltype(auto) apply(F&& f, Xs&& ...xs) {
-            auto min = hana::minimum(hana::make_tuple(hana::length(xs)...));
+            constexpr std::size_t lengths[] = {
+                hana::value<decltype(hana::length(xs))>()...
+            };
+            constexpr std::size_t min = *detail::constexpr_::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),
-                hana::take(static_cast<Xs&&>(xs), min)...
+                hana::take(static_cast<Xs&&>(xs), hana::size_t<min>)...
             );
         }
     };

@@ -164,6 +164,19 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
     constexpr T accumulate(InputIt first, InputIt last, T init) {
         return accumulate(first, last, init, _ + _);
     }
+
+    template <typename ForwardIt>
+    constexpr ForwardIt min_element(ForwardIt first, ForwardIt last) {
+        if (first == last)
+            return last;
+
+        ForwardIt smallest = first;
+        ++first;
+        for (; first != last; ++first)
+            if (*first < *smallest)
+                smallest = first;
+        return smallest;
+    }
 }}}} // end namespace boost::hana::detail::constexpr_
 
 #endif // !BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP

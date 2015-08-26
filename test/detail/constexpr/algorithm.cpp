@@ -50,6 +50,8 @@ constexpr int constexpr_context() {
     cx::accumulate(first, last, 0);
     cx::accumulate(first, last, 1, _ * _);
 
+    cx::min_element(first, last);
+
     return 0;
 }
 
