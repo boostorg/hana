@@ -169,7 +169,7 @@ var group__group_concepts =
       [ "accessors", "structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739", null ],
       [ "keys", "structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "members", "structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e", null ],
-      [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a3696cd2b4a74c76439b4fc0089676a77", null ],
+      [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977", null ],
       [ "BOOST_HANA_DEFINE_STRUCT", "structboost_1_1hana_1_1Struct.html#a733de713ae2407331983c60186b215ca", null ]
     ] ],
     [ "less", "group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5", null ]
