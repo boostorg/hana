@@ -72,10 +72,10 @@ var NAVTREEINDEX0 =
 "core_2convert_8hpp.html":[3,0,0,1,1],
 "core_2datatype_8hpp.html":[3,0,0,1,2],
 "core_2default_8hpp.html":[3,0,0,1,3],
-"core_2is__a_8hpp.html":[3,0,0,1,4],
-"core_2make_8hpp.html":[3,0,0,1,5],
-"core_2models_8hpp.html":[3,0,0,1,6],
-"core_2when_8hpp.html":[3,0,0,1,7],
+"core_2is__a_8hpp.html":[3,0,0,1,5],
+"core_2make_8hpp.html":[3,0,0,1,6],
+"core_2models_8hpp.html":[3,0,0,1,7],
+"core_2when_8hpp.html":[3,0,0,1,8],
 "core_8hpp.html":[3,0,0,29],
 "count_8hpp.html":[3,0,0,30],
 "count__if_8hpp.html":[3,0,0,31],
@@ -118,6 +118,7 @@ var NAVTREEINDEX0 =
 "dir_be86e00bfcc0dc458ea333eaabee816c.html":[3,0,0,5,1],
 "dir_ddae5fa75328580ba99012fa17e84e7e.html":[3,0,0,1],
 "dir_e49431a5d4f744651d29982e6631636b.html":[3,0,0,2,1],
+"dispatch_8hpp.html":[3,0,0,1,4],
 "dispatch__if_8hpp.html":[3,0,0,2,10],
 "drop__back_8hpp.html":[3,0,0,35],
 "drop__front_8hpp.html":[3,0,0,36],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "fwd_2flatten_8hpp.html":[3,0,0,5,46],
 "fwd_2fold_8hpp.html":[3,0,0,5,47],
 "fwd_2fold__left_8hpp.html":[3,0,0,5,48],
-"fwd_2fold__right_8hpp.html":[3,0,0,5,49],
-"fwd_2for__each_8hpp.html":[3,0,0,5,50]
+"fwd_2fold__right_8hpp.html":[3,0,0,5,49]
 };

@@ -15,12 +15,11 @@ var searchData=
   ['none_5fof',['none_of',['../structboost_1_1hana_1_1Searchable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Searchable']]],
   ['none_5fof_2ehpp',['none_of.hpp',['../fwd_2none__of_8hpp.html',1,'']]],
   ['none_5fof_2ehpp',['none_of.hpp',['../none__of_8hpp.html',1,'']]],
-  ['not_2ehpp',['not.hpp',['../not_8hpp.html',1,'']]],
   ['not_2ehpp',['not.hpp',['../fwd_2not_8hpp.html',1,'']]],
+  ['not_2ehpp',['not.hpp',['../not_8hpp.html',1,'']]],
   ['not_5f',['not_',['../structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],
   ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
-  ['not_5fequal_2ehpp',['not_equal.hpp',['../not__equal_8hpp.html',1,'']]],
   ['not_5fequal_2ehpp',['not_equal.hpp',['../fwd_2not__equal_8hpp.html',1,'']]],
-  ['not_5fequal_5fimpl_3c_20t_2c_20u_2c_20when_3c_20condition_20_3e_20_3e',['not_equal_impl&lt; T, U, when&lt; condition &gt; &gt;',['../structboost_1_1hana_1_1not__equal__impl_3_01T_00_01U_00_01when_3_01condition_01_4_01_4.html',1,'boost::hana']]],
+  ['not_5fequal_2ehpp',['not_equal.hpp',['../not__equal_8hpp.html',1,'']]],
   ['nothing',['nothing',['../structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4',1,'boost::hana::Optional']]]
 ];

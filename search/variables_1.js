@@ -15,6 +15,5 @@ var searchData=
   ['apply',['apply',['../group__group-functional.html#ga30027c383676084be151ef3c6cf2829f',1,'boost::hana']]],
   ['arg',['arg',['../group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d',1,'boost::hana']]],
   ['at',['at',['../structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721',1,'boost::hana::Iterable']]],
-  ['at_5fc',['at_c',['../structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202',1,'boost::hana::Iterable']]],
   ['at_5fkey',['at_key',['../structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34',1,'boost::hana::Searchable']]]
 ];

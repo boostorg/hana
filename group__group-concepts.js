@@ -59,13 +59,13 @@ var group__group_concepts =
     ] ],
     [ "Iterable", "structboost_1_1hana_1_1Iterable.html", [
       [ "at", "structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721", null ],
-      [ "at_c", "structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202", null ],
       [ "back", "structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895", null ],
       [ "drop_front", "structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5", null ],
       [ "drop_front_exactly", "structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008", null ],
       [ "drop_while", "structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8", null ],
       [ "front", "structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571", null ],
       [ "is_empty", "structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a", null ],
+      [ "lexicographical_compare", "structboost_1_1hana_1_1Iterable.html#a3ad76a9f80fe5095d43be85c519f9a20", null ],
       [ "tail", "structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96", null ]
     ] ],
     [ "Logical", "structboost_1_1hana_1_1Logical.html", [

@@ -355,6 +355,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less__equal_8hpp.html">boost/hana/less_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
@@ -388,7 +389,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the greatest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Can't specify the signature here either. See <code>min</code> for details.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -397,6 +398,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="max_8hpp.html">boost/hana/max.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -431,7 +433,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the smallest of its arguments according to the <code>less</code> ordering. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000029">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -440,6 +442,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="min_8hpp.html">boost/hana/min.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -490,6 +493,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ordering_8hpp.html">boost/hana/ordering.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="sort_8hpp.html">boost/hana/sort.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>

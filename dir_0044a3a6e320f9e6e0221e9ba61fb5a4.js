@@ -70,6 +70,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "length.hpp", "fwd_2length_8hpp.html", null ],
     [ "less.hpp", "fwd_2less_8hpp.html", null ],
     [ "less_equal.hpp", "fwd_2less__equal_8hpp.html", null ],
+    [ "lexicographical_compare.hpp", "fwd_2lexicographical__compare_8hpp.html", null ],
     [ "lift.hpp", "fwd_2lift_8hpp.html", null ],
     [ "map.hpp", "fwd_2map_8hpp.html", null ],
     [ "max.hpp", "fwd_2max_8hpp.html", null ],

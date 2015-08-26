@@ -218,10 +218,6 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:af4e91486be10ef3a19495cb3d3652721"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a></td></tr>
 <tr class="memdesc:af4e91486be10ef3a19495cb3d3652721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <code>n</code>th element of an iterable.  <a href="#af4e91486be10ef3a19495cb3d3652721">More...</a><br /></td></tr>
 <tr class="separator:af4e91486be10ef3a19495cb3d3652721"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1005463b688fed01eb1d292398ce8202"><td class="memTemplParams" colspan="2">template&lt;std::size_t n&gt; </td></tr>
-<tr class="memitem:a1005463b688fed01eb1d292398ce8202"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a1005463b688fed01eb1d292398ce8202">at_c</a></td></tr>
-<tr class="memdesc:a1005463b688fed01eb1d292398ce8202"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>at</code>; provided for convenience.  <a href="#a1005463b688fed01eb1d292398ce8202">More...</a><br /></td></tr>
-<tr class="separator:a1005463b688fed01eb1d292398ce8202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a506a9445ba4459cf38668e9662f76895"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895">back</a></td></tr>
 <tr class="memdesc:a506a9445ba4459cf38668e9662f76895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element of a non-empty and finite iterable.  <a href="#a506a9445ba4459cf38668e9662f76895">More...</a><br /></td></tr>
 <tr class="separator:a506a9445ba4459cf38668e9662f76895"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -240,6 +236,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a4193ecf811f29479c60022564afa512a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">is_empty</a></td></tr>
 <tr class="memdesc:a4193ecf811f29479c60022564afa512a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the iterable is empty.  <a href="#a4193ecf811f29479c60022564afa512a">More...</a><br /></td></tr>
 <tr class="separator:a4193ecf811f29479c60022564afa512a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ad76a9f80fe5095d43be85c519f9a20"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#a3ad76a9f80fe5095d43be85c519f9a20">lexicographical_compare</a></td></tr>
+<tr class="memdesc:a3ad76a9f80fe5095d43be85c519f9a20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Short-circuiting lexicographical comparison of two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s with an optional custom predicate, by default <code>hana::less</code>.  <a href="#a3ad76a9f80fe5095d43be85c519f9a20">More...</a><br /></td></tr>
+<tr class="separator:a3ad76a9f80fe5095d43be85c519f9a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab15783aae10d4373e2399abe728f3f96"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a></td></tr>
 <tr class="memdesc:ab15783aae10d4373e2399abe728f3f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a new iterable containing all but the first element of a non-empty iterable.  <a href="#ab15783aae10d4373e2399abe728f3f96">More...</a><br /></td></tr>
 <tr class="separator:ab15783aae10d4373e2399abe728f3f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -297,52 +296,6 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.at.compile.json"> </div> 
-</div>
-</div>
-<a class="anchor" id="a1005463b688fed01eb1d292398ce8202"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;std::size_t n&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto at_c</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721">at</a>(forwarded(xs), size_t&lt;n&gt;);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Equivalent to <code>at</code>; provided for convenience. </p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.0);</div>
-<div class="line"></div>
-<div class="line">static_assert(hana::at_c&lt;0&gt;(xs) == 0, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::at_c&lt;1&gt;(xs) == <span class="charliteral">&#39;1&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::at_c&lt;2&gt;(xs) == 2.0, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a506a9445ba4459cf38668e9662f76895"></a>
@@ -427,6 +380,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front_8hpp.html">boost/hana/drop_front.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -487,6 +441,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front__exactly_8hpp.html">boost/hana/drop_front_exactly.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -544,7 +499,9 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__while_8hpp.html">boost/hana/drop_while.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="negate_8hpp.html">boost/hana/negate.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -644,6 +601,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="is__empty_8hpp.html">boost/hana/is_empty.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
@@ -653,6 +611,90 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a3ad76a9f80fe5095d43be85c519f9a20"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto lexicographical_compare</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; xs, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; ys, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; pred = hana::less) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Short-circuiting lexicographical comparison of two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s with an optional custom predicate, by default <code>hana::less</code>. </p>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s <code>xs</code> and <code>ys</code> and a binary predicate <code>pred</code>, <code>lexicographical_compare</code> returns whether <code>xs</code> is to be considered less than <code>ys</code> in a lexicographical ordering. Specifically, let's denote the linearizations of <code>xs</code> and <code>ys</code> by <code>[x1, x2, ...]</code> and <code>[y1, y2, ...]</code>, respectively. If the first couple satisfying the predicate is of the form <code>xi, yi</code>, <code>lexicographical_compare</code> returns true. Otherwise, if the first couple to satisfy the predicate is of the form <code>yi, xi</code>, <code>lexicographical_compare</code> returns false. If no such couple can be found, <code>lexicographical_compare</code> returns whether <code>xs</code> has fewer elements than <code>ys</code>.</p>
+<dl class="section note"><dt>Note</dt><dd>This algorithm will short-circuit as soon as it can determine that one sequence is lexicographically less than the other. Hence, it can be used to compare infinite sequences. However, for the procedure to terminate on infinite sequences, the predicate has to be satisfied at a finite index.</dd></dl>
+<h2>Signature </h2>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s <code>It1(T)</code> and <code>It2(T)</code> and a predicate \( pred : T \times T \to Bool \) (where <code>Bool</code> is some <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>), <code>lexicographical_compare</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+\[ \mathtt{lexicographical\_compare} : It1(T) \times It2(T) \times (T \times T \to Bool) \to Bool \]
+</p>
+<p>for the variant without a custom predicate, the <code>T</code> data type is required to be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. The signature is then </p><p class="formulaDsp">
+\[ \mathtt{lexicographical\_compare} : It1(T) \times It2(T) \to Bool \]
+</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs,ys</td><td>Two <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s to compare lexicographically.</td></tr>
+    <tr><td class="paramname">pred</td><td>A binary function called as <code>pred(x, y)</code> and <code>pred(y, x)</code>, where <code>x</code> and <code>y</code> are elements of <code>xs</code> and <code>ys</code>, respectively. <code>pred</code> must return a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether its first argument is to be considered as less than its second argument. Also note that <code>pred</code> must define a total ordering as defined by the <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept. When <code>pred</code> is not provided, it defaults to <code>less</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lexicographical__compare_8hpp.html">boost/hana/lexicographical_compare.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <span class="comment">// works with elements whose `less` does not return a Constant</span></div>
+<div class="line">    {</div>
+<div class="line">        constexpr <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3, 4);</div>
+<div class="line">        constexpr <span class="keyword">auto</span> ys = hana::make_tuple(1, 6, 3, 4);</div>
+<div class="line">        static_assert(hana::lexicographical_compare(xs, ys), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// and with those that do</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">auto</span> xs = hana::make_tuple(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;, hana::int_&lt;3&gt;);</div>
+<div class="line">        <span class="keyword">auto</span> ys = hana::make_tuple(hana::int_&lt;1&gt;, hana::int_&lt;5&gt;, hana::int_&lt;3&gt;);</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::lexicographical_compare(xs, ys));</div>
+<div class="line">    }</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// it also accepts a custom predicate</span></div>
+<div class="line">    {</div>
+<div class="line">        <span class="keyword">auto</span> xs = hana::make_tuple(hana::type&lt;int&gt;, hana::type&lt;char&gt;, hana::type&lt;void*&gt;);</div>
+<div class="line">        <span class="keyword">auto</span> ys = hana::make_tuple(hana::type&lt;int&gt;, hana::type&lt;long&gt;, hana::type&lt;void*&gt;);</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">            hana::lexicographical_compare(xs, ys, [](<span class="keyword">auto</span> t, <span class="keyword">auto</span> u) {</div>
+<div class="line">                <span class="keywordflow">return</span> hana::sizeof_(t) &lt; hana::sizeof_(u);</div>
+<div class="line">            })</div>
+<div class="line">        );</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.lexicographical_compare.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="ab15783aae10d4373e2399abe728f3f96"></a>
@@ -685,6 +727,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tail_8hpp.html">boost/hana/tail.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
