@@ -20,7 +20,7 @@ int main () {
             );
 
             <% (0..(input_size-1)).each { |n| %>
-                result += hana::at(values, hana::size_t<<%= n %>>);
+                result += hana::at_c<<%= n %>>(values);
             <% } %>
         }
     });

@@ -160,6 +160,22 @@ namespace boost { namespace hana {
         { return hana::bool_<sizeof...(Xs) == 0>; }
     };
 
+    // compile-time optimizations (to reduce the # of function instantiations)
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(tuple<Xs...> const& xs) {
+        return detail::get<n>(xs);
+    }
+
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(tuple<Xs...>& xs) {
+        return detail::get<n>(xs);
+    }
+
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(tuple<Xs...>&& xs) {
+        return detail::get<n>(static_cast<tuple<Xs...>&&>(xs));
+    }
+
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////

@@ -48,12 +48,10 @@ namespace boost { namespace hana {
         static constexpr auto apply(Args&& ...) = delete;
     };
 
-    template <std::size_t n>
-    struct at_c_t {
-        template <typename Xs>
-        constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::at(static_cast<Xs&&>(xs), hana::size_t<n>); }
-    };
+    template <std::size_t n, typename Xs>
+    constexpr decltype(auto) at_c(Xs&& xs) {
+        return hana::at(static_cast<Xs&&>(xs), hana::size_t<n>);
+    }
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_AT_HPP

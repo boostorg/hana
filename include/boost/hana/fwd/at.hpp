@@ -71,16 +71,13 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/at_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <std::size_t n>
-    constexpr auto at_c = [](auto&& xs) -> decltype(auto) {
-        return at(forwarded(xs), size_t<n>);
-    };
+    template <std::size_t n, typename Xs>
+    constexpr decltype(auto) at_c(Xs&& xs) {
+        return hana::at(forwarded(xs), hana::size_t<n>);
+    }
 #else
-    template <std::size_t n>
-    struct at_c_t;
-
-    template <std::size_t n>
-    constexpr at_c_t<n> at_c{};
+    template <std::size_t n, typename Xs>
+    constexpr decltype(auto) at_c(Xs&& xs);
 #endif
 }} // end namespace boost::hana
 
