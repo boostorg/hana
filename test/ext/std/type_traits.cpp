@@ -9,13 +9,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 enum Enumeration { };
 struct Structure { };
-constexpr auto e = type<Enumeration>;
-constexpr auto s = type<Structure>;
+constexpr auto e = hana::type<Enumeration>;
+constexpr auto s = hana::type<Structure>;
 
 int main() {
     // We just make sure that they compile. If the forwarding to `std::` is
@@ -25,127 +25,127 @@ int main() {
     // Type properties
     ///////////////////
     // Primary type categories
-    static_assert(!traits::is_void(s), "the traits should be compile-time checkable");
-    traits::is_null_pointer(s);
-    traits::is_integral(s);
-    traits::is_floating_point(s);
-    traits::is_array(s);
-    traits::is_enum(s);
-    traits::is_union(s);
-    traits::is_class(s);
-    traits::is_function(s);
-    traits::is_pointer(s);
-    traits::is_lvalue_reference(s);
-    traits::is_rvalue_reference(s);
-    traits::is_member_object_pointer(s);
-    traits::is_member_function_pointer(s);
+    static_assert(!hana::traits::is_void(s), "the traits should be compile-time checkable");
+    hana::traits::is_null_pointer(s);
+    hana::traits::is_integral(s);
+    hana::traits::is_floating_point(s);
+    hana::traits::is_array(s);
+    hana::traits::is_enum(s);
+    hana::traits::is_union(s);
+    hana::traits::is_class(s);
+    hana::traits::is_function(s);
+    hana::traits::is_pointer(s);
+    hana::traits::is_lvalue_reference(s);
+    hana::traits::is_rvalue_reference(s);
+    hana::traits::is_member_object_pointer(s);
+    hana::traits::is_member_function_pointer(s);
 
     // Composite type categories
-    traits::is_fundamental(s);
-    traits::is_arithmetic(s);
-    traits::is_scalar(s);
-    traits::is_object(s);
-    traits::is_compound(s);
-    traits::is_reference(s);
-    traits::is_member_pointer(s);
+    hana::traits::is_fundamental(s);
+    hana::traits::is_arithmetic(s);
+    hana::traits::is_scalar(s);
+    hana::traits::is_object(s);
+    hana::traits::is_compound(s);
+    hana::traits::is_reference(s);
+    hana::traits::is_member_pointer(s);
 
     // Type properties
-    traits::is_const(s);
-    traits::is_volatile(s);
-    traits::is_trivial(s);
-    traits::is_trivially_copyable(s);
-    traits::is_standard_layout(s);
-    traits::is_pod(s);
-    traits::is_literal_type(s);
-    traits::is_empty(s);
-    traits::is_polymorphic(s);
-    traits::is_abstract(s);
-    traits::is_signed(s);
-    traits::is_unsigned(s);
+    hana::traits::is_const(s);
+    hana::traits::is_volatile(s);
+    hana::traits::is_trivial(s);
+    hana::traits::is_trivially_copyable(s);
+    hana::traits::is_standard_layout(s);
+    hana::traits::is_pod(s);
+    hana::traits::is_literal_type(s);
+    hana::traits::is_empty(s);
+    hana::traits::is_polymorphic(s);
+    hana::traits::is_abstract(s);
+    hana::traits::is_signed(s);
+    hana::traits::is_unsigned(s);
 
     // Supported operations
-    traits::is_constructible(s, s);
-    traits::is_trivially_constructible(s, s);
-    traits::is_nothrow_constructible(s, s);
+    hana::traits::is_constructible(s, s);
+    hana::traits::is_trivially_constructible(s, s);
+    hana::traits::is_nothrow_constructible(s, s);
 
-    traits::is_default_constructible(s);
-    traits::is_trivially_default_constructible(s);
-    traits::is_nothrow_default_constructible(s);
+    hana::traits::is_default_constructible(s);
+    hana::traits::is_trivially_default_constructible(s);
+    hana::traits::is_nothrow_default_constructible(s);
 
-    traits::is_copy_constructible(s);
-    traits::is_trivially_copy_constructible(s);
-    traits::is_nothrow_copy_constructible(s);
+    hana::traits::is_copy_constructible(s);
+    hana::traits::is_trivially_copy_constructible(s);
+    hana::traits::is_nothrow_copy_constructible(s);
 
-    traits::is_move_constructible(s);
-    traits::is_trivially_move_constructible(s);
-    traits::is_nothrow_move_constructible(s);
+    hana::traits::is_move_constructible(s);
+    hana::traits::is_trivially_move_constructible(s);
+    hana::traits::is_nothrow_move_constructible(s);
 
-    traits::is_assignable(s, s);
-    traits::is_trivially_assignable(s, s);
-    traits::is_nothrow_assignable(s, s);
+    hana::traits::is_assignable(s, s);
+    hana::traits::is_trivially_assignable(s, s);
+    hana::traits::is_nothrow_assignable(s, s);
 
-    traits::is_copy_assignable(s);
-    traits::is_trivially_copy_assignable(s);
-    traits::is_nothrow_copy_assignable(s);
+    hana::traits::is_copy_assignable(s);
+    hana::traits::is_trivially_copy_assignable(s);
+    hana::traits::is_nothrow_copy_assignable(s);
 
-    traits::is_move_assignable(s);
-    traits::is_trivially_move_assignable(s);
-    traits::is_nothrow_move_assignable(s);
+    hana::traits::is_move_assignable(s);
+    hana::traits::is_trivially_move_assignable(s);
+    hana::traits::is_nothrow_move_assignable(s);
 
-    traits::is_destructible(s);
-    traits::is_trivially_destructible(s);
-    traits::is_nothrow_destructible(s);
+    hana::traits::is_destructible(s);
+    hana::traits::is_trivially_destructible(s);
+    hana::traits::is_nothrow_destructible(s);
 
-    traits::has_virtual_destructor(s);
+    hana::traits::has_virtual_destructor(s);
 
     // Property queries
-    traits::alignment_of(s);
-    traits::rank(s);
-    traits::extent(s);
-    traits::extent(type<int[2][3]>, uint<1>);
+    hana::traits::alignment_of(s);
+    hana::traits::rank(s);
+    hana::traits::extent(s);
+    hana::traits::extent(hana::type<int[2][3]>, hana::uint<1>);
 
     // Type relationships
-    traits::is_same(s, s);
-    traits::is_base_of(s, s);
-    traits::is_convertible(s, s);
+    hana::traits::is_same(s, s);
+    hana::traits::is_base_of(s, s);
+    hana::traits::is_convertible(s, s);
 
     ///////////////////
     // Type modifications
     ///////////////////
     // Const-volatility specifiers
-    traits::remove_cv(s);
-    traits::remove_const(s);
-    traits::remove_volatile(s);
+    hana::traits::remove_cv(s);
+    hana::traits::remove_const(s);
+    hana::traits::remove_volatile(s);
 
-    traits::add_cv(s);
-    traits::add_const(s);
-    traits::add_volatile(s);
+    hana::traits::add_cv(s);
+    hana::traits::add_const(s);
+    hana::traits::add_volatile(s);
 
     // References
-    traits::remove_reference(s);
-    traits::add_lvalue_reference(s);
-    traits::add_rvalue_reference(s);
+    hana::traits::remove_reference(s);
+    hana::traits::add_lvalue_reference(s);
+    hana::traits::add_rvalue_reference(s);
 
     // Pointers
-    traits::remove_pointer(s);
-    traits::add_pointer(s);
+    hana::traits::remove_pointer(s);
+    hana::traits::add_pointer(s);
 
     // Sign modifiers
-    traits::make_signed(type<unsigned>);
-    traits::make_unsigned(type<signed>);
+    hana::traits::make_signed(hana::type<unsigned>);
+    hana::traits::make_unsigned(hana::type<signed>);
 
     // Arrays
-    traits::remove_extent(s);
-    traits::remove_all_extents(s);
+    hana::traits::remove_extent(s);
+    hana::traits::remove_all_extents(s);
 
     // Miscellaneous transformations
-    traits::aligned_storage(size_t<1>);
-    traits::aligned_storage(size_t<1>, size_t<1>);
-    traits::aligned_union(size_t<0>, s);
-    traits::decay(s);
+    hana::traits::aligned_storage(hana::size_t<1>);
+    hana::traits::aligned_storage(hana::size_t<1>, hana::size_t<1>);
+    hana::traits::aligned_union(hana::size_t<0>, s);
+    hana::traits::decay(s);
 
-    traits::common_type(s, s);
-    traits::underlying_type(e);
+    hana::traits::common_type(s, s);
+    hana::traits::underlying_type(e);
     using FunctionPointer = void(*)();
-    traits::result_of(type<FunctionPointer(void)>);
+    hana::traits::result_of(hana::type<FunctionPointer(void)>);
 }
