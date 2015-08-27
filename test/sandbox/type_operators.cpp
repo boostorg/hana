@@ -16,19 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 using namespace boost::hana;
 
 
-template <typename D, typename T>
-constexpr auto has_datatype = bool_<
-    std::is_same<
-        datatype_t<T>,
-        D
-    >::value
->;
-
-
 #define BOOST_HANA_TYPE_UNARY_PREFIX_OPERATOR(OP)                           \
-    template <typename T, typename = std::enable_if_t<                      \
-        has_datatype<Type, T>()                                             \
-    >>                                                                      \
+    template <typename T, typename = std::enable_if_t<is_a<Type, T>>>       \
     constexpr auto operator OP (T) {                                        \
         return type<decltype(                                               \
             OP std::declval<typename T::type>()                             \
@@ -37,9 +26,7 @@ constexpr auto has_datatype = bool_<
 /**/
 
 #define BOOST_HANA_TYPE_UNARY_POSTFIX_OPERATOR(OP)                          \
-    template <typename T, typename = std::enable_if_t<                      \
-        has_datatype<Type, T>()                                             \
-    >>                                                                      \
+    template <typename T, typename = std::enable_if_t<is_a<Type, T>()>>     \
     constexpr auto operator OP (T, int) {                                   \
         return type<decltype(                                               \
             std::declval<typename T::type>() OP                             \
@@ -49,7 +36,7 @@ constexpr auto has_datatype = bool_<
 
 #define BOOST_HANA_TYPE_BINARY_OPERATOR(OP)                                 \
     template <typename T, typename U, typename = std::enable_if_t<          \
-        has_datatype<Type, T>() && has_datatype<Type, U>()                  \
+        is_a<Type, T>() && is_a<Type, U>()                                  \
     >>                                                                      \
     constexpr auto operator OP (T, U) {                                     \
         return type<decltype(                                               \
