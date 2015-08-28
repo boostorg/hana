@@ -157,7 +157,7 @@ namespace boost { namespace hana { namespace test {
                 list(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{})
             ));
 
-            // just make sure we don't double move; this happened in Tuple
+            // just make sure we don't double move; this happened in hana::tuple
             flatten(list(list(Tracked{1}, Tracked{2})));
 
             //////////////////////////////////////////////////////////////////

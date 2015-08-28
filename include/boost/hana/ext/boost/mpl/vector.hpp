@@ -67,7 +67,7 @@ namespace boost { namespace hana {
         //! @snippet example/ext/boost/mpl/vector.cpp Iterable
         //!
         //! 4. `Searchable`\n
-        //! A MPL vector can be searched as if it were a `Tuple` of `Type`s.
+        //! A MPL vector can be searched as if it were a tuple of `Type`s.
         //! @snippet example/ext/boost/mpl/vector.cpp Searchable
         //!
         //!

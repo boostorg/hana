@@ -107,10 +107,11 @@ int main() {
         f(f(f(f(f(f(f(f(f(f(f(f(f(ct_eq<0>{})))))))))))))
     ));
 
-    // We can't nest too many calls to f, because that uses a Tuple internally
-    // and some implementation (libstdc++) have trouble with deeply-nested
-    // calls to `std::is_constructible`, which is required by Tuple. Hence,
-    // we use an homogeneous function for the remaining tests.
+    // We can't nest too many calls to f, because that uses a hana::tuple
+    // internally and some implementation (libstdc++) have trouble with
+    // deeply-nested calls to `std::is_constructible`, which is required by
+    // hana::tuple. Hence, we use an homogeneous function for the remaining
+    // tests.
     static_assert(iterate<23>(incr, 0) == 23, "");
     static_assert(iterate<24>(incr, 0) == 24, "");
     static_assert(iterate<25>(incr, 0) == 25, "");

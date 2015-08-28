@@ -478,7 +478,7 @@ Pretty simple, wasn't it? Here's the final solution:
 
 That's it for the quick start! This example only introduced a couple of useful
 algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
-(`Tuple`, `Optional`), but rest assured that there is much more. The next
+(`tuple`, `Optional`), but rest assured that there is much more. The next
 sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
@@ -499,7 +499,7 @@ description of what each of them does.
 
 container          | description
 :----------------- | :----------
-<code>[Tuple](@ref boost::hana::Tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
+<code>[tuple](@ref boost::hana::tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
 <code>[Optional](@ref boost::hana::Optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
 <code>[Map](@ref boost::hana::Map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
 <code>[Set](@ref boost::hana::Set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
@@ -829,7 +829,7 @@ f(); f(); ... f(); // 10 times
 
 Another nice use of `IntegralConstant`s is to define good-looking operators
 for indexing heterogeneous sequences. Whereas `std::tuple` must be accessed
-with `std::get`, Hana's `Tuple` can be accessed using the familiar `operator[]`
+with `std::get`, `hana::tuple` can be accessed using the familiar `operator[]`
 used for standard library containers:
 
 @code{cpp}
@@ -837,7 +837,7 @@ auto values = hana::make_tuple(1, 'x', 3.4f);
 char x = values[1_c];
 @endcode
 
-How this works is very simple. Basically, Hana's `Tuple` defines an `operator[]`
+How this works is very simple. Basically, `hana::tuple` defines an `operator[]`
 taking an `IntegralConstant` instead of a normal integer, in a way similar to
 
 @code{cpp}
@@ -1642,7 +1642,7 @@ Simple enough? Let's now take a look at how to print user-defined types:
 
 @snippet example/tutorial/introspection.json.cpp Struct
 
-Here, we use the `keys` method to retrieve a `Tuple` containing the names of
+Here, we use the `keys` method to retrieve a `tuple` containing the names of
 the members of the user-defined type. Then, we `transform` that sequence into
 a sequence of `"name" : member` strings, which we then `join` and enclose with
 `{}`, which is used to denote objects in JSON notation. And that's it!
@@ -1754,9 +1754,10 @@ rewritten as
 
 @snippet example/tutorial/containers.cpp overloading
 
-This way, the second overload of `f` will only match when `Xs` represents a
-Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
-`is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
+This way, the second overload of `f` will only match when `Xs` is a container
+whose tag is `Tuple`, regardless of the exact representation of that tuple. Of
+course, `is_a` can be used with any kind of container: `Map`, `Set`, `Range`
+and so on.
 
 
 
@@ -1944,7 +1945,7 @@ this [lie-to-children][] is perfect for educational purposes.
 
 As you can see, the predicate is never even executed; only its result type on
 a particular object is used. Regarding the order of evaluation, consider the
-`transform` algorithm, which is specified (for `Tuple`s) as:
+`transform` algorithm, which is specified (for tuples) as:
 
 @code{cpp}
 hana::transform(hana::make_tuple(x1, ..., xn), f) == hana::make_tuple(f(x1), ..., f(xn))
@@ -2449,7 +2450,7 @@ the reference documentation for external adapters is currently incomplete.
 However, for reference and until the documentation is updated, here is a list
 of the external adapters that are currently supported:
 - `std::tuple`\n
-  Models `Sequence`. It can basically be used like a Hana `Tuple`. However,
+  Models `Sequence`. It can basically be used like a `hana::tuple`. However,
   please be aware that libc++'s tuple has a couple of bugs (they were
   reported) that make this adapter buggy.
 - `std::integral_constant`\n
@@ -2466,11 +2467,11 @@ of the external adapters that are currently supported:
 - `boost::mpl::integral_c`\n
   See `boost::hana::ext::boost::mpl::IntegralC`.
 - `boost::fusion::{deque,list,tuple,vector}`\n
-  They are models of `Sequence`, and hence can be used like Hana's `Tuple`
+  They are models of `Sequence`, and hence can be used like `hana::tuple`
   in algorithms. However, Fusion has several bugs that make these adapters
   slightly explosive to use (sometimes things may fail without apparent reason).
 - `boost::tuple`\n
-  Model of `Sequence`. It can be used like Hana's `Tuple` in algorithms.
+  Model of `Sequence`. It can be used like `hana::tuple` in algorithms.
 
 
 @subsection tutorial-ext-std The standard library
@@ -2685,7 +2686,7 @@ the headers provided by the library is also available in the panel on the left
     This subdirectory contains the forward declaration of everything in the
     library. It is essentially a mirror of the `boost/hana/` directory, except
     all the headers contain only forward declarations and documentation. For
-    example, to include the `Tuple` container, one can use the
+    example, to include the `hana::tuple` container, one can use the
     `boost/hana/tuple.hpp` header. However, if one only wants the
     forward declaration of that container, the `boost/hana/fwd/tuple.hpp`
     header can be used instead. Note that forward declarations for headers
@@ -2791,12 +2792,12 @@ the left) goes as follow:
     to do anything special to get that model.
 
 - @ref group-datatypes\n
-  Documentation for all the data structures provided with the library. Since
-  most of these data structures have an unspecified type, they are documented
-  by the tag representing them (`Tuple`, `Optional`, etc.). Each data type
-  documents the concept(s) it models, and how it does so. It also documents
-  the methods tied to that data type but not to any concept, for example
-  `from_just` for `Optional`.
+  Documentation for all the data structures provided with the library. The
+  data structures that have an unspecified type are documented by the tag
+  representing them (`Optional`, `Map`, etc...). Each container documents
+  the concept(s) it models, and how it does so. It also documents the methods
+  tied to that container but not to any concept, for example `from_just` for
+  `Optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely

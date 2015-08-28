@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Tuple`.
+Defines `boost::hana::tuple`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -38,6 +38,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // tuple
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename ...Xs>
     struct tuple
         : detail::closure<Xs...>
@@ -53,6 +54,7 @@ namespace boost { namespace hana {
         using hana = tuple;
         using datatype = Tuple;
     };
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Operators

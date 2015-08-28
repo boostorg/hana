@@ -15,9 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Stripped down version of the `Tuple`.
+    //! Stripped down version of `hana::tuple`.
     //!
-    //! Whereas `Tuple` aims to provide an interface somewhat close to a
+    //! Whereas `hana::tuple` aims to provide an interface somewhat close to a
     //! `std::tuple`, `BasicTuple` provides the strict minimum required to
     //! implement a closure with maximum compile-time efficiency.
     //!
@@ -26,7 +26,7 @@ namespace boost { namespace hana {
     //! ----------------
     //! For now, `BasicTuple` only models the `Foldable` concept. More will
     //! be added in the future, and `BasicTuple` will eventually model
-    //! everything that `Tuple` models.
+    //! everything that `hana::tuple` models.
     struct BasicTuple { };
 
     template <typename ...Xs>

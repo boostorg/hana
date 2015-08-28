@@ -348,7 +348,7 @@ namespace boost { namespace hana { namespace test {
                     just(x<2>{})
                 ));
 
-                // Make sure find_if works with an lvalue sequence. Tuple
+                // Make sure find_if works with an lvalue sequence. hana::tuple
                 // used to have a bug that broke this.
                 auto const const_lvalue = list(x<0>{}, x<1>{}, x<2>{});
                 BOOST_HANA_CONSTANT_CHECK(equal(
