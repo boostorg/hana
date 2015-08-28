@@ -22,8 +22,8 @@ namespace boost { namespace hana {
     //! that of a tuple, because a `String` can only hold compile-time
     //! characters as opposed to any kind of object.
     //!
-    //! `String`s are used for simple purposes like being keys in a `Map` or
-    //! tagging the members of a `Struct`. However, you might find that
+    //! `String`s are used for simple purposes like being keys in a `hana::map`
+    //! or tagging the members of a `Struct`. However, you might find that
     //! `String` does not provide enough functionality to be used as a
     //! full-blown compile-time string implementation. Indeed, providing
     //! a comprehensive string interface is a lot of job, and it is out

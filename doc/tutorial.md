@@ -501,7 +501,7 @@ container          | description
 :----------------- | :----------
 <code>[tuple](@ref boost::hana::tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
 <code>[Optional](@ref boost::hana::Optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
-<code>[Map](@ref boost::hana::Map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
+<code>[map](@ref boost::hana::map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
 <code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[pair](@ref boost::hana::pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
@@ -1560,9 +1560,9 @@ located in the `boost::hana::literals` namespace. Note that it is not part
 of the standard yet, but it is supported by Clang and GCC. If you want to
 stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
 
-The main difference between a `Struct` and a `Map` is that a `Map` can be
+The main difference between a `Struct` and a `hana::map` is that a map can be
 modified (keys can be added and removed), while a `Struct` is immutable.
-However, you can easily convert a `Struct` into a `Map` by using `to<Map>`,
+However, you can easily convert a `Struct` into a `hana::map` with `to<Map>`,
 and then you can manipulate it in a more flexible way.
 
 @snippet example/tutorial/introspection.adapt.cpp to<Map>
@@ -2117,11 +2117,10 @@ performance regression.
 As of writing this, not all of Hana's containers are optimized. Implementing
 Hana was a big enough challenge that containers were initially written naively
 and are now in the process of being rigorously optimized. In particular, the
-associative containers (`Map` and `hana::set`) have a pretty bad compile-time
-behavior because of their naive implementation, and their runtime behavior
-also seems to be problematic in some cases. Improving this situation is my
-Google Summer of Code project for 2015, so you should expect these issues to
-be resolved over the course of the summer.
+associative containers (`hana::map` and `hana::set`) have a pretty bad
+compile-time behavior because of their naive implementation, and their runtime
+behavior also seems to be problematic in some cases. Improving this situation
+is in the TODO list.
 
 
 @subsection tutorial-performance-compile Compile-time performance
@@ -2794,7 +2793,7 @@ the left) goes as follow:
 - @ref group-datatypes\n
   Documentation for all the data structures provided with the library. The
   data structures that have an unspecified type are documented by the tag
-  representing them (`Optional`, `Map`, etc...). Each container documents
+  representing them (`Optional`, `Range`, etc...). Each container documents
   the concept(s) it models, and how it does so. It also documents the methods
   tied to that container but not to any concept, for example `from_just` for
   `Optional`.

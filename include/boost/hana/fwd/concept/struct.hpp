@@ -129,12 +129,12 @@ namespace boost { namespace hana {
     //! @include example/struct/foldable.cpp
     //!
     //! Being a model of `Foldable` makes it possible to turn a `Struct`
-    //! into basically any `Sequence`, but also into a `Map` by simply
+    //! into basically any `Sequence`, but also into a `hana::map` by simply
     //! using the `to<...>` function!
     //! @include example/struct/convert.cpp
     //!
     //! 3. `Searchable` (free model)\n
-    //! A `Struct` can be searched by considering it as a `Map` where the keys
+    //! A `Struct` can be searched by considering it as a map where the keys
     //! are the names of the members of the `Struct`, and the values are the
     //! members associated to those names. By default, a model of `Searchable`
     //! is provided for any model of the `Struct` concept.

@@ -17,8 +17,8 @@ namespace boost { namespace hana {
     //! Erase a key in a structure.
     //!
     //! This function is not associated to a concept right now, so its
-    //! behavior can't be described generally. `Map` and `hana::set` are
-    //! the only containers implementing this function right now, and
+    //! behavior can't be described generally. `hana::map` and `hana::set`
+    //! are the only containers implementing this function right now, and
     //! you should refer to the documentation of `erase_key` for these
     //! containers instead.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

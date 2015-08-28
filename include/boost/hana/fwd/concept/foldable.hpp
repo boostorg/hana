@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Map`, `Optional`, `hana::pair`, `hana::set`, `Range`, `hana::tuple`
+    //! `hana::map`, `Optional`, `hana::pair`, `hana::set`, `Range`, `hana::tuple`
     //!
     //!
     //! @anchor Foldable-lin
