@@ -66,6 +66,8 @@ namespace boost { namespace hana {
         // Specialize storage for empty types
         template <std::size_t n, typename Xn>
         struct elt<n, Xn, true> : Xn {
+            constexpr elt() = default;
+
             template <typename Yn>
             explicit constexpr elt(Yn&& yn)
                 : Xn(static_cast<Yn&&>(yn))
@@ -75,6 +77,8 @@ namespace boost { namespace hana {
         // Specialize storage for non-empty types
         template <std::size_t n, typename Xn>
         struct elt<n, Xn, false> {
+            constexpr elt() = default;
+
             template <typename Yn>
             explicit constexpr elt(Yn&& yn)
                 : data_(static_cast<Yn&&>(yn))
@@ -93,7 +97,8 @@ namespace boost { namespace hana {
         struct basic_tuple_impl<std::index_sequence<n...>, Xn...>
             : detail::elt<n, Xn>...
         {
-            basic_tuple_impl() = default;
+            constexpr basic_tuple_impl() = default;
+
             template <typename ...Yn>
             explicit constexpr basic_tuple_impl(Yn&& ...yn)
                 : detail::elt<n, Xn>(static_cast<Yn&&>(yn))...
