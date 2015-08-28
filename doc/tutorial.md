@@ -504,7 +504,7 @@ container          | description
 <code>[Map](@ref boost::hana::Map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
 <code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
-<code>[Pair](@ref boost::hana::Pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but interacts better with Hana.
+<code>[pair](@ref boost::hana::pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
 <code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
 <code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[IntegralConstant](@ref boost::hana::IntegralConstant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
@@ -2461,7 +2461,7 @@ of the external adapters that are currently supported:
   Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
   be using Hana's `Range` if you want speed, though.
 - `std::pair`\n
-  Model of `Product`. This is essentially equivalent to Hana's `Pair`.
+  Model of `Product`. This is essentially equivalent to `hana::pair`.
 - `boost::mpl::vector`\n
   See `boost::hana::ext::boost::mpl::Vector`.
 - `boost::mpl::integral_c`\n
