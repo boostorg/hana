@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Returns the intersection of two sets.
-    //! @relates Set
+    //! @relates hana::set
     //!
     //! Given two sets `xs` and `ys`, `intersection(xs, ys)` is a new set
     //! containing exactly those elements that are present both in `xs` and

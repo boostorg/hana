@@ -502,7 +502,7 @@ container          | description
 <code>[tuple](@ref boost::hana::tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
 <code>[Optional](@ref boost::hana::Optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
 <code>[Map](@ref boost::hana::Map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
-<code>[Set](@ref boost::hana::Set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
+<code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[Pair](@ref boost::hana::Pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but interacts better with Hana.
 <code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
@@ -2117,7 +2117,7 @@ performance regression.
 As of writing this, not all of Hana's containers are optimized. Implementing
 Hana was a big enough challenge that containers were initially written naively
 and are now in the process of being rigorously optimized. In particular, the
-associative containers (`Map` and `Set`) have a pretty bad compile-time
+associative containers (`Map` and `hana::set`) have a pretty bad compile-time
 behavior because of their naive implementation, and their runtime behavior
 also seems to be problematic in some cases. Improving this situation is my
 Google Summer of Code project for 2015, so you should expect these issues to

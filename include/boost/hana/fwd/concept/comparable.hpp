@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     //! Concrete models
     //! ---------------
     //! `IntegralConstant`, `Map`, `Optional`, `Pair`, `Range`,
-    //! `Set`, `String`, `hana::tuple`, `Type`
+    //! `hana::set`, `String`, `hana::tuple`, `Type`
     //!
     //!
     //! Free model for `EqualityComparable` data types

@@ -28,8 +28,8 @@ namespace boost { namespace hana {
     //! all standard library implementations tested so far.
     //!
     //! Tuples are index-based sequences. If you need an associative
-    //! sequence with a key-based access, then you should consider the
-    //! `Map` or `Set` data types instead.
+    //! sequence with a key-based access, then you should consider `Map`
+    //! or `hana::set` instead.
     //!
     //!
     //! Modeled concepts

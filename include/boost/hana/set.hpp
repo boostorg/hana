@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Set`.
+Defines `boost::hana::set`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -50,6 +50,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // set
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename ...Xs>
     struct set : operators::adl, detail::searchable_operators<set<Xs...>> {
         tuple<Xs...> storage;
@@ -65,6 +66,7 @@ namespace boost { namespace hana {
             : storage(static_cast<tuple<Xs...>&&>(xs))
         { }
     };
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
