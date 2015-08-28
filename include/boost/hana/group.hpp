@@ -17,9 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/detail/algorithm.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/detail/by.hpp> // required by fwd decl
-#include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/value.hpp>
@@ -81,10 +81,10 @@ namespace boost { namespace hana {
         struct group_indices {
             static constexpr bool bs[] = {b...};
             static constexpr std::size_t n_groups =
-                    detail::constexpr_::count(bs, bs + sizeof(bs), false) + 1;
+                    detail::count(bs, bs + sizeof(bs), false) + 1;
 
             static constexpr auto compute_info() {
-                detail::constexpr_::array<std::size_t, n_groups> sizes{}, offsets{};
+                detail::array<std::size_t, n_groups> sizes{}, offsets{};
                 for (std::size_t g = 0, i = 0, offset = 0; g < n_groups; ++g) {
                     offsets[g] = offset;
 

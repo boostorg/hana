@@ -1,23 +1,22 @@
 /*!
 @file
-Defines `boost::hana::detail::constexpr_::array`.
+Defines `boost::hana::detail::array`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_DETAIL_CONSTEXPR_ARRAY_HPP
-#define BOOST_HANA_DETAIL_CONSTEXPR_ARRAY_HPP
+#ifndef BOOST_HANA_DETAIL_ARRAY_HPP
+#define BOOST_HANA_DETAIL_ARRAY_HPP
 
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/functional/placeholder.hpp>
 
 #include <cstddef>
 
 
 namespace boost { namespace hana { namespace detail {
-namespace constexpr_ {
     template <typename N>
     constexpr N factorial(N n) {
         N result = 1;
@@ -53,18 +52,18 @@ namespace constexpr_ {
         // Algorithms from constexpr/algorithm.hpp
         constexpr array reverse() const {
             array result = *this;
-            constexpr_::reverse(result.begin(), result.end());
+            detail::reverse(result.begin(), result.end());
             return result;
         }
 
         template <typename BinaryPred>
         constexpr auto permutations(BinaryPred pred) const {
-            array<array<T, Size>, constexpr_::factorial(Size)> result{};
+            array<array<T, Size>, detail::factorial(Size)> result{};
             auto out = result.begin();
             array copy = *this;
 
             do *out++ = copy;
-            while (constexpr_::next_permutation(copy.begin(), copy.end(), pred));
+            while (detail::next_permutation(copy.begin(), copy.end(), pred));
 
             return result;
         }
@@ -76,7 +75,7 @@ namespace constexpr_ {
         template <typename BinaryPred>
         constexpr auto sort(BinaryPred pred) const {
             array result = *this;
-            constexpr_::sort(result.begin(), result.end(), pred);
+            detail::sort(result.begin(), result.end(), pred);
             return result;
         }
 
@@ -86,24 +85,20 @@ namespace constexpr_ {
         template <typename U>
         constexpr auto iota(U value) const {
             array result = *this;
-            constexpr_::iota(result.begin(), result.end(), value);
+            detail::iota(result.begin(), result.end(), value);
             return result;
         }
     };
 
     template <typename T, std::size_t M, typename U, std::size_t N>
     constexpr bool operator==(array<T, M> a, array<U, N> b)
-    { return M == N && constexpr_::equal(a.begin(), a.end(), b.begin(), b.end()); }
+    { return M == N && detail::equal(a.begin(), a.end(), b.begin(), b.end()); }
 
     template <typename T, std::size_t M, typename U, std::size_t N>
     constexpr bool operator<(array<T, M> a, array<U, N> b) {
-        return M < N || constexpr_::lexicographical_compare(
-                                    a.begin(), a.end(), b.begin(), b.end());
+        return M < N || detail::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
     }
-} // end namespace constexpr_
-
-using constexpr_::array;
 
 }}} // end namespace boost::hana::detail
 
-#endif // !BOOST_HANA_DETAIL_CONSTEXPR_ARRAY_HPP
+#endif // !BOOST_HANA_DETAIL_ARRAY_HPP

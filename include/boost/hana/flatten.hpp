@@ -17,8 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/algorithm.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/fwd/chain.hpp>
 #include <boost/hana/length.hpp>
@@ -60,11 +60,11 @@ namespace boost { namespace hana {
             // avoid empty arrays by appending 0 to `lengths`
             static constexpr std::size_t lengths[] = {Lengths..., 0};
             static constexpr auto flat_length =
-                detail::constexpr_::accumulate(lengths, lengths + sizeof...(Lengths), 0);
+                detail::accumulate(lengths, lengths + sizeof...(Lengths), 0);
 
             template <bool Inner>
             static constexpr auto compute() {
-                detail::constexpr_::array<std::size_t, flat_length> indices{};
+                detail::array<std::size_t, flat_length> indices{};
                 for (std::size_t index = 0, i = 0; i < sizeof...(Lengths); ++i)
                     for (std::size_t j = 0; j < lengths[i]; ++j, ++index)
                         indices[index] = (Inner ? i : j);

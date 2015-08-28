@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/unpack.hpp>
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
                 constexpr bool results[] = {false, // <-- avoid empty array
                     hana::value<decltype((*pred)(static_cast<Xs&&>(xs)))>()...
                 };
-                constexpr std::size_t total = detail::constexpr_::count(
+                constexpr std::size_t total = detail::count(
                     results, results + sizeof(results), true
                 );
                 return hana::size_t<total>;

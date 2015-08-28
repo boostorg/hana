@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana.hpp>
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 
 #include <cstddef>
 #include <functional>
@@ -196,7 +196,7 @@ namespace boost { namespace hana { namespace sandbox {
     //////////////////////////////////////////////////////////////////////
     template <typename CharT, typename TraitsT, typename CharU, typename TraitsU>
     constexpr bool operator==(basic_string<CharT, TraitsT> const& a, basic_string<CharU, TraitsU> const& b) {
-        return detail::constexpr_::equal(a.cbegin(), a.cend(), b.cbegin(), b.cend(), std::equal_to<>{});
+        return detail::equal(a.cbegin(), a.cend(), b.cbegin(), b.cend(), std::equal_to<>{});
     }
 
     template <typename CharT, typename TraitsT, typename CharU, typename TraitsU>
@@ -205,7 +205,7 @@ namespace boost { namespace hana { namespace sandbox {
 
     template <typename CharT, typename TraitsT, typename CharU, typename TraitsU>
     constexpr bool operator<(basic_string<CharT, TraitsT> const& a, basic_string<CharU, TraitsU> const& b) {
-        return detail::constexpr_::lexicographical_compare(a.cbegin(), a.cend(), b.cbegin(), b.cend(), std::less<>{});
+        return detail::lexicographical_compare(a.cbegin(), a.cend(), b.cbegin(), b.cend(), std::less<>{});
     }
 
     template <typename CharT, typename TraitsT, typename CharU, typename TraitsU>

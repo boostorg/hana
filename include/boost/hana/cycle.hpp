@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/value.hpp>
@@ -84,7 +84,7 @@ namespace boost { namespace hana {
         template <std::size_t N, std::size_t Len>
         struct cycle_indices {
             static constexpr auto compute_value() {
-                detail::constexpr_::array<std::size_t, N * Len> indices{};
+                detail::array<std::size_t, N * Len> indices{};
                 // Avoid (incorrect) Clang warning about remainder by zero
                 // in the loop below.
                 std::size_t len = Len;

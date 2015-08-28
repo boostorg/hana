@@ -19,8 +19,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/algorithm.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/lift.hpp>
@@ -83,10 +83,10 @@ namespace boost { namespace hana {
         struct filter_central {
             static constexpr bool bs[] = {b...};
             static constexpr std::size_t filtered_size =
-                        detail::constexpr_::count(bs, bs + sizeof(bs), true);
+                        detail::count(bs, bs + sizeof(bs), true);
 
             static constexpr auto get_indices() {
-                detail::constexpr_::array<std::size_t, filtered_size> indices{};
+                detail::array<std::size_t, filtered_size> indices{};
                 std::size_t* keep = &indices[0];
                 for (std::size_t i = 0; i < sizeof...(b); ++i)
                     if (bs[i])

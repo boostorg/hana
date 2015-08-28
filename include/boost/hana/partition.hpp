@@ -16,9 +16,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/detail/algorithm.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/detail/by.hpp> // required by fwd decl
-#include <boost/hana/detail/constexpr/algorithm.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
@@ -51,11 +51,11 @@ namespace boost { namespace hana {
         struct partition_indices {
             static constexpr bool results[] = {B..., false}; // avoid empty array
             static constexpr std::size_t left_size =
-                detail::constexpr_::count(results, results + sizeof...(B), true);
+                detail::count(results, results + sizeof...(B), true);
             static constexpr std::size_t right_size = sizeof...(B) - left_size;
 
             static constexpr auto compute_left() {
-                detail::constexpr_::array<std::size_t, left_size> indices{};
+                detail::array<std::size_t, left_size> indices{};
                 std::size_t* left = &indices[0];
                 for (std::size_t i = 0; i < sizeof...(B); ++i)
                     if (results[i])
@@ -64,7 +64,7 @@ namespace boost { namespace hana {
             }
 
             static constexpr auto compute_right() {
-                detail::constexpr_::array<std::size_t, right_size> indices{};
+                detail::array<std::size_t, right_size> indices{};
                 std::size_t* right = &indices[0];
                 for (std::size_t i = 0; i < sizeof...(B); ++i)
                     if (!results[i])

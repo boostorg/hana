@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP
-#define BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP
+#ifndef BOOST_HANA_DETAIL_ALGORITHM_HPP
+#define BOOST_HANA_DETAIL_ALGORITHM_HPP
 
 #include <boost/hana/functional/placeholder.hpp>
 
@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana { namespace detail { namespace constexpr_ {
+namespace boost { namespace hana { namespace detail {
     template <typename T>
     constexpr void swap(T& x, T& y) {
         auto tmp = x;
@@ -29,7 +29,7 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
         while (first != last) {
             if (first == --last)
                 break;
-            constexpr_::swap(*first, *last);
+            detail::swap(*first, *last);
             ++first;
         }
     }
@@ -47,12 +47,12 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
                 BidirIter j = last;
                 while (!pred(*i, *--j))
                     ;
-                constexpr_::swap(*i, *j);
-                constexpr_::reverse(ip1, last);
+                detail::swap(*i, *j);
+                detail::reverse(ip1, last);
                 return true;
             }
             if (i == first) {
-                constexpr_::reverse(first, last);
+                detail::reverse(first, last);
                 return false;
             }
         }
@@ -177,6 +177,6 @@ namespace boost { namespace hana { namespace detail { namespace constexpr_ {
                 smallest = first;
         return smallest;
     }
-}}}} // end namespace boost::hana::detail::constexpr_
+}}} // end namespace boost::hana::detail
 
-#endif // !BOOST_HANA_DETAIL_CONSTEXPR_ALGORITHM_HPP
+#endif // !BOOST_HANA_DETAIL_ALGORITHM_HPP

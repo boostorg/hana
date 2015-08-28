@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/equal.hpp>
@@ -123,7 +123,7 @@ namespace boost { namespace hana {
 
         template <typename T, std::size_t n, typename U, std::size_t m>
         static constexpr auto apply(std::array<T, n> const& xs, std::array<U, m> const& ys) {
-            return detail::constexpr_::lexicographical_compare(
+            return detail::lexicographical_compare(
                 xs.begin(), xs.end(), ys.begin(), ys.end()
             );
         }

@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_GENERATE_INTEGER_SEQUENCE_HPP
 #define BOOST_HANA_DETAIL_GENERATE_INTEGER_SEQUENCE_HPP
 
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/functional/id.hpp>
 
 #include <cstddef>
@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace detail {
     template <typename T, typename F, std::size_t ...i>
     constexpr auto generate_integer_sequence_impl(std::index_sequence<i...>) {
-        constexpr array<T, sizeof...(i)> a = {{static_cast<T>(i)...}};
+        constexpr detail::array<T, sizeof...(i)> a = {{static_cast<T>(i)...}};
         constexpr auto sequence = F{}(a);
         (void)sequence; // remove GCC warning about `sequence` being unused
         return std::integer_sequence<T, sequence[i]...>{};

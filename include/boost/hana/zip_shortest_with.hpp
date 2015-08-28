@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
@@ -52,7 +52,7 @@ namespace boost { namespace hana {
             constexpr std::size_t lengths[] = {
                 hana::value<decltype(hana::length(xs))>()...
             };
-            constexpr std::size_t min = *detail::constexpr_::min_element(lengths, lengths + sizeof...(xs));
+            constexpr std::size_t min = *detail::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),
                 hana::take(static_cast<Xs&&>(xs), hana::size_t<min>)...
             );

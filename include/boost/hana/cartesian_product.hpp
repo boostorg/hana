@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/unpack.hpp>
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
             static constexpr auto indices_of(std::size_t i) {
                 constexpr std::size_t lengths[] = {Lengths...};
                 constexpr std::size_t n = sizeof...(Lengths);
-                detail::constexpr_::array<std::size_t, n> result{};
+                detail::array<std::size_t, n> result{};
                 for (std::size_t j = n; j--;) {
                     result[j] = i % lengths[j];
                     i /= lengths[j];

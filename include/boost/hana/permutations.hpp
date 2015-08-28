@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/constexpr/array.hpp>
+#include <boost/hana/detail/array.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/value.hpp>
 
@@ -46,7 +46,7 @@ namespace boost { namespace hana {
         template <std::size_t N>
         struct permutation_indices {
             static constexpr auto value =
-                detail::constexpr_::array<std::size_t, N>{}.iota(0).permutations();
+                detail::array<std::size_t, N>{}.iota(0).permutations();
         };
     }
 
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto apply(Xs const& xs) {
             constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
-            constexpr std::size_t total_perms = detail::constexpr_::factorial(N);
+            constexpr std::size_t total_perms = detail::factorial(N);
             return permutations_helper<N>(xs, std::make_index_sequence<total_perms>{});
         }
     };

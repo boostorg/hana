@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/models.hpp>
-#include <boost/hana/detail/constexpr/algorithm.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
@@ -152,7 +152,7 @@ namespace boost { namespace hana {
             // We put a '\0' at the end only to avoid empty arrays.
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
-            return hana::bool_<detail::constexpr_::lexicographical_compare(
+            return hana::bool_<detail::lexicographical_compare(
                 c_str1, c_str1 + sizeof...(s1),
                 c_str2, c_str2 + sizeof...(s2)
             )>;
@@ -222,7 +222,7 @@ namespace boost { namespace hana {
             constexpr char const characters[] = {s..., '\0'};
             constexpr char c = hana::value<C>();
             return hana::bool_<
-                detail::constexpr_::find(characters, characters + sizeof...(s), c)
+                detail::find(characters, characters + sizeof...(s), c)
                     != characters + sizeof...(s)
             >;
         }
