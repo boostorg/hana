@@ -509,6 +509,7 @@ container          | description
 <code>[Type](@ref boost::hana::Type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[integral_constant](@ref boost::hana::integral_constant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that `hana::integral_constant` also defines operators and more syntactic sugar.
 <code>[Lazy](@ref boost::hana::Lazy)</code>                           | Encapsulates a lazy value or computation.
+<code>[basic_tuple](@ref boost::hana::basic_tuple)</code>             | Stripped-down version of `hana::tuple`. Not standards conforming, but more compile-time efficient.
 
 
 function                                                                                         | description
