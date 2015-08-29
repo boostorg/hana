@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::String`.
+Forward declares `boost::hana::string`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -15,28 +15,37 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Tag representing a compile-time string.
+    //! Compile-time string.
     //!
-    //! Conceptually, a `String` is like a tuple holding `IntegralConstant`s
-    //! of type `char`. However, the interface of a `String` is not as rich as
-    //! that of a tuple, because a `String` can only hold compile-time
-    //! characters as opposed to any kind of object.
+    //! Conceptually, a `hana::string` is like a tuple holding
+    //! `IntegralConstant`s of type `char`. However, the interface of
+    //! `hana::string` is not as rich as that of a tuple, because a string
+    //! can only hold compile-time characters as opposed to any kind of object.
     //!
-    //! `String`s are used for simple purposes like being keys in a `hana::map`
-    //! or tagging the members of a `Struct`. However, you might find that
-    //! `String` does not provide enough functionality to be used as a
-    //! full-blown compile-time string implementation. Indeed, providing
-    //! a comprehensive string interface is a lot of job, and it is out
-    //! of the scope of the library for the time being.
+    //! Compile-time strings are used for simple purposes like being keys in a
+    //! `hana::map` or tagging the members of a `Struct`. However, you might
+    //! find that `hana::string` does not provide enough functionality to be
+    //! used as a full-blown compile-time string implementation (e.g. regexp
+    //! matching or substring finding). Indeed, providing a comprehensive
+    //! string interface is a lot of job, and it is out of the scope of the
+    //! library for the time being.
+    //!
+    //!
+    //! @note
+    //! The representation of `hana::string` is implementation-defined.
+    //! In particular, one should not take for granted that the template
+    //! parameters are `char`s. The proper way to access the contents of
+    //! a `hana::string` as character constants is to use `hana::unpack`
+    //! or `hana::to<char const*>`, as documented below.
     //!
     //!
     //! Modeled concepts
     //! ----------------
-    //! For most purposes, a `String` is functionally equivalent to a tuple
-    //! holding `Constant`s of underlying type `char`.
+    //! For most purposes, a `hana::string` is functionally equivalent to a
+    //! tuple holding `Constant`s of underlying type `char`.
     //!
     //! 1. `Comparable`\n
-    //! Two `String`s are equal if and only if they have the same number of
+    //! Two strings are equal if and only if they have the same number of
     //! characters and characters at corresponding indices are equal.
     //! @include example/string/comparable.cpp
     //!
@@ -46,65 +55,67 @@ namespace boost { namespace hana {
     //! @include example/string/orderable.cpp
     //!
     //! 3. `Foldable`\n
-    //! Folding a `String` is equivalent to folding the sequence of its
+    //! Folding a string is equivalent to folding the sequence of its
     //! characters.
     //! @include example/string/foldable.cpp
     //!
     //! 4. `Iterable`\n
-    //! Iterating over a `String` is equivalent to iterating over the sequence
+    //! Iterating over a string is equivalent to iterating over the sequence
     //! of its characters. Also note that `operator[]` can be used instead of
     //! the `at` function.
     //! @include example/string/iterable.cpp
     //!
     //! 5. `Searchable`\n
-    //! Searching through a `String` is equivalent to searching through the
+    //! Searching through a string is equivalent to searching through the
     //! sequence of its characters.
     //! @include example/string/searchable.cpp
     //!
     //!
     //! Conversion to `char const*`
     //! ---------------------------
-    //! A `String` can be converted to a `constexpr` null-delimited string of
-    //! type `char const*` by using `to<char const*>`. This makes it easy to
-    //! turn a compile-time string into a runtime string. However, note that
-    //! this conversion is not an embedding, because `char const*` does not
-    //! model the same concepts as `String` does.
+    //! A `hana::string` can be converted to a `constexpr` null-delimited
+    //! string of type `char const*` by using `to<char const*>`. This makes
+    //! it easy to turn a compile-time string into a runtime string. However,
+    //! note that this conversion is not an embedding, because `char const*`
+    //! does not model the same concepts as `hana::string` does.
     //! @include example/string/convert.cpp
     //!
     //!
-    //! > #### Rationale for `String` not being a `Constant`
-    //! > The underlying type held by a `String` could be either `char const*`
-    //! > or some other constexpr-enabled string-like container. In the first
-    //! > case, `String` can not be a `Constant` because the models of several
-    //! > concepts would not be respected by the underlying type, causing
-    //! > `value` not to be structure-preserving. Providing an underlying
-    //! > value of constexpr-enabled string-like container type like
-    //! > `std::string_view` would be great, but that's a bit complicated
-    //! > for the time being.
+    //! > #### Rationale for `hana::string` not being a `Constant`
+    //! > The underlying type held by a `hana::string` could be either
+    //! > `char const*` or some other constexpr-enabled string-like container.
+    //! > In the first case, `hana::string` can not be a `Constant` because
+    //! > the models of several concepts would not be respected by the
+    //! > underlying type, causing `value` not to be structure-preserving.
+    //! > Providing an underlying value of constexpr-enabled string-like
+    //! > container type like `std::string_view` would be great, but that's
+    //! > a bit complicated for the time being.
+    template <char ...s>
+    struct string;
+
+    //! Tag representing a compile-time string.
+    //! @relates hana::string
     struct String { };
 
     //! Create a compile-time string from a parameter pack of characters.
-    //! @relates String
+    //! @relates hana::string
     //!
     //!
     //! Example
     //! -------
-    //! @include example/string/string.cpp
+    //! @include example/string/string_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <char ...s>
-    constexpr unspecified-type string{};
+    constexpr string<implementation-defined> string_c{};
 #else
     template <char ...s>
-    struct string_t;
-
-    template <char ...s>
-    constexpr string_t<s...> string{};
+    constexpr string<s...> string_c{};
 #endif
 
-    //! Create a compile-time string from a string literal `s`.
-    //! @relates String
+    //! Create a compile-time string from a string literal.
+    //! @relates hana::string
     //!
-    //! This macro is a more convenient alternative to `string` for creating
+    //! This macro is a more convenient alternative to `string_c` for creating
     //! compile-time strings. However, since this macro uses a lambda
     //! internally, it can't be used in an unevaluated context.
     //!
@@ -118,7 +129,7 @@ namespace boost { namespace hana {
 
     // Note:
     // The trick above seems to exploit a bug in Doxygen, which makes the
-    // BOOST_HANA_STRING macro appear in the related objects of String
+    // BOOST_HANA_STRING macro appear in the related objects of hana::string
     // (as we want it to).
 #else
     // defined in <boost/hana/string.hpp>
@@ -126,12 +137,12 @@ namespace boost { namespace hana {
 
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
     namespace literals {
-        //! Creates a compile-time `String` from a string literal.
-        //! @relatesalso boost::hana::String
+        //! Creates a compile-time string from a string literal.
+        //! @relatesalso boost::hana::string
         //!
         //! The string literal is parsed at compile-time and the result is
-        //! returned as a Hana compile-time `string<...>`. This feature is
-        //! an extension that is enabled by default; see below for details.
+        //! returned as a `hana::string`. This feature is an extension that
+        //! is disabled by default; see below for details.
         //!
         //! @note
         //! Only narrow string literals are supported right now; support for

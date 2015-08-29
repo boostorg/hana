@@ -47,7 +47,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTEXPR_LAMBDA auto const s1 = BOOST_HANA_STRING("abcd");
-        constexpr auto s2 = string<'a', 'b', 'c', 'd'>;
+        constexpr auto s2 = string_c<'a', 'b', 'c', 'd'>;
 
         static_assert(std::is_same<decltype(s1), decltype(s2)>::value, "");
     }
@@ -84,7 +84,7 @@ int main() {
             "abcd"
         ) == 0);
 
-        // make sure we can turn a non-constexpr String
+        // make sure we can turn a non-constexpr hana::string
         // into a constexpr char const*
         auto str = BOOST_HANA_STRING("abcdef");
         constexpr char const* c_str = to<char const*>(str); (void)c_str;
@@ -98,7 +98,7 @@ int main() {
         using namespace boost::hana::literals;
 
         constexpr auto s1 = "abcd"_s;
-        constexpr auto s2 = string<'a', 'b', 'c', 'd'>;
+        constexpr auto s2 = string_c<'a', 'b', 'c', 'd'>;
 
         static_assert(std::is_same<decltype(s1), decltype(s2)>::value, "");
     }
@@ -254,12 +254,12 @@ int main() {
         // is_empty
         {
             BOOST_HANA_CONSTANT_CHECK(is_empty(BOOST_HANA_STRING("")));
-            BOOST_HANA_CONSTANT_CHECK(is_empty(string<>));
+            BOOST_HANA_CONSTANT_CHECK(is_empty(string_c<>));
 
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(BOOST_HANA_STRING("a"))));
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(BOOST_HANA_STRING("ab"))));
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(BOOST_HANA_STRING("abc"))));
-            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(string<'a'>)));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(string_c<'a'>)));
         }
 
         // at

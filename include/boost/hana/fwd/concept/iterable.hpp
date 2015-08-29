@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `hana::tuple`, `String`, `hana::range`
+    //! `hana::tuple`, `hana::string`, `hana::range`
     //!
     //!
     //! [1]: https://github.com/ldionne/hana/issues/40

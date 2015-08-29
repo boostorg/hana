@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::String`.
+Defines `boost::hana::string`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -43,16 +43,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // string
+    // string<>
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <char ...s>
-    struct string_t
+    struct string
         : operators::adl
-        , detail::iterable_operators<string_t<s...>>
+        , detail::iterable_operators<string<s...>>
     { };
+    //! @endcond
 
     template <char ...s>
-    struct datatype<string_t<s...>> {
+    struct datatype<string<s...>> {
         using type = String;
     };
 
@@ -61,7 +63,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace string_detail {
         template <typename S, std::size_t ...N>
-        constexpr string_t<S::get()[N]...>
+        constexpr string<S::get()[N]...>
         prepare_impl(S, std::index_sequence<N...>)
         { return {}; }
 
@@ -89,10 +91,10 @@ namespace boost { namespace hana {
         template <typename CharT, CharT ...s>
         constexpr auto operator"" _s() {
             static_assert(std::is_same<CharT, char>::value,
-            "Hana String: Only narrow string literals are supported with "
+            "hana::string: Only narrow string literals are supported with "
             "the _s string literal right now. See https://goo.gl/fBbKD7 "
-            "if you need support for fancier types of compile-time Strings.");
-            return hana::string<s...>;
+            "if you need support for fancier types of compile-time strings.");
+            return hana::string_c<s...>;
         }
     }
 #endif
@@ -120,7 +122,7 @@ namespace boost { namespace hana {
         static constexpr char const c_string[sizeof...(c) + 1] = {c..., '\0'};
 
         template <char ...c>
-        static constexpr char const* apply(string_t<c...> const&)
+        static constexpr char const* apply(string<c...> const&)
         { return c_string<c...>; }
     };
 
@@ -148,7 +150,7 @@ namespace boost { namespace hana {
     struct less_impl<String, String> {
         template <char ...s1, char ...s2>
         static constexpr auto
-        apply(string_t<s1...> const&, string_t<s2...> const&) {
+        apply(string<s1...> const&, string<s2...> const&) {
             // We put a '\0' at the end only to avoid empty arrays.
             constexpr char const c_str1[] = {s1..., '\0'};
             constexpr char const c_str2[] = {s2..., '\0'};
@@ -165,14 +167,14 @@ namespace boost { namespace hana {
     template <>
     struct unpack_impl<String> {
         template <char ...s, typename F>
-        static constexpr decltype(auto) apply(string_t<s...> const&, F&& f)
+        static constexpr decltype(auto) apply(string<s...> const&, F&& f)
         { return static_cast<F&&>(f)(_char<s>{}...); }
     };
 
     template <>
     struct length_impl<String> {
         template <char ...s>
-        static constexpr auto apply(string_t<s...> const&)
+        static constexpr auto apply(string<s...> const&)
         { return hana::size_t<sizeof...(s)>; }
     };
 
@@ -182,28 +184,28 @@ namespace boost { namespace hana {
     template <>
     struct front_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto apply(string_t<x, xs...> const&)
+        static constexpr auto apply(string<x, xs...> const&)
         { return hana::char_<x>; }
     };
 
     template <>
     struct tail_impl<String> {
         template <char x, char ...xs>
-        static constexpr auto apply(string_t<x, xs...> const&)
-        { return hana::string<xs...>; }
+        static constexpr auto apply(string<x, xs...> const&)
+        { return hana::string_c<xs...>; }
     };
 
     template <>
     struct is_empty_impl<String> {
         template <char ...s>
-        static constexpr auto apply(string_t<s...> const&)
+        static constexpr auto apply(string<s...> const&)
         { return hana::bool_<sizeof...(s) == 0>; }
     };
 
     template <>
     struct at_impl<String> {
         template <char ...s, typename N>
-        static constexpr auto apply(string_t<s...> const&, N const&) {
+        static constexpr auto apply(string<s...> const&, N const&) {
             // We put a '\0' at the end to avoid an empty array.
             constexpr char characters[] = {s..., '\0'};
             constexpr auto n = hana::value<N>();
@@ -218,7 +220,7 @@ namespace boost { namespace hana {
     struct contains_impl<String> {
         template <char ...s, typename C>
         static constexpr auto
-        helper(string_t<s...> const&, C const&, decltype(hana::true_)) {
+        helper(string<s...> const&, C const&, decltype(hana::true_)) {
             constexpr char const characters[] = {s..., '\0'};
             constexpr char c = hana::value<C>();
             return hana::bool_<
@@ -239,7 +241,7 @@ namespace boost { namespace hana {
     template <>
     struct find_impl<String> {
         template <char ...s, typename Char>
-        static constexpr auto apply(string_t<s...> const& str, Char const& c) {
+        static constexpr auto apply(string<s...> const& str, Char const& c) {
             return hana::if_(hana::contains(str, c),
                 hana::just(c),
                 hana::nothing

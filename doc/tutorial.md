@@ -505,7 +505,7 @@ container          | description
 <code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[range](@ref boost::hana::range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[pair](@ref boost::hana::pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
-<code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
+<code>[string](@ref boost::hana::string)</code>                     | Compile-time string.
 <code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[IntegralConstant](@ref boost::hana::IntegralConstant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
 <code>[Lazy](@ref boost::hana::Lazy)</code>                         | Encapsulates a lazy value or computation.
@@ -1536,11 +1536,11 @@ Iteration over a `Struct` is done as if the `Struct` was a sequence of pairs,
 where the first element of a pair is the key associated to a member, and the
 second element is the member itself. When a `Struct` is defined through the
 `BOOST_HANA_DEFINE_STRUCT` macro, the key associated to any member is a
-compile-time `String` representing the name of that member. This is why the
-function used with `for_each` takes a single argument `pair`, and then uses
-`first` and `second` to access the subparts of the pair. Also, notice how
-the `to<char const*>` function is used on the name of the member? This
-converts the compile-time `String` to a `constexpr char const*` so it can
+compile-time `hana::string` representing the name of that member. This is why
+the function used with `for_each` takes a single argument `pair`, and then
+uses `first` and `second` to access the subparts of the pair. Also, notice
+how the `to<char const*>` function is used on the name of the member? This
+converts the compile-time string to a `constexpr char const*` so it can
 `cout`ed. Since it can be annoying to always use `first` and `second` to
 fetch the subparts of the pair, we can also use the `fuse` function to wrap
 our lambda and make it a binary lambda instead:
@@ -1555,7 +1555,7 @@ of the members, and whose values are the members themselves:
 @snippet example/tutorial/introspection.adapt.cpp at_key
 
 @note
-The `_s` user-defined literal creates a compile-time Hana `String`. It is
+The `_s` user-defined literal creates a compile-time `hana::string`. It is
 located in the `boost::hana::literals` namespace. Note that it is not part
 of the standard yet, but it is supported by Clang and GCC. If you want to
 stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
@@ -1582,7 +1582,7 @@ except you do not need to modify the type you want to adapt, which is
 sometimes useful. Before we move on to a concrete example of using these
 introspection features, it should also be mentioned that `struct`s can be
 adapted without using macros. This advanced interface for defining `Struct`s
-can be used to specify keys that are not compile-time `String`s and to specify
+can be used to specify keys that are not compile-time strings and to specify
 custom accessors for the members of the structure. The advanced interface is
 described in the documentation for the `Struct` concept.
 
