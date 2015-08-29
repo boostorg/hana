@@ -54,8 +54,8 @@ namespace boost { namespace hana {
     //! `0` to return in the empty case must be specified explicitly. Other
     //! foldable structures like Ranges will ignore the suggested Monoid
     //! because they know the data type of the objects they contain. This
-    //! inconsistent behavior is a limitation of the current design of data
-    //! types, and work is being done to resolve it.
+    //! inconsistent behavior is a limitation of the current design with
+    //! non-parameterized tags, but we have no good solution for now.
     //!
     //!
     //! Example

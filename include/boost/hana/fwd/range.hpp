@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Range`.
+Forward declares `boost::hana::range`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -17,10 +17,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Tag representing a compile-time half-open interval of
-    //! `IntegralConstant`s.
+    //! Compile-time half-open interval of `IntegralConstant`s.
     //!
-    //! A `Range` represents a half-open interval of the form `[from, to)`
+    //! A `range` represents a half-open interval of the form `[from, to)`
     //! containing `IntegralConstant`s of a given type. The `[from, to)`
     //! notation represents the values starting at `from` (inclusively) up
     //! to but excluding `from`. In other words, it is a bit like the list
@@ -30,10 +29,11 @@ namespace boost { namespace hana {
     //! `IntegralConstant`s (negative numbers are allowed) and the range does
     //! not have to start at zero. The only requirement is that `from <= to`.
     //!
-    //! Also note that because `Range`s do not specify much about their actual
-    //! representation, some interesting optimizations can be applied to
-    //! improve their compile-time performance over other similar utilities
-    //! like `std::integer_sequence`.
+    //! @note
+    //! The representation of `hana::range` is implementation defined. In
+    //! particular, one should not take for granted the number and types
+    //! of template parameters. The proper way to create a `hana::range`
+    //! is to use `hana::range_c` or `hana::make_range`.
     //!
     //!
     //! Modeled concepts
@@ -44,12 +44,12 @@ namespace boost { namespace hana {
     //! @include example/range/comparable.cpp
     //!
     //! 2. `Foldable`\n
-    //! Folding a `Range` is equivalent to folding a list of the
+    //! Folding a `range` is equivalent to folding a list of the
     //! `IntegralConstant`s in the interval it spans.
     //! @include example/range/foldable.cpp
     //!
     //! 3. `Iterable`\n
-    //! Iterating over a `Range` is equivalent to iterating over a list of
+    //! Iterating over a `range` is equivalent to iterating over a list of
     //! the values it spans. In other words, iterating over the range
     //! `[from, to)` is equivalent to iterating over a list containing
     //! `from, from+1, from+2, ..., to-1`. Also note that `operator[]` can
@@ -57,26 +57,29 @@ namespace boost { namespace hana {
     //! @include example/range/iterable.cpp
     //!
     //! 4. `Searchable`\n
-    //! Searching a `Range` is equivalent to searching a list of the values
+    //! Searching a `range` is equivalent to searching a list of the values
     //! in the range `[from, to)`, but it is much more compile-time efficient.
     //! @include example/range/searchable.cpp
+    template <typename T, T from, T to>
+    struct range;
+
+    //! Tag representing a `hana::range`.
+    //! @relates hana::range
     struct Range { };
 
-    template <typename T, T from, T to>
-    struct range_t;
-
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Creates a `Range` representing a half-open interval of
+    //! Creates a `hana::range` representing a half-open interval of
     //! `IntegralConstant`s.
-    //! @relates Range
+    //! @relates hana::range
     //!
-    //! Given two `Constant`s `from` and `to`, `make<Range>` returns a `Range`
-    //! representing the half-open interval of `IntegralConstant`s `[from, to)`.
-    //! `from` and `to` must be `Constant`s of an integral type such that
-    //! `from <= to`. Otherwise, a compilation error is triggered. Also note
-    //! that if `from` and `to` are `Constant`s with different underlying
-    //! integral types, the created range contains `IntegralConstant`s whose
-    //! underlying type is their common type.
+    //! Given two `Constant`s `from` and `to`, `make<Range>` returns a
+    //! `hana::range` representing the half-open interval of `IntegralConstant`s
+    //! `[from, to)`. `from` and `to` must be `Constant`s of an integral type
+    //! such that `from <= to`. Otherwise, a compilation error is triggered.
+    //! Also note that if `from` and `to` are `Constant`s with different
+    //! underlying integral types, the created range contains
+    //! `IntegralConstant`s whose underlying type is their
+    //! common type.
     //!
     //!
     //! Example
@@ -84,24 +87,16 @@ namespace boost { namespace hana {
     //! @include example/range/make.cpp
     template <>
     constexpr auto make<Range> = [](auto from, auto to) {
-        return a Range [from, to) of an unspecified type;
+        return range<implementation-defined>{implementation-defined};
     };
 #endif
 
     //! Alias to `make<Range>`; provided for convenience.
-    //! @relates Range
+    //! @relates hana::range
     constexpr auto make_range = make<Range>;
 
-    //! @todo
-    //! Right now, this is provided for backwards compatibility.
-    //! However, should we really remove it? If so, we need a seriously
-    //! well-thought naming pattern for all the other objects in Hana,
-    //! because `range(from, to)` is awesome; much better than
-    //! `make_range(from, to)`.
-    constexpr auto range = make<Range>;
-
-    //! Shorthand to create a `Range` of `IntegralConstant`s.
-    //! @relates Range
+    //! Shorthand to create a `hana::range` of `IntegralConstant`s.
+    //! @relates hana::range
     //!
     //! This shorthand is provided for convenience only and it is equivalent
     //! to `make<Range>`. Specifically, `range_c<T, from, to>` is such that
@@ -131,9 +126,7 @@ namespace boost { namespace hana {
                                          integral_constant<T, to>);
 #else
     template <typename T, T from, T to>
-    constexpr decltype(
-        make<Range>(integral_constant<T, from>, integral_constant<T, to>)
-    ) range_c{};
+    constexpr range<T, from, to> range_c{};
 #endif
 }} // end namespace boost::hana
 

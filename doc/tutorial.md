@@ -503,7 +503,7 @@ container          | description
 <code>[optional](@ref boost::hana::optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
 <code>[map](@ref boost::hana::map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
 <code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
-<code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
+<code>[range](@ref boost::hana::range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[pair](@ref boost::hana::pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
 <code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
 <code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
@@ -1675,8 +1675,8 @@ Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
 have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
-family of functions. For example, one can create a `Range` of compile-time
-integers with `make<Range>`:
+family of functions. For example, one can create a `hana::range` of
+compile-time integers with `make<Range>`:
 
 @snippet example/tutorial/containers.cpp make<Range>
 
@@ -1690,10 +1690,10 @@ But what are these types with a capital letter that have popped up a couple of
 times in the tutorial? These types are simply tags __representing__ a given
 container. For example, `Range` is actually an empty `struct` representing the
 "conceptual type" of an object returned by `make_range`, while the actual type
-of such an object is left unspecified. These tags are very useful because they
-represent families of C++ types that are strongly related, but that are not
-required to have the same representation. These tags are documented in the
-section on [Hana's core](@ref tutorial-core-tags).
+of such an object is implementation-defined. These tags are very useful because
+they represent families of C++ types that are strongly related, but that are
+not required to have the same representation. These tags are documented in
+the section on [Hana's core](@ref tutorial-core-tags).
 
 
 @subsection tutorial-containers-elements Container elements
@@ -2458,7 +2458,7 @@ of the external adapters that are currently supported:
   Model of `Orderable`, `Comparable` and `IntegralDomain`.
 - `std::integer_sequence`\n
   Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
-  be using Hana's `Range` if you want speed, though.
+  be using `hana::range` if you want speed, though.
 - `std::pair`\n
   Model of `Product`. This is essentially equivalent to `hana::pair`.
 - `boost::mpl::vector`\n
@@ -2793,7 +2793,7 @@ the left) goes as follow:
 - @ref group-datatypes\n
   Documentation for all the data structures provided with the library. The
   data structures that have an unspecified type are documented by the tag
-  representing them (`Type`, `Range`, etc...). Each container documents
+  representing them (`Type`, `Lazy`, etc...). Each container documents
   the concept(s) it models, and how it does so. It also documents the methods
   tied to that container but not to any concept, for example `from_just` for
   `hana::optional`.
