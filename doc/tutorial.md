@@ -370,8 +370,8 @@ auto switch_(Any& a) {
 @endcode
 
 `find_if` takes a `tuple` and a predicate, and returns the first element of
-the tuple which satisfies the predicate. The result is returned as an optional
-value called an `Optional`, which is very similar to a `std::optional`, except
+the tuple which satisfies the predicate. The result is returned as a
+`hana::optional`, which is very similar to a `std::optional`, except
 whether that optional value is empty or not is known at compile-time. If the
 predicate is not satisfied for any element of the `tuple`, `find_if` returns
 `nothing` (an empty value). Otherwise, it returns `just(x)` (a non-empty value),
@@ -478,7 +478,7 @@ Pretty simple, wasn't it? Here's the final solution:
 
 That's it for the quick start! This example only introduced a couple of useful
 algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
-(`tuple`, `Optional`), but rest assured that there is much more. The next
+(`tuple`, `optional`), but rest assured that there is much more. The next
 sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
@@ -500,7 +500,7 @@ description of what each of them does.
 container          | description
 :----------------- | :----------
 <code>[tuple](@ref boost::hana::tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
-<code>[Optional](@ref boost::hana::Optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
+<code>[optional](@ref boost::hana::optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
 <code>[map](@ref boost::hana::map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
 <code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
 <code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
@@ -530,8 +530,8 @@ function                                                                        
 <code>[drop_while](@ref boost::hana::Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an `IntegralConstant`.
 <code>[fill](@ref boost::hana::Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
 <code>[filter](@ref boost::hana::MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an `IntegralConstant`.
-<code>[find](@ref boost::hana::Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `Optional`.
-<code>[find_if](@ref boost::hana::Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `Optional`.
+<code>[find](@ref boost::hana::Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `hana::optional`.
+<code>[find_if](@ref boost::hana::Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `hana::optional`.
 <code>[flatten](@ref boost::hana::Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
 <code>[fold_left](@ref boost::hana::Foldable::fold_left)(sequence[, state], f)</code>            | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
 <code>[fold_right](@ref boost::hana::Foldable::fold_right)(sequence[, state], f)</code>          | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
@@ -1476,10 +1476,10 @@ Here, we create a `maybe_add` function, which is simply a generic lambda
 wrapped with Hana's `sfinae` function. `maybe_add` is a function which takes
 two inputs and returns `just` the result of the generic lambda if that call
 is well-formed, and `nothing` otherwise. `just(...)` and `nothing` both belong
-to a type of container called `Optional`, which is essentially a compile-time
-`std::optional`. All in all, `maybe_add` is morally equivalent to the
-following function returning a `std::optional`, except that the check is
-done at compile-time:
+to a type of container called `hana::optional`, which is essentially a
+compile-time `std::optional`. All in all, `maybe_add` is morally equivalent
+to the following function returning a `std::optional`, except that the check
+is done at compile-time:
 
 @code{cpp}
 auto maybe_add = [](auto x, auto y) {
@@ -1490,8 +1490,8 @@ auto maybe_add = [](auto x, auto y) {
 };
 @endcode
 
-It turns out that we can take advantage of `sfinae` and `Optional` to implement
-the `optionalToString` function as follows:
+It turns out that we can take advantage of `sfinae` and `optional` to
+implement the `optionalToString` function as follows:
 
 @snippet example/tutorial/introspection.sfinae.cpp optionalToString.sfinae
 
@@ -1503,8 +1503,8 @@ an optional value. If the optional value is `nothing`, `from_maybe` returns
 the default value; otherwise, it returns the value inside the `just` (here
 `x.toString()`). This way of seeing SFINAE as a special case of computations
 that might fail is very clean and powerful, especially since `sfinae`'d
-functions can be combined through the `Optional` `Monad`, which is left to
-the reference documentation.
+functions can be combined through the `hana::optional` `Monad`, which is left
+to the reference documentation.
 
 
 @subsection tutorial-introspection-adapting Introspecting user-defined types
@@ -2793,10 +2793,10 @@ the left) goes as follow:
 - @ref group-datatypes\n
   Documentation for all the data structures provided with the library. The
   data structures that have an unspecified type are documented by the tag
-  representing them (`Optional`, `Range`, etc...). Each container documents
+  representing them (`Type`, `Range`, etc...). Each container documents
   the concept(s) it models, and how it does so. It also documents the methods
   tied to that container but not to any concept, for example `from_just` for
-  `Optional`.
+  `hana::optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely

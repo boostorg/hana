@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Optional`.
+Forward declares `boost::hana::optional`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -18,21 +18,32 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Tag representing an optional value whose optional-ness is known at
-    //! compile-time.
+    //! Optional value whose optional-ness is known at compile-time.
     //!
-    //! An `Optional` either contains a value (represented as `just(x)`), or
-    //! it is empty (represented as `nothing`). In essence, `Optional` is
-    //! pretty much like a `boost::optional` or the upcoming `std::optional`,
-    //! except the fact that an `Optional` is empty or not is known at
+    //! An `optional` either contains a value (represented as `just(x)`), or
+    //! it is empty (represented as `nothing`). In essence, `hana::optional`
+    //! is pretty much like a `boost::optional` or the upcoming `std::optional`,
+    //! except the fact that a `hana::optional` is empty or not is known at
     //! compile-time. This can be particularly useful for returning from a
     //! function that might fail, when the reason of failure is unimportant.
-    //! However, there is an important distinction to make between `Optional`
-    //! and `std::optional`: `just(x)` and `nothing` do not share the same
-    //! type. Hence, whether a `just` or a `nothing` will be returned from a
-    //! function has to be known at compile-time for the return type to be
-    //! computable by the compiler. This makes `Optional` well suited for
-    //! static metaprogramming tasks but very poor for anything dynamic.
+    //! However, there is an important distinction to make between
+    //! `hana::optional` and `std::optional`: `just(x)` and `nothing` do
+    //! not share the same type. Hence, whether a `just` or a `nothing` will
+    //! be returned from a function has to be known at compile-time for the
+    //! return type to be computable by the compiler. This makes
+    //! `hana::optional` well suited for static metaprogramming
+    //! tasks but very poor for anything dynamic.
+    //!
+    //!
+    //! @note
+    //! The representation of `hana::optional` is implementation-defined.
+    //! In particular, one should not take for granted any particular
+    //! representation for `hana::just(...)` and `hana::nothing`, or the
+    //! presence of any constructor/assignment operator. The proper way to
+    //! create an `optional` is through `hana::just` and `hana::nothing`,
+    //! and one should use `hana::is_just` and `hana::is_nothing` to
+    //! determine the status of an `optional` instead of relying on a
+    //! particular representation.
     //!
     //!
     //! Interoperation with `Type`s
@@ -42,7 +53,7 @@ namespace boost { namespace hana {
     //! however, never has a nested `::%type` alias. If `t` is a `Type`,
     //! this allows `decltype(just(t))` to be seen as a nullary metafunction
     //! equivalent to `decltype(t)`. Along with the `sfinae` function,
-    //! this allows `Optional` to interact seamlessly with SFINAE-friendly
+    //! this allows `hana::optional` to interact seamlessly with SFINAE-friendly
     //! metafunctions.
     //! Example:
     //! @include example/optional/sfinae_friendly_metafunctions.cpp
@@ -51,14 +62,14 @@ namespace boost { namespace hana {
     //! Modeled concepts
     //! ----------------
     //! 1. `Comparable`\n
-    //! Two `Optional`s are equal if and only if they are both empty or they
+    //! Two `optional`s are equal if and only if they are both empty or they
     //! both contain a value and those values are equal.
     //! @include example/optional/comparable.cpp
     //!
     //! 2. `Orderable`\n
-    //! `Optional`s can be ordered by considering the value they are holding,
-    //! if any. To handle the case of an empty `Optional`, we arbitrarily set
-    //! `nothing` as being less than any other `just`. Hence,
+    //! Optional values can be ordered by considering the value they are
+    //! holding, if any. To handle the case of an empty optional value, we
+    //! arbitrarily set `nothing` as being less than any other `just`. Hence,
     //! @code
     //!     just(x) < just(y) if and only if x < y
     //!     nothing < just(anything)
@@ -67,10 +78,10 @@ namespace boost { namespace hana {
     //! @include example/optional/orderable.cpp
     //!
     //! 3. `Functor`\n
-    //! A `Optional` can be seen as a `List` containing either one element
+    //! An optional value can be seen as a list containing either one element
     //! (`just(x)`) or no elements at all (`nothing`). As such, mapping
-    //! a function over an `Optional` is equivalent to applying it to its
-    //! value if there is one and to `nothing` otherwise:
+    //! a function over an optional value is equivalent to applying it to
+    //! its value if there is one, and to `nothing` otherwise:
     //! @code
     //!     transform(just(x), f) == just(f(x))
     //!     transform(nothing, f) == nothing
@@ -95,37 +106,42 @@ namespace boost { namespace hana {
     //! @include example/optional/applicative.complex.cpp
     //!
     //! 5. `Monad`\n
-    //! The `Optional` `Monad` makes it easy to compose actions that might fail.
+    //! The `Monad` model makes it easy to compose actions that might fail.
     //! One can feed an optional value if there is one into a function with
     //! `chain`, which will return `nothing` if there is no value. Finally,
-    //! optional-optional values can have their redundant level of
-    //! `Optional`ness removed with `flatten`. Also note that the `|` operator
-    //! can be used in place of the `chain` function.
+    //! optional-optional values can have their redundant level of optionality
+    //! removed with `flatten`. Also note that the `|` operator can be used in
+    //! place of the `chain` function.
     //! Example:
     //! @include example/optional/monad.cpp
     //!
     //! 6. `MonadPlus`\n
-    //! The `Optional` MonadPlus makes it easy to choose the first valid value
-    //! of two optional values. If both optional values are `nothing`s, then
-    //! `concat` will return `nothing`.
+    //! The `MonadPlus` model allows choosing the first valid value out of
+    //! two optional values with `concat`. If both optional values are
+    //! `nothing`s, `concat` will return `nothing`.
     //! Example:
     //! @include example/optional/monad_plus.cpp
     //!
     //! 7. `Foldable`\n
-    //! Folding an `Optional` is equivalent to folding a `List` containing
+    //! Folding an optional value is equivalent to folding a list containing
     //! either no elements (for `nothing`) or `x` (for `just(x)`).
     //! Example:
     //! @include example/optional/foldable.cpp
     //!
     //! 8. `Searchable`\n
-    //! Searching an `Optional` is equivalent to searching a list containing
-    //! `x` for `just(x)` and an empty list for `nothing`.
+    //! Searching an optional value is equivalent to searching a list
+    //! containing `x` for `just(x)` and an empty list for `nothing`.
     //! Example:
     //! @include example/optional/searchable.cpp
+    template <typename ...>
+    struct optional;
+
+    //! Tag representing a `hana::optional`.
+    //! @relates hana::optional
     struct Optional { };
 
     //! Create an optional value.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //! Specifically, `make<Optional>()` is equivalent to `nothing`, and
     //! `make<Optional>(x)` is equivalent to `just(x)`. This is provided
@@ -138,12 +154,12 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<Optional> = []([auto&& x]) {
-        return unspecified-type{forwarded(x)};
+        return optional<implementation-defined>{forwarded(x)};
     };
 #endif
 
     //! Alias to `make<Optional>`; provided for convenience.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //!
     //! Example
@@ -152,7 +168,7 @@ namespace boost { namespace hana {
     constexpr auto make_optional = make<Optional>;
 
     //! Create an optional value containing `x`.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //!
     //! Example
@@ -160,12 +176,9 @@ namespace boost { namespace hana {
     //! @include example/optional/just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
-        return unspecified-type;
+        return optional<implementation-defined>{forwarded(x)};
     };
 #else
-    template <typename T>
-    struct just_t;
-
     struct make_just_t {
         template <typename T>
         constexpr auto operator()(T&&) const;
@@ -175,27 +188,26 @@ namespace boost { namespace hana {
 #endif
 
     //! An empty optional value.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //!
     //! Example
     //! -------
     //! @include example/optional/nothing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr unspecified-type nothing{};
+    constexpr optional<implementation-defined> nothing{implementation-defined};
 #else
-    struct nothing_t : operators::adl {
+    template <>
+    struct optional<> : operators::adl {
         static constexpr bool is_just = false;
-        using hana = nothing_t;
-        using datatype = Optional;
     };
 
-    constexpr nothing_t nothing{};
+    constexpr optional<> nothing{};
 #endif
 
-    //! Create an `Optional` with the result of a function, but only if a
+    //! Create an optional value with the result of a function, but only if a
     //! predicate is satisfied.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //! Specifically, returns `just(f(x))` if `predicate(x)` is a true-valued
     //! `Logical`, and `nothing` otherwise.
@@ -237,9 +249,9 @@ namespace boost { namespace hana {
     constexpr only_when_t only_when{};
 #endif
 
-    //! Apply a function to the contents of an `Optional`, with a fallback
+    //! Apply a function to the contents of an optional, with a fallback
     //! result.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //! Specifically, `maybe` takes a default value, a function and an
     //! optional value. If the optional value is `nothing`, the default
@@ -273,27 +285,27 @@ namespace boost { namespace hana {
 #else
     struct maybe_t {
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T> const& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, optional<T> const& m) const
         { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T>& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, optional<T>& m) const
         { return static_cast<F&&>(f)(m.val); }
 
         template <typename Def, typename F, typename T>
-        constexpr decltype(auto) operator()(Def&&, F&& f, just_t<T>&& m) const
+        constexpr decltype(auto) operator()(Def&&, F&& f, optional<T>&& m) const
         { return static_cast<F&&>(f)(std::move(m).val); }
 
         template <typename Def, typename F>
-        constexpr Def operator()(Def&& def, F&&, nothing_t) const
+        constexpr Def operator()(Def&& def, F&&, optional<>) const
         { return static_cast<Def&&>(def); }
     };
 
     constexpr maybe_t maybe{};
 #endif
 
-    //! Return whether an `Optional` contains a value.
-    //! @relates Optional
+    //! Return whether an `optional` contains a value.
+    //! @relates hana::optional
     //!
     //! Specifically, returns a compile-time true-valued `Logical` if `m` is
     //! of the form `just(x)` for some `x`, and a false-valued one otherwise.
@@ -315,8 +327,8 @@ namespace boost { namespace hana {
     constexpr is_just_t is_just{};
 #endif
 
-    //! Return whether an `Optional` is empty.
-    //! @relates Optional
+    //! Return whether an `optional` is empty.
+    //! @relates hana::optional
     //!
     //! Specifically, returns a compile-time true-valued `Logical` if `m` is
     //! a `nothing`, and a false-valued one otherwise.
@@ -338,8 +350,8 @@ namespace boost { namespace hana {
     constexpr is_nothing_t is_nothing{};
 #endif
 
-    //! Return the contents of an `Optional`, with a fallback result.
-    //! @relates Optional
+    //! Return the contents of an `optional`, with a fallback result.
+    //! @relates hana::optional
     //!
     //! Specifically, returns `x` if `m` is `just(x)`, and `default_`
     //! otherwise.
@@ -368,8 +380,8 @@ namespace boost { namespace hana {
     constexpr from_maybe_t from_maybe{};
 #endif
 
-    //! Extract the content of an `Optional` or fail at compile-time.
-    //! @relates Optional
+    //! Extract the content of an `optional`, or fail at compile-time.
+    //! @relates hana::optional
     //!
     //! Specifically, returns `x` if the optional value is `just(x)`, and
     //! triggers a static assertion otherwise. For convenience, the pointer
@@ -397,7 +409,7 @@ namespace boost { namespace hana {
 #endif
 
     //! Calls a function if the call expression is well-formed.
-    //! @relates Optional
+    //! @relates hana::optional
     //!
     //! Given a function `f`, `sfinae` returns a new function applying `f`
     //! to its arguments and returning `just` the result if the call is

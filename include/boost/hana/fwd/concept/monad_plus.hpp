@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Optional`, `hana::tuple`
+    //! `hana::optional`, `hana::tuple`
     struct MonadPlus { };
 }} // end namespace boost::hana
 

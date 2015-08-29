@@ -18,9 +18,9 @@ namespace hana = boost::hana;
 
 
 // Using the Tuple Monad, we generate all the possible combinations of
-// cv-qualifiers and reference qualifiers. Then, we use the Optional Monad
-// to make sure that our generic function can be called with arguments
-// of any of those types.
+// cv-qualifiers and reference qualifiers. Then, we use the `optional`
+// Monad to make sure that our generic function can be called with
+// arguments of any of those types.
 
 // cv_qualifiers : Type -> Tuple(Type)
 auto cv_qualifiers = [](auto t) {

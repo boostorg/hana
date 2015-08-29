@@ -71,7 +71,8 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `IntegralConstant`, `Optional`, `hana::pair`, `String`, `hana::tuple`
+    //! `IntegralConstant`, `hana::optional`, `hana::pair`, `String`,
+    //! `hana::tuple`
     //!
     //!
     //! Free model for `LessThanComparable` data types

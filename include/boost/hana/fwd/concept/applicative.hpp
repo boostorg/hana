@@ -84,7 +84,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Lazy`, `Optional`, `hana::tuple`
+    //! `Lazy`, `hana::optional`, `hana::tuple`
     //!
     //!
     //! @anchor applicative-transformation

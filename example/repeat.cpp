@@ -14,7 +14,7 @@ namespace hana = boost::hana;
 
 static_assert(hana::repeat<hana::Tuple>('x', hana::size_t<2>) == hana::make_tuple('x', 'x'), "");
 
-// Of course, there can't be more than one element in an Optional.
+// Of course, there can't be more than one element in an `optional`.
 static_assert(hana::repeat<hana::Optional>('x', hana::size_t<2>) == hana::just('x'), "");
 
 int main() { }

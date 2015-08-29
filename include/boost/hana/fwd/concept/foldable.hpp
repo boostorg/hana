@@ -51,7 +51,8 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `hana::map`, `Optional`, `hana::pair`, `hana::set`, `Range`, `hana::tuple`
+    //! `hana::map`, `hana::optional`, `hana::pair`, `hana::set`, `Range`,
+    //! `hana::tuple`
     //!
     //!
     //! @anchor Foldable-lin
@@ -123,12 +124,12 @@ namespace boost { namespace hana {
     //! function are chained with the monadic `chain` operator of the
     //! corresponding Monad. This allows a structure to be folded in a
     //! custom monadic context. For example, performing a monadic fold with
-    //! the `Optional` monad would require the binary function to return the
-    //! result as an `Optional`, and the fold would abort and return `nothing`
-    //! whenever one of the accumulation step would fail (i.e. return `nothing`).
-    //! If, however, all the reduction steps succeed, then `just` the result
-    //! would be returned. Different monads will of course result in
-    //! different effects.
+    //! the `hana::optional` monad would require the binary function to return
+    //! the result as a `hana::optional`, and the fold would abort and return
+    //! `nothing` whenever one of the accumulation step would fail (i.e.
+    //! return `nothing`). If, however, all the reduction steps succeed,
+    //! then `just` the result would be returned. Different monads will of
+    //! course result in different effects.
     struct Foldable { };
 }} // end namespace boost::hana
 
