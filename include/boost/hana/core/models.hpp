@@ -23,12 +23,12 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Concept, typename DataType, bool condition>
     struct models_impl<Concept, DataType, when<condition>>
-        : _integral_constant<bool, false>
+        : integral_constant<bool, false>
     { };
 
     template <typename Concept, typename T>
     struct _models<Concept, T>
-        : _integral_constant<bool,
+        : integral_constant<bool,
             models_impl<Concept, typename datatype<T>::type>::value
         >
     { };

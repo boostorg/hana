@@ -50,11 +50,12 @@ namespace boost { namespace hana {
     //! object. The "names" do not have to be in any special form; they just
     //! have to be compile-time `Comparable`. For example, it is common to
     //! provide "names" that are `hana::string`s representing the actual names
-    //! of the members, but one could provide `IntegralConstant`s just as well.
-    //! The values must be functions which, when given an object, retrieve the
-    //! appropriate member from it. It is not important that the functions
-    //! actually retrieve a member (e.g. `x.member`); what is important is
-    //! that they are move-independent, a notion which is defined below.
+    //! of the members, but one could provide `hana::integral_constant`s just
+    //! as well. The values must be functions which, when given an object,
+    //! retrieve the appropriate member from it. It is not important that
+    //! the functions actually retrieve a member (e.g. `x.member`); what
+    //! is important is that they are move-independent, a notion which is
+    //! defined below.
     //!
     //! There are several ways of providing the `accessors` method, some of
     //! which are more flexible and others which are more convenient. First,

@@ -108,7 +108,7 @@ namespace boost { namespace hana { namespace traits {
             constexpr auto result = std::extent<
                 typename detail::decltype_t<T>::type, n
             >::value;
-            return integral_constant<decltype(result), result>;
+            return integral_constant<decltype(result), result>{};
         }
 
         template <typename T>

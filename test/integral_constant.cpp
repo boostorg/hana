@@ -45,7 +45,7 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // IntegralConstant's API (like std::integral_constant)
+    // integral_constant's API (like std::integral_constant)
     //////////////////////////////////////////////////////////////////////////
     {
         // operator()
@@ -78,11 +78,11 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Make sure we can inherit _integral_constant and retain the same
+    // Make sure we can inherit integral_constant and retain the same
     // data type.
     //////////////////////////////////////////////////////////////////////////
     {
-        struct derived : _integral_constant<int, 10> { };
+        struct derived : integral_constant<int, 10> { };
         static_assert(std::is_same<datatype_t<derived>, IntegralConstant<int>>{}, "");
     }
 
@@ -197,8 +197,8 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // value
-        static_assert(value(integral_constant<int, 0>) == 0, "");
-        static_assert(value(integral_constant<int, 1>) == 1, "");
+        static_assert(value(integral_c<int, 0>) == 0, "");
+        static_assert(value(integral_c<int, 1>) == 1, "");
 
         // laws
         test::TestConstant<IntegralConstant<int>>{ints, tuple_t<int, long, long long>};

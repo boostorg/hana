@@ -18,9 +18,10 @@ namespace boost { namespace hana {
     //! Compile-time string.
     //!
     //! Conceptually, a `hana::string` is like a tuple holding
-    //! `IntegralConstant`s of type `char`. However, the interface of
-    //! `hana::string` is not as rich as that of a tuple, because a string
-    //! can only hold compile-time characters as opposed to any kind of object.
+    //! `integral_constant`s of underlying type `char`. However, the
+    //! interface of `hana::string` is not as rich as that of a tuple,
+    //! because a string can only hold compile-time characters as opposed
+    //! to any kind of object.
     //!
     //! Compile-time strings are used for simple purposes like being keys in a
     //! `hana::map` or tagging the members of a `Struct`. However, you might

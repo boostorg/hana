@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::IntegralConstant`.
+Defines `boost::hana::integral_constant`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.

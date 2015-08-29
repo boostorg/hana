@@ -45,7 +45,7 @@ template <typename T, typename = std::enable_if_t<
   hana::models<hana::Constant, T>()
 >>
 constexpr auto sqrt(T const&) {
-  return hana::integral_constant<typename T::value_type, sqrt(T::value)>;
+  return hana::integral_c<typename T::value_type, sqrt(T::value)>;
 }
 
 

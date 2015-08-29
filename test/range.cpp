@@ -53,28 +53,28 @@ int main() {
         using T = int;
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 0, 0>,
-            hana::make_range(hana::integral_constant<T, 0>, hana::integral_constant<T, 0>)
+            hana::make_range(hana::integral_c<T, 0>, hana::integral_c<T, 0>)
         ));
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 0, 1>,
-            hana::make_range(hana::integral_constant<T, 0>, hana::integral_constant<T, 1>)
+            hana::make_range(hana::integral_c<T, 0>, hana::integral_c<T, 1>)
         ));
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 0, 2>,
-            hana::make_range(hana::integral_constant<T, 0>, hana::integral_constant<T, 2>)
+            hana::make_range(hana::integral_c<T, 0>, hana::integral_c<T, 2>)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 1, 1>,
-            hana::make_range(hana::integral_constant<T, 1>, hana::integral_constant<T, 1>)
+            hana::make_range(hana::integral_c<T, 1>, hana::integral_c<T, 1>)
         ));
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 1, 2>,
-            hana::make_range(hana::integral_constant<T, 1>, hana::integral_constant<T, 2>)
+            hana::make_range(hana::integral_c<T, 1>, hana::integral_c<T, 2>)
         ));
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::range_c<T, 1, 3>,
-            hana::make_range(hana::integral_constant<T, 1>, hana::integral_constant<T, 3>)
+            hana::make_range(hana::integral_c<T, 1>, hana::integral_c<T, 3>)
         ));
     }
 
@@ -85,7 +85,7 @@ int main() {
         // make sure make<Range> works with arbitrary Constants
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::make<hana::Range>(test::_constant<1>{}, test::_constant<4>{}),
-            hana::make_range(hana::integral_constant<int, 1>, hana::integral_constant<int, 4>)
+            hana::make_range(hana::integral_c<int, 1>, hana::integral_c<int, 4>)
         ));
     }
 

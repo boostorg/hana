@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     //!
     //! `sizeof_` is somewhat equivalent to `sizeof` in that it returns the
     //! size of an expression or type, but it takes an arbitrary expression
-    //! or a Type object and returns its size as an IntegralConstant.
+    //! or a Type object and returns its size as an `integral_constant`.
     //! Specifically, given an expression `expr`, `sizeof_` satisfies
     //! @code
     //!   sizeof_(expr) == size_t<sizeof(decltype(expr) with references stripped)>
@@ -203,9 +203,9 @@ namespace boost { namespace hana {
     //!
     //! `alignof_` is somewhat equivalent to `alignof` in that it returns the
     //! alignment required by any instance of a type, but it takes a Type
-    //! object and returns its alignment as an IntegralConstant. Like `sizeof`
-    //! which works for expressions and type-ids, `alignof_` can also be
-    //! called on an arbitrary expression. Specifically, given an expression
+    //! object and returns its alignment as an `integral_constant`. Like
+    //! `sizeof` which works for expressions and type-ids, `alignof_` can also
+    //! be called on an arbitrary expression. Specifically, given an expression
     //! `expr` and a C++ type `T`, `alignof_` satisfies
     //! @code
     //!   alignof_(expr) == size_t<alignof(decltype(expr) with references stripped)>
@@ -489,8 +489,8 @@ namespace boost { namespace hana {
     //!
     //! The principal use case for `integral` is to transform `Metafunction`s
     //! returning a type that inherits from a meaningful base like
-    //! `std::integral_constant` into functions returning e.g. an
-    //! `IntegralConstant`.
+    //! `std::integral_constant` into functions returning e.g. a
+    //! `hana::integral_constant`.
     //!
     //! @note
     //! - This is not a `Metafunction` because it does not return a `Type`.

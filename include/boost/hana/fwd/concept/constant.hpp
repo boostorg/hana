@@ -126,7 +126,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `IntegralConstant`
+    //! `hana::integral_constant`
     //!
     //!
     //! Provided conversion to the data type of the underlying value

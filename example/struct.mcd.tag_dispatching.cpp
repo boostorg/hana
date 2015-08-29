@@ -30,7 +30,7 @@ struct Person {
 };
 
 // The keys can be anything as long as they are compile-time comparable.
-constexpr auto name = hana::integral_constant<std::string Person::*, &Person::name>;
+constexpr auto name = hana::integral_c<std::string Person::*, &Person::name>;
 constexpr auto age = hana::string_c<'a', 'g', 'e'>;
 
 namespace boost { namespace hana {

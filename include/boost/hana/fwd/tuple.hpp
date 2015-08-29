@@ -163,10 +163,10 @@ namespace boost { namespace hana {
     constexpr auto tuple_t = hana::make<Tuple>(gcc_wknd::mktype<T>()...);
 #endif
 
-    //! Create a tuple specialized for holding `IntegralConstant`s.
+    //! Create a tuple specialized for holding `hana::integral_constant`s.
     //! @relates hana::tuple
     //!
-    //! This is functionally equivalent to `make<Tuple>(integral_constant<T, v>...)`,
+    //! This is functionally equivalent to `make<Tuple>(integral_c<T, v>...)`,
     //! except that using `tuple_c` allows the library to perform some
     //! compile-time optimizations. Also note that the type of the objects
     //! returned by `tuple_c` and an equivalent call to `make<Tuple>` may differ.
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type tuple_c{};
 #else
     template <typename T, T ...v>
-    constexpr auto tuple_c = hana::make<Tuple>(hana::_integral_constant<T, v>{}...);
+    constexpr auto tuple_c = hana::make_tuple(hana::integral_constant<T, v>{}...);
 #endif
 }} // end namespace boost::hana
 

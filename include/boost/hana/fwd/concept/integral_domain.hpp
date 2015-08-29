@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `IntegralConstant`
+    //! `hana::integral_constant`
     //!
     //!
     //! Free model for non-boolean integral data types

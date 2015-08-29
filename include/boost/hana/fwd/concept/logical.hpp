@@ -127,7 +127,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `IntegralConstant`
+    //! `hana::integral_constant`
     //!
     //!
     //! Free model for arithmetic data types

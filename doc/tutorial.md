@@ -499,20 +499,20 @@ description of what each of them does.
 
 container          | description
 :----------------- | :----------
-<code>[tuple](@ref boost::hana::tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
-<code>[optional](@ref boost::hana::optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
-<code>[map](@ref boost::hana::map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
-<code>[set](@ref boost::hana::set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
-<code>[range](@ref boost::hana::range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
-<code>[pair](@ref boost::hana::pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
-<code>[string](@ref boost::hana::string)</code>                     | Compile-time string.
-<code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
-<code>[IntegralConstant](@ref boost::hana::IntegralConstant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
-<code>[Lazy](@ref boost::hana::Lazy)</code>                         | Encapsulates a lazy value or computation.
+<code>[tuple](@ref boost::hana::tuple)</code>                         | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
+<code>[optional](@ref boost::hana::optional)</code>                   | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
+<code>[map](@ref boost::hana::map)</code>                             | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
+<code>[set](@ref boost::hana::set)</code>                             | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
+<code>[range](@ref boost::hana::range)</code>                         | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
+<code>[pair](@ref boost::hana::pair)</code>                           | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
+<code>[string](@ref boost::hana::string)</code>                       | Compile-time string.
+<code>[Type](@ref boost::hana::Type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
+<code>[integral_constant](@ref boost::hana::integral_constant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that `hana::integral_constant` also defines operators and more syntactic sugar.
+<code>[Lazy](@ref boost::hana::Lazy)</code>                           | Encapsulates a lazy value or computation.
 
 
-function                                                                            | description
-:------------------------------------------                                         | :----------
+function                                                                                         | description
+:------------------------------------------                                                      | :----------
 <code>[adjust](@ref boost::hana::Functor::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
 <code>[adjust_if](@ref boost::hana::Functor::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
 <code>{[all](@ref boost::hana::Searchable::all),[any](@ref boost::hana::Searchable::any),[none](@ref boost::hana::Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
@@ -2854,15 +2854,16 @@ what's being returned or taken by a function. For example, instead of
 documenting the `equal` function for `IntegralConstant`s as
 
 @f[
-  \mathtt{equal} : \mathtt{decltype(integral\_constant<T, n>)} \times
-                   \mathtt{decltype(integral\_constant<T, m>)}
-                      \to \mathtt{decltype(bool\_<n == m>)}
+  \mathtt{equal} : \mathtt{integral\_constant<T, n>} \times
+                   \mathtt{integral\_constant<T, m>}
+                      \to \mathtt{integral\_constant<bool, n == m>}
 @f]
 
-which is not really helpful, it is instead documented using the
-`IntegralConstant` tag. Note that since `equal` is part of the `Comparable`
-concept, it is not _actually_ documented for `IntegralConstant` specifically,
-but the idea is there:
+which is not really helpful (as it really presents nothing but the
+implementation), it is instead documented using the `IntegralConstant`
+tag. Note that since `equal` is part of the `Comparable` concept, it is
+not _actually_ documented for `IntegralConstant` specifically, but the
+idea is there:
 
 @f[
   \mathtt{equal} : \mathtt{IntegralConstant<T>} \times

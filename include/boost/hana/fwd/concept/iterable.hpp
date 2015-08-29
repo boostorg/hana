@@ -64,7 +64,7 @@ namespace boost { namespace hana {
     //! In particular, note that being a compile-time `Iterable` has nothing
     //! to do with being finite or infinite. For example, it would be possible
     //! to create a sequence representing the Pythagorean triples as
-    //! `IntegralConstant`s. Such a sequence would be infinite, but iteration
+    //! `integral_constant`s. Such a sequence would be infinite, but iteration
     //! on the sequence would still be done at compile-time. However, if one
     //! tried to iterate over _all_ the elements of the sequence, the compiler
     //! would loop indefinitely, in contrast to your program looping
