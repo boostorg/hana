@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Lazy`.
+Forward declares `boost::hana::lazy`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -10,18 +10,26 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LAZY_HPP
 #define BOOST_HANA_FWD_LAZY_HPP
 
-#include <boost/hana/fwd/core/datatype.hpp>
-#include <boost/hana/fwd/eval.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! The `Lazy` data type implements superficial laziness via a monadic
-    //! interface.
+    //! `hana::lazy` implements superficial laziness via a monadic interface.
     //!
-    //! It is important to understand that the laziness implemented by `Lazy`
-    //! is only superficial; only function applications made inside the `Lazy`
+    //! It is important to understand that the laziness implemented by `lazy`
+    //! is only superficial; only function applications made inside the `lazy`
     //! monad can be made lazy, not all their subexpressions.
+    //!
+    //!
+    //! @note
+    //! The actual representation of `hana::lazy` is completely
+    //! implementation-defined. Lazy values may only be created through
+    //! `hana::make_lazy`, and they can be stored in variables using
+    //! `auto`, but any other assumption about the representation of
+    //! `hana::lazy<...>` should be avoided. In particular, one should
+    //! not rely on the fact that `hana::lazy<...>` can be pattern-matched
+    //! on, because it may be a dependent type.
     //!
     //!
     //! Modeled concepts
@@ -36,13 +44,13 @@ namespace boost { namespace hana {
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     //!
     //! 3. `Monad`\n
-    //! The `Lazy` monad allows combining lazy computations into larger
+    //! The `lazy` monad allows combining lazy computations into larger
     //! lazy computations. Note that the `|` operator can be used in place
     //! of the `chain` function.
     //! @include example/lazy/monad.cpp
     //!
     //! 4. `Comonad`\n
-    //! The `Lazy` comonad allows evaluating a lazy computation to get its
+    //! The `lazy` comonad allows evaluating a lazy computation to get its
     //! result and lazily applying functions taking lazy inputs to lazy
     //! values. This [blog post][1]  goes into more details about lazy
     //! evaluation and comonads.
@@ -50,43 +58,59 @@ namespace boost { namespace hana {
     //!
     //!
     //! @note
-    //! `Lazy` only models a few concepts because providing more functionality
-    //! would require evaluating the lazy values in most cases. Since this
-    //! raises some issues such as side effects and memoization, the interface
-    //! is kept minimal.
+    //! `hana::lazy` only models a few concepts because providing more
+    //! functionality would require evaluating the lazy values in most cases.
+    //! Since this raises some issues such as side effects and memoization,
+    //! the interface is kept minimal.
     //!
     //!
     //! [1]: http://ldionne.com/2015/03/16/laziness-as-a-comonad
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...>
+    struct lazy;
+#else
+    // We do not _actually_ define the lazy<...> type. Per the documentation,
+    // users can't rely on it being anything, and so they should never use
+    // it explicitly. The implementation in <boost/hana/lazy.hpp> is much
+    // simpler if we use different types for lazy calls and lazy values.
+#endif
+
+    //! Tag representing `hana::lazy`.
+    //! @relates hana::lazy
     struct Lazy { };
 
     //! Lifts a normal value to a lazy one.
-    //! @relates Lazy
+    //! @relates hana::lazy
     //!
-    //! Additionally, `lazy(f)` is a function such that `lazy(f)(x1, ..., xN)`
-    //! is equivalent to `ap(lazy(f), lift<Lazy>(x1), ..., lift<Lazy>(xN))`,
-    //! which in turn is equivalent to `lazy(f(x1, ..., xN))`, except for the
-    //! fact that the inner call to `f` is evaluated lazily. Note that
-    //! `lazy(f)()` is equivalent to `lazy(f())`, with the inner call to
-    //! `f` being evaluated lazily. This is provided for convenience even
-    //! though `ap(lazy(f))` would be invalid because `ap` requires 2
-    //! arguments or more.
+    //! `make<Lazy>` can be used to lift a normal value or a function call
+    //! into a lazy expression. Precisely, `make<Lazy>(x)` is a lazy value
+    //! equal to `x`, and `make<Lazy>(f)(x1, ..., xN)` is a lazy function
+    //! call that is equal to `f(x1, ..., xN)` when it is `eval`uated.
+    //!
+    //! @note
+    //! It is interesting to note that `make<Lazy>(f)(x1, ..., xN)` is
+    //! equivalent to `ap(make<Lazy>(f), lift<Lazy>(x1), ..., lift<Lazy>(xN))`,
+    //! which in turn is equivalent to `make<Lazy>(f(x1, ..., xN))`, except
+    //! for the fact that the inner call to `f` is evaluated lazily.
     //!
     //!
     //! Example
     //! -------
-    //! @include example/lazy/lazy.cpp
+    //! @include example/lazy/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto lazy = [](auto&& x) {
-        return unspecified-type;
+    template <>
+    constexpr auto make<Lazy> = [](auto&& x) {
+        return lazy<implementation-defined>{implementation-defined};
     };
-#else
-    struct lazy_t {
-        template <typename X>
-        constexpr auto operator()(X&& x) const;
-    };
-
-    constexpr lazy_t lazy{};
 #endif
+
+    //! Alias to `make<Lazy>`; provided for convenience.
+    //! @relates hana::lazy
+    //!
+    //! Example
+    //! -------
+    //! @include example/lazy/make.cpp
+    constexpr auto make_lazy = make<Lazy>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LAZY_HPP

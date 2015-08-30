@@ -88,8 +88,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename State, typename F>
         static constexpr auto apply(Xs xs, State state, F f) {
             return hana::eval_if(hana::is_empty(xs),
-                hana::lazy(hana::lift<S>(state)),
-                hana::lazy(scan_left_helper{})(xs, state, f)
+                hana::make_lazy(hana::lift<S>(state)),
+                hana::make_lazy(scan_left_helper{})(xs, state, f)
             );
         }
 
@@ -98,8 +98,8 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, F&& f) {
             decltype(auto) done = hana::is_empty(xs);
             return hana::eval_if(static_cast<decltype(done)&&>(done),
-                hana::lazy(hana::empty<S>()),
-                hana::lazy(scan_left_helper{})(
+                hana::make_lazy(hana::empty<S>()),
+                hana::make_lazy(scan_left_helper{})(
                     static_cast<Xs&&>(xs), static_cast<F&&>(f)
                 )
             );

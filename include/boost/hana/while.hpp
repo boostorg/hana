@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
-#include <boost/hana/lazy.hpp>
 
 #include <type_traits>
 

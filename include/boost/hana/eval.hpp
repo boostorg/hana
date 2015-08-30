@@ -42,7 +42,7 @@ namespace boost { namespace hana {
         template <typename Expr>
         static constexpr auto eval_helper(Expr&&, ...) {
             static_assert(detail::wrong<Expr>{},
-            "hana::eval(expr) requires the expression to be Lazy, "
+            "hana::eval(expr) requires the expression to be a hana::lazy, "
             "a nullary Callable or a unary Callable that may be "
             "called with hana::id");
         }

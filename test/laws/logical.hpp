@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
         static void for_each_such_that(Xs xs, Pred pred, F f) {
             hana::for_each(xs, [&pred, &f](auto x) {
                 hana::eval_if(pred(x),
-                    hana::lazy(f)(x),
+                    hana::make_lazy(f)(x),
                     [](auto) { }
                 );
             });

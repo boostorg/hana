@@ -17,8 +17,8 @@ namespace hana = boost::hana;
 // eval_if with heterogeneous branches and a Constant condition
 BOOST_HANA_CONSTEXPR_LAMBDA auto safe_make_unsigned = [](auto t) {
     return hana::eval_if(hana::traits::is_integral(t),
-        hana::lazy(hana::traits::make_unsigned)(t),
-        hana::lazy(t)
+        hana::make_lazy(hana::traits::make_unsigned)(t),
+        hana::make_lazy(t)
     );
 };
 

@@ -20,7 +20,7 @@ namespace hana = boost::hana;
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto safe_div = [](auto x, auto y) {
         return hana::eval_if(y == hana::int_<0>,
-            hana::lazy(hana::nothing),
+            hana::make_lazy(hana::nothing),
             [=](auto _) {
                 return hana::just(_(x) / y);
             }

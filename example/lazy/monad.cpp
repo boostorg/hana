@@ -28,14 +28,14 @@ int main() {
     int in = 123;
 
     std::cout << "creating the monadic chain...\n";
-    auto out = hana::lazy(read_<int>)(std::ref(ss))
+    auto out = hana::make_lazy(read_<int>)(std::ref(ss))
         | [](auto x) {
             std::cout << "performing x + 1...\n";
-            return hana::lazy(x + 1);
+            return hana::make_lazy(x + 1);
         }
         | [](auto x) {
             std::cout << "performing x / 2...\n";
-            return hana::lazy(x / 2);
+            return hana::make_lazy(x / 2);
         };
 
     std::cout << "putting " << in << " in the stream...\n";

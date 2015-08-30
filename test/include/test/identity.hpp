@@ -83,8 +83,8 @@ namespace boost { namespace hana {
         template <typename Id, typename P, typename F>
         static constexpr auto apply(Id self, P p, F f) {
             auto x = eval_if(p(self.value),
-                lazy(compose(f, get_value{}))(self),
-                lazy(get_value{})(self)
+                make_lazy(compose(f, get_value{}))(self),
+                make_lazy(get_value{})(self)
             );
             return test::identity(x);
         }

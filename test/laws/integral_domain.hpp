@@ -41,7 +41,7 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 only_when_(hana::not_equal(b, zero<D>()),
-                hana::lazy([](auto a, auto b) {
+                hana::make_lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::plus(
                             hana::mult(hana::quot(a, b), b),
@@ -68,7 +68,7 @@ namespace boost { namespace hana { namespace test {
         TestIntegralDomain(Xs xs) : TestIntegralDomain<C, laws>{xs} {
             foreach2(xs, [](auto x, auto y) {
                 only_when_(hana::not_equal(zero<C>(), y),
-                hana::lazy([](auto x, auto y) {
+                hana::make_lazy([](auto x, auto y) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::quot(hana::value(x), hana::value(y)),
                         hana::value(hana::quot(x, y))

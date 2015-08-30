@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-static_assert(hana::extract(hana::lazy(1)) == 1, "");
-static_assert(hana::extract(hana::lazy(hana::succ)(3)) == 4, "");
+static_assert(hana::extract(hana::make_lazy(1)) == 1, "");
+static_assert(hana::extract(hana::make_lazy(hana::succ)(3)) == 4, "");
 
 int main() { }

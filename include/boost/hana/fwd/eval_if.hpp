@@ -17,8 +17,8 @@ namespace boost { namespace hana {
     //! Conditionally execute one of two branches based on a condition.
     //! @relates Logical
     //!
-    //! Given a condition and two branches in the form of lambdas or Lazy
-    //! expressions, `eval_if` will evaluate the branch selected by the
+    //! Given a condition and two branches in the form of lambdas or
+    //! `hana::lazy`s, `eval_if` will evaluate the branch selected by the
     //! condition with `eval` and return the result. The exact requirements
     //! for what the branches may be are the same requirements as those for
     //! the `eval` function.
@@ -107,15 +107,15 @@ namespace boost { namespace hana {
     //! cost is amortized over the whole program.
     //!
     //! Another way to work around this limitation of the language would be
-    //! to use `Lazy` branches. However, this is only suitable when the
-    //! branches are not too complicated. With `Lazy`, you could write the
-    //! previous example as
+    //! to use `hana::lazy` for the branches. However, this is only suitable
+    //! when the branches are not too complicated. With `hana::lazy`, you
+    //! could write the previous example as
     //! @code
     //!     template <typename T>
     //!     struct pointerize : decltype(
     //!         hana::eval_if(hana::traits::is_pointer(hana::type_c<T>),
-    //!             hana::lazy(hana::type_c<T>),
-    //!             hana::lazy(hana::traits::add_pointer)(hana::type_c<T>)
+    //!             hana::make_lazy(hana::type_c<T>),
+    //!             hana::make_lazy(hana::traits::add_pointer)(hana::type_c<T>)
     //!         ))
     //!     { };
     //! @endcode

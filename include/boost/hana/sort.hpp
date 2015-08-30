@@ -87,8 +87,8 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
                 return hana::eval_if(hana::is_empty(hana::tail(xs)),
-                    hana::lazy(xs),
-                    hana::lazy(sort_by_helper2{})(xs, static_cast<Pred&&>(pred))
+                    hana::make_lazy(xs),
+                    hana::make_lazy(sort_by_helper2{})(xs, static_cast<Pred&&>(pred))
                 );
             }
         };
@@ -96,8 +96,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs xs, Pred&& pred) {
             return hana::eval_if(hana::is_empty(xs),
-                hana::lazy(xs),
-                hana::lazy(sort_by_helper1{})(xs, static_cast<Pred&&>(pred))
+                hana::make_lazy(xs),
+                hana::make_lazy(sort_by_helper1{})(xs, static_cast<Pred&&>(pred))
             );
         }
 

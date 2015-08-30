@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Lazy`, `hana::optional`, `hana::tuple`
+    //! `hana::lazy`, `hana::optional`, `hana::tuple`
     //!
     //!
     //! Structure-preserving functions for Functors

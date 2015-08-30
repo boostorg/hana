@@ -11,6 +11,6 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto very_lazy = hana::duplicate(hana::lazy(3));
+    constexpr auto very_lazy = hana::duplicate(hana::make_lazy(3));
     static_assert(hana::extract(hana::extract(very_lazy)) == 3, "");
 }

@@ -158,10 +158,10 @@ namespace boost { namespace hana {
     template <typename Pred, typename F, typename X>
     constexpr decltype(auto) only_when_t::operator()(Pred&& pred, F&& f, X&& x) const {
         return hana::eval_if(static_cast<Pred&&>(pred)(x),
-            hana::lazy(hana::compose(hana::just, static_cast<F&&>(f)))(
+            hana::make_lazy(hana::compose(hana::just, static_cast<F&&>(f)))(
                 static_cast<X&&>(x)
             ),
-            hana::lazy(hana::nothing)
+            hana::make_lazy(hana::nothing)
         );
     }
 

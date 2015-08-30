@@ -74,8 +74,8 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, State state, F&& f) {
             auto done = hana::is_empty(xs);
             return hana::eval_if(done,
-                hana::lazy(hana::lift<S>(state)),
-                hana::lazy(scan_right_helper{})(static_cast<Xs&&>(xs), state,
+                hana::make_lazy(hana::lift<S>(state)),
+                hana::make_lazy(scan_right_helper{})(static_cast<Xs&&>(xs), state,
                                                 static_cast<F&&>(f))
             );
         }
@@ -95,8 +95,8 @@ namespace boost { namespace hana {
                 auto y = hana::front(xs);
                 auto ys = hana::tail(xs);
                 return hana::eval_if(hana::is_empty(ys),
-                    hana::lazy(hana::lift<S>(y)),
-                    hana::lazy(scanr1_helper2{})(y, ys, static_cast<F&&>(f))
+                    hana::make_lazy(hana::lift<S>(y)),
+                    hana::make_lazy(scanr1_helper2{})(y, ys, static_cast<F&&>(f))
                 );
             }
         };
@@ -105,8 +105,8 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, F&& f) {
             auto done = hana::is_empty(xs);
             return hana::eval_if(done,
-                hana::lazy(hana::empty<S>()),
-                hana::lazy(scanr1_helper1{})(static_cast<Xs&&>(xs),
+                hana::make_lazy(hana::empty<S>()),
+                hana::make_lazy(scanr1_helper1{})(static_cast<Xs&&>(xs),
                                              static_cast<F&&>(f))
             );
         }

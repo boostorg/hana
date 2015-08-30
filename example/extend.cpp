@@ -27,7 +27,7 @@ int main() {
     std::stringstream s;
     s << "1 2 3";
 
-    auto from_stream = hana::extend(hana::lazy(read_one<int>)(std::ref(s)), [](auto i) {
+    auto from_stream = hana::extend(hana::make_lazy(read_one<int>)(std::ref(s)), [](auto i) {
         return hana::eval(i) + 1;
     });
 

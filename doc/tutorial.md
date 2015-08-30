@@ -508,7 +508,7 @@ container          | description
 <code>[string](@ref boost::hana::string)</code>                       | Compile-time string.
 <code>[type](@ref boost::hana::type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[integral_constant](@ref boost::hana::integral_constant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that `hana::integral_constant` also defines operators and more syntactic sugar.
-<code>[Lazy](@ref boost::hana::Lazy)</code>                           | Encapsulates a lazy value or computation.
+<code>[lazy](@ref boost::hana::lazy)</code>                           | Encapsulates a lazy value or computation.
 <code>[basic_tuple](@ref boost::hana::basic_tuple)</code>             | Stripped-down version of `hana::tuple`. Not standards conforming, but more compile-time efficient.
 
 
@@ -1374,7 +1374,7 @@ wait for `x`'s type to be known before type-checking the lambda's body. Since
 the lambda is never called when the condition is not satisfied (Hana's `if_`
 takes care of that), the body of the lambda is never type-checked and no
 compilation error happens. There are many different ways of branching in
-Hana; you may take a look at `eval_if` and `Lazy` for details.
+Hana; you may take a look at `eval_if` and `lazy` for details.
 
 @note
 The branches inside the `if_` are lambdas. As such, they really are different
@@ -2796,16 +2796,14 @@ the left) goes as follow:
     to do anything special to get that model.
 
 - @ref group-datatypes\n
-  Documentation for all the data structures provided with the library. The
-  data structures that have an unspecified type are documented by the tag
-  representing them (e.g. `Lazy`). Each container documents the concept(s)
-  it models, and how it does so. It also documents the methods tied to that
-  container but not to any concept, for example `from_just` for `optional`.
+  Documentation for all the data structures provided with the library. Each
+  data structure documents the concept(s) it models, and how it does so. It
+  also documents the methods tied to it but not to any concept, for example
+  `from_just` for `optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely
-  functional setting. These are currently not tied to any concept or data
-  type.
+  functional setting. These are currently not tied to any concept or container.
 
 - @ref group-ext\n
   Documentation for all the adapters for external libraries. Basically, we

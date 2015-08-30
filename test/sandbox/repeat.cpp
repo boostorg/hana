@@ -39,7 +39,7 @@ struct lazy_nil_type { struct hana { using datatype = LazyList; }; };
 constexpr lazy_nil_type lazy_nil{};
 
 auto repeat_ = fix([](auto repeat, auto x) {
-    return lazy_cons(x, lazy(repeat)(x));
+    return lazy_cons(x, make_lazy(repeat)(x));
 });
 
 namespace boost { namespace hana {
@@ -79,7 +79,7 @@ namespace boost { namespace hana {
     struct prepend_impl<LazyList> {
         template <typename Xs, typename X>
         static constexpr auto apply(Xs xs, X x)
-        { return lazy_cons(x, lazy(xs)); }
+        { return lazy_cons(x, make_lazy(xs)); }
     };
 
     template <>
