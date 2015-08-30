@@ -19,9 +19,6 @@
     }, {
       "name": "Homogeneous hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.homogeneous.erb.cpp', hana) %>
-    }, {
-      "name": "hana::tuple_c",
-      "data": <%= time_compilation('compile.hana.tuple_c.erb.cpp', hana) %>
     }
   ]
 }

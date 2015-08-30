@@ -16,9 +16,6 @@
     {
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
-    }, {
-      "name": "hana::tuple_t with hana::Metafunction",
-      "data": <%= time_compilation('compile.hana.tuple_t.erb.cpp', hana) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
