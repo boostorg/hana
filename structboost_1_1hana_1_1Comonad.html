@@ -279,11 +279,11 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">auto</span> read_one = [](std::istream&amp; s) {</div>
+<div class="line">T read_one(std::istream&amp; s) {</div>
 <div class="line">    T value;</div>
 <div class="line">    s &gt;&gt; value;</div>
 <div class="line">    <span class="keywordflow">return</span> value;</div>
-<div class="line">};</div>
+<div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    std::stringstream s;</div>

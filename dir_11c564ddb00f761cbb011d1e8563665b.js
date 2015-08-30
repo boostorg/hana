@@ -1,8 +1,9 @@
 var dir_11c564ddb00f761cbb011d1e8563665b =
 [
-    [ "constexpr", "dir_687446170b35542fece443cd07d2753a.html", "dir_687446170b35542fece443cd07d2753a" ],
     [ "operators", "dir_e49431a5d4f744651d29982e6631636b.html", "dir_e49431a5d4f744651d29982e6631636b" ],
     [ "variadic", "dir_16c00c9bd1a104fb1fde4063d2ebcd4b.html", "dir_16c00c9bd1a104fb1fde4063d2ebcd4b" ],
+    [ "algorithm.hpp", "algorithm_8hpp.html", null ],
+    [ "array.hpp", "detail_2array_8hpp.html", null ],
     [ "by.hpp", "by_8hpp.html", null ],
     [ "by_fwd.hpp", "by__fwd_8hpp.html", "by__fwd_8hpp" ],
     [ "canonical_constant.hpp", "canonical__constant_8hpp.html", null ],
