@@ -30,8 +30,8 @@ int main() {
 
     // it also accepts a custom predicate
     {
-        auto xs = hana::make_tuple(hana::type<int>, hana::type<char>, hana::type<void*>);
-        auto ys = hana::make_tuple(hana::type<int>, hana::type<long>, hana::type<void*>);
+        auto xs = hana::make_tuple(hana::type_c<int>, hana::type_c<char>, hana::type_c<void*>);
+        auto ys = hana::make_tuple(hana::type_c<int>, hana::type_c<long>, hana::type_c<void*>);
         BOOST_HANA_CONSTANT_CHECK(
             hana::lexicographical_compare(xs, ys, [](auto t, auto u) {
                 return hana::sizeof_(t) < hana::sizeof_(u);

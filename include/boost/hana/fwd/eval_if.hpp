@@ -75,9 +75,9 @@ namespace boost { namespace hana {
     //! @code
     //!     template <typename T>
     //!     struct pointerize : decltype(
-    //!         hana::eval_if(hana::traits::is_pointer(hana::type<T>),
-    //!             [] { return hana::type<T>; },
-    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type<T>); }
+    //!         hana::eval_if(hana::traits::is_pointer(hana::type_c<T>),
+    //!             [] { return hana::type_c<T>; },
+    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type_c<T>); }
     //!         ))
     //!     { };
     //! @endcode
@@ -88,13 +88,13 @@ namespace boost { namespace hana {
     //!     template <typename T>
     //!     auto pointerize_impl(T t) {
     //!         return hana::eval_if(hana::traits::is_pointer(t),
-    //!             [] { return hana::type<T>; },
-    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type<T>); }
+    //!             [] { return hana::type_c<T>; },
+    //!             [](auto _) { return _(hana::traits::add_pointer)(hana::type_c<T>); }
     //!         );
     //!     }
     //!
     //!     template <typename T>
-    //!     using pointerize = decltype(pointerize_impl(type<T>));
+    //!     using pointerize = decltype(pointerize_impl(hana::type_c<T>));
     //! @endcode
     //!
     //! > __Note__: This example would actually be implemented more easily
@@ -113,9 +113,9 @@ namespace boost { namespace hana {
     //! @code
     //!     template <typename T>
     //!     struct pointerize : decltype(
-    //!         hana::eval_if(hana::traits::is_pointer(hana::type<T>),
-    //!             hana::lazy(hana::type<T>),
-    //!             hana::lazy(hana::traits::add_pointer)(hana::type<T>)
+    //!         hana::eval_if(hana::traits::is_pointer(hana::type_c<T>),
+    //!             hana::lazy(hana::type_c<T>),
+    //!             hana::lazy(hana::traits::add_pointer)(hana::type_c<T>)
     //!         ))
     //!     { };
     //! @endcode

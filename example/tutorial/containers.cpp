@@ -53,11 +53,11 @@ std::vector<int> ints = { /* huge vector of ints */ };
 std::vector<std::string> strings = { /* huge vector of strings */ };
 
 auto map = hana::make_map(
-  hana::make_pair(hana::type<int>, std::ref(ints)),
-  hana::make_pair(hana::type<std::string>, std::ref(strings))
+  hana::make_pair(hana::type_c<int>, std::ref(ints)),
+  hana::make_pair(hana::type_c<std::string>, std::ref(strings))
 );
 
-auto& v = map[hana::type<int>].get();
+auto& v = map[hana::type_c<int>].get();
 BOOST_HANA_RUNTIME_CHECK(&v == &ints);
 //! [reference_wrapper]
 

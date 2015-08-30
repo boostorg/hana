@@ -15,7 +15,7 @@ namespace hana = boost::hana;
 
 BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_tuple(2, hana::int_<2>, hana::int_<3>, 'x'), hana::int_<3>));
 
-BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_set(hana::int_<3>, hana::type<void>), hana::type<void>));
+BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_set(hana::int_<3>, hana::type_c<void>), hana::type_c<void>));
 
 // contains can be applied in infix notation
 BOOST_HANA_CONSTANT_CHECK(

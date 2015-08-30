@@ -40,18 +40,18 @@ auto ref_qualifiers = [](auto t) {
     );
 };
 
-auto possible_args = cv_qualifiers(hana::type<int>) | ref_qualifiers;
+auto possible_args = cv_qualifiers(hana::type_c<int>) | ref_qualifiers;
 
 BOOST_HANA_CONSTANT_CHECK(
     possible_args == hana::make_tuple(
-                        hana::type<int&>,
-                        hana::type<int&&>,
-                        hana::type<int const&>,
-                        hana::type<int const&&>,
-                        hana::type<int volatile&>,
-                        hana::type<int volatile&&>,
-                        hana::type<int const volatile&>,
-                        hana::type<int const volatile&&>
+                        hana::type_c<int&>,
+                        hana::type_c<int&&>,
+                        hana::type_c<int const&>,
+                        hana::type_c<int const&&>,
+                        hana::type_c<int volatile&>,
+                        hana::type_c<int volatile&&>,
+                        hana::type_c<int const volatile&>,
+                        hana::type_c<int const volatile&&>
                     )
 );
 

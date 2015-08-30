@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Type` and `boost::hana::Metafunction`.
+Forward declares `boost::hana::type` and `boost::hana::Metafunction`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -11,45 +11,61 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_TYPE_HPP
 
 namespace boost { namespace hana {
-    //! @ingroup group-datatypes
-    //! Tag representing a C++ type in value-level representation.
+    //! Base class of `hana::type`; used for pattern-matching.
+    //! @relates hana::type
     //!
-    //! A `Type` is a special kind of object representing a C++ type like
+    //! Example
+    //! -------
+    //! @include example/type/basic_type.cpp
+    template <typename T>
+    struct basic_type;
+
+    //! @ingroup group-datatypes
+    //! C++ type in value-level representation.
+    //!
+    //! A `type` is a special kind of object representing a C++ type like
     //! `int`, `void`, `std::vector<float>` or anything else you can imagine.
     //!
-    //! This page explains how `Type`s work at a low level. To gain intuition
-    //! about type-level metaprogramming in Hana, you should read the
-    //! [tutorial section](@ref tutorial-type) on type-level computations.
+    //! This page explains how `type`s work at a low level. To gain
+    //! intuition about type-level metaprogramming in Hana, you should
+    //! read the [tutorial section](@ref tutorial-type) on type-level
+    //! computations.
     //!
     //!
-    //! The actual representation of a Type
-    //! -----------------------------------
-    //! For subtle reasons having to do with ADL, the actual type of the
-    //! `type<T>` expression is not `_type<T>`. It is a dependent type
-    //! which inherits `_type<T>`. Hence, you should never rely on the
-    //! fact that `type<T>` is of type `_type<T>`, but you can rely on
-    //! the fact that it inherits it, which is different in some contexts,
-    //! e.g. for template specialization.
+    //! @note
+    //! For subtle reasons having to do with ADL, the actual representation of
+    //! `hana::type` is implementation-defined. In particular, `hana::type`
+    //! may be a dependent type, so one should not attempt to do pattern
+    //! matching on it. However, one can assume that `hana::type` _inherits_
+    //! from `hana::basic_type`, which can be useful when declaring overloaded
+    //! functions:
+    //! @code
+    //!     template <typename T>
+    //!     void f(hana::basic_type<T>) {
+    //!         // do something with T
+    //!     }
+    //! @endcode
     //!
     //!
     //! Lvalues and rvalues
     //! -------------------
-    //! When storing `Type`s in heterogeneous containers, some algorithms will
-    //! return references to those objects. Since we are primarily interested
-    //! in accessing their nested `::type`, receiving a reference is
-    //! undesirable; we would end up trying to fetch the nested `::type`
+    //! When storing `type`s in heterogeneous containers, some algorithms
+    //! will return references to those objects. Since we are primarily
+    //! interested in accessing their nested `::%type`, receiving a reference
+    //! is undesirable; we would end up trying to fetch the nested `::%type`
     //! inside a reference type, which is a compilation error:
     //! @code
-    //!   auto ts = make_tuple(type<int>, type<char>);
+    //!   auto ts = make_tuple(type_c<int>, type_c<char>);
     //!   using T = decltype(ts[0_c])::type; // error: 'ts[0_c]' is a reference!
     //! @endcode
     //!
-    //! For this reason, `Type`s provide an overload of the unary `+` operator
-    //! that can be used to turn a lvalue into a rvalue. So when using a result
-    //! which might be a reference to a `Type` object, one can use `+` to make
-    //! sure a rvalue is obtained before fetching its nested `::type`:
+    //! For this reason, `type`s provide an overload of the unary `+`
+    //! operator that can be used to turn a lvalue into a rvalue. So when
+    //! using a result which might be a reference to a `type` object, one
+    //! can use `+` to make sure a rvalue is obtained before fetching its
+    //! nested `::%type`:
     //! @code
-    //!   auto ts = make_tuple(type<int>, type<char>);
+    //!   auto ts = make_tuple(type_c<int>, type_c<char>);
     //!   using T = decltype(+ts[0_c])::type; // ok: '+ts[0_c]' is an rvalue
     //! @endcode
     //!
@@ -57,59 +73,57 @@ namespace boost { namespace hana {
     //! Modeled concepts
     //! ----------------
     //! 1. `Comparable`\n
-    //! Two `Type`s are equal if and only if they represent the same C++ type.
+    //! Two types are equal if and only if they represent the same C++ type.
     //! Hence, equality is equivalent to the `std::is_same` type trait.
     //! @include example/type/comparable.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename T>
+    struct type;
+#else
+    template <typename T>
+    struct type_impl;
+
+    template <typename T>
+    using type = typename type_impl<T>::_;
+#endif
+
+    //! Tag representing `hana::type`.
+    //! @relates hana::type
     struct Type { };
 
     //! Creates an object representing the C++ type `T`.
-    //! @relates Type
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    //! @relates hana::type
     template <typename T>
-    constexpr unspecified-type type{};
-#else
-    template <typename T>
-    struct _type {
-        struct _;
-    };
-
-    template <typename T>
-    constexpr typename _type<T>::_ type{};
-#endif
-
-    namespace gcc_wknd {
-        template <typename T>
-        constexpr auto mktype() { return type<T>; }
-    }
+    constexpr type<T> type_c{};
 
     //! `decltype` keyword, lifted to Hana.
-    //! @relates Type
+    //! @relates hana::type
     //!
     //! `decltype_` is somewhat equivalent to `decltype` in that it returns
-    //! the type of an object, except it returns it as a `Type` object which
+    //! the type of an object, except it returns it as a `hana::type` which
     //! is a first-class citizen of Hana instead of a raw C++ type.
     //! Specifically, given an object `x`, `decltype_` satisfies
     //! @code
-    //!   decltype_(x) == type<decltype(x) with references stripped>
+    //!   decltype_(x) == type_c<decltype(x) with references stripped>
     //! @endcode
     //!
     //! As you can see, `decltype_` will strip any reference from the
     //! object's actual type. The reason for doing so is explained below.
     //! However, any `cv`-qualifiers will be retained. Also, when given a
-    //! `Type` object, `decltype_` is just the identity function. Hence, for
-    //! any C++ type `T`,
+    //! `hana::type`, `decltype_` is just the identity function. Hence,
+    //! for any C++ type `T`,
     //! @code
-    //!   decltype_(type<T>) == type<T>
+    //!   decltype_(type_c<T>) == type_c<T>
     //! @endcode
     //!
     //! In conjunction with the way `metafunction` & al. are specified, this
     //! behavior makes it easier to interact with both types and values at
-    //! the same time. However, it does make it impossible to create a Type
-    //! containing a Type with `decltype_`. In other words, it is not possible
-    //! to create a `type<decltype(type<T>)>` with this utility, because
-    //! `decltype_(type<T>)` would be just `type<T>` instead of
-    //! `type<decltype(type<T>)>`. This use case is assumed to be
-    //! rare and a hand-coded function can be used if this is needed.
+    //! the same time. However, it does make it impossible to create a `type`
+    //! containing another `type` with `decltype_`. In other words, it is
+    //! not possible to create a `type_c<decltype(type_c<T>)>` with this
+    //! utility, because `decltype_(type_c<T>)` would be just `type_c<T>`
+    //! instead of `type_c<decltype(type_c<T>)>`. This use case is assumed
+    //! to be rare and a hand-coded function can be used if this is needed.
     //!
     //!
     //! ### Rationale for stripping the references
@@ -149,31 +163,31 @@ namespace boost { namespace hana {
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Equivalent to `decltype_`, provided for convenience.
-    //! @relates Type
+    //! @relates hana::type
     //!
     //!
     //! Example
     //! -------
     //! @include example/type/make.cpp
     template <>
-    constexpr auto make<Type> = decltype_;
+    constexpr auto make<Type> = hana::decltype_;
 #endif
 
     //! `sizeof` keyword, lifted to Hana.
-    //! @relates Type
+    //! @relates hana::type
     //!
     //! `sizeof_` is somewhat equivalent to `sizeof` in that it returns the
     //! size of an expression or type, but it takes an arbitrary expression
-    //! or a Type object and returns its size as an `integral_constant`.
+    //! or a `hana::type` and returns its size as an `integral_constant`.
     //! Specifically, given an expression `expr`, `sizeof_` satisfies
     //! @code
     //!   sizeof_(expr) == size_t<sizeof(decltype(expr) with references stripped)>
     //! @endcode
     //!
-    //! However, given a Type object, `sizeof_` will simply fetch the size
+    //! However, given a `type`, `sizeof_` will simply fetch the size
     //! of the C++ type represented by that object. In other words,
     //! @code
-    //!   sizeof_(type<T>) == size_t<sizeof(T)>
+    //!   sizeof_(type_c<T>) == size_t<sizeof(T)>
     //! @endcode
     //!
     //! The behavior of `sizeof_` is consistent with that of `decltype_`.
@@ -199,17 +213,17 @@ namespace boost { namespace hana {
 #endif
 
     //! `alignof` keyword, lifted to Hana.
-    //! @relates Type
+    //! @relates hana::type
     //!
     //! `alignof_` is somewhat equivalent to `alignof` in that it returns the
-    //! alignment required by any instance of a type, but it takes a Type
-    //! object and returns its alignment as an `integral_constant`. Like
-    //! `sizeof` which works for expressions and type-ids, `alignof_` can also
-    //! be called on an arbitrary expression. Specifically, given an expression
+    //! alignment required by any instance of a type, but it takes a `type`
+    //! and returns its alignment as an `integral_constant`. Like `sizeof`
+    //! which works for expressions and type-ids, `alignof_` can also be
+    //! called on an arbitrary expression. Specifically, given an expression
     //! `expr` and a C++ type `T`, `alignof_` satisfies
     //! @code
     //!   alignof_(expr) == size_t<alignof(decltype(expr) with references stripped)>
-    //!   alignof_(type<T>) == size_t<alignof(T)>
+    //!   alignof_(type_c<T>) == size_t<alignof(T)>
     //! @endcode
     //!
     //! The behavior of `alignof_` is consistent with that of `decltype_`.
@@ -222,8 +236,8 @@ namespace boost { namespace hana {
     //! @include example/type/alignof.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto alignof_ = [](auto&& x) {
-        using T = typename decltype(decltype_(x))::type;
-        return size_t<alignof(T)>;
+        using T = typename decltype(hana::decltype_(x))::type;
+        return hana::size_t<alignof(T)>;
     };
 #else
     struct alignof_t {
@@ -235,7 +249,7 @@ namespace boost { namespace hana {
 #endif
 
     //! Checks whether a SFINAE-friendly expression is valid.
-    //! @relates Type
+    //! @relates hana::type
     //!
     //! Given a SFINAE-friendly function, `is_valid` returns whether the
     //! function call is valid with the given arguments. Specifically, given
@@ -282,36 +296,35 @@ namespace boost { namespace hana {
 #endif
 
     //! @ingroup group-datatypes
-    //! A `Metafunction` is a function that takes `Type`s as inputs and
-    //! gives a `Type` as output.
+    //! A `Metafunction` is a function that takes `type`s as inputs and
+    //! returns a `type` as output.
     //!
     //! Hana provides adapters for representing several different kinds of
     //! metafunctions in a unified way, as normal C++ functions. The general
     //! process is always essentially the same. For example, given a MPL
-    //! metafunction, we can create a normal C++ function that takes `Type`
-    //! objects and returns a `Type` object containing the result of that
-    //! metafunction:
+    //! metafunction, we can create a normal C++ function that takes `type`s
+    //! and returns a `type` containing the result of that metafunction:
     //! @code
     //!     template <template <typename ...> class F>
-    //!     struct _metafunction {
+    //!     struct metafunction_t {
     //!         template <typename ...T>
-    //!         constexpr auto operator()(_type<T> const& ...) const {
-    //!             return hana::type<typename F<T...>::type>;
+    //!         constexpr auto operator()(basic_type<T> const& ...) const {
+    //!             return hana::type_c<typename F<T...>::type>;
     //!         }
     //!     };
     //!
     //!     template <template <typename ...> class F>
-    //!     constexpr _metafunction<F> metafunction{};
+    //!     constexpr metafunction_t<F> metafunction{};
     //! @endcode
     //!
     //! The variable template is just for convenience, so we can write
-    //! `metafunction<F>` instead of `_metafunction<F>{}`, but they are
+    //! `metafunction<F>` instead of `metafunction_t<F>{}`, but they are
     //! otherwise equivalent. With the above construct, it becomes possible
     //! to perform type computations with the usual function call syntax, by
     //! simply wrapping our classic metafunctions into a `metafunction` object:
     //! @code
     //!     constexpr auto add_pointer = metafunction<std::add_pointer>;
-    //!     static_assert(add_pointer(type<int>) == type<int*>, "");
+    //!     static_assert(add_pointer(type_c<int>) == type_c<int*>, "");
     //! @endcode
     //!
     //! While this covers only classical MPL-style metafunctions, Hana
@@ -334,25 +347,25 @@ namespace boost { namespace hana {
     //! template which allows performing the same type-level computation as
     //! is done by the call operator. In Boost.MPL parlance, a `Metafunction`
     //! `F` is also a Boost.MPL MetafunctionClass in addition to being a
-    //! function on `Type`s. In other words again, a `Metafunction` `f` will
-    //! satisfy:
+    //! function on `type`s. In other words again, a `Metafunction` `f`
+    //! will satisfy:
     //! @code
-    //!     f(type<T>...) == type<decltype(f)::apply<T...>::type>
+    //!     f(type_c<T>...) == type_c<decltype(f)::apply<T...>::type>
     //! @endcode
     //!
     //! But that is not all. To ease the inter-operation of values and types,
     //! `Metafunction`s also allow being called with arguments that are not
-    //! `Type`s. In that case, the result is equivalent to calling the
+    //! `type`s. In that case, the result is equivalent to calling the
     //! metafunction on the result of `decltype_`ing the arguments.
-    //! Specifically, given a `Metafunction` `f` and arbitrary (`Type` or
-    //! non-`Type`) objects `x...`,
+    //! Specifically, given a `Metafunction` `f` and arbitrary (`type` or
+    //! non-`type`) objects `x...`,
     //! @code
     //!     f(x...) == f(decltype_(x)...)
     //! @endcode
     //!
     //! So `f` is called with the type of its arguments, but since `decltype_`
-    //! is just the identity for `Type`s, only non-`Type`s are lifted to the
-    //! `Type` level.
+    //! is just the identity for `type`s, only non-`type`s are lifted to
+    //! the `type` level.
     //!
     //!
     //! Rationale: Why aren't `Metafunction`s `Comparable`?
@@ -382,7 +395,7 @@ namespace boost { namespace hana {
     //! impossible to implement because one would have to check `F` and `G`
     //! on all possible types. On the other hand, shallow comparison is not
     //! satisfactory because `Metafunction`s are nothing but functions on
-    //! `Type`s, and the equality of two functions is normally defined with
+    //! `type`s, and the equality of two functions is normally defined with
     //! deep comparison. Hence, we adopt a conservative stance and avoid
     //! providing comparison for `Metafunction`s.
     struct Metafunction { };
@@ -393,7 +406,7 @@ namespace boost { namespace hana {
     //! Given a template class or template alias `f`, `template_<f>` is a
     //! `Metafunction` satisfying
     //! @code
-    //!     template_<f>(type<x>...) == type<f<x...>>
+    //!     template_<f>(type_c<x>...) == type_c<f<x...>>
     //!     decltype(template_<f>)::apply<x...>::type == f<x...>
     //! @endcode
     //!
@@ -409,8 +422,8 @@ namespace boost { namespace hana {
     //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
-    constexpr auto template_ = [](_type<T>-or-T ...) {
-        return type<F<T...>>;
+    constexpr auto template_ = [](basic_type<T>-or-T ...) {
+        return hana::type_c<F<T...>>;
     };
 #else
     template <template <typename ...> class F>
@@ -420,13 +433,13 @@ namespace boost { namespace hana {
     constexpr template_t<F> template_{};
 #endif
 
-    //! Lift a MPL-style metafunction to a function on `Type`s.
+    //! Lift a MPL-style metafunction to a Metafunction.
     //! @relates Metafunction
     //!
     //! Given a MPL-style metafunction, `metafunction<f>` is a `Metafunction`
     //! satisfying
     //! @code
-    //!     metafunction<f>(type<x>...) == type<f<x...>::type>
+    //!     metafunction<f>(type_c<x>...) == type_c<f<x...>::type>
     //!     decltype(metafunction<f>)::apply<x...>::type == f<x...>::type
     //! @endcode
     //!
@@ -436,8 +449,8 @@ namespace boost { namespace hana {
     //! @include example/type/metafunction.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
-    constexpr auto metafunction = [](_type<T>-or-T ...) {
-        return type<typename F<T...>::type>;
+    constexpr auto metafunction = [](basic_type<T>-or-T ...) {
+        return hana::type_c<typename F<T...>::type>;
     };
 #else
     template <template <typename ...> class f>
@@ -447,13 +460,13 @@ namespace boost { namespace hana {
     constexpr metafunction_t<f> metafunction{};
 #endif
 
-    //! Lift a MPL-style metafunction class to a function on `Type`s.
+    //! Lift a MPL-style metafunction class to a Metafunction.
     //! @relates Metafunction
     //!
     //! Given a MPL-style metafunction class, `metafunction_class<f>` is a
     //! `Metafunction` satisfying
     //! @code
-    //!     metafunction_class<f>(type<x>...) == type<f::apply<x...>::type>
+    //!     metafunction_class<f>(type_c<x>...) == type_c<f::apply<x...>::type>
     //!     decltype(metafunction_class<f>)::apply<x...>::type == f::apply<x...>::type
     //! @endcode
     //!
@@ -463,8 +476,8 @@ namespace boost { namespace hana {
     //! @include example/type/metafunction_class.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename F>
-    constexpr auto metafunction_class = [](_type<T>-or-T ...) {
-        return type<typename F::template apply<T...>::type>;
+    constexpr auto metafunction_class = [](basic_type<T>-or-T ...) {
+        return hana::type_c<typename F::template apply<T...>::type>;
     };
 #else
     template <typename F>
@@ -476,7 +489,7 @@ namespace boost { namespace hana {
     constexpr metafunction_class_t<F> metafunction_class{};
 #endif
 
-    //! Turn a `Metafunction` into a function taking `Type`s and returning a
+    //! Turn a `Metafunction` into a function taking `type`s and returning a
     //! default-constructed object.
     //! @relates Metafunction
     //!
@@ -493,7 +506,7 @@ namespace boost { namespace hana {
     //! `hana::integral_constant`.
     //!
     //! @note
-    //! - This is not a `Metafunction` because it does not return a `Type`.
+    //! - This is not a `Metafunction` because it does not return a `type`.
     //!   As such, it would not make sense to make `decltype(integral(f))`
     //!   a MPL metafunction class like the usual `Metafunction`s are.
     //!
@@ -508,7 +521,7 @@ namespace boost { namespace hana {
     //! @include example/type/integral.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto integral = [](auto f) {
-        return [](_type<T>-or-T ...) {
+        return [](basic_type<T>-or-T ...) {
             return decltype(f)::apply<T...>::type{};
         };
     };
@@ -533,7 +546,7 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/type/trait.cpp
     template <template <typename ...> class F>
-    constexpr auto trait = integral(metafunction<F>);
+    constexpr auto trait = hana::integral(hana::metafunction<F>);
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TYPE_HPP

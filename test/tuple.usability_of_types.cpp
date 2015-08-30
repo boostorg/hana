@@ -17,7 +17,7 @@ using namespace boost::hana;
 // The fact that a reference to `type<...>` is returned from `front(types)` &
 // friends used to break the `decltype(front(types))::type` pattern, because
 // we would be trying to fetch `::type` inside a reference. To work around
-// this, a unary `operator+` turning a lvalue `Type` into a rvalue `Type`
+// this, a unary `operator+` turning a lvalue `type` into a rvalue `type`
 // was added.
 
 struct T; struct U; struct V;
@@ -37,6 +37,6 @@ int main() {
         >{}, "");
     };
 
-    check(make_tuple(type<T>, type<U>, type<V>));
+    check(make_tuple(type_c<T>, type_c<U>, type_c<V>));
     check(tuple_t<T, U, V>);
 }

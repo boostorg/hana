@@ -15,8 +15,8 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto xs = hana::make_tuple(hana::int_<1>, hana::int_<3>, hana::type<int>, hana::long_<1>);
+    constexpr auto xs = hana::make_tuple(hana::int_<1>, hana::int_<3>, hana::type_c<int>, hana::long_<1>);
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to<hana::Set>(xs) == hana::make_set(hana::int_<1>, hana::int_<3>, hana::type<int>)
+        hana::to<hana::Set>(xs) == hana::make_set(hana::int_<1>, hana::int_<3>, hana::type_c<int>)
     );
 }

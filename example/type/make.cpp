@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 struct X { };
 BOOST_HANA_CONSTANT_CHECK(hana::make<hana::Type>(X{}) == hana::decltype_(X{}));
-BOOST_HANA_CONSTANT_CHECK(hana::make<hana::Type>(hana::type<X>) == hana::decltype_(hana::type<X>));
+BOOST_HANA_CONSTANT_CHECK(hana::make<hana::Type>(hana::type_c<X>) == hana::decltype_(hana::type_c<X>));
 
 int main() { }

@@ -127,7 +127,7 @@ BOOST_HANA_CONSTANT_CHECK(any_cat);
 
 //! [cross_phase.filter]
 auto mammals = hana::filter(animals, [](auto animal) {
-  return hana::type<decltype(animal)> != hana::type<Fish>;
+  return hana::type_c<decltype(animal)> != hana::type_c<Fish>;
 });
 //! [cross_phase.filter]
 

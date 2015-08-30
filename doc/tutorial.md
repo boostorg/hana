@@ -241,7 +241,7 @@ what you would expect:
 @snippet example/tutorial/quickstart.cpp type-level
 
 @note
-`type<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
+`type_c<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
 yielding an object representing a type for Hana. This is explained in the
 section on [type computations](@ref tutorial-type).
 
@@ -361,7 +361,7 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
 
     // ...
@@ -382,7 +382,7 @@ what Hana calls an `IntegralConstant`, which means that the predicate's result
 must be known at compile-time. These details are explained in the section on
 [cross-phase algorithms](@ref tutorial-algorithms-cross_phase). Inside the
 predicate, we simply compare the type of the case's first element to
-`type<default_t>`. If you recall that we were using `hana::pair`s to encode
+`type_c<default_t>`. If you recall that we were using `hana::pair`s to encode
 cases, this simply means that we're finding the default case among all of the
 provided cases. But what if no default case was provided? We should fail at
 compile-time, of course!
@@ -394,7 +394,7 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
     static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
@@ -419,13 +419,13 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
     static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
     auto rest = hana::filter(cases, [](auto const& c) {
-      return hana::first(c) != hana::type<default_t>;
+      return hana::first(c) != hana::type_c<default_t>;
     });
 
     // ...
@@ -506,7 +506,7 @@ container          | description
 <code>[range](@ref boost::hana::range)</code>                         | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
 <code>[pair](@ref boost::hana::pair)</code>                           | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
 <code>[string](@ref boost::hana::string)</code>                       | Compile-time string.
-<code>[Type](@ref boost::hana::Type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
+<code>[type](@ref boost::hana::type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
 <code>[integral_constant](@ref boost::hana::integral_constant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that `hana::integral_constant` also defines operators and more syntactic sugar.
 <code>[Lazy](@ref boost::hana::Lazy)</code>                           | Encapsulates a lazy value or computation.
 <code>[basic_tuple](@ref boost::hana::basic_tuple)</code>             | Stripped-down version of `hana::tuple`. Not standards conforming, but more compile-time efficient.
@@ -893,14 +893,18 @@ start by defining a dummy template that could be used to represent a type:
 
 @code{cpp}
 template <typename T>
-struct _type {
+struct basic_type {
   // empty (for now)
 };
 
-_type<int> Int{};
-_type<char> Char{};
+basic_type<int> Int{};
+basic_type<char> Char{};
 // ...
 @endcode
+
+@note
+We're using the name `basic_type` here because we're only building a naive
+version of the actual functionality provided by Hana.
 
 While this may seem completely useless, it is actually enough to start writing
 metafunctions that look like functions. Indeed, consider the following
@@ -908,15 +912,15 @@ alternate implementations of `std::add_pointer` and `std::is_pointer`:
 
 @code{cpp}
 template <typename T>
-constexpr _type<T*> add_pointer(_type<T> const&)
+constexpr basic_type<T*> add_pointer(basic_type<T> const&)
 { return {}; }
 
 template <typename T>
-constexpr auto is_pointer(_type<T> const&)
+constexpr auto is_pointer(basic_type<T> const&)
 { return hana::false_; }
 
 template <typename T>
-constexpr auto is_pointer(_type<T*> const&)
+constexpr auto is_pointer(basic_type<T*> const&)
 { return hana::true_; }
 @endcode
 
@@ -925,7 +929,7 @@ compile-time arithmetic metafunctions as heterogeneous C++ operators in the
 previous section. Here's how we can use them:
 
 @code{cpp}
-_type<int> t{};
+basic_type<int> t{};
 auto p = add_pointer(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
 @endcode
@@ -938,33 +942,33 @@ C++14 variable templates to provide syntactic sugar for creating types:
 
 @code{cpp}
 template <typename T>
-constexpr _type<T> type{};
+constexpr basic_type<T> type_c{};
 
-auto t = type<int>;
+auto t = type_c<int>;
 auto p = add_pointer(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
 @endcode
 
 @note
-This is not exactly how the `hana::type` variable template is implemented
+This is not exactly how the `hana::type_c` variable template is implemented
 because of some subtleties; things were dumbed down here for the sake of the
-explanation. Please check the reference for `Type` to know exactly what you
-can expect from a `hana::type<...>`.
+explanation. Please check the reference for `hana::type` to know exactly
+what you can expect from a `hana::type_c<...>`.
 
 
 @subsection tutorial-type-benefits Benefits of this representation
 
-But what does that buy us? Well, since a `type<...>` is just an object, we can
-store it in a heterogeneous sequence like a tuple, we can move it around and
-pass it to (or return it from) functions, and we can do basically anything
+But what does that buy us? Well, since a `type_c<...>` is just an object, we
+can store it in a heterogeneous sequence like a tuple, we can move it around
+and pass it to (or return it from) functions, and we can do basically anything
 else that requires an object:
 
 @snippet example/tutorial/type.cpp tuple
 
 @note
-Writing `make_tuple(type<T>...)` can be annoying when there are several types.
+Writing `make_tuple(type_c<T>...)` can be annoying when there are several types.
 For this reason, Hana provides the `tuple_t<T...>` variable template, which is
-syntactic sugar for `make_tuple(type<T>...)`.
+syntactic sugar for `make_tuple(type_c<T>...)`.
 
 Also, notice that since the above tuple is really just a normal heterogeneous
 sequence, we can apply heterogeneous algorithms on that sequence just like we
@@ -1021,39 +1025,39 @@ representation. For example, how could we declare a variable whose type is the
 result of a type computation?
 
 @code{cpp}
-auto t = add_pointer(hana::type<int>); // could be a complex type computation
+auto t = add_pointer(hana::type_c<int>); // could be a complex type computation
 using T = the-type-represented-by-t;
 
 T var = ...;
 @endcode
 
 Right now, there is no easy way to do it. To make this easier to achieve, we
-enrich the interface of the `_type` container that we defined above. Instead
-of being an empty `struct`, we now define it as
+enrich the interface of the `basic_type` container that we defined above.
+Instead of being an empty `struct`, we now define it as
 
 @code{cpp}
 template <typename T>
-struct _type {
+struct basic_type {
   using type = T;
 };
 @endcode
 
 @note
-This is equivalent to making `_type` a metafunction in the MPL sense.
+This is equivalent to making `basic_type` a metafunction in the MPL sense.
 
 This way, we can use `decltype` to easily access the actual C++ type
-represented by a `type<...>` object:
+represented by a `type_c<...>` object:
 
 @code{cpp}
-auto t = add_pointer(hana::type<int>);
-using T = decltype(t)::type; // fetches hana::_type<T>::type
+auto t = add_pointer(hana::type_c<int>);
+using T = decltype(t)::type; // fetches basic_type<T>::type
 
 T var = ...;
 @endcode
 
 In general, doing type-level metaprogramming with Hana is a three step process:
 
-1. Represent types as objects by wrapping them with `hana::type<...>`
+1. Represent types as objects by wrapping them with `hana::type_c<...>`
 2. Perform type transformations with value syntax
 3. Unwrap the result with `decltype(...)::%type`
 
@@ -1062,7 +1066,7 @@ is very manageable for several reasons. First, this wrapping and unwrapping
 only needs to happen at some very thin boundaries.
 
 @code{cpp}
-auto t = hana::type<T>;
+auto t = hana::type_c<T>;
 auto result = huge_type_computation(t);
 using Result = decltype(result)::type;
 @endcode
@@ -1081,7 +1085,7 @@ sometimes one just needs to do a type-level computation and query something
 about the result, without necessarily fetching the result as a normal C++ type:
 
 @code{cpp}
-auto t = hana::type<T>;
+auto t = hana::type_c<T>;
 auto result = type_computation(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(result)); // third step skipped
 @endcode
@@ -1117,7 +1121,7 @@ looked like:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(hana::_type<T> const&) {
+constexpr auto add_pointer(hana::basic_type<T> const&) {
   return hana::type<T*>;
 }
 @endcode
@@ -1126,8 +1130,8 @@ While it looks more complicated, we could also write it as:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(hana::_type<T> const&) {
-  return hana::type<typename std::add_pointer<T>::type>;
+constexpr auto add_pointer(hana::basic_type<T> const&) {
+  return hana::type_c<typename std::add_pointer<T>::type>;
 }
 @endcode
 
@@ -1140,16 +1144,16 @@ write almost the same thing:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_const(hana::_type<T> const&)
-{ return hana::type<typename std::add_const<T>::type>; }
+constexpr auto add_const(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_const<T>::type>; }
 
 template <typename T>
-constexpr auto add_volatile(hana::_type<T> const&)
-{ return hana::type<typename std::add_volatile<T>::type>; }
+constexpr auto add_volatile(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_volatile<T>::type>; }
 
 template <typename T>
-constexpr auto add_lvalue_reference(hana::_type<T> const&)
-{ return hana::type<typename std::add_lvalue_reference<T>::type>; }
+constexpr auto add_lvalue_reference(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_lvalue_reference<T>::type>; }
 
 // etc...
 @endcode
@@ -1407,12 +1411,12 @@ alternate implementation can be better suited:
 
 This validity checker is different from what we saw earlier because the
 generic lambda is not expecting an usual object anymore; it is now expecting
-a `Type` (which is an object, but still represents a type). We then use the
-`hana::traits::declval` lifted metafunction from the
+a `type` (which is an object, but still represents a type). We then use the
+`hana::traits::declval` _lifted metafunction_ from the
 `<boost/hana/ext/std/utility.hpp>` header to create an rvalue of the type
 represented by `t`, which we can then use to check for a non-static member.
 Finally, instead of passing an actual object to `has_member` (like `Foo{}`
-or `Bar{}`), we now pass a `type<...>`. This implementation is ideal for
+or `Bar{}`), we now pass a `type_c<...>`. This implementation is ideal for
 when no object is lying around.
 
 
@@ -1422,7 +1426,7 @@ Checking for a static member is easy, and it is provided for completeness:
 
 @snippet example/tutorial/introspection.cpp static_member
 
-Again, we expect a `Type` to be passed to the checker. Inside the generic
+Again, we expect a `type` to be passed to the checker. Inside the generic
 lambda, we use `decltype(t)::%type` to fetch the actual C++ type represented
 by the `t` object, as explained in the section on [type computations]
 (@ref tutorial-type-working). Then, we fetch the static member inside
@@ -1432,12 +1436,12 @@ members.
 
 @subsubsection tutorial-introspection-is_valid-typename Nested type names
 
-Checking for a nested type name is not hard, but it requires a bit
-more typing than the previous cases:
+Checking for a nested type name is not hard, but it is slightly more
+convoluted than the previous cases:
 
 @snippet example/tutorial/introspection.cpp nested_type_name
 
-One might wonder why we use `-> decltype(type<typename-expression>)` instead
+One might wonder why we use `-> hana::type<typename-expression>` instead
 of simply `-> typename-expression`. Again, the reason is that we want to
 support types that can't be returned from functions, like array types or
 incomplete types.
@@ -1446,8 +1450,8 @@ incomplete types.
 @subsubsection tutorial-introspection-is_valid-template Nested templates
 
 Checking for a nested template name is similar to checking for a nested type
-name, except we use `template_<...>` instead of `type<...>` in the generic
-lambda:
+name, except we use the `template_<...>` variable template instead of
+`type<...>` in the generic lambda:
 
 @snippet example/tutorial/introspection.cpp nested_template
 
@@ -2794,10 +2798,9 @@ the left) goes as follow:
 - @ref group-datatypes\n
   Documentation for all the data structures provided with the library. The
   data structures that have an unspecified type are documented by the tag
-  representing them (`Type`, `Lazy`, etc...). Each container documents
-  the concept(s) it models, and how it does so. It also documents the methods
-  tied to that container but not to any concept, for example `from_just` for
-  `hana::optional`.
+  representing them (e.g. `Lazy`). Each container documents the concept(s)
+  it models, and how it does so. It also documents the methods tied to that
+  container but not to any concept, for example `from_just` for `optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely

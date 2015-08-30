@@ -24,10 +24,10 @@ int main() {
 
 
     // Checking for a nested type
-    auto has_value_type = hana::is_valid([](auto t) -> decltype(hana::type<
+    auto has_value_type = hana::is_valid([](auto t) -> hana::type<
         typename decltype(t)::type::value_type
-    >) { });
+    > { });
 
-    static_assert(has_value_type(hana::type<std::vector<int>>), "");
-    static_assert(!has_value_type(hana::type<Person>), "");
+    static_assert(has_value_type(hana::type_c<std::vector<int>>), "");
+    static_assert(!has_value_type(hana::type_c<Person>), "");
 }

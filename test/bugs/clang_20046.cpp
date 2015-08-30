@@ -15,7 +15,7 @@ struct T;
 int main() {
     // See http://llvm.org/bugs/show_bug.cgi?id=20046
     [](auto) { return hana::trait<F>; }(1);
-    [](auto) { return hana::type<T>; }(1);
+    [](auto) { return hana::type_c<T>; }(1);
     [](auto) { return hana::template_<F>; }(1);
     [](auto) { return hana::metafunction<F>; }(1);
     [](auto) { return hana::metafunction_class<M>; }(1);

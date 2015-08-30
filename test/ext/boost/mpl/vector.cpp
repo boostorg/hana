@@ -88,7 +88,7 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Conversion from any `Foldable` containing `Type`s
+    // Conversion from any `Foldable` containing `type`s
     //////////////////////////////////////////////////////////////////////////
     {
         auto foldable = test::seq;
@@ -99,22 +99,22 @@ int main() {
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            to_vec(foldable(type<t1>)),
+            to_vec(foldable(type_c<t1>)),
             mpl::vector<t1>{}
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            to_vec(foldable(type<t1>, type<t2>)),
+            to_vec(foldable(type_c<t1>, type_c<t2>)),
             mpl::vector<t1, t2>{}
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            to_vec(foldable(type<t1>, type<t2>, type<t3>)),
+            to_vec(foldable(type_c<t1>, type_c<t2>, type_c<t3>)),
             mpl::vector<t1, t2, t3>{}
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            to_vec(foldable(type<t1>, type<t2>, type<t3>, type<t4>)),
+            to_vec(foldable(type_c<t1>, type_c<t2>, type_c<t3>, type_c<t4>)),
             mpl::vector<t1, t2, t3, t4>{}
         ));
 
@@ -124,7 +124,7 @@ int main() {
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            to_vec(foldable(1, type<t1>, 3.0)),
+            to_vec(foldable(1, type_c<t1>, 3.0)),
             mpl::vector<int, t1, double>{}
         ));
     }
@@ -149,17 +149,17 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(mpl::vector<t1>{}, f),
-                f(type<t1>)
+                f(type_c<t1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(mpl::vector<t1, t2>{}, f),
-                f(type<t1>, type<t2>)
+                f(type_c<t1>, type_c<t2>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(mpl::vector<t1, t2, t3>{}, f),
-                f(type<t1>, type<t2>, type<t3>)
+                f(type_c<t1>, type_c<t2>, type_c<t3>)
             ));
         }
 
@@ -176,15 +176,15 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(mpl::vector<t1>{}),
-                type<t1>
+                type_c<t1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(mpl::vector<t1, t2>{}),
-                type<t1>
+                type_c<t1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(mpl::vector<t1, t2, t3>{}),
-                type<t1>
+                type_c<t1>
             ));
         }
 

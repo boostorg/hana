@@ -143,10 +143,10 @@ namespace boost { namespace hana {
     //! @relates hana::tuple
     constexpr auto make_tuple = make<Tuple>;
 
-    //! Create a tuple specialized for holding `Type`s.
+    //! Create a tuple specialized for holding `hana::type`s.
     //! @relates hana::tuple
     //!
-    //! This is functionally equivalent to `make<Tuple>(type<T>...)`, except
+    //! This is functionally equivalent to `make<Tuple>(type_c<T>...)`, except
     //! that using `tuple_t` allows the library to perform some compile-time
     //! optimizations. Also note that the type of the objects returned by
     //! `tuple_t` and an equivalent call to `make<Tuple>` may differ.
@@ -160,7 +160,7 @@ namespace boost { namespace hana {
     constexpr unspecified-type tuple_t{};
 #else
     template <typename ...T>
-    constexpr auto tuple_t = hana::make<Tuple>(gcc_wknd::mktype<T>()...);
+    constexpr auto tuple_t = hana::make<Tuple>(hana::type<T>{}...);
 #endif
 
     //! Create a tuple specialized for holding `hana::integral_constant`s.

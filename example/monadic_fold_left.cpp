@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-auto builtin_common_t = hana::sfinae([](auto&& t, auto&& u) -> decltype(hana::type<
+auto builtin_common_t = hana::sfinae([](auto&& t, auto&& u) -> decltype(hana::type_c<
     std::decay_t<decltype(true ? hana::traits::declval(t) : hana::traits::declval(u))>
 >) { return {}; });
 
@@ -26,7 +26,7 @@ template <typename T, typename U>
 struct common_type<T, U>
     : std::conditional_t<std::is_same<std::decay_t<T>, T>{} &&
                          std::is_same<std::decay_t<U>, U>{},
-        decltype(builtin_common_t(hana::type<T>, hana::type<U>)),
+        decltype(builtin_common_t(hana::type_c<T>, hana::type_c<U>)),
         common_type<std::decay_t<T>, std::decay_t<U>>
     >
 { };
@@ -35,7 +35,7 @@ template <typename T1, typename ...Tn>
 struct common_type<T1, Tn...>
     : decltype(hana::monadic_fold_left<hana::Optional>(
         hana::tuple_t<Tn...>,
-        hana::type<std::decay_t<T1>>,
+        hana::type_c<std::decay_t<T1>>,
         hana::sfinae(hana::metafunction<common_type>)
     ))
 { };
@@ -60,7 +60,7 @@ static_assert(std::is_same<
 
 static_assert(
     hana::sfinae(hana::metafunction<common_type>)(
-        hana::type<int>, hana::type<int>, hana::type<int*>
+        hana::type_c<int>, hana::type_c<int>, hana::type_c<int*>
     ) == hana::nothing
 , "");
 

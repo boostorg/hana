@@ -80,7 +80,7 @@ struct range_c : decltype(hana::range_c<T, from, to>) {
 
 
 template <typename T, typename U>
-struct pair : decltype(hana::make_pair(hana::type<T>, hana::type<U>)) { };
+struct pair : decltype(hana::make_pair(hana::type_c<T>, hana::type_c<U>)) { };
 
 template <typename P>
 struct first : decltype(+hana::first(P{})) { };
@@ -157,12 +157,12 @@ struct pop_front {
 
 template <typename Sequence, typename T>
 struct push_back {
-    using type = decltype(hana::append(Sequence{}, hana::type<T>));
+    using type = decltype(hana::append(Sequence{}, hana::type_c<T>));
 };
 
 template <typename Sequence, typename T>
 struct push_front {
-    using type = decltype(hana::prepend(Sequence{}, hana::type<T>));
+    using type = decltype(hana::prepend(Sequence{}, hana::type_c<T>));
 };
 
 template <typename Sequence>
@@ -183,14 +183,14 @@ struct size
 template <typename Sequence, typename State, typename F>
 struct fold
     : decltype(hana::fold(
-        Sequence{}, hana::type<State>, detail::mpl_metafunction<F>
+        Sequence{}, hana::type_c<State>, detail::mpl_metafunction<F>
     ))
 { };
 
 template <typename Sequence, typename State, typename F>
 struct reverse_fold
     : decltype(hana::reverse_fold(
-        Sequence{}, hana::type<State>, detail::mpl_metafunction<F>
+        Sequence{}, hana::type_c<State>, detail::mpl_metafunction<F>
     ))
 { };
 
@@ -219,17 +219,17 @@ struct find_if
 
 template <typename Sequence, typename T>
 struct find
-    : decltype(hana::find(Sequence{}, hana::type<T>))
+    : decltype(hana::find(Sequence{}, hana::type_c<T>))
 { };
 
 template <typename Sequence, typename T>
 struct contains
-    : decltype(hana::contains(Sequence{}, hana::type<T>))
+    : decltype(hana::contains(Sequence{}, hana::type_c<T>))
 { };
 
 template <typename Sequence, typename T>
 struct count
-    : decltype(hana::count(Sequence{}, hana::type<T>))
+    : decltype(hana::count(Sequence{}, hana::type_c<T>))
 { };
 
 template <typename Sequence, typename Pred>
@@ -302,8 +302,8 @@ template <typename Sequence, typename OldType, typename NewType>
 struct replace {
     using type = decltype(hana::replace(
         hana::to<hana::Tuple>(Sequence{}),
-        hana::type<OldType>,
-        hana::type<NewType>
+        hana::type_c<OldType>,
+        hana::type_c<NewType>
     ));
 };
 
@@ -312,7 +312,7 @@ struct replace_if {
     using type = decltype(hana::replace_if(
         hana::to<hana::Tuple>(Sequence{}),
         detail::mpl_predicate<Pred>,
-        hana::type<NewType>
+        hana::type_c<NewType>
     ));
 };
 
@@ -320,7 +320,7 @@ template <typename Sequence, typename T>
 struct remove {
     using type = decltype(hana::filter(
         hana::to<hana::Tuple>(Sequence{}),
-        hana::not_equal.to(hana::type<T>)
+        hana::not_equal.to(hana::type_c<T>)
     ));
 };
 

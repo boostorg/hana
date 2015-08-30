@@ -28,10 +28,10 @@ int main() {
     BOOST_HANA_CONSTEXPR_CHECK(hana::all_of(hana::make_tuple(1, 3), is_odd));
     BOOST_HANA_CONSTANT_CHECK(!hana::all_of(hana::make_tuple(3_c, 4_c), is_odd));
 
-    BOOST_HANA_CONSTANT_CHECK(
-        !hana::all_of(hana::make_tuple(hana::type<void>, hana::type<char&>), hana::trait<std::is_void>)
-    );
-    BOOST_HANA_CONSTANT_CHECK(
-        hana::all_of(hana::make_tuple(hana::type<int>, hana::type<char>), hana::trait<std::is_integral>)
-    );
+    BOOST_HANA_CONSTANT_CHECK(!hana::all_of(
+        hana::make_tuple(hana::type_c<void>, hana::type_c<char&>), hana::trait<std::is_void>
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::all_of(
+        hana::make_tuple(hana::type_c<int>, hana::type_c<char>), hana::trait<std::is_integral>
+    ));
 }

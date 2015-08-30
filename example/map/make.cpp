@@ -20,12 +20,12 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(
         hana::make_map(
             hana::make_pair(hana::int_<1>, "foobar"s),
-            hana::make_pair(hana::type<void>, 1234)
+            hana::make_pair(hana::type_c<void>, 1234)
         )
         ==
         hana::make<hana::Map>(
             hana::make_pair(hana::int_<1>, "foobar"s),
-            hana::make_pair(hana::type<void>, 1234)
+            hana::make_pair(hana::type_c<void>, 1234)
         )
     );
 }

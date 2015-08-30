@@ -7,11 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/utility.hpp>
 
 #include <boost/hana/type.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 struct T { };
 
-using Z = decltype(traits::declval(type<T>));
+using Z = decltype(hana::traits::declval(hana::type_c<T>));
 
 int main() { }

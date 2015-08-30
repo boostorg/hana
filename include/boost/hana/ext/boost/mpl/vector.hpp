@@ -67,7 +67,8 @@ namespace boost { namespace hana {
         //! @snippet example/ext/boost/mpl/vector.cpp Iterable
         //!
         //! 4. `Searchable`\n
-        //! A MPL vector can be searched as if it were a tuple of `Type`s.
+        //! A MPL vector can be searched as if it were a tuple containing
+        //! `hana::type`s.
         //! @snippet example/ext/boost/mpl/vector.cpp Searchable
         //!
         //!
@@ -79,7 +80,7 @@ namespace boost { namespace hana {
         //!     to<ext::boost::mpl::Vector>(xs) == mpl::vector<t1, ..., tn>
         //! @endcode
         //! where `tk` is the type of `xk`, or the type contained in `xk` if
-        //! `xk` is a `Type`.
+        //! `xk` is a `hana::type`.
         //! @warning
         //! The limitations on the size of `mpl::vector`s are inherited by
         //! this conversion utility, and hence trying to convert a `Foldable`
@@ -134,7 +135,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(Ts const&, N const&) {
             constexpr std::size_t n = hana::value<N>();
             using T = typename ::boost::mpl::at_c<Ts, n>::type;
-            return hana::type<T>;
+            return hana::type_c<T>;
         }
     };
 

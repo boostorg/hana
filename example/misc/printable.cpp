@@ -164,8 +164,8 @@ int main() {
     auto set = hana::make_set(hana::int_<1>, hana::int_<2>);
 
     auto map = hana::make_map(
-        hana::make_pair(hana::int_<1>, hana::type<void>),
-        hana::make_pair(hana::type<decltype(tuple)>, "int")
+        hana::make_pair(hana::int_<1>, hana::type_c<void>),
+        hana::make_pair(hana::type_c<decltype(tuple)>, "int")
     );
 
     auto pair = hana::make_pair(1, hana::int_<1>);

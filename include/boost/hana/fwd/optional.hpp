@@ -48,13 +48,13 @@ namespace boost { namespace hana {
     //!
     //! Interoperation with `Type`s
     //! ---------------------------
-    //! When a `just` contains an object of type `T` which is a `Type`,
+    //! When a `just` contains an object of type `T` which is a `type`,
     //! it has a nested `::%type` alias equivalent to `T::%type`. `nothing`,
-    //! however, never has a nested `::%type` alias. If `t` is a `Type`,
+    //! however, never has a nested `::%type` alias. If `t` is a `type`,
     //! this allows `decltype(just(t))` to be seen as a nullary metafunction
     //! equivalent to `decltype(t)`. Along with the `sfinae` function,
-    //! this allows `hana::optional` to interact seamlessly with SFINAE-friendly
-    //! metafunctions.
+    //! this allows `hana::optional` to interact seamlessly with
+    //! SFINAE-friendly metafunctions.
     //! Example:
     //! @include example/optional/sfinae_friendly_metafunctions.cpp
     //!

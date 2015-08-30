@@ -59,7 +59,7 @@ BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_<3>);
 }{
 
 //! [Iterable]
-BOOST_HANA_CONSTANT_CHECK(hana::front(mpl::vector<int, char, void>{}) == hana::type<int>);
+BOOST_HANA_CONSTANT_CHECK(hana::front(mpl::vector<int, char, void>{}) == hana::type_c<int>);
 
 BOOST_HANA_CONSTANT_CHECK(hana::equal(
     hana::tail(mpl::vector<int, char, void>{}),
@@ -77,13 +77,13 @@ BOOST_HANA_CONSTANT_CHECK(hana::equal(
 
 //! [Searchable]
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find_if(mpl::vector<int, float, char const*>{}, hana::equal.to(hana::type<float>))
+    hana::find_if(mpl::vector<int, float, char const*>{}, hana::equal.to(hana::type_c<float>))
     ==
-    hana::just(hana::type<float>)
+    hana::just(hana::type_c<float>)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find(mpl::vector<int, float, char const*>{}, hana::type<void>)
+    hana::find(mpl::vector<int, float, char const*>{}, hana::type_c<void>)
     ==
     hana::nothing
 );
@@ -103,7 +103,7 @@ static_assert(std::is_same<
     mpl::vector<int, char, double>
 >{}, "");
 
-auto ys = hana::make_tuple(1, '2', hana::type<void>);
+auto ys = hana::make_tuple(1, '2', hana::type_c<void>);
 static_assert(std::is_same<
     decltype(hana::to<hana::ext::boost::mpl::Vector>(ys)),
     mpl::vector<int, char, void>

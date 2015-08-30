@@ -19,7 +19,7 @@ using namespace boost::hana;
 #define BOOST_HANA_TYPE_UNARY_PREFIX_OPERATOR(OP)                           \
     template <typename T, typename = std::enable_if_t<is_a<Type, T>>>       \
     constexpr auto operator OP (T) {                                        \
-        return type<decltype(                                               \
+        return type_c<decltype(                                             \
             OP std::declval<typename T::type>()                             \
         )>;                                                                 \
     }                                                                       \
@@ -28,7 +28,7 @@ using namespace boost::hana;
 #define BOOST_HANA_TYPE_UNARY_POSTFIX_OPERATOR(OP)                          \
     template <typename T, typename = std::enable_if_t<is_a<Type, T>()>>     \
     constexpr auto operator OP (T, int) {                                   \
-        return type<decltype(                                               \
+        return type_c<decltype(                                             \
             std::declval<typename T::type>() OP                             \
         )>;                                                                 \
     }                                                                       \
@@ -39,7 +39,7 @@ using namespace boost::hana;
         is_a<Type, T>() && is_a<Type, U>()                                  \
     >>                                                                      \
     constexpr auto operator OP (T, U) {                                     \
-        return type<decltype(                                               \
+        return type_c<decltype(                                             \
             std::declval<typename T::type>()                                \
             OP                                                              \
             std::declval<typename U::type>()                                \
@@ -86,22 +86,22 @@ int main() {
     auto deref3 = compose(deref, deref, deref);
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        *type<char*>,
-        type<char&>
+        *type_c<char*>,
+        type_c<char&>
     ));
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        deref(type<int*>),
-        type<int&>
+        deref(type_c<int*>),
+        type_c<int&>
     ));
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        deref3(type<int***>),
-        type<int&>
+        deref3(type_c<int***>),
+        type_c<int&>
     ));
 
     BOOST_HANA_CONSTANT_CHECK(equal(
-        type<int> + type<float>,
-        type<float>
+        type_c<int> + type_c<float>,
+        type_c<float>
     ));
 }

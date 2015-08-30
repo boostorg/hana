@@ -26,9 +26,9 @@ namespace hana = boost::hana;
 
 
 constexpr auto formats = hana::make_map(
-    hana::make_pair(hana::type<int>, hana::string_c<'%', 'd'>),
-    hana::make_pair(hana::type<float>, hana::string_c<'%', 'f'>),
-    hana::make_pair(hana::type<char const*>, hana::string_c<'%', 's'>)
+    hana::make_pair(hana::type_c<int>, hana::string_c<'%', 'd'>),
+    hana::make_pair(hana::type_c<float>, hana::string_c<'%', 'f'>),
+    hana::make_pair(hana::type_c<char const*>, hana::string_c<'%', 's'>)
 );
 
 struct concat_strings {

@@ -18,18 +18,18 @@ using namespace std::literals;
 
 int main() {
     auto m = hana::make_map(
-        hana::make_pair(hana::type<int>, "abcd"s),
-        hana::make_pair(hana::type<void>, 1234),
-        hana::make_pair(BOOST_HANA_STRING("foobar!"), hana::type<char>)
+        hana::make_pair(hana::type_c<int>, "abcd"s),
+        hana::make_pair(hana::type_c<void>, 1234),
+        hana::make_pair(BOOST_HANA_STRING("foobar!"), hana::type_c<char>)
     );
 
     BOOST_HANA_RUNTIME_CHECK(
         hana::erase_key(m, BOOST_HANA_STRING("foobar!")) ==
         hana::make_map(
-            hana::make_pair(hana::type<int>, "abcd"s),
-            hana::make_pair(hana::type<void>, 1234)
+            hana::make_pair(hana::type_c<int>, "abcd"s),
+            hana::make_pair(hana::type_c<void>, 1234)
         )
     );
 
-    BOOST_HANA_RUNTIME_CHECK(hana::erase_key(m, hana::type<char>) == m);
+    BOOST_HANA_RUNTIME_CHECK(hana::erase_key(m, hana::type_c<char>) == m);
 }

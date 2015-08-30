@@ -26,8 +26,8 @@ int main() {
         };
     };
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = block(hana::type<double>);
-    BOOST_HANA_CONSTEXPR_LAMBDA auto g = block(hana::type<int>);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = block(hana::type_c<double>);
+    BOOST_HANA_CONSTEXPR_LAMBDA auto g = block(hana::type_c<int>);
     BOOST_HANA_CONSTEXPR_LAMBDA auto h = hana::monadic_compose(g, f);
     BOOST_HANA_CONSTANT_CHECK(h(1)    == hana::nothing); // fails inside g; 1 has type int
     BOOST_HANA_CONSTANT_CHECK(h(1.2)  == hana::nothing); // fails inside f; 1.2 has type double

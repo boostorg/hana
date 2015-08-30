@@ -19,8 +19,8 @@ namespace hana = boost::hana;
 auto extent = [](auto t, auto n) {
     return std::extent<typename decltype(t)::type, hana::value(n)>{};
 };
-BOOST_HANA_CONSTANT_CHECK(extent(hana::type<char>, hana::int_<1>) == hana::size_t<0>);
-BOOST_HANA_CONSTANT_CHECK(extent(hana::type<char[1][2]>, hana::int_<1>) == hana::size_t<2>);
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char>, hana::int_<1>) == hana::size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char[1][2]>, hana::int_<1>) == hana::size_t<2>);
 //! [extent]
 
 int main() { }

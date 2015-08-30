@@ -22,8 +22,8 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto safe_make_unsigned = [](auto t) {
     );
 };
 
-BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(hana::type<void>) == hana::type<void>);
-BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(hana::type<int>) == hana::type<unsigned int>);
+BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(hana::type_c<void>) == hana::type_c<void>);
+BOOST_HANA_CONSTANT_CHECK(safe_make_unsigned(hana::type_c<int>) == hana::type_c<unsigned int>);
 
 
 // eval_if with homogeneous branches and a constexpr or runtime condition

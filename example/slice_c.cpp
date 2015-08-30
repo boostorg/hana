@@ -12,7 +12,7 @@ namespace hana = boost::hana;
 
 
 static_assert(
-    hana::slice_c<1, 3>(hana::make_tuple(1, '2', 3.3, hana::type<float>))
+    hana::slice_c<1, 3>(hana::make_tuple(1, '2', 3.3, hana::type_c<float>))
             ==
     hana::make_tuple('2', 3.3)
 , "");

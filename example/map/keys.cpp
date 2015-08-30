@@ -22,11 +22,11 @@ using namespace std::literals;
 int main() {
     auto m = hana::make_map(
         hana::make_pair(hana::int_<1>, "foobar"s),
-        hana::make_pair(hana::type<void>, 1234)
+        hana::make_pair(hana::type_c<void>, 1234)
     );
 
     // The order of the keys is unspecified.
     BOOST_HANA_CONSTANT_CHECK(
-        hana::keys(m) ^hana::in^ hana::permutations(hana::make_tuple(hana::int_<1>, hana::type<void>))
+        hana::keys(m) ^hana::in^ hana::permutations(hana::make_tuple(hana::int_<1>, hana::type_c<void>))
     );
 }

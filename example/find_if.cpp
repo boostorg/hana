@@ -27,10 +27,10 @@ BOOST_HANA_CONSTANT_CHECK(
 
 constexpr auto types = hana::tuple_t<char, int, unsigned, long, unsigned long>;
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find_if(types, hana::equal.to(hana::type<unsigned>)) == hana::just(hana::type<unsigned>)
+    hana::find_if(types, hana::equal.to(hana::type_c<unsigned>)) == hana::just(hana::type_c<unsigned>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find_if(types, hana::equal.to(hana::type<void>)) == hana::nothing
+    hana::find_if(types, hana::equal.to(hana::type_c<void>)) == hana::nothing
 );
 
 int main() { }

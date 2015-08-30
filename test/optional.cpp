@@ -84,7 +84,7 @@ int main() {
         // Interaction with Type (has a nested ::type)
         {
             struct T;
-            static_assert(std::is_same<decltype(just(type<T>))::type, T>{}, "");
+            static_assert(std::is_same<decltype(just(type_c<T>))::type, T>{}, "");
             static_assert(!has_type<decltype(nothing)>{}, "");
         }
 
