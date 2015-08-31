@@ -176,7 +176,7 @@ Distributed under the Boost Software License, Version 1.0.
     //!
     //! That operator is not part of the language yet, but it is supported by
     //! both Clang and GCC. This operator allows Hana to provide the nice `_s`
-    //! user-defined literal for creating compile-time `String`s.
+    //! user-defined literal for creating compile-time strings.
     //!
     //! When this macro is not defined, the GNU extension will be not used
     //! by Hana. Because this is a non-standard extension, the macro is not

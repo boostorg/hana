@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <typename DataType, typename T>
     struct is_a_t<DataType, T>
-        : _integral_constant<bool,
+        : integral_constant<bool,
             std::is_same<DataType, typename datatype<T>::type>::value
         >
     { };

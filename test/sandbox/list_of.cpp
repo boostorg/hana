@@ -81,7 +81,7 @@ int main() {
     list(1, 2, 3); // normal version
 
     // uses a list_t internally
-    list.of<hana::Type>(hana::type<int>, hana::type<void>, hana::type<char>);
+    list.of<hana::Type>(hana::type_c<int>, hana::type_c<void>, hana::type_c<char>);
 
     // uses an array internally
     list.of<int>(1, 2, 3);

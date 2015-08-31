@@ -94,22 +94,22 @@ auto has_member = hana::is_valid([](auto t) -> decltype(
 
 struct Foo { int member[4]; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type_c<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type_c<Bar>));
 //! [non_static_member_from_type]
 
 }{
 
 //! [nested_type_name]
-auto has_member = hana::is_valid([](auto t) -> decltype(hana::type<
+auto has_member = hana::is_valid([](auto t) -> hana::type<
   typename decltype(t)::type::member
 //^^^^^^^^ needed because of the dependent context
->) { });
+> { });
 
 struct Foo { struct member; /* not defined! */ };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type_c<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type_c<Bar>));
 //! [nested_type_name]
 
 }
@@ -124,8 +124,8 @@ auto has_member = hana::is_valid([](auto t) -> decltype(
 
 struct Foo { static int member[4]; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type_c<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type_c<Bar>));
 //! [static_member]
 }
 
@@ -138,7 +138,7 @@ auto has_member = hana::is_valid([](auto t) -> decltype(hana::template_<
 
 struct Foo { template <typename ...> struct member; };
 struct Bar { };
-BOOST_HANA_CONSTANT_CHECK(has_member(hana::type<Foo>));
-BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type<Bar>));
+BOOST_HANA_CONSTANT_CHECK(has_member(hana::type_c<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type_c<Bar>));
 //! [nested_template]
 }

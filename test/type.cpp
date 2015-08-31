@@ -45,13 +45,13 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Type>(type<T>),
-            decltype_(type<T>)
+            make<Type>(type_c<T>),
+            decltype_(type_c<T>)
         ));
 
         // make sure we don't read from non-constexpr variables
         {
-            auto t = type<T>;
+            auto t = type_c<T>;
             auto x = 1;
             constexpr auto r1 = make<Type>(t); (void)r1;
             constexpr auto r2 = make<Type>(x); (void)r2;
@@ -64,91 +64,91 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(T{}),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(t),
-            type<T>
+            type_c<T>
         ));
 
         // [cv-qualified] reference types
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T&>(t)),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T const&>(t)),
-            type<T const>
+            type_c<T const>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T volatile&>(t)),
-            type<T volatile>
+            type_c<T volatile>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T const volatile&>(t)),
-            type<T const volatile>
+            type_c<T const volatile>
         ));
 
 
         // [cv-qualified] rvalue reference types
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T&&>(t)),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T const &&>(t)),
-            type<T const>
+            type_c<T const>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T volatile&&>(t)),
-            type<T volatile>
+            type_c<T volatile>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(static_cast<T const volatile&&>(t)),
-            type<T const volatile>
+            type_c<T const volatile>
         ));
 
-        // decltype_(type<T>) is the identity function
-        auto const type_const = type<T>;
-        auto const& type_const_ref = type<T>;
-        auto& type_ref = type<T>;
+        // decltype_(type_c<T>) is the identity function
+        auto const type_const = type_c<T>;
+        auto const& type_const_ref = type_c<T>;
+        auto& type_ref = type_c<T>;
         auto&& type_ref_ref = static_cast<decltype(type_ref)&&>(type_ref);
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            decltype_(type<T>),
-            type<T>
+            decltype_(type_c<T>),
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(type_const),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(type_const_ref),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(type_ref),
-            type<T>
+            type_c<T>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             decltype_(type_ref_ref),
-            type<T>
+            type_c<T>
         ));
 
         // make sure we don't read from non-constexpr variables
         {
-            auto t = type<T>;
+            auto t = type_c<T>;
             auto x = 1;
             constexpr auto r1 = decltype_(t); (void)r1;
             constexpr auto r2 = decltype_(x); (void)r2;
@@ -163,17 +163,17 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(a),
-                type<A>
+                type_c<A>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(a_ref),
-                type<A>
+                type_c<A>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(a_const_ref),
-                type<A const>
+                type_c<A const>
             ));
         }
         {
@@ -184,17 +184,17 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(f),
-                type<Fptr>
+                type_c<Fptr>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(f_ref),
-                type<Fptr>
+                type_c<Fptr>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(f_const_ref),
-                type<Fptr const>
+                type_c<Fptr const>
             ));
         }
         {
@@ -202,12 +202,12 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(function),
-                type<Function>
+                type_c<Function>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 decltype_(function_ref),
-                type<Function>
+                type_c<Function>
             ));
         }
     }
@@ -220,13 +220,13 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            sizeof_(type<T>),
+            sizeof_(type_c<T>),
             size_t<sizeof(T)>
         ));
 
         // make sure we don't read from non-constexpr variables
         {
-            auto t = type<T>;
+            auto t = type_c<T>;
             auto x = 1;
             constexpr auto r1 = sizeof_(t); (void)r1;
             constexpr auto r2 = sizeof_(x); (void)r2;
@@ -241,13 +241,13 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            alignof_(type<T>),
+            alignof_(type_c<T>),
             size_t<alignof(T)>
         ));
 
         // make sure we don't read from non-constexpr variables
         {
-            auto t = type<T>;
+            auto t = type_c<T>;
             auto x = 1;
             constexpr auto r1 = alignof_(t); (void)r1;
             constexpr auto r2 = alignof_(x); (void)r2;
@@ -264,8 +264,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(
                 traits::declval(t).member
             ) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(
                 t.member
@@ -282,8 +282,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(
                 decltype(t)::type::member
             ) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(
                 std::remove_reference_t<decltype(t)>::member
@@ -297,13 +297,13 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             struct yes { using nested = void; };
             struct no { };
 
-            auto from_type = is_valid([](auto t) -> decltype(type<
+            auto from_type = is_valid([](auto t) -> decltype(type_c<
                 typename decltype(t)::type::nested
             >) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
-            auto from_object = is_valid([](auto&& t) -> decltype(type<
+            auto from_object = is_valid([](auto&& t) -> decltype(type_c<
                 typename std::remove_reference_t<decltype(t)>::nested
             >) { });
             BOOST_HANA_CONSTANT_CHECK(from_object(yes{}));
@@ -319,8 +319,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(template_<
                 decltype(t)::type::template nested
             >) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(template_<
                 std::remove_reference_t<decltype(t)>::template nested
@@ -336,8 +336,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(template_<
                 decltype(t)::type::template nested
             >) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(template_<
                 std::remove_reference_t<decltype(t)>::template nested
@@ -358,8 +358,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(
                 (void)traits::declval(t).member
             ) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(
                 (void)t.member
@@ -375,8 +375,8 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
             auto from_type = is_valid([](auto t) -> decltype(
                 (void)decltype(t)::type::member
             ) { });
-            BOOST_HANA_CONSTANT_CHECK(from_type(type<yes>));
-            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type<no>)));
+            BOOST_HANA_CONSTANT_CHECK(from_type(type_c<yes>));
+            BOOST_HANA_CONSTANT_CHECK(not_(from_type(type_c<no>)));
 
             auto from_object = is_valid([](auto&& t) -> decltype(
                 (void)std::remove_reference_t<decltype(t)>::member
@@ -423,15 +423,15 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 
     // nested ::type
     {
-        static_assert(std::is_same<decltype(type<T>)::type, T>{}, "");
+        static_assert(std::is_same<decltype(type_c<T>)::type, T>{}, "");
     }
 
     // unary +
     {
-        auto& ref = type<T>;
-        auto const& cref = type<T>;
-        auto&& rref = type<T>;
-        auto val = type<T>;
+        auto& ref = type_c<T>;
+        auto const& cref = type_c<T>;
+        auto&& rref = type_c<T>;
+        auto val = type_c<T>;
 
         BOOST_HANA_CONSTANT_CHECK(equal(val, +val));
         BOOST_HANA_CONSTANT_CHECK(equal(val, +ref));
@@ -449,9 +449,9 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
         using T4 = decltype(+rref)::type;
     }
 
-    // `decltype(type<T>)` should inherit `_type<T>`
+    // `decltype(type_c<T>)` should inherit `basic_type<T>`
     {
-        static_assert(std::is_base_of<_type<T>, decltype(type<T>)>{}, "");
+        static_assert(std::is_base_of<basic_type<T>, decltype(type_c<T>)>{}, "");
     }
 }
 
@@ -461,34 +461,34 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 {
     // equal
     {
-        BOOST_HANA_CONSTANT_CHECK(type<T> == type<T>);
-        BOOST_HANA_CONSTANT_CHECK(type<T> != type<U>);
+        BOOST_HANA_CONSTANT_CHECK(type_c<T> == type_c<T>);
+        BOOST_HANA_CONSTANT_CHECK(type_c<T> != type_c<U>);
 
-        BOOST_HANA_CONSTANT_CHECK(equal(type<T>, type<T>));
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T>, type<U>)));
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(type<void>, type<U>)));
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T>, type<void>)));
-        BOOST_HANA_CONSTANT_CHECK(equal(type<void>, type<void>));
+        BOOST_HANA_CONSTANT_CHECK(equal(type_c<T>, type_c<T>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(type_c<T>, type_c<U>)));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(type_c<void>, type_c<U>)));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(type_c<T>, type_c<void>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(type_c<void>, type_c<void>));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(type<T&>, type<T&>));
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T&>, type<T&&>)));
-        BOOST_HANA_CONSTANT_CHECK(not_(equal(type<T const>, type<T>)));
-        BOOST_HANA_CONSTANT_CHECK(equal(type<T const>, type<T const>));
+        BOOST_HANA_CONSTANT_CHECK(equal(type_c<T&>, type_c<T&>));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(type_c<T&>, type_c<T&&>)));
+        BOOST_HANA_CONSTANT_CHECK(not_(equal(type_c<T const>, type_c<T>)));
+        BOOST_HANA_CONSTANT_CHECK(equal(type_c<T const>, type_c<T const>));
 
         // make sure we don't read from a non-constexpr variable in equal
-        auto t = type<T>;
-        static_assert(equal(t, type<T>), "");
+        auto t = type_c<T>;
+        static_assert(equal(t, type_c<T>), "");
     }
 
     // laws
     auto types = make_tuple(
-        type<T>,
-        type<T*>,
-        type<T&>,
-        type<T&&>,
-        type<T const>,
-        type<T volatile>,
-        type<T const volatile>
+        type_c<T>,
+        type_c<T*>,
+        type_c<T&>,
+        type_c<T&&>,
+        type_c<T const>,
+        type_c<T volatile>,
+        type_c<T const volatile>
     );
     test::TestComparable<Type>{types};
 }

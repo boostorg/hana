@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Optional`.
+Defines `boost::hana::optional`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -43,7 +43,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
-    // just
+    // optional<>
     //////////////////////////////////////////////////////////////////////////
     namespace maybe_detail {
         template <typename T, typename = typename datatype<T>::type>
@@ -54,18 +54,17 @@ namespace boost { namespace hana {
     }
 
     template <typename T>
-    struct just_t : operators::adl, maybe_detail::nested_type<T> {
+    struct optional<T> : operators::adl, maybe_detail::nested_type<T> {
         T val;
         static constexpr bool is_just = true;
-        struct hana { using datatype = Optional; };
 
-        just_t() = default;
-        just_t(just_t const&) = default;
-        just_t(just_t&&) = default;
-        just_t(just_t&) = default;
+        optional() = default;
+        optional(optional const&) = default;
+        optional(optional&&) = default;
+        optional(optional&) = default;
 
         template <typename U, typename = decltype(T(std::declval<U>()))>
-        explicit constexpr just_t(U&& u)
+        explicit constexpr optional(U&& u)
             : val(static_cast<U&&>(u))
         { }
 
@@ -80,11 +79,16 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     constexpr auto make_just_t::operator()(T&& t) const {
-        return just_t<typename std::decay<T>::type>(
+        return optional<typename std::decay<T>::type>(
             static_cast<T&&>(t)
         );
     }
     //! @endcond
+
+    template <typename ...T>
+    struct datatype<optional<T...>> {
+        using type = Optional;
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // make<Optional>
@@ -154,10 +158,10 @@ namespace boost { namespace hana {
     template <typename Pred, typename F, typename X>
     constexpr decltype(auto) only_when_t::operator()(Pred&& pred, F&& f, X&& x) const {
         return hana::eval_if(static_cast<Pred&&>(pred)(x),
-            hana::lazy(hana::compose(hana::just, static_cast<F&&>(f)))(
+            hana::make_lazy(hana::compose(hana::just, static_cast<F&&>(f)))(
                 static_cast<X&&>(x)
             ),
-            hana::lazy(hana::nothing)
+            hana::make_lazy(hana::nothing)
         );
     }
 
@@ -197,10 +201,10 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Optional, Optional> {
         template <typename T, typename U>
-        static constexpr decltype(auto) apply(just_t<T> const& t, just_t<U> const& u)
+        static constexpr auto apply(hana::optional<T> const& t, hana::optional<U> const& u)
         { return hana::equal(t.val, u.val); }
 
-        static constexpr auto apply(nothing_t const&, nothing_t const&)
+        static constexpr auto apply(hana::optional<> const&, hana::optional<> const&)
         { return hana::true_; }
 
         template <typename T, typename U>
@@ -214,18 +218,18 @@ namespace boost { namespace hana {
     template <>
     struct less_impl<Optional, Optional> {
         template <typename T>
-        static constexpr auto apply(nothing_t const&, just_t<T> const&)
+        static constexpr auto apply(hana::optional<> const&, hana::optional<T> const&)
         { return hana::true_; }
 
-        static constexpr auto apply(nothing_t const&, nothing_t const&)
+        static constexpr auto apply(hana::optional<> const&, hana::optional<> const&)
         { return hana::false_; }
 
         template <typename T>
-        static constexpr auto apply(just_t<T> const&, nothing_t const&)
+        static constexpr auto apply(hana::optional<T> const&, hana::optional<> const&)
         { return hana::false_; }
 
         template <typename T, typename U>
-        static constexpr auto apply(just_t<T> const& x, just_t<U> const& y)
+        static constexpr auto apply(hana::optional<T> const& x, hana::optional<U> const& y)
         { return hana::less(x.val, y.val); }
     };
 
@@ -294,15 +298,15 @@ namespace boost { namespace hana {
     template <>
     struct concat_impl<Optional> {
         template <typename Y>
-        static constexpr auto apply(nothing_t&, Y&& y)
+        static constexpr auto apply(hana::optional<>&, Y&& y)
         { return static_cast<Y&&>(y); }
 
         template <typename Y>
-        static constexpr auto apply(nothing_t&&, Y&& y)
+        static constexpr auto apply(hana::optional<>&&, Y&& y)
         { return static_cast<Y&&>(y); }
 
         template <typename Y>
-        static constexpr auto apply(nothing_t const&, Y&& y)
+        static constexpr auto apply(hana::optional<> const&, Y&& y)
         { return static_cast<Y&&>(y); }
 
         template <typename X, typename Y>
@@ -326,15 +330,15 @@ namespace boost { namespace hana {
         { return static_cast<F&&>(f)(static_cast<M&&>(m).val); }
 
         template <typename F>
-        static constexpr decltype(auto) apply(nothing_t const&, F&& f)
+        static constexpr decltype(auto) apply(hana::optional<> const&, F&& f)
         { return static_cast<F&&>(f)(); }
 
         template <typename F>
-        static constexpr decltype(auto) apply(nothing_t&&, F&& f)
+        static constexpr decltype(auto) apply(hana::optional<>&&, F&& f)
         { return static_cast<F&&>(f)(); }
 
         template <typename F>
-        static constexpr decltype(auto) apply(nothing_t&, F&& f)
+        static constexpr decltype(auto) apply(hana::optional<>&, F&& f)
         { return static_cast<F&&>(f)(); }
     };
 
@@ -350,15 +354,15 @@ namespace boost { namespace hana {
         }
 
         template <typename Pred>
-        static constexpr auto apply(nothing_t const&, Pred&&)
+        static constexpr auto apply(hana::optional<> const&, Pred&&)
         { return hana::nothing; }
 
         template <typename Pred>
-        static constexpr auto apply(nothing_t&&, Pred&&)
+        static constexpr auto apply(hana::optional<>&&, Pred&&)
         { return hana::nothing; }
 
         template <typename Pred>
-        static constexpr auto apply(nothing_t&, Pred&&)
+        static constexpr auto apply(hana::optional<>&, Pred&&)
         { return hana::nothing; }
     };
 

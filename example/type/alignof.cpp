@@ -10,9 +10,9 @@ namespace hana = boost::hana;
 
 
 struct X { };
-static_assert(hana::alignof_(hana::type<X>) == alignof(X), "");
+static_assert(hana::alignof_(hana::type_c<X>) == alignof(X), "");
 
 static_assert(hana::alignof_(1) == alignof(decltype(1)), "");
-static_assert(hana::alignof_(hana::type<int>) == alignof(int), "");
+static_assert(hana::alignof_(hana::type_c<int>) == alignof(int), "");
 
 int main() { }

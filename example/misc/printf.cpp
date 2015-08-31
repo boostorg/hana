@@ -26,15 +26,15 @@ namespace hana = boost::hana;
 
 
 constexpr auto formats = hana::make_map(
-    hana::make_pair(hana::type<int>, hana::string<'%', 'd'>),
-    hana::make_pair(hana::type<float>, hana::string<'%', 'f'>),
-    hana::make_pair(hana::type<char const*>, hana::string<'%', 's'>)
+    hana::make_pair(hana::type_c<int>, hana::string_c<'%', 'd'>),
+    hana::make_pair(hana::type_c<float>, hana::string_c<'%', 'f'>),
+    hana::make_pair(hana::type_c<char const*>, hana::string_c<'%', 's'>)
 );
 
 struct concat_strings {
     template <char ...s1, char ...s2>
-    constexpr auto operator()(hana::string_t<s1...>, hana::string_t<s2...>) const
-    { return hana::string<s1..., s2...>; }
+    constexpr auto operator()(hana::string<s1...>, hana::string<s2...>) const
+    { return hana::string_c<s1..., s2...>; }
 };
 
 template <typename ...Tokens>
@@ -52,7 +52,7 @@ constexpr auto format(Tokens ...tokens_) {
         hana::compose(hana::partial(hana::at_key, formats), hana::decltype_)
     );
 
-    auto format_string = hana::fold_left(format_string_tokens, hana::string<>, concat_strings{});
+    auto format_string = hana::fold_left(format_string_tokens, hana::string_c<>, concat_strings{});
     auto variables = hana::filter(tokens, hana::compose(hana::not_, hana::is_a<hana::String>));
     return hana::prepend(variables, format_string);
 }

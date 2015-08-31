@@ -93,10 +93,10 @@ BOOST_HANA_CONSTANT_CHECK(1_c + (3_c * 4_c) == hana::llong<1 + (3 * 4)>);
 
 }{
 
-//! [integral_constant]
-BOOST_HANA_CONSTANT_CHECK(hana::integral_constant<int, 2> == hana::int_<2>);
-static_assert(decltype(hana::integral_constant<int, 2>)::value == 2, "");
-//! [integral_constant]
+//! [integral_c]
+BOOST_HANA_CONSTANT_CHECK(hana::integral_c<int, 2> == hana::int_<2>);
+static_assert(decltype(hana::integral_c<int, 2>)::value == 2, "");
+//! [integral_c]
 
 }
 

@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::Pair`.
+Forward declares `boost::hana::pair`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -15,12 +15,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Tag representing a generic container of two elements.
+    //! Generic container for two elements.
     //!
-    //! A `Pair` is essentially equivalent to a `std::pair`, which can also
-    //! be seen as a 2-element tuple. `Pair`s are useful in some contexts
-    //! where a tuple would be too much, like returning two elements from a
-    //! function.
+    //! `hana::pair` is conceptually the same as `std::pair`. However,
+    //! `hana::pair` automatically compresses the storage of empty types,
+    //! and as a result it does not have the `.first` and `.second` members.
+    //! Instead, one must use the `hana::first` and `hana::second` free
+    //! functions to access the elements of a pair.
     //!
     //!
     //! Modeled concepts
@@ -36,7 +37,7 @@ namespace boost { namespace hana {
     //! @include example/pair/orderable.cpp
     //!
     //! 3. `Foldable`\n
-    //! Folding a `Pair` is equivalent to folding a 2-element tuple. In other
+    //! Folding a pair is equivalent to folding a 2-element tuple. In other
     //! words:
     //! @code
     //!     fold_left(make_pair(x, y), s, f) == f(f(s, x), y)
@@ -49,14 +50,16 @@ namespace boost { namespace hana {
     //! The model of `Product` is the simplest one possible; the first element
     //! of a pair `(x, y)` is `x`, and its second element is `y`.
     //! @include example/pair/product.cpp
-    struct Pair { };
-
     template <typename First, typename Second>
     struct pair;
 
+    //! Tag representing `hana::pair`.
+    //! @relates hana::pair
+    struct Pair { };
+
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Creates a `Pair` with the given elements.
-    //! @relates Pair
+    //! Creates a `hana::pair` with the given elements.
+    //! @relates hana::pair
     //!
     //!
     //! Example
@@ -64,14 +67,14 @@ namespace boost { namespace hana {
     //! @include example/pair/make.cpp
     template <>
     constexpr auto make<Pair> = [](auto&& first, auto&& second)
-        -> pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
+        -> hana::pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
     {
         return {forwarded(first), forwarded(second)};
     };
 #endif
 
     //! Alias to `make<Pair>`; provided for convenience.
-    //! @relates Pair
+    //! @relates hana::pair
     //!
     //! Example
     //! -------

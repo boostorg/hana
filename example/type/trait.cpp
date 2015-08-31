@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::trait<std::is_integral>(hana::type<int>));
-BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::trait<std::is_integral>(hana::type<float>)));
+BOOST_HANA_CONSTANT_CHECK(hana::trait<std::is_integral>(hana::type_c<int>));
+BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::trait<std::is_integral>(hana::type_c<float>)));
 
 int main() { }

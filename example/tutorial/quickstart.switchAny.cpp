@@ -23,7 +23,7 @@ namespace hana = boost::hana;
 //! [cases]
 template <typename T>
 auto case_ = [](auto f) {
-  return hana::make_pair(hana::type<T>, f);
+  return hana::make_pair(hana::type_c<T>, f);
 };
 
 struct default_t;
@@ -53,13 +53,13 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
     static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
     auto rest = hana::filter(cases, [](auto const& c) {
-      return hana::first(c) != hana::type<default_t>;
+      return hana::first(c) != hana::type_c<default_t>;
     });
 
     return hana::unpack(rest, [&](auto& ...rest) {

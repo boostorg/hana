@@ -47,7 +47,7 @@ namespace boost { namespace hana { namespace struct_detail {
 
     template <std::size_t n, typename Names, std::size_t ...i>
     constexpr auto prepare_member_name_impl(std::index_sequence<i...>) {
-        return hana::string<hana::at_c<n>(Names::get())[i]...>;
+        return hana::string_c<hana::at_c<n>(Names::get())[i]...>;
     }
 
     template <std::size_t n, typename Names>

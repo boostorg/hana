@@ -10,7 +10,7 @@ namespace hana = boost::hana;
 
 
 int main() {
-    auto i = hana::integral_constant<int, 3>; // notice no constexpr
+    auto i = hana::integral_c<int, 3>; // notice no constexpr
     static_assert(hana::value<decltype(i)>() == 3, "");
     static_assert(hana::value(i) == 3, "value(i) is always a constant expression!");
 }

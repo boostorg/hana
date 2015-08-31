@@ -20,7 +20,7 @@ option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrin
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 option(BOOST_HANA_ENABLE_STRING_UDL
 "Enable the GNU extension allowing the special string literal operator\
- template, which enables the _s suffix for creating compile-time Strings." ON)
+ template, which enables the _s suffix for creating compile-time strings." ON)
 
 
 ##############################################################################

@@ -53,11 +53,11 @@ std::vector<int> ints = { /* huge vector of ints */ };
 std::vector<std::string> strings = { /* huge vector of strings */ };
 
 auto map = hana::make_map(
-  hana::make_pair(hana::type<int>, std::ref(ints)),
-  hana::make_pair(hana::type<std::string>, std::ref(strings))
+  hana::make_pair(hana::type_c<int>, std::ref(ints)),
+  hana::make_pair(hana::type_c<std::string>, std::ref(strings))
 );
 
-auto& v = map[hana::type<int>].get();
+auto& v = map[hana::type_c<int>].get();
 BOOST_HANA_RUNTIME_CHECK(&v == &ints);
 //! [reference_wrapper]
 
@@ -68,6 +68,16 @@ auto xs = hana::make_tuple(1, '2', "345");
 auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
 // what can we say about the types of xs and ints?
 //! [types]
+(void)xs;
+(void)ints;
+
+}{
+
+//! [types_maximally_specified]
+hana::tuple<int, char, char const*> xs = hana::make_tuple(1, '2', "345");
+auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
+// can't specify the type of ints, however
+//! [types_maximally_specified]
 (void)xs;
 (void)ints;
 
@@ -83,8 +93,8 @@ void f(std::vector<T> xs) {
   // ...
 }
 
-template <typename Xs, typename = std::enable_if_t<hana::is_a<hana::Tuple, Xs>()>>
-void f(Xs xs) {
+template <typename R, typename = std::enable_if_t<hana::is_a<hana::Range, R>()>>
+void f(R r) {
   // ...
 }
 //! [overloading]

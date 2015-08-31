@@ -4,11 +4,11 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
-#include <boost/hana/type.hpp>
-
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/metafunction.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/type.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -27,10 +27,10 @@ constexpr auto valid_call(...)
 namespace tc1 {
     template <typename ...> struct f { struct type; };
     using F = decltype(metafunction<f>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction<f>() == type<f<>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>) == type<f<x1>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>, type<x2>) == type<f<x1, x2>::type>);
-    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type<x1>, type<x2>, type<x3>) == type<f<x1, x2, x3>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>() == type_c<f<>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type_c<x1>) == type_c<f<x1>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type_c<x1>, type_c<x2>) == type_c<f<x1, x2>::type>);
+    BOOST_HANA_CONSTANT_CHECK(metafunction<f>(type_c<x1>, type_c<x2>, type_c<x3>) == type_c<f<x1, x2, x3>::type>);
     static_assert(std::is_same<F::apply<>, f<>>::value, "");
     static_assert(std::is_same<F::apply<x1>, f<x1>>::value, "");
     static_assert(std::is_same<F::apply<x1, x2>, f<x1, x2>>::value, "");
@@ -39,57 +39,60 @@ namespace tc1 {
     // Make sure we're SFINAE-friendly
     template <typename ...T> struct no_type { };
     static_assert(!valid_call(metafunction<no_type>), "");
-    static_assert(!valid_call(metafunction<no_type>, type<x1>), "");
+    static_assert(!valid_call(metafunction<no_type>, type_c<x1>), "");
 
     // Make sure we don't read from a non-constexpr variable
-    auto t = type<x1>;
+    auto t = type_c<x1>;
     constexpr auto r = metafunction<f>(t);
+
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction<f>));
 
     // `metafunction` with non-Type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction<f>(y1{}),
-        metafunction<f>(type<y1>)
+        metafunction<f>(type_c<y1>)
     ));
 
     // 2 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(type<x1>, y2{}),
-        metafunction<f>(type<x1>, type<y2>)
+        metafunction<f>(type_c<x1>, y2{}),
+        metafunction<f>(type_c<x1>, type_c<y2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(y1{}, type<x2>),
-        metafunction<f>(type<y1>, type<x2>)
+        metafunction<f>(y1{}, type_c<x2>),
+        metafunction<f>(type_c<y1>, type_c<x2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction<f>(y1{}, y2{}),
-        metafunction<f>(type<y1>, type<y2>)
+        metafunction<f>(type_c<y1>, type_c<y2>)
     ));
 
     // 3 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(type<x1>, type<x2>, y3{}),
-        metafunction<f>(type<x1>, type<x2>, type<y3>)
+        metafunction<f>(type_c<x1>, type_c<x2>, y3{}),
+        metafunction<f>(type_c<x1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(type<x1>, y2{}, type<x3>),
-        metafunction<f>(type<x1>, type<y2>, type<x3>)
+        metafunction<f>(type_c<x1>, y2{}, type_c<x3>),
+        metafunction<f>(type_c<x1>, type_c<y2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(type<x1>, y2{}, y3{}),
-        metafunction<f>(type<x1>, type<y2>, type<y3>)
+        metafunction<f>(type_c<x1>, y2{}, y3{}),
+        metafunction<f>(type_c<x1>, type_c<y2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(y1{}, type<x2>, type<x3>),
-        metafunction<f>(type<y1>, type<x2>, type<x3>)
+        metafunction<f>(y1{}, type_c<x2>, type_c<x3>),
+        metafunction<f>(type_c<y1>, type_c<x2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction<f>(y1{}, type<x2>, y3{}),
-        metafunction<f>(type<y1>, type<x2>, type<y3>)
+        metafunction<f>(y1{}, type_c<x2>, y3{}),
+        metafunction<f>(type_c<y1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction<f>(y1{}, y2{}, y3{}),
-        metafunction<f>(type<y1>, type<y2>, type<y3>)
+        metafunction<f>(type_c<y1>, type_c<y2>, type_c<y3>)
     ));
 }
 
@@ -99,19 +102,19 @@ namespace tc2 {
     using F = decltype(metafunction_class<f>);
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction_class<f>(),
-        type<f::apply<>::type>
+        type_c<f::apply<>::type>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>),
-        type<f::apply<x1>::type>
+        metafunction_class<f>(type_c<x1>),
+        type_c<f::apply<x1>::type>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, type<x2>),
-        type<f::apply<x1, x2>::type>
+        metafunction_class<f>(type_c<x1>, type_c<x2>),
+        type_c<f::apply<x1, x2>::type>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, type<x2>, type<x3>),
-        type<f::apply<x1, x2, x3>::type>
+        metafunction_class<f>(type_c<x1>, type_c<x2>, type_c<x3>),
+        type_c<f::apply<x1, x2, x3>::type>
     ));
     static_assert(std::is_same<F::apply<>, f::apply<>>{}, "");
     static_assert(std::is_same<F::apply<x1>, f::apply<x1>>{}, "");
@@ -121,57 +124,60 @@ namespace tc2 {
     // Make sure we're SFINAE-friendly
     struct no_type { template <typename ...> struct apply { }; };
     static_assert(!valid_call(metafunction_class<no_type>), "");
-    static_assert(!valid_call(metafunction_class<no_type>, type<x1>), "");
+    static_assert(!valid_call(metafunction_class<no_type>, type_c<x1>), "");
 
     // Make sure we don't read from a non-constexpr variable
-    auto t = type<x1>;
+    auto t = type_c<x1>;
     constexpr auto r = metafunction_class<f>(t);
+
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction_class<f>));
 
     // `metafunction_class` with non-Type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction_class<f>(y1{}),
-        metafunction_class<f>(type<y1>)
+        metafunction_class<f>(type_c<y1>)
     ));
 
     // 2 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, y2{}),
-        metafunction_class<f>(type<x1>, type<y2>)
+        metafunction_class<f>(type_c<x1>, y2{}),
+        metafunction_class<f>(type_c<x1>, type_c<y2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(y1{}, type<x2>),
-        metafunction_class<f>(type<y1>, type<x2>)
+        metafunction_class<f>(y1{}, type_c<x2>),
+        metafunction_class<f>(type_c<y1>, type_c<x2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction_class<f>(y1{}, y2{}),
-        metafunction_class<f>(type<y1>, type<y2>)
+        metafunction_class<f>(type_c<y1>, type_c<y2>)
     ));
 
     // 3 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, type<x2>, y3{}),
-        metafunction_class<f>(type<x1>, type<x2>, type<y3>)
+        metafunction_class<f>(type_c<x1>, type_c<x2>, y3{}),
+        metafunction_class<f>(type_c<x1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, y2{}, type<x3>),
-        metafunction_class<f>(type<x1>, type<y2>, type<x3>)
+        metafunction_class<f>(type_c<x1>, y2{}, type_c<x3>),
+        metafunction_class<f>(type_c<x1>, type_c<y2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(type<x1>, y2{}, y3{}),
-        metafunction_class<f>(type<x1>, type<y2>, type<y3>)
+        metafunction_class<f>(type_c<x1>, y2{}, y3{}),
+        metafunction_class<f>(type_c<x1>, type_c<y2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(y1{}, type<x2>, type<x3>),
-        metafunction_class<f>(type<y1>, type<x2>, type<x3>)
+        metafunction_class<f>(y1{}, type_c<x2>, type_c<x3>),
+        metafunction_class<f>(type_c<y1>, type_c<x2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        metafunction_class<f>(y1{}, type<x2>, y3{}),
-        metafunction_class<f>(type<y1>, type<x2>, type<y3>)
+        metafunction_class<f>(y1{}, type_c<x2>, y3{}),
+        metafunction_class<f>(type_c<y1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction_class<f>(y1{}, y2{}, y3{}),
-        metafunction_class<f>(type<y1>, type<y2>, type<y3>)
+        metafunction_class<f>(type_c<y1>, type_c<y2>, type_c<y3>)
     ));
 }
 
@@ -181,78 +187,81 @@ namespace tc3 {
     using F = decltype(template_<f>);
     BOOST_HANA_CONSTANT_CHECK(equal(
         template_<f>(),
-        type<f<>>
+        type_c<f<>>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>),
-        type<f<x1>>
+        template_<f>(type_c<x1>),
+        type_c<f<x1>>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, type<x2>),
-        type<f<x1, x2>>
+        template_<f>(type_c<x1>, type_c<x2>),
+        type_c<f<x1, x2>>
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, type<x2>, type<x3>),
-        type<f<x1, x2, x3>>
+        template_<f>(type_c<x1>, type_c<x2>, type_c<x3>),
+        type_c<f<x1, x2, x3>>
     ));
     static_assert(std::is_same<F::apply<>::type, f<>>{}, "");
     static_assert(std::is_same<F::apply<x1>::type, f<x1>>{}, "");
     static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>{}, "");
     static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
 
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(template_<f>));
+
     // `template_` with non-Type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         template_<f>(y1{}),
-        template_<f>(type<y1>)
+        template_<f>(type_c<y1>)
     ));
 
     // 2 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, y2{}),
-        template_<f>(type<x1>, type<y2>)
+        template_<f>(type_c<x1>, y2{}),
+        template_<f>(type_c<x1>, type_c<y2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(y1{}, type<x2>),
-        template_<f>(type<y1>, type<x2>)
+        template_<f>(y1{}, type_c<x2>),
+        template_<f>(type_c<y1>, type_c<x2>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         template_<f>(y1{}, y2{}),
-        template_<f>(type<y1>, type<y2>)
+        template_<f>(type_c<y1>, type_c<y2>)
     ));
 
     // 3 args
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, type<x2>, y3{}),
-        template_<f>(type<x1>, type<x2>, type<y3>)
+        template_<f>(type_c<x1>, type_c<x2>, y3{}),
+        template_<f>(type_c<x1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, y2{}, type<x3>),
-        template_<f>(type<x1>, type<y2>, type<x3>)
+        template_<f>(type_c<x1>, y2{}, type_c<x3>),
+        template_<f>(type_c<x1>, type_c<y2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(type<x1>, y2{}, y3{}),
-        template_<f>(type<x1>, type<y2>, type<y3>)
+        template_<f>(type_c<x1>, y2{}, y3{}),
+        template_<f>(type_c<x1>, type_c<y2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(y1{}, type<x2>, type<x3>),
-        template_<f>(type<y1>, type<x2>, type<x3>)
+        template_<f>(y1{}, type_c<x2>, type_c<x3>),
+        template_<f>(type_c<y1>, type_c<x2>, type_c<x3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
-        template_<f>(y1{}, type<x2>, y3{}),
-        template_<f>(type<y1>, type<x2>, type<y3>)
+        template_<f>(y1{}, type_c<x2>, y3{}),
+        template_<f>(type_c<y1>, type_c<x2>, type_c<y3>)
     ));
     BOOST_HANA_CONSTANT_CHECK(equal(
         template_<f>(y1{}, y2{}, y3{}),
-        template_<f>(type<y1>, type<y2>, type<y3>)
+        template_<f>(type_c<y1>, type_c<y2>, type_c<y3>)
     ));
 
     // Make sure we can use aliases
     template <typename T> using alias = T;
-    static_assert(template_<alias>(type<x1>) == type<x1>, "");
+    static_assert(template_<alias>(type_c<x1>) == type_c<x1>, "");
 
     // Make sure we don't read from a non-constexpr variable
-    auto t = type<x1>;
+    auto t = type_c<x1>;
     constexpr auto r = template_<f>(t);
 }
 
@@ -268,11 +277,11 @@ namespace tc4 {
         mf<>::type
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(metafunction<mf>)(type<x1>)),
+        decltype(integral(metafunction<mf>)(type_c<x1>)),
         mf<x1>::type
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(metafunction<mf>)(type<x1>, type<x2>)),
+        decltype(integral(metafunction<mf>)(type_c<x1>, type_c<x2>)),
         mf<x1, x2>::type
     >{}, "");
 
@@ -281,11 +290,11 @@ namespace tc4 {
         tpl<>
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(template_<tpl>)(type<x1>)),
+        decltype(integral(template_<tpl>)(type_c<x1>)),
         tpl<x1>
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(template_<tpl>)(type<x1>, type<x2>)),
+        decltype(integral(template_<tpl>)(type_c<x1>, type_c<x2>)),
         tpl<x1, x2>
     >{}, "");
 
@@ -294,22 +303,22 @@ namespace tc4 {
         mfc::apply<>::type
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(metafunction_class<mfc>)(type<x1>)),
+        decltype(integral(metafunction_class<mfc>)(type_c<x1>)),
         mfc::apply<x1>::type
     >{}, "");
     static_assert(std::is_same<
-        decltype(integral(metafunction_class<mfc>)(type<x1>, type<x2>)),
+        decltype(integral(metafunction_class<mfc>)(type_c<x1>, type_c<x2>)),
         mfc::apply<x1, x2>::type
     >{}, "");
 
     // make sure we can perform the call; we already made sure the return type was correct
     constexpr auto a = integral(metafunction<mf>)();
-    constexpr auto b = integral(metafunction<mf>)(type<x1>);
-    constexpr auto c = integral(metafunction<mf>)(type<x1>, type<x2>);
-    constexpr auto d = integral(metafunction<mf>)(type<x1>, type<x2>, type<x3>);
+    constexpr auto b = integral(metafunction<mf>)(type_c<x1>);
+    constexpr auto c = integral(metafunction<mf>)(type_c<x1>, type_c<x2>);
+    constexpr auto d = integral(metafunction<mf>)(type_c<x1>, type_c<x2>, type_c<x3>);
 
     // Make sure we don't read from a non-constexpr variable
-    auto t = type<x1>;
+    auto t = type_c<x1>;
     constexpr auto r = integral(metafunction<mf>)(t);
 }
 

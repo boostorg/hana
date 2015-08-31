@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::tuple_t<int, char, float>, hana::type<char>) == hana::tuple_t<int, float>);
-BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::just(hana::type<int>), hana::type<char>) == hana::just(hana::type<int>));
-BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::just(hana::type<int>), hana::type<int>) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::tuple_t<int, char, float>, hana::type_c<char>) == hana::tuple_t<int, float>);
+BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::just(hana::type_c<int>), hana::type_c<char>) == hana::just(hana::type_c<int>));
+BOOST_HANA_CONSTANT_CHECK(hana::remove(hana::just(hana::type_c<int>), hana::type_c<int>) == hana::nothing);
 
 int main() { }

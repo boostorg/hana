@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto str = BOOST_HANA_STRING("abcdef");
-    BOOST_HANA_CONSTANT_CHECK(str == hana::string<'a', 'b', 'c', 'd', 'e', 'f'>);
+    BOOST_HANA_CONSTANT_CHECK(str == hana::string_c<'a', 'b', 'c', 'd', 'e', 'f'>);
     BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::String>(str));
 }

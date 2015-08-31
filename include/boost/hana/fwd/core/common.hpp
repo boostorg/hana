@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-core
-    //! Metafunction returning the common data type between two data types.
+    //! %Metafunction returning the common data type between two data types.
     //!
     //! `common` is a natural extension of the `std::common_type` metafunction
     //! to data types. Given two data types `T` and `U`, we say that they share
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
 #endif
 
     //! @ingroup group-core
-    //! Metafunction returning whether two data types share a common data type.
+    //! %Metafunction returning whether two data types share a common data type.
     //!
     //! Given two data types `T` and `U`, this metafunction simply returns
     //! whether `common<T, U>::%type` is well-formed.

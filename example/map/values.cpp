@@ -21,7 +21,7 @@ using namespace std::literals;
 int main() {
     auto m = hana::make_map(
         hana::make_pair(hana::int_<1>, "foobar"s),
-        hana::make_pair(hana::type<void>, 1234)
+        hana::make_pair(hana::type_c<void>, 1234)
     );
 
     // The order of the values is unspecified.

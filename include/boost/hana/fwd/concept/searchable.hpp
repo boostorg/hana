@@ -92,7 +92,8 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Map`, `Optional`, `Range`, `Set`, `String`, `Tuple`
+    //! `hana::map`, `hana::optional`, `hana::range`, `hana::set`,
+    //! `hana::string`, `hana::tuple`
     //!
     //!
     //! Free model for builtin arrays

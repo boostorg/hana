@@ -91,7 +91,7 @@ namespace boost { namespace hana {
 
     Concrete models
     ---------------
-    `Lazy`
+    `hana::lazy`
 
     */
     struct Comonad { };

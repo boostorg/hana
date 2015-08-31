@@ -47,15 +47,15 @@ namespace boost { namespace hana {
     //!
     //! Why must we sometimes specify the `Monoid` by using `sum<M>`?
     //! -------------------------------------------------------------
-    //! This is because sequences like Tuple are not parameterized data
-    //! types (by design). Hence, we do not know what kind of objects are
-    //! in the sequence, so we can't know a `0` value of which type should
-    //! be returned when the sequence is empty. Therefore, the type of the
+    //! This is because sequence tags like `Tuple` are not parameterized
+    //! (by design). Hence, we do not know what kind of objects are in the
+    //! sequence, so we can't know a `0` value of which type should be
+    //! returned when the sequence is empty. Therefore, the type of the
     //! `0` to return in the empty case must be specified explicitly. Other
     //! foldable structures like Ranges will ignore the suggested Monoid
     //! because they know the data type of the objects they contain. This
-    //! inconsistent behavior is a limitation of the current design of data
-    //! types, and work is being done to resolve it.
+    //! inconsistent behavior is a limitation of the current design with
+    //! non-parameterized tags, but we have no good solution for now.
     //!
     //!
     //! Example

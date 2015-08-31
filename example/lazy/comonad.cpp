@@ -17,7 +17,7 @@ namespace hana = boost::hana;
 
 int main() {
     std::stringstream s("1 2 3");
-    auto i = hana::lazy([&] {
+    auto i = hana::make_lazy([&] {
         int i;
         s >> i;
         return i;

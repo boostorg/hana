@@ -34,13 +34,13 @@ namespace boost { namespace hana {
     //! > is not the case here. The author also finds that `push_front`
     //! > suggests too strongly the sole interpretation of putting an
     //! > element to the front of a sequence, whereas `prepend` is slightly
-    //! > more nuanced and bears its name better for e.g. `Optional`.
+    //! > more nuanced and bears its name better for e.g. `hana::optional`.
     //!
     //!
     //! Signature
     //! ---------
     //! Given a MonadPlus `M`, the signature is
-    //! @f$ \mathrm{prepend} : M(T) \times T \to M(T) @f$.
+    //! @f$ \mathtt{prepend} : M(T) \times T \to M(T) @f$.
     //!
     //! @param xs
     //! A monadic structure that will be combined to the right of the element.

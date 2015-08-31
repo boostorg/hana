@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-constexpr auto str = hana::string<'a', 'b', 'c', 'd', 'e', 'f'>;
+constexpr auto str = hana::string_c<'a', 'b', 'c', 'd', 'e', 'f'>;
 BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::String>(str));
 
 int main() { }

@@ -49,12 +49,13 @@ namespace boost { namespace hana {
     //! the second element is a function which retrieves this member from an
     //! object. The "names" do not have to be in any special form; they just
     //! have to be compile-time `Comparable`. For example, it is common to
-    //! provide "names" that are `String`s representing the actual names of
-    //! the members, but one could provide `IntegralConstant`s just as well.
-    //! The values must be functions which, when given an object, retrieve the
-    //! appropriate member from it. It is not important that the functions
-    //! actually retrieve a member (e.g. `x.member`); what is important is
-    //! that they are move-independent, a notion which is defined below.
+    //! provide "names" that are `hana::string`s representing the actual names
+    //! of the members, but one could provide `hana::integral_constant`s just
+    //! as well. The values must be functions which, when given an object,
+    //! retrieve the appropriate member from it. It is not important that
+    //! the functions actually retrieve a member (e.g. `x.member`); what
+    //! is important is that they are move-independent, a notion which is
+    //! defined below.
     //!
     //! There are several ways of providing the `accessors` method, some of
     //! which are more flexible and others which are more convenient. First,
@@ -129,12 +130,12 @@ namespace boost { namespace hana {
     //! @include example/struct/foldable.cpp
     //!
     //! Being a model of `Foldable` makes it possible to turn a `Struct`
-    //! into basically any `Sequence`, but also into a `Map` by simply
+    //! into basically any `Sequence`, but also into a `hana::map` by simply
     //! using the `to<...>` function!
     //! @include example/struct/convert.cpp
     //!
     //! 3. `Searchable` (free model)\n
-    //! A `Struct` can be searched by considering it as a `Map` where the keys
+    //! A `Struct` can be searched by considering it as a map where the keys
     //! are the names of the members of the `Struct`, and the values are the
     //! members associated to those names. By default, a model of `Searchable`
     //! is provided for any model of the `Struct` concept.

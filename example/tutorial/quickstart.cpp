@@ -48,13 +48,13 @@ assert(hana::reverse(names) == hana::make_tuple("Snoopy", "Garfield", "Nemo"));
 
 
 //! [type-level]
-auto animal_types = hana::make_tuple(hana::type<Fish*>, hana::type<Cat&>, hana::type<Dog>);
+auto animal_types = hana::make_tuple(hana::type_c<Fish*>, hana::type_c<Cat&>, hana::type_c<Dog>);
 
 auto no_pointers = hana::remove_if(animal_types, [](auto a) {
   return hana::traits::is_pointer(a);
 });
 
-static_assert(no_pointers == hana::make_tuple(hana::type<Cat&>, hana::type<Dog>), "");
+static_assert(no_pointers == hana::make_tuple(hana::type_c<Cat&>, hana::type_c<Dog>), "");
 //! [type-level]
 
 

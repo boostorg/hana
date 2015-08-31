@@ -29,6 +29,6 @@ int main() {
 
     constexpr auto types = hana::tuple_t<int, char, long, short, char, double>;
     BOOST_HANA_CONSTANT_CHECK(hana::count_if(types, hana::trait<std::is_floating_point>) == hana::size_t<1>);
-    BOOST_HANA_CONSTANT_CHECK(hana::count_if(types, hana::equal.to(hana::type<char>)) == hana::size_t<2>);
-    BOOST_HANA_CONSTANT_CHECK(hana::count_if(types, hana::equal.to(hana::type<void>)) == hana::size_t<0>);
+    BOOST_HANA_CONSTANT_CHECK(hana::count_if(types, hana::equal.to(hana::type_c<char>)) == hana::size_t<2>);
+    BOOST_HANA_CONSTANT_CHECK(hana::count_if(types, hana::equal.to(hana::type_c<void>)) == hana::size_t<0>);
 }

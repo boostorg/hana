@@ -100,8 +100,8 @@ namespace boost { namespace hana {
                 "this constructor must not be instantiated");
             }
 
-            // We use this type inside a Set in the unit tests, which requires
-            // compile-time Comparable keys, hence this dummy comparison.
+            // This type is stored inside a hana::set, which requires
+            // compile-time Comparable keys.
             constexpr auto operator==(trap_construct const&) const
             { return false_; }
             constexpr auto operator!=(trap_construct const&) const

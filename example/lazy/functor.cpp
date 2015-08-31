@@ -13,7 +13,7 @@ using hana::_;
 
 
 int main() {
-    static_assert(hana::eval(hana::transform(hana::lazy(4 / _)(1), _ * 3)) == (4 / 1) * 3, "");
+    static_assert(hana::eval(hana::transform(hana::make_lazy(4 / _)(1), _ * 3)) == (4 / 1) * 3, "");
 
-    hana::transform(hana::lazy(4 / _)(0), _ * 3); // never evaluated
+    hana::transform(hana::make_lazy(4 / _)(0), _ * 3); // never evaluated
 }

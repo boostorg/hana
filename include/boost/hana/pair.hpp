@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Pair`.
+Defines `boost::hana::pair`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -28,12 +28,14 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // pair
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename First, typename Second>
     struct pair : operators::adl, detail::closure<First, Second> {
         using detail::closure<First, Second>::closure;
         using hana = pair;
         using datatype = Pair;
     };
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Operators

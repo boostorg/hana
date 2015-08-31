@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! or context, a MonadPlus can be seen as a container or a context that
     //! can be concatenated with other containers or contexts. There must
     //! also be an identity element for this combining operation. For example,
-    //! a `Tuple` is a MonadPlus, because tuples can be concatenated and the
+    //! a tuple is a MonadPlus, because tuples can be concatenated and the
     //! empty tuple would act as an identity for concatenation. How is this
     //! different from a Monad which is also a Monoid? The answer is that the
     //! monoidal structure on a MonadPlus must _not_ depend of the contents
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Optional`, `Tuple`
+    //! `hana::optional`, `hana::tuple`
     struct MonadPlus { };
 }} // end namespace boost::hana
 

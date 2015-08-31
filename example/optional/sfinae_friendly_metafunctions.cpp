@@ -26,12 +26,12 @@ struct has_type<T, void_t<typename T::type>>
     : std::true_type
 { };
 
-auto common_type_impl = hana::sfinae([](auto t, auto u) -> decltype(hana::type<
+auto common_type_impl = hana::sfinae([](auto t, auto u) -> decltype(hana::type_c<
     decltype(true ? hana::traits::declval(t) : hana::traits::declval(u))
 >) { return {}; });
 
 template <typename T, typename U>
-using common_type2 = decltype(common_type_impl(hana::type<T>, hana::type<U>));
+using common_type2 = decltype(common_type_impl(hana::type_c<T>, hana::type_c<U>));
 
 static_assert(!has_type<common_type2<int, int*>>{}, "");
 static_assert(std::is_same<common_type2<int, float>::type, float>{}, "");

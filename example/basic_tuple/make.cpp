@@ -6,13 +6,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/equal.hpp>
 namespace hana = boost::hana;
 
 
-int main() {
-    constexpr hana::basic_tuple<int, char, double> xs{1, '2', 3.3};
-    constexpr auto ys = hana::make<hana::BasicTuple>(1, '2', 3.3);
+constexpr hana::basic_tuple<int, char, double> xs{1, '2', 3.3};
+constexpr auto ys = hana::make<hana::BasicTuple>(1, '2', 3.3);
+constexpr auto zs = hana::make_basic_tuple(1, '2', 3.3);
 
-    (void)xs; (void)ys;
-}
+int main() { }

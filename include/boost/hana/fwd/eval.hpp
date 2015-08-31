@@ -15,15 +15,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Evaluate a lazy value and return it.
-    //! @relates Lazy
+    //! @relates hana::lazy
     //!
     //! Given a lazy expression `expr`, `eval` evaluates `expr` and returns
     //! the result as a normal value. However, for convenience, `eval` can
     //! also be used with nullary and unary function objects. Specifically,
-    //! if `expr` is not a `Lazy`, it is called with no arguments at all and
-    //! the result of that call (`expr()`) is returned. Otherwise, if `expr()`
-    //! is ill-formed, then `expr(hana::id)` is returned instead. If that
-    //! expression is ill-formed, then a compile-time error is triggered.
+    //! if `expr` is not a `hana::lazy`, it is called with no arguments at
+    //! all and the result of that call (`expr()`) is returned. Otherwise,
+    //! if `expr()` is ill-formed, then `expr(hana::id)` is returned instead.
+    //! If that expression is ill-formed, then a compile-time error is
+    //! triggered.
     //!
     //! The reason for allowing nullary callables in `eval` is because this
     //! allows using nullary lambdas as lazy branches to `eval_if`, which

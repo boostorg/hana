@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::BasicTuple`.
+Defines `boost::hana::basic_tuple`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -104,6 +104,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // basic_tuple
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename ...Xn>
     struct basic_tuple final
         : detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>
@@ -112,6 +113,7 @@ namespace boost { namespace hana {
             std::make_index_sequence<sizeof...(Xn)>, Xn...
         >::basic_tuple_impl;
     };
+    //! @endcond
 
     template <typename ...Xn>
     struct datatype<basic_tuple<Xn...>> {

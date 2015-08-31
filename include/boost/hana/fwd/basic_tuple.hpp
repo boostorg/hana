@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::BasicTuple`.
+Forward declares `boost::hana::basic_tuple`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -15,46 +15,51 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Stripped down version of the `Tuple`.
+    //! Stripped down version of `hana::tuple`.
     //!
-    //! Whereas `Tuple` aims to provide an interface somewhat close to a
-    //! `std::tuple`, `BasicTuple` provides the strict minimum required to
+    //! Whereas `hana::tuple` aims to provide an interface somewhat close to a
+    //! `std::tuple`, `basic_tuple` provides the strict minimum required to
     //! implement a closure with maximum compile-time efficiency.
     //!
     //!
     //! Modeled concepts
     //! ----------------
-    //! For now, `BasicTuple` only models the `Foldable` concept. More will
-    //! be added in the future, and `BasicTuple` will eventually model
-    //! everything that `Tuple` models.
-    struct BasicTuple { };
-
+    //! For now, `basic_tuple` only models the `Foldable` concept. More will
+    //! be added in the future, and `basic_tuple` will eventually model
+    //! everything that `hana::tuple` models.
     template <typename ...Xs>
     struct basic_tuple;
 
+    //! Tag representing `hana::basic_tuple`.
+    //! @relates hana::basic_tuple
+    struct BasicTuple { };
+
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Function object for creating a `BasicTuple`.
-    //! @relates BasicTuple
+    //! @relates hana::basic_tuple
     //!
     //! Given zero or more objects `xs...`, `make<BasicTuple>` returns a new
-    //! `BasicTuple` containing those objects. The elements are held by value
+    //! `basic_tuple` containing those objects. The elements are held by value
     //! inside the resulting tuple, and they are hence copied or moved in.
-    //! This is analogous to `std::make_tuple` for creating `BasicTuple`s.
+    //! This is analogous to `std::make_tuple` for creating `basic_tuple`s.
     //!
     //!
     //! Example
     //! -------
     //! @include example/basic_tuple/make.cpp
     template <>
-    constexpr auto make<BasicTuple> = [](auto&& ...xs)
-        -> basic_tuple<std::decay_t<decltype(xs)>...>
-    {
-        return {forwarded(xs)...};
+    constexpr auto make<BasicTuple> = [](auto&& ...xs) {
+        return basic_tuple<std::decay_t<decltype(xs)>...>{forwarded(xs)...};
     };
 #endif
 
     //! Alias to `make<BasicTuple>`; provided for convenience.
-    //! @relates BasicTuple
+    //! @relates hana::basic_tuple
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/basic_tuple/make.cpp
     constexpr auto make_basic_tuple = make<BasicTuple>;
 }} // end namespace boost::hana
 

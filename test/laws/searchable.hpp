@@ -64,7 +64,7 @@ namespace boost { namespace hana { namespace test {
                 // any(xs)  <=> any_of(xs, id)
                 // all(xs)  <=> all_of(xs, id)
                 // none(xs) <=> none_of(xs, id)
-                only_when_(hana::all_of(xs, models<Logical>), hana::lazy([](auto xs) {
+                only_when_(hana::all_of(xs, models<Logical>), hana::make_lazy([](auto xs) {
                     BOOST_HANA_CHECK(
                         hana::any(xs) ^iff^ hana::any_of(xs, id)
                     );
@@ -112,7 +112,7 @@ namespace boost { namespace hana { namespace test {
                     );
 
                     only_when_(hana::contains(xs, key),
-                        hana::lazy([](auto xs, auto key) {
+                        hana::make_lazy([](auto xs, auto key) {
                             // at_key(xs, key) == from_just(find(xs, key))
                             BOOST_HANA_CHECK(hana::equal(
                                 hana::at_key(xs, key),
@@ -348,7 +348,7 @@ namespace boost { namespace hana { namespace test {
                     just(x<2>{})
                 ));
 
-                // Make sure find_if works with an lvalue sequence. Tuple
+                // Make sure find_if works with an lvalue sequence. hana::tuple
                 // used to have a bug that broke this.
                 auto const const_lvalue = list(x<0>{}, x<1>{}, x<2>{});
                 BOOST_HANA_CONSTANT_CHECK(equal(

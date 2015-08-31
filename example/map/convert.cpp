@@ -18,15 +18,15 @@ using namespace std::literals;
 
 int main() {
     auto xs = hana::make_tuple(
-        hana::make_pair(hana::type<int>, "abcd"s),
-        hana::make_pair(hana::type<void>, 1234),
-        hana::make_pair(hana::type<int>, nullptr)
+        hana::make_pair(hana::type_c<int>, "abcd"s),
+        hana::make_pair(hana::type_c<void>, 1234),
+        hana::make_pair(hana::type_c<int>, nullptr)
     );
 
     BOOST_HANA_RUNTIME_CHECK(
         hana::to<hana::Map>(xs) == hana::make_map(
-            hana::make_pair(hana::type<int>, "abcd"s),
-            hana::make_pair(hana::type<void>, 1234)
+            hana::make_pair(hana::type_c<int>, "abcd"s),
+            hana::make_pair(hana::type_c<void>, 1234)
         )
     );
 }

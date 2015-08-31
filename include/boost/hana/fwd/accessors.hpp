@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Returns a `Sequence` of `Pair`s representing the accessors of the
+    //! Returns a `Sequence` of pairs representing the accessors of the
     //! data structure.
     //! @relates Struct
     //!

@@ -241,7 +241,7 @@ what you would expect:
 @snippet example/tutorial/quickstart.cpp type-level
 
 @note
-`type<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
+`type_c<...>` is not a type! It is a [C++14 variable template][C++14.vtemplate]
 yielding an object representing a type for Hana. This is explained in the
 section on [type computations](@ref tutorial-type).
 
@@ -361,7 +361,7 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
 
     // ...
@@ -370,8 +370,8 @@ auto switch_(Any& a) {
 @endcode
 
 `find_if` takes a `tuple` and a predicate, and returns the first element of
-the tuple which satisfies the predicate. The result is returned as an optional
-value called an `Optional`, which is very similar to a `std::optional`, except
+the tuple which satisfies the predicate. The result is returned as a
+`hana::optional`, which is very similar to a `std::optional`, except
 whether that optional value is empty or not is known at compile-time. If the
 predicate is not satisfied for any element of the `tuple`, `find_if` returns
 `nothing` (an empty value). Otherwise, it returns `just(x)` (a non-empty value),
@@ -382,7 +382,7 @@ what Hana calls an `IntegralConstant`, which means that the predicate's result
 must be known at compile-time. These details are explained in the section on
 [cross-phase algorithms](@ref tutorial-algorithms-cross_phase). Inside the
 predicate, we simply compare the type of the case's first element to
-`type<default_t>`. If you recall that we were using `hana::pair`s to encode
+`type_c<default_t>`. If you recall that we were using `hana::pair`s to encode
 cases, this simply means that we're finding the default case among all of the
 provided cases. But what if no default case was provided? We should fail at
 compile-time, of course!
@@ -394,7 +394,7 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
     static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
@@ -419,13 +419,13 @@ auto switch_(Any& a) {
     auto cases = hana::make_tuple(cases_...);
 
     auto default_ = hana::find_if(cases, [](auto const& c) {
-      return hana::first(c) == hana::type<default_t>;
+      return hana::first(c) == hana::type_c<default_t>;
     });
     static_assert(default_ != hana::nothing,
       "switch is missing a default_ case");
 
     auto rest = hana::filter(cases, [](auto const& c) {
-      return hana::first(c) != hana::type<default_t>;
+      return hana::first(c) != hana::type_c<default_t>;
     });
 
     // ...
@@ -478,7 +478,7 @@ Pretty simple, wasn't it? Here's the final solution:
 
 That's it for the quick start! This example only introduced a couple of useful
 algorithms (`find_if`, `filter`, `unpack`) and heterogeneous containers
-(`Tuple`, `Optional`), but rest assured that there is much more. The next
+(`tuple`, `optional`), but rest assured that there is much more. The next
 sections of the tutorial gradually introduce general concepts pertaining to
 Hana in a friendly way, but you may use the following cheatsheet for quick
 reference if you want to start coding right away. This cheatsheet contains
@@ -499,20 +499,21 @@ description of what each of them does.
 
 container          | description
 :----------------- | :----------
-<code>[Tuple](@ref boost::hana::Tuple)</code>                       | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
-<code>[Optional](@ref boost::hana::Optional)</code>                 | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
-<code>[Map](@ref boost::hana::Map)</code>                           | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
-<code>[Set](@ref boost::hana::Set)</code>                           | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
-<code>[Range](@ref boost::hana::Range)</code>                       | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
-<code>[Pair](@ref boost::hana::Pair)</code>                         | Container holding two heterogeneous objects. Like `std::pair`, but interacts better with Hana.
-<code>[String](@ref boost::hana::String)</code>                     | Compile-time string.
-<code>[Type](@ref boost::hana::Type)</code>                         | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
-<code>[IntegralConstant](@ref boost::hana::IntegralConstant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that Hana's `IntegralConstant` also defines operators and more syntactic sugar.
-<code>[Lazy](@ref boost::hana::Lazy)</code>                         | Encapsulates a lazy value or computation.
+<code>[tuple](@ref boost::hana::tuple)</code>                         | General purpose index-based heterogeneous sequence with a fixed length. Use this as a `std::vector` for heterogeneous objects.
+<code>[optional](@ref boost::hana::optional)</code>                   | Represents an optional value, i.e. a value that can be empty. This is a bit like `std::optional`, except that the emptiness is known at compile-time.
+<code>[map](@ref boost::hana::map)</code>                             | Unordered associative array mapping (unique) compile-time entities to arbitrary objects. This is like `std::unordered_map` for heterogeneous objects.
+<code>[set](@ref boost::hana::set)</code>                             | Unordered container holding unique keys that must be compile-time entities. This is like `std::unordered_set` for heterogeneous objects.
+<code>[range](@ref boost::hana::range)</code>                         | Represents an interval of compile-time numbers. This is like `std::integer_sequence`, but better.
+<code>[pair](@ref boost::hana::pair)</code>                           | Container holding two heterogeneous objects. Like `std::pair`, but compresses the storage of empty types.
+<code>[string](@ref boost::hana::string)</code>                       | Compile-time string.
+<code>[type](@ref boost::hana::type)</code>                           | Container representing a C++ type. This is the root of the unification between types and values, and is of interest for MPL-style computations (type-level computations).
+<code>[integral_constant](@ref boost::hana::integral_constant)</code> | Represents a compile-time number. This is very similar to `std::integral_constant`, except that `hana::integral_constant` also defines operators and more syntactic sugar.
+<code>[lazy](@ref boost::hana::lazy)</code>                           | Encapsulates a lazy value or computation.
+<code>[basic_tuple](@ref boost::hana::basic_tuple)</code>             | Stripped-down version of `hana::tuple`. Not standards conforming, but more compile-time efficient.
 
 
-function                                                                            | description
-:------------------------------------------                                         | :----------
+function                                                                                         | description
+:------------------------------------------                                                      | :----------
 <code>[adjust](@ref boost::hana::Functor::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
 <code>[adjust_if](@ref boost::hana::Functor::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
 <code>{[all](@ref boost::hana::Searchable::all),[any](@ref boost::hana::Searchable::any),[none](@ref boost::hana::Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
@@ -530,8 +531,8 @@ function                                                                        
 <code>[drop_while](@ref boost::hana::Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an `IntegralConstant`.
 <code>[fill](@ref boost::hana::Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
 <code>[filter](@ref boost::hana::MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an `IntegralConstant`.
-<code>[find](@ref boost::hana::Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `Optional`.
-<code>[find_if](@ref boost::hana::Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `Optional`.
+<code>[find](@ref boost::hana::Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `hana::optional`.
+<code>[find_if](@ref boost::hana::Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `hana::optional`.
 <code>[flatten](@ref boost::hana::Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
 <code>[fold_left](@ref boost::hana::Foldable::fold_left)(sequence[, state], f)</code>            | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
 <code>[fold_right](@ref boost::hana::Foldable::fold_right)(sequence[, state], f)</code>          | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
@@ -829,7 +830,7 @@ f(); f(); ... f(); // 10 times
 
 Another nice use of `IntegralConstant`s is to define good-looking operators
 for indexing heterogeneous sequences. Whereas `std::tuple` must be accessed
-with `std::get`, Hana's `Tuple` can be accessed using the familiar `operator[]`
+with `std::get`, `hana::tuple` can be accessed using the familiar `operator[]`
 used for standard library containers:
 
 @code{cpp}
@@ -837,7 +838,7 @@ auto values = hana::make_tuple(1, 'x', 3.4f);
 char x = values[1_c];
 @endcode
 
-How this works is very simple. Basically, Hana's `Tuple` defines an `operator[]`
+How this works is very simple. Basically, `hana::tuple` defines an `operator[]`
 taking an `IntegralConstant` instead of a normal integer, in a way similar to
 
 @code{cpp}
@@ -892,14 +893,18 @@ start by defining a dummy template that could be used to represent a type:
 
 @code{cpp}
 template <typename T>
-struct _type {
+struct basic_type {
   // empty (for now)
 };
 
-_type<int> Int{};
-_type<char> Char{};
+basic_type<int> Int{};
+basic_type<char> Char{};
 // ...
 @endcode
+
+@note
+We're using the name `basic_type` here because we're only building a naive
+version of the actual functionality provided by Hana.
 
 While this may seem completely useless, it is actually enough to start writing
 metafunctions that look like functions. Indeed, consider the following
@@ -907,15 +912,15 @@ alternate implementations of `std::add_pointer` and `std::is_pointer`:
 
 @code{cpp}
 template <typename T>
-constexpr _type<T*> add_pointer(_type<T> const&)
+constexpr basic_type<T*> add_pointer(basic_type<T> const&)
 { return {}; }
 
 template <typename T>
-constexpr auto is_pointer(_type<T> const&)
+constexpr auto is_pointer(basic_type<T> const&)
 { return hana::false_; }
 
 template <typename T>
-constexpr auto is_pointer(_type<T*> const&)
+constexpr auto is_pointer(basic_type<T*> const&)
 { return hana::true_; }
 @endcode
 
@@ -924,7 +929,7 @@ compile-time arithmetic metafunctions as heterogeneous C++ operators in the
 previous section. Here's how we can use them:
 
 @code{cpp}
-_type<int> t{};
+basic_type<int> t{};
 auto p = add_pointer(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
 @endcode
@@ -937,33 +942,33 @@ C++14 variable templates to provide syntactic sugar for creating types:
 
 @code{cpp}
 template <typename T>
-constexpr _type<T> type{};
+constexpr basic_type<T> type_c{};
 
-auto t = type<int>;
+auto t = type_c<int>;
 auto p = add_pointer(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(p));
 @endcode
 
 @note
-This is not exactly how the `hana::type` variable template is implemented
+This is not exactly how the `hana::type_c` variable template is implemented
 because of some subtleties; things were dumbed down here for the sake of the
-explanation. Please check the reference for `Type` to know exactly what you
-can expect from a `hana::type<...>`.
+explanation. Please check the reference for `hana::type` to know exactly
+what you can expect from a `hana::type_c<...>`.
 
 
 @subsection tutorial-type-benefits Benefits of this representation
 
-But what does that buy us? Well, since a `type<...>` is just an object, we can
-store it in a heterogeneous sequence like a tuple, we can move it around and
-pass it to (or return it from) functions, and we can do basically anything
+But what does that buy us? Well, since a `type_c<...>` is just an object, we
+can store it in a heterogeneous sequence like a tuple, we can move it around
+and pass it to (or return it from) functions, and we can do basically anything
 else that requires an object:
 
 @snippet example/tutorial/type.cpp tuple
 
 @note
-Writing `make_tuple(type<T>...)` can be annoying when there are several types.
+Writing `make_tuple(type_c<T>...)` can be annoying when there are several types.
 For this reason, Hana provides the `tuple_t<T...>` variable template, which is
-syntactic sugar for `make_tuple(type<T>...)`.
+syntactic sugar for `make_tuple(type_c<T>...)`.
 
 Also, notice that since the above tuple is really just a normal heterogeneous
 sequence, we can apply heterogeneous algorithms on that sequence just like we
@@ -1020,39 +1025,39 @@ representation. For example, how could we declare a variable whose type is the
 result of a type computation?
 
 @code{cpp}
-auto t = add_pointer(hana::type<int>); // could be a complex type computation
+auto t = add_pointer(hana::type_c<int>); // could be a complex type computation
 using T = the-type-represented-by-t;
 
 T var = ...;
 @endcode
 
 Right now, there is no easy way to do it. To make this easier to achieve, we
-enrich the interface of the `_type` container that we defined above. Instead
-of being an empty `struct`, we now define it as
+enrich the interface of the `basic_type` container that we defined above.
+Instead of being an empty `struct`, we now define it as
 
 @code{cpp}
 template <typename T>
-struct _type {
+struct basic_type {
   using type = T;
 };
 @endcode
 
 @note
-This is equivalent to making `_type` a metafunction in the MPL sense.
+This is equivalent to making `basic_type` a metafunction in the MPL sense.
 
 This way, we can use `decltype` to easily access the actual C++ type
-represented by a `type<...>` object:
+represented by a `type_c<...>` object:
 
 @code{cpp}
-auto t = add_pointer(hana::type<int>);
-using T = decltype(t)::type; // fetches hana::_type<T>::type
+auto t = add_pointer(hana::type_c<int>);
+using T = decltype(t)::type; // fetches basic_type<T>::type
 
 T var = ...;
 @endcode
 
 In general, doing type-level metaprogramming with Hana is a three step process:
 
-1. Represent types as objects by wrapping them with `hana::type<...>`
+1. Represent types as objects by wrapping them with `hana::type_c<...>`
 2. Perform type transformations with value syntax
 3. Unwrap the result with `decltype(...)::%type`
 
@@ -1061,7 +1066,7 @@ is very manageable for several reasons. First, this wrapping and unwrapping
 only needs to happen at some very thin boundaries.
 
 @code{cpp}
-auto t = hana::type<T>;
+auto t = hana::type_c<T>;
 auto result = huge_type_computation(t);
 using Result = decltype(result)::type;
 @endcode
@@ -1080,7 +1085,7 @@ sometimes one just needs to do a type-level computation and query something
 about the result, without necessarily fetching the result as a normal C++ type:
 
 @code{cpp}
-auto t = hana::type<T>;
+auto t = hana::type_c<T>;
 auto result = type_computation(t);
 BOOST_HANA_CONSTANT_CHECK(is_pointer(result)); // third step skipped
 @endcode
@@ -1116,7 +1121,7 @@ looked like:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(hana::_type<T> const&) {
+constexpr auto add_pointer(hana::basic_type<T> const&) {
   return hana::type<T*>;
 }
 @endcode
@@ -1125,8 +1130,8 @@ While it looks more complicated, we could also write it as:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_pointer(hana::_type<T> const&) {
-  return hana::type<typename std::add_pointer<T>::type>;
+constexpr auto add_pointer(hana::basic_type<T> const&) {
+  return hana::type_c<typename std::add_pointer<T>::type>;
 }
 @endcode
 
@@ -1139,22 +1144,22 @@ write almost the same thing:
 
 @code{cpp}
 template <typename T>
-constexpr auto add_const(hana::_type<T> const&)
-{ return hana::type<typename std::add_const<T>::type>; }
+constexpr auto add_const(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_const<T>::type>; }
 
 template <typename T>
-constexpr auto add_volatile(hana::_type<T> const&)
-{ return hana::type<typename std::add_volatile<T>::type>; }
+constexpr auto add_volatile(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_volatile<T>::type>; }
 
 template <typename T>
-constexpr auto add_lvalue_reference(hana::_type<T> const&)
-{ return hana::type<typename std::add_lvalue_reference<T>::type>; }
+constexpr auto add_lvalue_reference(hana::basic_type<T> const&)
+{ return hana::type_c<typename std::add_lvalue_reference<T>::type>; }
 
 // etc...
 @endcode
 
-This mechanical transformation is easy to abstract into a generic metafunction
-lifter as follows:
+This mechanical transformation is easy to abstract into a generic lifter
+that can handle any [MPL Metafunction][MPL.metafunction] as follows:
 
 @snippet example/tutorial/type.cpp metafunction1
 
@@ -1166,13 +1171,15 @@ arguments, which brings us to the following less naive implementation:
 Hana provides a similar generic metafunction lifter called `hana::metafunction`.
 One small improvement is that `hana::metafunction<F>` is a function object
 instead of an overloaded function, so one can pass it to higher-order
-algorithms. The process we explored in this section does not only apply
-to metafunctions; it also applies to templates. Indeed, we could define:
+algorithms. It is also a model of the slightly more powerful concept of
+`Metafunction`, but this can safely be ignored for now. The process we
+explored in this section does not only apply to metafunctions; it also
+applies to templates. Indeed, we could define:
 
 @snippet example/tutorial/type.cpp template_
 
 Hana provides a generic lifter for templates named `hana::template_`, and it
-also provides a generic lifter for MPL metafunction classes named
+also provides a generic lifter for [MPL MetafunctionClasses][MPL.mfc] named
 `hana::metafunction_class`. This gives us a way to uniformly represent "legacy"
 type-level computations as functions, so that any code written using a classic
 type-level metaprogramming library can almost trivially be used with Hana. For
@@ -1190,9 +1197,19 @@ auto types = hana::make_tuple(...);
 auto use = hana::transform(types, hana::metafunction<legacy>);
 @endcode
 
-Finally, since metafunctions provided by the `<type_traits>` header are used
-so frequently, Hana provides a lifted version for every one of them. Those
-lifted traits are in the `hana::traits` namespace, and they live in the
+However, note that not all type-level computations can be lifted as-is with
+the tools provided by Hana. For example, `std::extent` can't be lifted because
+it requires non-type template parameters. Since there is no way to deal with
+non-type template parameters uniformly in C++, one must resort to using a
+hand-written function object specific to that type-level computation:
+
+@snippet example/tutorial/type.cpp extent
+
+In practice, however, this should not be a problem since the vast majority
+of type-level computations can be lifted easily. Finally, since metafunctions
+provided by the `<type_traits>` header are used so frequently, Hana provides
+a lifted version for every one of them. Those lifted traits are in the
+`hana::traits` namespace, and they live in the
 `<boost/hana/ext/std/type_traits.hpp>` header:
 
 @snippet example/tutorial/type.cpp traits
@@ -1369,7 +1386,7 @@ wait for `x`'s type to be known before type-checking the lambda's body. Since
 the lambda is never called when the condition is not satisfied (Hana's `if_`
 takes care of that), the body of the lambda is never type-checked and no
 compilation error happens. There are many different ways of branching in
-Hana; you may take a look at `eval_if` and `Lazy` for details.
+Hana; you may take a look at `eval_if` and `lazy` for details.
 
 @note
 The branches inside the `if_` are lambdas. As such, they really are different
@@ -1406,12 +1423,12 @@ alternate implementation can be better suited:
 
 This validity checker is different from what we saw earlier because the
 generic lambda is not expecting an usual object anymore; it is now expecting
-a `Type` (which is an object, but still represents a type). We then use the
-`hana::traits::declval` lifted metafunction from the
+a `type` (which is an object, but still represents a type). We then use the
+`hana::traits::declval` _lifted metafunction_ from the
 `<boost/hana/ext/std/utility.hpp>` header to create an rvalue of the type
 represented by `t`, which we can then use to check for a non-static member.
 Finally, instead of passing an actual object to `has_member` (like `Foo{}`
-or `Bar{}`), we now pass a `type<...>`. This implementation is ideal for
+or `Bar{}`), we now pass a `type_c<...>`. This implementation is ideal for
 when no object is lying around.
 
 
@@ -1421,7 +1438,7 @@ Checking for a static member is easy, and it is provided for completeness:
 
 @snippet example/tutorial/introspection.cpp static_member
 
-Again, we expect a `Type` to be passed to the checker. Inside the generic
+Again, we expect a `type` to be passed to the checker. Inside the generic
 lambda, we use `decltype(t)::%type` to fetch the actual C++ type represented
 by the `t` object, as explained in the section on [type computations]
 (@ref tutorial-type-working). Then, we fetch the static member inside
@@ -1431,12 +1448,12 @@ members.
 
 @subsubsection tutorial-introspection-is_valid-typename Nested type names
 
-Checking for a nested type name is not hard, but it requires a bit
-more typing than the previous cases:
+Checking for a nested type name is not hard, but it is slightly more
+convoluted than the previous cases:
 
 @snippet example/tutorial/introspection.cpp nested_type_name
 
-One might wonder why we use `-> decltype(type<typename-expression>)` instead
+One might wonder why we use `-> hana::type<typename-expression>` instead
 of simply `-> typename-expression`. Again, the reason is that we want to
 support types that can't be returned from functions, like array types or
 incomplete types.
@@ -1445,8 +1462,8 @@ incomplete types.
 @subsubsection tutorial-introspection-is_valid-template Nested templates
 
 Checking for a nested template name is similar to checking for a nested type
-name, except we use `template_<...>` instead of `type<...>` in the generic
-lambda:
+name, except we use the `template_<...>` variable template instead of
+`type<...>` in the generic lambda:
 
 @snippet example/tutorial/introspection.cpp nested_template
 
@@ -1476,10 +1493,10 @@ Here, we create a `maybe_add` function, which is simply a generic lambda
 wrapped with Hana's `sfinae` function. `maybe_add` is a function which takes
 two inputs and returns `just` the result of the generic lambda if that call
 is well-formed, and `nothing` otherwise. `just(...)` and `nothing` both belong
-to a type of container called `Optional`, which is essentially a compile-time
-`std::optional`. All in all, `maybe_add` is morally equivalent to the
-following function returning a `std::optional`, except that the check is
-done at compile-time:
+to a type of container called `hana::optional`, which is essentially a
+compile-time `std::optional`. All in all, `maybe_add` is morally equivalent
+to the following function returning a `std::optional`, except that the check
+is done at compile-time:
 
 @code{cpp}
 auto maybe_add = [](auto x, auto y) {
@@ -1490,8 +1507,8 @@ auto maybe_add = [](auto x, auto y) {
 };
 @endcode
 
-It turns out that we can take advantage of `sfinae` and `Optional` to implement
-the `optionalToString` function as follows:
+It turns out that we can take advantage of `sfinae` and `optional` to
+implement the `optionalToString` function as follows:
 
 @snippet example/tutorial/introspection.sfinae.cpp optionalToString.sfinae
 
@@ -1503,8 +1520,8 @@ an optional value. If the optional value is `nothing`, `from_maybe` returns
 the default value; otherwise, it returns the value inside the `just` (here
 `x.toString()`). This way of seeing SFINAE as a special case of computations
 that might fail is very clean and powerful, especially since `sfinae`'d
-functions can be combined through the `Optional` `Monad`, which is left to
-the reference documentation.
+functions can be combined through the `hana::optional` `Monad`, which is left
+to the reference documentation.
 
 
 @subsection tutorial-introspection-adapting Introspecting user-defined types
@@ -1536,11 +1553,11 @@ Iteration over a `Struct` is done as if the `Struct` was a sequence of pairs,
 where the first element of a pair is the key associated to a member, and the
 second element is the member itself. When a `Struct` is defined through the
 `BOOST_HANA_DEFINE_STRUCT` macro, the key associated to any member is a
-compile-time `String` representing the name of that member. This is why the
-function used with `for_each` takes a single argument `pair`, and then uses
-`first` and `second` to access the subparts of the pair. Also, notice how
-the `to<char const*>` function is used on the name of the member? This
-converts the compile-time `String` to a `constexpr char const*` so it can
+compile-time `hana::string` representing the name of that member. This is why
+the function used with `for_each` takes a single argument `pair`, and then
+uses `first` and `second` to access the subparts of the pair. Also, notice
+how the `to<char const*>` function is used on the name of the member? This
+converts the compile-time string to a `constexpr char const*` so it can
 `cout`ed. Since it can be annoying to always use `first` and `second` to
 fetch the subparts of the pair, we can also use the `fuse` function to wrap
 our lambda and make it a binary lambda instead:
@@ -1555,14 +1572,14 @@ of the members, and whose values are the members themselves:
 @snippet example/tutorial/introspection.adapt.cpp at_key
 
 @note
-The `_s` user-defined literal creates a compile-time Hana `String`. It is
+The `_s` user-defined literal creates a compile-time `hana::string`. It is
 located in the `boost::hana::literals` namespace. Note that it is not part
 of the standard yet, but it is supported by Clang and GCC. If you want to
 stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
 
-The main difference between a `Struct` and a `Map` is that a `Map` can be
+The main difference between a `Struct` and a `hana::map` is that a map can be
 modified (keys can be added and removed), while a `Struct` is immutable.
-However, you can easily convert a `Struct` into a `Map` by using `to<Map>`,
+However, you can easily convert a `Struct` into a `hana::map` with `to<Map>`,
 and then you can manipulate it in a more flexible way.
 
 @snippet example/tutorial/introspection.adapt.cpp to<Map>
@@ -1582,7 +1599,7 @@ except you do not need to modify the type you want to adapt, which is
 sometimes useful. Before we move on to a concrete example of using these
 introspection features, it should also be mentioned that `struct`s can be
 adapted without using macros. This advanced interface for defining `Struct`s
-can be used to specify keys that are not compile-time `String`s and to specify
+can be used to specify keys that are not compile-time strings and to specify
 custom accessors for the members of the structure. The advanced interface is
 described in the documentation for the `Struct` concept.
 
@@ -1642,7 +1659,7 @@ Simple enough? Let's now take a look at how to print user-defined types:
 
 @snippet example/tutorial/introspection.json.cpp Struct
 
-Here, we use the `keys` method to retrieve a `Tuple` containing the names of
+Here, we use the `keys` method to retrieve a `tuple` containing the names of
 the members of the user-defined type. Then, we `transform` that sequence into
 a sequence of `"name" : member` strings, which we then `join` and enclose with
 `{}`, which is used to denote objects in JSON notation. And that's it!
@@ -1675,8 +1692,8 @@ Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
 have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
-family of functions. For example, one can create a `Range` of compile-time
-integers with `make<Range>`:
+family of functions. For example, one can create a `hana::range` of
+compile-time integers with `make<Range>`:
 
 @snippet example/tutorial/containers.cpp make<Range>
 
@@ -1690,10 +1707,10 @@ But what are these types with a capital letter that have popped up a couple of
 times in the tutorial? These types are simply tags __representing__ a given
 container. For example, `Range` is actually an empty `struct` representing the
 "conceptual type" of an object returned by `make_range`, while the actual type
-of such an object is left unspecified. These tags are very useful because they
-represent families of C++ types that are strongly related, but that are not
-required to have the same representation. These tags are documented in the
-section on [Hana's core](@ref tutorial-core-tags).
+of such an object is implementation-defined. These tags are very useful because
+they represent families of C++ types that are strongly related, but that are
+not required to have the same representation. These tags are documented in
+the section on [Hana's core](@ref tutorial-core-tags).
 
 
 @subsection tutorial-containers-elements Container elements
@@ -1723,17 +1740,21 @@ the types of Hana's containers:
 
 @snippet example/tutorial/containers.cpp types
 
-The answer is quite simple, actually. In general, you can't expect anything
-from the type of a container in Hana. This is indicated by the documentation
-of the `make` function for that container, which will return an
-[unspecified-type](@ref tutorial-glossary-unspecified_type) if the type is,
-well, unspecified. Otherwise, if the type of the container is specified, it
-will be documented properly by the return type of the `make` function for that
-container. There are several reasons for leaving the type of a container
-unspecified; they are explained in the [rationales]
-(@ref tutorial-rationales-container_types). However, leaving the type of
-containers completely unspecified makes some things very difficult to achieve,
-like overloading functions on heterogeneous containers:
+The answer is that it depends. Some containers have well defined types, while
+others do not specify their representation. In this example, the type of the
+object returned by `make_tuple` is well-defined, while the type returned by
+`make_range` is implementation-defined:
+
+@snippet example/tutorial/containers.cpp types_maximally_specified
+
+This is documented on a per-container basis; when a container has an
+implementation-defined representation, a note explaining exactly what
+can be expected from that representation is included in the container's
+description. There are several reasons for leaving the representation of
+a container unspecified; they are explained in the
+[rationales](@ref tutorial-rationales-container_representation). However,
+leaving the type of some containers unspecified makes some things very
+difficult to achieve, like overloading functions on heterogeneous containers:
 
 @code{cpp}
 template <typename T>
@@ -1741,8 +1762,8 @@ void f(std::vector<T> xs) {
   // ...
 }
 
-template <typename ...T>
-void f(unspecified-tuple-type<T...> xs) {
+template <typename ...???>
+void f(unspecified-range-type<???> r) {
   // ...
 }
 @endcode
@@ -1754,9 +1775,10 @@ rewritten as
 
 @snippet example/tutorial/containers.cpp overloading
 
-This way, the second overload of `f` will only match when `Xs` represents a
-Hana `Tuple`, regardless of the exact representation of that tuple. Of course,
-`is_a` can be used with any kind of container: `Map`, `Set`, `Range` and so on.
+This way, the second overload of `f` will only match when `R` is a type whose
+tag is `Range`, regardless of the exact representation of that range. Of
+course, `is_a` can be used with any kind of container: `Tuple`, `Map`, `Set`
+and so on.
 
 
 
@@ -1944,7 +1966,7 @@ this [lie-to-children][] is perfect for educational purposes.
 
 As you can see, the predicate is never even executed; only its result type on
 a particular object is used. Regarding the order of evaluation, consider the
-`transform` algorithm, which is specified (for `Tuple`s) as:
+`transform` algorithm, which is specified (for tuples) as:
 
 @code{cpp}
 hana::transform(hana::make_tuple(x1, ..., xn), f) == hana::make_tuple(f(x1), ..., f(xn))
@@ -2116,11 +2138,10 @@ performance regression.
 As of writing this, not all of Hana's containers are optimized. Implementing
 Hana was a big enough challenge that containers were initially written naively
 and are now in the process of being rigorously optimized. In particular, the
-associative containers (`Map` and `Set`) have a pretty bad compile-time
-behavior because of their naive implementation, and their runtime behavior
-also seems to be problematic in some cases. Improving this situation is my
-Google Summer of Code project for 2015, so you should expect these issues to
-be resolved over the course of the summer.
+associative containers (`hana::map` and `hana::set`) have a pretty bad
+compile-time behavior because of their naive implementation, and their runtime
+behavior also seems to be problematic in some cases. Improving this situation
+is in the TODO list.
 
 
 @subsection tutorial-performance-compile Compile-time performance
@@ -2449,7 +2470,7 @@ the reference documentation for external adapters is currently incomplete.
 However, for reference and until the documentation is updated, here is a list
 of the external adapters that are currently supported:
 - `std::tuple`\n
-  Models `Sequence`. It can basically be used like a Hana `Tuple`. However,
+  Models `Sequence`. It can basically be used like a `hana::tuple`. However,
   please be aware that libc++'s tuple has a couple of bugs (they were
   reported) that make this adapter buggy.
 - `std::integral_constant`\n
@@ -2458,19 +2479,19 @@ of the external adapters that are currently supported:
   Model of `Orderable`, `Comparable` and `IntegralDomain`.
 - `std::integer_sequence`\n
   Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
-  be using Hana's `Range` if you want speed, though.
+  be using `hana::range` if you want speed, though.
 - `std::pair`\n
-  Model of `Product`. This is essentially equivalent to Hana's `Pair`.
+  Model of `Product`. This is essentially equivalent to `hana::pair`.
 - `boost::mpl::vector`\n
   See `boost::hana::ext::boost::mpl::Vector`.
 - `boost::mpl::integral_c`\n
   See `boost::hana::ext::boost::mpl::IntegralC`.
 - `boost::fusion::{deque,list,tuple,vector}`\n
-  They are models of `Sequence`, and hence can be used like Hana's `Tuple`
+  They are models of `Sequence`, and hence can be used like `hana::tuple`
   in algorithms. However, Fusion has several bugs that make these adapters
   slightly explosive to use (sometimes things may fail without apparent reason).
 - `boost::tuple`\n
-  Model of `Sequence`. It can be used like Hana's `Tuple` in algorithms.
+  Model of `Sequence`. It can be used like `hana::tuple` in algorithms.
 
 
 @subsection tutorial-ext-std The standard library
@@ -2685,7 +2706,7 @@ the headers provided by the library is also available in the panel on the left
     This subdirectory contains the forward declaration of everything in the
     library. It is essentially a mirror of the `boost/hana/` directory, except
     all the headers contain only forward declarations and documentation. For
-    example, to include the `Tuple` container, one can use the
+    example, to include the `hana::tuple` container, one can use the
     `boost/hana/tuple.hpp` header. However, if one only wants the
     forward declaration of that container, the `boost/hana/fwd/tuple.hpp`
     header can be used instead. Note that forward declarations for headers
@@ -2791,17 +2812,14 @@ the left) goes as follow:
     to do anything special to get that model.
 
 - @ref group-datatypes\n
-  Documentation for all the data structures provided with the library. Since
-  most of these data structures have an unspecified type, they are documented
-  by the tag representing them (`Tuple`, `Optional`, etc.). Each data type
-  documents the concept(s) it models, and how it does so. It also documents
-  the methods tied to that data type but not to any concept, for example
-  `from_just` for `Optional`.
+  Documentation for all the data structures provided with the library. Each
+  data structure documents the concept(s) it models, and how it does so. It
+  also documents the methods tied to it but not to any concept, for example
+  `from_just` for `optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely
-  functional setting. These are currently not tied to any concept or data
-  type.
+  functional setting. These are currently not tied to any concept or container.
 
 - @ref group-ext\n
   Documentation for all the adapters for external libraries. Basically, we
@@ -2854,15 +2872,16 @@ what's being returned or taken by a function. For example, instead of
 documenting the `equal` function for `IntegralConstant`s as
 
 @f[
-  \mathtt{equal} : \mathtt{decltype(integral\_constant<T, n>)} \times
-                   \mathtt{decltype(integral\_constant<T, m>)}
-                      \to \mathtt{decltype(bool\_<n == m>)}
+  \mathtt{equal} : \mathtt{integral\_constant<T, n>} \times
+                   \mathtt{integral\_constant<T, m>}
+                      \to \mathtt{integral\_constant<bool, n == m>}
 @f]
 
-which is not really helpful, it is instead documented using the
-`IntegralConstant` tag. Note that since `equal` is part of the `Comparable`
-concept, it is not _actually_ documented for `IntegralConstant` specifically,
-but the idea is there:
+which is not really helpful (as it really presents nothing but the
+implementation), it is instead documented using the `IntegralConstant`
+tag. Note that since `equal` is part of the `Comparable` concept, it is
+not _actually_ documented for `IntegralConstant` specifically, but the
+idea is there:
 
 @f[
   \mathtt{equal} : \mathtt{IntegralConstant<T>} \times
@@ -2981,13 +3000,16 @@ This means that the documented function uses [tag dispatching]
 implementation depends on the model of the concept associated
 to the function.
 
-@anchor tutorial-glossary-unspecified_type
-#### `unspecified-type`
-This is used to express the fact that the return-type of a function is
-unspecified, and hence you should not rely on it being anything special
-beyond what is documented. Normally, the concepts satisfied by the returned
-object will be specified, because otherwise that function wouldn't be very
-useful.
+@anchor tutorial-glossary-implementation_defined
+#### `implementation-defined`
+This expresses the fact that the exact implementation of an entity (usually a
+type) should not be relied upon by users. In particular, this means that one
+can not assume anything beyond what is written explicitly in the documentation.
+Usually, the concepts satisfied by an implementation-defined entity will be
+documented, because one could otherwise do nothing with it. Concretely,
+assuming too much about an implementation-defined entity will probably
+not kill you, but it will very probably break your code when you update
+to a newer version of Hana.
 
 
 
@@ -3037,7 +3059,7 @@ compile-time performance, simply because the execution model of metaprogramming
 execution model of C++ (a processor accessing contiguous memory).
 
 
-@subsection tutorial-rationales-container_types Why leave container types unspecified?
+@subsection tutorial-rationales-container_representation Why leave some container's representation implementation-defined?
 
 First, it gives much more wiggle room for the implementation to perform
 compile-time and runtime optimizations by using clever representations for
@@ -3498,6 +3520,8 @@ modified as little as possible to work with this reimplementation.
 [Hana.issues]: https://github.com/ldionne/hana/issues
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
+[MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
+[MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType

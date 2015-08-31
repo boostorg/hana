@@ -69,8 +69,8 @@ namespace boost { namespace hana { namespace test {
                     hana::adjust_if(x, pred, f),
                     hana::transform(x, [=](auto z) {
                         return hana::eval_if(pred(z),
-                            hana::lazy(f)(z),
-                            hana::always(z)
+                            hana::make_lazy(f)(z),
+                            hana::make_lazy(z)
                         );
                     })
                 ));

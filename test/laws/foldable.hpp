@@ -61,7 +61,7 @@ namespace boost { namespace hana { namespace test {
                 ));
 
                 only_when_(hana::not_equal(hana::length(xs), size_t<0>),
-                hana::lazy([](auto f, auto xs) {
+                hana::make_lazy([](auto f, auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::fold(xs, f),
                         hana::fold_left(xs, f)

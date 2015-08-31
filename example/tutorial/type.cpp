@@ -39,10 +39,10 @@ int main() {
 {
 
 //! [tuple]
-auto types = hana::make_tuple(hana::type<int*>, hana::type<char&>, hana::type<void>);
+auto types = hana::make_tuple(hana::type_c<int*>, hana::type_c<char&>, hana::type_c<void>);
 auto char_ref = types[1_c];
 
-BOOST_HANA_CONSTANT_CHECK(char_ref == hana::type<char&>);
+BOOST_HANA_CONSTANT_CHECK(char_ref == hana::type_c<char&>);
 //! [tuple]
 
 }{
@@ -126,14 +126,14 @@ BOOST_HANA_RUNTIME_CHECK(Int == "int");
 
 //! [make_map.Hana]
 auto map = hana::make_map(
-  hana::make_pair(hana::type<char>,   "char"),
-  hana::make_pair(hana::type<int>,    "int"),
-  hana::make_pair(hana::type<long>,   "long"),
-  hana::make_pair(hana::type<float>,  "float"),
-  hana::make_pair(hana::type<double>, "double")
+  hana::make_pair(hana::type_c<char>,   "char"),
+  hana::make_pair(hana::type_c<int>,    "int"),
+  hana::make_pair(hana::type_c<long>,   "long"),
+  hana::make_pair(hana::type_c<float>,  "float"),
+  hana::make_pair(hana::type_c<double>, "double")
 );
 
-std::string Int = map[hana::type<int>];
+std::string Int = map[hana::type_c<int>];
 BOOST_HANA_RUNTIME_CHECK(Int == "int");
 //! [make_map.Hana]
 
@@ -154,13 +154,24 @@ BOOST_HANA_CONSTANT_CHECK(pointers == hana::tuple_t<int**, char*, void*>);
 }{
 
 //! [traits]
-BOOST_HANA_CONSTANT_CHECK(hana::traits::add_pointer(hana::type<int>) == hana::type<int*>);
-BOOST_HANA_CONSTANT_CHECK(hana::traits::common_type(hana::type<int>, hana::type<long>) == hana::type<long>);
-BOOST_HANA_CONSTANT_CHECK(hana::traits::is_integral(hana::type<int>));
+BOOST_HANA_CONSTANT_CHECK(hana::traits::add_pointer(hana::type_c<int>) == hana::type_c<int*>);
+BOOST_HANA_CONSTANT_CHECK(hana::traits::common_type(hana::type_c<int>, hana::type_c<long>) == hana::type_c<long>);
+BOOST_HANA_CONSTANT_CHECK(hana::traits::is_integral(hana::type_c<int>));
 
 auto types = hana::tuple_t<int, char, long>;
 BOOST_HANA_CONSTANT_CHECK(hana::all_of(types, hana::traits::is_integral));
 //! [traits]
+
+}{
+
+//! [extent]
+auto extent = [](auto t, auto n) {
+  return std::extent<typename decltype(t)::type, hana::value(n)>{};
+};
+
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char>, hana::int_<1>) == hana::size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char[1][2]>, hana::int_<1>) == hana::size_t<2>);
+//! [extent]
 
 }
 
@@ -196,7 +207,7 @@ static_assert(std::is_same<
 namespace hana_based {
 //! [smallest.Hana]
 template <typename ...T>
-auto smallest = hana::minimum(hana::make_tuple(hana::type<T>...), [](auto t, auto u) {
+auto smallest = hana::minimum(hana::make_tuple(hana::type_c<T>...), [](auto t, auto u) {
   return hana::sizeof_(t) < hana::sizeof_(u);
 });
 
@@ -218,22 +229,22 @@ static_assert(std::is_same<
 namespace metafunction1 {
 //! [metafunction1]
 template <template <typename> class F, typename T>
-constexpr auto metafunction(hana::_type<T> const&)
-{ return hana::type<typename F<T>::type>; }
+constexpr auto metafunction(hana::basic_type<T> const&)
+{ return hana::type_c<typename F<T>::type>; }
 
-auto t = hana::type<int>;
-BOOST_HANA_CONSTANT_CHECK(metafunction<std::add_pointer>(t) == hana::type<int*>);
+auto t = hana::type_c<int>;
+BOOST_HANA_CONSTANT_CHECK(metafunction<std::add_pointer>(t) == hana::type_c<int*>);
 //! [metafunction1]
 }
 
 namespace metafunction2 {
 //! [metafunction2]
 template <template <typename ...> class F, typename ...T>
-constexpr auto metafunction(hana::_type<T> const& ...)
-{ return hana::type<typename F<T...>::type>; }
+constexpr auto metafunction(hana::basic_type<T> const& ...)
+{ return hana::type_c<typename F<T...>::type>; }
 
 BOOST_HANA_CONSTANT_CHECK(
-  metafunction<std::common_type>(hana::type<int>, hana::type<long>) == hana::type<long>
+  metafunction<std::common_type>(hana::type_c<int>, hana::type_c<long>) == hana::type_c<long>
 );
 //! [metafunction2]
 }
@@ -241,11 +252,11 @@ BOOST_HANA_CONSTANT_CHECK(
 namespace _template {
 //! [template_]
 template <template <typename ...> class F, typename ...T>
-constexpr auto template_(hana::_type<T> const& ...)
-{ return hana::type<F<T...>>; }
+constexpr auto template_(hana::basic_type<T> const& ...)
+{ return hana::type_c<F<T...>>; }
 
 BOOST_HANA_CONSTANT_CHECK(
-  template_<std::vector>(hana::type<int>) == hana::type<std::vector<int>>
+  template_<std::vector>(hana::type_c<int>) == hana::type_c<std::vector<int>>
 );
 //! [template_]
 }

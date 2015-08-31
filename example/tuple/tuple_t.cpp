@@ -16,6 +16,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(
         hana::to<hana::Tuple>(hana::tuple_t<int, char, void, int(float)>)
             ==
-        hana::make<hana::Tuple>(hana::type<int>, hana::type<char>, hana::type<void>, hana::type<int(float)>)
+        hana::make<hana::Tuple>(hana::type_c<int>, hana::type_c<char>, hana::type_c<void>, hana::type_c<int(float)>)
     );
 }

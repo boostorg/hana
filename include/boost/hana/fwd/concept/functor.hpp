@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Lazy`, `Optional`, `Tuple`
+    //! `hana::lazy`, `hana::optional`, `hana::tuple`
     //!
     //!
     //! Structure-preserving functions for Functors
@@ -111,8 +111,8 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! There are several examples of such transformations, like `to<Tuple>`
-    //! when applied to an Optional. Indeed, for any function `g` and
-    //! `Optional` `opt`,
+    //! when applied to an optional value. Indeed, for any function `g` and
+    //! `hana::optional` `opt`,
     //! @code
     //!     to<Tuple>(transform(opt, g)) == transform(to<Tuple>(opt), g)
     //! @endcode

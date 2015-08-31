@@ -81,7 +81,7 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Interoperation with IntegralConstant
+    // Interoperation with hana::integral_constant
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == int_<1>);

@@ -88,7 +88,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Pair`
+    //! `hana::pair`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Product_(category_theory)

@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::IntegralConstant`.
+Forward declares `boost::hana::integral_constant`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -17,58 +17,47 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
-    //! Tag representing a compile-time value of an integral type.
+    //! Compile-time value of an integral type.
     //!
-    //! An `IntegralConstant` is an object that represents a compile-time
-    //! integral value. In fact, as the name suggests, an `IntegralConstant`
-    //! is basically equivalent to a `std::integral_constant`, except that
-    //! Hana's `IntegralConstant`s also provide other goodies to make them
-    //! easier to use. In particular, `IntegralConstant`s are guaranteed to
-    //! have the same members and capabilities as `std::integral_constant`s.
-    //! For example, `IntegralConstant`s are `constexpr`-convertible to their
-    //! underlying type, they have a nested static constant named `value`
-    //! holding their underlying value, and so on.
-    //!
-    //! > #### Rationale for not sticking with `std::integral_constant`
-    //! > First, we wanted to have arithmetic operators and other goodies,
-    //! > which is much harder if we don't use our own objects. Second, using
-    //! > `std::integral_constant` requires including the whole `<type_traits>`
-    //! > header, which is about half the size of the whole Hana library.
-    //!
-    //!
-    //! As outlined above, the interface of an `IntegralConstant` is a
-    //! superset of what's provided by `std::integral_constant`. The sections
-    //! below explain those additions.
+    //! An `integral_constant` is an object that represents a compile-time
+    //! integral value. As the name suggests, `hana::integral_constant` is
+    //! basically equivalent to `std::integral_constant`, except that
+    //! `hana::integral_constant` also provide other goodies to make them
+    //! easier to use, like arithmetic operators and similar features. In
+    //! particular, they are guaranteed to have the same members and
+    //! capabilities as `std::integral_constant`s. The sections below
+    //! explain the extensions to `std::integral_constant` provided by
+    //! `hana::integral_constant`.
     //!
     //!
     //! Arithmetic operators
     //! --------------------
-    //! `IntegralConstant` provides arithmetic operators that return
-    //! `IntegralConstant`s, so compile-time arithmetic can be done easily:
+    //! `hana::integral_constant` provides arithmetic operators that return
+    //! `hana::integral_constant`s to ease writing compile-time arithmetic:
     //! @snippet example/integral_constant.cpp operators
     //!
-    //! It is pretty important to realize that these operators return
-    //! `IntegralConstant`s, not normal values of an integral type.
+    //! It is pretty important to realize that these operators return other
+    //! `integral_constant`s, not normal values of an integral type.
     //! Actually, all those operators work pretty much in the same way.
     //! Simply put, for an operator `@`,
     //! @code
-    //!     integral_constant<T, x> @ integral_constant<T, y> == integral_constant<T, x @ y>
+    //!     integral_constant<T, x>{} @ integral_constant<T, y>{} == integral_constant<T, x @ y>{}
     //! @endcode
     //!
     //! The fact that the operators return `Constant`s is very important
     //! because it allows all the information that's known at compile-time
     //! to be conserved as long as it's only used with other values known at
     //! compile-time. It is also interesting to observe that whenever an
-    //! `IntegralConstant` is combined with a normal runtime value, the
+    //! `integral_constant` is combined with a normal runtime value, the
     //! result will be a runtime value (because of the implicit conversion).
     //! In general, this gives us the following table
     //!
-    //! left operand       | right operand      | result
-    //! :-----------------:| :----------------: | :----------------:
-    //! `IntegralConstant` | `IntegralConstant` | `IntegralConstant`
-    //! `IntegralConstant` | runtime            | runtime
-    //! runtime            | `IntegralConstant` | runtime
-    //! runtime            | runtime            | runtime
+    //! left operand        | right operand       | result
+    //! :-----------------: | :-----------------: | :-----------------:
+    //! `integral_constant` | `integral_constant` | `integral_constant`
+    //! `integral_constant` | runtime             | runtime
+    //! runtime             | `integral_constant` | runtime
+    //! runtime             | runtime             | runtime
     //!
     //! The full range of provided operators is
     //! - Arithmetic: binary `+`, binary `-`, `/`, `*`, `%`, unary `+`, unary `-`
@@ -80,8 +69,8 @@ namespace boost { namespace hana {
     //!
     //! `times` function
     //! ----------------
-    //! `IntegralConstant`s also have a static member function object named
-    //! `times`, which allows a nullary function to be invoked `n` times:
+    //! `hana::integral_constant`s also have a static member function object
+    //! named `times`, which allows a nullary function to be invoked `n` times:
     //! @code
     //!     int_<3>.times(f)
     //! @endcode
@@ -96,7 +85,7 @@ namespace boost { namespace hana {
     //! Note that `times` is really a static function object. Since static
     //! members can be accessed using both the `.` and the `::` syntax, Hana
     //! takes advantage of this (loophole?) to make `times` accessible both
-    //! from the type of an `IntegralConstant` object and from an object
+    //! from the type of an `integral_constant` object and from an object
     //! itself:
     //! @snippet example/integral_constant.cpp as_static_member
     //!
@@ -112,7 +101,7 @@ namespace boost { namespace hana {
     //! Remember that `times` is a _function object_, and hence it can have
     //! subobjects. `with_index` is then just a function object nested inside
     //! `times`, which allows for this nice little interface. Also note that
-    //! the indices passed to the function are `IntegralConstant`s; they are
+    //! the indices passed to the function are `integral_constant`s; they are
     //! known at compile-time. Hence, we can do compile-time stuff with them,
     //! like indexing inside a tuple:
     //! @snippet example/integral_constant.cpp times_with_index_compile_time
@@ -120,14 +109,14 @@ namespace boost { namespace hana {
     //! @note
     //! `times.with_index(f)` guarantees that the calls to `f` will be done in
     //! order of ascending index. In other words, `f` will be called as `f(0)`,
-    //! `f(1)`, `f(2)`, etc., but with `IntegralConstant`s instead of normal
+    //! `f(1)`, `f(2)`, etc., but with `integral_constant`s instead of normal
     //! integers. Side effects can also be done in the function passed to
     //! `.times` and `.times.with_index`.
     //!
     //!
     //! Construction with user-defined literals
     //! ---------------------------------------
-    //! `IntegralConstant`s of type `long long` can be created with the
+    //! `integral_constant`s of type `long long` can be created with the
     //! `_c` user-defined literal, which is contained in the `literals`
     //! namespace:
     //! @snippet example/integral_constant.cpp literals
@@ -136,10 +125,10 @@ namespace boost { namespace hana {
     //! Modeled concepts
     //! ----------------
     //! 1. `Constant`\n
-    //! An `IntegralConstant` is a model of the `Constant` concept in the most
-    //! obvious way possible. Specifically,
+    //! An `integral_constant` is a model of the `Constant` concept in the
+    //! most obvious way possible. Specifically,
     //! @code
-    //!     constexpr auto c = integral_constant<int, 10>;
+    //!     constexpr auto c = integral_c<int, 10>;
     //!     static_assert(value2<decltype(c)>() == 10, "");
     //! @endcode
     //!
@@ -147,6 +136,11 @@ namespace boost { namespace hana {
     //!    `Group`, `Ring`, and `IntegralDomain`\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
+    template <typename T, T v>
+    struct integral_constant;
+
+    //! Tag representing `hana::integral_constant`.
+    //! @relates hana::integral_constant
     template <typename T>
     struct IntegralConstant {
         using value_type = T;
@@ -168,10 +162,11 @@ namespace boost { namespace hana {
         };
     }
 
+    //! @cond
     template <typename T, T v>
-    struct _integral_constant : operators::adl {
+    struct integral_constant : operators::adl {
         // std::integral_constant interface
-        using type = _integral_constant;
+        using type = integral_constant;
         using value_type = T;
         static constexpr value_type value = v;
         constexpr operator value_type() const noexcept { return value; }
@@ -180,123 +175,124 @@ namespace boost { namespace hana {
         // times
         static constexpr ic_detail::times_t<T, v> times{};
 
-        using hana = _integral_constant;
+        using hana = integral_constant;
         using datatype = IntegralConstant<T>;
     };
+    //! @endcond
 
     template <bool b>
-    using _bool = _integral_constant<bool, b>;
+    using _bool = integral_constant<bool, b>;
 
     using _true = _bool<true>;
 
     using _false = _bool<false>;
 
     template <char c>
-    using _char = _integral_constant<char, c>;
+    using _char = integral_constant<char, c>;
 
     template <short i>
-    using _short = _integral_constant<short, i>;
+    using _short = integral_constant<short, i>;
 
     template <unsigned short i>
-    using _ushort = _integral_constant<unsigned short, i>;
+    using _ushort = integral_constant<unsigned short, i>;
 
     template <int i>
-    using _int = _integral_constant<int, i>;
+    using _int = integral_constant<int, i>;
 
     template <unsigned int i>
-    using _uint = _integral_constant<unsigned int, i>;
+    using _uint = integral_constant<unsigned int, i>;
 
     template <long i>
-    using _long = _integral_constant<long, i>;
+    using _long = integral_constant<long, i>;
 
     template <unsigned long i>
-    using _ulong = _integral_constant<unsigned long, i>;
+    using _ulong = integral_constant<unsigned long, i>;
 
     template <long long i>
-    using _llong = _integral_constant<long long, i>;
+    using _llong = integral_constant<long long, i>;
 
     template <unsigned long long i>
-    using _ullong = _integral_constant<unsigned long long, i>;
+    using _ullong = integral_constant<unsigned long long, i>;
 
     template <std::size_t i>
-    using _size_t = _integral_constant<std::size_t, i>;
+    using _size_t = integral_constant<std::size_t, i>;
 
-    //! Creates an `IntegralConstant` holding the given compile-time value.
-    //! @relates IntegralConstant
+    //! Creates an `integral_constant` holding the given compile-time value.
+    //! @relates hana::integral_constant
     //!
-    //! Specifically, `integral_constant<T, v>` is an `IntegralConstant`
+    //! Specifically, `integral_c<T, v>` is a `hana::integral_constant`
     //! holding the compile-time value `v` of an integral type `T`.
     //!
     //!
     //! @tparam T
-    //! The type of the value to hold in the `IntegralConstant`. It must be an
-    //! integral type.
+    //! The type of the value to hold in the `integral_constant`.
+    //! It must be an integral type.
     //!
     //! @tparam v
-    //! The integral value to hold in the `IntegralConstant`.
+    //! The integral value to hold in the `integral_constant`.
     //!
     //!
     //! Example
     //! -------
-    //! @snippet example/integral_constant.cpp integral_constant
+    //! @snippet example/integral_constant.cpp integral_c
     template <typename T, T v>
-    constexpr _integral_constant<T, v> integral_constant{};
+    constexpr integral_constant<T, v> integral_c{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <bool b>
-    constexpr _integral_constant<bool, b> bool_{};
+    constexpr integral_constant<bool, b> bool_{};
 
     //! Equivalent to `bool_<true>`.
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     constexpr auto true_ = bool_<true>;
 
     //! Equivalent to `bool_<false>`.
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     constexpr auto false_ = bool_<false>;
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <char c>
-    constexpr _integral_constant<char, c> char_{};
+    constexpr integral_constant<char, c> char_{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <short i>
-    constexpr _integral_constant<short, i> short_{};
+    constexpr integral_constant<short, i> short_{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <unsigned short i>
-    constexpr _integral_constant<unsigned short, i> ushort{};
+    constexpr integral_constant<unsigned short, i> ushort{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <int i>
-    constexpr _integral_constant<int, i> int_{};
+    constexpr integral_constant<int, i> int_{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <unsigned int i>
-    constexpr _integral_constant<unsigned int, i> uint{};
+    constexpr integral_constant<unsigned int, i> uint{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <long i>
-    constexpr _integral_constant<long, i> long_{};
+    constexpr integral_constant<long, i> long_{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <unsigned long i>
-    constexpr _integral_constant<unsigned long, i> ulong{};
+    constexpr integral_constant<unsigned long, i> ulong{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <long long i>
-    constexpr _integral_constant<long long, i> llong{};
+    constexpr integral_constant<long long, i> llong{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <unsigned long long i>
-    constexpr _integral_constant<unsigned long long, i> ullong{};
+    constexpr integral_constant<unsigned long long, i> ullong{};
 
-    //! @relates IntegralConstant
+    //! @relates hana::integral_constant
     template <std::size_t i>
-    constexpr _integral_constant<std::size_t, i> size_t{};
+    constexpr integral_constant<std::size_t, i> size_t{};
 
     namespace literals {
-        //! Creates an `IntegralConstant` from a literal.
-        //! @relatesalso boost::hana::IntegralConstant
+        //! Creates a `hana::integral_constant` from a literal.
+        //! @relatesalso boost::hana::integral_constant
         //!
         //! The literal is parsed at compile-time and the result is returned
         //! as a `llong<...>`.

@@ -35,7 +35,7 @@ BOOST_HANA_ADAPT_STRUCT(ns::Person,
     age
 );
 
-// The member names are hana::Strings:
+// The member names are hana::strings:
 auto names = hana::transform(hana::accessors<ns::Person>(), hana::first);
 BOOST_HANA_CONSTANT_CHECK(
     names == hana::make_tuple(BOOST_HANA_STRING("name"), BOOST_HANA_STRING("age"))

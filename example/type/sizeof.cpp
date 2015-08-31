@@ -10,9 +10,9 @@ namespace hana = boost::hana;
 
 
 struct X { };
-static_assert(hana::sizeof_(hana::type<X>) == sizeof(X), "");
+static_assert(hana::sizeof_(hana::type_c<X>) == sizeof(X), "");
 
 static_assert(hana::sizeof_(1) == sizeof(1), "");
-static_assert(hana::sizeof_(hana::type<int>) == sizeof(int), "");
+static_assert(hana::sizeof_(hana::type_c<int>) == sizeof(int), "");
 
 int main() {}

@@ -17,10 +17,10 @@ namespace boost { namespace hana {
     //! Insert a key in a structure.
     //!
     //! This function is not associated to a concept right now, so its
-    //! behavior can't be described generally. The `Map` and `Set` data
-    //! types and the `Sequence` concept all implement this function in
-    //! different ways, so you should refer to the documentation of `insert`
-    //! for these containers instead.
+    //! behavior can't be described generally. `hana::map`, `hana::set` and
+    //! the `Sequence` concept all implement this function in different ways,
+    //! so you should refer to the documentation of `insert` for each of
+    //! them instead.
     //!
     //!
     //! Benchmarks

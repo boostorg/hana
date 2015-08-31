@@ -15,13 +15,13 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto xs = hana::make_set(hana::int_<0>, hana::type<int>);
+    constexpr auto xs = hana::make_set(hana::int_<0>, hana::type_c<int>);
     BOOST_HANA_CONSTANT_CHECK(
         hana::insert(xs, BOOST_HANA_STRING("abc")) ==
-        hana::make_set(hana::int_<0>, hana::type<int>, BOOST_HANA_STRING("abc"))
+        hana::make_set(hana::int_<0>, hana::type_c<int>, BOOST_HANA_STRING("abc"))
     );
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::insert(xs, hana::int_<0>) == hana::make_set(hana::int_<0>, hana::type<int>)
+        hana::insert(xs, hana::int_<0>) == hana::make_set(hana::int_<0>, hana::type_c<int>)
     );
 }

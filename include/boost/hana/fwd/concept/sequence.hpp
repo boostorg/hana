@@ -145,7 +145,7 @@ namespace boost { namespace hana {
     //!
     //! Concrete models
     //! ---------------
-    //! `Tuple`
+    //! `hana::tuple`
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Isomorphism#Isomorphism_vs._bijective_morphism

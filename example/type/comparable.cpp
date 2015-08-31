@@ -13,7 +13,7 @@ namespace hana = boost::hana;
 
 struct T;
 struct U;
-BOOST_HANA_CONSTANT_CHECK(hana::type<T> == hana::type<T>);
-BOOST_HANA_CONSTANT_CHECK(hana::type<T> != hana::type<U>);
+BOOST_HANA_CONSTANT_CHECK(hana::type_c<T> == hana::type_c<T>);
+BOOST_HANA_CONSTANT_CHECK(hana::type_c<T> != hana::type_c<U>);
 
 int main() { }

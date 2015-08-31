@@ -16,12 +16,12 @@ struct f { template <typename ...> struct apply { struct type; }; };
 struct x;
 struct y;
 
-BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>() == hana::type<f::apply<>::type>);
-BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(hana::type<x>) == hana::type<f::apply<x>::type>);
-BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(hana::type<x>, hana::type<y>) == hana::type<f::apply<x, y>::type>);
+BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>() == hana::type_c<f::apply<>::type>);
+BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(hana::type_c<x>) == hana::type_c<f::apply<x>::type>);
+BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(hana::type_c<x>, hana::type_c<y>) == hana::type_c<f::apply<x, y>::type>);
 
 // calling `hana::metafunction_class` on non-Types
-BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(1) == hana::type<f::apply<int>::type>);
+BOOST_HANA_CONSTANT_CHECK(hana::metafunction_class<f>(1) == hana::type_c<f::apply<int>::type>);
 
 static_assert(std::is_same<
     decltype(hana::metafunction_class<f>)::apply<x, y>::type,

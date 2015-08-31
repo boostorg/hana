@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
                     hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<Tuple>(xs))
                 );
 
-                only_when_(hana::not_(hana::is_empty(xs)), hana::lazy([](auto xs) {
+                only_when_(hana::not_(hana::is_empty(xs)), hana::make_lazy([](auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::front(xs),
                         hana::front(hana::to<Tuple>(xs))
@@ -80,7 +80,7 @@ namespace boost { namespace hana { namespace test {
 
                 // Searchable
                 hana::eval_if(hana::is_empty(xs),
-                    hana::lazy([](auto xs) {
+                    hana::make_lazy([](auto xs) {
                         BOOST_HANA_CONSTANT_CHECK(
                             hana::not_(hana::any_of(xs, hana::always(true_)))
                         );
@@ -90,7 +90,7 @@ namespace boost { namespace hana { namespace test {
                             nothing
                         ));
                     })(xs),
-                    hana::lazy([](auto xs) {
+                    hana::make_lazy([](auto xs) {
                         BOOST_HANA_CHECK(
                             hana::any_of(xs, hana::always(true_))
                         );

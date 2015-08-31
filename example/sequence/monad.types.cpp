@@ -18,9 +18,9 @@ namespace hana = boost::hana;
 
 
 // Using the Tuple Monad, we generate all the possible combinations of
-// cv-qualifiers and reference qualifiers. Then, we use the Optional Monad
-// to make sure that our generic function can be called with arguments
-// of any of those types.
+// cv-qualifiers and reference qualifiers. Then, we use the `optional`
+// Monad to make sure that our generic function can be called with
+// arguments of any of those types.
 
 // cv_qualifiers : Type -> Tuple(Type)
 auto cv_qualifiers = [](auto t) {
@@ -40,18 +40,18 @@ auto ref_qualifiers = [](auto t) {
     );
 };
 
-auto possible_args = cv_qualifiers(hana::type<int>) | ref_qualifiers;
+auto possible_args = cv_qualifiers(hana::type_c<int>) | ref_qualifiers;
 
 BOOST_HANA_CONSTANT_CHECK(
     possible_args == hana::make_tuple(
-                        hana::type<int&>,
-                        hana::type<int&&>,
-                        hana::type<int const&>,
-                        hana::type<int const&&>,
-                        hana::type<int volatile&>,
-                        hana::type<int volatile&&>,
-                        hana::type<int const volatile&>,
-                        hana::type<int const volatile&&>
+                        hana::type_c<int&>,
+                        hana::type_c<int&&>,
+                        hana::type_c<int const&>,
+                        hana::type_c<int const&&>,
+                        hana::type_c<int volatile&>,
+                        hana::type_c<int volatile&&>,
+                        hana::type_c<int const volatile&>,
+                        hana::type_c<int const volatile&&>
                     )
 );
 

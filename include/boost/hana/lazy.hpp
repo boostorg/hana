@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::Lazy`.
+Defines `boost::hana::lazy`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
@@ -83,14 +84,18 @@ namespace boost { namespace hana {
         }
     };
 
-    //! @cond
-    template <typename X>
-    constexpr auto lazy_t::operator()(X&& x) const {
-        return lazy_value_t<typename std::decay<X>::type>{
-            static_cast<X&&>(x)
-        };
-    }
-    //! @endcond
+    //////////////////////////////////////////////////////////////////////////
+    // make<Lazy>
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct make_impl<Lazy> {
+        template <typename X>
+        static constexpr auto apply(X&& x) {
+            return lazy_value_t<typename std::decay<X>::type>{
+                static_cast<X&&>(x)
+            };
+        }
+    };
 
     //////////////////////////////////////////////////////////////////////////
     // Operators
@@ -151,9 +156,9 @@ namespace boost { namespace hana {
     struct transform_impl<Lazy> {
         template <typename Expr, typename F>
         static constexpr auto apply(Expr&& expr, F&& f) {
-            return hana::lazy(hana::compose(static_cast<F&&>(f),
-                                            hana::eval))
-                                        (static_cast<Expr&&>(expr));
+            return hana::make_lazy(hana::compose(static_cast<F&&>(f), hana::eval))(
+                static_cast<Expr&&>(expr)
+            );
         }
     };
 
@@ -173,7 +178,7 @@ namespace boost { namespace hana {
     struct ap_impl<Lazy> {
         template <typename F, typename X>
         static constexpr decltype(auto) apply(F&& f, X&& x) {
-            return hana::lazy(hana::on(hana::apply, hana::eval))(
+            return hana::make_lazy(hana::on(hana::apply, hana::eval))(
                 static_cast<F&&>(f), static_cast<X&&>(x)
             );
         }
@@ -186,7 +191,7 @@ namespace boost { namespace hana {
     struct flatten_impl<Lazy> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr) {
-            return hana::lazy(hana::compose(hana::eval, hana::eval))(
+            return hana::make_lazy(hana::compose(hana::eval, hana::eval))(
                 static_cast<Expr&&>(expr)
             );
         }
@@ -206,14 +211,14 @@ namespace boost { namespace hana {
     struct duplicate_impl<Lazy> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
-        { return hana::lazy(static_cast<Expr&&>(expr)); }
+        { return hana::make_lazy(static_cast<Expr&&>(expr)); }
     };
 
     template <>
     struct extend_impl<Lazy> {
         template <typename Expr, typename F>
         static constexpr decltype(auto) apply(Expr&& expr, F&& f) {
-            return hana::lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));
+            return hana::make_lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));
         }
     };
 }} // end namespace boost::hana

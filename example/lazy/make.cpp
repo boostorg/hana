@@ -14,11 +14,11 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = hana::lazy([](auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = hana::make<hana::Lazy>([](auto x) {
         return 1 / x;
     });
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto g = hana::lazy([](auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto g = hana::make_lazy([](auto x) {
         return x + 1;
     });
 

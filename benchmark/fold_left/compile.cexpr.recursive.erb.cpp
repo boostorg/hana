@@ -8,10 +8,10 @@ template <typename ...xs>
 struct list { };
 
 template <typename T>
-struct _type { using type = T; };
+struct basic_type { using type = T; };
 
 template <typename T>
-constexpr _type<T> type{};
+constexpr basic_type<T> type{};
 
 
 template <typename x, typename ...xs>

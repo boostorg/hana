@@ -14,8 +14,8 @@ namespace hana = boost::hana;
 
 enum Enumeration { };
 struct Structure { };
-constexpr auto e = hana::type<Enumeration>;
-constexpr auto s = hana::type<Structure>;
+constexpr auto e = hana::type_c<Enumeration>;
+constexpr auto s = hana::type_c<Structure>;
 
 int main() {
     // We just make sure that they compile. If the forwarding to `std::` is
@@ -102,7 +102,7 @@ int main() {
     hana::traits::alignment_of(s);
     hana::traits::rank(s);
     hana::traits::extent(s);
-    hana::traits::extent(hana::type<int[2][3]>, hana::uint<1>);
+    hana::traits::extent(hana::type_c<int[2][3]>, hana::uint<1>);
 
     // Type relationships
     hana::traits::is_same(s, s);
@@ -131,8 +131,8 @@ int main() {
     hana::traits::add_pointer(s);
 
     // Sign modifiers
-    hana::traits::make_signed(hana::type<unsigned>);
-    hana::traits::make_unsigned(hana::type<signed>);
+    hana::traits::make_signed(hana::type_c<unsigned>);
+    hana::traits::make_unsigned(hana::type_c<signed>);
 
     // Arrays
     hana::traits::remove_extent(s);
@@ -147,5 +147,5 @@ int main() {
     hana::traits::common_type(s, s);
     hana::traits::underlying_type(e);
     using FunctionPointer = void(*)();
-    hana::traits::result_of(hana::type<FunctionPointer(void)>);
+    hana::traits::result_of(hana::type_c<FunctionPointer(void)>);
 }

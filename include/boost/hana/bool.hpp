@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `Logical` and `Comparable` models of `boost::hana::IntegralConstant`.
+Defines the `Logical` and `Comparable` models of `boost::hana::integral_constant`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
 
             template <typename F>
             static constexpr void with_index(F&& f)
-            { (void)swallow{T{}, ((void)f(_integral_constant<T, i>{}), i)...}; }
+            { (void)swallow{T{}, ((void)f(integral_constant<T, i>{}), i)...}; }
 
             template <typename F>
             static constexpr void without_index(F&& f)
@@ -69,10 +69,10 @@ namespace boost { namespace hana {
 
     // avoid link-time error
     template <typename T, T v>
-    constexpr ic_detail::times_t<T, v> _integral_constant<T, v>::times;
+    constexpr ic_detail::times_t<T, v> integral_constant<T, v>::times;
 
     template <typename T, T v>
-    struct datatype<_integral_constant<T, v>> {
+    struct datatype<integral_constant<T, v>> {
         using type = IntegralConstant<T>;
     };
     //! @endcond
@@ -101,15 +101,15 @@ namespace boost { namespace hana {
 
 #define BOOST_HANA_INTEGRAL_CONSTANT_BINARY_OP(op)                          \
     template <typename U, U u, typename V, V v>                             \
-    constexpr _integral_constant<decltype(u op v), (u op v)>                \
-    operator op(_integral_constant<U, u>, _integral_constant<V, v>)         \
+    constexpr integral_constant<decltype(u op v), (u op v)>                 \
+    operator op(integral_constant<U, u>, integral_constant<V, v>)           \
     { return {}; }                                                          \
     /**/
 
 #define BOOST_HANA_INTEGRAL_CONSTANT_UNARY_OP(op)                           \
     template <typename U, U u>                                              \
-    constexpr _integral_constant<decltype(op u), (op u)>                    \
-    operator op(_integral_constant<U, u>)                                   \
+    constexpr integral_constant<decltype(op u), (op u)>                     \
+    operator op(integral_constant<U, u>)                                    \
     { return {}; }                                                          \
     /**/
 
@@ -170,13 +170,13 @@ namespace boost { namespace hana {
         : embedding<is_embedded<typename C::value_type, T>::value>
     {
         static_assert(std::is_integral<T>::value,
-        "trying to convert a Constant to an IntegralConstant of a non-integral "
-        "type; boost::hana::IntegralConstant may only hold integral types");
+        "trying to convert a Constant to an integral_constant of a non-integral "
+        "type; hana::integral_constant may only hold integral types");
 
         template <typename X>
         static constexpr auto apply(X const&) {
             constexpr T v = hana::value<X>();
-            return _integral_constant<T, v>{};
+            return integral_constant<T, v>{};
         }
     };
 

@@ -19,13 +19,13 @@ using namespace std::literals;
 
 int main() {
     // Tuples
-    auto xs = hana::make_tuple(hana::int_<1>, "alfa"s, hana::type<int>);
-    auto ys = hana::make_tuple(hana::type<void>, hana::int_<3>, "bravo"s);
+    auto xs = hana::make_tuple(hana::int_<1>, "alfa"s, hana::type_c<int>);
+    auto ys = hana::make_tuple(hana::type_c<void>, hana::int_<3>, "bravo"s);
     BOOST_HANA_RUNTIME_CHECK(hana::is_disjoint(xs, ys));
 
     // Sets
-    auto s1 = hana::make_set(hana::int_<1>, hana::type<void>, hana::int_<2>);
-    auto s2 = hana::make_set(hana::type<char>, hana::type<int>, hana::int_<1>);
+    auto s1 = hana::make_set(hana::int_<1>, hana::type_c<void>, hana::int_<2>);
+    auto s2 = hana::make_set(hana::type_c<char>, hana::type_c<int>, hana::int_<1>);
     BOOST_HANA_CONSTANT_CHECK(!hana::is_disjoint(s1, s2));
 
     // Maps
