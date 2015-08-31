@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! @ingroup group-concepts
     //! Returns a `Logical` representing whether `x` is less than `y`.
     //! @relates Orderable
     //!
