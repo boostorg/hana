@@ -1158,8 +1158,8 @@ constexpr auto add_lvalue_reference(hana::basic_type<T> const&)
 // etc...
 @endcode
 
-This mechanical transformation is easy to abstract into a generic metafunction
-lifter as follows:
+This mechanical transformation is easy to abstract into a generic lifter
+that can handle any [MPL Metafunction][MPL.metafunction] as follows:
 
 @snippet example/tutorial/type.cpp metafunction1
 
@@ -1171,13 +1171,15 @@ arguments, which brings us to the following less naive implementation:
 Hana provides a similar generic metafunction lifter called `hana::metafunction`.
 One small improvement is that `hana::metafunction<F>` is a function object
 instead of an overloaded function, so one can pass it to higher-order
-algorithms. The process we explored in this section does not only apply
-to metafunctions; it also applies to templates. Indeed, we could define:
+algorithms. It is also a model of the slightly more powerful concept of
+`Metafunction`, but this can safely be ignored for now. The process we
+explored in this section does not only apply to metafunctions; it also
+applies to templates. Indeed, we could define:
 
 @snippet example/tutorial/type.cpp template_
 
 Hana provides a generic lifter for templates named `hana::template_`, and it
-also provides a generic lifter for MPL metafunction classes named
+also provides a generic lifter for [MPL MetafunctionClasses][MPL.mfc] named
 `hana::metafunction_class`. This gives us a way to uniformly represent "legacy"
 type-level computations as functions, so that any code written using a classic
 type-level metaprogramming library can almost trivially be used with Hana. For
@@ -1195,9 +1197,19 @@ auto types = hana::make_tuple(...);
 auto use = hana::transform(types, hana::metafunction<legacy>);
 @endcode
 
-Finally, since metafunctions provided by the `<type_traits>` header are used
-so frequently, Hana provides a lifted version for every one of them. Those
-lifted traits are in the `hana::traits` namespace, and they live in the
+However, note that not all type-level computations can be lifted as-is with
+the tools provided by Hana. For example, `std::extent` can't be lifted because
+it requires non-type template parameters. Since there is no way to deal with
+non-type template parameters uniformly in C++, one must resort to using a
+hand-written function object specific to that type-level computation:
+
+@snippet example/tutorial/type.cpp extent
+
+In practice, however, this should not be a problem since the vast majority
+of type-level computations can be lifted easily. Finally, since metafunctions
+provided by the `<type_traits>` header are used so frequently, Hana provides
+a lifted version for every one of them. Those lifted traits are in the
+`hana::traits` namespace, and they live in the
 `<boost/hana/ext/std/type_traits.hpp>` header:
 
 @snippet example/tutorial/type.cpp traits
@@ -3501,6 +3513,8 @@ modified as little as possible to work with this reimplementation.
 [Hana.issues]: https://github.com/ldionne/hana/issues
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
+[MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
+[MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
 [MPL11]: http://github.com/ldionne/mpl11
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType

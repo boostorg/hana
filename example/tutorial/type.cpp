@@ -162,6 +162,17 @@ auto types = hana::tuple_t<int, char, long>;
 BOOST_HANA_CONSTANT_CHECK(hana::all_of(types, hana::traits::is_integral));
 //! [traits]
 
+}{
+
+//! [extent]
+auto extent = [](auto t, auto n) {
+  return std::extent<typename decltype(t)::type, hana::value(n)>{};
+};
+
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char>, hana::int_<1>) == hana::size_t<0>);
+BOOST_HANA_CONSTANT_CHECK(extent(hana::type_c<char[1][2]>, hana::int_<1>) == hana::size_t<2>);
+//! [extent]
+
 }
 
 }

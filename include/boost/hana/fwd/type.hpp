@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares `boost::hana::type` and `boost::hana::Metafunction`.
+Forward declares `boost::hana::type` and related utilities.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -294,111 +294,6 @@ namespace boost { namespace hana {
 
     constexpr is_valid_t is_valid{};
 #endif
-
-    //! @ingroup group-datatypes
-    //! A `Metafunction` is a function that takes `type`s as inputs and
-    //! returns a `type` as output.
-    //!
-    //! Hana provides adapters for representing several different kinds of
-    //! metafunctions in a unified way, as normal C++ functions. The general
-    //! process is always essentially the same. For example, given a MPL
-    //! metafunction, we can create a normal C++ function that takes `type`s
-    //! and returns a `type` containing the result of that metafunction:
-    //! @code
-    //!     template <template <typename ...> class F>
-    //!     struct metafunction_t {
-    //!         template <typename ...T>
-    //!         constexpr auto operator()(basic_type<T> const& ...) const {
-    //!             return hana::type_c<typename F<T...>::type>;
-    //!         }
-    //!     };
-    //!
-    //!     template <template <typename ...> class F>
-    //!     constexpr metafunction_t<F> metafunction{};
-    //! @endcode
-    //!
-    //! The variable template is just for convenience, so we can write
-    //! `metafunction<F>` instead of `metafunction_t<F>{}`, but they are
-    //! otherwise equivalent. With the above construct, it becomes possible
-    //! to perform type computations with the usual function call syntax, by
-    //! simply wrapping our classic metafunctions into a `metafunction` object:
-    //! @code
-    //!     constexpr auto add_pointer = metafunction<std::add_pointer>;
-    //!     static_assert(add_pointer(type_c<int>) == type_c<int*>, "");
-    //! @endcode
-    //!
-    //! While this covers only classical MPL-style metafunctions, Hana
-    //! provides wrappers for several constructs that are commonly used
-    //! to embed type computations: template aliases and MPL-style
-    //! metafunction classes. A type computation wrapped into such a
-    //! construct is what Hana calls a `Metafunction`. However, note that
-    //! not all metafunctions can be lifted this way. For example,
-    //! `std::aligned_storage` can't be lifted because it requires non-type
-    //! template parameters. Since there is no uniform way of dealing with
-    //! non-type template parameters, one must resort to using e.g. an
-    //! inline lambda to "lift" those metafunctions. In practice, however,
-    //! this should not be a problem.
-    //!
-    //! __Example of a non-liftable metafunction__
-    //! @snippet example/type/non_liftable_metafunction.cpp extent
-    //!
-    //!
-    //! In addition to being Callable, `Metafunction`s provide a nested `apply`
-    //! template which allows performing the same type-level computation as
-    //! is done by the call operator. In Boost.MPL parlance, a `Metafunction`
-    //! `F` is also a Boost.MPL MetafunctionClass in addition to being a
-    //! function on `type`s. In other words again, a `Metafunction` `f`
-    //! will satisfy:
-    //! @code
-    //!     f(type_c<T>...) == type_c<decltype(f)::apply<T...>::type>
-    //! @endcode
-    //!
-    //! But that is not all. To ease the inter-operation of values and types,
-    //! `Metafunction`s also allow being called with arguments that are not
-    //! `type`s. In that case, the result is equivalent to calling the
-    //! metafunction on the result of `decltype_`ing the arguments.
-    //! Specifically, given a `Metafunction` `f` and arbitrary (`type` or
-    //! non-`type`) objects `x...`,
-    //! @code
-    //!     f(x...) == f(decltype_(x)...)
-    //! @endcode
-    //!
-    //! So `f` is called with the type of its arguments, but since `decltype_`
-    //! is just the identity for `type`s, only non-`type`s are lifted to
-    //! the `type` level.
-    //!
-    //!
-    //! Rationale: Why aren't `Metafunction`s `Comparable`?
-    //! ---------------------------------------------------
-    //! When seeing `hana::template_`, a question that naturally arises is
-    //! whether `Metafunction`s should be made `Comparable`. Indeed, it would
-    //! seem to make sense to compare two templates `F` and `G` with
-    //! `template_<F> == template_<G>`. However, in the case where `F` and/or
-    //! `G` are alias templates, it makes sense to talk about two types of
-    //! comparisons. The first one is _shallow_ comparison, and it determines
-    //! that two alias templates are equal if they are the same alias template.
-    //! The second one is _deep_ comparison, and it determines that two template
-    //! aliases are equal if they alias the same type for any template argument.
-    //! For example, given `F` and `G` defined as
-    //! @code
-    //!     template <typename T>
-    //!     using F = void;
-    //!
-    //!     template <typename T>
-    //!     using G = void;
-    //! @endcode
-    //!
-    //! shallow comparison would determine that `F` and `G` are different
-    //! because they are two different template aliases, while deep comparison
-    //! would determine that `F` and `G` are equal because they always
-    //! expand to the same type, `void`. Unfortunately, deep comparison is
-    //! impossible to implement because one would have to check `F` and `G`
-    //! on all possible types. On the other hand, shallow comparison is not
-    //! satisfactory because `Metafunction`s are nothing but functions on
-    //! `type`s, and the equality of two functions is normally defined with
-    //! deep comparison. Hence, we adopt a conservative stance and avoid
-    //! providing comparison for `Metafunction`s.
-    struct Metafunction { };
 
     //! Lift a template to a Metafunction.
     //! @relates Metafunction

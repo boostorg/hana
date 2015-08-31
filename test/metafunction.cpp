@@ -4,11 +4,11 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
-#include <boost/hana/type.hpp>
-
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/metafunction.hpp>
+#include <boost/hana/core/models.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/type.hpp>
 
 #include <type_traits>
 using namespace boost::hana;
@@ -44,6 +44,9 @@ namespace tc1 {
     // Make sure we don't read from a non-constexpr variable
     auto t = type_c<x1>;
     constexpr auto r = metafunction<f>(t);
+
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction<f>));
 
     // `metafunction` with non-Type arguments
     // 1 arg
@@ -127,6 +130,9 @@ namespace tc2 {
     auto t = type_c<x1>;
     constexpr auto r = metafunction_class<f>(t);
 
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction_class<f>));
+
     // `metafunction_class` with non-Type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
@@ -199,6 +205,9 @@ namespace tc3 {
     static_assert(std::is_same<F::apply<x1>::type, f<x1>>{}, "");
     static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>{}, "");
     static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
+
+    // Make sure we model the Metafunction concept
+    BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(template_<f>));
 
     // `template_` with non-Type arguments
     // 1 arg

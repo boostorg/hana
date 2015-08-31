@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::type` and `boost::hana::Metafunction`.
+Defines `boost::hana::type` and related utilities.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -15,7 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
+#include <boost/hana/fwd/concept/metafunction.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 
@@ -132,9 +134,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
     struct template_t {
-        using hana = template_t;
-        using datatype = Metafunction;
-
         template <typename ...T>
         struct apply {
             using type = F<T...>;
@@ -150,9 +149,6 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
     struct metafunction_t {
-        using hana = metafunction_t;
-        using datatype = Metafunction;
-
         template <typename ...T>
         using apply = F<T...>;
 
@@ -160,6 +156,24 @@ namespace boost { namespace hana {
         constexpr auto operator()(T&& ...) const -> boost::hana::type<
             typename F<typename detail::decltype_t<T>::type...>::type
         > { return {}; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // models
+    //////////////////////////////////////////////////////////////////////////
+    template <template <typename ...> class F>
+    struct models_impl<Metafunction, template_t<F>> {
+        static constexpr bool value = true;
+    };
+
+    template <template <typename ...> class F>
+    struct models_impl<Metafunction, metafunction_t<F>> {
+        static constexpr bool value = true;
+    };
+
+    template <typename F>
+    struct models_impl<Metafunction, metafunction_class_t<F>> {
+        static constexpr bool value = true;
     };
 
     //////////////////////////////////////////////////////////////////////////
