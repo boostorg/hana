@@ -49,7 +49,7 @@ namespace boost { namespace hana {
     //! @include example/struct/keys.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& object) {
-        return unspecified-type;
+        return implementation-defined;
     };
 #endif
 }} // end namespace boost::hana

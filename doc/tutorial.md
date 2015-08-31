@@ -1740,17 +1740,21 @@ the types of Hana's containers:
 
 @snippet example/tutorial/containers.cpp types
 
-The answer is quite simple, actually. In general, you can't expect anything
-from the type of a container in Hana. This is indicated by the documentation
-of the `make` function for that container, which will return an
-[unspecified-type](@ref tutorial-glossary-unspecified_type) if the type is,
-well, unspecified. Otherwise, if the type of the container is specified, it
-will be documented properly by the return type of the `make` function for that
-container. There are several reasons for leaving the type of a container
-unspecified; they are explained in the [rationales]
-(@ref tutorial-rationales-container_types). However, leaving the type of
-containers completely unspecified makes some things very difficult to achieve,
-like overloading functions on heterogeneous containers:
+The answer is that it depends. Some containers have well defined types, while
+others do not specify their representation. In this example, the type of the
+object returned by `make_tuple` is well-defined, while the type returned by
+`make_range` is implementation-defined:
+
+@snippet example/tutorial/containers.cpp types_maximally_specified
+
+This is documented on a per-container basis; when a container has an
+implementation-defined representation, a note explaining exactly what
+can be expected from that representation is included in the container's
+description. There are several reasons for leaving the representation of
+a container unspecified; they are explained in the
+[rationales](@ref tutorial-rationales-container_representation). However,
+leaving the type of some containers unspecified makes some things very
+difficult to achieve, like overloading functions on heterogeneous containers:
 
 @code{cpp}
 template <typename T>
@@ -1758,8 +1762,8 @@ void f(std::vector<T> xs) {
   // ...
 }
 
-template <typename ...T>
-void f(unspecified-tuple-type<T...> xs) {
+template <typename ...???>
+void f(unspecified-range-type<???> r) {
   // ...
 }
 @endcode
@@ -1771,9 +1775,9 @@ rewritten as
 
 @snippet example/tutorial/containers.cpp overloading
 
-This way, the second overload of `f` will only match when `Xs` is a container
-whose tag is `Tuple`, regardless of the exact representation of that tuple. Of
-course, `is_a` can be used with any kind of container: `Map`, `Set`, `Range`
+This way, the second overload of `f` will only match when `R` is a type whose
+tag is `Range`, regardless of the exact representation of that range. Of
+course, `is_a` can be used with any kind of container: `Tuple`, `Map`, `Set`
 and so on.
 
 
@@ -2996,13 +3000,16 @@ This means that the documented function uses [tag dispatching]
 implementation depends on the model of the concept associated
 to the function.
 
-@anchor tutorial-glossary-unspecified_type
-#### `unspecified-type`
-This is used to express the fact that the return-type of a function is
-unspecified, and hence you should not rely on it being anything special
-beyond what is documented. Normally, the concepts satisfied by the returned
-object will be specified, because otherwise that function wouldn't be very
-useful.
+@anchor tutorial-glossary-implementation_defined
+#### `implementation-defined`
+This expresses the fact that the exact implementation of an entity (usually a
+type) should not be relied upon by users. In particular, this means that one
+can not assume anything beyond what is written explicitly in the documentation.
+Usually, the concepts satisfied by an implementation-defined entity will be
+documented, because one could otherwise do nothing with it. Concretely,
+assuming too much about an implementation-defined entity will probably
+not kill you, but it will very probably break your code when you update
+to a newer version of Hana.
 
 
 
@@ -3052,7 +3059,7 @@ compile-time performance, simply because the execution model of metaprogramming
 execution model of C++ (a processor accessing contiguous memory).
 
 
-@subsection tutorial-rationales-container_types Why leave container types unspecified?
+@subsection tutorial-rationales-container_representation Why leave some container's representation implementation-defined?
 
 First, it gives much more wiggle room for the implementation to perform
 compile-time and runtime optimizations by using clever representations for

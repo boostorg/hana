@@ -103,7 +103,7 @@ namespace boost { namespace hana {
     //! @include example/map/keys.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& map) -> decltype(auto) {
-        return unspecified-type;
+        return implementation-defined;
     };
 #endif
 
@@ -116,7 +116,7 @@ namespace boost { namespace hana {
     //! @include example/map/values.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto values = [](auto&& map) -> decltype(auto) {
-        return unspecified-type;
+        return implementation-defined;
     };
 #else
     struct values_t {

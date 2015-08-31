@@ -71,6 +71,16 @@ auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
 (void)xs;
 (void)ints;
 
+}{
+
+//! [types_maximally_specified]
+hana::tuple<int, char, char const*> xs = hana::make_tuple(1, '2', "345");
+auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
+// can't specify the type of ints, however
+//! [types_maximally_specified]
+(void)xs;
+(void)ints;
+
 }
 
 }
@@ -83,8 +93,8 @@ void f(std::vector<T> xs) {
   // ...
 }
 
-template <typename Xs, typename = std::enable_if_t<hana::is_a<hana::Tuple, Xs>()>>
-void f(Xs xs) {
+template <typename R, typename = std::enable_if_t<hana::is_a<hana::Range, R>()>>
+void f(R r) {
   // ...
 }
 //! [overloading]

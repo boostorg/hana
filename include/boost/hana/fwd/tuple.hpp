@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     //! @include example/tuple/tuple_t.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...T>
-    constexpr unspecified-type tuple_t{};
+    constexpr implementation-defined tuple_t{};
 #else
     template <typename ...T>
     constexpr auto tuple_t = hana::make<Tuple>(hana::type<T>{}...);
@@ -177,7 +177,7 @@ namespace boost { namespace hana {
     //! @include example/tuple/tuple_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T ...v>
-    constexpr unspecified-type tuple_c{};
+    constexpr implementation-defined tuple_c{};
 #else
     template <typename T, T ...v>
     constexpr auto tuple_c = hana::make_tuple(hana::integral_constant<T, v>{}...);
