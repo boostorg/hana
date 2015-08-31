@@ -66,6 +66,7 @@ namespace boost { namespace hana {
 #include <boost/hana/chain.hpp>
 #include <boost/hana/comparing.hpp>
 #include <boost/hana/concat.hpp>
+#include <boost/hana/concept.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core.hpp>
