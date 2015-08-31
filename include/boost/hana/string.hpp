@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -56,6 +57,17 @@ namespace boost { namespace hana {
     template <char ...s>
     struct datatype<string<s...>> {
         using type = String;
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // make<String>
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct make_impl<String> {
+        template <typename ...Chars>
+        static constexpr auto apply(Chars const& ...) {
+            return hana::string<hana::value<Chars>()...>{};
+        }
     };
 
     //////////////////////////////////////////////////////////////////////////

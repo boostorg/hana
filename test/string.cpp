@@ -53,6 +53,37 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
+    // make<String>
+    //////////////////////////////////////////////////////////////////////////
+    {
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make<String>(),
+            string_c<>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make<String>(char_<'a'>),
+            string_c<'a'>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make<String>(char_<'a'>, char_<'b'>),
+            string_c<'a', 'b'>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make<String>(char_<'a'>, char_<'b'>, char_<'c'>),
+            string_c<'a', 'b', 'c'>
+        ));
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make<String>(char_<'a'>, char_<'b'>, char_<'c'>, char_<'d'>),
+            string_c<'a', 'b', 'c', 'd'>
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make_string(char_<'a'>, char_<'b'>, char_<'c'>),
+            make<String>(char_<'a'>, char_<'b'>, char_<'c'>)
+        ));
+    }
+
+    //////////////////////////////////////////////////////////////////////////
     // to<char const*>
     //////////////////////////////////////////////////////////////////////////
     {

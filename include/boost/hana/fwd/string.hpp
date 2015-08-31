@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_STRING_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/fwd/core/make.hpp>
 
 
 namespace boost { namespace hana {
@@ -97,6 +98,30 @@ namespace boost { namespace hana {
     //! Tag representing a compile-time string.
     //! @relates hana::string
     struct String { };
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    //! Create a compile-time `hana::string` from a parameter pack of `char`
+    //! `integral_constant`s.
+    //! @relates hana::string
+    //!
+    //! Given zero or more `integral_constant`s of underlying type `char`,
+    //! `make<String>` creates a `hana::string` containing those characters.
+    //! This is provided mostly for consistency with the rest of the library,
+    //! as `hana::string_c` is more convenient to use in most cases.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/string/make.cpp
+    template <>
+    constexpr auto make<String> = [](auto&& ...chars) {
+        return string<implementation-defined>{};
+    };
+#endif
+
+    //! Alias to `make<String>`; provided for convenience.
+    //! @relates hana::string
+    constexpr auto make_string = make<String>;
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates hana::string
