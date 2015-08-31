@@ -56,6 +56,17 @@ if (NOT Boost_FOUND)
     )
 endif()
 
+# The following examples seem to fail under Clang++ 3.5.2 on Cygwin
+if (CYGWIN)
+    boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
+        "ap.cpp"                                # constexpr error
+        #"functional/overload_linearly.cpp"      # uses exceptions
+        "tutorial/introspection.json.cpp"       # no to_string in namespace std
+        "wandbox.cpp"                           # no to_string in namespace std
+    )
+    message("The examples (ap, wandbox, and tutorial/introspection.json) are omitted on Cygwin.")
+endif()
+
 
 ##############################################################################
 # Setup the `wandbox` target, which uploads the whole library along with the

@@ -11,6 +11,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_HPP
 #define BOOST_HANA_HPP
 
+// Check the compiler for general C++14 capabilities
+#if (__cplusplus < 201400)
+#error "\
+Your compiler doesn't provide C++14 or higher capabilities. \
+Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
+#endif
+
 //! @defgroup group-concepts Concepts
 //! Concepts provided by the library.
 

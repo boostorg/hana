@@ -4,6 +4,13 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#ifdef __EXCEPTIONS
+#  define THROW_OR_ABORT throw
+#else
+#include <cstdlib>
+#  define THROW_OR_ABORT std::abort()
+#endif
+
 #include <boost/hana.hpp>
 
 #include <test/numeric.hpp>
@@ -27,7 +34,7 @@ using namespace boost::hana;
 
 struct invalid {
     template <typename T>
-    operator T const() { throw; }
+    operator T const() { THROW_OR_ABORT; }
 };
 
 int main() {

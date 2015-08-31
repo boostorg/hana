@@ -53,7 +53,9 @@ namespace boost { namespace hana { namespace traits {
     constexpr auto is_const = trait<std::is_const>;
     constexpr auto is_volatile = trait<std::is_volatile>;
     constexpr auto is_trivial = trait<std::is_trivial>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_copyable = trait<std::is_trivially_copyable>;
+#endif
     constexpr auto is_standard_layout = trait<std::is_standard_layout>;
     constexpr auto is_pod = trait<std::is_pod>;
     constexpr auto is_literal_type = trait<std::is_literal_type>;
@@ -65,31 +67,45 @@ namespace boost { namespace hana { namespace traits {
 
     // Supported operations
     constexpr auto is_constructible = trait<std::is_constructible>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_constructible = trait<std::is_trivially_constructible>;
+#endif
     constexpr auto is_nothrow_constructible = trait<std::is_nothrow_constructible>;
 
     constexpr auto is_default_constructible = trait<std::is_default_constructible>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_default_constructible = trait<std::is_trivially_default_constructible>;
+#endif
     constexpr auto is_nothrow_default_constructible = trait<std::is_nothrow_default_constructible>;
 
     constexpr auto is_copy_constructible = trait<std::is_copy_constructible>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_copy_constructible = trait<std::is_trivially_copy_constructible>;
+#endif
     constexpr auto is_nothrow_copy_constructible = trait<std::is_nothrow_copy_constructible>;
 
     constexpr auto is_move_constructible = trait<std::is_move_constructible>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_move_constructible = trait<std::is_trivially_move_constructible>;
+#endif
     constexpr auto is_nothrow_move_constructible = trait<std::is_nothrow_move_constructible>;
 
     constexpr auto is_assignable = trait<std::is_assignable>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_assignable = trait<std::is_trivially_assignable>;
+#endif
     constexpr auto is_nothrow_assignable = trait<std::is_nothrow_assignable>;
 
     constexpr auto is_copy_assignable = trait<std::is_copy_assignable>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_copy_assignable = trait<std::is_trivially_copy_assignable>;
+#endif
     constexpr auto is_nothrow_copy_assignable = trait<std::is_nothrow_copy_assignable>;
 
     constexpr auto is_move_assignable = trait<std::is_move_assignable>;
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr auto is_trivially_move_assignable = trait<std::is_trivially_move_assignable>;
+#endif
     constexpr auto is_nothrow_move_assignable = trait<std::is_nothrow_move_assignable>;
 
     constexpr auto is_destructible = trait<std::is_destructible>;
@@ -168,6 +184,7 @@ namespace boost { namespace hana { namespace traits {
         }
     } aligned_storage{};
 
+#ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     constexpr struct aligned_union_t {
         template <typename Len, typename ...T>
         constexpr auto operator()(Len const&, T&&...) const {
@@ -178,6 +195,7 @@ namespace boost { namespace hana { namespace traits {
             return hana::type_c<Result>;
         }
     } aligned_union{};
+#endif
 
     constexpr auto decay = metafunction<std::decay>;
     // enable_if
