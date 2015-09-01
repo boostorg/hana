@@ -160,29 +160,29 @@ Since <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="Th
 <h2>Concrete models </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code>, <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code>, <code><a class="el" href="structboost_1_1hana_1_1tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">hana::tuple</a></code></p>
 <h2>Free model for <code>LessThanComparable</code> data types </h2>
-<p>Two data types <code>T</code> and <code>U</code> that model the cross-type version of the usual <a href="http://en.cppreference.com/w/cpp/concept/LessThanComparable">LessThanComparable</a> C++ concept are automatically a model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> by setting </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y) = (x &lt; y)</div>
+<p>Two data types <code>T</code> and <code>U</code> that model the cross-type version of the usual <a href="http://en.cppreference.com/w/cpp/concept/LessThanComparable">LessThanComparable</a> C++ concept are automatically a model of <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y) = (x &lt; y)</div>
 </div><!-- fragment --><p> The cross-type version of the LessThanComparable concept is analogous to the cross-type version of the EqualityComparable concept presented in <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a>, which is compatible with the usual single type definition. However, note that the LessThanComparable concept only requires <code>&lt;</code> to be a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a>, which is a weaker requirement than being a total order. Hence, if <code>less</code> is used with objects of a LessThanComparable data type that do not define a total order, some algorithms may have an unexpected behavior. It is the author's opinion that defining <code>operator&lt;</code> as a non-total order is a bad idea, but this is debatable and so the design choice of providing a model for LessThanComparable data types is open to debate. Waiting for some user input.</p>
 <h2>Order-preserving functions </h2>
-<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> data types. A function \( f : A \to B\) is said to be order-preserving (also called monotone) if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x</code>, <code>y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  then  <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
-</div><!-- fragment --><p> Another important property is that of being order-reflecting, which can be stated as </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))  then  <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
-</div><!-- fragment --><p> We say that a function is an order-embedding if it is both order-preserving and order-reflecting, i.e. if </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  if and only if  <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
+<p>Let <code>A</code> and <code>B</code> be two <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> data types. A function \( f : A \to B\) is said to be order-preserving (also called monotone) if it preserves the structure of the <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept, which can be rigorously stated as follows. For all objects <code>x</code>, <code>y</code> of data type <code>A</code>, </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  then  <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
+</div><!-- fragment --><p> Another important property is that of being order-reflecting, which can be stated as </p><div class="fragment"><div class="line"><span class="keywordflow">if</span>  <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))  then  <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
+</div><!-- fragment --><p> We say that a function is an order-embedding if it is both order-preserving and order-reflecting, i.e. if </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)  if and only if  <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
 </div><!-- fragment --><h2>Cross-type version of the methods </h2>
 <p>The comparison methods (<code>less</code>, <code>less_equal</code>, <code>greater</code> and <code>greater_equal</code>) are "overloaded" to handle distinct data types with certain properties. Specifically, they are defined for <em>distinct</em> data types <code>A</code> and <code>B</code> such that</p><ol type="1">
 <li><code>A</code> and <code>B</code> share a common data type <code>C</code>, as determined by the <code>common</code> metafunction</li>
 <li><code>A</code>, <code>B</code> and <code>C</code> are all <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> when taken individually</li>
 <li>\(\mathrm{to&lt;C&gt;} : A \to C\) and \(\mathrm{to&lt;C&gt;} : B \to C\) are both order-embeddings as determined by the <code>is_embedding</code> metafunction.</li>
 </ol>
-<p>The method definitions for data types satisfying the above properties are </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)          = <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
+<p>The method definitions for data types satisfying the above properties are </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)          = <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(x, y)    = <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(x, y) = <a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(x, y)       = <a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(x), <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;C&gt;(y))</div>
 </div><!-- fragment --><h2>Partial application of the methods </h2>
-<p>The <code>less</code>, <code>greater</code>, <code>less_equal</code> and <code>greater_equal</code> methods can be called in two different ways. First, they can be called like normal functions: </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
+<p>The <code>less</code>, <code>greater</code>, <code>less_equal</code> and <code>greater_equal</code> methods can be called in two different ways. First, they can be called like normal functions: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(x, y)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(x, y)</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(x, y)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a>(x, y)</div>
-</div><!-- fragment --><p>However, they may also be partially applied to an argument as follows: </p><div class="fragment"><div class="line"><a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>.than(x)(y)    == <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(y, x)</div>
+</div><!-- fragment --><p>However, they may also be partially applied to an argument as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>.than(x)(y)    == <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(y, x)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>.than(x)(y) == <a class="code" href="structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc">greater</a>(y, x)</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>.than(x)(y)    == <a class="code" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a>(y, x)</div>
@@ -197,9 +197,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a062300116ac52000449518ec546e65a3"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3">greater_equal</a></td></tr>
 <tr class="memdesc:a062300116ac52000449518ec546e65a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is greater than or equal to <code>y</code>.  <a href="#a062300116ac52000449518ec546e65a3">More...</a><br /></td></tr>
 <tr class="separator:a062300116ac52000449518ec546e65a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad835070573ed8da3e607eafa824cd7e5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a></td></tr>
-<tr class="memdesc:gad835070573ed8da3e607eafa824cd7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>.  <a href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">More...</a><br /></td></tr>
-<tr class="separator:gad835070573ed8da3e607eafa824cd7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad835070573ed8da3e607eafa824cd7e5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a></td></tr>
+<tr class="memdesc:ad835070573ed8da3e607eafa824cd7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>.  <a href="#ad835070573ed8da3e607eafa824cd7e5">More...</a><br /></td></tr>
+<tr class="separator:ad835070573ed8da3e607eafa824cd7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8012cbd416c2067be764046dcd0c2a23"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23">less_equal</a></td></tr>
 <tr class="memdesc:a8012cbd416c2067be764046dcd0c2a23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than or equal to <code>y</code>.  <a href="#a8012cbd416c2067be764046dcd0c2a23">More...</a><br /></td></tr>
 <tr class="separator:a8012cbd416c2067be764046dcd0c2a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -310,6 +310,63 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">static_assert(hana::greater_equal(4, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::greater_equal(1, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater_equal(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="ad835070573ed8da3e607eafa824cd7e5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto less</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y) {</div>
+<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>. </p>
+<h2>Signature </h2>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{less} : A \times B \to Bool \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all__of_8hpp.html">boost/hana/all_of.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::less(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// less.than is syntactic sugar</span></div>
+<div class="line">static_assert(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less.than(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less_equal.than(hana::int_&lt;4&gt;)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -474,14 +531,14 @@ Synopsis of associated functions</h2></td></tr>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
 <div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">            <span class="keywordflow">return</span> <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(f(forwarded(x)), f(forwarded(y)));</div>
+<div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(forwarded(x)), f(forwarded(y)));</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns a function performing <code>less</code> after applying a transformation to both arguments. </p>
 <p><code>ordering</code> creates a total order based on the result of applying a function to some objects, which is especially useful in conjunction with algorithms that accept a custom predicate that must represent a total order.</p>
-<p>Specifically, <code>ordering</code> is such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f) == <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
-</div><!-- fragment --><p> or, equivalently, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f)(x, y) == <a class="code" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
+<p>Specifically, <code>ordering</code> is such that </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f) == <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>^ f</div>
+</div><!-- fragment --><p> or, equivalently, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Orderable.html#aaeb89edbf804237ca6710cba8cab9c37">ordering</a>(f)(x, y) == <a class="code" href="structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5">less</a>(f(x), f(y))</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This is not a tag-dispatched method (hence it can't be customized), but just a convenience function provided with the <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept.</dd></dl>
 <h2>Signature </h2>
 <p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and an <a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a> <code>B</code>, the signature is \( \mathrm{ordering} : (A \to B) \to (A \times A \to Bool) \).</p>

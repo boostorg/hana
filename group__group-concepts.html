@@ -130,8 +130,7 @@ $(document).ready(function(){initNavTree('group__group-concepts.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
 <div class="title">Concepts</div>  </div>
 </div><!--header-->
@@ -204,71 +203,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html">boost::hana::Struct</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept represents <code>struct</code>-like user-defined types.  <a href="structboost_1_1hana_1_1Struct.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:gad835070573ed8da3e607eafa824cd7e5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5">less</a></td></tr>
-<tr class="memdesc:gad835070573ed8da3e607eafa824cd7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>.  <a href="#gad835070573ed8da3e607eafa824cd7e5">More...</a><br /></td></tr>
-<tr class="separator:gad835070573ed8da3e607eafa824cd7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
-<a class="anchor" id="gad835070573ed8da3e607eafa824cd7e5"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto less</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; y) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether <code>x</code> is less than <code>y</code>. </p>
-<h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and two Orderables <code>A</code> and <code>B</code> with a common embedding, the signature is \( \mathrm{less} : A \times B \to Bool \).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x,y</td><td>Two objects to compare.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="all__of_8hpp.html">boost/hana/all_of.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">static_assert(hana::less(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// less.than is syntactic sugar</span></div>
-<div class="line">static_assert(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less.than(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less_equal.than(hana::int_&lt;4&gt;)));</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> 
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->

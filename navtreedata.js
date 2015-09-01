@@ -100,8 +100,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2fold__right_8hpp.html",
-"index.html#tutorial-rationales-parameters",
+"fwd_2fold__left_8hpp.html",
+"index.html#tutorial-rationales-tag_dispatching",
 "structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd"
 ];
 

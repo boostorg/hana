@@ -67,6 +67,8 @@ var group__group_datatypes =
       [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ]
     ] ],
     [ "string", "structboost_1_1hana_1_1string.html", [
+      [ "make< String >", "structboost_1_1hana_1_1string.html#a9b68aa92669ceaa2c903b80e7cdf2447", null ],
+      [ "make_string", "structboost_1_1hana_1_1string.html#acd99ab02697909eba5eb76caf1ca7a8b", null ],
       [ "string_c", "structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722", null ],
       [ "BOOST_HANA_STRING", "structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84", null ],
       [ "operator\"\"_s", "structboost_1_1hana_1_1string.html#ad77f7afff008c2ce15739ad16a8bf0a8", null ]

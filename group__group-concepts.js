@@ -110,7 +110,7 @@ var group__group_concepts =
     [ "Orderable", "structboost_1_1hana_1_1Orderable.html", [
       [ "greater", "structboost_1_1hana_1_1Orderable.html#a1c9f968a4217ff87b9fdd6c3bbea72bc", null ],
       [ "greater_equal", "structboost_1_1hana_1_1Orderable.html#a062300116ac52000449518ec546e65a3", null ],
-      [ "less", "group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5", null ],
+      [ "less", "structboost_1_1hana_1_1Orderable.html#ad835070573ed8da3e607eafa824cd7e5", null ],
       [ "less_equal", "structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23", null ],
       [ "max", "structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e", null ],
       [ "min", "structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa", null ],
@@ -178,6 +178,5 @@ var group__group_concepts =
       [ "members", "structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e", null ],
       [ "BOOST_HANA_ADAPT_STRUCT", "structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977", null ],
       [ "BOOST_HANA_DEFINE_STRUCT", "structboost_1_1hana_1_1Struct.html#a733de713ae2407331983c60186b215ca", null ]
-    ] ],
-    [ "less", "group__group-concepts.html#gad835070573ed8da3e607eafa824cd7e5", null ]
+    ] ]
 ];
