@@ -16,6 +16,7 @@
 #    BOOST_HANA_CXX_INCOMPLETE_STDLIB = 1
 
 include(CheckCXXSourceRuns)
+set(CMAKE_REQUIRED_FLAGS "-std=c++14")
 check_cxx_source_runs("
 // Check whether the used C++ standard library implements trivially type traits
 #include <type_traits>
@@ -35,7 +36,7 @@ int main () {
     CHECK_TRAIT(std::is_trivially_copy_constructible<int>)
     CHECK_TRAIT(std::is_trivially_move_constructible<int>)
 
-    if (std::is_trivially_assignable<int,int>::value) \
+    if (std::is_trivially_assignable<int,int>::value)
         std::cout << \"std::is_trivially_assignable<int,int>\" << std::endl;
     CHECK_TRAIT(std::is_trivially_copy_assignable<int>)
     CHECK_TRAIT(std::is_trivially_move_assignable<int>)
@@ -62,4 +63,5 @@ if (NOT CXX_COMPLETE_STDLIBC14)
 endif()
 
 # Remove the temporary cmake variable to show this warning every time.
+unset(CMAKE_REQUIRED_FLAGS)
 unset(CXX_COMPLETE_STDLIBC14)
