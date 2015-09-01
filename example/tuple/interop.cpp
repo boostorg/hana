@@ -24,9 +24,9 @@ int main() {
     , "");
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to<hana::Tuple>(hana::make_range(hana::int_<1>, hana::int_<4>))
+        hana::to<hana::Tuple>(hana::make_range(hana::int_c<1>, hana::int_c<4>))
             ==
-        hana::make_tuple(hana::int_<1>, hana::int_<2>, hana::int_<3>)
+        hana::make_tuple(hana::int_c<1>, hana::int_c<2>, hana::int_c<3>)
     );
 
     // std::array's operator[] is not constexpr, so we can't use static_assert

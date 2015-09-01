@@ -16,8 +16,8 @@ using namespace boost::hana;
 
 
 BOOST_HANA_CONSTEXPR_LAMBDA auto fact = fix([](auto fact, auto n) {
-    return eval_if(equal(n, _ullong<0>{}),
-        always(_ullong<1>{}),
+    return eval_if(equal(n, ullong_c<0>),
+        always(ullong_c<1>),
         [=](auto _) { return mult(n, fact(_(pred)(n))); }
     );
 });
@@ -28,8 +28,8 @@ constexpr unsigned long long reference(unsigned long long n)
 template <int n>
 void test() {
     BOOST_HANA_CONSTANT_CHECK(equal(
-        fact(_ullong<n>{}),
-        _ullong<reference(n)>{}
+        fact(ullong_c<n>),
+        ullong_c<reference(n)>
     ));
     test<n - 1>();
 }

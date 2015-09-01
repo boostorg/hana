@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     struct remove_at_c_t {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const
-        { return hana::remove_at(static_cast<Xs&&>(xs), hana::size_t<n>); }
+        { return hana::remove_at(static_cast<Xs&&>(xs), hana::size_c<n>); }
     };
 }} // end namespace boost::hana
 

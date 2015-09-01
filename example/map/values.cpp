@@ -20,7 +20,7 @@ using namespace std::literals;
 
 int main() {
     auto m = hana::make_map(
-        hana::make_pair(hana::int_<1>, "foobar"s),
+        hana::make_pair(hana::int_c<1>, "foobar"s),
         hana::make_pair(hana::type_c<void>, 1234)
     );
 

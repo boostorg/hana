@@ -125,22 +125,22 @@ int main() {
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             keys(obj(undefined<0>{})),
-            test::seq(int_<0>)
+            test::seq(int_c<0>)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             keys(obj(undefined<0>{}, undefined<1>{})),
-            test::seq(int_<0>, int_<1>)
+            test::seq(int_c<0>, int_c<1>)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{})),
-            test::seq(int_<0>, int_<1>, int_<2>)
+            test::seq(int_c<0>, int_c<1>, int_c<2>)
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{}, undefined<3>{})),
-            test::seq(int_<0>, int_<1>, int_<2>, int_<3>)
+            test::seq(int_c<0>, int_c<1>, int_c<2>, int_c<3>)
         ));
     }
 
@@ -205,19 +205,19 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_left(obj(ct_eq<0>{}), s, f),
-                f(s, prod(int_<0>, ct_eq<0>{}))
+                f(s, prod(int_c<0>, ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_left(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
-                f(f(s, prod(int_<0>, ct_eq<0>{})), prod(int_<1>, ct_eq<1>{}))
+                f(f(s, prod(int_c<0>, ct_eq<0>{})), prod(int_c<1>, ct_eq<1>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_left(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
-                f(f(f(s, prod(int_<0>, ct_eq<0>{})),
-                         prod(int_<1>, ct_eq<1>{})),
-                         prod(int_<2>, ct_eq<2>{}))
+                f(f(f(s, prod(int_c<0>, ct_eq<0>{})),
+                         prod(int_c<1>, ct_eq<1>{})),
+                         prod(int_c<2>, ct_eq<2>{}))
             ));
 
             // fold_left with move-only members
@@ -234,19 +234,19 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_right(obj(ct_eq<0>{}), s, f),
-                f(prod(int_<0>, ct_eq<0>{}), s)
+                f(prod(int_c<0>, ct_eq<0>{}), s)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_right(obj(ct_eq<0>{}, ct_eq<1>{}), s, f),
-                f(prod(int_<0>, ct_eq<0>{}), f(prod(int_<1>, ct_eq<1>{}), s))
+                f(prod(int_c<0>, ct_eq<0>{}), f(prod(int_c<1>, ct_eq<1>{}), s))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 fold_right(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
-                f(prod(int_<0>, ct_eq<0>{}),
-                    f(prod(int_<1>, ct_eq<1>{}),
-                        f(prod(int_<2>, ct_eq<2>{}), s)))
+                f(prod(int_c<0>, ct_eq<0>{}),
+                    f(prod(int_c<1>, ct_eq<1>{}),
+                        f(prod(int_c<2>, ct_eq<2>{}), s)))
             ));
 
             // fold_right with move-only members
@@ -263,18 +263,18 @@ int main() {
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(obj(ct_eq<0>{}), f),
-                f(prod(int_<0>, ct_eq<0>{}))
+                f(prod(int_c<0>, ct_eq<0>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(obj(ct_eq<0>{}, ct_eq<1>{}), f),
-                f(prod(int_<0>, ct_eq<0>{}), prod(int_<1>, ct_eq<1>{}))
+                f(prod(int_c<0>, ct_eq<0>{}), prod(int_c<1>, ct_eq<1>{}))
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), f),
-                f(prod(int_<0>, ct_eq<0>{}), prod(int_<1>, ct_eq<1>{}),
-                                            prod(int_<2>, ct_eq<2>{}))
+                f(prod(int_c<0>, ct_eq<0>{}), prod(int_c<1>, ct_eq<1>{}),
+                                              prod(int_c<2>, ct_eq<2>{}))
             ));
         }
 
@@ -296,20 +296,20 @@ int main() {
             )));
 
             BOOST_HANA_CONSTANT_CHECK(any_of(
-                obj(undefined<0>{}), equal.to(int_<0>)
+                obj(undefined<0>{}), equal.to(int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(any_of(
-                obj(undefined<0>{}), equal.to(int_<1>)
+                obj(undefined<0>{}), equal.to(int_c<1>)
             )));
 
             BOOST_HANA_CONSTANT_CHECK(any_of(
-                obj(undefined<0>{}, undefined<1>{}), equal.to(int_<0>)
+                obj(undefined<0>{}, undefined<1>{}), equal.to(int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(any_of(
-                obj(undefined<0>{}, undefined<1>{}), equal.to(int_<1>)
+                obj(undefined<0>{}, undefined<1>{}), equal.to(int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(not_(any_of(
-                obj(undefined<0>{}, undefined<1>{}), equal.to(int_<2>)
+                obj(undefined<0>{}, undefined<1>{}), equal.to(int_c<2>)
             )));
         }
 
@@ -321,32 +321,32 @@ int main() {
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(obj(ct_eq<0>{}), equal.to(int_<0>)),
+                find_if(obj(ct_eq<0>{}), equal.to(int_c<0>)),
                 just(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(obj(undefined<1>{}), equal.to(int_<1>)),
+                find_if(obj(undefined<1>{}), equal.to(int_c<1>)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(obj(ct_eq<0>{}, ct_eq<1>{}), equal.to(int_<0>)),
+                find_if(obj(ct_eq<0>{}, ct_eq<1>{}), equal.to(int_c<0>)),
                 just(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(obj(ct_eq<0>{}, ct_eq<1>{}), equal.to(int_<1>)),
+                find_if(obj(ct_eq<0>{}, ct_eq<1>{}), equal.to(int_c<1>)),
                 just(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(obj(undefined<0>{}, undefined<1>{}), equal.to(int_<2>)),
+                find_if(obj(undefined<0>{}, undefined<1>{}), equal.to(int_c<2>)),
                 nothing
             ));
         }
 
         // laws
         test::TestSearchable<MinimalStruct<0>>{eq0, make_tuple()};
-        test::TestSearchable<MinimalStruct<1>>{eq1, make_tuple(int_<0>)};
-        test::TestSearchable<MinimalStruct<2>>{eq2, make_tuple(int_<0>, int_<1>)};
+        test::TestSearchable<MinimalStruct<1>>{eq1, make_tuple(int_c<0>)};
+        test::TestSearchable<MinimalStruct<2>>{eq2, make_tuple(int_c<0>, int_c<1>)};
     }
 #endif
 }

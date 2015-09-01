@@ -14,8 +14,8 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto xs = hana::make_set(hana::int_<0>, hana::type_c<int>, hana::type_c<void>);
+    constexpr auto xs = hana::make_set(hana::int_c<0>, hana::type_c<int>, hana::type_c<void>);
 
-    BOOST_HANA_CONSTANT_CHECK(hana::erase_key(xs, hana::type_c<int>) == hana::make_set(hana::int_<0>, hana::type_c<void>));
+    BOOST_HANA_CONSTANT_CHECK(hana::erase_key(xs, hana::type_c<int>) == hana::make_set(hana::int_c<0>, hana::type_c<void>));
     BOOST_HANA_CONSTANT_CHECK(hana::erase_key(xs, hana::type_c<char>) == xs);
 }

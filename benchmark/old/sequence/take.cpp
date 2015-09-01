@@ -20,7 +20,7 @@ int main() {
         <%= (1..input_size).to_a.map { |i| "x<#{i}>{}" }.join(', ') %>
     );
 
-    auto n = boost::hana::int_< <%= input_size / 2 %> >;
+    auto n = boost::hana::int_c< <%= input_size / 2 %> >;
 
     boost::hana::benchmark::measure([=] {
         boost::hana::take(n, list);

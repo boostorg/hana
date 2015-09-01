@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-using T = decltype(hana::int_<1>);
+using T = decltype(hana::int_c<1>);
 
 static_assert(hana::models<hana::Comparable, T>(), "");
 static_assert(hana::models<hana::Orderable, T>(), "");

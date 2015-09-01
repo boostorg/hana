@@ -64,7 +64,7 @@ namespace boost { namespace hana { namespace test {
                     }));
                 }));
 
-                auto pred = hana::always(true_);
+                auto pred = hana::always(true_c);
                 BOOST_HANA_CHECK(hana::equal(
                     hana::adjust_if(x, pred, f),
                     hana::transform(x, [=](auto z) {
@@ -83,7 +83,7 @@ namespace boost { namespace hana { namespace test {
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::fill(x, v),
-                    hana::replace_if(x, hana::always(true_), v)
+                    hana::replace_if(x, hana::always(true_c), v)
                 ));
 
             }));

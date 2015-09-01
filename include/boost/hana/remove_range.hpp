@@ -85,8 +85,8 @@ namespace boost { namespace hana {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
             return hana::remove_range(static_cast<Xs&&>(xs),
-                                      hana::size_t<from>,
-                                      hana::size_t<to>);
+                                      hana::size_c<from>,
+                                      hana::size_c<to>);
         }
     };
 }} // end namespace boost::hana

@@ -46,7 +46,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs) {
             constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
             static_assert(len > 0, "hana::back(xs) requires 'xs' to be non-empty");
-            return hana::at(static_cast<Xs&&>(xs), hana::size_t<len - 1>);
+            return hana::at(static_cast<Xs&&>(xs), hana::size_c<len - 1>);
         }
     };
 }} // end namespace boost::hana

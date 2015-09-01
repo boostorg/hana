@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::find(hana::make_range(hana::int_<1>, hana::int_<25>), hana::int_<10>) == hana::just(hana::int_<10>));
-BOOST_HANA_CONSTANT_CHECK(hana::find(hana::make_range(hana::int_<1>, hana::int_<25>), hana::int_<200>) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::find(hana::make_range(hana::int_c<1>, hana::int_c<25>), hana::int_c<10>) == hana::just(hana::int_c<10>));
+BOOST_HANA_CONSTANT_CHECK(hana::find(hana::make_range(hana::int_c<1>, hana::int_c<25>), hana::int_c<200>) == hana::nothing);
 
 int main() { }

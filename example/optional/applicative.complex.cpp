@@ -31,7 +31,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto function<'-'> = hana::just([](auto x, auto y) {
 // and so on...
 
 template <char n>
-constexpr auto digit = hana::if_(hana::bool_<(n >= '0' && n <= '9')>,
+constexpr auto digit = hana::if_(hana::bool_c<(n >= '0' && n <= '9')>,
     hana::just(static_cast<int>(n - 48)),
     hana::nothing
 );

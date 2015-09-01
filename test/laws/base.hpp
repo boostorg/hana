@@ -103,9 +103,9 @@ namespace boost { namespace hana {
             // This type is stored inside a hana::set, which requires
             // compile-time Comparable keys.
             constexpr auto operator==(trap_construct const&) const
-            { return false_; }
+            { return false_c; }
             constexpr auto operator!=(trap_construct const&) const
-            { return true_; }
+            { return true_c; }
         };
 
         // A move-only type. Useful for testing containers.
@@ -254,7 +254,7 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y) {
             return hana::and_(
-                hana::bool_<X::injection_id == Y::injection_id>,
+                hana::bool_c<X::injection_id == Y::injection_id>,
                 hana::equal(x.args, y.args)
             );
         }

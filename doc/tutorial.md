@@ -733,9 +733,9 @@ to simplify the creation of an `integral_constant`:
 
 @code{cpp}
 template <int i>
-constexpr integral_constant<int, i> int_{};
+constexpr integral_constant<int, i> int_c{};
 
-auto three = int_<1> + int_<2>;
+auto three = int_c<1> + int_c<2>;
 @endcode
 
 Now we're talking about a visible gain in expressiveness over the initial
@@ -753,14 +753,11 @@ auto three = 1_c + 3_c;
 
 Hana provides its own `integral_constant`s, which define arithmetic operators
 just like we showed above. Hana also provides variable templates to easily
-create different kinds of `integral_constant`s: `int_`, `long_`, `bool_`,
-etc... However, note that `integral_constant` in Hana is a variable template
-instead of a type, so `integral_constant<int, 1>` is actually an object,
-unlike `std::integral_constant<int, 1>`, which is a type. This allows you
-to omit the trailing `{}` braces otherwise required to value-initialize
-`integral_constant`s. Of course, the `_c` suffix is also provided; it is
-part of the `boost::hana::literals` namespace, and you should import it
-into your namespace before using it:
+create different kinds of `integral_constant`s: `int_c`, `long_c`, `bool_c`,
+etc... This allows you to omit the trailing `{}` braces otherwise required to
+value-initialize these objects. Of course, the `_c` suffix is also provided;
+it is part of the `hana::literals` namespace, and you must import it into
+your namespace before using it:
 
 @code{cpp}
 using namespace hana::literals;
@@ -817,7 +814,7 @@ for loop unrolling:
 __attribute__((noinline)) void f() { }
 
 int main() {
-    hana::int_<10>.times(f);
+    hana::int_c<10>.times(f);
 }
 @endcode
 
@@ -917,11 +914,11 @@ constexpr basic_type<T*> add_pointer(basic_type<T> const&)
 
 template <typename T>
 constexpr auto is_pointer(basic_type<T> const&)
-{ return hana::false_; }
+{ return hana::bool_c<false>; }
 
 template <typename T>
 constexpr auto is_pointer(basic_type<T*> const&)
-{ return hana::true_; }
+{ return hana::bool_c<true>; }
 @endcode
 
 We've just written metafunctions that look like functions, just like we wrote
@@ -1939,7 +1936,7 @@ expanded into something like:
 auto xs = hana::make_tuple("hello"s, 1.2, 3);
 auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
 
-auto r = hana::bool_<
+auto r = hana::bool_c<
   pred(xs[0_c]) ? true :
   pred(xs[1_c]) ? true :
   pred(xs[2_c]) ? true :
@@ -3437,7 +3434,7 @@ Let me ask a tricky question. Is the following code valid?
   template <typename X>
   auto identity(X x) { return x; }
 
-  static_assert(value(identity(bool_<true>)), "");
+  static_assert(value(identity(bool_c<true>)), "");
 @endcode
 
 The answer is "no", but the reason might not be obvious at first. Even more

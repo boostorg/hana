@@ -45,10 +45,10 @@ namespace boost { namespace hana { namespace test {
 
             foreach3(xs, hana::capture(xs)([](auto xs, auto a, auto b, auto c) {
                 auto true_valued = [](auto x) {
-                    return hana::if_(x, true_, false_);
+                    return hana::if_(x, true_c, false_c);
                 };
                 auto false_valued = [](auto x) {
-                    return hana::if_(x, false_, true_);
+                    return hana::if_(x, false_c, true_c);
                 };
 
                 // associativity

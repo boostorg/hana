@@ -63,7 +63,7 @@ int main() {
 
     auto predicates = make<Tuple>(
         equal.to(ct_eq<0>{}), equal.to(ct_eq<2>{}), equal.to(ct_eq<3>{}),
-        always(false_), always(true_)
+        always(false_c), always(true_c)
     );
     (void)predicates;
 
@@ -166,15 +166,15 @@ int main() {
         // only_when
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(true_), f, x),
+                only_when(always(true_c), f, x),
                 just(f(x))
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(false_), f, x),
+                only_when(always(false_c), f, x),
                 nothing
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(false_), undefined{}, x),
+                only_when(always(false_c), undefined{}, x),
                 nothing
             ));
         }
@@ -535,8 +535,8 @@ int main() {
         test::TestSearchable<Optional>{eqs, eq_values};
 
         test::TestSearchable<Optional>{
-            make<Tuple>(just(true_), just(false_), nothing),
-            make<Tuple>(true_, false_)
+            make<Tuple>(just(true_c), just(false_c), nothing),
+            make<Tuple>(true_c, false_c)
         };
     }
 

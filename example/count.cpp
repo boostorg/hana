@@ -15,10 +15,10 @@ namespace hana = boost::hana;
 
 int main() {
     constexpr auto ints = hana::tuple_c<int, 1, 2, 3, 2, 2, 4, 2>;
-    BOOST_HANA_CONSTANT_CHECK(hana::count(ints, hana::int_<2>) == hana::size_t<4>);
+    BOOST_HANA_CONSTANT_CHECK(hana::count(ints, hana::int_c<2>) == hana::size_c<4>);
     static_assert(hana::count(ints, 2) == 4, "");
 
 
     constexpr auto types = hana::tuple_t<int, char, long, short, char, double>;
-    BOOST_HANA_CONSTANT_CHECK(hana::count(types, hana::type_c<char>) == hana::size_t<2>);
+    BOOST_HANA_CONSTANT_CHECK(hana::count(types, hana::type_c<char>) == hana::size_c<2>);
 }

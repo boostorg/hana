@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 int main() {
     using L = <%= datatype %>;
     auto list = boost::hana::make<L>(
-        <%= (1..input_size).to_a.map { |i| "boost::hana::int_<#{i}>" }.join(', ') %>
+        <%= (1..input_size).to_a.map { |i| "boost::hana::int_c<#{i}>" }.join(', ') %>
     );
 
     boost::hana::benchmark::measure([=] {

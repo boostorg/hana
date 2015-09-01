@@ -66,7 +66,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto remove_at_c = [](auto&& xs) {
-        return hana::remove_at(forwarded(xs), hana::size_t<n>);
+        return hana::remove_at(forwarded(xs), hana::size_c<n>);
     };
 #else
     template <std::size_t n>

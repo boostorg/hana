@@ -36,13 +36,13 @@ int main() {
     // sort.by is syntactic sugar
     auto tuples = hana::make_tuple(
         hana::make_tuple(2_c, 'x', nullptr),
-        hana::make_tuple(1_c, "foobar"s, hana::int_<4>)
+        hana::make_tuple(1_c, "foobar"s, hana::int_c<4>)
     );
 
     BOOST_HANA_RUNTIME_CHECK(
         hana::sort.by(hana::ordering(hana::front), tuples)
             == hana::make_tuple(
-                hana::make_tuple(1_c, "foobar"s, hana::int_<4>),
+                hana::make_tuple(1_c, "foobar"s, hana::int_c<4>),
                 hana::make_tuple(2_c, 'x', nullptr)
             )
     );

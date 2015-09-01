@@ -75,12 +75,12 @@ template <>
 struct print_impl<Vector> {
   template <typename vectorN>
   static void apply(std::ostream& os, vectorN xs) {
-    constexpr auto N = hana::size_t<vectorN::size>;
+    constexpr auto N = hana::size_c<vectorN::size>;
 
     os << "[";
     N.times.with_index([&](auto i) {
       os << xs[i];
-      if (i != N - hana::size_t<1>) os << ", ";
+      if (i != N - hana::size_c<1>) os << ", ";
     });
     os << "]";
   }

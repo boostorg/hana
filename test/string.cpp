@@ -61,25 +61,25 @@ int main() {
             string_c<>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_<'a'>),
+            make<String>(char_c<'a'>),
             string_c<'a'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_<'a'>, char_<'b'>),
+            make<String>(char_c<'a'>, char_c<'b'>),
             string_c<'a', 'b'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_<'a'>, char_<'b'>, char_<'c'>),
+            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>),
             string_c<'a', 'b', 'c'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_<'a'>, char_<'b'>, char_<'c'>, char_<'d'>),
+            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>, char_c<'d'>),
             string_c<'a', 'b', 'c', 'd'>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make_string(char_<'a'>, char_<'b'>, char_<'c'>),
-            make<String>(char_<'a'>, char_<'b'>, char_<'c'>)
+            make_string(char_c<'a'>, char_c<'b'>, char_c<'c'>),
+            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>)
         ));
     }
 
@@ -196,39 +196,39 @@ int main() {
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(BOOST_HANA_STRING("a"), f),
-                f(char_<'a'>)
+                f(char_c<'a'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(BOOST_HANA_STRING("ab"), f),
-                f(char_<'a'>, char_<'b'>)
+                f(char_c<'a'>, char_c<'b'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(BOOST_HANA_STRING("abc"), f),
-                f(char_<'a'>, char_<'b'>, char_<'c'>)
+                f(char_c<'a'>, char_c<'b'>, char_c<'c'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(BOOST_HANA_STRING("abcd"), f),
-                f(char_<'a'>, char_<'b'>, char_<'c'>, char_<'d'>)
+                f(char_c<'a'>, char_c<'b'>, char_c<'c'>, char_c<'d'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 unpack(BOOST_HANA_STRING("abcde"), f),
-                f(char_<'a'>, char_<'b'>, char_<'c'>, char_<'d'>, char_<'e'>)
+                f(char_c<'a'>, char_c<'b'>, char_c<'c'>, char_c<'d'>, char_c<'e'>)
             ));
         }
 
         // length
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("")), size_t<0>
+                length(BOOST_HANA_STRING("")), size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("a")), size_t<1>
+                length(BOOST_HANA_STRING("a")), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("ab")), size_t<2>
+                length(BOOST_HANA_STRING("ab")), size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(BOOST_HANA_STRING("abc")), size_t<3>
+                length(BOOST_HANA_STRING("abc")), size_c<3>
             ));
         }
 
@@ -245,17 +245,17 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(BOOST_HANA_STRING("a")),
-                char_<'a'>
+                char_c<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(BOOST_HANA_STRING("ab")),
-                char_<'a'>
+                char_c<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 front(BOOST_HANA_STRING("abc")),
-                char_<'a'>
+                char_c<'a'>
             ));
         }
 
@@ -296,43 +296,43 @@ int main() {
         // at
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                BOOST_HANA_STRING("abcd")[int_<2>],
-                char_<'c'>
+                BOOST_HANA_STRING("abcd")[size_c<2>],
+                char_c<'c'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("a"), int_<0>),
-                char_<'a'>
+                at(BOOST_HANA_STRING("a"), size_c<0>),
+                char_c<'a'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("ab"), int_<0>),
-                char_<'a'>
+                at(BOOST_HANA_STRING("ab"), size_c<0>),
+                char_c<'a'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("abc"), int_<0>),
-                char_<'a'>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("ab"), int_<1>),
-                char_<'b'>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("abc"), int_<1>),
-                char_<'b'>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("abcd"), int_<1>),
-                char_<'b'>
+                at(BOOST_HANA_STRING("abc"), size_c<0>),
+                char_c<'a'>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("abc"), int_<2>),
-                char_<'c'>
+                at(BOOST_HANA_STRING("ab"), size_c<1>),
+                char_c<'b'>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                at(BOOST_HANA_STRING("abcd"), int_<2>),
-                char_<'c'>
+                at(BOOST_HANA_STRING("abc"), size_c<1>),
+                char_c<'b'>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                at(BOOST_HANA_STRING("abcd"), size_c<1>),
+                char_c<'b'>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                at(BOOST_HANA_STRING("abc"), size_c<2>),
+                char_c<'c'>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                at(BOOST_HANA_STRING("abcd"), size_c<2>),
+                char_c<'c'>
             ));
         }
 
@@ -415,38 +415,38 @@ int main() {
         // any_of
         {
             BOOST_HANA_CONSTANT_CHECK(
-                any_of(BOOST_HANA_STRING("abcd"), equal.to(char_<'b'>))
+                any_of(BOOST_HANA_STRING("abcd"), equal.to(char_c<'b'>))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any_of(BOOST_HANA_STRING(""), always(true_)))
+                not_(any_of(BOOST_HANA_STRING(""), always(true_c)))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                not_(any_of(BOOST_HANA_STRING("abcd"), equal.to(char_<'z'>)))
+                not_(any_of(BOOST_HANA_STRING("abcd"), equal.to(char_c<'z'>)))
             );
         }
 
         // find_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(BOOST_HANA_STRING(""), always(true_)),
+                find_if(BOOST_HANA_STRING(""), always(true_c)),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'a'>)),
-                just(char_<'a'>)
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_c<'a'>)),
+                just(char_c<'a'>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'c'>)),
-                just(char_<'c'>)
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_c<'c'>)),
+                just(char_c<'c'>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_<'d'>)),
-                just(char_<'d'>)
+                find_if(BOOST_HANA_STRING("abcd"), equal.to(char_c<'d'>)),
+                just(char_c<'d'>)
             ));
         }
 
@@ -454,13 +454,13 @@ int main() {
         {
             struct invalid { };
             BOOST_HANA_CONSTANT_CHECK(
-                contains(BOOST_HANA_STRING("abcd"), char_<'a'>)
+                contains(BOOST_HANA_STRING("abcd"), char_c<'a'>)
             );
             BOOST_HANA_CONSTANT_CHECK(
-                contains(BOOST_HANA_STRING("abcd"), char_<'c'>)
+                contains(BOOST_HANA_STRING("abcd"), char_c<'c'>)
             );
             BOOST_HANA_CONSTANT_CHECK(
-                not_(contains(BOOST_HANA_STRING("abcd"), char_<'e'>))
+                not_(contains(BOOST_HANA_STRING("abcd"), char_c<'e'>))
             );
             BOOST_HANA_CONSTANT_CHECK(
                 not_(contains(BOOST_HANA_STRING("abcd"), invalid{}))
@@ -471,12 +471,12 @@ int main() {
         {
             struct invalid { };
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING("abcd"), char_<'a'>),
-                just(char_<'a'>)
+                find(BOOST_HANA_STRING("abcd"), char_c<'a'>),
+                just(char_c<'a'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find(BOOST_HANA_STRING("abcd"), char_<'c'>),
-                just(char_<'c'>)
+                find(BOOST_HANA_STRING("abcd"), char_c<'c'>),
+                just(char_c<'c'>)
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
                 find(BOOST_HANA_STRING("abcd"), invalid{}),

@@ -14,12 +14,12 @@ namespace hana = boost::hana;
 int main() {
     constexpr auto even = hana::make_map(
         <%= (1..input_size).map { |n|
-            "hana::make_pair(hana::int_<#{n*2}>, hana::int_<#{n*2}>)"
+            "hana::make_pair(hana::int_c<#{n*2}>, hana::int_c<#{n*2}>)"
         }.join(', ') %>
     );
     constexpr auto all = hana::make_map(
         <%= (1..input_size*2).map { |n|
-            "hana::make_pair(hana::int_<#{n}>, hana::int_<#{n}>)"
+            "hana::make_pair(hana::int_c<#{n}>, hana::int_c<#{n}>)"
         }.join(', ') %>
     );
     hana::is_subset(even, all);

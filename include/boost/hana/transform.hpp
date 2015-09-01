@@ -45,7 +45,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename F>
         static constexpr auto apply(Xs&& xs, F&& f) {
             return hana::adjust_if(static_cast<Xs&&>(xs),
-                                   hana::always(hana::true_),
+                                   hana::always(hana::true_c),
                                    static_cast<F&&>(f));
         }
     };

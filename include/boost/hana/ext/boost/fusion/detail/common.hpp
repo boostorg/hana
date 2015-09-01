@@ -51,7 +51,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto apply(Xs&& xs) {
             using Empty = decltype(::boost::fusion::empty(xs));
-            return hana::bool_<Empty::value>;
+            return hana::bool_c<Empty::value>;
         }
     };
 
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
             using Size = typename ::boost::fusion::result_of::size<Xs>::type;
-            return hana::size_t<Size::value>;
+            return hana::size_c<Size::value>;
         }
     };
 

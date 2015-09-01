@@ -107,12 +107,12 @@ int main() {
         // is incredibly not powerful.
         {
             static_assert(equal(
-                find_if(array<int, 1>{0}, always(true_)),
+                find_if(array<int, 1>{0}, always(true_c)),
                 just(0)
             ), "");
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                find_if(array<int, 1>{0}, always(false_)),
+                find_if(array<int, 1>{0}, always(false_c)),
                 nothing
             ));
         }

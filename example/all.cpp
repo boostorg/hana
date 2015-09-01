@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-static_assert(hana::all(hana::make_tuple(hana::true_, true, hana::true_)), "");
-BOOST_HANA_CONSTANT_CHECK(!hana::all(hana::make_tuple(true, hana::false_, hana::true_)));
+static_assert(hana::all(hana::make_tuple(hana::true_c, true, hana::true_c)), "");
+BOOST_HANA_CONSTANT_CHECK(!hana::all(hana::make_tuple(true, hana::false_c, hana::true_c)));
 
 int main() { }

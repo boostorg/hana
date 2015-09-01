@@ -15,11 +15,11 @@ namespace hana = boost::hana;
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(
-        hana::product<>(hana::make_range(hana::int_<1>, hana::int_<6>)) == hana::int_<1 * 2 * 3 * 4 * 5>
+        hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<6>)) == hana::int_c<1 * 2 * 3 * 4 * 5>
     );
 
     BOOST_HANA_CONSTEXPR_CHECK(
-        hana::product<>(hana::make_tuple(1, hana::int_<3>, hana::long_<-5>, 9)) == 1 * 3 * -5 * 9
+        hana::product<>(hana::make_tuple(1, hana::int_c<3>, hana::long_c<-5>, 9)) == 1 * 3 * -5 * 9
     );
 
     BOOST_HANA_CONSTEXPR_CHECK(

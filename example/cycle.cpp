@@ -11,6 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-static_assert(hana::cycle(hana::make_tuple('x', 'y'), hana::size_t<2>) == hana::make_tuple('x', 'y', 'x', 'y'), "");
+static_assert(hana::cycle(hana::make_tuple('x', 'y'), hana::size_c<2>) == hana::make_tuple('x', 'y', 'x', 'y'), "");
 
 int main() { }

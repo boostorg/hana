@@ -36,11 +36,11 @@ int main() {
     using boost::hana::size_t; // take priority over ::size_t
 
     auto ints = make<Tuple>(
-        int_<-10>, int_<-2>, int_<0>, int_<1>, int_<3>, int_<4>
+        int_c<-10>, int_c<-2>, int_c<0>, int_c<1>, int_c<3>, int_c<4>
     );
     (void)ints;
 
-    auto bools = make<Tuple>(true_, false_);
+    auto bools = make<Tuple>(true_c, false_c);
     (void)bools;
 
 #if BOOST_HANA_TEST_PART == 1
@@ -49,32 +49,32 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         // operator()
-        static_assert(size_t<0>() == 0, "");
-        static_assert(size_t<1>() == 1, "");
-        static_assert(int_<-3>() == -3, "");
+        static_assert(size_c<0>() == 0, "");
+        static_assert(size_c<1>() == 1, "");
+        static_assert(int_c<-3>() == -3, "");
 
         // decltype(operator())
-        static_assert(std::is_same<decltype(size_t<0>()), std::size_t>{}, "");
-        static_assert(std::is_same<decltype(int_<-3>()), int>{}, "");
+        static_assert(std::is_same<decltype(size_c<0>()), std::size_t>{}, "");
+        static_assert(std::is_same<decltype(int_c<-3>()), int>{}, "");
 
         // conversions
-        constexpr std::size_t a = size_t<0>, b = size_t<1>;
+        constexpr std::size_t a = size_c<0>, b = size_c<1>;
         static_assert(a == 0 && b == 1, "");
 
-        constexpr int c = int_<0>, d = int_<-3>;
+        constexpr int c = int_c<0>, d = int_c<-3>;
         static_assert(c == 0 && d == -3, "");
 
         // nested ::value
-        static_assert(decltype(int_<1>)::value == 1, "");
+        static_assert(decltype(int_c<1>)::value == 1, "");
 
         // nested ::type
         static_assert(std::is_same<
-            decltype(int_<1>)::type,
-            std::remove_cv_t<decltype(int_<1>)>
+            decltype(int_c<1>)::type,
+            std::remove_cv_t<decltype(int_c<1>)>
         >{}, "");
 
         // nested ::value_type
-        static_assert(std::is_same<decltype(int_<1>)::value_type, int>{}, "");
+        static_assert(std::is_same<decltype(int_c<1>)::value_type, int>{}, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -93,42 +93,42 @@ int main() {
         // times member function
         {
             int counter = 0;
-            int_<3>.times([&] { ++counter; });
+            int_c<3>.times([&] { ++counter; });
             BOOST_HANA_RUNTIME_CHECK(counter == 3);
 
             // Call .times with a normal function used to fail.
-            int_<3>.times(function);
+            int_c<3>.times(function);
 
             // make sure times can be accessed as a static member function too
-            decltype(int_<5>)::times([]{ });
+            decltype(int_c<5>)::times([]{ });
 
             // make sure xxx.times can be used as a function object
-            auto z = int_<5>.times; (void)z;
+            auto z = int_c<5>.times; (void)z;
         }
 
         // times.with_index
         {
             int index = 0;
-            int_<3>.times.with_index([&](auto i) {
+            int_c<3>.times.with_index([&](auto i) {
                 static_assert(is_an<IntegralConstant<int>>(i), "");
                 BOOST_HANA_RUNTIME_CHECK(value(i) == index);
                 ++index;
             });
 
             // Calling .times.with_index with a normal function used to fail.
-            int_<3>.times.with_index(function_index);
+            int_c<3>.times.with_index(function_index);
 
             // make sure times.with_index can be accessed as a static member
             // function too
-            auto times = int_<5>.times;
+            auto times = int_c<5>.times;
             decltype(times)::with_index([](auto) { });
 
             // make sure xxx.times.with_index can be used as a function object
-            auto z = int_<5>.times.with_index; (void)z;
+            auto z = int_c<5>.times.with_index; (void)z;
 
             // make sure we're calling the function in the right order
             int current = 0;
-            int_<5>.times.with_index([&](auto i) {
+            int_c<5>.times.with_index([&](auto i) {
                 BOOST_HANA_RUNTIME_CHECK(i == current);
                 ++current;
             });
@@ -136,51 +136,51 @@ int main() {
 
         // Arithmetic operators
         {
-            BOOST_HANA_CONSTANT_CHECK(+int_<1> == int_<1>);
-            BOOST_HANA_CONSTANT_CHECK(-int_<1> == int_<-1>);
-            BOOST_HANA_CONSTANT_CHECK(int_<1> + int_<2> == int_<3>);
-            BOOST_HANA_CONSTANT_CHECK(int_<1> - int_<2> == int_<-1>);
-            BOOST_HANA_CONSTANT_CHECK(int_<3> * int_<2> == int_<6>);
-            BOOST_HANA_CONSTANT_CHECK(int_<6> / int_<3> == int_<2>);
-            BOOST_HANA_CONSTANT_CHECK(int_<6> % int_<4> == int_<2>);
-            BOOST_HANA_CONSTANT_CHECK(~int_<6> == int_<~6>);
-            BOOST_HANA_CONSTANT_CHECK((int_<6> & int_<3>) == int_<6 & 3>);
-            BOOST_HANA_CONSTANT_CHECK((int_<4> | int_<2>) == int_<4 | 2>);
-            BOOST_HANA_CONSTANT_CHECK((int_<6> ^ int_<3>) == int_<6 ^ 3>);
-            BOOST_HANA_CONSTANT_CHECK((int_<6> << int_<3>) == int_<(6 << 3)>);
-            BOOST_HANA_CONSTANT_CHECK((int_<6> >> int_<3>) == int_<(6 >> 3)>);
+            BOOST_HANA_CONSTANT_CHECK(+int_c<1> == int_c<1>);
+            BOOST_HANA_CONSTANT_CHECK(-int_c<1> == int_c<-1>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<1> + int_c<2> == int_c<3>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<1> - int_c<2> == int_c<-1>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<3> * int_c<2> == int_c<6>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<6> / int_c<3> == int_c<2>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<6> % int_c<4> == int_c<2>);
+            BOOST_HANA_CONSTANT_CHECK(~int_c<6> == int_c<~6>);
+            BOOST_HANA_CONSTANT_CHECK((int_c<6> & int_c<3>) == int_c<6 & 3>);
+            BOOST_HANA_CONSTANT_CHECK((int_c<4> | int_c<2>) == int_c<4 | 2>);
+            BOOST_HANA_CONSTANT_CHECK((int_c<6> ^ int_c<3>) == int_c<6 ^ 3>);
+            BOOST_HANA_CONSTANT_CHECK((int_c<6> << int_c<3>) == int_c<(6 << 3)>);
+            BOOST_HANA_CONSTANT_CHECK((int_c<6> >> int_c<3>) == int_c<(6 >> 3)>);
         }
 
         // Comparison operators
         {
-            BOOST_HANA_CONSTANT_CHECK(int_<0> == int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<1> != int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<0> < int_<1>);
-            BOOST_HANA_CONSTANT_CHECK(int_<0> <= int_<1>);
-            BOOST_HANA_CONSTANT_CHECK(int_<0> <= int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<1> > int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<1> >= int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<0> >= int_<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<0> == int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<1> != int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<0> < int_c<1>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<0> <= int_c<1>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<0> <= int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<1> > int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<1> >= int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<0> >= int_c<0>);
         }
 
         // Logical operators
         {
-            BOOST_HANA_CONSTANT_CHECK(int_<3> || int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(int_<3> && int_<1>);
-            BOOST_HANA_CONSTANT_CHECK(!int_<0>);
-            BOOST_HANA_CONSTANT_CHECK(!!int_<3>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<3> || int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(int_c<3> && int_c<1>);
+            BOOST_HANA_CONSTANT_CHECK(!int_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(!!int_c<3>);
         }
 
         // Creation with user-defined literals
         {
             using namespace boost::hana::literals;
 
-            BOOST_HANA_CONSTANT_CHECK(0_c == llong<0>);
-            BOOST_HANA_CONSTANT_CHECK(1_c == llong<1>);
-            BOOST_HANA_CONSTANT_CHECK(12_c == llong<12>);
-            BOOST_HANA_CONSTANT_CHECK(123_c == llong<123>);
-            BOOST_HANA_CONSTANT_CHECK(1234567_c == llong<1234567>);
-            BOOST_HANA_CONSTANT_CHECK(-34_c == llong<-34>);
+            BOOST_HANA_CONSTANT_CHECK(0_c == llong_c<0>);
+            BOOST_HANA_CONSTANT_CHECK(1_c == llong_c<1>);
+            BOOST_HANA_CONSTANT_CHECK(12_c == llong_c<12>);
+            BOOST_HANA_CONSTANT_CHECK(123_c == llong_c<123>);
+            BOOST_HANA_CONSTANT_CHECK(1234567_c == llong_c<1234567>);
+            BOOST_HANA_CONSTANT_CHECK(-34_c == llong_c<-34>);
 
             static_assert(std::is_same<
                 decltype(-1234_c)::value_type,
@@ -235,24 +235,24 @@ int main() {
         // eval_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(true_, always(t), always(e)),
+                eval_if(true_c, always(t), always(e)),
                 t
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                eval_if(false_, always(t), always(e)),
+                eval_if(false_c, always(t), always(e)),
                 e
             ));
         }
 
         // not_
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_), false_));
-            BOOST_HANA_CONSTANT_CHECK(equal(not_(false_), true_));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(true_c), false_c));
+            BOOST_HANA_CONSTANT_CHECK(equal(not_(false_c), true_c));
         }
 
         // laws
-        auto ints = make<Tuple>(int_<-2>, int_<0>, int_<1>, int_<3>);
+        auto ints = make<Tuple>(int_c<-2>, int_c<0>, int_c<1>, int_c<3>);
         test::TestLogical<IntegralConstant<int>>{ints};
         test::TestLogical<IntegralConstant<bool>>{bools};
     }

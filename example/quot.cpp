@@ -12,8 +12,8 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(hana::quot(hana::int_<6>, hana::int_<3>) == hana::int_<2>);
-    BOOST_HANA_CONSTANT_CHECK(hana::quot(hana::int_<6>, hana::int_<4>) == hana::int_<1>);
+    BOOST_HANA_CONSTANT_CHECK(hana::quot(hana::int_c<6>, hana::int_c<3>) == hana::int_c<2>);
+    BOOST_HANA_CONSTANT_CHECK(hana::quot(hana::int_c<6>, hana::int_c<4>) == hana::int_c<1>);
 
     static_assert(hana::quot(6, 3) == 2, "");
     static_assert(hana::quot(6, 4) == 1, "");

@@ -21,12 +21,12 @@ namespace boost { namespace hana {
     struct equal_impl<cppcon::Matrix<R1, C1>, cppcon::Matrix<R2, C2>> {
         template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
-            return eval_if(bool_<R1 == R2 && C1 == C2>,
+            return eval_if(bool_c<R1 == R2 && C1 == C2>,
                 [&](auto _) {
                     return all(zip_with(_(equal), cppcon::rows(m1),
                                                   cppcon::rows(m2)));
                 },
-                [] { return false_; }
+                [] { return false_c; }
             );
         }
     };

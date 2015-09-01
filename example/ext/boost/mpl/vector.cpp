@@ -46,14 +46,14 @@ BOOST_HANA_CONSTANT_CHECK(
 
 //! [Foldable]
 auto types = mpl::vector<long, float, short, float, long, long double>{};
-auto number_of_floats = hana::fold_left(types, hana::int_<0>, [](auto count, auto t) {
+auto number_of_floats = hana::fold_left(types, hana::int_c<0>, [](auto count, auto t) {
     return hana::if_(hana::trait<std::is_floating_point>(t),
-        count + hana::int_<1>,
+        count + hana::int_c<1>,
         count
     );
 });
 
-BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_<3>);
+BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_c<3>);
 //! [Foldable]
 
 }{

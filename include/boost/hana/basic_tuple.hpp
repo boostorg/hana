@@ -206,7 +206,7 @@ namespace boost { namespace hana {
     struct length_impl<BasicTuple> {
         template <typename ...Xn>
         static constexpr auto apply(basic_tuple<Xn...> const&) {
-            return hana::size_t<sizeof...(Xn)>;
+            return hana::size_c<sizeof...(Xn)>;
         }
     };
 
@@ -255,7 +255,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<BasicTuple> {
         template <typename ...Xs>
         static constexpr auto apply(basic_tuple<Xs...> const&)
-        { return hana::bool_<sizeof...(Xs) == 0>; }
+        { return hana::bool_c<sizeof...(Xs) == 0>; }
     };
 #endif
 }} // end namespace boost::hana

@@ -17,8 +17,8 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(
         hana::to<hana::Tuple>(hana::tuple_c<int, 0, 1, 2>)
             ==
-        hana::make_tuple(hana::int_<0>, hana::int_<1>, hana::int_<2>)
+        hana::make_tuple(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>)
     );
 
-    BOOST_HANA_CONSTANT_CHECK(hana::front(hana::tuple_c<int, 0, 1, 2>) == hana::int_<0>);
+    BOOST_HANA_CONSTANT_CHECK(hana::front(hana::tuple_c<int, 0, 1, 2>) == hana::int_c<0>);
 }

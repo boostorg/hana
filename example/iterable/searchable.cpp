@@ -31,13 +31,13 @@ BOOST_HANA_CONSTANT_CHECK(
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find(hana::make_tuple(hana::int_<1>, hana::char_<'c'>, hana::type_c<void>), hana::type_c<void>)
+    hana::find(hana::make_tuple(hana::int_c<1>, hana::char_c<'c'>, hana::type_c<void>), hana::type_c<void>)
         ==
     hana::just(hana::type_c<void>)
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find(hana::make_tuple(hana::int_<1>, hana::char_<'c'>, hana::type_c<void>), hana::type_c<int>)
+    hana::find(hana::make_tuple(hana::int_c<1>, hana::char_c<'c'>, hana::type_c<void>), hana::type_c<int>)
         ==
     hana::nothing
 );

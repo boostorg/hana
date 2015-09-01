@@ -14,13 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 struct is_even {
     template <typename N>
     constexpr auto operator()(N n) const {
-        return n % boost::hana::int_<2> == boost::hana::int_<0>;
+        return n % boost::hana::int_c<2> == boost::hana::int_c<0>;
     }
 };
 
 int main() {
     constexpr auto tuple = boost::hana::make_tuple(
-        <%= (1..input_size).map { |n| "boost::hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "boost::hana::int_c<#{n}>" }.join(', ') %>
     );
     constexpr auto result = boost::hana::partition(tuple, is_even{});
     (void)result;

@@ -22,7 +22,7 @@ using namespace hana::literals;
                                                     'w', 'o', 'r', 'l', 'd', '!'>);
 
     BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::String>(str));
-    BOOST_HANA_CONSTANT_CHECK(hana::length(str) == hana::size_t<12>);
+    BOOST_HANA_CONSTANT_CHECK(hana::length(str) == hana::size_c<12>);
 
 #endif
 

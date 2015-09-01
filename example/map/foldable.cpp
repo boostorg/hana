@@ -26,16 +26,16 @@ int main() {
     };
 
     auto m = hana::make_map(
-        hana::make_pair(hana::type_c<int>, hana::int_<1>),
-        hana::make_pair(hana::type_c<float>, hana::int_<2>),
-        hana::make_pair(hana::int_<3>, hana::type_c<void>)
+        hana::make_pair(hana::type_c<int>, hana::int_c<1>),
+        hana::make_pair(hana::type_c<float>, hana::int_c<2>),
+        hana::make_pair(hana::int_c<3>, hana::type_c<void>)
     );
 
     BOOST_HANA_CONSTANT_CHECK(invert(m) ==
         hana::make_map(
-            hana::make_pair(hana::int_<1>, hana::type_c<int>),
-            hana::make_pair(hana::int_<2>, hana::type_c<float>),
-            hana::make_pair(hana::type_c<void>, hana::int_<3>)
+            hana::make_pair(hana::int_c<1>, hana::type_c<int>),
+            hana::make_pair(hana::int_c<2>, hana::type_c<float>),
+            hana::make_pair(hana::type_c<void>, hana::int_c<3>)
         )
     );
 }

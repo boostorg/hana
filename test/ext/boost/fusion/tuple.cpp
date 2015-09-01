@@ -135,22 +135,22 @@ int main() {
     {
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(fusion::make_tuple()),
-            hana::size_t<0>
+            hana::size_c<0>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(fusion::make_tuple(undefined{})),
-            hana::size_t<1>
+            hana::size_c<1>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(fusion::make_tuple(undefined{}, undefined{})),
-            hana::size_t<2>
+            hana::size_c<2>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(fusion::make_tuple(undefined{}, undefined{}, undefined{})),
-            hana::size_t<3>
+            hana::size_c<3>
         ));
     }
 

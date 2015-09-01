@@ -11,6 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::int_<2> ^hana::in^ hana::make_tuple(2, hana::int_<2>, hana::int_<3>, 'x'));
+BOOST_HANA_CONSTANT_CHECK(hana::int_c<2> ^hana::in^ hana::make_tuple(2, hana::int_c<2>, hana::int_c<3>, 'x'));
 
 int main() { }

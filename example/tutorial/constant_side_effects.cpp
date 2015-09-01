@@ -15,7 +15,7 @@ namespace pure {
 template <typename X>
 auto identity(X x) { return x; }
 
-auto x = identity(hana::bool_<true>);
+auto x = identity(hana::bool_c<true>);
 static_assert(hana::value(x), "");
 //! [pure]
 }
@@ -30,7 +30,7 @@ auto identity(X x) {
 //! [impure_identity]
 
 //! [impure]
-auto x = identity(hana::bool_<true>);
+auto x = identity(hana::bool_c<true>);
 static_assert(hana::value(x), "");
 //! [impure]
 }

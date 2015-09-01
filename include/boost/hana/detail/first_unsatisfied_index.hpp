@@ -45,7 +45,7 @@ namespace boost { namespace hana { namespace detail {
     struct first_unsatisfied_index {
         template <typename ...Xs>
         constexpr auto operator()(Xs&& ...) const {
-            return hana::size_t<
+            return hana::size_c<
                 sizeof...(Xs) - 1 - find_tail_size<true, Pred, Xs&&...>::value
             >;
         }

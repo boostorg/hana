@@ -59,7 +59,7 @@ int main() {
 
     auto predicates = make<Tuple>(
         equal.to(ct_eq<0>{}), equal.to(ct_eq<3>{}), equal.to(ct_eq<10>{}),
-        always(true_), always(false_)
+        always(true_c), always(false_c)
     );
     (void)predicates;
 
@@ -102,14 +102,14 @@ int main() {
         test::TestSearchable<test::Seq>{eqs, eq_keys};
 
         auto bools = make<Tuple>(
-              test::seq(true_)
-            , test::seq(false_)
-            , test::seq(true_, true_)
-            , test::seq(true_, false_)
-            , test::seq(false_, true_)
-            , test::seq(false_, false_)
+              test::seq(true_c)
+            , test::seq(false_c)
+            , test::seq(true_c, true_c)
+            , test::seq(true_c, false_c)
+            , test::seq(false_c, true_c)
+            , test::seq(false_c, false_c)
         );
-        test::TestSearchable<test::Seq>{bools, make<Tuple>(true_, false_)};
+        test::TestSearchable<test::Seq>{bools, make<Tuple>(true_c, false_c)};
     }
 #endif
 

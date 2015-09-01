@@ -39,8 +39,8 @@ namespace boost { namespace hana { namespace test {
             auto predicates = hana::concat(
                 hana::to<hana::Tuple>(hana::transform(keys, equal.to)),
                 hana::make_tuple(
-                    hana::always(false_),
-                    hana::always(true_)
+                    hana::always(false_c),
+                    hana::always(true_c)
                 )
             );
 
@@ -78,9 +78,9 @@ namespace boost { namespace hana { namespace test {
                     );
                 })(xs));
 
-                // find_if(xs, always(false_)) == nothing
+                // find_if(xs, always(false_c)) == nothing
                 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                    hana::find_if(xs, hana::always(hana::false_)),
+                    hana::find_if(xs, hana::always(hana::false_c)),
                     hana::nothing
                 ));
 

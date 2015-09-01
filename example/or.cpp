@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::or_(hana::false_, hana::false_, hana::true_));
-BOOST_HANA_CONSTANT_CHECK(!hana::or_(hana::false_, hana::false_, hana::false_));
+BOOST_HANA_CONSTANT_CHECK(hana::or_(hana::false_c, hana::false_c, hana::true_c));
+BOOST_HANA_CONSTANT_CHECK(!hana::or_(hana::false_c, hana::false_c, hana::false_c));
 
 int main() { }

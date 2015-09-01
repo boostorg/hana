@@ -22,5 +22,5 @@ int main() {
         return x + 1;
     });
 
-    BOOST_HANA_CONSTEXPR_CHECK(hana::eval(hana::if_(hana::false_, f(0), g(0))) == 0 + 1);
+    BOOST_HANA_CONSTEXPR_CHECK(hana::eval(hana::if_(hana::false_c, f(0), g(0))) == 0 + 1);
 }

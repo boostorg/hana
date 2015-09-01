@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/integral_constant.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 /*
@@ -40,16 +40,13 @@ we're not in a template.
 */
 
 template <typename T>
-constexpr auto check_int() { return int_<1>; }
+constexpr auto check_int() { return hana::int_c<1>; }
 
 template <typename T>
-constexpr auto check_true() { return true_; }
+constexpr auto check_true() { return hana::true_c; }
 
 template <typename T>
-constexpr auto check_size_t() {
-    using boost::hana::size_t; // disambiguate with std::size_t on GCC
-    return size_t<0>;
-}
+constexpr auto check_size_t() { return hana::size_c<0>; }
 
 
 int main() { }

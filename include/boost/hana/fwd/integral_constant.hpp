@@ -180,43 +180,6 @@ namespace boost { namespace hana {
     };
     //! @endcond
 
-    template <bool b>
-    using _bool = integral_constant<bool, b>;
-
-    using _true = _bool<true>;
-
-    using _false = _bool<false>;
-
-    template <char c>
-    using _char = integral_constant<char, c>;
-
-    template <short i>
-    using _short = integral_constant<short, i>;
-
-    template <unsigned short i>
-    using _ushort = integral_constant<unsigned short, i>;
-
-    template <int i>
-    using _int = integral_constant<int, i>;
-
-    template <unsigned int i>
-    using _uint = integral_constant<unsigned int, i>;
-
-    template <long i>
-    using _long = integral_constant<long, i>;
-
-    template <unsigned long i>
-    using _ulong = integral_constant<unsigned long, i>;
-
-    template <long long i>
-    using _llong = integral_constant<long long, i>;
-
-    template <unsigned long long i>
-    using _ullong = integral_constant<unsigned long long, i>;
-
-    template <std::size_t i>
-    using _size_t = integral_constant<std::size_t, i>;
-
     //! Creates an `integral_constant` holding the given compile-time value.
     //! @relates hana::integral_constant
     //!
@@ -238,57 +201,119 @@ namespace boost { namespace hana {
     template <typename T, T v>
     constexpr integral_constant<T, v> integral_c{};
 
+
     //! @relates hana::integral_constant
     template <bool b>
-    constexpr integral_constant<bool, b> bool_{};
+    using bool_ = integral_constant<bool, b>;
+
+    //! @relates hana::integral_constant
+    template <bool b>
+    constexpr bool_<b> bool_c{};
+
+    //! @relates hana::integral_constant
+    using true_ = bool_<true>;
 
     //! Equivalent to `bool_<true>`.
     //! @relates hana::integral_constant
-    constexpr auto true_ = bool_<true>;
+    constexpr auto true_c = bool_c<true>;
+
+    //! @relates hana::integral_constant
+    using false_ = bool_<false>;
 
     //! Equivalent to `bool_<false>`.
     //! @relates hana::integral_constant
-    constexpr auto false_ = bool_<false>;
+    constexpr auto false_c = bool_c<false>;
+
 
     //! @relates hana::integral_constant
     template <char c>
-    constexpr integral_constant<char, c> char_{};
+    using char_ = integral_constant<char, c>;
+
+    //! @relates hana::integral_constant
+    template <char c>
+    constexpr char_<c> char_c{};
+
 
     //! @relates hana::integral_constant
     template <short i>
-    constexpr integral_constant<short, i> short_{};
+    using short_ = integral_constant<short, i>;
+
+    //! @relates hana::integral_constant
+    template <short i>
+    constexpr short_<i> short_c{};
+
 
     //! @relates hana::integral_constant
     template <unsigned short i>
-    constexpr integral_constant<unsigned short, i> ushort{};
+    using ushort_ = integral_constant<unsigned short, i>;
+
+    //! @relates hana::integral_constant
+    template <unsigned short i>
+    constexpr ushort_<i> ushort_c{};
+
 
     //! @relates hana::integral_constant
     template <int i>
-    constexpr integral_constant<int, i> int_{};
+    using int_ = integral_constant<int, i>;
+
+    //! @relates hana::integral_constant
+    template <int i>
+    constexpr int_<i> int_c{};
+
 
     //! @relates hana::integral_constant
     template <unsigned int i>
-    constexpr integral_constant<unsigned int, i> uint{};
+    using uint = integral_constant<unsigned int, i>;
+
+    //! @relates hana::integral_constant
+    template <unsigned int i>
+    constexpr uint<i> uint_c{};
+
 
     //! @relates hana::integral_constant
     template <long i>
-    constexpr integral_constant<long, i> long_{};
+    using long_ = integral_constant<long, i>;
+
+    //! @relates hana::integral_constant
+    template <long i>
+    constexpr long_<i> long_c{};
+
 
     //! @relates hana::integral_constant
     template <unsigned long i>
-    constexpr integral_constant<unsigned long, i> ulong{};
+    using ulong = integral_constant<unsigned long, i>;
+
+    //! @relates hana::integral_constant
+    template <unsigned long i>
+    constexpr ulong<i> ulong_c{};
+
 
     //! @relates hana::integral_constant
     template <long long i>
-    constexpr integral_constant<long long, i> llong{};
+    using llong = integral_constant<long long, i>;
+
+    //! @relates hana::integral_constant
+    template <long long i>
+    constexpr llong<i> llong_c{};
+
 
     //! @relates hana::integral_constant
     template <unsigned long long i>
-    constexpr integral_constant<unsigned long long, i> ullong{};
+    using ullong = integral_constant<unsigned long long, i>;
+
+    //! @relates hana::integral_constant
+    template <unsigned long long i>
+    constexpr ullong<i> ullong_c{};
+
 
     //! @relates hana::integral_constant
     template <std::size_t i>
-    constexpr integral_constant<std::size_t, i> size_t{};
+    using size_t = integral_constant<std::size_t, i>;
+
+    //! @relates hana::integral_constant
+    template <std::size_t i>
+    constexpr size_t<i> size_c{};
+
 
     namespace literals {
         //! Creates a `hana::integral_constant` from a literal.

@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 static_assert(hana::less_equal(1, 4), "");
 static_assert(hana::less_equal(1, 1), "");
-BOOST_HANA_CONSTANT_CHECK(!hana::less_equal(hana::int_<3>, hana::int_<2>));
+BOOST_HANA_CONSTANT_CHECK(!hana::less_equal(hana::int_c<3>, hana::int_c<2>));
 
 int main() { }

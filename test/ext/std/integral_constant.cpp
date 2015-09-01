@@ -84,10 +84,10 @@ int main() {
     // Interoperation with hana::integral_constant
     //////////////////////////////////////////////////////////////////////////
     {
-        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == int_<1>);
-        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == long_<1>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == int_c<1>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 1>{} == long_c<1>);
 
-        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 2>{} != int_<3>);
+        BOOST_HANA_CONSTANT_CHECK(std::integral_constant<int, 2>{} != int_c<3>);
     }
 
 #elif BOOST_HANA_TEST_PART == 2

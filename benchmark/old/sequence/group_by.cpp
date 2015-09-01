@@ -16,7 +16,7 @@ template <int i> struct x { };
 struct decade {
     template <int i, int j>
     constexpr decltype(auto) operator()(x<i>, x<j>) const {
-        return boost::hana::bool_<i/10 == j/10>;
+        return boost::hana::bool_c<i/10 == j/10>;
     }
 };
 

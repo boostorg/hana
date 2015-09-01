@@ -30,7 +30,7 @@ int main() {
         >{}, "");
 
         static_assert(std::is_same<
-            typename decltype(+hana::at(types, hana::size_t<1>))::type, U
+            typename decltype(+hana::at(types, hana::size_c<1>))::type, U
         >{}, "");
 
         static_assert(std::is_same<

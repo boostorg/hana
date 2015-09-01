@@ -102,7 +102,7 @@ int main() {
     hana::traits::alignment_of(s);
     hana::traits::rank(s);
     hana::traits::extent(s);
-    hana::traits::extent(hana::type_c<int[2][3]>, hana::uint<1>);
+    hana::traits::extent(hana::type_c<int[2][3]>, hana::uint_c<1>);
 
     // Type relationships
     hana::traits::is_same(s, s);
@@ -139,9 +139,9 @@ int main() {
     hana::traits::remove_all_extents(s);
 
     // Miscellaneous transformations
-    hana::traits::aligned_storage(hana::size_t<1>);
-    hana::traits::aligned_storage(hana::size_t<1>, hana::size_t<1>);
-    hana::traits::aligned_union(hana::size_t<0>, s);
+    hana::traits::aligned_storage(hana::size_c<1>);
+    hana::traits::aligned_storage(hana::size_c<1>, hana::size_c<1>);
+    hana::traits::aligned_union(hana::size_c<0>, s);
     hana::traits::decay(s);
 
     hana::traits::common_type(s, s);

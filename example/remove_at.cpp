@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 constexpr auto xs = hana::make_tuple(0, '1', 2.2, 3u);
 
-static_assert(hana::remove_at(xs, hana::size_t<2>) == hana::make_tuple(0, '1', 3u), "");
+static_assert(hana::remove_at(xs, hana::size_c<2>) == hana::make_tuple(0, '1', 3u), "");
 
 int main() { }

@@ -14,14 +14,14 @@ namespace hana = boost::hana;
 
 
 auto even = [](auto x) {
-    return x % hana::int_<2> == hana::int_<0>;
+    return x % hana::int_c<2> == hana::int_c<0>;
 };
 
 auto half = [](auto x) {
-    return x / hana::int_<2>;
+    return x / hana::int_c<2>;
 };
 
-BOOST_HANA_CONSTANT_CHECK(hana::only_when(even, half, hana::int_<4>) == hana::just(hana::int_<2>));
-BOOST_HANA_CONSTANT_CHECK(hana::only_when(even, half, hana::int_<3>) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::only_when(even, half, hana::int_c<4>) == hana::just(hana::int_c<2>));
+BOOST_HANA_CONSTANT_CHECK(hana::only_when(even, half, hana::int_c<3>) == hana::nothing);
 
 int main() { }

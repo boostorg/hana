@@ -146,7 +146,7 @@ struct front
 template <typename Sequence>
 struct pop_back {
     using type = decltype(hana::drop_back(
-        hana::to<hana::Tuple>(Sequence{}), hana::size_t<1>
+        hana::to<hana::Tuple>(Sequence{}), hana::size_c<1>
     ));
 };
 

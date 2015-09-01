@@ -59,32 +59,32 @@ namespace boost { namespace hana { namespace test {
 
                 // power
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<0>),
+                    hana::power(x, int_c<0>),
                     one<R>()
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<1>),
+                    hana::power(x, int_c<1>),
                     x
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<2>),
+                    hana::power(x, int_c<2>),
                     hana::mult(x, x)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<3>),
+                    hana::power(x, int_c<3>),
                     hana::mult(hana::mult(x, x), x)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<4>),
+                    hana::power(x, int_c<4>),
                     hana::mult(hana::mult(hana::mult(x, x), x), x)
                 ));
 
                 BOOST_HANA_CHECK(hana::equal(
-                    hana::power(x, int_<5>),
+                    hana::power(x, int_c<5>),
                     hana::mult(hana::mult(hana::mult(hana::mult(x, x), x), x), x)
                 ));
 

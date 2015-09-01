@@ -234,7 +234,7 @@ namespace boost { namespace hana {
                 return always(f)(nothing...)(at(tuples, index)...);
             };
             auto zip_length = minimum(sandbox::lambda_tuple(length(tuples)...));
-            return unpack(range(_size_t<0>{}, zip_length),
+            return unpack(range(size_c<0>, zip_length),
                 on(sandbox::lambda_tuple, go)
             );
         }

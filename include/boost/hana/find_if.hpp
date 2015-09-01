@@ -118,17 +118,17 @@ namespace boost { namespace hana {
     template <typename T, std::size_t N>
     struct find_if_impl<T[N]> {
         template <typename Xs>
-        static constexpr auto find_if_helper(Xs&&, decltype(hana::false_))
+        static constexpr auto find_if_helper(Xs&&, decltype(hana::false_c))
         { return hana::nothing; }
 
         template <typename Xs>
-        static constexpr auto find_if_helper(Xs&& xs, decltype(hana::true_))
+        static constexpr auto find_if_helper(Xs&& xs, decltype(hana::true_c))
         { return hana::just(static_cast<Xs&&>(xs)[0]); }
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             return find_if_helper(static_cast<Xs&&>(xs),
-                hana::bool_<hana::value<decltype(pred(xs[0]))>()>
+                hana::bool_c<hana::value<decltype(pred(xs[0]))>()>
             );
         }
     };

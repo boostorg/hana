@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::and_(hana::true_, hana::true_, hana::true_, hana::true_));
-static_assert(!hana::and_(hana::true_, false, hana::true_, hana::true_), "");
+BOOST_HANA_CONSTANT_CHECK(hana::and_(hana::true_c, hana::true_c, hana::true_c, hana::true_c));
+static_assert(!hana::and_(hana::true_c, false, hana::true_c, hana::true_c), "");
 
 int main() { }

@@ -113,7 +113,7 @@ namespace boost { namespace hana { namespace traits {
 
         template <typename T>
         constexpr auto operator()(T&& t) const
-        { return (*this)(static_cast<T&&>(t), hana::uint<0>); }
+        { return (*this)(static_cast<T&&>(t), hana::uint_c<0>); }
     } extent{};
 
     // Type relationships

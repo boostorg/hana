@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::plus(hana::int_<3>, hana::int_<5>) == hana::int_<8>);
+BOOST_HANA_CONSTANT_CHECK(hana::plus(hana::int_c<3>, hana::int_c<5>) == hana::int_c<8>);
 static_assert(hana::plus(1, 2) == 3, "");
 static_assert(hana::plus(1.5f, 2.4) == 3.9, "");
 

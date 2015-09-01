@@ -12,10 +12,10 @@ namespace hana = boost::hana;
 
 int main() {
     constexpr auto even = hana::make_set(
-        <%= (1..input_size).map { |n| "hana::int_<#{n*2}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "hana::int_c<#{n*2}>" }.join(', ') %>
     );
     constexpr auto odd = hana::make_set(
-        <%= (1..input_size).map { |n| "hana::int_<#{n*2+1}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "hana::int_c<#{n*2+1}>" }.join(', ') %>
     );
     hana::is_disjoint(even, odd);
 }

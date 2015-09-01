@@ -39,9 +39,9 @@ namespace boost { namespace hana {
     //! @code
     //!     template <typename N>
     //!     auto fact(N n) {
-    //!         return hana::eval_if(n == hana::int_<0>,
-    //!             [] { return hana::int_<1>; },
-    //!             [=](auto _) { return n * fact(_(n) - hana::int_<1>); }
+    //!         return hana::eval_if(n == hana::int_c<0>,
+    //!             [] { return hana::int_c<1>; },
+    //!             [=](auto _) { return n * fact(_(n) - hana::int_c<1>); }
     //!         );
     //!     }
     //! @endcode

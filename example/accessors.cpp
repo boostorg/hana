@@ -27,15 +27,15 @@ struct Person {
 int main() {
     constexpr auto accessors = hana::accessors<Person>();
     BOOST_HANA_CONSTANT_CHECK(
-        hana::first(accessors[hana::size_t<0>]) == BOOST_HANA_STRING("name")
+        hana::first(accessors[hana::size_c<0>]) == BOOST_HANA_STRING("name")
     );
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::first(accessors[hana::size_t<1>]) == BOOST_HANA_STRING("age")
+        hana::first(accessors[hana::size_c<1>]) == BOOST_HANA_STRING("age")
     );
 
-    constexpr auto get_name = hana::second(accessors[hana::size_t<0>]);
-    constexpr auto get_age = hana::second(accessors[hana::size_t<1>]);
+    constexpr auto get_name = hana::second(accessors[hana::size_c<0>]);
+    constexpr auto get_age = hana::second(accessors[hana::size_c<1>]);
 
     Person john{"John", 30};
     BOOST_HANA_RUNTIME_CHECK(get_name(john) == "John");

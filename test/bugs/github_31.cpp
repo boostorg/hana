@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     struct at_impl<counter<i>> {
         template <typename N>
         static constexpr auto apply(counter<i>, N const&) {
-            return hana::int_<i + hana::value<N>()>;
+            return hana::int_c<i + hana::value<N>()>;
         }
     };
 
@@ -38,7 +38,7 @@ namespace boost { namespace hana {
 
     template <int i>
     struct is_empty_impl<counter<i>> {
-        static constexpr auto apply(counter<i>) { return hana::false_; }
+        static constexpr auto apply(counter<i>) { return hana::false_c; }
     };
 }}
 
@@ -46,10 +46,10 @@ namespace boost { namespace hana {
 int main() {
     // find_if and any_of should short-circuit and stop even though the
     // Iterable is infinite.
-    BOOST_HANA_CONSTANT_CHECK(hana::any_of(counter<1>{}, hana::equal.to(hana::int_<4>)));
+    BOOST_HANA_CONSTANT_CHECK(hana::any_of(counter<1>{}, hana::equal.to(hana::int_c<4>)));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
-        hana::find_if(counter<1>{}, hana::equal.to(hana::int_<4>)),
-        hana::just(hana::int_<4>)
+        hana::find_if(counter<1>{}, hana::equal.to(hana::int_c<4>)),
+        hana::just(hana::int_c<4>)
     ));
 }

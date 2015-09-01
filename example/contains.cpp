@@ -13,13 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_tuple(2, hana::int_<2>, hana::int_<3>, 'x'), hana::int_<3>));
+BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_tuple(2, hana::int_c<2>, hana::int_c<3>, 'x'), hana::int_c<3>));
 
-BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_set(hana::int_<3>, hana::type_c<void>), hana::type_c<void>));
+BOOST_HANA_CONSTANT_CHECK(hana::contains(hana::make_set(hana::int_c<3>, hana::type_c<void>), hana::type_c<void>));
 
 // contains can be applied in infix notation
 BOOST_HANA_CONSTANT_CHECK(
-    hana::make_tuple(2, hana::int_<2>, hana::int_<3>, 'x') ^hana::contains^ hana::int_<2>
+    hana::make_tuple(2, hana::int_c<2>, hana::int_c<3>, 'x') ^hana::contains^ hana::int_c<2>
 );
 
 int main() { }

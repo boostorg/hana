@@ -60,7 +60,7 @@ namespace boost { namespace hana { namespace test {
                     hana::fold_right(xs, s, hana::flip(f))
                 ));
 
-                only_when_(hana::not_equal(hana::length(xs), size_t<0>),
+                only_when_(hana::not_equal(hana::length(xs), size_c<0>),
                 hana::make_lazy([](auto f, auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::fold(xs, f),
@@ -427,22 +427,22 @@ namespace boost { namespace hana { namespace test {
             // length
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(list()), size_t<0>
+                length(list()), size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(list(undefined{})), size_t<1>
+                length(list(undefined{})), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(list(undefined{}, undefined{})), size_t<2>
+                length(list(undefined{}, undefined{})), size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                length(list(undefined{}, undefined{}, undefined{})), size_t<3>
+                length(list(undefined{}, undefined{}, undefined{})), size_c<3>
             ));
 
             int i = 0; // non-constexpr
             BOOST_HANA_CONSTANT_CHECK(equal(
                 length(list(i, i)),
-                size_t<2>
+                size_c<2>
             ));
 
             //////////////////////////////////////////////////////////////////
@@ -620,11 +620,11 @@ namespace boost { namespace hana { namespace test {
 
 
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    maximum(list(int{0}, 1ll, long_<2>)),
+                    maximum(list(int{0}, 1ll, long_c<2>)),
                     long{2}
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    maximum(list(int{0}, long_<1>, 2ll)),
+                    maximum(list(int{0}, long_c<1>, 2ll)),
                     2ll
                 ));
             }
@@ -804,7 +804,7 @@ namespace boost { namespace hana { namespace test {
 
 
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
-                    minimum(list(int{3}, short{4}, long_<5>)),
+                    minimum(list(int{3}, short{4}, long_c<5>)),
                     int{3}
                 ));
                 BOOST_HANA_CONSTEXPR_CHECK(equal(
@@ -818,51 +818,51 @@ namespace boost { namespace hana { namespace test {
             // count_if
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(), id), size_t<0>
+                count_if(list(), id), size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>), id), size_t<1>
+                count_if(list(int_c<1>), id), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>), id), size_t<0>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<1>), id), size_t<2>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<0>), id), size_t<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<1>), id), size_t<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<0>), id), size_t<0>
+                count_if(list(int_c<0>), id), size_c<0>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<1>, long_<1>), id), size_t<3>
+                count_if(list(int_c<1>, char_c<1>), id), size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<1>, long_<0>), id), size_t<2>
+                count_if(list(int_c<1>, char_c<0>), id), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<0>, long_<1>), id), size_t<2>
+                count_if(list(int_c<0>, char_c<1>), id), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<1>, char_<0>, long_<0>), id), size_t<1>
+                count_if(list(int_c<0>, char_c<0>), id), size_c<0>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                count_if(list(int_c<1>, char_c<1>, long_c<1>), id), size_c<3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<1>, long_<1>), id), size_t<2>
+                count_if(list(int_c<1>, char_c<1>, long_c<0>), id), size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<1>, long_<0>), id), size_t<1>
+                count_if(list(int_c<1>, char_c<0>, long_c<1>), id), size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<0>, long_<1>), id), size_t<1>
+                count_if(list(int_c<1>, char_c<0>, long_c<0>), id), size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                count_if(list(int_<0>, char_<0>, long_<0>), id), size_t<0>
+                count_if(list(int_c<0>, char_c<1>, long_c<1>), id), size_c<2>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                count_if(list(int_c<0>, char_c<1>, long_c<0>), id), size_c<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                count_if(list(int_c<0>, char_c<0>, long_c<1>), id), size_c<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                count_if(list(int_c<0>, char_c<0>, long_c<0>), id), size_c<0>
             ));
 
 
@@ -939,33 +939,33 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(), undefined{}),
-                size_t<0>
+                size_c<0>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}), undefined{}),
-                size_t<0>
+                size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}), ct_eq<0>{}),
-                size_t<1>
+                size_c<1>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}, ct_eq<1>{}), undefined{}),
-                size_t<0>
+                size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}, ct_eq<1>{}), ct_eq<0>{}),
-                size_t<1>
+                size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}, ct_eq<1>{}), ct_eq<1>{}),
-                size_t<1>
+                size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
                 hana::count(list(ct_eq<0>{}, ct_eq<0>{}), ct_eq<0>{}),
-                size_t<2>
+                size_c<2>
             ));
 
             //////////////////////////////////////////////////////////////////
@@ -973,32 +973,32 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
                 product<IntegralConstant<int>>(list()),
-                int_<1>
+                int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_<2>)),
-                int_<2>
+                product<IntegralConstant<int>>(list(int_c<2>)),
+                int_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_<2>, int_<3>)),
-                int_<2 * 3>
+                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>)),
+                int_c<2 * 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_<2>, int_<3>, int_<4>)),
-                int_<2 * 3 * 4>
+                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>, int_c<4>)),
+                int_c<2 * 3 * 4>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_<2>, int_<3>, int_<4>, int_<5>)),
-                int_<2 * 3 * 4 * 5>
+                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>, int_c<4>, int_c<5>)),
+                int_c<2 * 3 * 4 * 5>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 product<IntegralConstant<unsigned long>>(list()),
-                ulong<1>
+                ulong_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<unsigned long>>(list(ulong<2>, ulong<3>, ulong<4>)),
-                ulong<2 * 3 * 4>
+                product<IntegralConstant<unsigned long>>(list(ulong_c<2>, ulong_c<3>, ulong_c<4>)),
+                ulong_c<2 * 3 * 4>
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
@@ -1024,33 +1024,33 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
                 sum<IntegralConstant<int>>(list()),
-                int_<0>
+                int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_<1>)),
-                int_<1>
+                sum<IntegralConstant<int>>(list(int_c<1>)),
+                int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_<1>, int_<2>)),
-                int_<1 + 2>
+                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>)),
+                int_c<1 + 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_<1>, int_<2>, int_<3>)),
-                int_<1 + 2 + 3>
+                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>, int_c<3>)),
+                int_c<1 + 2 + 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_<1>, int_<2>, int_<3>, int_<4>)),
-                int_<1 + 2 + 3 + 4>
+                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>, int_c<3>, int_c<4>)),
+                int_c<1 + 2 + 3 + 4>
             ));
 
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 sum<IntegralConstant<unsigned long>>(list()),
-                ulong<0>
+                ulong_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<unsigned long>>(list(ulong<1>, ulong<2>, ulong<3>)),
-                ulong<1 + 2 + 3>
+                sum<IntegralConstant<unsigned long>>(list(ulong_c<1>, ulong_c<2>, ulong_c<3>)),
+                ulong_c<1 + 2 + 3>
             ));
 
 

@@ -40,7 +40,7 @@ namespace boost { namespace hana {
         struct argn {
             template <typename ...Xs>
             constexpr auto operator()(Xs const& ...) const
-            { return hana::size_t<sizeof...(Xs)>; }
+            { return hana::size_c<sizeof...(Xs)>; }
         };
     }
 

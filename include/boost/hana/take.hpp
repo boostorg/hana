@@ -67,7 +67,7 @@ namespace boost { namespace hana {
     struct take_c_t {
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const {
-            return hana::take(static_cast<Xs&&>(xs), hana::size_t<n>);
+            return hana::take(static_cast<Xs&&>(xs), hana::size_c<n>);
         }
     };
 }} // end namespace boost::hana

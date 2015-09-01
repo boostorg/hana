@@ -12,11 +12,11 @@ namespace hana = boost::hana;
 
 int main() {
     constexpr auto xs = hana::make_set(
-        <%= (1..input_size).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
 
     constexpr auto ys = hana::make_set(
-        <%= (1..(input_size/2)).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..(input_size/2)).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
 
     constexpr auto result = hana::difference(xs, ys);

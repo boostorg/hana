@@ -12,6 +12,6 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(hana::negate(hana::int_<3>) == hana::int_<-3>);
+    BOOST_HANA_CONSTANT_CHECK(hana::negate(hana::int_c<3>) == hana::int_c<-3>);
     static_assert(hana::negate(2) == -2, "");
 }

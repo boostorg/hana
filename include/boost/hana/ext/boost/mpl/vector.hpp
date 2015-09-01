@@ -122,7 +122,7 @@ namespace boost { namespace hana {
     struct length_impl<ext::boost::mpl::Vector> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
-            return hana::size_t< ::boost::mpl::size<Xs>::type::value>;
+            return hana::size_c< ::boost::mpl::size<Xs>::type::value>;
         }
     };
 

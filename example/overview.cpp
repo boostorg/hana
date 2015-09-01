@@ -51,7 +51,7 @@ int main() {
 
   // 2. Unroll loops at compile-time without hassle.
   std::string s;
-  hana::int_<10>.times([&]{ s += "x"; });
+  hana::int_c<10>.times([&]{ s += "x"; });
   // equivalent to s += "x"; s += "x"; ... s += "x";
 
   // 3. Easily check whether an expression is valid.

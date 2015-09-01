@@ -54,7 +54,7 @@ namespace boost { namespace hana {
             };
             constexpr std::size_t min = *detail::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),
-                hana::take(static_cast<Xs&&>(xs), hana::size_t<min>)...
+                hana::take(static_cast<Xs&&>(xs), hana::size_c<min>)...
             );
         }
     };

@@ -58,7 +58,7 @@ namespace boost { namespace hana {
                 constexpr std::size_t total = detail::count(
                     results, results + sizeof(results), true
                 );
-                return hana::size_t<total>;
+                return hana::size_c<total>;
             }
 
             template <typename ...Xs, typename = void, typename = typename std::enable_if<
