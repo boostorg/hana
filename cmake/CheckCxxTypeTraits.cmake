@@ -1,4 +1,5 @@
 # Copyright Louis Dionne 2015
+# with contributions of Markus J. Weber 2015
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 #
@@ -50,7 +51,7 @@ int main () {
 
 if (NOT CXX_COMPLETE_STDLIBC14)
     message("
-    ### Your C++ standard library has an incomplete implementation of 
+    ### Your C++ standard library has an incomplete implementation of
     ### the C++14 type traits in <type_traits>. The depending code is
     ### automatically deactivated in Boost::Hana and all tests by
     ### adding the definition -DBOOST_HANA_CXX_INCOMPLETE_STDLIB.
@@ -62,4 +63,3 @@ endif()
 
 # Remove the temporary cmake variable to show this warning every time.
 unset(CXX_COMPLETE_STDLIBC14)
-
