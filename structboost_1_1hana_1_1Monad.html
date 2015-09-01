@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -176,7 +176,7 @@ When the minimal complete definition for <code><a class="el" href="structboost_1
 </div><!-- fragment --></li>
 </ol>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code>, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">hana::tuple</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
@@ -404,8 +404,8 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">        };</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = block(hana::type&lt;double&gt;);</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = block(hana::type&lt;int&gt;);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = block(hana::type_c&lt;double&gt;);</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> g = block(hana::type_c&lt;int&gt;);</div>
 <div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> h = hana::monadic_compose(g, f);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1)    == hana::nothing); <span class="comment">// fails inside g; 1 has type int</span></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(h(1.2)  == hana::nothing); <span class="comment">// fails inside f; 1.2 has type double</span></div>

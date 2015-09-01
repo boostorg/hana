@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['false_5f',['false_',['../structboost_1_1hana_1_1IntegralConstant.html#a1fb33fb686dbbe3e9718071ba2630641',1,'boost::hana::IntegralConstant']]],
+  ['false_5f',['false_',['../structboost_1_1hana_1_1integral__constant.html#a1fb33fb686dbbe3e9718071ba2630641',1,'boost::hana::integral_constant']]],
   ['fast_5fand_2ehpp',['fast_and.hpp',['../fast__and_8hpp.html',1,'']]],
   ['fill',['fill',['../structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e',1,'boost::hana::Functor']]],
   ['fill_2ehpp',['fill.hpp',['../fwd_2fill_8hpp.html',1,'']]],
@@ -45,8 +45,8 @@ var searchData=
   ['for_5feach_2ehpp',['for_each.hpp',['../detail_2variadic_2for__each_8hpp.html',1,'']]],
   ['for_5feach_2ehpp',['for_each.hpp',['../for__each_8hpp.html',1,'']]],
   ['for_5feach_2ehpp',['for_each.hpp',['../fwd_2for__each_8hpp.html',1,'']]],
-  ['from_5fjust',['from_just',['../structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796',1,'boost::hana::Optional']]],
-  ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::Optional']]],
+  ['from_5fjust',['from_just',['../structboost_1_1hana_1_1optional.html#a2ebdc9b916940e038e6f2e3043e4f796',1,'boost::hana::optional']]],
+  ['from_5fmaybe',['from_maybe',['../structboost_1_1hana_1_1optional.html#afb98884a58d911687bf2aa64a411d623',1,'boost::hana::optional']]],
   ['front',['front',['../structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571',1,'boost::hana::Iterable']]],
   ['front_2ehpp',['front.hpp',['../fwd_2front_8hpp.html',1,'']]],
   ['front_2ehpp',['front.hpp',['../front_8hpp.html',1,'']]],

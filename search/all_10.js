@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['pair',['Pair',['../structboost_1_1hana_1_1Pair.html',1,'boost::hana']]],
+  ['pair',['Pair',['../structboost_1_1hana_1_1Pair.html',1,'boost::hana::Pair'],['../structboost_1_1hana_1_1pair.html',1,'boost::hana::pair&lt; First, Second &gt;']]],
   ['pair_2ehpp',['pair.hpp',['../ext_2std_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../fwd_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../pair_8hpp.html',1,'']]],

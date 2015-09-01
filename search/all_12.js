@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['range',['Range',['../structboost_1_1hana_1_1Range.html',1,'boost::hana']]],
+  ['range',['range',['../structboost_1_1hana_1_1range.html',1,'boost::hana::range&lt; T, from, to &gt;'],['../structboost_1_1hana_1_1Range.html',1,'boost::hana::Range']]],
   ['range_2ehpp',['range.hpp',['../fwd_2range_8hpp.html',1,'']]],
   ['range_2ehpp',['range.hpp',['../range_8hpp.html',1,'']]],
-  ['range_5fc',['range_c',['../structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f',1,'boost::hana::Range']]],
+  ['range_5fc',['range_c',['../structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f',1,'boost::hana::range']]],
   ['ratio_2ehpp',['ratio.hpp',['../ratio_8hpp.html',1,'']]],
   ['rem',['rem',['../structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9',1,'boost::hana::IntegralDomain']]],
   ['rem_2ehpp',['rem.hpp',['../fwd_2rem_8hpp.html',1,'']]],

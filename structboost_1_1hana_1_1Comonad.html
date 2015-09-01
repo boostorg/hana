@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -161,7 +161,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Comonad.html','
 Every <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> is also required to be a <a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a>. At first, one might think that it should instead be some imaginary concept CoFunctor. However, it turns out that a CoFunctor is the same as a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, hence the requirement that a <code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code> also is a <code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>.</li>
 </ol>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
@@ -221,7 +221,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> very_lazy = hana::duplicate(hana::lazy(3));</div>
+<div class="line">    constexpr <span class="keyword">auto</span> very_lazy = hana::duplicate(hana::make_lazy(3));</div>
 <div class="line">    static_assert(hana::extract(hana::extract(very_lazy)) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -289,7 +289,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    std::stringstream s;</div>
 <div class="line">    s &lt;&lt; <span class="stringliteral">&quot;1 2 3&quot;</span>;</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> from_stream = hana::extend(hana::lazy(read_one&lt;int&gt;)(std::ref(s)), [](<span class="keyword">auto</span> i) {</div>
+<div class="line">    <span class="keyword">auto</span> from_stream = hana::extend(hana::make_lazy(read_one&lt;int&gt;)(std::ref(s)), [](<span class="keyword">auto</span> i) {</div>
 <div class="line">        <span class="keywordflow">return</span> hana::eval(i) + 1;</div>
 <div class="line">    });</div>
 <div class="line"></div>
@@ -344,8 +344,8 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::extract(hana::lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::extract(hana::lazy(hana::succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::extract(hana::make_lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::extract(hana::make_lazy(hana::succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

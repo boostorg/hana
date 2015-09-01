@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -185,7 +185,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Logical.html','
 </ol>
 </blockquote>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code></p>
 <h2>Free model for arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> is true. For an arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is provided automatically by using the result of the builtin implicit conversion to <code>bool</code> as a truth value. Specifically, the minimal complete definition for those data types is </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>(cond, then, else_) = cond ? then(<span class="keywordtype">id</span>) : else(<a class="code" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d">id</a>)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc">not_</a>(cond) = static_cast&lt;T&gt;(cond ? false : true)</div>
@@ -283,7 +283,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Conditionally execute one of two branches based on a condition. </p>
-<p>Given a condition and two branches in the form of lambdas or <a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a> expressions, <code>eval_if</code> will evaluate the branch selected by the condition with <code>eval</code> and return the result. The exact requirements for what the branches may be are the same requirements as those for the <code>eval</code> function.</p>
+<p>Given a condition and two branches in the form of lambdas or <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code>s, <code>eval_if</code> will evaluate the branch selected by the condition with <code>eval</code> and return the result. The exact requirements for what the branches may be are the same requirements as those for the <code>eval</code> function.</p>
 <h2>Deferring compile-time evaluation inside <code>eval_if</code> </h2>
 <p>By passing a unary callable to <code>eval_if</code>, it is possible to defer the compile-time evaluation of selected expressions inside the lambda. This is useful when instantiating a branch would trigger a compile-time error; we only want the branch to be instantiated when that branch is selected. Here's how it can be achieved.</p>
 <p>For simplicity, we'll use a unary lambda as our unary callable. Our lambda must accept a parameter (usually called <code>_</code>), which can be used to defer the compile-time evaluation of expressions as required. For example, </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
@@ -298,31 +298,31 @@ Synopsis of associated functions</h2></td></tr>
 <p>The second caveat is that compilers currently have several bugs regarding deeply nested lambdas with captures. So you always risk crashing the compiler, but this is a question of time before it is not a problem anymore.</p>
 <p>Finally, it means that conditionals can't be written directly inside unevaluated contexts. The reason is that a lambda can't appear in an unevaluated context, for example in <code>decltype</code>. One way to workaround this is to completely lift your type computations into variable templates instead. For example, instead of writing </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>pointerize : decltype(</div>
-<div class="line">    hana::eval_if(hana::traits::is_pointer(hana::type&lt;T&gt;),</div>
-<div class="line">        [] { return hana::type&lt;T&gt;; },</div>
-<div class="line">        [](auto _) { return _(hana::traits::add_pointer)(hana::type&lt;T&gt;); }</div>
+<div class="line">    hana::eval_if(hana::traits::is_pointer(hana::type_c&lt;T&gt;),</div>
+<div class="line">        [] { return hana::type_c&lt;T&gt;; },</div>
+<div class="line">        [](auto _) { return _(hana::traits::add_pointer)(hana::type_c&lt;T&gt;); }</div>
 <div class="line">    ))</div>
 <div class="line">{ };</div>
 </div><!-- fragment --><p>you could instead write</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> pointerize_impl(T t) {</div>
 <div class="line">    <span class="keywordflow">return</span> hana::eval_if(hana::traits::is_pointer(t),</div>
-<div class="line">        [] { <span class="keywordflow">return</span> hana::type&lt;T&gt;; },</div>
-<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(hana::traits::add_pointer)(hana::type&lt;T&gt;); }</div>
+<div class="line">        [] { <span class="keywordflow">return</span> hana::type_c&lt;T&gt;; },</div>
+<div class="line">        [](<span class="keyword">auto</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>) { <span class="keywordflow">return</span> <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>(hana::traits::add_pointer)(hana::type_c&lt;T&gt;); }</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">using</span> pointerize = decltype(pointerize_impl(type&lt;T&gt;));</div>
+<div class="line"><span class="keyword">using</span> pointerize = decltype(pointerize_impl(hana::type_c&lt;T&gt;));</div>
 </div><!-- fragment --><blockquote class="doxtable">
 <p><b>Note</b>: This example would actually be implemented more easily with partial specializations, but my bag of good examples is empty at the time of writing this. </p>
 </blockquote>
 <p>Now, this hoop-jumping only has to be done in one place, because you should use normal function notation everywhere else in your metaprogram to perform type computations. So the syntactic cost is amortized over the whole program.</p>
-<p>Another way to work around this limitation of the language would be to use <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> branches. However, this is only suitable when the branches are not too complicated. With <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code>, you could write the previous example as </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<p>Another way to work around this limitation of the language would be to use <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> for the branches. However, this is only suitable when the branches are not too complicated. With <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code>, you could write the previous example as </p><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>pointerize : decltype(</div>
-<div class="line">    hana::eval_if(hana::traits::is_pointer(hana::type&lt;T&gt;),</div>
-<div class="line">        hana::lazy(hana::type&lt;T&gt;),</div>
-<div class="line">        hana::lazy(hana::traits::add_pointer)(hana::type&lt;T&gt;)</div>
+<div class="line">    hana::eval_if(hana::traits::is_pointer(hana::type_c&lt;T&gt;),</div>
+<div class="line">        hana::make_lazy(hana::type_c&lt;T&gt;),</div>
+<div class="line">        hana::make_lazy(hana::traits::add_pointer)(hana::type_c&lt;T&gt;)</div>
 <div class="line">    ))</div>
 <div class="line">{ };</div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
@@ -353,13 +353,13 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="comment">// eval_if with heterogeneous branches and a Constant condition</span></div>
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> safe_make_unsigned = [](<span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> hana::eval_if(hana::traits::is_integral(t),</div>
-<div class="line">        hana::lazy(hana::traits::make_unsigned)(t),</div>
-<div class="line">        hana::lazy(t)</div>
+<div class="line">        hana::make_lazy(hana::traits::make_unsigned)(t),</div>
+<div class="line">        hana::make_lazy(t)</div>
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type&lt;void&gt;) == hana::type&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type&lt;int&gt;) == hana::type&lt;unsigned int&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;void&gt;) == hana::type_c&lt;void&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;int&gt;) == hana::type_c&lt;unsigned int&gt;);</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// eval_if with homogeneous branches and a constexpr or runtime condition</span></div>

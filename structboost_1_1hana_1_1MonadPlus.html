@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1MonadPlus.html'
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
 <div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept represents Monads with a monoidal structure. </p>
-<p>Intuitively, whereas a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> can be seen as some kind of container or context, a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> can be seen as a container or a context that can be concatenated with other containers or contexts. There must also be an identity element for this combining operation. For example, a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> is a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, because tuples can be concatenated and the empty tuple would act as an identity for concatenation. How is this different from a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> which is also a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a>? The answer is that the monoidal structure on a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> must <em>not</em> depend of the contents of the structure; it must not require the contents to be a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> in order to work.</p>
+<p>Intuitively, whereas a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> can be seen as some kind of container or context, a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> can be seen as a container or a context that can be concatenated with other containers or contexts. There must also be an identity element for this combining operation. For example, a tuple is a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, because tuples can be concatenated and the empty tuple would act as an identity for concatenation. How is this different from a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> which is also a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a>? The answer is that the monoidal structure on a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> must <em>not</em> depend of the contents of the structure; it must not require the contents to be a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> in order to work.</p>
 <p>While sequences are not the only possible model for <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, the method names used here refer to the <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> of sequences under concatenation. Several useful functions generalizing operations on sequences are included with this concept, like <code>append</code>, <code>prepend</code> and <code>filter</code>.</p>
 <h2>Minimal complete definition </h2>
 <p><code>concat</code> and <code>empty</code></p>
@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1MonadPlus.html'
 </div><!-- fragment --><h2>Refined concepts </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code> and <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code></p>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> </p>
+<p><code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code>, <code><a class="el" href="structboost_1_1hana_1_1tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">hana::tuple</a></code> </p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
@@ -579,10 +579,10 @@ template&lt;typename M &gt; </div>
 </div><!-- fragment --><p>For sequences, this has the intuitive behavior of simply prepending an element to the beginning of the sequence, hence the name.</p>
 <blockquote class="doxtable">
 <h4>Rationale for not calling this <code>push_front</code></h4>
-<p>While <code>push_front</code> is the de-facto name used in the standard library, it also strongly suggests mutation of the underlying sequence, which is not the case here. The author also finds that <code>push_front</code> suggests too strongly the sole interpretation of putting an element to the front of a sequence, whereas <code>prepend</code> is slightly more nuanced and bears its name better for e.g. <code><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing an optional value whose optional-ness is known at compile-time. ">Optional</a></code>. </p>
+<p>While <code>push_front</code> is the de-facto name used in the standard library, it also strongly suggests mutation of the underlying sequence, which is not the case here. The author also finds that <code>push_front</code> suggests too strongly the sole interpretation of putting an element to the front of a sequence, whereas <code>prepend</code> is slightly more nuanced and bears its name better for e.g. <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code>. </p>
 </blockquote>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{prepend} : M(T) \times T \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathtt{prepend} : M(T) \times T \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>A monadic structure that will be combined to the right of the element.</td></tr>
@@ -658,9 +658,9 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::tuple_t&lt;int, char, float&gt;, hana::type&lt;char&gt;) == hana::tuple_t&lt;int, float&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type&lt;int&gt;), hana::type&lt;char&gt;) == hana::just(hana::type&lt;int&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type&lt;int&gt;), hana::type&lt;int&gt;) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::tuple_t&lt;int, char, float&gt;, hana::type_c&lt;char&gt;) == hana::tuple_t&lt;int, float&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type_c&lt;int&gt;), hana::type_c&lt;char&gt;) == hana::just(hana::type_c&lt;int&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::remove(hana::just(hana::type_c&lt;int&gt;), hana::type_c&lt;int&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -783,7 +783,7 @@ template&lt;typename M &gt; </div>
 <div class="line"></div>
 <div class="line">static_assert(hana::repeat&lt;hana::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an Optional.</span></div>
+<div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an `optional`.</span></div>
 <div class="line">static_assert(hana::repeat&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>

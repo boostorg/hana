@@ -13,7 +13,7 @@ var searchData=
   ['adjust_5fif_2ehpp',['adjust_if.hpp',['../fwd_2adjust__if_8hpp.html',1,'']]],
   ['adl_2ehpp',['adl.hpp',['../adl_8hpp.html',1,'']]],
   ['algorithm_2ehpp',['algorithm.hpp',['../algorithm_8hpp.html',1,'']]],
-  ['alignof_5f',['alignof_',['../structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736',1,'boost::hana::Type']]],
+  ['alignof_5f',['alignof_',['../structboost_1_1hana_1_1type.html#a6fd9ac456f4b5574dcb16384dbb85736',1,'boost::hana::type']]],
   ['all',['all',['../structboost_1_1hana_1_1Searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2',1,'boost::hana::Searchable']]],
   ['all_2ehpp',['all.hpp',['../all_8hpp.html',1,'']]],
   ['all_2ehpp',['all.hpp',['../fwd_2all_8hpp.html',1,'']]],

@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1IntegralDomain.
 </div><!-- fragment --><h2>Refined concepts </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code></p>
 <h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code></p>
 <h2>Free model for non-boolean integral data types </h2>
 <p>A data type <code>T</code> is integral if <code>std::is_integral&lt;T&gt;::value</code> is true. For a non-boolean integral data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> is automatically defined by using the <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> model provided for arithmetic data types and setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1IntegralDomain.html#a0e8bcb07d9b0d681cb9c4dc0b4df3481">quot</a>(x, y) = (x / y)</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9">rem</a>(x, y)  = (x % y)</div>

@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -203,11 +203,11 @@ template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="memdesc:gac7f5853430d8d73d097d7ec46aafe453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
 <tr class="separator:gac7f5853430d8d73d097d7ec46aafe453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
-<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typename has_common_embedding_impl&lt; Concept, T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
+<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typename has_common_embedding_impl&lt; Concept, T, U &gt;::type</td></tr>
 <tr class="memdesc:gae85b604ae6c7a386f0fc3631c561091b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type.  <a href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">More...</a><br /></td></tr>
 <tr class="separator:gae85b604ae6c7a386f0fc3631c561091b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
-<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typename has_nontrivial_common_embedding_impl&lt; Concept, T, U &gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td></tr>
+<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typename has_nontrivial_common_embedding_impl&lt; Concept, T, U &gt;::type</td></tr>
 <tr class="memdesc:ga9acac3c4609cff5f0957572744c61ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">More...</a><br /></td></tr>
 <tr class="separator:ga9acac3c4609cff5f0957572744c61ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -363,7 +363,7 @@ template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </div>
 template&lt;typename Concept , typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typedef typename has_common_embedding_impl&lt;Concept, T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
+          <td class="memname">using <a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typedef typename has_common_embedding_impl&lt;Concept, T, U&gt;::type</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -382,7 +382,7 @@ template&lt;typename Concept , typename T , typename U &gt; </div>
 template&lt;typename Concept , typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typedef typename has_nontrivial_common_embedding_impl&lt;Concept, T, U&gt;::<a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">type</a></td>
+          <td class="memname">using <a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typedef typename has_nontrivial_common_embedding_impl&lt;Concept, T, U&gt;::type</td>
         </tr>
       </table>
 </div><div class="memdoc">

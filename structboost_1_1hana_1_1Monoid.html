@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Monoid.html',''
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, zero&lt;M&gt;()) == x                    <span class="comment">// right zero</span></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(y, z)) == <a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(<a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y), z) <span class="comment">// associativity</span></div>
 </div><!-- fragment --><h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code></p>
 <h2>Free model for non-boolean arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Monoid.html#a98d9ffdd62fe8226c726ae4ce8e6cf97">plus</a>(x, y) = (x + y)</div>
 <div class="line">zero&lt;T&gt;() = <span class="keyword">static_cast&lt;</span>T<span class="keyword">&gt;</span>(0)</div>

@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -158,7 +158,7 @@ Folding a MPL vector is equivalent to folding it as a <code><a class="el" href="
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(number_of_floats == hana::int_&lt;3&gt;);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
-Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(mpl::vector&lt;int, char, void&gt;{}) == hana::type&lt;int&gt;);</div>
+Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(mpl::vector&lt;int, char, void&gt;{}) == hana::type_c&lt;int&gt;);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::tail(mpl::vector&lt;int, char, void&gt;{}),</div>
@@ -172,14 +172,14 @@ Iterating over a MPL vector is just iterating over each of the types it contains
 <div class="line">));</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-A MPL vector can be searched as if it were a <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::find_if(mpl::vector&lt;int, float, char const*&gt;{}, hana::equal.to(hana::type&lt;float&gt;))</div>
+A MPL vector can be searched as if it were a tuple containing <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    hana::find_if(mpl::vector&lt;int, float, char const*&gt;{}, hana::equal.to(hana::type_c&lt;float&gt;))</div>
 <div class="line">    ==</div>
-<div class="line">    hana::just(hana::type&lt;float&gt;)</div>
+<div class="line">    hana::just(hana::type_c&lt;float&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::find(mpl::vector&lt;int, float, char const*&gt;{}, hana::type&lt;void&gt;)</div>
+<div class="line">    hana::find(mpl::vector&lt;int, float, char const*&gt;{}, hana::type_c&lt;void&gt;)</div>
 <div class="line">    ==</div>
 <div class="line">    hana::nothing</div>
 <div class="line">);</div>
@@ -187,13 +187,13 @@ A MPL vector can be searched as if it were a <code><a class="el" href="structboo
 </ol>
 <h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
 <p>A MPL vector can be created from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>. More precisely, for a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code> whose linearization is <code>[x1, ..., xn]</code>, </p><div class="fragment"><div class="line">to&lt;ext::boost::mpl::Vector&gt;(xs) == mpl::vector&lt;t1, ..., tn&gt;</div>
-</div><!-- fragment --><p> where <code>tk</code> is the type of <code>xk</code>, or the type contained in <code>xk</code> if <code>xk</code> is a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>. </p><dl class="section warning"><dt>Warning</dt><dd>The limitations on the size of <code>mpl::vector</code>s are inherited by this conversion utility, and hence trying to convert a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing more than <code>BOOST_MPL_MAX_VECTOR_SIZE</code> elements is an error. <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.0);</div>
+</div><!-- fragment --><p> where <code>tk</code> is the type of <code>xk</code>, or the type contained in <code>xk</code> if <code>xk</code> is a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>. </p><dl class="section warning"><dt>Warning</dt><dd>The limitations on the size of <code>mpl::vector</code>s are inherited by this conversion utility, and hence trying to convert a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing more than <code>BOOST_MPL_MAX_VECTOR_SIZE</code> elements is an error. <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.0);</div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::to&lt;hana::ext::boost::mpl::Vector&gt;(xs)),</div>
 <div class="line">    mpl::vector&lt;int, char, double&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> ys = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, hana::type&lt;void&gt;);</div>
+<div class="line"><span class="keyword">auto</span> ys = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, hana::type_c&lt;void&gt;);</div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::to&lt;hana::ext::boost::mpl::Vector&gt;(ys)),</div>
 <div class="line">    mpl::vector&lt;int, char, void&gt;</div>

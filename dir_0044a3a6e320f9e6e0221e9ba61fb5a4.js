@@ -16,7 +16,9 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "at.hpp", "fwd_2at_8hpp.html", null ],
     [ "at_key.hpp", "fwd_2at__key_8hpp.html", null ],
     [ "back.hpp", "fwd_2back_8hpp.html", null ],
-    [ "basic_tuple.hpp", "fwd_2basic__tuple_8hpp.html", null ],
+    [ "basic_tuple.hpp", "fwd_2basic__tuple_8hpp.html", [
+      [ "BasicTuple", "structboost_1_1hana_1_1BasicTuple.html", null ]
+    ] ],
     [ "bool.hpp", "fwd_2bool_8hpp.html", null ],
     [ "cartesian_product.hpp", "fwd_2cartesian__product_8hpp.html", null ],
     [ "chain.hpp", "fwd_2chain_8hpp.html", null ],
@@ -66,13 +68,17 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "is_empty.hpp", "fwd_2is__empty_8hpp.html", null ],
     [ "is_subset.hpp", "fwd_2is__subset_8hpp.html", null ],
     [ "keys.hpp", "fwd_2keys_8hpp.html", "fwd_2keys_8hpp" ],
-    [ "lazy.hpp", "fwd_2lazy_8hpp.html", null ],
+    [ "lazy.hpp", "fwd_2lazy_8hpp.html", [
+      [ "Lazy", "structboost_1_1hana_1_1Lazy.html", null ]
+    ] ],
     [ "length.hpp", "fwd_2length_8hpp.html", null ],
     [ "less.hpp", "fwd_2less_8hpp.html", null ],
     [ "less_equal.hpp", "fwd_2less__equal_8hpp.html", null ],
     [ "lexicographical_compare.hpp", "fwd_2lexicographical__compare_8hpp.html", null ],
     [ "lift.hpp", "fwd_2lift_8hpp.html", null ],
-    [ "map.hpp", "fwd_2map_8hpp.html", null ],
+    [ "map.hpp", "fwd_2map_8hpp.html", [
+      [ "Map", "structboost_1_1hana_1_1Map.html", null ]
+    ] ],
     [ "max.hpp", "fwd_2max_8hpp.html", null ],
     [ "maximum.hpp", "fwd_2maximum_8hpp.html", null ],
     [ "members.hpp", "fwd_2members_8hpp.html", null ],
@@ -89,10 +95,14 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "not.hpp", "fwd_2not_8hpp.html", null ],
     [ "not_equal.hpp", "fwd_2not__equal_8hpp.html", null ],
     [ "one.hpp", "fwd_2one_8hpp.html", null ],
-    [ "optional.hpp", "fwd_2optional_8hpp.html", null ],
+    [ "optional.hpp", "fwd_2optional_8hpp.html", [
+      [ "Optional", "structboost_1_1hana_1_1Optional.html", null ]
+    ] ],
     [ "or.hpp", "fwd_2or_8hpp.html", null ],
     [ "ordering.hpp", "fwd_2ordering_8hpp.html", null ],
-    [ "pair.hpp", "fwd_2pair_8hpp.html", null ],
+    [ "pair.hpp", "fwd_2pair_8hpp.html", [
+      [ "Pair", "structboost_1_1hana_1_1Pair.html", null ]
+    ] ],
     [ "partition.hpp", "fwd_2partition_8hpp.html", null ],
     [ "permutations.hpp", "fwd_2permutations_8hpp.html", null ],
     [ "plus.hpp", "fwd_2plus_8hpp.html", null ],
@@ -102,7 +112,9 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "prepend.hpp", "fwd_2prepend_8hpp.html", null ],
     [ "product.hpp", "fwd_2product_8hpp.html", null ],
     [ "quot.hpp", "fwd_2quot_8hpp.html", null ],
-    [ "range.hpp", "fwd_2range_8hpp.html", "fwd_2range_8hpp" ],
+    [ "range.hpp", "fwd_2range_8hpp.html", [
+      [ "Range", "structboost_1_1hana_1_1Range.html", null ]
+    ] ],
     [ "rem.hpp", "fwd_2rem_8hpp.html", null ],
     [ "remove.hpp", "fwd_2remove_8hpp.html", null ],
     [ "remove_at.hpp", "fwd_2remove__at_8hpp.html", null ],
@@ -116,7 +128,9 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "scan_left.hpp", "fwd_2scan__left_8hpp.html", null ],
     [ "scan_right.hpp", "fwd_2scan__right_8hpp.html", null ],
     [ "second.hpp", "fwd_2second_8hpp.html", null ],
-    [ "set.hpp", "fwd_2set_8hpp.html", null ],
+    [ "set.hpp", "fwd_2set_8hpp.html", [
+      [ "Set", "structboost_1_1hana_1_1Set.html", null ]
+    ] ],
     [ "size.hpp", "fwd_2size_8hpp.html", null ],
     [ "slice.hpp", "fwd_2slice_8hpp.html", null ],
     [ "sort.hpp", "fwd_2sort_8hpp.html", null ],
@@ -133,8 +147,13 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "tap.hpp", "fwd_2tap_8hpp.html", null ],
     [ "then.hpp", "fwd_2then_8hpp.html", null ],
     [ "transform.hpp", "fwd_2transform_8hpp.html", null ],
-    [ "tuple.hpp", "fwd_2tuple_8hpp.html", null ],
-    [ "type.hpp", "fwd_2type_8hpp.html", null ],
+    [ "tuple.hpp", "fwd_2tuple_8hpp.html", [
+      [ "Tuple", "structboost_1_1hana_1_1Tuple.html", null ]
+    ] ],
+    [ "type.hpp", "fwd_2type_8hpp.html", [
+      [ "basic_type", "structboost_1_1hana_1_1basic__type.html", null ],
+      [ "Type", "structboost_1_1hana_1_1Type.html", null ]
+    ] ],
     [ "unfold_left.hpp", "fwd_2unfold__left_8hpp.html", null ],
     [ "unfold_right.hpp", "fwd_2unfold__right_8hpp.html", null ],
     [ "union.hpp", "fwd_2union_8hpp.html", null ],

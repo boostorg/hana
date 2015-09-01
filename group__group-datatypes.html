@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -140,41 +140,38 @@ $(document).ready(function(){initNavTree('group__group-datatypes.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1BasicTuple.html">boost::hana::BasicTuple</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stripped down version of the <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>.  <a href="structboost_1_1hana_1_1BasicTuple.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1basic__tuple.html">boost::hana::basic_tuple&lt; Xs &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stripped down version of <code><a class="el" href="structboost_1_1hana_1_1tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">hana::tuple</a></code>.  <a href="structboost_1_1hana_1_1basic__tuple.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html">boost::hana::IntegralConstant&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a compile-time value of an integral type.  <a href="structboost_1_1hana_1_1IntegralConstant.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html">boost::hana::integral_constant&lt; T, v &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time value of an integral type.  <a href="structboost_1_1hana_1_1integral__constant.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Lazy.html">boost::hana::Lazy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code><a class="el" href="structboost_1_1hana_1_1Lazy.html" title="The Lazy data type implements superficial laziness via a monadic interface. ">Lazy</a></code> data type implements superficial laziness via a monadic interface.  <a href="structboost_1_1hana_1_1Lazy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html">boost::hana::lazy&lt;... &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> implements superficial laziness via a monadic interface.  <a href="structboost_1_1hana_1_1lazy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Map.html">boost::hana::Map</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a basic associative array requiring unique and <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys.  <a href="structboost_1_1hana_1_1Map.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html">boost::hana::map&lt; Pairs &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic associative container requiring unique and <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys.  <a href="structboost_1_1hana_1_1map.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Optional.html">boost::hana::Optional</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing an optional value whose optional-ness is known at compile-time.  <a href="structboost_1_1hana_1_1Optional.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional&lt;... &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a> value whose optional-ness is known at compile-time.  <a href="structboost_1_1hana_1_1optional.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Pair.html">boost::hana::Pair</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a generic container of two elements.  <a href="structboost_1_1hana_1_1Pair.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1pair.html">boost::hana::pair&lt; First, Second &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic container for two elements.  <a href="structboost_1_1hana_1_1pair.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Range.html">boost::hana::Range</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a compile-time half-open interval of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code>s.  <a href="structboost_1_1hana_1_1Range.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html">boost::hana::range&lt; T, from, to &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s.  <a href="structboost_1_1hana_1_1range.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Set.html">boost::hana::Set</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a basic unordered container requiring <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> elements.  <a href="structboost_1_1hana_1_1Set.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html">boost::hana::set&lt; Xs &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic unordered container requiring compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> elements.  <a href="structboost_1_1hana_1_1set.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1String.html">boost::hana::String</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a compile-time string.  <a href="structboost_1_1hana_1_1String.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html">boost::hana::string&lt; s &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time string.  <a href="structboost_1_1hana_1_1string.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Tuple.html">boost::hana::Tuple</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a general purpose index-based heterogeneous sequence with a fixed length.  <a href="structboost_1_1hana_1_1Tuple.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html">boost::hana::tuple&lt; Xn &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">General purpose index-based heterogeneous sequence with a fixed length.  <a href="structboost_1_1hana_1_1tuple.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Type.html">boost::hana::Type</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag representing a C++ type in value-level representation.  <a href="structboost_1_1hana_1_1Type.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Metafunction.html">boost::hana::Metafunction</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes Types as inputs and gives a Type as output. ">Metafunction</a></code> is a function that takes <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code>s as inputs and gives a <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing a C++ type in value-level representation. ">Type</a></code> as output.  <a href="structboost_1_1hana_1_1Metafunction.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html">boost::hana::type&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ type in value-level representation.  <a href="structboost_1_1hana_1_1type.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

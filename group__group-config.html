@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -199,7 +199,7 @@ Macros</h2></td></tr>
 <p><code>#include &lt;<a class="el" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</code></p>
 
 <p>Enables usage of the "string literal operator template" GNU extension. </p>
-<p>That operator is not part of the language yet, but it is supported by both Clang and GCC. This operator allows Hana to provide the nice <code>_s</code> user-defined literal for creating compile-time <code>String</code>s.</p>
+<p>That operator is not part of the language yet, but it is supported by both Clang and GCC. This operator allows Hana to provide the nice <code>_s</code> user-defined literal for creating compile-time strings.</p>
 <p>When this macro is not defined, the GNU extension will be not used by Hana. Because this is a non-standard extension, the macro is not defined by default. </p>
 
 </div>

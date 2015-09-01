@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -969,12 +969,12 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="comment">// infix application</span></div>
 <div class="line">constexpr <span class="keyword">auto</span> sorted = hana::sort.by(hana::less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>^ hana::first, hana::make_tuple(</div>
 <div class="line">    hana::make_pair(hana::int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
-<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type&lt;void&gt;),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;),</div>
 <div class="line">    hana::make_pair(hana::int_&lt;2&gt;, 9876)</div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line">static_assert(sorted == hana::make_tuple(</div>
-<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type&lt;void&gt;),</div>
+<div class="line">    hana::make_pair(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;),</div>
 <div class="line">    hana::make_pair(hana::int_&lt;2&gt;, 9876),</div>
 <div class="line">    hana::make_pair(hana::int_&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">), <span class="stringliteral">&quot;&quot;</span>);</div>

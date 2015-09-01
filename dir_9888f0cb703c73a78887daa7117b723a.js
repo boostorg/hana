@@ -11,6 +11,7 @@ var dir_9888f0cb703c73a78887daa7117b723a =
     [ "integral_domain.hpp", "fwd_2concept_2integral__domain_8hpp.html", null ],
     [ "iterable.hpp", "fwd_2concept_2iterable_8hpp.html", null ],
     [ "logical.hpp", "fwd_2concept_2logical_8hpp.html", null ],
+    [ "metafunction.hpp", "fwd_2concept_2metafunction_8hpp.html", null ],
     [ "monad.hpp", "fwd_2concept_2monad_8hpp.html", null ],
     [ "monad_plus.hpp", "fwd_2concept_2monad__plus_8hpp.html", null ],
     [ "monoid.hpp", "fwd_2concept_2monoid_8hpp.html", null ],

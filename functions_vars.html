@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -142,7 +142,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Functor.html#af88457a3be4c40dfe3dbf1a0e3f52480">boost::hana::Functor</a>
 </li>
 <li>alignof_
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a6fd9ac456f4b5574dcb16384dbb85736">boost::hana::Type</a>
+: <a class="el" href="structboost_1_1hana_1_1type.html#a6fd9ac456f4b5574dcb16384dbb85736">boost::hana::type&lt; T &gt;</a>
 </li>
 <li>all
 : <a class="el" href="structboost_1_1hana_1_1Searchable.html#a695907e4a3ef7d0e9ab34f5afff709b2">boost::hana::Searchable</a>
@@ -179,7 +179,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895">boost::hana::Iterable</a>
 </li>
 <li>bool_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ade6e1698f22d8a126992e55676496a87">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a909364326ac19f849ee7cc44d3c60eea">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 </ul>
 
@@ -192,7 +192,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c">boost::hana::Monad</a>
 </li>
 <li>char_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ae66416a3d6373a69ac5e430a4eb8f478">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#aac0f2d4f16f3c7912ee888d983e057e0">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>comparing
 : <a class="el" href="structboost_1_1hana_1_1Comparable.html#a350ae6cc37fa971f203065bb628a7948">boost::hana::Comparable</a>
@@ -217,10 +217,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>decltype_
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a7d68ff2275cbb295556d83598f04e39a">boost::hana::Type</a>
+: <a class="el" href="structboost_1_1hana_1_1type.html#a7d68ff2275cbb295556d83598f04e39a">boost::hana::type&lt; T &gt;</a>
 </li>
 <li>difference
-: <a class="el" href="structboost_1_1hana_1_1Set.html#a718ddfe86437adbbca1e1a5db651d139">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>drop_back
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef">boost::hana::Sequence</a>
@@ -248,11 +248,11 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627">boost::hana::Comparable</a>
 </li>
 <li>erase_key
-: <a class="el" href="structboost_1_1hana_1_1Map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">boost::hana::Map</a>
-, <a class="el" href="structboost_1_1hana_1_1Set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">boost::hana::map&lt; Pairs &gt;</a>
+, <a class="el" href="structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>eval
-: <a class="el" href="structboost_1_1hana_1_1Lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">boost::hana::Lazy</a>
+: <a class="el" href="structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">boost::hana::lazy&lt;... &gt;</a>
 </li>
 <li>eval_if
 : <a class="el" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">boost::hana::Logical</a>
@@ -268,7 +268,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
 <li>false_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a1fb33fb686dbbe3e9718071ba2630641">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a1fb33fb686dbbe3e9718071ba2630641">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>fill
 : <a class="el" href="structboost_1_1hana_1_1Functor.html#a35025921d0fb75c28c2411d207a0da5e">boost::hana::Functor</a>
@@ -301,10 +301,10 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">boost::hana::Foldable</a>
 </li>
 <li>from_just
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a2ebdc9b916940e038e6f2e3043e4f796">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a2ebdc9b916940e038e6f2e3043e4f796">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>from_maybe
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#afb98884a58d911687bf2aa64a411d623">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#afb98884a58d911687bf2aa64a411d623">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>front
 : <a class="el" href="structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571">boost::hana::Iterable</a>
@@ -336,24 +336,24 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">boost::hana::Searchable</a>
 </li>
 <li>insert
-: <a class="el" href="structboost_1_1hana_1_1Map.html#a5791e6dc0e27d8e3a113e4d94482550f">boost::hana::Map</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f">boost::hana::map&lt; Pairs &gt;</a>
 , <a class="el" href="structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f">boost::hana::Sequence</a>
-, <a class="el" href="structboost_1_1hana_1_1Set.html#a5791e6dc0e27d8e3a113e4d94482550f">boost::hana::Set</a>
+, <a class="el" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>insert_range
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea">boost::hana::Sequence</a>
 </li>
 <li>int_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a776055a433487d978a18afe4b60c2641">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a0d80394a11369efd49898c45b5cfc824">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>integral
 : <a class="el" href="structboost_1_1hana_1_1Metafunction.html#aa47f4f55c497fae1542947d5862bdab5">boost::hana::Metafunction</a>
 </li>
-<li>integral_constant
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a3548ddeed18cbfe945b7de9cb65f873b">boost::hana::IntegralConstant&lt; T &gt;</a>
+<li>integral_c
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a8e52c0f4a65a852dc88f97259a05ff17">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>intersection
-: <a class="el" href="structboost_1_1hana_1_1Set.html#a3b3430482d4e88052e621f63a234f3eb">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>intersperse
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec">boost::hana::Sequence</a>
@@ -365,39 +365,36 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a">boost::hana::Iterable</a>
 </li>
 <li>is_just
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a1047a69893a62cd36eb0d2934f85e0e7">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a1047a69893a62cd36eb0d2934f85e0e7">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>is_nothing
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a4eb266d123883c23853f7731a6c5953f">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a4eb266d123883c23853f7731a6c5953f">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>is_subset
 : <a class="el" href="structboost_1_1hana_1_1Searchable.html#a386ac8af7123ea1e8ea1fa2bbd4cbf3d">boost::hana::Searchable</a>
 </li>
 <li>is_valid
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">boost::hana::Type</a>
+: <a class="el" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">boost::hana::type&lt; T &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_j"></a>- j -</h3><ul>
 <li>just
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a8ad818d6df7379b0adefa45d2ac844d0">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">boost::hana::optional&lt;... &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
 <li>keys
-: <a class="el" href="structboost_1_1hana_1_1Map.html#a0f32260f859b2510dd16235b7bc011ac">boost::hana::Map</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac">boost::hana::map&lt; Pairs &gt;</a>
 , <a class="el" href="structboost_1_1hana_1_1Struct.html#a0f32260f859b2510dd16235b7bc011ac">boost::hana::Struct</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
-<li>lazy
-: <a class="el" href="structboost_1_1hana_1_1Lazy.html#a73e14285897797737683aa2a776a6e0e">boost::hana::Lazy</a>
-</li>
 <li>length
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d">boost::hana::Foldable</a>
 </li>
@@ -414,59 +411,65 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Applicative.html#adc481a8251a7f47f526ad84186d35087">boost::hana::Applicative</a>
 </li>
 <li>llong
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#af8d0f6571370d36d4f556fa70b3c24b5">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a14cd8840ba87f222a2d6cdf32d388532">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>long_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ac304b9b0f90a1d95e316a1e758c69fe0">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a41e44a521c523db083a643782aabd8c6">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
 <li>make&lt; BasicTuple &gt;
-: <a class="el" href="structboost_1_1hana_1_1BasicTuple.html#a014ba5f43f643bac0f8181eac92f2db3">boost::hana::BasicTuple</a>
+: <a class="el" href="structboost_1_1hana_1_1basic__tuple.html#a014ba5f43f643bac0f8181eac92f2db3">boost::hana::basic_tuple&lt; Xs &gt;</a>
+</li>
+<li>make&lt; Lazy &gt;
+: <a class="el" href="structboost_1_1hana_1_1lazy.html#aedae2ea16780fcfe021053531900d489">boost::hana::lazy&lt;... &gt;</a>
 </li>
 <li>make&lt; Map &gt;
-: <a class="el" href="structboost_1_1hana_1_1Map.html#aa98dda24b823031a42e47897de220019">boost::hana::Map</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#aa98dda24b823031a42e47897de220019">boost::hana::map&lt; Pairs &gt;</a>
 </li>
 <li>make&lt; Optional &gt;
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>make&lt; Pair &gt;
-: <a class="el" href="structboost_1_1hana_1_1Pair.html#acee1d72b1cd90c086252939258b59682">boost::hana::Pair</a>
+: <a class="el" href="structboost_1_1hana_1_1pair.html#acee1d72b1cd90c086252939258b59682">boost::hana::pair&lt; First, Second &gt;</a>
 </li>
 <li>make&lt; Range &gt;
-: <a class="el" href="structboost_1_1hana_1_1Range.html#a2e1347688d03d7298cf90f3cadf0a002">boost::hana::Range</a>
+: <a class="el" href="structboost_1_1hana_1_1range.html#a2e1347688d03d7298cf90f3cadf0a002">boost::hana::range&lt; T, from, to &gt;</a>
 </li>
 <li>make&lt; Set &gt;
-: <a class="el" href="structboost_1_1hana_1_1Set.html#ade2be766c8daa85306a8d9c29bf75dfe">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#ade2be766c8daa85306a8d9c29bf75dfe">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>make&lt; Tuple &gt;
-: <a class="el" href="structboost_1_1hana_1_1Tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">boost::hana::Tuple</a>
+: <a class="el" href="structboost_1_1hana_1_1tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb">boost::hana::tuple&lt; Xn &gt;</a>
 </li>
 <li>make&lt; Type &gt;
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a3c8833c714e03f37d7e593915a407e6a">boost::hana::Type</a>
+: <a class="el" href="structboost_1_1hana_1_1type.html#a3c8833c714e03f37d7e593915a407e6a">boost::hana::type&lt; T &gt;</a>
 </li>
 <li>make_basic_tuple
-: <a class="el" href="structboost_1_1hana_1_1BasicTuple.html#afe2c3fc2808e83353b7274dddd662c7e">boost::hana::BasicTuple</a>
+: <a class="el" href="structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e">boost::hana::basic_tuple&lt; Xs &gt;</a>
+</li>
+<li>make_lazy
+: <a class="el" href="structboost_1_1hana_1_1lazy.html#a7dc86ca61b84fc42aabb525787ae61b4">boost::hana::lazy&lt;... &gt;</a>
 </li>
 <li>make_map
-: <a class="el" href="structboost_1_1hana_1_1Map.html#ae73cf43ee56352e4c25984b0fe3c3d04">boost::hana::Map</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">boost::hana::map&lt; Pairs &gt;</a>
 </li>
 <li>make_optional
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#af1105a435d6435a2437cb5dc162ba463">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#af1105a435d6435a2437cb5dc162ba463">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>make_pair
-: <a class="el" href="structboost_1_1hana_1_1Pair.html#a1bc322b45af2148a413ba45ee8097045">boost::hana::Pair</a>
+: <a class="el" href="structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045">boost::hana::pair&lt; First, Second &gt;</a>
 </li>
 <li>make_range
-: <a class="el" href="structboost_1_1hana_1_1Range.html#aba8dd69deb1d810ef65ec289127bf0ab">boost::hana::Range</a>
+: <a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">boost::hana::range&lt; T, from, to &gt;</a>
 </li>
 <li>make_set
-: <a class="el" href="structboost_1_1hana_1_1Set.html#af38c23fb98d8eec68c1491a8bca9ce43">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>make_tuple
-: <a class="el" href="structboost_1_1hana_1_1Tuple.html#af3c175cfb83276339f91e867d738a2e6">boost::hana::Tuple</a>
+: <a class="el" href="structboost_1_1hana_1_1tuple.html#af3c175cfb83276339f91e867d738a2e6">boost::hana::tuple&lt; Xn &gt;</a>
 </li>
 <li>max
 : <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">boost::hana::Orderable</a>
@@ -475,7 +478,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">boost::hana::Foldable</a>
 </li>
 <li>maybe
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a6529e11cb228e99a05e81071752807d5">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a6529e11cb228e99a05e81071752807d5">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>members
 : <a class="el" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">boost::hana::Struct</a>
@@ -527,7 +530,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925">boost::hana::Comparable</a>
 </li>
 <li>nothing
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">boost::hana::optional&lt;... &gt;</a>
 </li>
 </ul>
 
@@ -537,7 +540,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">boost::hana::Ring</a>
 </li>
 <li>only_when
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#a0d8246013d58b0809b6f18d894525b6c">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#a0d8246013d58b0809b6f18d894525b6c">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>or_
 : <a class="el" href="structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252">boost::hana::Logical</a>
@@ -585,7 +588,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
 <li>range_c
-: <a class="el" href="structboost_1_1hana_1_1Range.html#a899b7a0c065ff64cd747fe1671753d3f">boost::hana::Range</a>
+: <a class="el" href="structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f">boost::hana::range&lt; T, from, to &gt;</a>
 </li>
 <li>rem
 : <a class="el" href="structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9">boost::hana::IntegralDomain</a>
@@ -637,19 +640,19 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Product.html#a5d2111e165329a8ded67dec73f2df4ae">boost::hana::Product</a>
 </li>
 <li>sfinae
-: <a class="el" href="structboost_1_1hana_1_1Optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">boost::hana::Optional</a>
+: <a class="el" href="structboost_1_1hana_1_1optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">boost::hana::optional&lt;... &gt;</a>
 </li>
 <li>short_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#aaf7583b06af7fedb758e4966f0ee4605">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a2f16af24d103583594655bbdf724ab9f">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>size
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#a95d3fe103aa2ab8634a824562dd8390c">boost::hana::Foldable</a>
 </li>
 <li>size_t
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ae74cc2e7d289e67a7d14363ea5e52427">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#aeeeae24ffac25f5b3ed9928a5d4724f1">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>sizeof_
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a26b702b280ca02f118affaaca9112a8c">boost::hana::Type</a>
+: <a class="el" href="structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c">boost::hana::type&lt; T &gt;</a>
 </li>
 <li>slice
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">boost::hana::Sequence</a>
@@ -663,8 +666,8 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 <li>span
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">boost::hana::Sequence</a>
 </li>
-<li>string
-: <a class="el" href="structboost_1_1hana_1_1String.html#ae4ad84170f33b1068880b4b2375322a9">boost::hana::String</a>
+<li>string_c
+: <a class="el" href="structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722">boost::hana::string&lt; s &gt;</a>
 </li>
 <li>subsequence
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">boost::hana::Sequence</a>
@@ -679,7 +682,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7">boost::hana::Foldable</a>
 </li>
 <li>symmetric_difference
-: <a class="el" href="structboost_1_1hana_1_1Set.html#a8bcb2455eb9f7074185d8fb61a99801e">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e">boost::hana::set&lt; Xs &gt;</a>
 </li>
 </ul>
 
@@ -713,29 +716,29 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Functor.html#a3a3140eb3e41d54e2370eb19ee6b043c">boost::hana::Functor</a>
 </li>
 <li>true_
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#ae6096d56dd1b76bb9d37e4121eb5b33c">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>tuple_c
-: <a class="el" href="structboost_1_1hana_1_1Tuple.html#a718ca253f469ca8705677260e1a0def5">boost::hana::Tuple</a>
+: <a class="el" href="structboost_1_1hana_1_1tuple.html#a2362e94b752cbd15155c65ed3f9de0a0">boost::hana::tuple&lt; Xn &gt;</a>
 </li>
 <li>tuple_t
-: <a class="el" href="structboost_1_1hana_1_1Tuple.html#aaa14e68d483c13fcc034639a75ab48a8">boost::hana::Tuple</a>
+: <a class="el" href="structboost_1_1hana_1_1tuple.html#aea7b637fbc34b451bd1cef82f1b64b6a">boost::hana::tuple&lt; Xn &gt;</a>
 </li>
-<li>type
-: <a class="el" href="structboost_1_1hana_1_1Type.html#a4b171ee57f23017113921071f72639d0">boost::hana::Type</a>
+<li>type_c
+: <a class="el" href="structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628">boost::hana::type&lt; T &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
 <li>uint
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a6a288d8c491ede76e06f0ffa5fcec865">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a50410d5667314f1c2650b859f7a92b3d">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>ullong
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#a9f56d855798857292ca63b31d0417e43">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a29f8eb8b9bc4073a9a4a8a9fd433db80">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>ulong
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#ae70bdb7f1d32f3df1116780c191dfb78">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a176a2135507663f65468232753fdc480">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 <li>unfold_left
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2">boost::hana::Sequence</a>
@@ -744,7 +747,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442">boost::hana::Sequence</a>
 </li>
 <li>union_
-: <a class="el" href="structboost_1_1hana_1_1Set.html#acd511f2c01f38405bfba0b6d5b2922e8">boost::hana::Set</a>
+: <a class="el" href="structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8">boost::hana::set&lt; Xs &gt;</a>
 </li>
 <li>unique
 : <a class="el" href="structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590">boost::hana::Sequence</a>
@@ -753,7 +756,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Foldable.html#a0e3e724580e826eaa39a934eefa2b328">boost::hana::Foldable</a>
 </li>
 <li>ushort
-: <a class="el" href="structboost_1_1hana_1_1IntegralConstant.html#af27cdbb184ef3eb020a534766206789c">boost::hana::IntegralConstant&lt; T &gt;</a>
+: <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a793ddaca9be2e304d01c8c3790436732">boost::hana::integral_constant&lt; T, v &gt;</a>
 </li>
 </ul>
 
@@ -766,7 +769,7 @@ $(document).ready(function(){initNavTree('functions_vars.html','');});
 : <a class="el" href="structboost_1_1hana_1_1Constant.html#ad06a1ad6dece8a0337c3a9e754067051">boost::hana::Constant</a>
 </li>
 <li>values
-: <a class="el" href="structboost_1_1hana_1_1Map.html#a2e016a68e3ec6eb25868fadb7ce80132">boost::hana::Map</a>
+: <a class="el" href="structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132">boost::hana::map&lt; Pairs &gt;</a>
 </li>
 </ul>
 

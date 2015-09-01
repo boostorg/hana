@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -129,102 +129,13 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1BasicTuple.html
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#related">Synopsis of associated functions</a> &#124;
-<a href="structboost_1_1hana_1_1BasicTuple-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::BasicTuple Struct Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::BasicTuple Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Stripped down version of the <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code>. </p>
-<p>Whereas <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> aims to provide an interface somewhat close to a <code>std::tuple</code>, <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code> provides the strict minimum required to implement a closure with maximum compile-time efficiency.</p>
-<h2>Modeled concepts </h2>
-<p>For now, <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code> only models the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> concept. More will be added in the future, and <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code> will eventually model everything that <code><a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing a general purpose index-based heterogeneous sequence with a fixed length...">Tuple</a></code> models. </p>
-</div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
-Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a014ba5f43f643bac0f8181eac92f2db3"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a014ba5f43f643bac0f8181eac92f2db3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1BasicTuple.html#a014ba5f43f643bac0f8181eac92f2db3">make&lt; BasicTuple &gt;</a></td></tr>
-<tr class="memdesc:a014ba5f43f643bac0f8181eac92f2db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code>.  <a href="#a014ba5f43f643bac0f8181eac92f2db3">More...</a><br /></td></tr>
-<tr class="separator:a014ba5f43f643bac0f8181eac92f2db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe2c3fc2808e83353b7274dddd662c7e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1BasicTuple.html#afe2c3fc2808e83353b7274dddd662c7e">make_basic_tuple</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a>&gt;</td></tr>
-<tr class="memdesc:afe2c3fc2808e83353b7274dddd662c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a>&gt;</code>; provided for convenience.  <a href="#afe2c3fc2808e83353b7274dddd662c7e">More...</a><br /></td></tr>
-<tr class="separator:afe2c3fc2808e83353b7274dddd662c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a014ba5f43f643bac0f8181eac92f2db3"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a> &gt;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs)</div>
-<div class="line">        -&gt; basic_tuple&lt;std::decay_t&lt;decltype(xs)&gt;...&gt;</div>
-<div class="line">    {</div>
-<div class="line">        <span class="keywordflow">return</span> {forwarded(xs)...};</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code>. </p>
-<p>Given zero or more objects <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a>&gt;</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code> containing those objects. The elements are held by value inside the resulting tuple, and they are hence copied or moved in. This is analogous to <code>std::make_tuple</code> for creating <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a></code>s.</p>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="basic__tuple_8hpp.html">boost/hana/basic_tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr hana::basic_tuple&lt;int, char, double&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.3};</div>
-<div class="line">    constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::BasicTuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
-<div class="line"></div>
-<div class="line">    (void)xs; (void)ys;</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="afe2c3fc2808e83353b7274dddd662c7e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto make_basic_tuple = make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a>&gt;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Stripped down version of the Tuple. ">BasicTuple</a>&gt;</code>; provided for convenience. </p>
-
-</div>
-</div>
-</div><!-- contents -->
+<div class="textblock"><p>Tag representing <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">hana::basic_tuple</a></code>. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->

@@ -10,7 +10,7 @@ var searchData=
   ['chain',['chain',['../structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c',1,'boost::hana::Monad']]],
   ['chain_2ehpp',['chain.hpp',['../chain_8hpp.html',1,'']]],
   ['chain_2ehpp',['chain.hpp',['../fwd_2chain_8hpp.html',1,'']]],
-  ['char_5f',['char_',['../structboost_1_1hana_1_1IntegralConstant.html#ae66416a3d6373a69ac5e430a4eb8f478',1,'boost::hana::IntegralConstant']]],
+  ['char_5f',['char_',['../structboost_1_1hana_1_1integral__constant.html#aac0f2d4f16f3c7912ee888d983e057e0',1,'boost::hana::integral_constant']]],
   ['closure_2ehpp',['closure.hpp',['../closure_8hpp.html',1,'']]],
   ['common',['common',['../structboost_1_1hana_1_1common.html',1,'boost::hana']]],
   ['common_2ehpp',['common.hpp',['../core_2common_8hpp.html',1,'']]],

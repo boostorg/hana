@@ -21,5 +21,5 @@ var searchData=
   ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
   ['not_5fequal_2ehpp',['not_equal.hpp',['../fwd_2not__equal_8hpp.html',1,'']]],
   ['not_5fequal_2ehpp',['not_equal.hpp',['../not__equal_8hpp.html',1,'']]],
-  ['nothing',['nothing',['../structboost_1_1hana_1_1Optional.html#aaede0403a5f0093e82a7346b5cae0bc4',1,'boost::hana::Optional']]]
+  ['nothing',['nothing',['../structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8',1,'boost::hana::optional']]]
 ];

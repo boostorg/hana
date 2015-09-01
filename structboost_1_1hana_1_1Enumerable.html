@@ -46,7 +46,7 @@
         .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
         .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
         .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-        .replace(/unspecified-type/g, "unspecified-type".link("index.html#tutorial-glossary-unspecified_type").italics())
+        .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
@@ -145,7 +145,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 <p>For any <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a> x</code>, the following laws must be satisfied: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(x)) == x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x)) == x</div>
 </div><!-- fragment --><h2>Concrete models </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="Tag representing a compile-time value of an integral type. ">IntegralConstant</a></code></p>
+<p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code></p>
 <h2>Free model for non-boolean arithmetic data types </h2>
 <p>A data type <code>T</code> is arithmetic if <code>std::is_arithmetic&lt;T&gt;::value</code> is true. For a non-boolean arithmetic data type <code>T</code>, a model of <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> is automatically defined by setting </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(x) = ++x</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(x) = --x</div>
