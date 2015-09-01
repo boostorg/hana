@@ -60,7 +60,6 @@ endif()
 if (CYGWIN)
     boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
         "ap.cpp"                                # constexpr error
-        #"functional/overload_linearly.cpp"      # uses exceptions
         "tutorial/introspection.json.cpp"       # no to_string in namespace std
         "wandbox.cpp"                           # no to_string in namespace std
     )
