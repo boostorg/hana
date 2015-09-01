@@ -21,9 +21,9 @@ constexpr int f() {
 
     // move-assign
     {
-        hana::tuple<int> xs{1};
+        hana::tuple<int> xs{1}, xxs{1};
         hana::tuple<long> ys{1};
-        xs = std::move(xs);
+        xs = std::move(xxs);
         ys = std::move(xs);
     }
 
