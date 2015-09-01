@@ -4,6 +4,13 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
+#ifdef __EXCEPTIONS
+#  define THROW_OR_ABORT throw
+#else
+#include <cstdlib>
+#  define THROW_OR_ABORT std::abort()
+#endif
+
 #include <boost/hana.hpp>
 
 #include <cstddef>
@@ -37,13 +44,15 @@ struct llist {
 
     friend constexpr T head(llist self) {
         if (is_empty(self))
-            throw "head on empty list";
+            //throw "head on empty list";
+            THROW_OR_ABORT;
         return self.storage_.it_.head_;
     }
 
     friend constexpr llist tail(llist self) {
         if (is_empty(self))
-            throw "tail on empty list";
+            //throw "tail on empty list";
+            THROW_OR_ABORT;
         return *self.storage_.it_.next_;
     }
 

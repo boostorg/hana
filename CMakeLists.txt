@@ -2,6 +2,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+set(CMAKE_LEGACY_CYGWIN_WIN32 0)   # Prevent CMake showing a warning
+
 ##############################################################################
 # Setup project
 ##############################################################################
@@ -59,6 +61,19 @@ boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
 boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
 boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
 boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
+
+##############################################################################
+# Check for known compiler issues
+##############################################################################
+
+# Perform some basic checks on compiler id and version
+include(CheckCxxCompilerCompatibility)
+# Check for C++ exception handling, perform compilation check if
+# exceptions are enabled by the compiler. May fail on Cygwin etc.
+include(CheckCxxExceptions)
+# Check standard library type traits implementation,
+# a possible violation of C++14 of libstdc++ provided by GCC < 5.0.0
+include(CheckCxxTypeTraits)
 
 
 ##############################################################################

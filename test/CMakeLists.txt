@@ -130,6 +130,24 @@ add_executable(${github_75} EXCLUDE_FROM_ALL
 boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 
 
+
+##############################################################################
+# Remove tests failing under Cygwin (GitHub issue #167)
+##############################################################################
+# The following examples seem to fail under Clang++ 3.5.2 on Cygwin
+# The reason may be the incomplete libstdc++ of gcc.
+if (CYGWIN)
+    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
+        "sandbox/array.cpp"
+        "sandbox/array.hpp"
+        "sandbox/function.cpp"
+        "sandbox/llist.cpp"
+        "sandbox/string.cpp"
+    )
+    message("The tests in sandbox (array, function, llist and string) are omitted on Cygwin.")
+endif()
+
+
 ##############################################################################
 # Add all the unit tests
 ##############################################################################

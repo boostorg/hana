@@ -53,7 +53,9 @@ int main() {
     hana::traits::is_const(s);
     hana::traits::is_volatile(s);
     hana::traits::is_trivial(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_copyable(s);
+#  endif
     hana::traits::is_standard_layout(s);
     hana::traits::is_pod(s);
     hana::traits::is_literal_type(s);
@@ -65,31 +67,45 @@ int main() {
 
     // Supported operations
     hana::traits::is_constructible(s, s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_constructible(s, s);
+#  endif
     hana::traits::is_nothrow_constructible(s, s);
 
     hana::traits::is_default_constructible(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_default_constructible(s);
+#  endif
     hana::traits::is_nothrow_default_constructible(s);
 
     hana::traits::is_copy_constructible(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_copy_constructible(s);
+#  endif
     hana::traits::is_nothrow_copy_constructible(s);
 
     hana::traits::is_move_constructible(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_move_constructible(s);
+#  endif
     hana::traits::is_nothrow_move_constructible(s);
 
     hana::traits::is_assignable(s, s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_assignable(s, s);
+#  endif
     hana::traits::is_nothrow_assignable(s, s);
 
     hana::traits::is_copy_assignable(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_copy_assignable(s);
+#  endif
     hana::traits::is_nothrow_copy_assignable(s);
 
     hana::traits::is_move_assignable(s);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::is_trivially_move_assignable(s);
+#  endif
     hana::traits::is_nothrow_move_assignable(s);
 
     hana::traits::is_destructible(s);
@@ -141,7 +157,9 @@ int main() {
     // Miscellaneous transformations
     hana::traits::aligned_storage(hana::size_t<1>);
     hana::traits::aligned_storage(hana::size_t<1>, hana::size_t<1>);
+#  ifndef BOOST_HANA_CXX_INCOMPLETE_STDLIB
     hana::traits::aligned_union(hana::size_t<0>, s);
+#  endif
     hana::traits::decay(s);
 
     hana::traits::common_type(s, s);
