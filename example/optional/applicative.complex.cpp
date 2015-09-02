@@ -47,5 +47,5 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(evaluate<'1', '+', '?'> == hana::nothing);
     BOOST_HANA_CONSTANT_CHECK(evaluate<'?', '?', '?'> == hana::nothing);
 
-    static_assert(hana::lift<hana::Optional>(123) == hana::just(123), "");
+    static_assert(hana::lift<hana::optional_tag>(123) == hana::just(123), "");
 }

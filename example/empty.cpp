@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 
 BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::Tuple>() == hana::make_tuple());
-BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::Optional>() == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::optional_tag>() == hana::nothing);
 
 int main() { }

@@ -240,15 +240,15 @@ int main() {
             decltype(expr) explicit_copy(expr); (void)explicit_copy;
         }
 
-        // make<Optional>
+        // make<optional_tag>
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make<Optional>(),
+                make<optional_tag>(),
                 nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                make<Optional>(ct_eq<0>{}),
+                make<optional_tag>(ct_eq<0>{}),
                 just(ct_eq<0>{})
             ));
         }
@@ -257,12 +257,12 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
                 make_optional(),
-                make<Optional>()
+                make<optional_tag>()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
                 make_optional(ct_eq<0>{}),
-                make<Optional>(ct_eq<0>{})
+                make<optional_tag>(ct_eq<0>{})
             ));
         }
     }
@@ -291,7 +291,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<Optional>{eqs};
+        test::TestComparable<optional_tag>{eqs};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -335,7 +335,7 @@ int main() {
         }
 
         // laws
-        test::TestOrderable<Optional>{ords};
+        test::TestOrderable<optional_tag>{ords};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -358,7 +358,7 @@ int main() {
         }
 
         // laws
-        test::TestFunctor<Optional>{eqs, eq_values};
+        test::TestFunctor<optional_tag>{eqs, eq_values};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -390,13 +390,13 @@ int main() {
         // lift
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<Optional>(ct_eq<3>{}),
+                lift<optional_tag>(ct_eq<3>{}),
                 just(ct_eq<3>{})
             ));
         }
 
         // laws
-        test::TestApplicative<Optional>{eqs};
+        test::TestApplicative<optional_tag>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -432,7 +432,7 @@ int main() {
         }
 
         // laws
-        test::TestMonad<Optional>{eqs, nested_eqs};
+        test::TestMonad<optional_tag>{eqs, nested_eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ int main() {
         // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<Optional>(),
+                empty<optional_tag>(),
                 nothing
             ));
         }
@@ -490,7 +490,7 @@ int main() {
         }
 
         // laws
-        test::TestMonadPlus<Optional>{eqs, predicates, eq_values};
+        test::TestMonadPlus<optional_tag>{eqs, predicates, eq_values};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -532,9 +532,9 @@ int main() {
         }
 
         // laws
-        test::TestSearchable<Optional>{eqs, eq_values};
+        test::TestSearchable<optional_tag>{eqs, eq_values};
 
-        test::TestSearchable<Optional>{
+        test::TestSearchable<optional_tag>{
             make<Tuple>(just(true_c), just(false_c), nothing),
             make<Tuple>(true_c, false_c)
         };
@@ -572,7 +572,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<Optional>{eqs};
+        test::TestFoldable<optional_tag>{eqs};
     }
 #endif
 }

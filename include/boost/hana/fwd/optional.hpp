@@ -90,8 +90,8 @@ namespace boost { namespace hana {
     //! @include example/optional/functor.cpp
     //!
     //! 4. `Applicative`\n
-    //! First, a value can be made optional with `lift<Optional>`, which is
-    //! equivalent to `just`. Second, one can feed an optional value to an
+    //! First, a value can be made optional with `lift<optional_tag>`, which
+    //! is equivalent to `just`. Second, one can feed an optional value to an
     //! optional function with `ap`, which will return `just(f(x))` if there
     //! is both a function _and_ a value, and `nothing` otherwise:
     //! @code
@@ -138,13 +138,13 @@ namespace boost { namespace hana {
 
     //! Tag representing a `hana::optional`.
     //! @relates hana::optional
-    struct Optional { };
+    struct optional_tag { };
 
     //! Create an optional value.
     //! @relates hana::optional
     //!
-    //! Specifically, `make<Optional>()` is equivalent to `nothing`, and
-    //! `make<Optional>(x)` is equivalent to `just(x)`. This is provided
+    //! Specifically, `make<optional_tag>()` is equivalent to `nothing`, and
+    //! `make<optional_tag>(x)` is equivalent to `just(x)`. This is provided
     //! for consistency with the other `make<...>` functions.
     //!
     //!
@@ -153,19 +153,19 @@ namespace boost { namespace hana {
     //! @include example/optional/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Optional> = []([auto&& x]) {
+    constexpr auto make<optional_tag> = []([auto&& x]) {
         return optional<implementation-defined>{forwarded(x)};
     };
 #endif
 
-    //! Alias to `make<Optional>`; provided for convenience.
+    //! Alias to `make<optional_tag>`; provided for convenience.
     //! @relates hana::optional
     //!
     //!
     //! Example
     //! -------
     //! @include example/optional/make.cpp
-    constexpr auto make_optional = make<Optional>;
+    constexpr auto make_optional = make<optional_tag>;
 
     //! Create an optional value containing `x`.
     //! @relates hana::optional

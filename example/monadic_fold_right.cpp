@@ -29,7 +29,7 @@ int main() {
 
     // with an initial state
     BOOST_HANA_CONSTANT_CHECK(
-        hana::monadic_fold_right<hana::Optional>(
+        hana::monadic_fold_right<hana::optional_tag>(
             hana::tuple_c<int, 1000, 8, 4>, hana::int_c<2>, safe_div
         )
             ==
@@ -37,7 +37,7 @@ int main() {
     );
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::monadic_fold_right<hana::Optional>(
+        hana::monadic_fold_right<hana::optional_tag>(
             hana::tuple_c<int, 1000, 8, 4>, hana::int_c<0>, safe_div
         )
             ==
@@ -46,7 +46,7 @@ int main() {
 
     // without an initial state
     BOOST_HANA_CONSTANT_CHECK(
-        hana::monadic_fold_right<hana::Optional>(
+        hana::monadic_fold_right<hana::optional_tag>(
             hana::tuple_c<int, 1000, 8, 4, 2>, safe_div
         )
             ==
@@ -54,7 +54,7 @@ int main() {
     );
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::monadic_fold_right<hana::Optional>(
+        hana::monadic_fold_right<hana::optional_tag>(
             hana::tuple_c<int, 1000, 8, 4, 0>, safe_div
         )
             ==

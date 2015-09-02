@@ -12,6 +12,6 @@ namespace hana = boost::hana;
 
 
 static_assert(hana::lift<hana::Tuple>('x') == hana::make_tuple('x'), "");
-static_assert(hana::lift<hana::Optional>('x') == hana::just('x'), "");
+static_assert(hana::lift<hana::optional_tag>('x') == hana::just('x'), "");
 
 int main() { }
