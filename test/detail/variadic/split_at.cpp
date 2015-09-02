@@ -17,7 +17,7 @@ using namespace boost::hana;
 auto check = [](auto split, auto xs, auto ys) {
     auto result = split([](auto ...xs) {
         return [=](auto ...ys) {
-            return make<Pair>(make<Tuple>(xs...), make<Tuple>(ys...));
+            return make_pair(make_tuple(xs...), make_tuple(ys...));
         };
     });
 

@@ -79,7 +79,7 @@ namespace boost { namespace hana {
             static constexpr auto apply(Xs&& xs, std::index_sequence<l...>,
                                                  std::index_sequence<r...>)
             {
-                return hana::make<hana::Pair>(
+                return hana::make<hana::pair_tag>(
                     hana::make<S>(hana::at_c<left[l]>(static_cast<Xs&&>(xs))...),
                     hana::make<S>(hana::at_c<right[r]>(static_cast<Xs&&>(xs))...)
                 );

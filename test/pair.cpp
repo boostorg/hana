@@ -102,7 +102,7 @@ int main() {
     // make_pair
     //////////////////////////////////////////////////////////////////////////
     BOOST_HANA_CONSTANT_CHECK(equal(
-        make<Pair>(ct_eq<1>{}, ct_eq<2>{}),
+        make<pair_tag>(ct_eq<1>{}, ct_eq<2>{}),
         make_pair(ct_eq<1>{}, ct_eq<2>{})
     ));
 
@@ -116,7 +116,7 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(
             make_pair(ct_eq<1>{}, ct_eq<3>{}) != make_pair(ct_eq<1>{}, ct_eq<2>{})
         );
-        test::TestComparable<Pair>{eqs};
+        test::TestComparable<pair_tag>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -136,13 +136,13 @@ int main() {
             make_pair(ct_ord<3>{}, ct_ord<2>{}) > make_pair(ct_ord<1>{}, ct_ord<2>{})
         );
 
-        test::TestOrderable<Pair>{ords};
+        test::TestOrderable<pair_tag>{ords};
     }
 
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<Pair>{eqs};
+    test::TestFoldable<pair_tag>{eqs};
 
     //////////////////////////////////////////////////////////////////////////
     // Product
@@ -166,12 +166,12 @@ int main() {
 
         // make
         {
-            constexpr pair<int, char> p = make<Pair>(1, 'x');
+            constexpr pair<int, char> p = make<pair_tag>(1, 'x');
             static_assert(first(p) == 1, "");
             static_assert(second(p) == 'x', "");
         }
 
         // laws
-        test::TestProduct<Pair>{eq_elems};
+        test::TestProduct<pair_tag>{eq_elems};
     }
 }

@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     template <typename First, typename Second>
     struct pair : operators::adl, detail::closure<First, Second> {
         using detail::closure<First, Second>::closure;
-        using hana_tag = Pair;
+        using hana_tag = pair_tag;
     };
     //! @endcond
 
@@ -41,11 +41,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <>
-        struct comparable_operators<Pair> {
+        struct comparable_operators<pair_tag> {
             static constexpr bool value = true;
         };
         template <>
-        struct orderable_operators<Pair> {
+        struct orderable_operators<pair_tag> {
             static constexpr bool value = true;
         };
     }
@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     // Product
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<Pair> {
+    struct make_impl<pair_tag> {
         template <typename F, typename S>
         static constexpr pair<
             typename std::decay<F>::type,
@@ -65,14 +65,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct first_impl<Pair> {
+    struct first_impl<pair_tag> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
         { return detail::get<0>(static_cast<P&&>(p)); }
     };
 
     template <>
-    struct second_impl<Pair> {
+    struct second_impl<pair_tag> {
         template <typename P>
         static constexpr decltype(auto) apply(P&& p)
         { return detail::get<1>(static_cast<P&&>(p)); }
