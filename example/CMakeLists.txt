@@ -59,9 +59,12 @@ endif()
 # The following examples seem to fail under Clang++ 3.5.2 on Cygwin
 if (CYGWIN)
     boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
+    # A constexpr related error occurs
         "ap.cpp"                                # constexpr error
-        "tutorial/introspection.json.cpp"       # no to_string in namespace std
-        "wandbox.cpp"                           # no to_string in namespace std
+    # The following use std::tostring<> which is not available on Cygwin
+    # See https://cygwin.com/ml/cygwin/2015-01/msg00251.html
+        "tutorial/introspection.json.cpp"
+        "wandbox.cpp"
     )
     message("The examples (ap, wandbox, and tutorial/introspection.json) are omitted on Cygwin.")
 endif()
