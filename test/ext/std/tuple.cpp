@@ -72,7 +72,7 @@ int main() {
 
     auto predicates = make<Tuple>(
         equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
-        always(false_), always(true_)
+        always(false_c), always(true_c)
     );
     (void)predicates;
 
@@ -99,14 +99,14 @@ int main() {
         test::TestSearchable<ext::std::Tuple>{small_eq_tuples, eq_tuple_keys};
 
         auto bools = make<Tuple>(
-              std::make_tuple(true_)
-            , std::make_tuple(false_)
-            , std::make_tuple(true_, true_)
-            , std::make_tuple(true_, false_)
-            , std::make_tuple(false_, true_)
-            , std::make_tuple(false_, false_)
+              std::make_tuple(true_c)
+            , std::make_tuple(false_c)
+            , std::make_tuple(true_c, true_c)
+            , std::make_tuple(true_c, false_c)
+            , std::make_tuple(false_c, true_c)
+            , std::make_tuple(false_c, false_c)
         );
-        test::TestSearchable<ext::std::Tuple>{bools, make<Tuple>(true_, false_)};
+        test::TestSearchable<ext::std::Tuple>{bools, make<Tuple>(true_c, false_c)};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
