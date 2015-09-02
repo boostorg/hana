@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_VECTOR_HPP
 
 #include <boost/hana/equal.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/less.hpp>
 
 #include <algorithm>
@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Vector; }}
 
     template <typename T, typename Allocator>
-    struct datatype<std::vector<T, Allocator>> {
+    struct tag_of<std::vector<T, Allocator>> {
         using type = ext::std::Vector;
     };
 

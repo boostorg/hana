@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Map>
     constexpr auto keys_t::operator()(Map&& map) const {
-        return keys_impl<typename datatype<Map>::type>::apply(
+        return keys_impl<typename hana::tag_of<Map>::type>::apply(
             static_cast<Map&&>(map)
         );
     }

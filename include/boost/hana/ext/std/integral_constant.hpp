@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/value.hpp>
 
 #include <type_traits>
@@ -37,9 +37,9 @@ namespace boost { namespace hana {
     }
 
     template <typename T>
-    struct datatype<T, when<std_ic_detail::is_std_integral_constant((T*)0)>> {
+    struct tag_of<T, when<std_ic_detail::is_std_integral_constant((T*)0)>> {
         using type = ext::std::IntegralConstant<
-            typename datatype<typename T::value_type>::type
+            typename hana::tag_of<typename T::value_type>::type
         >;
     };
 

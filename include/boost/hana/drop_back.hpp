@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto drop_back_t::operator()(Xs&& xs, N&& n) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using DropBack = BOOST_HANA_DISPATCH_IF(drop_back_impl<S>,
             _models<Sequence, S>::value &&
             _models<Constant, N>::value

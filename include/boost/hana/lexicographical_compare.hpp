@@ -31,8 +31,8 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename Ys, typename Pred>
     constexpr auto lexicographical_compare_t::operator()(Xs const& xs, Ys const& ys, Pred const& pred) const {
-        using It1 = typename datatype<Xs>::type;
-        using It2 = typename datatype<Ys>::type;
+        using It1 = typename hana::tag_of<Xs>::type;
+        using It2 = typename hana::tag_of<Ys>::type;
         using LexicographicalCompare = BOOST_HANA_DISPATCH_IF(
             lexicographical_compare_impl<It1>,
             _models<Iterable, It1>::value &&

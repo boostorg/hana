@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_PAIR_HPP
 #define BOOST_HANA_EXT_STD_PAIR_HPP
 
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/first.hpp>
 #include <boost/hana/fwd/second.hpp>
 
@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Pair; }}
 
     template <typename First, typename Second>
-    struct datatype<std::pair<First, Second>> {
+    struct tag_of<std::pair<First, Second>> {
         using type = ext::std::Pair;
     };
 

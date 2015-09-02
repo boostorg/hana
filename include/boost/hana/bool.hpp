@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/logical.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/eval.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/eval_if.hpp>
 #include <boost/hana/fwd/if.hpp>
 #include <boost/hana/fwd/value.hpp>
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     constexpr ic_detail::times_t<T, v> integral_constant<T, v>::times;
 
     template <typename T, T v>
-    struct datatype<integral_constant<T, v>> {
+    struct tag_of<integral_constant<T, v>> {
         using type = IntegralConstant<T>;
     };
     //! @endcond

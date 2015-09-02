@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/range.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
@@ -179,7 +179,7 @@ int main() {
             // Previously, we would only unpack with `std::size_t`s. Make
             // sure this does not happen.
             hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<1>), [](auto x) {
-                using T = hana::datatype_t<decltype(x)>;
+                using T = hana::tag_of_t<decltype(x)>;
                 static_assert(std::is_same<typename T::value_type, int>{}, "");
             });
         }

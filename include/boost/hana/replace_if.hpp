@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred, typename Value>
     constexpr auto replace_if_t::operator()(Xs&& xs, Pred&& pred, Value&& value) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using ReplaceIf = BOOST_HANA_DISPATCH_IF(replace_if_impl<S>,
             _models<Functor, S>::value
         );

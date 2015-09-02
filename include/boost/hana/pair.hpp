@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     struct pair : operators::adl, detail::closure<First, Second> {
         using detail::closure<First, Second>::closure;
         using hana = pair;
-        using datatype = Pair;
+        using tag = Pair;
     };
     //! @endcond
 

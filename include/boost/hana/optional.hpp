@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/optional.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     // optional<>
     //////////////////////////////////////////////////////////////////////////
     namespace maybe_detail {
-        template <typename T, typename = typename datatype<T>::type>
+        template <typename T, typename = typename hana::tag_of<T>::type>
         struct nested_type { };
 
         template <typename T>
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <typename ...T>
-    struct datatype<optional<T...>> {
+    struct tag_of<optional<T...>> {
         using type = Optional;
     };
 

@@ -1,14 +1,14 @@
 /*!
 @file
-Forward declares `boost::hana::datatype` and `boost::hana::datatype_t`.
+Forward declares `boost::hana::tag_of` and `boost::hana::tag_of_t`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_FWD_CORE_DATATYPE_HPP
-#define BOOST_HANA_FWD_CORE_DATATYPE_HPP
+#ifndef BOOST_HANA_FWD_CORE_TAG_OF_HPP
+#define BOOST_HANA_FWD_CORE_TAG_OF_HPP
 
 namespace boost { namespace hana {
     //! @ingroup group-core
@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! inside of it:
     //! @code
     //!     struct MyUserDefinedType {
-    //!         struct hana { using datatype = MyDatatype; };
+    //!         struct hana { using tag = MyDatatype; };
     //!     };
     //! @endcode
     //!
@@ -27,21 +27,21 @@ namespace boost { namespace hana {
     //! foreign library) or simply can't have nested types (if it's not a
     //! struct or class). In those cases, using a nested alias is impossible
     //! and so ad-hoc customization is also supported by specializing
-    //! `datatype` in the `boost::hana` namespace:
+    //! `tag_of` in the `boost::hana` namespace:
     //! @code
     //!     struct i_cant_modify_this;
     //!
     //!     namespace boost { namespace hana {
     //!         template <>
-    //!         struct datatype<i_cant_modify_this> {
+    //!         struct tag_of<i_cant_modify_this> {
     //!             using type = MyDatatype;
     //!         };
     //!     }}
     //! @endcode
     //!
-    //! `datatype` can also be specialized for all C++ types satisfying some
+    //! `tag_of` can also be specialized for all C++ types satisfying some
     //! boolean condition using `when`. `when` accepts a single compile-time
-    //! boolean and enables the specialization of `datatype` if and only if
+    //! boolean and enables the specialization of `tag_of` if and only if
     //! that boolean is `true`. This is similar to the well known C++ idiom
     //! of using a dummy template parameter with `std::enable_if` and relying
     //! on SFINAE. For example, we could specify the data type of all
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     //!
     //!     namespace boost { namespace hana {
     //!         template <typename T>
-    //!         struct datatype<T, when<
+    //!         struct tag_of<T, when<
     //!             std::is_same<
     //!                 typename fusion::traits::tag_of<T>::type,
     //!                 fusion::traits::tag_of<fusion::vector<>>::type
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! Also, when it is not specialized and when the given C++ type does not
-    //! have a nested `hana::dataype` alias, `datatype<T>` returns `T` itself.
+    //! have a nested `hana::dataype` alias, `tag_of<T>` returns `T` itself.
     //! This makes data types a simple extension of normal C++ types. This is
     //! _super_ useful, mainly for two reasons. First, this allows Hana to
     //! adopt a reasonable default behavior for some operations involving
@@ -74,44 +74,43 @@ namespace boost { namespace hana {
     //! their functionality; just use the normal C++ type of your objects and
     //! everything will "just work".
     //!
-    //! Finally, also note that `datatype<T>` is always equivalent to
-    //! `datatype<U>`, where `U` is the type `T` after being stripped of
-    //! all references and cv-qualifiers. This makes it unnecessary to
-    //! specialize `datatype` for all reference and cv combinations, which
-    //! would be a real pain.
+    //! Finally, also note that `tag_of<T>` is always equivalent to `tag_of<U>`,
+    //! where `U` is the type `T` after being stripped of all references and
+    //! cv-qualifiers. This makes it unnecessary to specialize `tag_of` for
+    //! all reference and cv combinations, which would be a real pain.
     //!
     //! > __Tip 1__\n
-    //! > If compile-time performance is a serious concern, consider specializing
-    //! > the `datatype` metafunction in Hana's namespace. When unspecialized,
-    //! > the metafunction has to use SFINAE, which tends to incur a larger
-    //! > compile-time overhead. For heavily used templated types, this can
-    //! > potentially make a difference.
+    //! > If compile-time performance is a serious concern, consider
+    //! > specializing the `tag_of` metafunction in Hana's namespace.
+    //! > When unspecialized, the metafunction has to use SFINAE, which
+    //! > tends to incur a larger compile-time overhead. For heavily used
+    //! > templated types, this can potentially make a difference.
     //!
     //! > __Tip 2__\n
-    //! > Consider using `datatype_t` alias instead of `datatype`, which
+    //! > Consider using `tag_of_t` alias instead of `tag_of`, which
     //! > reduces the amount of typing in dependent contexts.
     //!
     //!
     //! Example
     //! -------
-    //! @include example/core/datatype.cpp
+    //! @include example/core/tag_of.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, optional when-based enabler>
-    struct datatype { unspecified };
+    struct tag_of { unspecified };
 #else
     template <typename T, typename = void>
-    struct datatype;
+    struct tag_of;
 #endif
 
     //! @ingroup group-core
-    //! Alias to `datatype<T>::%type`, provided for convenience.
+    //! Alias to `tag_of<T>::%type`, provided for convenience.
     //!
     //!
     //! Example
     //! -------
-    //! @include example/core/datatype_t.cpp
+    //! @include example/core/tag_of_t.cpp
     template <typename T>
-    using datatype_t = typename datatype<T>::type;
+    using tag_of_t = typename hana::tag_of<T>::type;
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_FWD_CORE_DATATYPE_HPP
+#endif // !BOOST_HANA_FWD_CORE_TAG_OF_HPP

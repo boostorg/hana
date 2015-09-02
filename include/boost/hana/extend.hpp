@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename W_, typename F>
     constexpr decltype(auto) extend_t::operator()(W_&& w, F&& f) const {
-        using W = typename datatype<W_>::type;
+        using W = typename hana::tag_of<W_>::type;
         using Extend = BOOST_HANA_DISPATCH_IF(extend_impl<W>,
             _models<Comonad, W>::value
         );

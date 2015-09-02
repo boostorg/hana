@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto drop_front_t::operator()(Xs&& xs, N&& n) const {
-        using It = typename datatype<Xs>::type;
+        using It = typename hana::tag_of<Xs>::type;
         using DropFront = BOOST_HANA_DISPATCH_IF(drop_front_impl<It>,
             _models<Iterable, It>::value &&
             _models<Constant, N>::value

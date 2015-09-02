@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Sfx>
     constexpr auto suffix_t::operator()(Xs&& xs, Sfx&& sfx) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Suffix = BOOST_HANA_DISPATCH_IF(suffix_impl<M>,
             _models<MonadPlus, M>::value
         );

@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
@@ -50,32 +50,32 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         static_assert(std::is_same<
-            datatype_t<inherit_simple>,
+            tag_of_t<inherit_simple>,
             ext::std::IntegralConstant<int>
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<inherit_no_default>,
+            tag_of_t<inherit_no_default>,
             ext::std::IntegralConstant<int>
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<std::is_pointer<int*>>,
+            tag_of_t<std::is_pointer<int*>>,
             ext::std::IntegralConstant<bool>
         >{}, "");
 
         static_assert(!std::is_same<
-            datatype_t<incomplete>,
+            tag_of_t<incomplete>,
             ext::std::IntegralConstant<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<empty_type>,
+            tag_of_t<empty_type>,
             ext::std::IntegralConstant<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<non_pod>,
+            tag_of_t<non_pod>,
             ext::std::IntegralConstant<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<void>,
+            tag_of_t<void>,
             ext::std::IntegralConstant<int>
         >{}, "");
     }

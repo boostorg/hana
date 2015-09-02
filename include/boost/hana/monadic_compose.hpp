@@ -23,7 +23,7 @@ namespace boost { namespace hana {
         struct monadic_compose_helper {
             template <typename F, typename G, typename X>
             constexpr decltype(auto) operator()(F&& f, G&& g, X&& x) const {
-                using M = typename datatype<decltype(g(x))>::type;
+                using M = typename hana::tag_of<decltype(g(x))>::type;
 
             #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
                 static_assert(_models<Monad, M>::value,

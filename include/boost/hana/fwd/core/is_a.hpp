@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! compile-time Logical representing whether the data type of `T`
     //! is exactly `D`. In other words, it is equivalent to
     //! @code
-    //!     std::is_same<D, datatype_t<T>>
+    //!     std::is_same<D, tag_of_t<T>>
     //! @endcode
     //!
     //! For convenience, an alternate syntax is provided for using `is_a`.

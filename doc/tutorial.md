@@ -2547,8 +2547,8 @@ we sometimes (ab)use the word _data type_ to mean the same thing as _tag_ in
 the documentation, always referring to the family of related types.
 
 @note
-The tag of an object of type `T` can be obtained by using `datatype<T>::%type`,
-or equivalently `datatype_t<T>`.
+The tag of an object of type `T` can be obtained by using `tag_of<T>::%type`,
+or equivalently `tag_of_t<T>`.
 
 
 @subsection tutorial-core-tag_dispatching Tag dispatching
@@ -2586,8 +2586,8 @@ work around it. To do so, we use an infrastructure with three distinct
 components:
 
 1. A metafunction associating a single tag to every type in a family of
-   related types. In Hana, this tag can be accessed using the `datatype`
-   metafunction. Specifically, for any type `T`, `datatype<T>::%type` is
+   related types. In Hana, this tag can be accessed using the `tag_of`
+   metafunction. Specifically, for any type `T`, `tag_of<T>::%type` is
    the tag used to dispatch it.
 
 2. A function belonging to the public interface of the library, for which
@@ -2616,9 +2616,9 @@ different types to illustrate the technique:
 
 @snippet example/tutorial/tag_dispatching.cpp Vector
 
-The nested `struct hana { using datatype = Vector; }` part is a terse way of
-controling the result of `datatype` metafunction, and hence the tag of the
-`vectorN` type. This is explained in the reference for `datatype`. Finally,
+The nested `struct hana { using tag = Vector; }` part is a terse way of
+controling the result of the `tag_of` metafunction, and hence the tag of the
+`vectorN` type. This is explained in the reference for `tag_of`. Finally,
 if you wanted to customize the behavior of the `print` function for all the
 `vectorN` types, you would normally have to write something along the lines of
 

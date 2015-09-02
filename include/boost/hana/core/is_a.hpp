@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/is_a.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 
 #include <type_traits>
 
@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     template <typename DataType, typename T>
     struct is_a_t<DataType, T>
         : integral_constant<bool,
-            std::is_same<DataType, typename datatype<T>::type>::value
+            std::is_same<DataType, typename hana::tag_of<T>::type>::value
         >
     { };
 

@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto tail_t::operator()(Xs&& xs) const {
-        using It = typename datatype<Xs>::type;
+        using It = typename hana::tag_of<Xs>::type;
         using Tail = BOOST_HANA_DISPATCH_IF(tail_impl<It>,
             _models<Iterable, It>::value
         );

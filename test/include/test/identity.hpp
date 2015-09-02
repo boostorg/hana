@@ -30,7 +30,7 @@ namespace boost { namespace hana {
         template <typename T>
         struct identity_t {
             T value;
-            struct hana { using datatype = Identity; };
+            struct hana { using tag = Identity; };
         };
 
         constexpr detail::create<identity_t> identity{};

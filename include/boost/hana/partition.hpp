@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto partition_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Partition = BOOST_HANA_DISPATCH_IF(partition_impl<S>,
             _models<Sequence, S>::value
         );

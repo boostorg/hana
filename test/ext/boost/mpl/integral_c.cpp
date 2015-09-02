@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -44,36 +44,36 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Make sure the datatype is correct
+    // Make sure the tag is correct
     //////////////////////////////////////////////////////////////////////////
     {
         static_assert(std::is_same<
-            datatype_t<mpl::bool_<true>>,
+            tag_of_t<mpl::bool_<true>>,
             ext::boost::mpl::IntegralC<bool>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::int_<0>>,
+            tag_of_t<mpl::int_<0>>,
             ext::boost::mpl::IntegralC<int>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::long_<0>>,
+            tag_of_t<mpl::long_<0>>,
             ext::boost::mpl::IntegralC<long>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::size_t<0>>,
+            tag_of_t<mpl::size_t<0>>,
             ext::boost::mpl::IntegralC<std::size_t>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::integral_c<int, 0>>,
+            tag_of_t<mpl::integral_c<int, 0>>,
             ext::boost::mpl::IntegralC<int>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::char_<0>>,
+            tag_of_t<mpl::char_<0>>,
             ext::boost::mpl::IntegralC<char>
         >::value, "");
     }

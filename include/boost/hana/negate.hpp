@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X>
     constexpr decltype(auto) negate_t::operator()(X&& x) const {
-        using G = typename datatype<X>::type;
+        using G = typename hana::tag_of<X>::type;
         using Negate = BOOST_HANA_DISPATCH_IF(negate_impl<G>,
             _models<Group, G>::value
         );

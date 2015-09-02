@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/convert.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 
 #include <string>
 #include <type_traits>
@@ -20,24 +20,24 @@ constexpr auto operator==(X x, Y y)
 
 struct Datatype {
     int value;
-    struct hana { using datatype = Datatype; };
+    struct hana { using tag = Datatype; };
 };
 
 struct Other {
     int value;
-    struct hana { using datatype = Datatype; };
+    struct hana { using tag = Datatype; };
 };
 
 struct SpecializedFrom;
 struct specialized_from {
     int value;
-    struct hana { using datatype = SpecializedFrom; };
+    struct hana { using tag = SpecializedFrom; };
 };
 
 struct SpecializedTo;
 struct specialized_to {
     int value;
-    struct hana { using datatype = SpecializedTo; };
+    struct hana { using tag = SpecializedTo; };
 };
 
 namespace boost { namespace hana {
@@ -51,13 +51,13 @@ namespace boost { namespace hana {
 
 template <typename F, typename T>
 void check_convert(F f, T t) {
-    using From = hana::datatype_t<F>;
-    using To = hana::datatype_t<T>;
+    using From = hana::tag_of_t<F>;
+    using To = hana::tag_of_t<T>;
 
     // Check From -> To conversion
     BOOST_HANA_RUNTIME_CHECK(hana::to<To>(f) == t);
     static_assert(std::is_same<
-        hana::datatype_t<decltype(hana::to<To>(f))>, To
+        hana::tag_of_t<decltype(hana::to<To>(f))>, To
     >{}, "");
 
     static_assert(hana::is_convertible<From, To>{}, "");
@@ -66,12 +66,12 @@ void check_convert(F f, T t) {
     // Make sure From -> From and To -> To are the identity.
     BOOST_HANA_RUNTIME_CHECK(hana::to<From>(f) == f);
     static_assert(std::is_same<
-        hana::datatype_t<decltype(hana::to<From>(f))>, From
+        hana::tag_of_t<decltype(hana::to<From>(f))>, From
     >{}, "");
 
     BOOST_HANA_RUNTIME_CHECK(hana::to<To>(t) == t);
     static_assert(std::is_same<
-        hana::datatype_t<decltype(hana::to<To>(t))>, To
+        hana::tag_of_t<decltype(hana::to<To>(t))>, To
     >{}, "");
 
     static_assert(hana::is_convertible<From, From>{}, "");

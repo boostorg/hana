@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto remove_if_t::operator()(Xs&& xs, Pred&& pred) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using RemoveIf = BOOST_HANA_DISPATCH_IF(remove_if_impl<M>,
             _models<MonadPlus, M>::value
         );

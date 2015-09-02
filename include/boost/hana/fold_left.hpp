@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename State, typename F>
     constexpr decltype(auto) fold_left_t::operator()(Xs&& xs, State&& state, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
             _models<Foldable, S>::value
         );
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename F>
     constexpr decltype(auto) fold_left_t::operator()(Xs&& xs, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using FoldLeft = BOOST_HANA_DISPATCH_IF(fold_left_impl<S>,
             _models<Foldable, S>::value
         );

@@ -90,14 +90,14 @@ namespace boost { namespace hana {
     struct tuple<> : operators::adl, detail::iterable_operators<tuple<>> {
         constexpr tuple() { }
         using hana = tuple;
-        using datatype = Tuple;
+        using tag = Tuple;
     };
 
     template <typename ...Xn>
     struct tuple : operators::adl, detail::iterable_operators<tuple<Xn...>> {
         basic_tuple<Xn...> storage_;
         using hana = tuple;
-        using datatype = Tuple;
+        using tag = Tuple;
 
     private:
         template <typename Other, std::size_t ...n>

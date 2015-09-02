@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr auto scan_left_t::operator()(Xs&& xs, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using ScanLeft = BOOST_HANA_DISPATCH_IF(scan_left_impl<S>,
             _models<Sequence, S>::value
         );
@@ -43,7 +43,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename State, typename F>
     constexpr auto scan_left_t::operator()(Xs&& xs, State&& state, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using ScanLeft = BOOST_HANA_DISPATCH_IF(scan_left_impl<S>,
             _models<Sequence, S>::value
         );

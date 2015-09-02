@@ -41,9 +41,9 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! `models` is a tag-dispatched method. More specifically,
-    //! `models<Concept, T>` dispatches to `models_impl<Concept, datatype_t<T>>`,
+    //! `models<Concept, T>` dispatches to `models_impl<Concept, tag_of_t<T>>`,
     //! which should be a metafunction with a nested boolean `::value`
-    //! representing whether `datatype_t<T>` models the concept `Concept`.
+    //! representing whether `tag_of_t<T>` models the concept `Concept`.
     //!
     //!
     //! Example

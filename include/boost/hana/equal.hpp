@@ -24,8 +24,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/concepts.hpp>
 #include <boost/hana/detail/dependent_on.hpp>
@@ -45,8 +45,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr auto equal_t::operator()(X&& x, Y&& y) const {
-        using T = typename datatype<X>::type;
-        using U = typename datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Equal = equal_impl<T, U>;
         return Equal::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
     }

@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/models.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <typename T, T From, T To>
-    struct datatype<range<T, From, To>> {
+    struct tag_of<range<T, From, To>> {
         using type = Range;
     };
 
@@ -86,8 +86,8 @@ namespace boost { namespace hana {
         #endif
 
             using T = typename common<
-                typename datatype<From>::type::value_type,
-                typename datatype<To>::type::value_type
+                typename hana::tag_of<From>::type::value_type,
+                typename hana::tag_of<To>::type::value_type
             >::type;
             constexpr T from = hana::to<T>(hana::value<From>());
             constexpr T to = hana::to<T>(hana::value<To>());

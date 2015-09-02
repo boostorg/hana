@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Set, typename ...Args>
     constexpr decltype(auto) insert_t::operator()(Set&& set, Args&& ...args) const {
-        return insert_impl<typename datatype<Set>::type>::apply(
+        return insert_impl<typename hana::tag_of<Set>::type>::apply(
             static_cast<Set&&>(set),
             static_cast<Args&&>(args)...
         );

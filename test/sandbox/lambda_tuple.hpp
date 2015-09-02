@@ -47,7 +47,7 @@ namespace boost { namespace hana { namespace sandbox {
             : storage(std::move(s))
         { }
 
-        struct hana { using datatype = LambdaTuple; };
+        struct hana { using tag = LambdaTuple; };
         Storage storage;
     };
 

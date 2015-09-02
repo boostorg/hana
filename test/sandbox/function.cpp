@@ -20,7 +20,7 @@ namespace boost { namespace hana {
 
     template <typename Domain, typename Codomain, typename F>
     struct function_type {
-        struct hana { using datatype = Function; };
+        struct hana { using tag = Function; };
 
         Domain dom;
         Codomain cod;

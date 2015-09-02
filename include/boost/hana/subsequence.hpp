@@ -26,17 +26,17 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Indices>
     constexpr auto subsequence_t::operator()(Xs&& xs, Indices&& indices) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Subsequence = BOOST_HANA_DISPATCH_IF(subsequence_impl<S>,
             _models<Sequence, S>::value &&
-            _models<Foldable, typename datatype<Indices>::type>::value
+            _models<Foldable, typename hana::tag_of<Indices>::type>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Sequence, S>::value,
         "hana::subsequence(xs, indices) requires 'xs' to be a Sequence");
 
-        static_assert(_models<Foldable, typename datatype<Indices>::type>::value,
+        static_assert(_models<Foldable, typename hana::tag_of<Indices>::type>::value,
         "hana::subsequence(xs, indices) requires 'indices' to be Foldable");
     #endif
 

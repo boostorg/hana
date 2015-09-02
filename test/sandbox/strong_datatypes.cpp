@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana.hpp>
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
 
@@ -16,7 +16,7 @@ namespace wrap_detail {
     template <typename Datatype, typename X>
     struct wrapper {
         X unwrap;
-        struct hana { using datatype = Datatype; };
+        struct hana { using tag = Datatype; };
     };
 
     template <typename Datatype>
@@ -50,8 +50,8 @@ not_implemented<X, F> fmap_impl{};
 
 auto fmap = [](auto x, auto f) {
     return fmap_impl<
-        hana::datatype_t<decltype(x)>,
-        hana::datatype_t<decltype(f)>
+        hana::tag_of_t<decltype(x)>,
+        hana::tag_of_t<decltype(f)>
     >(x, f);
 };
 
@@ -64,8 +64,8 @@ not_implemented<F, X> ap_impl{};
 
 auto ap = [](auto f, auto x) {
     return ap_impl<
-        hana::datatype_t<decltype(f)>,
-        hana::datatype_t<decltype(x)>
+        hana::tag_of_t<decltype(f)>,
+        hana::tag_of_t<decltype(x)>
     >(f, x);
 };
 
@@ -74,7 +74,7 @@ not_implemented<A> lift_impl{};
 
 template <template <typename> class A>
 auto lift = [](auto x) {
-    return lift_impl<A<hana::datatype_t<decltype(x)>>>(x);
+    return lift_impl<A<hana::tag_of_t<decltype(x)>>>(x);
 };
 
 
@@ -86,8 +86,8 @@ not_implemented<F, X> apply_impl{};
 
 auto apply = [](auto f, auto x) {
     return apply_impl<
-        hana::datatype_t<decltype(f)>,
-        hana::datatype_t<decltype(x)>
+        hana::tag_of_t<decltype(f)>,
+        hana::tag_of_t<decltype(x)>
     >(f, x);
 };
 

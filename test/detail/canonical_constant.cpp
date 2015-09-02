@@ -24,7 +24,7 @@ template <typename T, T v>
 struct canonical {
     static constexpr decltype(auto) get()
     { return v; }
-    struct hana { using datatype = detail::CanonicalConstant<T>; };
+    struct hana { using tag = detail::CanonicalConstant<T>; };
 };
 
 int main() {

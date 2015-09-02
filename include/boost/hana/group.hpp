@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto group_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
             _models<Sequence, S>::value
         );
@@ -47,7 +47,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename Predicate>
     constexpr auto group_t::operator()(Xs&& xs, Predicate&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Group = BOOST_HANA_DISPATCH_IF(group_impl<S>,
             _models<Sequence, S>::value
         );
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     namespace detail {
         template <typename Xs, std::size_t ...i>
         constexpr auto get_subsequence_(Xs&& xs, std::index_sequence<i...>) {
-            using S = typename hana::datatype<Xs>::type;
+            using S = typename hana::tag_of<Xs>::type;
             return hana::make<S>(hana::at_c<i>(static_cast<Xs&&>(xs))...);
         }
 

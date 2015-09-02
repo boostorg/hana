@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/tail.hpp>
 
 #include <boost/fusion/container/deque.hpp>
@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     }}}
 
     template <typename T>
-    struct datatype<T, when<
+    struct tag_of<T, when<
         std::is_same<
             typename ::boost::fusion::traits::tag_of<T>::type,
             ::boost::fusion::traits::tag_of<

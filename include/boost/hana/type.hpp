@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     template <typename T>
     struct basic_type : operators::adl {
         using hana = basic_type;
-        using datatype = Type;
+        using tag = Type;
 
         using type = T;
         constexpr auto operator+() const { return *this; }
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
 
         template <typename T>
         struct decltype_t<T,
-            typename std::remove_reference<T>::type::hana::datatype
+            typename std::remove_reference<T>::type::hana::tag
         > {
             using type = typename std::remove_reference<T>::type::type;
         };

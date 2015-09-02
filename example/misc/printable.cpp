@@ -27,7 +27,7 @@ struct print_impl<T, hana::when<condition>> : hana::default_ {
 
 template <typename T>
 constexpr auto print(T const& t) {
-    using Print = print_impl<typename hana::datatype<T>::type>;
+    using Print = print_impl<typename hana::tag_of<T>::type>;
     return Print::apply(t);
 }
 

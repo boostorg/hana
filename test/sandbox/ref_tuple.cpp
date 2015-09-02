@@ -6,8 +6,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/at.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/tail.hpp>
@@ -25,7 +25,7 @@ struct ref_tuple {
 
 namespace boost { namespace hana {
     template <typename ...T>
-    struct datatype<ref_tuple<T...>> {
+    struct tag_of<ref_tuple<T...>> {
         using type = RefTuple;
     };
 

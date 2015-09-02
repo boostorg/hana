@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto cartesian_product_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using CartesianProduct = BOOST_HANA_DISPATCH_IF(
             cartesian_product_impl<S>,
             _models<Sequence, S>::value

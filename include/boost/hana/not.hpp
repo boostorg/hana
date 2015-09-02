@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X>
     constexpr decltype(auto) not_t::operator()(X&& x) const {
-        using Bool = typename hana::datatype<X>::type;
+        using Bool = typename hana::tag_of<X>::type;
         using Not = BOOST_HANA_DISPATCH_IF(hana::not_impl<Bool>,
             hana::_models<Logical, Bool>::value
         );
@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         struct constant_t {
             static constexpr decltype(auto) get()
             { return boost::hana::not_(boost::hana::value<Cond>()); }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+            struct hana { using tag = detail::CanonicalConstant<T>; };
         };
         //! @endcond
         template <typename Cond>

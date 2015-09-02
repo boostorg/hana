@@ -22,17 +22,17 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Before, typename Xs>
     constexpr decltype(auto) then_t::operator()(Before&& before, Xs&& xs) const {
-        using M = typename datatype<Before>::type;
+        using M = typename hana::tag_of<Before>::type;
         using Then = BOOST_HANA_DISPATCH_IF(then_impl<M>,
             _models<Monad, M>::value &&
-            _models<Monad, typename datatype<Xs>::type>::value
+            _models<Monad, typename hana::tag_of<Xs>::type>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(_models<Monad, M>::value,
         "hana::then(before, xs) requires 'before' to be a Monad");
 
-        static_assert(_models<Monad, typename datatype<Xs>::type>::value,
+        static_assert(_models<Monad, typename hana::tag_of<Xs>::type>::value,
         "hana::then(before, xs) requires 'xs' to be a Monad");
     #endif
 

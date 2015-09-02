@@ -71,7 +71,7 @@ namespace boost { namespace hana {
             { return boost::hana::zero<T>(); }
 
             using hana = constant_t;
-            using datatype = detail::CanonicalConstant<T>;
+            using tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         static constexpr decltype(auto) apply()

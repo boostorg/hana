@@ -13,8 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/basic_tuple.hpp>
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 
 #if 0 //! @todo Until we strip down headers, this includes too much
@@ -121,7 +121,7 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <typename ...Xn>
-    struct datatype<basic_tuple<Xn...>> {
+    struct tag_of<basic_tuple<Xn...>> {
         using type = BasicTuple;
     };
 

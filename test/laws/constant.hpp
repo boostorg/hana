@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
         struct wrap_arbitrary_constant {
             static constexpr T get()
             { return boost::hana::value<X>(); }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+            struct hana { using tag = detail::CanonicalConstant<T>; };
         };
 
         template <typename Xs, typename Convertibles>
@@ -57,7 +57,7 @@ namespace boost { namespace hana { namespace test {
                 // consistency of C::value_type
                 static_assert(std::is_same<
                     T,
-                    datatype_t<decltype(hana::value(c))>
+                    tag_of_t<decltype(hana::value(c))>
                 >{}, "");
 
                 // equivalence of value_of(c) and value<decltype(c)>

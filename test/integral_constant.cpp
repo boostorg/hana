@@ -9,8 +9,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -83,7 +83,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         struct derived : integral_constant<int, 10> { };
-        static_assert(std::is_same<datatype_t<derived>, IntegralConstant<int>>{}, "");
+        static_assert(std::is_same<tag_of_t<derived>, IntegralConstant<int>>{}, "");
     }
 
     //////////////////////////////////////////////////////////////////////////

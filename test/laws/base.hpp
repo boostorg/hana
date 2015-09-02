@@ -213,7 +213,7 @@ namespace boost { namespace hana {
 
         template <int i, typename ...X>
         struct injection_result {
-            struct hana { using datatype = InjectionResult; };
+            struct hana { using tag = InjectionResult; };
             static constexpr int injection_id = i;
             boost::hana::tuple<X...> args;
             Tracked tracker;
@@ -339,7 +339,7 @@ namespace boost { namespace hana {
 
             static constexpr int value = i;
             constexpr operator int() const { return value; }
-            struct hana { using datatype = Integer<policy>; };
+            struct hana { using tag = Integer<policy>; };
             Tracked tracker{i};
         };
 
@@ -347,7 +347,7 @@ namespace boost { namespace hana {
         struct integer <i, policy, std::enable_if_t<!!(policy & Policy::Constexpr)>> {
             static constexpr int value = i;
             constexpr operator int() const { return value; }
-            struct hana { using datatype = Integer<policy>; };
+            struct hana { using tag = Integer<policy>; };
         };
 
         template <int i>

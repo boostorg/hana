@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto intersection_t::operator()(Xs&& xs, Ys&& ys) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Intersection = BOOST_HANA_DISPATCH_IF(intersection_impl<S>,
             true
         );

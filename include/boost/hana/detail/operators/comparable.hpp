@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_OPERATORS_COMPARABLE_HPP
 #define BOOST_HANA_DETAIL_OPERATORS_COMPARABLE_HPP
 
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/not_equal.hpp>
 
@@ -27,15 +27,15 @@ namespace boost { namespace hana {
 
     namespace operators {
         template <typename X, typename Y, typename = typename std::enable_if<
-            detail::comparable_operators<typename datatype<X>::type>::value ||
-            detail::comparable_operators<typename datatype<Y>::type>::value
+            detail::comparable_operators<typename hana::tag_of<X>::type>::value ||
+            detail::comparable_operators<typename hana::tag_of<Y>::type>::value
         >::type>
         constexpr auto operator==(X&& x, Y&& y)
         { return hana::equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
 
         template <typename X, typename Y, typename = typename std::enable_if<
-            detail::comparable_operators<typename datatype<X>::type>::value ||
-            detail::comparable_operators<typename datatype<Y>::type>::value
+            detail::comparable_operators<typename hana::tag_of<X>::type>::value ||
+            detail::comparable_operators<typename hana::tag_of<Y>::type>::value
         >::type>
         constexpr auto operator!=(X&& x, Y&& y)
         { return hana::not_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }

@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto is_empty_t::operator()(Xs&& xs) const {
-        using It = typename datatype<Xs>::type;
+        using It = typename hana::tag_of<Xs>::type;
         using IsEmpty = BOOST_HANA_DISPATCH_IF(is_empty_impl<It>,
             _models<Iterable, It>::value
         );

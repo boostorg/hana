@@ -28,7 +28,7 @@ namespace boost { namespace hana {
         template <typename T, T v>
         struct cnumeric_t {
             static constexpr T value = v;
-            struct hana { using datatype = CNumeric<T>; };
+            struct hana { using tag = CNumeric<T>; };
             constexpr operator T() const { return value; }
         };
 

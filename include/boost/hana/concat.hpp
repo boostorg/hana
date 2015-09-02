@@ -29,14 +29,14 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto concat_t::operator()(Xs&& xs, Ys&& ys) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
             _models<MonadPlus, M>::value &&
-            std::is_same<typename datatype<Ys>::type, M>::value
+            std::is_same<typename hana::tag_of<Ys>::type, M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(std::is_same<typename datatype<Ys>::type, M>::value,
+        static_assert(std::is_same<typename hana::tag_of<Ys>::type, M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same data type");
 
         static_assert(_models<MonadPlus, M>::value,

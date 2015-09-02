@@ -30,7 +30,7 @@ namespace boost { namespace hana {
         using RawT = typename std::remove_cv<
             typename std::remove_reference<T>::type
         >::type;
-        using C = typename datatype<RawT>::type;
+        using C = typename hana::tag_of<RawT>::type;
         using Value = BOOST_HANA_DISPATCH_IF(
             value_impl<C>, _models<Constant, C>::value
         );

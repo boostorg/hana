@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto take_t::operator()(Xs&& xs, N&& n) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Take = BOOST_HANA_DISPATCH_IF(take_impl<S>,
             _models<Sequence, S>::value &&
             _models<Constant, N>::value

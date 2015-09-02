@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto cycle_t::operator()(Xs&& xs, N&& n) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Cycle = BOOST_HANA_DISPATCH_IF(cycle_impl<M>,
             _models<MonadPlus, M>::value
         );

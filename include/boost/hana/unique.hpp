@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto unique_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Unique = BOOST_HANA_DISPATCH_IF(unique_impl<S>,
             _models<Sequence, S>::value
         );
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename Predicate>
     constexpr auto unique_t::operator()(Xs&& xs, Predicate&& predicate) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Unique = BOOST_HANA_DISPATCH_IF(unique_impl<S>,
             _models<Sequence, S>::value
         );

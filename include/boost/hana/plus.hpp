@@ -27,8 +27,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) plus_t::operator()(X&& x, Y&& y) const {
-        using T = typename datatype<X>::type;
-        using U = typename datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Plus = BOOST_HANA_DISPATCH_IF(decltype(plus_impl<T, U>{}),
             _models<Monoid, T>::value &&
             _models<Monoid, U>::value &&
@@ -101,7 +101,7 @@ namespace boost { namespace hana {
             }
 
             using hana = constant_t;
-            using datatype = detail::CanonicalConstant<T>;
+            using tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X, typename Y>

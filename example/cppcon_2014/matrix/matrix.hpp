@@ -33,7 +33,7 @@ namespace cppcon {
 
     template <unsigned Rows, unsigned Columns, typename Storage>
     struct matrix_type {
-        struct hana { using datatype = Matrix<Rows, Columns>; };
+        struct hana { using tag = Matrix<Rows, Columns>; };
 
         Storage rows_;
         constexpr auto ncolumns() const

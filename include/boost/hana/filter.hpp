@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto filter_t::operator()(Xs&& xs, Pred&& pred) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Filter = BOOST_HANA_DISPATCH_IF(filter_impl<M>,
             _models<MonadPlus, M>::value
         );

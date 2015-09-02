@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto find_if_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using FindIf = BOOST_HANA_DISPATCH_IF(find_if_impl<S>,
             _models<Searchable, S>::value
         );

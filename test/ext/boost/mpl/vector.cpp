@@ -48,41 +48,41 @@ int main() {
         using mpl_id = mpl::quote1<mpl::identity>;
 
         static_assert(std::is_same<
-            datatype_t<mpl::vector<>>,
+            tag_of_t<mpl::vector<>>,
             ext::boost::mpl::Vector
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::vector<>::type>,
+            tag_of_t<mpl::vector<>::type>,
             ext::boost::mpl::Vector
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<>, mpl_id>::type>,
-            ext::boost::mpl::Vector
-        >{}, "");
-
-        static_assert(std::is_same<
-            datatype_t<mpl::vector<t1>>,
-            ext::boost::mpl::Vector
-        >{}, "");
-        static_assert(std::is_same<
-            datatype_t<mpl::vector<t1>::type>,
-            ext::boost::mpl::Vector
-        >{}, "");
-        static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<t1>, mpl_id>::type>,
+            tag_of_t<mpl::transform<mpl::vector<>, mpl_id>::type>,
             ext::boost::mpl::Vector
         >{}, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::vector<t1, t2>>,
+            tag_of_t<mpl::vector<t1>>,
             ext::boost::mpl::Vector
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::vector<t1, t2>::type>,
+            tag_of_t<mpl::vector<t1>::type>,
             ext::boost::mpl::Vector
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<t1, t2>, mpl_id>::type>,
+            tag_of_t<mpl::transform<mpl::vector<t1>, mpl_id>::type>,
+            ext::boost::mpl::Vector
+        >{}, "");
+
+        static_assert(std::is_same<
+            tag_of_t<mpl::vector<t1, t2>>,
+            ext::boost::mpl::Vector
+        >{}, "");
+        static_assert(std::is_same<
+            tag_of_t<mpl::vector<t1, t2>::type>,
+            ext::boost::mpl::Vector
+        >{}, "");
+        static_assert(std::is_same<
+            tag_of_t<mpl::transform<mpl::vector<t1, t2>, mpl_id>::type>,
             ext::boost::mpl::Vector
         >{}, "");
     }

@@ -8,8 +8,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_TEST_LAWS_SEQUENCE_HPP
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -17,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
@@ -95,11 +95,11 @@ namespace boost { namespace hana { namespace test {
             // Check for basic data type consistency
             //////////////////////////////////////////////////////////////////
             struct Random;
-            static_assert(std::is_same<datatype_t<decltype(list())>, S>{}, "");
-            static_assert(std::is_same<datatype_t<decltype(list(1))>, S>{}, "");
-            static_assert(std::is_same<datatype_t<decltype(list(1, '2'))>, S>{}, "");
-            static_assert(std::is_same<datatype_t<decltype(list(1, '2', 3.3))>, S>{}, "");
-            static_assert(!std::is_same<datatype_t<Random>, S>{}, "");
+            static_assert(std::is_same<tag_of_t<decltype(list())>, S>{}, "");
+            static_assert(std::is_same<tag_of_t<decltype(list(1))>, S>{}, "");
+            static_assert(std::is_same<tag_of_t<decltype(list(1, '2'))>, S>{}, "");
+            static_assert(std::is_same<tag_of_t<decltype(list(1, '2', 3.3))>, S>{}, "");
+            static_assert(!std::is_same<tag_of_t<Random>, S>{}, "");
 
             //////////////////////////////////////////////////////////////////
             // Foldable -> Sequence conversion

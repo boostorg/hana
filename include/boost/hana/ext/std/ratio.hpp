@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/less.hpp>
 #include <boost/hana/fwd/minus.hpp>
@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Ratio; }}
 
     template <std::intmax_t num, std::intmax_t den>
-    struct datatype<std::ratio<num, den>> {
+    struct tag_of<std::ratio<num, den>> {
         using type = ext::std::Ratio;
     };
 

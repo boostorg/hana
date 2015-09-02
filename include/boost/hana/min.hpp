@@ -22,8 +22,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) min_t::operator()(X&& x, Y&& y) const {
-        using T = typename datatype<X>::type;
-        using U = typename datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Min = BOOST_HANA_DISPATCH_IF(decltype(min_impl<T, U>{}),
             _models<Orderable, T>::value &&
             _models<Orderable, U>::value

@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/type.hpp>
 

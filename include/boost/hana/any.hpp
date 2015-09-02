@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto any_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Any = BOOST_HANA_DISPATCH_IF(any_impl<S>,
             _models<Searchable, S>::value
         );

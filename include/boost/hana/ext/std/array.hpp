@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
@@ -32,7 +32,7 @@ namespace boost { namespace hana {
     namespace ext { namespace std { struct Array; }}
 
     template <typename T, std::size_t N>
-    struct datatype<std::array<T, N>> {
+    struct tag_of<std::array<T, N>> {
         using type = ext::std::Array;
     };
 

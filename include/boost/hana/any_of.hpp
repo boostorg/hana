@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto any_of_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using AnyOf = BOOST_HANA_DISPATCH_IF(any_of_impl<S>,
             _models<Searchable, S>::value
         );

@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename From, typename To>
     constexpr auto remove_range_t::operator()(Xs&& xs, From&& from, To&& to) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using RemoveRange = BOOST_HANA_DISPATCH_IF(remove_range_impl<S>,
             _models<Sequence, S>::value &&
             _models<Constant, From>::value &&

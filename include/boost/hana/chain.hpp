@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr decltype(auto) chain_t::operator()(Xs&& xs, F&& f) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Chain = BOOST_HANA_DISPATCH_IF(chain_impl<M>,
             _models<Monad, M>::value
         );

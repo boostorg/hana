@@ -16,10 +16,9 @@ namespace boost { namespace hana { namespace detail {
     //!
     //! This is an implementation detail used to provide many models for
     //! stuff like `Monoid`, `Group`, etc. To create a `CanonicalConstant`,
-    //! simply create an object with a nested `hana::datatype` equal to
-    //! the proper specialization of `CanonicalConstant<T>`, and then
-    //! also provide a static function named `get()` returning the
-    //! `constexpr` value.
+    //! simply create an object with a nested `hana::tag` equal to the proper
+    //! specialization of `CanonicalConstant<T>`, and then also provide a
+    //! static function named `get()` returning the `constexpr` value.
     template <typename T>
     struct CanonicalConstant {
         using value_type = T;
@@ -59,7 +58,7 @@ namespace boost { namespace hana {
             { return to<T>(boost::hana::value<X>()); }
 
             using hana = constant_t;
-            using datatype = detail::CanonicalConstant<T>;
+            using tag = detail::CanonicalConstant<T>;
         };
         template <typename X>
         static constexpr constant_t<X> apply(X const&)

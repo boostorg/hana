@@ -1,0 +1,46 @@
+/*!
+@file
+Defines `boost::hana::tag_of` and `boost::hana::tag_of_t`.
+
+@copyright Louis Dionne 2015
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+ */
+
+#ifndef BOOST_HANA_CORE_TAG_OF_HPP
+#define BOOST_HANA_CORE_TAG_OF_HPP
+
+#include <boost/hana/fwd/core/tag_of.hpp>
+
+#include <boost/hana/core/when.hpp>
+
+
+namespace boost { namespace hana {
+    template <typename T, typename>
+    struct tag_of : tag_of<T, when<true>> { };
+
+    namespace core_detail {
+        template <typename ...>
+        struct is_valid { static constexpr bool value = true; };
+    }
+
+    template <typename T, bool condition>
+    struct tag_of<T, when<condition>> {
+        using type = T;
+    };
+
+    template <typename T>
+    struct tag_of<T, when<
+        core_detail::is_valid<typename T::hana::tag>::value
+    >> {
+        using type = typename T::hana::tag;
+    };
+
+    template <typename T> struct tag_of<T const> : tag_of<T> { };
+    template <typename T> struct tag_of<T volatile> : tag_of<T> { };
+    template <typename T> struct tag_of<T const volatile> : tag_of<T> { };
+    template <typename T> struct tag_of<T&> : tag_of<T> { };
+    template <typename T> struct tag_of<T&&> : tag_of<T> { };
+}} // end namespace boost::hana
+
+#endif // !BOOST_HANA_CORE_TAG_OF_HPP

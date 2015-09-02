@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N, typename Elements>
     constexpr auto insert_range_t::operator()(Xs&& xs, N&& n, Elements&& elements) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using InsertRange = BOOST_HANA_DISPATCH_IF(insert_range_impl<S>,
             _models<Sequence, Xs>::value &&
             _models<Foldable, Elements>::value

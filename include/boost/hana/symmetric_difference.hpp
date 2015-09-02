@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto symmetric_difference_t::operator()(Xs&& xs, Ys&& ys) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using SymmetricDifference = BOOST_HANA_DISPATCH_IF(symmetric_difference_impl<S>,
             true
         );

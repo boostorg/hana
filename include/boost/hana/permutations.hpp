@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto permutations_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Permutations = BOOST_HANA_DISPATCH_IF(permutations_impl<S>,
             _models<Sequence, S>::value
         );

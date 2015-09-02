@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/tail.hpp>
@@ -32,17 +32,17 @@ namespace boost { namespace hana {
     namespace ext { namespace boost { struct Tuple; }}
 
     template <typename ...Xs>
-    struct datatype< ::boost::tuple<Xs...>> {
+    struct tag_of< ::boost::tuple<Xs...>> {
         using type = ext::boost::Tuple;
     };
 
     template <typename H, typename T>
-    struct datatype< ::boost::tuples::cons<H, T>> {
+    struct tag_of< ::boost::tuples::cons<H, T>> {
         using type = ext::boost::Tuple;
     };
 
     template <>
-    struct datatype< ::boost::tuples::null_type> {
+    struct tag_of< ::boost::tuples::null_type> {
         using type = ext::boost::Tuple;
     };
 

@@ -85,7 +85,7 @@ namespace boost { namespace hana {
     //! @code
     //!     std::is_same<
     //!         C::value_type,
-    //!         datatype_t<decltype(hana::value(c))>
+    //!         tag_of_t<decltype(hana::value(c))>
     //!     >::value
     //! @endcode
     //!

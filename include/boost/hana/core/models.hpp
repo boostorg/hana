@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     template <typename Concept, typename T>
     struct _models<Concept, T>
         : integral_constant<bool,
-            models_impl<Concept, typename datatype<T>::type>::value
+            models_impl<Concept, typename hana::tag_of<T>::type>::value
         >
     { };
 

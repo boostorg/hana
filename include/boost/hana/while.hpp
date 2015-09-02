@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     template <typename Pred, typename State, typename F>
     constexpr decltype(auto) while_t::operator()(Pred&& pred, State&& state, F&& f) const {
         using Cond = decltype(pred(state));
-        using Bool = typename hana::datatype<Cond>::type;
+        using Bool = typename hana::tag_of<Cond>::type;
         using While = BOOST_HANA_DISPATCH_IF(while_impl<Bool>,
             hana::_models<hana::Logical, Bool>::value
         );

@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename N>
     constexpr decltype(auto) power_t::operator()(X&& x, N&& n) const {
-        using R = typename datatype<X>::type;
+        using R = typename hana::tag_of<X>::type;
         using Power = BOOST_HANA_DISPATCH_IF(power_impl<R>,
             _models<Ring, R>::value
         );

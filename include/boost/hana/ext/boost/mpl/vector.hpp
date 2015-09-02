@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/less.hpp>
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     }}}
 
     template <typename T>
-    struct datatype<T, when<
+    struct tag_of<T, when<
         std::is_same<
             typename ::boost::mpl::sequence_tag<T>::type,
             ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type

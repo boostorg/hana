@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto union_t::operator()(Xs&& xs, Ys&& ys) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Union = BOOST_HANA_DISPATCH_IF(union_impl<S>,
             true
         );

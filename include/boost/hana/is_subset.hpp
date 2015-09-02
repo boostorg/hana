@@ -26,8 +26,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto is_subset_t::operator()(Xs&& xs, Ys&& ys) const {
-        using S1 = typename datatype<Xs>::type;
-        using S2 = typename datatype<Ys>::type;
+        using S1 = typename hana::tag_of<Xs>::type;
+        using S2 = typename hana::tag_of<Ys>::type;
         using IsSubset = BOOST_HANA_DISPATCH_IF(
             decltype(is_subset_impl<S1, S2>{}),
             _models<Searchable, S1>::value &&

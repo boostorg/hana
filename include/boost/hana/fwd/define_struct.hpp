@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! @note
     //! This macro only works if the tag of the user-defined type `T` is `T`
     //! itself. This is the case unless you specifically asked for something
-    //! different; see `datatype`'s documentation.
+    //! different; see `tag_of`'s documentation.
     //!
     //!
     //! Example

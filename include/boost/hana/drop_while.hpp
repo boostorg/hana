@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto drop_while_t::operator()(Xs&& xs, Pred&& pred) const {
-        using It = typename datatype<Xs>::type;
+        using It = typename hana::tag_of<Xs>::type;
         using DropWhile = BOOST_HANA_DISPATCH_IF(drop_while_impl<It>,
             _models<Iterable, It>::value
         );

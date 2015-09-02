@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/contains.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/find.hpp>
 #include <boost/hana/fwd/front.hpp>
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //! @endcond
 
     template <char ...s>
-    struct datatype<string<s...>> {
+    struct tag_of<string<s...>> {
         using type = String;
     };
 
