@@ -48,7 +48,7 @@ namespace boost { namespace hana {
         lazy_apply_t(lazy_apply_t&) = default;
         lazy_apply_t(lazy_apply_t&&) = default;
         using detail::closure<F, Args...>::closure;
-        using hana_tag = Lazy;
+        using hana_tag = lazy_tag;
     };
 
     template <typename X>
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
         lazy_value_t(lazy_value_t&) = default;
         lazy_value_t(lazy_value_t&&) = default;
         using detail::closure<X>::closure;
-        using hana_tag = Lazy;
+        using hana_tag = lazy_tag;
 
         // If this is called, we assume that `X` is in fact a function.
         template <typename ...Args>
@@ -83,10 +83,10 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Lazy>
+    // make<lazy_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<Lazy> {
+    struct make_impl<lazy_tag> {
         template <typename X>
         static constexpr auto apply(X&& x) {
             return lazy_value_t<typename std::decay<X>::type>{
@@ -100,14 +100,14 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <>
-        struct monad_operators<Lazy> { static constexpr bool value = true; };
+        struct monad_operators<lazy_tag> { static constexpr bool value = true; };
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // eval for Lazy
+    // eval for lazy_tag
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct eval_impl<Lazy> {
+    struct eval_impl<lazy_tag> {
         // lazy_apply_t
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
@@ -151,7 +151,7 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct transform_impl<Lazy> {
+    struct transform_impl<lazy_tag> {
         template <typename Expr, typename F>
         static constexpr auto apply(Expr&& expr, F&& f) {
             return hana::make_lazy(hana::compose(static_cast<F&&>(f), hana::eval))(
@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct lift_impl<Lazy> {
+    struct lift_impl<lazy_tag> {
         template <typename X>
         static constexpr lazy_value_t<typename std::decay<X>::type>
         apply(X&& x) {
@@ -173,7 +173,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct ap_impl<Lazy> {
+    struct ap_impl<lazy_tag> {
         template <typename F, typename X>
         static constexpr decltype(auto) apply(F&& f, X&& x) {
             return hana::make_lazy(hana::on(hana::apply, hana::eval))(
@@ -186,7 +186,7 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct flatten_impl<Lazy> {
+    struct flatten_impl<lazy_tag> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr) {
             return hana::make_lazy(hana::compose(hana::eval, hana::eval))(
@@ -199,21 +199,21 @@ namespace boost { namespace hana {
     // Comonad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct extract_impl<Lazy> {
+    struct extract_impl<lazy_tag> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
         { return hana::eval(static_cast<Expr&&>(expr)); }
     };
 
     template <>
-    struct duplicate_impl<Lazy> {
+    struct duplicate_impl<lazy_tag> {
         template <typename Expr>
         static constexpr decltype(auto) apply(Expr&& expr)
         { return hana::make_lazy(static_cast<Expr&&>(expr)); }
     };
 
     template <>
-    struct extend_impl<Lazy> {
+    struct extend_impl<lazy_tag> {
         template <typename Expr, typename F>
         static constexpr decltype(auto) apply(Expr&& expr, F&& f) {
             return hana::make_lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));

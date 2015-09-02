@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     // more convenient, but this instance is too dangerous for general usage.
     // See the documentation of `hana::lazy` for more info.
     template <>
-    struct equal_impl<Lazy, Lazy> {
+    struct equal_impl<lazy_tag, lazy_tag> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return equal(eval(x), eval(y)); }
@@ -168,7 +168,7 @@ int main() {
         }
 
         // laws
-        test::TestFunctor<Lazy>{eqs, eq_elems};
+        test::TestFunctor<lazy_tag>{eqs, eq_elems};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -199,17 +199,17 @@ int main() {
         // lift
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<Lazy>(ct_eq<0>{}),
+                lift<lazy_tag>(ct_eq<0>{}),
                 make_lazy(ct_eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                lift<Lazy>(ct_eq<1>{}),
+                lift<lazy_tag>(ct_eq<1>{}),
                 make_lazy(ct_eq<1>{})
             ));
         }
 
         // laws
-        test::TestApplicative<Lazy>{eqs};
+        test::TestApplicative<lazy_tag>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -252,7 +252,7 @@ int main() {
         }
 
         // laws
-        test::TestMonad<Lazy>{eqs, nested};
+        test::TestMonad<lazy_tag>{eqs, nested};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -284,7 +284,7 @@ int main() {
         }
 
         // laws
-        test::TestComonad<Lazy>{eqs};
+        test::TestComonad<lazy_tag>{eqs};
     }
 
     //////////////////////////////////////////////////////////////////////////

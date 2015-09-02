@@ -14,7 +14,7 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto f = hana::make<hana::Lazy>([](auto x) {
+    BOOST_HANA_CONSTEXPR_LAMBDA auto f = hana::make<hana::lazy_tag>([](auto x) {
         return 1 / x;
     });
 
