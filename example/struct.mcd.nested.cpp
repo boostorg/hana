@@ -26,7 +26,7 @@ struct Person {
     std::string name;
     int age;
 
-    struct hana { struct accessors_impl {
+    struct hana_accessors_impl {
         static BOOST_HANA_CONSTEXPR_LAMBDA auto apply() {
             return boost::hana::make_tuple(
                 boost::hana::make_pair(BOOST_HANA_STRING("name"),
@@ -39,7 +39,7 @@ struct Person {
                 })
             );
         }
-    };};
+    };
 };
 //! [main]
 

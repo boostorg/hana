@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     //! one can define it through tag-dispatching, as usual.
     //! @snippet example/struct.mcd.tag_dispatching.cpp main
     //!
-    //! Secondly, it is possible to provide a nested `hana::accessors_impl`
+    //! Secondly, it is possible to provide a nested `hana_accessors_impl`
     //! type, which should be equivalent to a specialization of
     //! `accessors_impl` for tag-dispatching. However, for a type `S`, this
     //! technique only works when the data type of `S` is `S` itself, which

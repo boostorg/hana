@@ -46,9 +46,9 @@ namespace boost { namespace hana {
 
     template <typename S>
     struct accessors_impl<S, when<
-        struct_detail::is_valid<typename S::hana::accessors_impl>::value
+        struct_detail::is_valid<typename S::hana_accessors_impl>::value
     >>
-        : S::hana::accessors_impl
+        : S::hana_accessors_impl
     { };
 }} // end namespace boost::hana
 
