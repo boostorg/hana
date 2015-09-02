@@ -112,7 +112,7 @@ namespace boost { namespace hana {
     struct equal_impl<Range, Range> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&) {
-            return hana::bool_<
+            return hana::bool_c<
                 (R1::from == R1::to && R2::from == R2::to) ||
                 (R1::from == R2::from && R1::to == R2::to)
             >;
@@ -141,7 +141,7 @@ namespace boost { namespace hana {
     struct length_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(range<T, from, to> const&)
-        { return hana::size_t<static_cast<std::size_t>(to - from)>; }
+        { return hana::size_c<static_cast<std::size_t>(to - from)>; }
     };
 
     template <>
@@ -215,19 +215,19 @@ namespace boost { namespace hana {
     template <>
     struct find_impl<Range> {
         template <typename T, T from, typename N>
-        static constexpr auto find_helper(decltype(true_)) {
+        static constexpr auto find_helper(decltype(hana::true_c)) {
             constexpr auto n = static_cast<T>(hana::value<N>());
             return hana::just(integral_c<T, n>);
         }
 
         template <typename T, T from, typename N>
-        static constexpr auto find_helper(decltype(false_))
+        static constexpr auto find_helper(decltype(hana::false_c))
         { return nothing; }
 
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            return find_helper<T, from, N>(bool_<(n >= from && n < to)>);
+            return find_helper<T, from, N>(bool_c<(n >= from && n < to)>);
         }
     };
 
@@ -236,7 +236,7 @@ namespace boost { namespace hana {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
             constexpr auto n = hana::value<N>();
-            return bool_<(n >= from && n < to)>;
+            return bool_c<(n >= from && n < to)>;
         }
     };
 
@@ -261,7 +261,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<Range> {
         template <typename T, T from, T to>
         static constexpr auto apply(range<T, from, to> const&)
-        { return bool_<from == to>; }
+        { return bool_c<from == to>; }
     };
 
     template <>

@@ -45,7 +45,7 @@ namespace boost { namespace hana {
 
     template <std::size_t n, typename Xs>
     constexpr decltype(auto) at_c(Xs&& xs) {
-        return hana::at(static_cast<Xs&&>(xs), hana::size_t<n>);
+        return hana::at(static_cast<Xs&&>(xs), hana::size_c<n>);
     }
 }} // end namespace boost::hana
 

@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     constexpr auto sizeof_t::operator()(T&&) const
-    { return hana::size_t<sizeof(typename detail::decltype_t<T>::type)>; }
+    { return hana::size_c<sizeof(typename detail::decltype_t<T>::type)>; }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     constexpr auto alignof_t::operator()(T&&) const
-    { return hana::size_t<alignof(typename detail::decltype_t<T>::type)>; }
+    { return hana::size_c<alignof(typename detail::decltype_t<T>::type)>; }
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
@@ -106,10 +106,10 @@ namespace boost { namespace hana {
         template <typename F, typename ...Args, typename = decltype(
             std::declval<F&&>()(std::declval<Args&&>()...)
         )>
-        constexpr auto is_valid_impl(int) { return hana::true_; }
+        constexpr auto is_valid_impl(int) { return hana::true_c; }
 
         template <typename F, typename ...Args>
-        constexpr auto is_valid_impl(...) { return hana::false_; }
+        constexpr auto is_valid_impl(...) { return hana::false_c; }
 
         template <typename F>
         struct is_valid_fun {
@@ -207,11 +207,11 @@ namespace boost { namespace hana {
     struct equal_impl<Type, Type> {
         template <typename T, typename U>
         static constexpr auto apply(basic_type<T> const&, basic_type<U> const&)
-        { return hana::false_; }
+        { return hana::false_c; }
 
         template <typename T>
         static constexpr auto apply(basic_type<T> const&, basic_type<T> const&)
-        { return hana::true_; }
+        { return hana::true_c; }
     };
 }} // end namespace boost::hana
 

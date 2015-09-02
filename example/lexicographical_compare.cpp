@@ -23,8 +23,8 @@ int main() {
 
     // and with those that do
     {
-        auto xs = hana::make_tuple(hana::int_<1>, hana::int_<2>, hana::int_<3>);
-        auto ys = hana::make_tuple(hana::int_<1>, hana::int_<5>, hana::int_<3>);
+        auto xs = hana::make_tuple(hana::int_c<1>, hana::int_c<2>, hana::int_c<3>);
+        auto ys = hana::make_tuple(hana::int_c<1>, hana::int_c<5>, hana::int_c<3>);
         BOOST_HANA_CONSTANT_CHECK(hana::lexicographical_compare(xs, ys));
     }
 

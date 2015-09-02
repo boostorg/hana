@@ -21,7 +21,7 @@ namespace hana = boost::hana;
 
 BOOST_HANA_CONSTANT_CHECK(
     hana::partition(hana::tuple_c<int, 1, 2, 3, 4, 5, 6, 7>, [](auto x) {
-        return x % hana::int_<2> != hana::int_<0>;
+        return x % hana::int_c<2> != hana::int_c<0>;
     })
     ==
     hana::make_pair(

@@ -17,14 +17,14 @@ namespace hana = boost::hana;
 
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find(hana::make_tuple(hana::int_<1>, hana::type_c<int>, '3'), hana::type_c<int>) == hana::just(hana::type_c<int>)
+    hana::find(hana::make_tuple(hana::int_c<1>, hana::type_c<int>, '3'), hana::type_c<int>) == hana::just(hana::type_c<int>)
 );
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find(hana::make_tuple(hana::int_<1>, hana::type_c<int>, '3'), hana::type_c<void>) == hana::nothing
+    hana::find(hana::make_tuple(hana::int_c<1>, hana::type_c<int>, '3'), hana::type_c<void>) == hana::nothing
 );
 
 constexpr auto m = hana::make_map(
-    hana::make_pair(hana::int_<2>, 2),
+    hana::make_pair(hana::int_c<2>, 2),
     hana::make_pair(hana::type_c<float>, 3.3),
     hana::make_pair(hana::type_c<char>, hana::type_c<int>)
 );

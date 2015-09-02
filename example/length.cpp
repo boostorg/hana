@@ -14,9 +14,9 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::make_tuple()) == hana::size_t<0>);
-    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::make_tuple(1, '2', 3.0)) == hana::size_t<3>);
+    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::make_tuple()) == hana::size_c<0>);
+    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::make_tuple(1, '2', 3.0)) == hana::size_c<3>);
 
-    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::nothing) == hana::size_t<0>);
-    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::just('x')) == hana::size_t<1>);
+    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::nothing) == hana::size_c<0>);
+    BOOST_HANA_CONSTANT_CHECK(hana::length(hana::just('x')) == hana::size_c<1>);
 }

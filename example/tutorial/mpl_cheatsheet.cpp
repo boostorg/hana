@@ -45,15 +45,15 @@ namespace with_hana {
 constexpr auto types = hana::tuple_t<long, float, short, float, long, long double>;
 BOOST_HANA_CONSTEXPR_LAMBDA auto number_of_floats = hana::fold_left(
     types,
-    hana::int_<0>,
+    hana::int_c<0>,
     [](auto count, auto t) {
         return hana::if_(hana::trait<std::is_floating_point>(t),
-            count + hana::int_<1>,
+            count + hana::int_c<1>,
             count
         );
     }
 );
-BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_<3>);
+BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_c<3>);
 //! [hana]
 }
 

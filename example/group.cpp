@@ -18,11 +18,11 @@ namespace hana = boost::hana;
 
 // group without a predicate
 BOOST_HANA_CONSTANT_CHECK(
-    hana::group(hana::make_tuple(hana::int_<1>, hana::long_<1>, hana::type_c<int>, hana::char_<'x'>, hana::char_<'x'>))
+    hana::group(hana::make_tuple(hana::int_c<1>, hana::long_c<1>, hana::type_c<int>, hana::char_c<'x'>, hana::char_c<'x'>))
         == hana::make_tuple(
-            hana::make_tuple(hana::int_<1>, hana::long_<1>),
+            hana::make_tuple(hana::int_c<1>, hana::long_c<1>),
             hana::make_tuple(hana::type_c<int>),
-            hana::make_tuple(hana::char_<'x'>, hana::char_<'x'>)
+            hana::make_tuple(hana::char_c<'x'>, hana::char_c<'x'>)
         )
 );
 

@@ -19,7 +19,7 @@ namespace hana = boost::hana;
 
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto safe_div = [](auto x, auto y) {
-        return hana::eval_if(y == hana::int_<0>,
+        return hana::eval_if(y == hana::int_c<0>,
             hana::make_lazy(hana::nothing),
             [=](auto _) {
                 return hana::just(_(x) / y);
@@ -30,15 +30,15 @@ int main() {
     // with an initial state
     BOOST_HANA_CONSTANT_CHECK(
         hana::monadic_fold_right<hana::Optional>(
-            hana::tuple_c<int, 1000, 8, 4>, hana::int_<2>, safe_div
+            hana::tuple_c<int, 1000, 8, 4>, hana::int_c<2>, safe_div
         )
             ==
-        hana::just(hana::int_<1000> / (hana::int_<8> / (hana::int_<4> / hana::int_<2>)))
+        hana::just(hana::int_c<1000> / (hana::int_c<8> / (hana::int_c<4> / hana::int_c<2>)))
     );
 
     BOOST_HANA_CONSTANT_CHECK(
         hana::monadic_fold_right<hana::Optional>(
-            hana::tuple_c<int, 1000, 8, 4>, hana::int_<0>, safe_div
+            hana::tuple_c<int, 1000, 8, 4>, hana::int_c<0>, safe_div
         )
             ==
         hana::nothing
@@ -50,7 +50,7 @@ int main() {
             hana::tuple_c<int, 1000, 8, 4, 2>, safe_div
         )
             ==
-        hana::just(hana::int_<1000> / (hana::int_<8> / (hana::int_<4> / hana::int_<2>)))
+        hana::just(hana::int_c<1000> / (hana::int_c<8> / (hana::int_c<4> / hana::int_c<2>)))
     );
 
     BOOST_HANA_CONSTANT_CHECK(

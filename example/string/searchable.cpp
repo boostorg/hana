@@ -14,10 +14,10 @@ namespace hana = boost::hana;
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(hana::char_<'c'> ^hana::in^ BOOST_HANA_STRING("abcde"));
-    BOOST_HANA_CONSTANT_CHECK(!(hana::char_<'z'> ^hana::in^ BOOST_HANA_STRING("abcde")));
+    BOOST_HANA_CONSTANT_CHECK(hana::char_c<'c'> ^hana::in^ BOOST_HANA_STRING("abcde"));
+    BOOST_HANA_CONSTANT_CHECK(!(hana::char_c<'z'> ^hana::in^ BOOST_HANA_STRING("abcde")));
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::find(BOOST_HANA_STRING("abcxefg"), hana::char_<'x'>) == hana::just(hana::char_<'x'>)
+        hana::find(BOOST_HANA_STRING("abcxefg"), hana::char_c<'x'>) == hana::just(hana::char_c<'x'>)
     );
 }

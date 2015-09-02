@@ -32,7 +32,7 @@ int main() {
 
     // vector
     {
-        auto v = vector(1, '2', hana::int_<3>, 4.2f);
+        auto v = vector(1, '2', hana::int_c<3>, 4.2f);
         BOOST_HANA_CONSTEXPR_CHECK(v.size() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.nrows() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.ncolumns() == 1ul);
@@ -42,27 +42,27 @@ int main() {
     {
         auto m = matrix(
             row(1, '2', 3),
-            row('4', hana::char_<'5'>, 6),
-            row(hana::int_<7>, '8', 9.3)
+            row('4', hana::char_c<'5'>, 6),
+            row(hana::int_c<7>, '8', 9.3)
         );
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<0>) == 1);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<1>) == '2');
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<0>, hana::int_<2>) == 3);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<0>, hana::int_c<0>) == 1);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<0>, hana::int_c<1>) == '2');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<0>, hana::int_c<2>) == 3);
 
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<1>, hana::int_<0>) == '4');
-        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_<1>, hana::int_<1>) == hana::char_<'5'>);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<1>, hana::int_<2>) == 6);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<1>, hana::int_c<0>) == '4');
+        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_c<1>, hana::int_c<1>) == hana::char_c<'5'>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<1>, hana::int_c<2>) == 6);
 
-        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_<2>, hana::int_<0>) == hana::int_<7>);
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<2>, hana::int_<1>) == '8');
-        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_<2>, hana::int_<2>) == 9.3);
+        BOOST_HANA_CONSTANT_CHECK(m.at(hana::int_c<2>, hana::int_c<0>) == hana::int_c<7>);
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<2>, hana::int_c<1>) == '8');
+        BOOST_HANA_CONSTEXPR_CHECK(m.at(hana::int_c<2>, hana::int_c<2>) == 9.3);
     }
 
     // size, ncolumns, nrows
     {
         auto m = matrix(
             row(1, '2', 3),
-            row('4', hana::char_<'5'>, 6)
+            row('4', hana::char_c<'5'>, 6)
         );
         BOOST_HANA_CONSTEXPR_CHECK(m.size() == 6ul);
         BOOST_HANA_CONSTEXPR_CHECK(m.ncolumns() == 3ul);

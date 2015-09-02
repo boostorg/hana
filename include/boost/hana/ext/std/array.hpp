@@ -43,7 +43,7 @@ namespace boost { namespace hana {
     struct length_impl<ext::std::Array> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
-            return hana::size_t< ::std::tuple_size<Xs>::type::value>;
+            return hana::size_c< ::std::tuple_size<Xs>::type::value>;
         }
     };
 
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
     struct is_empty_impl<ext::std::Array> {
         template <typename T, std::size_t N>
         static constexpr auto apply(std::array<T, N> const&) {
-            return hana::bool_<N == 0>;
+            return hana::bool_c<N == 0>;
         }
     };
 
@@ -101,11 +101,11 @@ namespace boost { namespace hana {
 
         template <typename T, typename U>
         static constexpr auto apply(std::array<T, 0> const&, std::array<U, 0> const&)
-        { return hana::true_; }
+        { return hana::true_c; }
 
         template <typename T, std::size_t n, typename U, std::size_t m>
         static constexpr auto apply(std::array<T, n> const&, std::array<U, m> const&)
-        { return hana::false_; }
+        { return hana::false_c; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ namespace boost { namespace hana {
 
         template <typename T, typename U>
         static constexpr auto apply(std::array<T, 0> const&, std::array<U, 0> const&)
-        { return hana::false_; }
+        { return hana::false_c; }
 
         template <typename T, std::size_t n, typename U, std::size_t m>
         static constexpr auto apply(std::array<T, n> const& xs, std::array<U, m> const& ys) {

@@ -19,27 +19,27 @@ using namespace std::literals;
 
 int main() {
     // Tuples
-    auto xs = hana::make_tuple(hana::int_<1>, "alfa"s, hana::type_c<int>);
-    auto ys = hana::make_tuple(hana::type_c<void>, hana::int_<3>, "bravo"s);
+    auto xs = hana::make_tuple(hana::int_c<1>, "alfa"s, hana::type_c<int>);
+    auto ys = hana::make_tuple(hana::type_c<void>, hana::int_c<3>, "bravo"s);
     BOOST_HANA_RUNTIME_CHECK(hana::is_disjoint(xs, ys));
 
     // Sets
-    auto s1 = hana::make_set(hana::int_<1>, hana::type_c<void>, hana::int_<2>);
-    auto s2 = hana::make_set(hana::type_c<char>, hana::type_c<int>, hana::int_<1>);
+    auto s1 = hana::make_set(hana::int_c<1>, hana::type_c<void>, hana::int_c<2>);
+    auto s2 = hana::make_set(hana::type_c<char>, hana::type_c<int>, hana::int_c<1>);
     BOOST_HANA_CONSTANT_CHECK(!hana::is_disjoint(s1, s2));
 
     // Maps
     auto vowels = hana::make_map(
-        hana::make_pair(hana::char_<'a'>, "alfa"s),
-        hana::make_pair(hana::char_<'e'>, "echo"s),
-        hana::make_pair(hana::char_<'i'>, "india"s)
+        hana::make_pair(hana::char_c<'a'>, "alfa"s),
+        hana::make_pair(hana::char_c<'e'>, "echo"s),
+        hana::make_pair(hana::char_c<'i'>, "india"s)
         // ...
     );
 
     auto consonants = hana::make_map(
-        hana::make_pair(hana::char_<'b'>, "bravo"s),
-        hana::make_pair(hana::char_<'c'>, "charlie"s),
-        hana::make_pair(hana::char_<'f'>, "foxtrot"s)
+        hana::make_pair(hana::char_c<'b'>, "bravo"s),
+        hana::make_pair(hana::char_c<'c'>, "charlie"s),
+        hana::make_pair(hana::char_c<'f'>, "foxtrot"s)
         // ...
     );
 

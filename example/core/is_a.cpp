@@ -13,6 +13,6 @@ namespace hana = boost::hana;
 
 static_assert(hana::is_a<hana::Tuple, decltype(hana::make_tuple(1, '2', 3.3))>, "");
 static_assert(!hana::is_a<hana::Tuple, void>, "");
-static_assert(hana::is_an<hana::IntegralConstant<int>>(hana::int_<10>), "");
+static_assert(hana::is_an<hana::IntegralConstant<int>>(hana::int_c<10>), "");
 
 int main() { }

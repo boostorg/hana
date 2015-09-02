@@ -18,15 +18,15 @@ namespace hana = boost::hana;
 
 // infix application
 constexpr auto sorted = hana::sort.by(hana::less ^hana::on^ hana::first, hana::make_tuple(
-    hana::make_pair(hana::int_<3>, 'x'),
-    hana::make_pair(hana::int_<1>, hana::type_c<void>),
-    hana::make_pair(hana::int_<2>, 9876)
+    hana::make_pair(hana::int_c<3>, 'x'),
+    hana::make_pair(hana::int_c<1>, hana::type_c<void>),
+    hana::make_pair(hana::int_c<2>, 9876)
 ));
 
 static_assert(sorted == hana::make_tuple(
-    hana::make_pair(hana::int_<1>, hana::type_c<void>),
-    hana::make_pair(hana::int_<2>, 9876),
-    hana::make_pair(hana::int_<3>, 'x')
+    hana::make_pair(hana::int_c<1>, hana::type_c<void>),
+    hana::make_pair(hana::int_c<2>, 9876),
+    hana::make_pair(hana::int_c<3>, 'x')
 ), "");
 
 

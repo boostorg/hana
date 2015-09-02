@@ -33,7 +33,7 @@ int main() {
     auto eq_values = make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{});
     auto predicates = make<Tuple>(
         equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
-        always(false_), always(true_)
+        always(false_c), always(true_c)
     );
 
     //////////////////////////////////////////////////////////////////////////

@@ -54,7 +54,7 @@ namespace boost { namespace hana {
 
     template <typename Xs>
     constexpr auto drop_front_t::operator()(Xs&& xs) const {
-        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>);
+        return (*this)(static_cast<Xs&&>(xs), hana::size_c<1>);
     }
     //! @endcond
 

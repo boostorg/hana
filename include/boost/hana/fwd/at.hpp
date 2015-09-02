@@ -73,7 +73,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n, typename Xs>
     constexpr decltype(auto) at_c(Xs&& xs) {
-        return hana::at(forwarded(xs), hana::size_t<n>);
+        return hana::at(forwarded(xs), hana::size_c<n>);
     }
 #else
     template <std::size_t n, typename Xs>

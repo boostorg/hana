@@ -14,10 +14,10 @@ namespace hana = boost::hana;
 
 
 static_assert(hana::less(1, 4), "");
-BOOST_HANA_CONSTANT_CHECK(!hana::less(hana::int_<3>, hana::int_<2>));
+BOOST_HANA_CONSTANT_CHECK(!hana::less(hana::int_c<3>, hana::int_c<2>));
 
 // less.than is syntactic sugar
 static_assert(hana::all_of(hana::tuple_c<int, 1, 2, 3, 4>, hana::less.than(5)), "");
-BOOST_HANA_CONSTANT_CHECK(hana::all_of(hana::tuple_c<int, 1, 2, 3, 4>, hana::less_equal.than(hana::int_<4>)));
+BOOST_HANA_CONSTANT_CHECK(hana::all_of(hana::tuple_c<int, 1, 2, 3, 4>, hana::less_equal.than(hana::int_c<4>)));
 
 int main() { }

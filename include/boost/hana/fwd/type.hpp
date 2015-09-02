@@ -201,7 +201,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto sizeof_ = [](auto&& x) {
         using T = typename decltype(hana::decltype_(x))::type;
-        return hana::size_t<sizeof(T)>;
+        return hana::size_c<sizeof(T)>;
     };
 #else
     struct sizeof_t {
@@ -237,7 +237,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto alignof_ = [](auto&& x) {
         using T = typename decltype(hana::decltype_(x))::type;
-        return hana::size_t<alignof(T)>;
+        return hana::size_c<alignof(T)>;
     };
 #else
     struct alignof_t {

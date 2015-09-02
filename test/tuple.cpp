@@ -67,7 +67,7 @@ int main() {
 
     auto predicates = make<Tuple>(
         equal.to(eq<0>{}), equal.to(eq<2>{}), equal.to(eq<4>{}),
-        always(true_), always(false_)
+        always(true_c), always(false_c)
     );
     (void)predicates;
 
@@ -380,9 +380,9 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_t<x0, x1, x2>), type_c<x0>));
 
             // tuple_c
-            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0>), int_<0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1>), int_<0>));
-            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1, 2>), int_<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0>), int_c<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1>), int_c<0>));
+            BOOST_HANA_CONSTANT_CHECK(equal(front(tuple_c<int, 0, 1, 2>), int_c<0>));
         }
 
         // is_empty
@@ -451,14 +451,14 @@ int main() {
         test::TestSearchable<Tuple>{eq_tuples, make<Tuple>(eq<3>{}, eq<5>{})};
 
         auto bool_tuples = make<Tuple>(
-              make<Tuple>(true_)
-            , make<Tuple>(false_)
-            , make<Tuple>(true_, true_)
-            , make<Tuple>(true_, false_)
-            , make<Tuple>(false_, true_)
-            , make<Tuple>(false_, false_)
+              make<Tuple>(true_c)
+            , make<Tuple>(false_c)
+            , make<Tuple>(true_c, true_c)
+            , make<Tuple>(true_c, false_c)
+            , make<Tuple>(false_c, true_c)
+            , make<Tuple>(false_c, false_c)
         );
-        test::TestSearchable<Tuple>{bool_tuples, make<Tuple>(true_, false_)};
+        test::TestSearchable<Tuple>{bool_tuples, make<Tuple>(true_c, false_c)};
     }
 
 #elif BOOST_HANA_TEST_PART == 6
@@ -615,19 +615,19 @@ int main() {
         // prepend
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(tuple_c<long>, long_<0>),
+                prepend(tuple_c<long>, long_c<0>),
                 tuple_c<long, 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(tuple_c<unsigned int, 1>, uint<0>),
+                prepend(tuple_c<unsigned int, 1>, uint_c<0>),
                 tuple_c<unsigned int, 0, 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(tuple_c<long long, 1, 2>, llong<0>),
+                prepend(tuple_c<long long, 1, 2>, llong_c<0>),
                 tuple_c<long long, 0, 1, 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                prepend(tuple_c<unsigned long, 1, 2, 3>, ulong<0>),
+                prepend(tuple_c<unsigned long, 1, 2, 3>, ulong_c<0>),
                 tuple_c<unsigned long, 0, 1, 2, 3>
             ));
         }

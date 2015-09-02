@@ -16,12 +16,12 @@ namespace hana = boost::hana;
 int main() {
     // without a predicate
     BOOST_HANA_CONSTANT_CHECK(
-        hana::maximum(hana::tuple_c<int, -1, 0, 2, -4, 6, 9>) == hana::int_<9>
+        hana::maximum(hana::tuple_c<int, -1, 0, 2, -4, 6, 9>) == hana::int_c<9>
     );
 
     // with a predicate
     auto smallest = hana::maximum(hana::tuple_c<int, -1, 0, 2, -4, 6, 9>, [](auto x, auto y) {
         return x > y; // order is reversed!
     });
-    BOOST_HANA_CONSTANT_CHECK(smallest == hana::int_<-4>);
+    BOOST_HANA_CONSTANT_CHECK(smallest == hana::int_c<-4>);
 }

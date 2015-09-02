@@ -15,13 +15,13 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto xs = hana::make_set(hana::int_<0>, hana::int_<1>, hana::int_<2>);
-    BOOST_HANA_CONSTANT_CHECK(hana::find(xs, hana::int_<0>) == hana::just(hana::int_<0>));
-    BOOST_HANA_CONSTANT_CHECK(hana::find(xs, hana::int_<3>) == hana::nothing);
+    constexpr auto xs = hana::make_set(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>);
+    BOOST_HANA_CONSTANT_CHECK(hana::find(xs, hana::int_c<0>) == hana::just(hana::int_c<0>));
+    BOOST_HANA_CONSTANT_CHECK(hana::find(xs, hana::int_c<3>) == hana::nothing);
 
     // operator[] is equivalent to at_key
-    BOOST_HANA_CONSTANT_CHECK(xs[hana::int_<2>] == hana::int_<2>);
+    BOOST_HANA_CONSTANT_CHECK(xs[hana::int_c<2>] == hana::int_c<2>);
 
-    // long_<0> == int_<0>, and therefore int_<0> is found
-    BOOST_HANA_CONSTANT_CHECK(xs[hana::long_<0>] == hana::int_<0>);
+    // long_c<0> == int_<0>, and therefore int_<0> is found
+    BOOST_HANA_CONSTANT_CHECK(xs[hana::long_c<0>] == hana::int_c<0>);
 }

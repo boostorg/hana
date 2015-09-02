@@ -16,12 +16,12 @@ namespace hana = boost::hana;
 
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::fold_left(hana::make_range(hana::int_<0>, hana::int_<4>), hana::int_<0>, hana::plus) == hana::int_<6>
+    hana::fold_left(hana::make_range(hana::int_c<0>, hana::int_c<4>), hana::int_c<0>, hana::plus) == hana::int_c<6>
 );
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::unpack(hana::make_range(hana::int_<-2>, hana::int_<2>), hana::make_tuple) ==
-    hana::make_tuple(hana::int_<-2>, hana::int_<-1>, hana::int_<0>, hana::int_<1>)
+    hana::unpack(hana::make_range(hana::int_c<-2>, hana::int_c<2>), hana::make_tuple) ==
+    hana::make_tuple(hana::int_c<-2>, hana::int_c<-1>, hana::int_c<0>, hana::int_c<1>)
 );
 
 int main() { }

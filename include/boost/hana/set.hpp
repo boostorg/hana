@@ -108,19 +108,19 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<Set, Set> {
         template <typename S1, typename S2>
-        static constexpr auto equal_helper(S1 const& s1, S2 const& s2, decltype(hana::true_))
+        static constexpr auto equal_helper(S1 const& s1, S2 const& s2, decltype(hana::true_c))
         { return hana::is_subset(s1, s2); }
 
         template <typename S1, typename S2>
-        static constexpr auto equal_helper(S1 const&, S2 const&, decltype(hana::false_))
-        { return hana::false_; }
+        static constexpr auto equal_helper(S1 const&, S2 const&, decltype(hana::false_c))
+        { return hana::false_c; }
 
         template <typename S1, typename S2>
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
             constexpr bool same_length = hana::value<decltype(
                 hana::equal(hana::length(s1.storage), hana::length(s2.storage)
             ))>();
-            return equal_helper(s1, s2, hana::bool_<same_length>);
+            return equal_helper(s1, s2, hana::bool_c<same_length>);
         }
     };
 
@@ -157,7 +157,7 @@ namespace boost { namespace hana {
                 return hana::or_(pred(x)...);
             }
             constexpr auto operator()() const {
-                return hana::false_;
+                return hana::false_c;
             }
         };
 
@@ -174,7 +174,7 @@ namespace boost { namespace hana {
             Ys const& ys;
             template <typename ...X>
             constexpr auto operator()(X const& ...x) const {
-                return hana::bool_<detail::fast_and<
+                return hana::bool_c<detail::fast_and<
                     hana::value<decltype(hana::contains(ys, x))>()...
                 >::value>;
             }
@@ -206,13 +206,13 @@ namespace boost { namespace hana {
     struct insert_impl<Set> {
         template <typename Xs, typename X, typename Indices>
         static constexpr auto
-        insert_helper(Xs&& xs, X&&, decltype(hana::true_), Indices) {
+        insert_helper(Xs&& xs, X&&, decltype(hana::true_c), Indices) {
             return static_cast<Xs&&>(xs);
         }
 
         template <typename Xs, typename X, std::size_t ...n>
         static constexpr auto
-        insert_helper(Xs&& xs, X&& x, decltype(hana::false_), std::index_sequence<n...>) {
+        insert_helper(Xs&& xs, X&& x, decltype(hana::false_c), std::index_sequence<n...>) {
             return hana::make_set(
                 hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<X&&>(x)
             );
@@ -223,7 +223,7 @@ namespace boost { namespace hana {
             constexpr bool c = hana::value<decltype(hana::contains(xs, x))>();
             constexpr std::size_t size = std::remove_reference<Xs>::type::size;
             return insert_helper(static_cast<Xs&&>(xs), static_cast<X&&>(x),
-                                 hana::bool_<c>, std::make_index_sequence<size>{});
+                                 hana::bool_c<c>, std::make_index_sequence<size>{});
         }
     };
 
@@ -251,12 +251,12 @@ namespace boost { namespace hana {
             Ys const& ys;
 
             template <typename Result, typename Key>
-            static constexpr auto helper(Result&& result, Key&& key, decltype(hana::true_)) {
+            static constexpr auto helper(Result&& result, Key&& key, decltype(hana::true_c)) {
                 return hana::insert(static_cast<Result&&>(result), static_cast<Key&&>(key));
             }
 
             template <typename Result, typename Key>
-            static constexpr auto helper(Result&& result, Key&&, decltype(hana::false_)) {
+            static constexpr auto helper(Result&& result, Key&&, decltype(hana::false_c)) {
                 return static_cast<Result&&>(result);
             }
 
@@ -265,7 +265,7 @@ namespace boost { namespace hana {
                 constexpr bool keep = hana::value<decltype(hana::contains(ys, key))>();
                 return set_insert_if_contains::helper(static_cast<Result&&>(result),
                                                       static_cast<Key&&>(key),
-                                                      hana::bool_<keep>);
+                                                      hana::bool_c<keep>);
             }
         };
     }

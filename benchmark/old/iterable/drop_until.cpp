@@ -16,7 +16,7 @@ template <int i> struct x { };
 
 int main() {
     auto iterable = <%= iterable %>;
-    auto pred = [](auto&& x) { return boost::hana::false_; };
+    auto pred = [](auto&& x) { return boost::hana::false_c; };
 
     boost::hana::benchmark::measure([=] {
         boost::hana::drop_until(iterable, pred);

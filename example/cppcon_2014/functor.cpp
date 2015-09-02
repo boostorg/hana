@@ -18,17 +18,17 @@ int main() {
     // transform
     {
         auto m = matrix(
-            row(1,              hana::int_<2>,  3),
-            row(hana::int_<4>,  5,              6),
-            row(7,              8,              hana::int_<9>)
+            row(1,              hana::int_c<2>, 3),
+            row(hana::int_c<4>, 5,              6),
+            row(7,              8,              hana::int_c<9>)
         );
 
         BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
-            hana::transform(m, hana::_ + hana::int_<1>),
+            hana::transform(m, hana::_ + hana::int_c<1>),
             matrix(
-                row(2,              hana::int_<3>,  4),
-                row(hana::int_<5>,  6,              7),
-                row(8,              9,              hana::int_<10>)
+                row(2,              hana::int_c<3>, 4),
+                row(hana::int_c<5>, 6,              7),
+                row(8,              9,              hana::int_c<10>)
             )
         ));
     }

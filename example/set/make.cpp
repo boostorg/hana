@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-constexpr auto xs = hana::make_set(hana::int_<1>, hana::type_c<void>);
-BOOST_HANA_CONSTANT_CHECK(xs == hana::make<hana::Set>(hana::int_<1>, hana::type_c<void>));
+constexpr auto xs = hana::make_set(hana::int_c<1>, hana::type_c<void>);
+BOOST_HANA_CONSTANT_CHECK(xs == hana::make<hana::Set>(hana::int_c<1>, hana::type_c<void>));
 
 int main() { }

@@ -105,7 +105,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(X const&, Y const&) {
             constexpr auto less = hana::less(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(less, true, false);
-            return hana::bool_<truth_value>;
+            return hana::bool_c<truth_value>;
         }
     };
 

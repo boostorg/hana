@@ -14,10 +14,10 @@ namespace hana = boost::hana;
 int main() {
     constexpr auto map = hana::make_map(
         <%= (1..input_size).map { |n|
-            "hana::make_pair(hana::int_<#{n}>, hana::int_<#{n}>)"
+            "hana::make_pair(hana::int_c<#{n}>, hana::int_c<#{n}>)"
         }.join(', ') %>
     );
-    constexpr auto next = hana::int_< <%= input_size+1 %> >;
+    constexpr auto next = hana::int_c< <%= input_size+1 %> >;
     constexpr auto result = hana::insert(map, hana::make_pair(next, next));
     (void)result;
 }

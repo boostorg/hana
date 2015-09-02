@@ -62,22 +62,22 @@ namespace boost { namespace hana {
         struct any_of_helper {
             template <typename Xs, typename Pred>
             static constexpr auto apply(bool prev_cond, Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::at_c<k>(xs)), hana::true_,
-                                                               hana::false_);
-                return prev_cond ? hana::true_
+                auto cond = hana::if_(pred(hana::at_c<k>(xs)), hana::true_c,
+                                                               hana::false_c);
+                return prev_cond ? hana::true_c
                     : any_of_impl::any_of_helper<k + 1, Len>::apply(cond,
                                         static_cast<Xs&&>(xs),
                                         static_cast<Pred&&>(pred));
             }
 
             template <typename Xs, typename Pred>
-            static constexpr auto apply(decltype(hana::true_), Xs&&, Pred&&)
-            { return hana::true_; }
+            static constexpr auto apply(decltype(hana::true_c), Xs&&, Pred&&)
+            { return hana::true_c; }
 
             template <typename Xs, typename Pred>
-            static constexpr auto apply(decltype(hana::false_), Xs&& xs, Pred&& pred) {
-                auto cond = hana::if_(pred(hana::at_c<k>(xs)), hana::true_,
-                                                               hana::false_);
+            static constexpr auto apply(decltype(hana::false_c), Xs&& xs, Pred&& pred) {
+                auto cond = hana::if_(pred(hana::at_c<k>(xs)), hana::true_c,
+                                                               hana::false_c);
                 return any_of_impl::any_of_helper<k + 1, Len>::apply(cond,
                                         static_cast<Xs&&>(xs),
                                         static_cast<Pred&&>(pred));
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
             constexpr std::size_t len = hana::value<
                 decltype(hana::length(xs))
             >();
-            return any_of_impl::any_of_helper<0, len>::apply(hana::false_,
+            return any_of_impl::any_of_helper<0, len>::apply(hana::false_c,
                                             static_cast<Xs&&>(xs),
                                             static_cast<Pred&&>(pred));
         }
@@ -109,39 +109,39 @@ namespace boost { namespace hana {
         !_models<Sequence, It>::value
     >> {
         template <typename Xs, typename Pred>
-        static constexpr auto lazy_any_of_helper(decltype(hana::false_), bool prev_cond, Xs&& xs, Pred&& pred) {
-            auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_c), bool prev_cond, Xs&& xs, Pred&& pred) {
+            auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
             decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
             constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
-            return prev_cond ? hana::true_
-                : lazy_any_of_helper(hana::bool_<done>, cond,
+            return prev_cond ? hana::true_c
+                : lazy_any_of_helper(hana::bool_c<done>, cond,
                                      static_cast<decltype(tail)&&>(tail),
                                      static_cast<Pred&&>(pred));
         }
 
         template <typename Xs, typename Pred>
-        static constexpr auto lazy_any_of_helper(decltype(hana::false_), decltype(hana::true_), Xs&&, Pred&&)
-        { return hana::true_; }
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_c), decltype(hana::true_c), Xs&&, Pred&&)
+        { return hana::true_c; }
 
         template <typename Xs, typename Pred>
-        static constexpr auto lazy_any_of_helper(decltype(hana::false_), decltype(hana::false_), Xs&& xs, Pred&& pred) {
-            auto cond = hana::if_(pred(hana::front(xs)), hana::true_, hana::false_);
+        static constexpr auto lazy_any_of_helper(decltype(hana::false_c), decltype(hana::false_c), Xs&& xs, Pred&& pred) {
+            auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
             constexpr bool done = hana::value<decltype(
                 hana::is_empty(hana::tail(xs))
             )>();
-            return lazy_any_of_helper(hana::bool_<done>, cond,
+            return lazy_any_of_helper(hana::bool_c<done>, cond,
                                       hana::tail(static_cast<Xs&&>(xs)),
                                       static_cast<Pred&&>(pred));
         }
 
         template <typename Cond, typename Xs, typename Pred>
-        static constexpr auto lazy_any_of_helper(decltype(hana::true_), Cond cond, Xs&&, Pred&&)
+        static constexpr auto lazy_any_of_helper(decltype(hana::true_c), Cond cond, Xs&&, Pred&&)
         { return cond; }
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
-            return lazy_any_of_helper(hana::bool_<done>, hana::false_,
+            return lazy_any_of_helper(hana::bool_c<done>, hana::false_c,
                                       static_cast<Xs&&>(xs),
                                       static_cast<Pred&&>(pred));
         }
@@ -164,18 +164,18 @@ namespace boost { namespace hana {
         // then only need to evaluate the predicate on the first element.
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_of_helper(decltype(hana::true_), Xs&& /*xs*/, Pred&&)
-        { return hana::true_; }
+        any_of_helper(decltype(hana::true_c), Xs&& /*xs*/, Pred&&)
+        { return hana::true_c; }
 
         template <typename Xs, typename Pred>
         static constexpr auto
-        any_of_helper(decltype(hana::false_), Xs&&, Pred&&)
-        { return hana::false_; }
+        any_of_helper(decltype(hana::false_c), Xs&&, Pred&&)
+        { return hana::false_c; }
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
-            auto cond = hana::if_(pred(static_cast<Xs&&>(xs)[0]), hana::true_,
-                                                                  hana::false_);
+            auto cond = hana::if_(pred(static_cast<Xs&&>(xs)[0]), hana::true_c,
+                                                                  hana::false_c);
             return any_of_helper(cond, static_cast<Xs&&>(xs),
                                        static_cast<Pred&&>(pred));
         }

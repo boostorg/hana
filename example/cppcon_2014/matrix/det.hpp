@@ -42,15 +42,15 @@ namespace cppcon {
         };
 
         auto cofactor = [=](auto&& m, auto i, auto j) {
-            return hana::power(hana::int_<-1>, hana::plus(i, j)) *
+            return hana::power(hana::int_c<-1>, hana::plus(i, j)) *
                     matrix_minor(std::forward<decltype(m)>(m), i, j);
         };
 
-        return hana::eval_if(m.size() == hana::size_t<1>,
-            hana::always(m.at(hana::size_t<0>, hana::size_t<0>)),
+        return hana::eval_if(m.size() == hana::size_c<1>,
+            hana::always(m.at(hana::size_c<0>, hana::size_c<0>)),
             [=](auto _) {
-                auto cofactors_1st_row = hana::unpack(_(hana::make_range)(hana::size_t<0>, m.ncolumns()),
-                    hana::on(hana::make_tuple, hana::partial(cofactor, m, hana::size_t<0>))
+                auto cofactors_1st_row = hana::unpack(_(hana::make_range)(hana::size_c<0>, m.ncolumns()),
+                    hana::on(hana::make_tuple, hana::partial(cofactor, m, hana::size_c<0>))
                 );
                 return detail::tuple_scalar_product(hana::front(rows(m)), cofactors_1st_row);
             }

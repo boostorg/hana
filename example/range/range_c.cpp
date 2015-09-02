@@ -14,8 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::front(hana::range_c<int, 0, 5>) == hana::int_<0>);
-BOOST_HANA_CONSTANT_CHECK(hana::back(hana::range_c<unsigned long, 0, 5>) == hana::ulong<4>);
-BOOST_HANA_CONSTANT_CHECK(hana::tail(hana::range_c<int, 0, 5>) == hana::make_range(hana::int_<1>, hana::int_<5>));
+BOOST_HANA_CONSTANT_CHECK(hana::front(hana::range_c<int, 0, 5>) == hana::int_c<0>);
+BOOST_HANA_CONSTANT_CHECK(hana::back(hana::range_c<unsigned long, 0, 5>) == hana::ulong_c<4>);
+BOOST_HANA_CONSTANT_CHECK(hana::tail(hana::range_c<int, 0, 5>) == hana::make_range(hana::int_c<1>, hana::int_c<5>));
 
 int main() { }

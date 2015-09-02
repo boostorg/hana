@@ -14,9 +14,9 @@ namespace hana = boost::hana;
 
 constexpr auto xs = hana::make_tuple(0, '1', 2.0);
 
-static_assert(hana::drop_front_exactly(xs, hana::size_t<1>) == hana::make_tuple('1', 2.0), "");
-static_assert(hana::drop_front_exactly(xs, hana::size_t<2>) == hana::make_tuple(2.0), "");
-BOOST_HANA_CONSTANT_CHECK(hana::drop_front_exactly(xs, hana::size_t<3>) == hana::make_tuple());
+static_assert(hana::drop_front_exactly(xs, hana::size_c<1>) == hana::make_tuple('1', 2.0), "");
+static_assert(hana::drop_front_exactly(xs, hana::size_c<2>) == hana::make_tuple(2.0), "");
+BOOST_HANA_CONSTANT_CHECK(hana::drop_front_exactly(xs, hana::size_c<3>) == hana::make_tuple());
 
 // drop_front_exactly(xs) is equivalent to drop_front_exactly(xs, size_t<1>)
 static_assert(hana::drop_front_exactly(xs) == hana::make_tuple('1', 2.0), "");

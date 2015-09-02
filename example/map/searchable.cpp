@@ -23,7 +23,7 @@ constexpr auto m = hana::make_map(
 static_assert(hana::find(m, hana::type_c<int>) == hana::just('i'), "");
 static_assert(hana::find(m, hana::type_c<float>) == hana::just('f'), "");
 BOOST_HANA_CONSTANT_CHECK(hana::find(m, hana::type_c<void>) == hana::nothing);
-BOOST_HANA_CONSTANT_CHECK(hana::find(m, hana::int_<3>) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::find(m, hana::int_c<3>) == hana::nothing);
 
 // operator[] is equivalent to at_key
 static_assert(m[hana::type_c<int>] == 'i', "");

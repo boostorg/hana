@@ -18,13 +18,13 @@ using namespace std::literals;
 int main() {
     BOOST_HANA_RUNTIME_CHECK(
         hana::make_map(
-            hana::make_pair(hana::char_<'a'>, "foobar"s),
+            hana::make_pair(hana::char_c<'a'>, "foobar"s),
             hana::make_pair(hana::type_c<int&&>, nullptr)
         )
         ==
         hana::make_map(
             hana::make_pair(hana::type_c<int&&>, (void*)0),
-            hana::make_pair(hana::char_<'a'>, "foobar"s)
+            hana::make_pair(hana::char_c<'a'>, "foobar"s)
         )
     );
 }

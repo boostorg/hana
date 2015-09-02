@@ -27,8 +27,8 @@ auto xs = hana::make<hana::Tuple>(1, 2.2, 'a', "bcde"s);
 }{
 
 //! [make<Range>]
-constexpr auto r = hana::make<hana::Range>(hana::int_<3>, hana::int_<10>);
-static_assert(r == hana::make_range(hana::int_<3>, hana::int_<10>), "");
+constexpr auto r = hana::make<hana::Range>(hana::int_c<3>, hana::int_c<10>);
+static_assert(r == hana::make_range(hana::int_c<3>, hana::int_c<10>), "");
 //! [make<Range>]
 
 }{
@@ -65,7 +65,7 @@ BOOST_HANA_RUNTIME_CHECK(&v == &ints);
 
 //! [types]
 auto xs = hana::make_tuple(1, '2', "345");
-auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
+auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
 // what can we say about the types of xs and ints?
 //! [types]
 (void)xs;
@@ -75,7 +75,7 @@ auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
 
 //! [types_maximally_specified]
 hana::tuple<int, char, char const*> xs = hana::make_tuple(1, '2', "345");
-auto ints = hana::make_range(hana::int_<0>, hana::int_<100>);
+auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
 // can't specify the type of ints, however
 //! [types_maximally_specified]
 (void)xs;

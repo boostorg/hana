@@ -12,6 +12,6 @@ namespace hana = boost::hana;
 
 
 static_assert(hana::max(1, 4) == 4, "");
-BOOST_HANA_CONSTANT_CHECK(hana::max(hana::int_<7>, hana::int_<5>) == hana::int_<7>);
+BOOST_HANA_CONSTANT_CHECK(hana::max(hana::int_c<7>, hana::int_c<5>) == hana::int_c<7>);
 
 int main() { }

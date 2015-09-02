@@ -14,12 +14,12 @@ namespace hana = boost::hana;
 int main() {
     constexpr auto even = hana::make_map(
         <%= (1..input_size).map { |n|
-            "hana::make_pair(hana::int_<#{n*2}>, hana::int_<#{n*2}>)"
+            "hana::make_pair(hana::int_c<#{n*2}>, hana::int_c<#{n*2}>)"
         }.join(', ') %>
     );
     constexpr auto odd = hana::make_map(
         <%= (1..input_size).map { |n|
-            "hana::make_pair(hana::int_<#{n*2+1}>, hana::int_<#{n*2+1}>)"
+            "hana::make_pair(hana::int_c<#{n*2+1}>, hana::int_c<#{n*2+1}>)"
         }.join(', ') %>
     );
     hana::is_disjoint(even, odd);

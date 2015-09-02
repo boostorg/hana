@@ -14,13 +14,13 @@ namespace hana = boost::hana;
 struct is_last {
     template <typename N>
     constexpr auto operator()(N) const {
-        return hana::bool_<N::value == <%= input_size %>>;
+        return hana::bool_c<N::value == <%= input_size %>>;
     }
 };
 
 int main() {
     constexpr auto set = hana::make_set(
-        <%= (1..input_size).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
     constexpr auto result = hana::find_if(set, is_last{});
     (void)result;

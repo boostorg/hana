@@ -17,7 +17,7 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(!hana::is_empty(BOOST_HANA_STRING("abcd")));
     BOOST_HANA_CONSTANT_CHECK(hana::is_empty(BOOST_HANA_STRING("")));
 
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("abcd")[hana::size_t<2>] == hana::char_<'c'>);
+    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("abcd")[hana::size_c<2>] == hana::char_c<'c'>);
 
     auto is_vowel = [](auto c) {
         return c ^hana::in^ BOOST_HANA_STRING("aeiouy");

@@ -15,8 +15,8 @@ namespace hana = boost::hana;
 
 
 int main() {
-    constexpr auto xs = hana::make_set(hana::int_<0>, hana::int_<1>, hana::int_<2>);
-    static_assert(hana::minimum(xs) == hana::int_<0>, "");
-    static_assert(hana::maximum(xs) == hana::int_<2>, "");
-    static_assert(hana::sum<>(xs) == hana::int_<3>, "");
+    constexpr auto xs = hana::make_set(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>);
+    static_assert(hana::minimum(xs) == hana::int_c<0>, "");
+    static_assert(hana::maximum(xs) == hana::int_c<2>, "");
+    static_assert(hana::sum<>(xs) == hana::int_c<3>, "");
 }

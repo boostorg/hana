@@ -62,7 +62,7 @@ BOOST_HANA_CONSTANT_CHECK(r);
 auto xs = hana::make_tuple("hello"s, 1.2, 3);
 auto pred = [](auto x) { return std::is_integral<decltype(x)>{}; };
 
-auto r = hana::bool_<
+auto r = hana::bool_c<
   decltype(pred(xs[0_c]))::value ? true :
   decltype(pred(xs[1_c]))::value ? true :
   decltype(pred(xs[2_c]))::value ? true :
@@ -84,7 +84,7 @@ struct Dog  { std::string name; };
 auto animals = hana::make_tuple(Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"});
 //   ^^^^^^^ not a compile-time value
 
-BOOST_HANA_CONSTANT_CHECK(hana::length(animals) == hana::size_t<3>);
+BOOST_HANA_CONSTANT_CHECK(hana::length(animals) == hana::size_c<3>);
 //                        ^^^^^^^^^^^^^^^^^^^^^ assertion done at compile-time
 //! [cross_phase.setup]
 
@@ -116,7 +116,7 @@ BOOST_HANA_CONSTANT_CHECK(any_cat);
 }{
 
 //! [cross_phase.any_of_explicit]
-decltype(hana::true_) any_cat = hana::any_of(animals, [](auto x) {
+decltype(hana::true_c) any_cat = hana::any_of(animals, [](auto x) {
   return std::is_same<decltype(x), Cat>{};
 });
 

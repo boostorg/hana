@@ -16,13 +16,13 @@ namespace hana = boost::hana;
 
 int main() {
     auto sum_string = [](auto str) {
-        return hana::fold_left(str, hana::int_<0>, [](auto sum, auto c) {
+        return hana::fold_left(str, hana::int_c<0>, [](auto sum, auto c) {
             constexpr int i = hana::value(c) - 48; // convert character to decimal
-            return sum + hana::int_<i>;
+            return sum + hana::int_c<i>;
         });
     };
 
     BOOST_HANA_CONSTANT_CHECK(
-        sum_string(BOOST_HANA_STRING("1234")) == hana::int_<1 + 2 + 3 + 4>
+        sum_string(BOOST_HANA_STRING("1234")) == hana::int_c<1 + 2 + 3 + 4>
     );
 }

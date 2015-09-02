@@ -65,7 +65,7 @@ namespace boost { namespace hana {
             "you want, you can manually convert both objects to a common "
             "Comparable type before performing the comparison.");
 
-            return hana::false_;
+            return hana::false_c;
         }
     };
 
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(X const&, Y const&) {
             constexpr auto eq = hana::equal(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(eq, true, false);
-            return hana::bool_<truth_value>;
+            return hana::bool_c<truth_value>;
         }
     };
 
@@ -135,28 +135,28 @@ namespace boost { namespace hana {
             Ys const& ys;
 
             template <std::size_t i>
-            constexpr auto apply(decltype(hana::false_), decltype(hana::true_)) const {
+            constexpr auto apply(decltype(hana::false_c), decltype(hana::true_c)) const {
                 return compare_finite_sequences::apply<i+1>(
-                    hana::bool_<i+1 == Length>,
+                    hana::bool_c<i+1 == Length>,
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),
-                              hana::true_, hana::false_)
+                              hana::true_c, hana::false_c)
                 );
             }
 
             template <std::size_t i>
-            constexpr auto apply(decltype(hana::false_), decltype(hana::false_)) const
-            { return hana::false_; }
+            constexpr auto apply(decltype(hana::false_c), decltype(hana::false_c)) const
+            { return hana::false_c; }
 
             template <std::size_t i, typename Result>
-            constexpr auto apply(decltype(hana::true_), Result r) const
+            constexpr auto apply(decltype(hana::true_c), Result r) const
             { return r; }
 
             template <std::size_t i>
-            constexpr bool apply(decltype(hana::false_), bool b) const {
+            constexpr bool apply(decltype(hana::false_c), bool b) const {
                 return b && compare_finite_sequences::apply<i+1>(
-                    hana::bool_<i+1 == Length>,
+                    hana::bool_c<i+1 == Length>,
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),
-                              hana::true_, hana::false_)
+                              hana::true_c, hana::false_c)
                 );
             }
         };
@@ -169,8 +169,8 @@ namespace boost { namespace hana {
             constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
             constexpr std::size_t ys_size = hana::value<decltype(hana::length(ys))>();
             detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
-            return comp.template apply<0>(hana::bool_<xs_size == 0>,
-                                          hana::bool_<xs_size == ys_size>);
+            return comp.template apply<0>(hana::bool_c<xs_size == 0>,
+                                          hana::bool_c<xs_size == ys_size>);
         }
     };
 

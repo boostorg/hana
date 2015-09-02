@@ -16,11 +16,11 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-constexpr auto r = hana::make_range(hana::int_<0>, hana::int_<1000>);
-BOOST_HANA_CONSTANT_CHECK(hana::front(r) == hana::int_<0>);
-BOOST_HANA_CONSTANT_CHECK(hana::back(r) == hana::int_<999>);
-BOOST_HANA_CONSTANT_CHECK(hana::tail(r) == hana::make_range(hana::int_<1>, hana::int_<1000>));
+constexpr auto r = hana::make_range(hana::int_c<0>, hana::int_c<1000>);
+BOOST_HANA_CONSTANT_CHECK(hana::front(r) == hana::int_c<0>);
+BOOST_HANA_CONSTANT_CHECK(hana::back(r) == hana::int_c<999>);
+BOOST_HANA_CONSTANT_CHECK(hana::tail(r) == hana::make_range(hana::int_c<1>, hana::int_c<1000>));
 BOOST_HANA_CONSTANT_CHECK(!hana::is_empty(r));
-BOOST_HANA_CONSTANT_CHECK(hana::is_empty(hana::make_range(hana::int_<3>, hana::int_<3>)));
+BOOST_HANA_CONSTANT_CHECK(hana::is_empty(hana::make_range(hana::int_c<3>, hana::int_c<3>)));
 
 int main() { }

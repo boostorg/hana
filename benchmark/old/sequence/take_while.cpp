@@ -16,7 +16,7 @@ template <int i> struct x { };
 struct pred {
     template <int i>
     constexpr decltype(auto) operator()(x<i> const&) const {
-        return boost::hana::bool_<i ==  <%= input_size / 2 %>   >;
+        return boost::hana::bool_c<i ==  <%= input_size / 2 %>   >;
     }
 };
 

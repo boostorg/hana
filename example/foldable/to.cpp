@@ -18,7 +18,7 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::to<hana::Tuple>(hana::nothing) == hana::make_tuple());
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to<hana::Tuple>(hana::make_range(hana::int_<3>, hana::int_<6>))
+        hana::to<hana::Tuple>(hana::make_range(hana::int_c<3>, hana::int_c<6>))
             ==
         hana::tuple_c<int, 3, 4, 5>
     );

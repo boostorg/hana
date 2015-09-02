@@ -216,12 +216,12 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
             sizeof_(T{}),
-            size_t<sizeof(T)>
+            size_c<sizeof(T)>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             sizeof_(type_c<T>),
-            size_t<sizeof(T)>
+            size_c<sizeof(T)>
         ));
 
         // make sure we don't read from non-constexpr variables
@@ -237,12 +237,12 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
             alignof_(T{}),
-            size_t<alignof(T)>
+            size_c<alignof(T)>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             alignof_(type_c<T>),
-            size_t<alignof(T)>
+            size_c<alignof(T)>
         ));
 
         // make sure we don't read from non-constexpr variables

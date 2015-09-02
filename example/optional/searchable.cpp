@@ -16,14 +16,14 @@ namespace hana = boost::hana;
 
 
 auto odd = [](auto x) {
-    return x % hana::int_<2> != hana::int_<0>;
+    return x % hana::int_c<2> != hana::int_c<0>;
 };
 
-BOOST_HANA_CONSTANT_CHECK(hana::find_if(hana::just(hana::int_<3>), odd) == hana::just(hana::int_<3>));
-BOOST_HANA_CONSTANT_CHECK(hana::find_if(hana::just(hana::int_<2>), odd) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::find_if(hana::just(hana::int_c<3>), odd) == hana::just(hana::int_c<3>));
+BOOST_HANA_CONSTANT_CHECK(hana::find_if(hana::just(hana::int_c<2>), odd) == hana::nothing);
 BOOST_HANA_CONSTANT_CHECK(hana::find_if(hana::nothing, odd) == hana::nothing);
 
-BOOST_HANA_CONSTANT_CHECK(hana::all_of(hana::just(hana::int_<3>), odd));
+BOOST_HANA_CONSTANT_CHECK(hana::all_of(hana::just(hana::int_c<3>), odd));
 BOOST_HANA_CONSTANT_CHECK(hana::all_of(hana::nothing, odd));
 
 int main() { }

@@ -15,7 +15,7 @@ static_assert(hana::if_(true, 1, 2) == 1, "");
 static_assert(hana::if_(false, 1, 2) == 2, "");
 
 static_assert(
-    hana::if_(hana::true_,
+    hana::if_(hana::true_c,
         hana::make_tuple('t', 'r', 'u', 'e'),
         hana::make_tuple('f', 'a', 'l', 's', 'e')
     )

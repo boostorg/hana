@@ -31,16 +31,16 @@ int main() {
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
     auto ranges = hana::make_tuple(
-          hana::make_range(hana::int_<0>, hana::int_<0>)
-        , hana::make_range(hana::int_<0>, hana::int_<1>)
-        , hana::make_range(hana::int_<0>, hana::int_<2>)
-        , hana::make_range(hana::int_<1>, hana::int_<1>)
-        , hana::make_range(hana::int_<1>, hana::int_<2>)
-        , hana::make_range(hana::int_<1>, hana::int_<3>)
-        , hana::make_range(hana::int_<50>, hana::int_<60>)
+          hana::make_range(hana::int_c<0>, hana::int_c<0>)
+        , hana::make_range(hana::int_c<0>, hana::int_c<1>)
+        , hana::make_range(hana::int_c<0>, hana::int_c<2>)
+        , hana::make_range(hana::int_c<1>, hana::int_c<1>)
+        , hana::make_range(hana::int_c<1>, hana::int_c<2>)
+        , hana::make_range(hana::int_c<1>, hana::int_c<3>)
+        , hana::make_range(hana::int_c<50>, hana::int_c<60>)
 
-        , hana::make_range(hana::int_<50>, hana::long_<60>)
-        , hana::make_range(hana::long_<50>, hana::int_<60>)
+        , hana::make_range(hana::int_c<50>, hana::long_c<60>)
+        , hana::make_range(hana::long_c<50>, hana::int_c<60>)
     );
 
     auto integers = hana::tuple_c<int, 0, 1, 900>; (void)integers;
@@ -96,54 +96,54 @@ int main() {
         // equal
         {
             BOOST_HANA_CONSTANT_CHECK(
-                hana::make_range(hana::int_<0>, hana::int_<0>) ==
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::make_range(hana::int_c<0>, hana::int_c<0>) ==
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             );
             BOOST_HANA_CONSTANT_CHECK(
-                hana::make_range(hana::int_<0>, hana::int_<4>) !=
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::make_range(hana::int_c<0>, hana::int_c<4>) !=
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::make_range(hana::int_c<0>, hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<1>)
+                hana::make_range(hana::int_c<0>, hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<1>)
             )));
             BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<1>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::make_range(hana::int_c<0>, hana::int_c<1>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             )));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<1>),
-                hana::make_range(hana::int_<0>, hana::int_<1>)
+                hana::make_range(hana::int_c<0>, hana::int_c<1>),
+                hana::make_range(hana::int_c<0>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<2>),
-                hana::make_range(hana::int_<0>, hana::int_<1>)
+                hana::make_range(hana::int_c<0>, hana::int_c<2>),
+                hana::make_range(hana::int_c<0>, hana::int_c<1>)
             )));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<2>),
-                hana::make_range(hana::int_<0>, hana::int_<2>)
+                hana::make_range(hana::int_c<0>, hana::int_c<2>),
+                hana::make_range(hana::int_c<0>, hana::int_c<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<0>, hana::int_<0>),
-                hana::make_range(hana::int_<2>, hana::int_<2>)
+                hana::make_range(hana::int_c<0>, hana::int_c<0>),
+                hana::make_range(hana::int_c<2>, hana::int_c<2>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<2>, hana::int_<4>),
-                hana::make_range(hana::int_<2>, hana::int_<4>)
+                hana::make_range(hana::int_c<2>, hana::int_c<4>),
+                hana::make_range(hana::int_c<2>, hana::int_c<4>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<-4>, hana::int_<-3>),
-                hana::make_range(hana::int_<-4>, hana::int_<-3>)
+                hana::make_range(hana::int_c<-4>, hana::int_c<-3>),
+                hana::make_range(hana::int_c<-4>, hana::int_c<-3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::make_range(hana::int_<-4>, hana::int_<2>),
-                hana::make_range(hana::int_<-4>, hana::int_<2>)
+                hana::make_range(hana::int_c<-4>, hana::int_c<2>),
+                hana::make_range(hana::int_c<-4>, hana::int_c<2>)
             ));
         }
 
@@ -160,25 +160,25 @@ int main() {
         // unpack
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::unpack(hana::make_range(hana::int_<0>, hana::int_<0>), f),
+                hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<0>), f),
                 f()
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::unpack(hana::make_range(hana::int_<0>, hana::int_<1>), f),
-                f(hana::int_<0>)
+                hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<1>), f),
+                f(hana::int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::unpack(hana::make_range(hana::int_<0>, hana::int_<2>), f),
-                f(hana::int_<0>, hana::int_<1>)
+                hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<2>), f),
+                f(hana::int_c<0>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::unpack(hana::make_range(hana::int_<0>, hana::int_<3>), f),
-                f(hana::int_<0>, hana::int_<1>, hana::int_<2>)
+                hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<3>), f),
+                f(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>)
             ));
 
             // Previously, we would only unpack with `std::size_t`s. Make
             // sure this does not happen.
-            hana::unpack(hana::make_range(hana::int_<0>, hana::int_<1>), [](auto x) {
+            hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<1>), [](auto x) {
                 using T = hana::datatype_t<decltype(x)>;
                 static_assert(std::is_same<typename T::value_type, int>{}, "");
             });
@@ -187,159 +187,159 @@ int main() {
         // length
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::length(hana::make_range(hana::int_<0>, hana::int_<0>)), hana::size_t<0>
+                hana::length(hana::make_range(hana::int_c<0>, hana::int_c<0>)), hana::size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::length(hana::make_range(hana::int_<0>, hana::int_<1>)), hana::size_t<1>
+                hana::length(hana::make_range(hana::int_c<0>, hana::int_c<1>)), hana::size_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::length(hana::make_range(hana::int_<0>, hana::int_<2>)), hana::size_t<2>
+                hana::length(hana::make_range(hana::int_c<0>, hana::int_c<2>)), hana::size_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::length(hana::make_range(hana::int_<4>, hana::int_<4>)), hana::size_t<0>
+                hana::length(hana::make_range(hana::int_c<4>, hana::int_c<4>)), hana::size_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::length(hana::make_range(hana::int_<4>, hana::int_<10>)), hana::size_t<6>
+                hana::length(hana::make_range(hana::int_c<4>, hana::int_c<10>)), hana::size_c<6>
             ));
         }
 
         // minimum
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::minimum(hana::make_range(hana::int_<3>, hana::int_<4>)), hana::int_<3>
+                hana::minimum(hana::make_range(hana::int_c<3>, hana::int_c<4>)), hana::int_c<3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::minimum(hana::make_range(hana::int_<3>, hana::int_<5>)), hana::int_<3>
+                hana::minimum(hana::make_range(hana::int_c<3>, hana::int_c<5>)), hana::int_c<3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::minimum(hana::make_range(hana::int_<-1>, hana::int_<5>)), hana::int_<-1>
+                hana::minimum(hana::make_range(hana::int_c<-1>, hana::int_c<5>)), hana::int_c<-1>
             ));
         }
 
         // maximum
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::maximum(hana::make_range(hana::int_<3>, hana::int_<4>)), hana::int_<3>
+                hana::maximum(hana::make_range(hana::int_c<3>, hana::int_c<4>)), hana::int_c<3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::maximum(hana::make_range(hana::int_<3>, hana::int_<5>)), hana::int_<4>
+                hana::maximum(hana::make_range(hana::int_c<3>, hana::int_c<5>)), hana::int_c<4>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::maximum(hana::make_range(hana::int_<-1>, hana::int_<6>)), hana::int_<5>
+                hana::maximum(hana::make_range(hana::int_c<-1>, hana::int_c<6>)), hana::int_c<5>
             ));
         }
 
         // sum
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<-3>)), hana::int_<0>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<-3>)), hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<-2>)), hana::int_<-3>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<-2>)), hana::int_c<-3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<-1>)), hana::int_<-3 + -2>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<-1>)), hana::int_c<-3 + -2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<0>)), hana::int_<-3 + -2 + -1>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<0>)), hana::int_c<-3 + -2 + -1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<1>)), hana::int_<-3 + -2 + -1 + 0>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<1>)), hana::int_c<-3 + -2 + -1 + 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<2>)), hana::int_<-3 + -2 + -1 + 0 + 1>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<2>)), hana::int_c<-3 + -2 + -1 + 0 + 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<-3>, hana::int_<3>)), hana::int_<-3 + -2 + -1 + 0 + 1 + 2>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<0>, hana::int_<0>)), hana::int_<0>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<0>, hana::int_<1>)), hana::int_<0>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<0>, hana::int_<2>)), hana::int_<0 + 1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<0>, hana::int_<3>)), hana::int_<0 + 1 + 2>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<0>, hana::int_<4>)), hana::int_<0 + 1 + 2 + 3>
+                hana::sum<>(hana::make_range(hana::int_c<-3>, hana::int_c<3>)), hana::int_c<-3 + -2 + -1 + 0 + 1 + 2>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<3>, hana::int_<3>)), hana::int_<0>
+                hana::sum<>(hana::make_range(hana::int_c<0>, hana::int_c<0>)), hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<3>, hana::int_<4>)), hana::int_<3>
+                hana::sum<>(hana::make_range(hana::int_c<0>, hana::int_c<1>)), hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<3>, hana::int_<5>)), hana::int_<3 + 4>
+                hana::sum<>(hana::make_range(hana::int_c<0>, hana::int_c<2>)), hana::int_c<0 + 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<3>, hana::int_<6>)), hana::int_<3 + 4 + 5>
+                hana::sum<>(hana::make_range(hana::int_c<0>, hana::int_c<3>)), hana::int_c<0 + 1 + 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::sum<>(hana::make_range(hana::int_<3>, hana::int_<7>)), hana::int_<3 + 4 + 5 + 6>
+                hana::sum<>(hana::make_range(hana::int_c<0>, hana::int_c<4>)), hana::int_c<0 + 1 + 2 + 3>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::sum<>(hana::make_range(hana::int_c<3>, hana::int_c<3>)), hana::int_c<0>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::sum<>(hana::make_range(hana::int_c<3>, hana::int_c<4>)), hana::int_c<3>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::sum<>(hana::make_range(hana::int_c<3>, hana::int_c<5>)), hana::int_c<3 + 4>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::sum<>(hana::make_range(hana::int_c<3>, hana::int_c<6>)), hana::int_c<3 + 4 + 5>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::sum<>(hana::make_range(hana::int_c<3>, hana::int_c<7>)), hana::int_c<3 + 4 + 5 + 6>
             ));
         }
 
         // product
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<-3>)), hana::int_<1>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<-3>)), hana::int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<-2>)), hana::int_<-3>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<-2>)), hana::int_c<-3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<-1>)), hana::int_<-3 * -2>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<-1>)), hana::int_c<-3 * -2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<0>)), hana::int_<-3 * -2 * -1>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<0>)), hana::int_c<-3 * -2 * -1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<1>)), hana::int_<-3 * -2 * -1 * 0>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<1>)), hana::int_c<-3 * -2 * -1 * 0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<2>)), hana::int_<-3 * -2 * -1 * 0 * 1>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<2>)), hana::int_c<-3 * -2 * -1 * 0 * 1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<-3>, hana::int_<3>)), hana::int_<-3 * -2 * -1 * 0 * 1 * 2>
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<1>, hana::int_<1>)), hana::int_<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<1>, hana::int_<2>)), hana::int_<1>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<1>, hana::int_<3>)), hana::int_<1 * 2>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<1>, hana::int_<4>)), hana::int_<1 * 2 * 3>
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<1>, hana::int_<5>)), hana::int_<1 * 2 * 3 * 4>
+                hana::product<>(hana::make_range(hana::int_c<-3>, hana::int_c<3>)), hana::int_c<-3 * -2 * -1 * 0 * 1 * 2>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<3>, hana::int_<3>)), hana::int_<1>
+                hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<1>)), hana::int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<3>, hana::int_<4>)), hana::int_<3>
+                hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<2>)), hana::int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<3>, hana::int_<5>)), hana::int_<3 * 4>
+                hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<3>)), hana::int_c<1 * 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<3>, hana::int_<6>)), hana::int_<3 * 4 * 5>
+                hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<4>)), hana::int_c<1 * 2 * 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::product<>(hana::make_range(hana::int_<3>, hana::int_<7>)), hana::int_<3 * 4 * 5 * 6>
+                hana::product<>(hana::make_range(hana::int_c<1>, hana::int_c<5>)), hana::int_c<1 * 2 * 3 * 4>
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::product<>(hana::make_range(hana::int_c<3>, hana::int_c<3>)), hana::int_c<1>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::product<>(hana::make_range(hana::int_c<3>, hana::int_c<4>)), hana::int_c<3>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::product<>(hana::make_range(hana::int_c<3>, hana::int_c<5>)), hana::int_c<3 * 4>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::product<>(hana::make_range(hana::int_c<3>, hana::int_c<6>)), hana::int_c<3 * 4 * 5>
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::product<>(hana::make_range(hana::int_c<3>, hana::int_c<7>)), hana::int_c<3 * 4 * 5 * 6>
             ));
         }
 
@@ -354,208 +354,208 @@ int main() {
     {
         // is_empty
         {
-            BOOST_HANA_CONSTANT_CHECK(hana::is_empty(hana::make_range(hana::int_<0>, hana::int_<0>)));
-            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(hana::make_range(hana::int_<0>, hana::int_<1>))));
-            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(hana::make_range(hana::int_<0>, hana::int_<2>))));
+            BOOST_HANA_CONSTANT_CHECK(hana::is_empty(hana::make_range(hana::int_c<0>, hana::int_c<0>)));
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(hana::make_range(hana::int_c<0>, hana::int_c<1>))));
+            BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(hana::make_range(hana::int_c<0>, hana::int_c<2>))));
         }
 
         // front
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::front(hana::make_range(hana::int_<0>, hana::int_<1>)), hana::int_<0>
+                hana::front(hana::make_range(hana::int_c<0>, hana::int_c<1>)), hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::front(hana::make_range(hana::int_<0>, hana::int_<2>)), hana::int_<0>
+                hana::front(hana::make_range(hana::int_c<0>, hana::int_c<2>)), hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::front(hana::make_range(hana::int_<2>, hana::int_<5>)), hana::int_<2>
+                hana::front(hana::make_range(hana::int_c<2>, hana::int_c<5>)), hana::int_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::front(hana::make_range(hana::int_<5>, hana::int_<6>)), hana::int_<5>
+                hana::front(hana::make_range(hana::int_c<5>, hana::int_c<6>)), hana::int_c<5>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::front(hana::make_range(hana::int_<5>, hana::long_<6>)), hana::long_<5>
+                hana::front(hana::make_range(hana::int_c<5>, hana::long_c<6>)), hana::long_c<5>
             ));
         }
 
         // tail
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_<0>, hana::int_<1>)),
-                hana::make_range(hana::int_<1>, hana::int_<1>)
+                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<1>)),
+                hana::make_range(hana::int_c<1>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_<0>, hana::int_<2>)),
-                hana::make_range(hana::int_<1>, hana::int_<2>)
+                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<2>)),
+                hana::make_range(hana::int_c<1>, hana::int_c<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_<0>, hana::int_<3>)),
-                hana::make_range(hana::int_<1>, hana::int_<3>)
+                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<3>)),
+                hana::make_range(hana::int_c<1>, hana::int_c<3>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_<4>, hana::int_<7>)),
-                hana::make_range(hana::int_<5>, hana::int_<7>)
+                hana::tail(hana::make_range(hana::int_c<4>, hana::int_c<7>)),
+                hana::make_range(hana::int_c<5>, hana::int_c<7>)
             ));
         }
 
         // at
         {
             BOOST_HANA_CONSTANT_CHECK(
-                hana::make_range(hana::int_<0>, hana::int_<10>)[hana::int_<2>] == hana::int_<2>
+                hana::make_range(hana::int_c<0>, hana::int_c<10>)[hana::int_c<2>] == hana::int_c<2>
             );
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::at(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<0>),
-                hana::int_<0>
+                hana::at(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<0>),
+                hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::at(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<0>),
-                hana::int_<0>
+                hana::at(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<0>),
+                hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::at(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<1>),
-                hana::int_<1>
+                hana::at(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<1>),
+                hana::int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::at(hana::make_range(hana::int_<4>, hana::int_<90>), hana::int_<46>),
-                hana::int_<50>
+                hana::at(hana::make_range(hana::int_c<4>, hana::int_c<90>), hana::int_c<46>),
+                hana::int_c<50>
             ));
         }
 
         // back
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::back(hana::make_range(hana::int_<0>, hana::int_<1>)),
-                hana::int_<0>
+                hana::back(hana::make_range(hana::int_c<0>, hana::int_c<1>)),
+                hana::int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::back(hana::make_range(hana::int_<0>, hana::int_<2>)),
-                hana::int_<1>
+                hana::back(hana::make_range(hana::int_c<0>, hana::int_c<2>)),
+                hana::int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::back(hana::make_range(hana::int_<0>, hana::int_<3>)),
-                hana::int_<2>
+                hana::back(hana::make_range(hana::int_c<0>, hana::int_c<3>)),
+                hana::int_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::back(hana::make_range(hana::int_<3>, hana::int_<6>)),
-                hana::int_<5>
+                hana::back(hana::make_range(hana::int_c<3>, hana::int_c<6>)),
+                hana::int_c<5>
             ));
         }
 
         // drop_front
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<0>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<0>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<0>), hana::int_<1>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<0>), hana::int_c<1>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<0>), hana::int_<2>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<1>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<1>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<2>),
-                hana::make_range(hana::int_<1>, hana::int_<1>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<0>), hana::int_c<2>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<2>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<2>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<2>),
-                hana::make_range(hana::int_<2>, hana::int_<2>)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<3>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<3>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<2>),
-                hana::make_range(hana::int_<2>, hana::int_<3>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<3>),
-                hana::make_range(hana::int_<3>, hana::int_<3>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<2>),
+                hana::make_range(hana::int_c<1>, hana::int_c<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front(hana::make_range(hana::int_<20>, hana::int_<50>), hana::int_<10>),
-                hana::make_range(hana::int_<30>, hana::int_<50>)
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<2>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<2>),
+                hana::make_range(hana::int_c<2>, hana::int_c<2>)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<2>),
+                hana::make_range(hana::int_c<2>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<3>),
+                hana::make_range(hana::int_c<3>, hana::int_c<3>)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front(hana::make_range(hana::int_c<20>, hana::int_c<50>), hana::int_c<10>),
+                hana::make_range(hana::int_c<30>, hana::int_c<50>)
             ));
         }
 
         // drop_front_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<0>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<0>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<0>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<1>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<1>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<1>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<1>)
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<2>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<2>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<2>), hana::int_<2>),
-                hana::make_range(hana::int_<2>, hana::int_<2>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<1>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<1>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<0>),
-                hana::make_range(hana::int_<0>, hana::int_<3>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<1>),
-                hana::make_range(hana::int_<1>, hana::int_<3>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<2>)
             ));
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<2>),
-                hana::make_range(hana::int_<2>, hana::int_<3>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<0>, hana::int_<3>), hana::int_<3>),
-                hana::make_range(hana::int_<3>, hana::int_<3>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<2>), hana::int_c<2>),
+                hana::make_range(hana::int_c<2>, hana::int_c<2>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::drop_front_exactly(hana::make_range(hana::int_<20>, hana::int_<50>), hana::int_<10>),
-                hana::make_range(hana::int_<30>, hana::int_<50>)
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<0>),
+                hana::make_range(hana::int_c<0>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<1>),
+                hana::make_range(hana::int_c<1>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<2>),
+                hana::make_range(hana::int_c<2>, hana::int_c<3>)
+            ));
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front_exactly(hana::make_range(hana::int_c<0>, hana::int_c<3>), hana::int_c<3>),
+                hana::make_range(hana::int_c<3>, hana::int_c<3>)
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(hana::equal(
+                hana::drop_front_exactly(hana::make_range(hana::int_c<20>, hana::int_c<50>), hana::int_c<10>),
+                hana::make_range(hana::int_c<30>, hana::int_c<50>)
             ));
         }
 
@@ -570,42 +570,42 @@ int main() {
         // find
         {
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<0>, hana::int_<0>), test::cnumeric<int, 0>),
+                hana::find(hana::make_range(hana::int_c<0>, hana::int_c<0>), test::cnumeric<int, 0>),
                 hana::nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<0>, hana::int_<1>), test::cnumeric<int, 0>),
-                hana::just(hana::int_<0>)
+                hana::find(hana::make_range(hana::int_c<0>, hana::int_c<1>), test::cnumeric<int, 0>),
+                hana::just(hana::int_c<0>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 3>),
-                hana::just(hana::int_<3>)
+                hana::find(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 3>),
+                hana::just(hana::int_c<3>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 9>),
-                hana::just(hana::int_<9>)
+                hana::find(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 9>),
+                hana::just(hana::int_c<9>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<-10>, hana::int_<10>), test::cnumeric<int, -10>),
-                hana::just(hana::int_<-10>)
+                hana::find(hana::make_range(hana::int_c<-10>, hana::int_c<10>), test::cnumeric<int, -10>),
+                hana::just(hana::int_c<-10>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<-10>, hana::int_<10>), test::cnumeric<int, -5>),
-                hana::just(hana::int_<-5>)
+                hana::find(hana::make_range(hana::int_c<-10>, hana::int_c<10>), test::cnumeric<int, -5>),
+                hana::just(hana::int_c<-5>)
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<-10>, hana::int_<0>), test::cnumeric<int, 3>),
+                hana::find(hana::make_range(hana::int_c<-10>, hana::int_c<0>), test::cnumeric<int, 3>),
                 hana::nothing
             ));
 
             BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::find(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 15>),
+                hana::find(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 15>),
                 hana::nothing
             ));
         }
@@ -613,35 +613,35 @@ int main() {
         // contains
         {
             BOOST_HANA_CONSTANT_CHECK(
-                hana::not_(hana::contains(hana::make_range(hana::int_<0>, hana::int_<0>), test::cnumeric<int, 0>))
+                hana::not_(hana::contains(hana::make_range(hana::int_c<0>, hana::int_c<0>), test::cnumeric<int, 0>))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::contains(hana::make_range(hana::int_<0>, hana::int_<1>), test::cnumeric<int, 0>)
+                hana::contains(hana::make_range(hana::int_c<0>, hana::int_c<1>), test::cnumeric<int, 0>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::contains(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 3>)
+                hana::contains(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 3>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::contains(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 9>)
+                hana::contains(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 9>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::contains(hana::make_range(hana::int_<-10>, hana::int_<10>), test::cnumeric<int, -10>)
+                hana::contains(hana::make_range(hana::int_c<-10>, hana::int_c<10>), test::cnumeric<int, -10>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::contains(hana::make_range(hana::int_<-10>, hana::int_<10>), test::cnumeric<int, -5>)
+                hana::contains(hana::make_range(hana::int_c<-10>, hana::int_c<10>), test::cnumeric<int, -5>)
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::not_(hana::contains(hana::make_range(hana::int_<-10>, hana::int_<0>), test::cnumeric<int, 3>))
+                hana::not_(hana::contains(hana::make_range(hana::int_c<-10>, hana::int_c<0>), test::cnumeric<int, 3>))
             );
 
             BOOST_HANA_CONSTANT_CHECK(
-                hana::not_(hana::contains(hana::make_range(hana::int_<0>, hana::int_<10>), test::cnumeric<int, 15>))
+                hana::not_(hana::contains(hana::make_range(hana::int_c<0>, hana::int_c<10>), test::cnumeric<int, 15>))
             );
         }
 

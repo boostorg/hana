@@ -18,10 +18,10 @@ namespace hana = boost::hana;
 
 
 constexpr auto letters = hana::to<hana::Tuple>(hana::range_c<char, 'a', 'z'>);
-constexpr auto indices = hana::to<hana::Tuple>(hana::make_range(hana::int_<0>, hana::length(letters)));
+constexpr auto indices = hana::to<hana::Tuple>(hana::make_range(hana::int_c<0>, hana::length(letters)));
 
 auto even_indices = hana::filter(indices, [](auto n) {
-    return n % hana::uint<2> == hana::uint<0>;
+    return n % hana::uint_c<2> == hana::uint_c<0>;
 });
 
 BOOST_HANA_CONSTANT_CHECK(

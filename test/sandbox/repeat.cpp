@@ -66,10 +66,10 @@ namespace boost { namespace hana {
     struct is_empty_impl<LazyList> {
         template <typename Xs>
         static constexpr auto apply(Xs)
-        { return false_; }
+        { return false_c; }
 
         static constexpr auto apply(lazy_nil_type)
-        { return true_; }
+        { return true_c; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -91,8 +91,7 @@ namespace boost { namespace hana {
 
 
 int main() {
-    using boost::hana::size_t;
     BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
     BOOST_HANA_CONSTEXPR_CHECK(front(repeat_(1)) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_t<10>) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_c<10>) == 1);
 }

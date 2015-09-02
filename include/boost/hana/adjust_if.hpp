@@ -43,11 +43,11 @@ namespace boost { namespace hana {
     namespace detail {
         struct adjust_if_helper {
             template <typename F, typename X>
-            static constexpr decltype(auto) helper(decltype(hana::true_), F&& f, X&& x)
+            static constexpr decltype(auto) helper(decltype(hana::true_c), F&& f, X&& x)
             { return static_cast<F&&>(f)(static_cast<X&&>(x)); }
 
             template <typename F, typename X>
-            static constexpr X helper(decltype(hana::false_), F&&, X&& x)
+            static constexpr X helper(decltype(hana::false_c), F&&, X&& x)
             { return static_cast<X&&>(x); }
 
             template <typename F, typename X>
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
             template <typename Pred, typename F, typename X>
             constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const {
                 auto cond = hana::if_(static_cast<Pred&&>(pred)(x),
-                    hana::true_, hana::false_
+                    hana::true_c, hana::false_c
                 );
                 return adjust_if_helper::helper(cond, static_cast<F&&>(f),
                                                       static_cast<X&&>(x));

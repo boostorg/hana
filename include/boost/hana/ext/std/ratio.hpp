@@ -62,7 +62,7 @@ namespace boost { namespace hana {
     struct equal_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return hana::bool_<std::ratio_equal<R1, R2>::value>; }
+        { return hana::bool_c<std::ratio_equal<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     struct less_impl<ext::std::Ratio, ext::std::Ratio> {
         template <typename R1, typename R2>
         static constexpr auto apply(R1 const&, R2 const&)
-        { return hana::bool_<std::ratio_less<R1, R2>::value>; }
+        { return hana::bool_c<std::ratio_less<R1, R2>::value>; }
     };
 
     //////////////////////////////////////////////////////////////////////////

@@ -63,7 +63,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
     constexpr auto take_c = [](auto&& xs) {
-        return hana::take(forwarded(xs), hana::size_t<n>);
+        return hana::take(forwarded(xs), hana::size_c<n>);
     };
 #else
     template <std::size_t n>

@@ -12,9 +12,9 @@ namespace hana = boost::hana;
 
 int main() {
     constexpr auto set = hana::make_set(
-        <%= (1..input_size).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
-    constexpr auto next = hana::int_< <%= input_size+1 %> >;
+    constexpr auto next = hana::int_c< <%= input_size+1 %> >;
     constexpr auto result = hana::insert(set, next);
     (void)result;
 }

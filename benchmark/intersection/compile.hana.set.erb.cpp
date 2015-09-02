@@ -13,11 +13,11 @@ namespace hana = boost::hana;
 int main() {
     <% half = input_size / 2 %>
     constexpr auto xs = hana::make_set(
-        <%= (1..half).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (1..half).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
 
     constexpr auto ys = hana::make_set(
-        <%= (half..input_size).map { |n| "hana::int_<#{n}>" }.join(', ') %>
+        <%= (half..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
 
     constexpr auto result = hana::intersection(xs, ys);

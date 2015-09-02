@@ -13,9 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::sum<>(hana::make_range(hana::int_<1>, hana::int_<6>)) == hana::int_<15>);
+BOOST_HANA_CONSTANT_CHECK(hana::sum<>(hana::make_range(hana::int_c<1>, hana::int_c<6>)) == hana::int_c<15>);
 
-static_assert(hana::sum<>(hana::make_tuple(1, hana::int_<3>, hana::long_<-5>, 9)) == 8, "");
+static_assert(hana::sum<>(hana::make_tuple(1, hana::int_c<3>, hana::long_c<-5>, 9)) == 8, "");
 
 static_assert(hana::sum<unsigned long>(hana::make_tuple(1ul, 3ul)) == 4ul, "");
 
