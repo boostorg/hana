@@ -4,73 +4,78 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/functional.hpp>
-#include <boost/hana/concept/logical.hpp>
+#include <boost/hana/all_of.hpp>
+#include <boost/hana/assert.hpp>
+#include <boost/hana/contains.hpp>
+#include <boost/hana/core/convert.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/functional/demux.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/minus.hpp>
+#include <boost/hana/not_equal.hpp>
+#include <boost/hana/plus.hpp>
+#include <boost/hana/set.hpp>
+#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
-
-#include <stdexcept>
-
-
-namespace boost { namespace hana {
-    struct Function { };
-
-    template <typename Domain, typename Codomain, typename F>
-    struct function_type {
-        using hana_tag = Function;
-
-        Domain dom;
-        Codomain cod;
-        F def;
-
-        friend constexpr auto domain(function_type f)
-        { return f.dom; }
-
-        friend constexpr auto codomain(function_type f)
-        { return f.cod; }
-
-        template <typename X>
-        constexpr auto operator()(X x) const {
-            if (!contains(domain(*this), x))
-                throw std::domain_error{"use of a hana::function with an argument out of the domain"};
-            return def(x);
-        }
-    };
-
-    template <typename ...F, typename ...G>
-    constexpr auto operator==(function_type<F...> f, function_type<G...> g)
-    { return hana::equal(f, g); }
-
-    template <typename ...F, typename ...G>
-    constexpr auto operator!=(function_type<F...> f, function_type<G...> g)
-    { return hana::not_equal(f, g); }
+namespace hana = boost::hana;
+using namespace hana::literals;
 
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto function = [](auto domain, auto codomain) {
-        return [=](auto definition) {
-            return function_type<decltype(domain), decltype(codomain), decltype(definition)>{
-                domain, codomain, definition
-            };
+struct Function { };
+
+template <typename Domain, typename Codomain, typename F>
+struct function_type {
+    using hana_tag = Function;
+
+    Domain domain_;
+    Codomain codomain_;
+    F f_;
+
+    template <typename X>
+    constexpr auto operator()(X x) const {
+        BOOST_HANA_ASSERT(boost::hana::contains(domain_, x));
+        return f_(x);
+    }
+};
+
+template <typename ...F, typename ...G>
+constexpr auto operator==(function_type<F...> f, function_type<G...> g)
+{ return hana::equal(f, g); }
+
+template <typename ...F, typename ...G>
+constexpr auto operator!=(function_type<F...> f, function_type<G...> g)
+{ return hana::not_equal(f, g); }
+
+
+auto function = [](auto domain, auto codomain) {
+    return [=](auto definition) {
+        return function_type<decltype(domain), decltype(codomain), decltype(definition)>{
+            domain, codomain, definition
         };
     };
+};
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto frange = [](auto f) {
-        // Note: that would be better handled by a set data structure, but
-        // whatever for now.
-        return fold_left(transform(domain(f), f), make<tuple_tag>(), [](auto xs, auto x) {
-            return if_(contains(xs, x), xs, prepend(xs, x));
-        });
-    };
+template <typename Function>
+constexpr auto domain(Function f)
+{ return f.domain_; }
 
+template <typename Function>
+constexpr auto codomain(Function f)
+{ return f.codomain_; }
 
+template <typename Function>
+constexpr auto range(Function f) {
+    // We must convert to hana::tuple first because hana::set is not a Functor
+    return hana::to<hana::set_tag>(hana::transform(hana::to<hana::tuple_tag>(domain(f)), f));
+}
+
+namespace boost { namespace hana {
     template <>
     struct equal_impl<Function, Function> {
         template <typename F, typename G>
         static constexpr auto apply(F f, G g) {
-            return domain(f) == domain(g) && all_of(domain(f), demux(equal)(f, g));
+            return domain(f) == domain(g) &&
+                   hana::all_of(domain(f), hana::demux(hana::equal)(f, g));
         }
     };
 }} // end namespace boost::hana
@@ -87,34 +92,24 @@ namespace boost { namespace hana {
 //     return codomain(f) == range(g);
 // };
 
-
-#include <boost/hana/assert.hpp>
-#include <boost/hana/integral_constant.hpp>
-#include <boost/hana/range.hpp>
-#include <boost/hana/tuple.hpp>
-using namespace boost::hana;
-using namespace literals;
-
+//////////////////////////////////////////////////////////////////////////////
 
 int main() {
-    auto f = function(make<tuple_tag>(1_c, 2_c, 3_c), make<tuple_tag>(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
+    auto f = function(hana::make_set(1_c, 2_c, 3_c), hana::make_set(1_c, 2_c, 3_c, 4_c, 5_c, 6_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto g = function(make<tuple_tag>(1_c, 2_c, 3_c), make<tuple_tag>(2_c, 3_c, 4_c))(
+    auto g = function(hana::make_set(1_c, 2_c, 3_c), hana::make_set(2_c, 3_c, 4_c))(
         [](auto x) { return x + 1_c; }
     );
 
-    auto h = function(make<tuple_tag>(1_c, 2_c, 3_c), make<tuple_tag>(0_c, 1_c, 2_c))(
+    auto h = function(hana::make_set(1_c, 2_c, 3_c), hana::make_set(0_c, 1_c, 2_c))(
         [](auto x) { return x - 1_c; }
     );
 
     BOOST_HANA_CONSTANT_CHECK(f == g);
     BOOST_HANA_CONSTANT_CHECK(f != h);
-    BOOST_HANA_CONSTEXPR_CHECK(f(1) == 2);
-    try { f(6); throw; } catch (std::domain_error) { }
+    BOOST_HANA_CONSTANT_CHECK(f(1_c) == 2_c);
 
-
-    BOOST_HANA_CONSTANT_CHECK(frange(f) == make<tuple_tag>(4_c, 3_c, 2_c));
-    (void)frange;
+    BOOST_HANA_CONSTANT_CHECK(range(f) == hana::make_set(4_c, 3_c, 2_c));
 }
