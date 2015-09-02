@@ -28,7 +28,7 @@ namespace boost { namespace hana {
         struct seq_type {
             explicit constexpr seq_type(Storage s) : storage(s) { }
             Storage storage;
-            struct hana { using tag = Seq; };
+            using hana_tag = Seq;
         };
 
         struct seq_t {

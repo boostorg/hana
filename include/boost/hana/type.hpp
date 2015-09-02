@@ -32,8 +32,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T>
     struct basic_type : operators::adl {
-        using hana = basic_type;
-        using tag = Type;
+        using hana_tag = Type;
 
         using type = T;
         constexpr auto operator+() const { return *this; }
@@ -58,9 +57,7 @@ namespace boost { namespace hana {
         };
 
         template <typename T>
-        struct decltype_t<T,
-            typename std::remove_reference<T>::type::hana::tag
-        > {
+        struct decltype_t<T, typename hana::tag_of<T>::type> {
             using type = typename std::remove_reference<T>::type::type;
         };
     }
@@ -140,8 +137,8 @@ namespace boost { namespace hana {
         };
 
         template <typename ...T>
-        constexpr auto operator()(T&& .../*t*/) const
-        { return boost::hana::type_c<F<typename detail::decltype_t<T>::type...>>; }
+        constexpr auto operator()(T&& ...) const
+        { return hana::type_c<F<typename detail::decltype_t<T>::type...>>; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -153,7 +150,7 @@ namespace boost { namespace hana {
         using apply = F<T...>;
 
         template <typename ...T>
-        constexpr auto operator()(T&& ...) const -> boost::hana::type<
+        constexpr auto operator()(T&& ...) const -> hana::type<
             typename F<typename detail::decltype_t<T>::type...>::type
         > { return {}; }
     };

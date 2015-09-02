@@ -62,20 +62,17 @@ using false_ = bool_<false>;
 //////////////////////////////////////////////////////////////////////////////
 template <typename ...T>
 struct vector : decltype(hana::tuple_t<T...>) {
-    using hana = vector;
-    using tag = boost::hana::Tuple;
+    using hana_tag = hana::Tuple;
 };
 
 template <typename T, T ...v>
 struct vector_c : decltype(hana::tuple_c<T, v...>) {
-    using hana = vector_c;
-    using tag = boost::hana::Tuple;
+    using hana_tag = hana::Tuple;
 };
 
 template <typename T, T from, T to>
 struct range_c : decltype(hana::range_c<T, from, to>) {
-    using hana = range_c;
-    using tag = boost::hana::Range;
+    using hana_tag = hana::Range;
 };
 
 

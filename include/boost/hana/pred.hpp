@@ -71,13 +71,13 @@ namespace boost { namespace hana {
         template <typename X>
         struct constant_t {
             static constexpr decltype(auto) get()
-            { return boost::hana::pred(boost::hana::value<X>()); }
-            struct hana { using tag = detail::CanonicalConstant<T>; };
+            { return hana::pred(hana::value<X>()); }
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
-        { return to<C>(constant_t<X>{}); }
+        { return hana::to<C>(constant_t<X>{}); }
     };
 }} // end namespace boost::hana
 

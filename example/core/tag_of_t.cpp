@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-struct Datatype;
-struct Person { struct hana { using tag = Datatype; }; };
-static_assert(std::is_same<hana::tag_of_t<Person>, Datatype>{}, "");
+struct PersonTag;
+struct Person { using hana_tag = PersonTag; };
+static_assert(std::is_same<hana::tag_of_t<Person>, PersonTag>{}, "");
 
 int main() { }

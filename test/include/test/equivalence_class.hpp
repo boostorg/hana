@@ -18,7 +18,7 @@ namespace boost { namespace hana {
         struct equivalence_class_impl {
             Token equivalence_class;
             T unwrap;
-            struct hana { using tag = EquivalenceClass; };
+            using hana_tag = EquivalenceClass;
         };
 
         auto tag = [](auto token, auto x) {

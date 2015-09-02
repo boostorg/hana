@@ -66,8 +66,7 @@ namespace boost { namespace hana {
     template <typename ...Pairs>
     struct map : detail::searchable_operators<map<Pairs...>>, operators::adl {
         tuple<Pairs...> storage;
-        using hana = map;
-        using tag = Map;
+        using hana_tag = Map;
 
         explicit constexpr map(tuple<Pairs...> const& ps)
             : storage(ps)

@@ -14,12 +14,11 @@ namespace boost { namespace hana {
     //! @ingroup group-core
     //! %Metafunction returning the tag associated to `T`.
     //!
-    //! There are several ways to specify the data type of a C++ type. If it's
-    //! a user-defined type, one can define a nested `hana::dataype` alias
-    //! inside of it:
+    //! There are several ways to specify the tag of a C++ type. If it's a
+    //! user-defined type, one can define a nested `hana_tag` alias:
     //! @code
     //!     struct MyUserDefinedType {
-    //!         struct hana { using tag = MyDatatype; };
+    //!         using hana_tag = MyTag;
     //!     };
     //! @endcode
     //!
@@ -34,7 +33,7 @@ namespace boost { namespace hana {
     //!     namespace boost { namespace hana {
     //!         template <>
     //!         struct tag_of<i_cant_modify_this> {
-    //!             using type = MyDatatype;
+    //!             using type = MyTag;
     //!         };
     //!     }}
     //! @endcode
@@ -44,7 +43,7 @@ namespace boost { namespace hana {
     //! boolean and enables the specialization of `tag_of` if and only if
     //! that boolean is `true`. This is similar to the well known C++ idiom
     //! of using a dummy template parameter with `std::enable_if` and relying
-    //! on SFINAE. For example, we could specify the data type of all
+    //! on SFINAE. For example, we could specify the tag of all
     //! `fusion::vector`s by doing:
     //! @code
     //!     struct BoostFusionVector;
@@ -63,16 +62,15 @@ namespace boost { namespace hana {
     //! @endcode
     //!
     //! Also, when it is not specialized and when the given C++ type does not
-    //! have a nested `hana::dataype` alias, `tag_of<T>` returns `T` itself.
-    //! This makes data types a simple extension of normal C++ types. This is
-    //! _super_ useful, mainly for two reasons. First, this allows Hana to
-    //! adopt a reasonable default behavior for some operations involving
-    //! types that have no notion of data type. For example, Hana allows
-    //! comparing with `equal` any two objects for which a valid `operator==`
-    //! is defined, and that without any work on the user side. Second, it
-    //! also means that you can ignore data types completely if you don't need
-    //! their functionality; just use the normal C++ type of your objects and
-    //! everything will "just work".
+    //! have a nested `hana_tag` alias, `tag_of<T>` returns `T` itself. This
+    //! makes tags a simple extension of normal C++ types. This is _super_
+    //! useful, mainly for two reasons. First, this allows Hana to adopt a
+    //! reasonable default behavior for some operations involving types that
+    //! have no notion of tags. For example, Hana allows comparing with `equal`
+    //! any two objects for which a valid `operator==` is defined, and that
+    //! without any work on the user side. Second, it also means that you can
+    //! ignore tags completely if you don't need their functionality; just use
+    //! the normal C++ type of your objects and everything will "just work".
     //!
     //! Finally, also note that `tag_of<T>` is always equivalent to `tag_of<U>`,
     //! where `U` is the type `T` after being stripped of all references and

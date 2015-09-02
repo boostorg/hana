@@ -37,14 +37,14 @@ void print(std::ostream& os, X x) {
 struct Vector;
 
 struct vector0 {
-  struct hana { using tag = Vector; };
+  using hana_tag = Vector;
   static constexpr std::size_t size = 0;
 };
 
 template <typename T1>
 struct vector1 {
   T1 t1;
-  struct hana { using tag = Vector; };
+  using hana_tag = Vector;
   static constexpr std::size_t size = 1;
 
   template <typename Index>
@@ -57,13 +57,13 @@ struct vector1 {
 template <typename T1, typename T2>
 struct vector2 {
   T1 t1; T2 t2;
-  struct hana { using tag = Vector; };
+  using hana_tag = Vector;
   static constexpr std::size_t size = 2;
 
   // Using Hana as a backend to simplify the example.
   template <typename Index>
   auto const& operator[](Index i) const {
-    return *boost::hana::make_tuple(&t1, &t2)[i];
+    return *hana::make_tuple(&t1, &t2)[i];
   }
 };
 

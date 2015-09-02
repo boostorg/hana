@@ -20,24 +20,24 @@ constexpr auto operator==(X x, Y y)
 
 struct Datatype {
     int value;
-    struct hana { using tag = Datatype; };
+    using hana_tag = Datatype;
 };
 
 struct Other {
     int value;
-    struct hana { using tag = Datatype; };
+    using hana_tag = Datatype;
 };
 
 struct SpecializedFrom;
 struct specialized_from {
     int value;
-    struct hana { using tag = SpecializedFrom; };
+    using hana_tag = SpecializedFrom;
 };
 
 struct SpecializedTo;
 struct specialized_to {
     int value;
-    struct hana { using tag = SpecializedTo; };
+    using hana_tag = SpecializedTo;
 };
 
 namespace boost { namespace hana {

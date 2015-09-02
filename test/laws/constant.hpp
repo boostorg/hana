@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
         struct wrap_arbitrary_constant {
             static constexpr T get()
             { return boost::hana::value<X>(); }
-            struct hana { using tag = detail::CanonicalConstant<T>; };
+            using hana_tag = detail::CanonicalConstant<T>;
         };
 
         template <typename Xs, typename Convertibles>

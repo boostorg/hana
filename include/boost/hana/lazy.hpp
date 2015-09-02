@@ -48,8 +48,7 @@ namespace boost { namespace hana {
         lazy_apply_t(lazy_apply_t&) = default;
         lazy_apply_t(lazy_apply_t&&) = default;
         using detail::closure<F, Args...>::closure;
-        using hana = lazy_apply_t;
-        using tag = Lazy;
+        using hana_tag = Lazy;
     };
 
     template <typename X>
@@ -60,8 +59,7 @@ namespace boost { namespace hana {
         lazy_value_t(lazy_value_t&) = default;
         lazy_value_t(lazy_value_t&&) = default;
         using detail::closure<X>::closure;
-        using hana = lazy_value_t;
-        using tag = Lazy;
+        using hana_tag = Lazy;
 
         // If this is called, we assume that `X` is in fact a function.
         template <typename ...Args>

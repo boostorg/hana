@@ -62,8 +62,8 @@ namespace boost { namespace hana {
         template <typename Cond>
         struct constant_t {
             static constexpr decltype(auto) get()
-            { return boost::hana::not_(boost::hana::value<Cond>()); }
-            struct hana { using tag = detail::CanonicalConstant<T>; };
+            { return hana::not_(hana::value<Cond>()); }
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename Cond>

@@ -175,8 +175,7 @@ namespace boost { namespace hana {
         // times
         static constexpr ic_detail::times_t<T, v> times{};
 
-        using hana = integral_constant;
-        using tag = IntegralConstant<T>;
+        using hana_tag = IntegralConstant<T>;
     };
     //! @endcond
 

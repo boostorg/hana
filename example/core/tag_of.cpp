@@ -14,9 +14,9 @@ static_assert(std::is_same<hana::tag_of<int>::type, int>{}, "");
 static_assert(std::is_same<hana::tag_of<int&>::type, int>{}, "");
 static_assert(std::is_same<hana::tag_of<int const&>::type, int>{}, "");
 
-struct Datatype;
-struct Person { struct hana { using tag = Datatype; }; };
-static_assert(std::is_same<hana::tag_of<Person>::type, Datatype>{}, "");
-static_assert(std::is_same<hana::tag_of<Person volatile&&>::type, Datatype>{}, "");
+struct PersonTag;
+struct Person { using hana_tag = PersonTag; };
+static_assert(std::is_same<hana::tag_of<Person>::type, PersonTag>{}, "");
+static_assert(std::is_same<hana::tag_of<Person volatile&&>::type, PersonTag>{}, "");
 
 int main() { }

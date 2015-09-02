@@ -31,9 +31,9 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct tag_of<T, when<
-        core_detail::is_valid<typename T::hana::tag>::value
+        core_detail::is_valid<typename T::hana_tag>::value
     >> {
-        using type = typename T::hana::tag;
+        using type = typename T::hana_tag;
     };
 
     template <typename T> struct tag_of<T const> : tag_of<T> { };

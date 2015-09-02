@@ -32,8 +32,7 @@ namespace boost { namespace hana {
     template <typename First, typename Second>
     struct pair : operators::adl, detail::closure<First, Second> {
         using detail::closure<First, Second>::closure;
-        using hana = pair;
-        using tag = Pair;
+        using hana_tag = Pair;
     };
     //! @endcond
 

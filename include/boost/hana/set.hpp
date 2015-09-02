@@ -54,8 +54,7 @@ namespace boost { namespace hana {
     template <typename ...Xs>
     struct set : operators::adl, detail::searchable_operators<set<Xs...>> {
         tuple<Xs...> storage;
-        using hana = set;
-        using tag = Set;
+        using hana_tag = Set;
         static constexpr std::size_t size = sizeof...(Xs);
 
         explicit constexpr set(tuple<Xs...> const& xs)

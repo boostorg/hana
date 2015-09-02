@@ -16,7 +16,7 @@ namespace wrap_detail {
     template <typename Datatype, typename X>
     struct wrapper {
         X unwrap;
-        struct hana { using tag = Datatype; };
+        using hana_tag = Datatype;
     };
 
     template <typename Datatype>

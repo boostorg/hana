@@ -101,12 +101,9 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         struct constant_t {
             static constexpr decltype(auto) get() {
-                return boost::hana::minus(boost::hana::value<X>(),
-                                          boost::hana::value<Y>());
+                return hana::minus(hana::value<X>(), hana::value<Y>());
             }
-
-            using hana = constant_t;
-            using tag = detail::CanonicalConstant<T>;
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X, typename Y>

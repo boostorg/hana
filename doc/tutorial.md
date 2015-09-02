@@ -2616,11 +2616,11 @@ different types to illustrate the technique:
 
 @snippet example/tutorial/tag_dispatching.cpp Vector
 
-The nested `struct hana { using tag = Vector; }` part is a terse way of
-controling the result of the `tag_of` metafunction, and hence the tag of the
-`vectorN` type. This is explained in the reference for `tag_of`. Finally,
-if you wanted to customize the behavior of the `print` function for all the
-`vectorN` types, you would normally have to write something along the lines of
+The nested `using hana_tag = Vector;` part is a terse way of controling the
+result of the `tag_of` metafunction, and hence the tag of the `vectorN` type.
+This is explained in the reference for `tag_of`. Finally, if you wanted to
+customize the behavior of the `print` function for all the `vectorN` types,
+you would normally have to write something along the lines of
 
 @snippet example/tutorial/tag_dispatching.cpp old_way
 

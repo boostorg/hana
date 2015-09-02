@@ -30,8 +30,8 @@ struct test {
 };
 
 struct NestedDatatype;
-struct Nested { struct hana { struct tag; }; };
-template struct test<Nested, Nested::hana::tag>;
+struct Nested { struct hana_tag; };
+template struct test<Nested, Nested::hana_tag>;
 
 struct NoNestedDatatype { };
 template struct test<NoNestedDatatype, NoNestedDatatype>;

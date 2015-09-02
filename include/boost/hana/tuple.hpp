@@ -89,20 +89,18 @@ namespace boost { namespace hana {
     template <>
     struct tuple<> : operators::adl, detail::iterable_operators<tuple<>> {
         constexpr tuple() { }
-        using hana = tuple;
-        using tag = Tuple;
+        using hana_tag = Tuple;
     };
 
     template <typename ...Xn>
     struct tuple : operators::adl, detail::iterable_operators<tuple<Xn...>> {
         basic_tuple<Xn...> storage_;
-        using hana = tuple;
-        using tag = Tuple;
+        using hana_tag = Tuple;
 
     private:
         template <typename Other, std::size_t ...n>
         explicit constexpr tuple(detail::from_index_sequence_t, std::index_sequence<n...>, Other&& other)
-            : storage_(boost::hana::get_impl<n>(static_cast<Other&&>(other))...)
+            : storage_(hana::get_impl<n>(static_cast<Other&&>(other))...)
         { }
 
     public:
