@@ -126,7 +126,7 @@ struct print_impl<hana::String> {
 
 // model for hana::sets
 template <>
-struct print_impl<hana::Set> {
+struct print_impl<hana::set_tag> {
     template <typename S>
     static auto apply(S const& set) {
         std::string result = "{";

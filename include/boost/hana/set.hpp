@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     template <typename ...Xs>
     struct set : operators::adl, detail::searchable_operators<set<Xs...>> {
         tuple<Xs...> storage;
-        using hana_tag = Set;
+        using hana_tag = set_tag;
         static constexpr std::size_t size = sizeof...(Xs);
 
         explicit constexpr set(tuple<Xs...> const& xs)
@@ -72,26 +72,26 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <>
-        struct comparable_operators<Set> {
+        struct comparable_operators<set_tag> {
             static constexpr bool value = true;
         };
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Set>
+    // make<set_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<Set> {
+    struct make_impl<set_tag> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(detail::fast_and<_models<Comparable, Xs>::value...>::value,
-            "hana::make<Set>(xs...) requires all the 'xs' to be Comparable");
+            "hana::make_set(xs...) requires all the 'xs' to be Comparable");
 
             static_assert(detail::fast_and<
                 _models<Constant, decltype(hana::equal(xs, xs))>::value...
             >::value,
-            "hana::make<Set>(xs...) requires all the 'xs' to be "
+            "hana::make_set(xs...) requires all the 'xs' to be "
             "Comparable at compile-time");
         #endif
 
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<Set, Set> {
+    struct equal_impl<set_tag, set_tag> {
         template <typename S1, typename S2>
         static constexpr auto equal_helper(S1 const& s1, S2 const& s2, decltype(hana::true_c))
         { return hana::is_subset(s1, s2); }
@@ -127,7 +127,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<Set> {
+    struct unpack_impl<set_tag> {
         template <typename Set, typename F>
         static constexpr decltype(auto) apply(Set&& set, F&& f) {
             return hana::unpack(static_cast<Set&&>(set).storage,
@@ -139,7 +139,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_if_impl<Set> {
+    struct find_if_impl<set_tag> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             return hana::find_if(static_cast<Xs&&>(xs).storage, static_cast<Pred&&>(pred));
@@ -147,7 +147,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_of_impl<Set> {
+    struct any_of_impl<set_tag> {
         template <typename Pred>
         struct any_of_helper {
             Pred const& pred;
@@ -167,7 +167,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct is_subset_impl<Set, Set> {
+    struct is_subset_impl<set_tag, set_tag> {
         template <typename Ys>
         struct all_contained {
             Ys const& ys;
@@ -189,7 +189,7 @@ namespace boost { namespace hana {
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<Set, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<set_tag, F, when<_models<Foldable, F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(static_cast<Xs&&>(xs),
@@ -202,7 +202,7 @@ namespace boost { namespace hana {
     // insert
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct insert_impl<Set> {
+    struct insert_impl<set_tag> {
         template <typename Xs, typename X, typename Indices>
         static constexpr auto
         insert_helper(Xs&& xs, X&&, decltype(hana::true_c), Indices) {
@@ -230,7 +230,7 @@ namespace boost { namespace hana {
     // erase_key
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct erase_key_impl<Set> {
+    struct erase_key_impl<set_tag> {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return hana::unpack(
@@ -270,7 +270,7 @@ namespace boost { namespace hana {
     }
 
     template <>
-    struct intersection_impl<Set> {
+    struct intersection_impl<set_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs&& xs, Ys const& ys) {
             return hana::fold_left(static_cast<Xs&&>(xs), hana::make_set(),
@@ -282,7 +282,7 @@ namespace boost { namespace hana {
     // union_
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct union_impl<Set> {
+    struct union_impl<set_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs&& xs, Ys&& ys) {
             return hana::fold_left(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
@@ -294,7 +294,7 @@ namespace boost { namespace hana {
     // difference
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct difference_impl<Set> {
+    struct difference_impl<set_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs&& xs, Ys&& ys) {
             return hana::fold_left(static_cast<Ys&&>(ys), static_cast<Xs&&>(xs),

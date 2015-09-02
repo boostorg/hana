@@ -25,39 +25,39 @@ struct undefined { };
 
 int main() {
     auto eqs = make<Tuple>(
-        make<Set>(),
-        make<Set>(ct_eq<0>{}),
-        make<Set>(ct_eq<0>{}, ct_eq<1>{}),
-        make<Set>(ct_eq<1>{}, ct_eq<0>{}),
-        make<Set>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        make_set(),
+        make_set(ct_eq<0>{}),
+        make_set(ct_eq<0>{}, ct_eq<1>{}),
+        make_set(ct_eq<1>{}, ct_eq<0>{}),
+        make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
     );
     (void)eqs;
 
-    auto keys = make<Tuple>(ct_eq<2>{}, ct_eq<3>{});
+    auto keys = make_tuple(ct_eq<2>{}, ct_eq<3>{});
     (void)keys;
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // make<Set>
+    // make<set_tag>
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(),
+            make<set_tag>(),
             make_set()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(ct_eq<0>{}),
+            make<set_tag>(ct_eq<0>{}),
             make_set(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(ct_eq<0>{}, ct_eq<1>{}),
+            make<set_tag>(ct_eq<0>{}, ct_eq<1>{}),
             make_set(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Set>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
+            make<set_tag>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
             make_set(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
@@ -66,7 +66,7 @@ int main() {
     // Make sure we do not instantiate rogue constructors when doing copies
     //////////////////////////////////////////////////////////////////////////
     {
-        auto expr = make<Set>(test::trap_construct{});
+        auto expr = make<set_tag>(test::trap_construct{});
         auto implicit_copy = expr;          (void)implicit_copy;
         decltype(expr) explicit_copy(expr); (void)explicit_copy;
     }
@@ -448,38 +448,38 @@ int main() {
         // Foldable -> Set
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable()),
+                to<set_tag>(foldable()),
                 make_set()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{})),
+                to<set_tag>(foldable(ct_eq<1>{})),
                 make_set(ct_eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<1>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<1>{})),
                 make_set(ct_eq<1>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{})),
                 make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<1>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<1>{})),
                 make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<2>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<2>{})),
                 make_set(ct_eq<1>{}, ct_eq<2>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
                 make_set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<Set>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{})),
                 make_set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
         }
@@ -498,7 +498,7 @@ int main() {
                 auto possible_arrangements = permutations(keys_tuple);
 
                 BOOST_HANA_CONSTANT_CHECK(all_of(possible_arrangements, [&](auto perm) {
-                    return equal(to<Set>(perm), keys_set);
+                    return equal(to<set_tag>(perm), keys_set);
                 }));
 
                 BOOST_HANA_CONSTANT_CHECK(not_(equal(
@@ -517,7 +517,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<Set>{eqs};
+        test::TestComparable<set_tag>{eqs};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -618,7 +618,7 @@ int main() {
         }
 
         // laws
-        test::TestSearchable<Set>{eqs, keys};
+        test::TestSearchable<set_tag>{eqs, keys};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -647,7 +647,7 @@ int main() {
         check(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{});
 
         // laws
-        test::TestFoldable<Set>{eqs};
+        test::TestFoldable<set_tag>{eqs};
     }
 #endif
 }
