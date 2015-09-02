@@ -14,7 +14,7 @@ namespace hana = boost::hana;
 auto f = hana::overload_linearly(
     [](int i) { return i + 1; },
     [](std::string s) { return s + "d"; },
-    [](double) { throw "never called"; }
+    [](double) { BOOST_HANA_RUNTIME_CHECK(false && "never called"); }
 );
 
 int main() {

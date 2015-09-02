@@ -21,13 +21,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/orderable.hpp>
 #include <test/cnumeric.hpp>
 
+#include <cstdlib>
 #include <vector>
 using namespace boost::hana;
 
 
 struct invalid {
     template <typename T>
-    operator T const() { throw; }
+    operator T const() { std::abort(); }
 };
 
 int main() {

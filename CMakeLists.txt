@@ -5,8 +5,8 @@
 ##############################################################################
 # Setup project
 ##############################################################################
-project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
+project(Boost.Hana CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 enable_testing()
 
@@ -18,9 +18,15 @@ include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
+
 option(BOOST_HANA_ENABLE_STRING_UDL
 "Enable the GNU extension allowing the special string literal operator\
  template, which enables the _s suffix for creating compile-time strings." ON)
+
+option(BOOST_HANA_ENABLE_EXCEPTIONS
+"Build with exceptions enabled. Note that Hana does not make use of exceptions,\
+ but this switch can be disabled when building the tests to assess that it is\
+ really the case." ON)
 
 
 ##############################################################################
@@ -48,6 +54,10 @@ if (BOOST_HANA_ENABLE_STRING_UDL)
     add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
     boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
                            -Wno-gnu-string-literal-operator-template)
+endif()
+
+if (NOT BOOST_HANA_ENABLE_EXCEPTIONS)
+    boost_hana_append_flag(BOOST_HANA_HAS_FNO_EXCEPTIONS -fno-exceptions)
 endif()
 
 # Other compiler flags
