@@ -42,7 +42,7 @@ template <typename T, typename Enable = void>
 struct list_of {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::make<hana::Tuple>(x...); }
+    { return hana::make<hana::tuple_tag>(x...); }
 };
 
 template <>
@@ -56,7 +56,7 @@ template <typename T>
 struct list_of<T, std::enable_if_t<is_homogeneous<T>::value>> {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::make<hana::Tuple>(x...); } // would use an array
+    { return hana::make<hana::tuple_tag>(x...); } // would use an array
 };
 
 

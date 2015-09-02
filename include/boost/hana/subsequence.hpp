@@ -63,7 +63,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs, Indices const& indices) {
             return subsequence_impl::subsequence_helper(
                 static_cast<Xs&&>(xs),
-                hana::to<Tuple>(indices)
+                hana::to<tuple_tag>(indices)
             );
         }
     };

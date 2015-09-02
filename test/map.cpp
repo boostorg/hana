@@ -40,7 +40,7 @@ int main() {
     auto foldable = test::seq; (void)foldable;
     using L = test::Seq;
 
-    auto eq_maps = make<Tuple>(
+    auto eq_maps = make<tuple_tag>(
         make_map(),
         make_map(p<1, 1>()),
         make_map(p<1, 2>()),
@@ -49,7 +49,7 @@ int main() {
     );
     (void)eq_maps;
 
-    auto eq_keys = make<Tuple>(key<1>(), key<4>());
+    auto eq_keys = make<tuple_tag>(key<1>(), key<4>());
     (void)eq_keys;
 
 #if BOOST_HANA_TEST_PART == 1

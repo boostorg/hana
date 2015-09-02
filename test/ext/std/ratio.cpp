@@ -22,7 +22,7 @@ using namespace boost::hana;
 
 
 int main() {
-    auto ratios = make<Tuple>(
+    auto ratios = make<tuple_tag>(
           std::ratio<0>{}
         , std::ratio<1, 3>{}
         , std::ratio<1, 2>{}
@@ -108,7 +108,7 @@ int main() {
         }
 
         // laws
-        auto ratios = make<Tuple>(
+        auto ratios = make<tuple_tag>(
               std::ratio<0>{}
             , std::ratio<1, 3>{}
             , std::ratio<1, 2>{}

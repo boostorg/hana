@@ -82,16 +82,16 @@ int main() {
         }
     }
 
-    auto eq_elems = make<Tuple>(ct_eq<3>{}, ct_eq<4>{});
+    auto eq_elems = make<tuple_tag>(ct_eq<3>{}, ct_eq<4>{});
 
-    auto eqs = make<Tuple>(
+    auto eqs = make<tuple_tag>(
           make_pair(ct_eq<3>{}, ct_eq<3>{})
         , make_pair(ct_eq<3>{}, ct_eq<4>{})
         , make_pair(ct_eq<4>{}, ct_eq<3>{})
         , make_pair(ct_eq<4>{}, ct_eq<4>{})
     );
 
-    auto ords = make<Tuple>(
+    auto ords = make<tuple_tag>(
           make_pair(ct_ord<3>{}, ct_ord<3>{})
         , make_pair(ct_ord<3>{}, ct_ord<4>{})
         , make_pair(ct_ord<4>{}, ct_ord<3>{})

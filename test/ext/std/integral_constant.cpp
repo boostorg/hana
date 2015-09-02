@@ -35,7 +35,7 @@ struct empty_type { };
 struct non_pod { virtual ~non_pod() { } };
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         std::integral_constant<int, -10>{},
         std::integral_constant<int, -2>{},
         std::integral_constant<int, 0>{},
@@ -149,14 +149,14 @@ int main() {
             ));
         }
 
-        auto ints = make<Tuple>(
+        auto ints = make<tuple_tag>(
             std::integral_constant<int, -2>{},
             std::integral_constant<int, 0>{},
             std::integral_constant<int, 1>{},
             std::integral_constant<int, 3>{}
         );
 
-        auto bools = make<Tuple>(std::true_type{}, std::false_type{});
+        auto bools = make<tuple_tag>(std::true_type{}, std::false_type{});
 
         // laws
         test::TestLogical<ext::std::IntegralConstant<int>>{ints};

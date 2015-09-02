@@ -17,9 +17,9 @@ int main() {
     std::stringstream before, after;
 
     auto xs = hana::make_tuple(1, 2, 3)
-        | hana::tap<hana::Tuple>([&](auto x) { before << x << ' '; })
+        | hana::tap<hana::tuple_tag>([&](auto x) { before << x << ' '; })
         | [](auto x) { return hana::make_tuple(x, -x); }
-        | hana::tap<hana::Tuple>([&](auto x) { after << x << ' '; });
+        | hana::tap<hana::tuple_tag>([&](auto x) { after << x << ' '; });
 
     BOOST_HANA_RUNTIME_CHECK(before.str() == "1 2 3 ");
     BOOST_HANA_RUNTIME_CHECK(after.str() == "1 -1 2 -2 3 -3 ");

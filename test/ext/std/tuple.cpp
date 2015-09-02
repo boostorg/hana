@@ -41,7 +41,7 @@ using eq = test::ct_eq<i>;
 using test::ct_ord;
 
 int main() {
-    auto big_eq_tuples = make<Tuple>(
+    auto big_eq_tuples = make<tuple_tag>(
           std::make_tuple()
         , std::make_tuple(eq<0>{})
         , std::make_tuple(eq<0>{}, eq<1>{})
@@ -50,7 +50,7 @@ int main() {
     );
     (void)big_eq_tuples;
 
-    auto small_eq_tuples = make<Tuple>(
+    auto small_eq_tuples = make<tuple_tag>(
           std::make_tuple()
         , std::make_tuple(eq<0>{})
         , std::make_tuple(eq<0>{}, eq<1>{})
@@ -58,7 +58,7 @@ int main() {
     );
     (void)small_eq_tuples;
 
-    auto ord_tuples = make<Tuple>(
+    auto ord_tuples = make<tuple_tag>(
           std::make_tuple()
         , std::make_tuple(ct_ord<0>{})
         , std::make_tuple(ct_ord<0>{}, ct_ord<1>{})
@@ -67,16 +67,16 @@ int main() {
     );
     (void)ord_tuples;
 
-    auto eq_values = make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{});
+    auto eq_values = make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{});
     (void)eq_values;
 
-    auto predicates = make<Tuple>(
+    auto predicates = make<tuple_tag>(
         equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
         always(false_c), always(true_c)
     );
     (void)predicates;
 
-    auto nested_tuples = make<Tuple>(
+    auto nested_tuples = make<tuple_tag>(
           std::make_tuple()
         , std::make_tuple(
             std::make_tuple(eq<0>{}))
@@ -95,10 +95,10 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto eq_tuple_keys = make<Tuple>(eq<3>{}, eq<5>{}, eq<7>{});
+        auto eq_tuple_keys = make<tuple_tag>(eq<3>{}, eq<5>{}, eq<7>{});
         test::TestSearchable<ext::std::Tuple>{small_eq_tuples, eq_tuple_keys};
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
               std::make_tuple(true_c)
             , std::make_tuple(false_c)
             , std::make_tuple(true_c, true_c)
@@ -106,7 +106,7 @@ int main() {
             , std::make_tuple(false_c, true_c)
             , std::make_tuple(false_c, false_c)
         );
-        test::TestSearchable<ext::std::Tuple>{bools, make<Tuple>(true_c, false_c)};
+        test::TestSearchable<ext::std::Tuple>{bools, make<tuple_tag>(true_c, false_c)};
     }
 
 #elif BOOST_HANA_TEST_PART == 2

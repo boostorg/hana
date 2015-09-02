@@ -110,11 +110,11 @@ namespace boost { namespace hana {
     //!     f(transform(xs, g)) == transform(f(xs), g)
     //! @endcode
     //!
-    //! There are several examples of such transformations, like `to<Tuple>`
+    //! There are several examples of such transformations, like `to<tuple_tag>`
     //! when applied to an optional value. Indeed, for any function `g` and
     //! `hana::optional` `opt`,
     //! @code
-    //!     to<Tuple>(transform(opt, g)) == transform(to<Tuple>(opt), g)
+    //!     to<tuple_tag>(transform(opt, g)) == transform(to<tuple_tag>(opt), g)
     //! @endcode
     //!
     //! Of course, natural transformations are not limited to the `to<...>`

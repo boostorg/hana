@@ -48,26 +48,26 @@ using test::ct_eq;
 using test::ct_ord;
 
 int main() {
-    auto ords = make<Tuple>(
+    auto ords = make<tuple_tag>(
         nothing, just(ct_ord<0>{}), just(ct_ord<1>{}), just(ct_ord<2>{})
     );
     (void)ords;
 
-    auto eqs = make<Tuple>(
+    auto eqs = make<tuple_tag>(
         nothing, just(ct_eq<0>{}), just(ct_eq<1>{}), just(ct_eq<2>{})
     );
     (void)eqs;
 
-    auto eq_values = make<Tuple>(ct_eq<0>{}, ct_eq<2>{}, ct_eq<3>{});
+    auto eq_values = make<tuple_tag>(ct_eq<0>{}, ct_eq<2>{}, ct_eq<3>{});
     (void)eq_values;
 
-    auto predicates = make<Tuple>(
+    auto predicates = make<tuple_tag>(
         equal.to(ct_eq<0>{}), equal.to(ct_eq<2>{}), equal.to(ct_eq<3>{}),
         always(false_c), always(true_c)
     );
     (void)predicates;
 
-    auto nested_eqs = make<Tuple>(
+    auto nested_eqs = make<tuple_tag>(
         nothing, just(just(ct_eq<0>{})), just(nothing), just(just(ct_eq<2>{}))
     );
     (void)nested_eqs;
@@ -535,8 +535,8 @@ int main() {
         test::TestSearchable<optional_tag>{eqs, eq_values};
 
         test::TestSearchable<optional_tag>{
-            make<Tuple>(just(true_c), just(false_c), nothing),
-            make<Tuple>(true_c, false_c)
+            make<tuple_tag>(just(true_c), just(false_c), nothing),
+            make<tuple_tag>(true_c, false_c)
         };
     }
 

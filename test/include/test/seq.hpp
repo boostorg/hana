@@ -34,7 +34,7 @@ namespace boost { namespace hana {
         struct seq_t {
             template <typename ...Xs>
             constexpr decltype(auto) operator()(Xs ...xs) const {
-                auto storage = make<Tuple>(xs...);
+                auto storage = make<tuple_tag>(xs...);
                 return seq_type<decltype(storage)>(storage);
             }
         };

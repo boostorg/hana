@@ -20,9 +20,9 @@ int main() {
 
 {
 
-//! [make<Tuple>]
-auto xs = hana::make<hana::Tuple>(1, 2.2, 'a', "bcde"s);
-//! [make<Tuple>]
+//! [make<tuple_tag>]
+auto xs = hana::make<hana::tuple_tag>(1, 2.2, 'a', "bcde"s);
+//! [make<tuple_tag>]
 
 }{
 

@@ -23,14 +23,14 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto eq_tuples = make<Tuple>(
+    auto eq_tuples = make<tuple_tag>(
           ::boost::make_tuple()
         , ::boost::make_tuple(eq<0>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{}, eq<2>{})
     );
 
-    auto eq_tuple_keys = make<Tuple>(
+    auto eq_tuple_keys = make<tuple_tag>(
         eq<3>{}, eq<5>{}, eq<7>{}
     );
 
@@ -40,7 +40,7 @@ int main() {
     {
         test::TestSearchable<ext::boost::Tuple>{eq_tuples, eq_tuple_keys};
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
               ::boost::make_tuple(true_c)
             , ::boost::make_tuple(false_c)
             , ::boost::make_tuple(true_c, true_c)
@@ -48,6 +48,6 @@ int main() {
             , ::boost::make_tuple(false_c, true_c)
             , ::boost::make_tuple(false_c, false_c)
         );
-        test::TestSearchable<ext::boost::Tuple>{bools, make<Tuple>(true_c, false_c)};
+        test::TestSearchable<ext::boost::Tuple>{bools, make<tuple_tag>(true_c, false_c)};
     }
 }

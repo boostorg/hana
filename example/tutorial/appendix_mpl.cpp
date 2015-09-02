@@ -62,12 +62,12 @@ using false_ = bool_<false>;
 //////////////////////////////////////////////////////////////////////////////
 template <typename ...T>
 struct vector : decltype(hana::tuple_t<T...>) {
-    using hana_tag = hana::Tuple;
+    using hana_tag = hana::tuple_tag;
 };
 
 template <typename T, T ...v>
 struct vector_c : decltype(hana::tuple_c<T, v...>) {
-    using hana_tag = hana::Tuple;
+    using hana_tag = hana::tuple_tag;
 };
 
 template <typename T, T from, T to>
@@ -143,7 +143,7 @@ struct front
 template <typename Sequence>
 struct pop_back {
     using type = decltype(hana::drop_back(
-        hana::to<hana::Tuple>(Sequence{}), hana::size_c<1>
+        hana::to<hana::tuple_tag>(Sequence{}), hana::size_c<1>
     ));
 };
 
@@ -249,8 +249,8 @@ struct equal
     : decltype( // inefficient but whatever
         hana::length(S1{}) == hana::length(S2{}) &&
         hana::all(hana::zip_shortest_with(detail::mpl_predicate<Pred>,
-                hana::to<hana::Tuple>(S1{}),
-                hana::to<hana::Tuple>(S2{})))
+                hana::to<hana::tuple_tag>(S1{}),
+                hana::to<hana::tuple_tag>(S2{})))
     )
 { };
 
@@ -265,13 +265,13 @@ struct equal
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence>
 struct copy {
-    using type = decltype(hana::to<hana::Tuple>(Sequence{}));
+    using type = decltype(hana::to<hana::tuple_tag>(Sequence{}));
 };
 
 template <typename Sequence, typename Pred>
 struct copy_if {
     using type = decltype(hana::filter(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
 };
@@ -282,7 +282,7 @@ struct transform;
 template <typename Sequence, typename Op>
 struct transform<Sequence, Op> {
     using type = decltype(hana::transform(
-        hana::to<hana::Tuple>(Sequence{}), detail::mpl_metafunction<Op>
+        hana::to<hana::tuple_tag>(Sequence{}), detail::mpl_metafunction<Op>
     ));
 };
 
@@ -290,15 +290,15 @@ template <typename S1, typename S2, typename Op>
 struct transform {
     using type = decltype(hana::zip_with(
         detail::mpl_metafunction<Op>,
-        hana::to<hana::Tuple>(S1{}),
-        hana::to<hana::Tuple>(S2{})
+        hana::to<hana::tuple_tag>(S1{}),
+        hana::to<hana::tuple_tag>(S2{})
     ));
 };
 
 template <typename Sequence, typename OldType, typename NewType>
 struct replace {
     using type = decltype(hana::replace(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         hana::type_c<OldType>,
         hana::type_c<NewType>
     ));
@@ -307,7 +307,7 @@ struct replace {
 template <typename Sequence, typename Pred, typename NewType>
 struct replace_if {
     using type = decltype(hana::replace_if(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         detail::mpl_predicate<Pred>,
         hana::type_c<NewType>
     ));
@@ -316,7 +316,7 @@ struct replace_if {
 template <typename Sequence, typename T>
 struct remove {
     using type = decltype(hana::filter(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         hana::not_equal.to(hana::type_c<T>)
     ));
 };
@@ -324,7 +324,7 @@ struct remove {
 template <typename Sequence, typename Pred>
 struct remove_if {
     using type = decltype(hana::filter(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         hana::compose(hana::not_, detail::mpl_predicate<Pred>)
     ));
 };
@@ -332,7 +332,7 @@ struct remove_if {
 template <typename Sequence, typename Pred>
 struct unique {
     using type = decltype(hana::unique(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
 };
@@ -340,7 +340,7 @@ struct unique {
 template <typename Sequence, typename Pred>
 struct partition {
     using hana_pair = decltype(hana::partition(
-        hana::to<hana::Tuple>(Sequence{}),
+        hana::to<hana::tuple_tag>(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
     using type = pair<
@@ -352,13 +352,13 @@ struct partition {
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct sort {
     using type = decltype(hana::sort(
-        hana::to<hana::Tuple>(Sequence{}), detail::mpl_predicate<Pred>
+        hana::to<hana::tuple_tag>(Sequence{}), detail::mpl_predicate<Pred>
     ));
 };
 
 template <typename Sequence>
 struct reverse {
-    using type = decltype(hana::reverse(hana::to<hana::Tuple>(Sequence{})));
+    using type = decltype(hana::reverse(hana::to<hana::tuple_tag>(Sequence{})));
 };
 
 

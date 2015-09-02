@@ -28,7 +28,7 @@ using namespace hana::literals;
 auto indexed_sort = [](auto list, auto predicate) {
     auto indexed_list = hana::zip(
         list,
-        hana::to<hana::Tuple>(hana::make_range(0_c, hana::length(list)))
+        hana::to<hana::tuple_tag>(hana::make_range(0_c, hana::length(list)))
     );
     auto sorted = hana::sort.by(predicate ^hana::on^ hana::front, indexed_list);
     return hana::make_pair(hana::transform(sorted, hana::front),

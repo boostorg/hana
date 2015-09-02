@@ -28,13 +28,13 @@ struct canonical {
 };
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         canonical<int, -10>{}, canonical<int, -2>{}, canonical<int, 0>{},
         canonical<int, 1>{}, canonical<int, 3>{}, canonical<int, 4>{}
     );
     (void)ints;
 
-    auto bools = make<Tuple>(canonical<bool, true>{}, canonical<bool, false>{});
+    auto bools = make<tuple_tag>(canonical<bool, true>{}, canonical<bool, false>{});
     (void)bools;
 
     //////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
 #if BOOST_HANA_TEST_PART == 5
     {
-        auto ints = make<Tuple>(
+        auto ints = make<tuple_tag>(
             canonical<int, -2>{}, canonical<int, 0>{},
             canonical<int, 1>{}, canonical<int, 3>{}
         );

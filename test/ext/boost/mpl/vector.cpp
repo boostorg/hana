@@ -32,7 +32,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto vectors = make<Tuple>(
+    auto vectors = make<tuple_tag>(
           mpl::vector<>{}
         , mpl::vector<t1>{}
         , mpl::vector<t1, t2>{}

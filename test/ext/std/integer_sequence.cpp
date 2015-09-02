@@ -25,7 +25,7 @@ using T = int;
 using U = long long;
 
 int main() {
-    auto sequences = make<Tuple>(
+    auto sequences = make<tuple_tag>(
         std::integer_sequence<T>{},
         std::integer_sequence<U>{},
 
@@ -177,7 +177,7 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto sequences = make<Tuple>(
+        auto sequences = make<tuple_tag>(
             std::integer_sequence<T>{},
             std::integer_sequence<T, 2>{},
             std::integer_sequence<T, 3>{},
@@ -185,7 +185,7 @@ int main() {
             std::integer_sequence<T, 3, 4, 5>{}
         );
 
-        auto keys = make<Tuple>(
+        auto keys = make<tuple_tag>(
             std::integral_constant<T, 3>{}, std::integral_constant<U, 4>{}
         );
 

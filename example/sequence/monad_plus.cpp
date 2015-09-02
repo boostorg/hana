@@ -16,7 +16,7 @@ namespace hana = boost::hana;
 using namespace std::string_literals;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::Tuple>() == hana::make_tuple());
+BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::tuple_tag>() == hana::make_tuple());
 
 static_assert(hana::append(hana::make_tuple(1, '2', 3.3), nullptr)
                         == hana::make_tuple(1, '2', 3.3, nullptr), "");

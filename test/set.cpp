@@ -24,7 +24,7 @@ using test::ct_eq;
 struct undefined { };
 
 int main() {
-    auto eqs = make<Tuple>(
+    auto eqs = make<tuple_tag>(
         make_set(),
         make_set(ct_eq<0>{}),
         make_set(ct_eq<0>{}, ct_eq<1>{}),

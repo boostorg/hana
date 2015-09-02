@@ -27,7 +27,7 @@ int main() {
         , std::vector<test::eq<0>>{4}
     );
 
-    // auto eq_values = make<Tuple>(test::eq<0>{}, test::eq<2>{});
+    // auto eq_values = make<tuple_tag>(test::eq<0>{}, test::eq<2>{});
 
     auto ords = make_tuple(
           std::vector<test::ord<0>>{0}

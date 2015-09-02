@@ -35,12 +35,12 @@ void function_index(...) { }
 int main() {
     using boost::hana::size_t; // take priority over ::size_t
 
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         int_c<-10>, int_c<-2>, int_c<0>, int_c<1>, int_c<3>, int_c<4>
     );
     (void)ints;
 
-    auto bools = make<Tuple>(true_c, false_c);
+    auto bools = make<tuple_tag>(true_c, false_c);
     (void)bools;
 
 #if BOOST_HANA_TEST_PART == 1
@@ -251,7 +251,7 @@ int main() {
         }
 
         // laws
-        auto ints = make<Tuple>(int_c<-2>, int_c<0>, int_c<1>, int_c<3>);
+        auto ints = make<tuple_tag>(int_c<-2>, int_c<0>, int_c<1>, int_c<3>);
         test::TestLogical<IntegralConstant<int>>{ints};
         test::TestLogical<IntegralConstant<bool>>{bools};
     }

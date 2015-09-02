@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::Tuple>() == hana::make_tuple());
+BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::tuple_tag>() == hana::make_tuple());
 BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::optional_tag>() == hana::nothing);
 
 int main() { }

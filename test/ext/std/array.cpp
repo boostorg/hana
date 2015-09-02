@@ -25,7 +25,7 @@ constexpr auto array() { return std::array<int, sizeof...(i)>{{i...}}; }
 using test::ct_eq;
 
 int main() {
-    auto int_arrays = make<Tuple>(
+    auto int_arrays = make<tuple_tag>(
           array<>()
         , array<0>()
         , array<0, 1>()
@@ -101,7 +101,7 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto eq_arrays = make<Tuple>(
+        auto eq_arrays = make<tuple_tag>(
               std::array<ct_eq<0>, 0>{}
             , std::array<ct_eq<0>, 1>{}
             , std::array<ct_eq<0>, 2>{}
@@ -109,7 +109,7 @@ int main() {
             , std::array<ct_eq<0>, 4>{}
         );
 
-        auto eq_keys = make<Tuple>(ct_eq<0>{});
+        auto eq_keys = make<tuple_tag>(ct_eq<0>{});
 
         test::TestSearchable<ext::std::Array>{eq_arrays, eq_keys};
     }

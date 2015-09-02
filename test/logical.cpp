@@ -18,7 +18,7 @@ using namespace boost::hana;
 
 
 int main() {
-    test::TestLogical<bool>{make<Tuple>(true, false)};
+    test::TestLogical<bool>{make<tuple_tag>(true, false)};
 
     // eval_if
     {

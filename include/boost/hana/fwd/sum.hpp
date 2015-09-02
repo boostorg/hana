@@ -47,7 +47,7 @@ namespace boost { namespace hana {
     //!
     //! Why must we sometimes specify the `Monoid` by using `sum<M>`?
     //! -------------------------------------------------------------
-    //! This is because sequence tags like `Tuple` are not parameterized
+    //! This is because sequence tags like `tuple_tag` are not parameterized
     //! (by design). Hence, we do not know what kind of objects are in the
     //! sequence, so we can't know a `0` value of which type should be
     //! returned when the sequence is empty. Therefore, the type of the

@@ -17,12 +17,12 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-// Using the Tuple Monad, we generate all the possible combinations of
+// Using the `tuple` Monad, we generate all the possible combinations of
 // cv-qualifiers and reference qualifiers. Then, we use the `optional`
 // Monad to make sure that our generic function can be called with
 // arguments of any of those types.
 
-// cv_qualifiers : Type -> Tuple(Type)
+// cv_qualifiers : type -> tuple(type)
 auto cv_qualifiers = [](auto t) {
     return hana::make_tuple(
         t,
@@ -32,7 +32,7 @@ auto cv_qualifiers = [](auto t) {
     );
 };
 
-// ref_qualifiers : Type -> Tuple(Type)
+// ref_qualifiers : type -> tuple(type)
 auto ref_qualifiers = [](auto t) {
     return hana::make_tuple(
         hana::traits::add_lvalue_reference(t),

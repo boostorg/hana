@@ -15,8 +15,8 @@ using namespace boost::hana;
 
 
 int main() {
-    test::TestIntegralDomain<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestIntegralDomain<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
+    test::TestIntegralDomain<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestIntegralDomain<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
 
     // quot
     {

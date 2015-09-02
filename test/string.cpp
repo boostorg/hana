@@ -29,7 +29,7 @@ using namespace boost::hana;
 
 
 int main() {
-    auto strings = make<Tuple>(
+    auto strings = make<tuple_tag>(
         BOOST_HANA_STRING(""),
         BOOST_HANA_STRING("a"),
         BOOST_HANA_STRING("ab"),
@@ -169,7 +169,7 @@ int main() {
         ));
 
         // laws
-        auto strings = make<Tuple>(
+        auto strings = make<tuple_tag>(
             BOOST_HANA_STRING(""),
             BOOST_HANA_STRING("a"),
             BOOST_HANA_STRING("ab"),
@@ -396,7 +396,7 @@ int main() {
         ));
 
         // laws
-        auto strings = make<Tuple>(
+        auto strings = make<tuple_tag>(
             BOOST_HANA_STRING(""),
             BOOST_HANA_STRING("a"),
             BOOST_HANA_STRING("ab"),
@@ -486,7 +486,7 @@ int main() {
 
         // laws
         auto keys = tuple_c<char, 'a', 'f'>;
-        auto strings = make<Tuple>(
+        auto strings = make<tuple_tag>(
             BOOST_HANA_STRING(""),
             BOOST_HANA_STRING("a"),
             BOOST_HANA_STRING("ab"),

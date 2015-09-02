@@ -45,9 +45,9 @@ int main() {
     test::_injection<0> f{};
     using test::ct_eq;
 
-    auto eqs = make<Tuple>(make_lazy(ct_eq<0>{}), make_lazy(ct_eq<1>{}), make_lazy(ct_eq<2>{}));
-    auto eq_elems = make<Tuple>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<1>{});
-    auto nested = make<Tuple>(
+    auto eqs = make<tuple_tag>(make_lazy(ct_eq<0>{}), make_lazy(ct_eq<1>{}), make_lazy(ct_eq<2>{}));
+    auto eq_elems = make<tuple_tag>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<1>{});
+    auto nested = make<tuple_tag>(
         make_lazy(make_lazy(ct_eq<0>{})),
         make_lazy(make_lazy(ct_eq<1>{})),
         make_lazy(make_lazy(ct_eq<2>{}))

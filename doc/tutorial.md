@@ -1683,10 +1683,10 @@ Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
 can be created with `hana::make_tuple`. However, in general, containers in
 Hana may be created with the `make` function:
 
-@snippet example/tutorial/containers.cpp make<Tuple>
+@snippet example/tutorial/containers.cpp make<tuple_tag>
 
-Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
-have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
+Actually, `make_tuple` is just a shortcut for `make<tuple_tag>` so you don't
+have to type `boost::hana::make<boost::hana::tuple_tag>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
 family of functions. For example, one can create a `hana::range` of
@@ -1694,11 +1694,12 @@ compile-time integers with `make<Range>`:
 
 @snippet example/tutorial/containers.cpp make<Range>
 
-For convenience, whenever a component of Hana provides a `make<XXX>` function,
-it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
-point that can be raised in this example is the fact that `r` is `constexpr`.
-In general, whenever a container is initialized with constant expressions only
-(which is the case for `r`), that container may be marked as `constexpr`.
+For convenience, whenever a component of Hana provides a `make<xxx_tag>`
+function, it also provides the `make_xxx` shortcut to reduce typing. Also, an
+interesting point that can be raised in this example is the fact that `r` is
+`constexpr`. In general, whenever a container is initialized with constant
+expressions only (which is the case for `r`), that container may be marked
+as `constexpr`.
 
 But what are these types with a capital letter that have popped up a couple of
 times in the tutorial? These types are simply tags __representing__ a given

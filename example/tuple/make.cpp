@@ -14,8 +14,8 @@ namespace hana = boost::hana;
 
 
 int main() {
-    auto xs = hana::make<hana::Tuple>(1, 2, '3', std::string{"456"});
+    auto xs = hana::make<hana::tuple_tag>(1, 2, '3', std::string{"456"});
 
-    constexpr auto ys = hana::make<hana::Tuple>(1, '2', 3.456);
+    constexpr auto ys = hana::make<hana::tuple_tag>(1, '2', 3.456);
     static_assert(ys == hana::make_tuple(1, '2', 3.456), "");
 }

@@ -36,7 +36,7 @@ namespace mpl = boost::mpl;
 
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         mpl::int_<-10>{}, mpl::int_<-2>{}, mpl::integral_c<int, 0>{},
         mpl::integral_c<int, 1>{}, mpl::integral_c<int, 3>{}
     );
@@ -149,14 +149,14 @@ int main() {
         // laws
 #if BOOST_HANA_TEST_PART == 4
 
-        auto ints = make<Tuple>(
+        auto ints = make<tuple_tag>(
             mpl::int_<-2>{}, mpl::integral_c<int, 0>{}, mpl::integral_c<int, 3>{}
         );
         test::TestLogical<ext::boost::mpl::IntegralC<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 5
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
             mpl::true_{}, mpl::false_{},
             mpl::integral_c<bool, true>{}, mpl::integral_c<bool, false>{}
         );

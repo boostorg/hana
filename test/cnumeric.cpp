@@ -31,7 +31,7 @@ struct invalid { };
 using test::ct_eq;
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         test::cnumeric<int, -3>,
         test::cnumeric<int, 0>,
         test::cnumeric<int, 1>,
@@ -236,7 +236,7 @@ int main() {
         }
 
         // laws
-        test::TestLogical<test::CNumeric<bool>>{make<Tuple>(
+        test::TestLogical<test::CNumeric<bool>>{make<tuple_tag>(
             test::cnumeric<bool, true>, test::cnumeric<bool, false>
         )};
     }

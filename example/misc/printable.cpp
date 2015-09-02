@@ -80,7 +80,7 @@ struct print_impl<hana::map_tag> {
     template <typename M>
     static auto apply(M const& map) {
         std::string result = "{";
-        auto pairs = hana::transform(hana::to<hana::Tuple>(map),
+        auto pairs = hana::transform(hana::to<hana::tuple_tag>(map),
             [](auto const& pair) {
                 return print(hana::first(pair)) + " => " + print(hana::second(pair));
             });
@@ -130,7 +130,7 @@ struct print_impl<hana::set_tag> {
     template <typename S>
     static auto apply(S const& set) {
         std::string result = "{";
-        auto as_tuple = hana::transform(hana::to<hana::Tuple>(set), [](auto const& x) { return print(x); });
+        auto as_tuple = hana::transform(hana::to<hana::tuple_tag>(set), [](auto const& x) { return print(x); });
         auto comma_separated = hana::intersperse(as_tuple, ", ");
         hana::for_each(comma_separated, [&result](auto const& element) {
             result += element;
