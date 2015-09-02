@@ -18,11 +18,11 @@ namespace boost { namespace hana {
     //! `n` times.
     //! @relates MonadPlus
     //!
-    //! Given a value `x`, a non-negative number `n` and a monadic data type
-    //! `M`, `repeat` creates a new monadic structure which is the result of
-    //! combining `x` with itself `n` times inside the monadic structure.
-    //! In other words, `repeat` simply `lift`s `x` into the monadic structure,
-    //! and then combines that with itself `n` times:
+    //! Given a value `x`, a non-negative number `n` and the tag of a monadic
+    //! structure `M`, `repeat` creates a new monadic structure which is the
+    //! result of combining `x` with itself `n` times inside the monadic
+    //! structure. In other words, `repeat` simply `lift`s `x` into the
+    //! monadic structure, and then combines that with itself `n` times:
     //! @code
     //!     repeat<M>(x, n) == cycle(lift<M>(x), n)
     //! @endcode
@@ -38,7 +38,7 @@ namespace boost { namespace hana {
     //! @f$ \mathtt{repeat}_M : T \times C \to M(T) @f$.
     //!
     //! @tparam M
-    //! The data type of the returned monadic structure. It must be a
+    //! The tag of the returned monadic structure. It must be a
     //! model of the MonadPlus concept.
     //!
     //! @param x

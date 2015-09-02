@@ -92,7 +92,7 @@ namespace boost { namespace hana { namespace test {
             static_assert(_models<Sequence, decltype(list(1, '2', 3.4))>{}, "");
 
             //////////////////////////////////////////////////////////////////
-            // Check for basic data type consistency
+            // Check for basic tag consistency
             //////////////////////////////////////////////////////////////////
             struct Random;
             static_assert(std::is_same<tag_of_t<decltype(list())>, S>{}, "");

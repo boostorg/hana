@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `boost::hana::LambdaTuple` data type.
+Defines `boost::hana::LambdaTuple`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.

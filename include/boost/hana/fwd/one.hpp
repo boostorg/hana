@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! @relates Ring
     //!
     //! @tparam R
-    //! The data type (a `Ring`) of the returned identity.
+    //! The tag (must be a model of `Ring`) of the returned identity.
     //!
     //!
     //! Example

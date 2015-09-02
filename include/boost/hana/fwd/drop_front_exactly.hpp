@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
     //! a (non-negative) `Constant` `n` holding an unsigned integral value,
-    //! `drop_front_exactly(xs, n)` is an iterable of the same data type whose
+    //! `drop_front_exactly(xs, n)` is an iterable with the same tag whose
     //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
     //! function does not mutate the original iterable in any way. If `n` is
     //! not given, it defaults to a `Constant` with an unsigned integral value

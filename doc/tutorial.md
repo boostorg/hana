@@ -2539,16 +2539,25 @@ To reflect this reality, Hana provides _tags_ representing its heterogeneous
 containers and other compile-time entities. For example, all of Hana's
 `integral_constant<int, ...>`s have different types, but they all share
 the same tag, `IntegralConstant<int>`. This allows the programmer to think
-in terms of that single tag instead of trying to think in terms of the actual
+in terms of that single type instead of trying to think in terms of the actual
 types of the objects. Furthermore, Hana adopts the convention of naming these
 tags with a capital letter, to make them stand out and differentiate them from
-actual types. Since we mostly reason in terms of tags instead of specific types,
-we sometimes (ab)use the word _data type_ to mean the same thing as _tag_ in
-the documentation, always referring to the family of related types.
+actual types.
 
 @note
 The tag of an object of type `T` can be obtained by using `tag_of<T>::%type`,
 or equivalently `tag_of_t<T>`.
+
+Tags are an extension to normal C++ types. Indeed, by default, the tag of a
+type `T` is `T` itself, and the core of the library is designed to work in
+those cases. For example, `hana::make` expects either a tag or an actual type;
+if you send it a type `T`, it will do the logical thing and construct an
+object of type `T` with the arguments you pass it. If you pass a tag to it,
+however, you should specialize `make` for that tag and provide your own
+implementation, as explained below. Because tags are an extension to usual
+types, we end up mostly reasoning in terms of tags instead of usual types,
+and the documentation sometimes uses the words _type_, _data type_ and _tag_
+interchangeably.
 
 
 @subsection tutorial-core-tag_dispatching Tag dispatching

@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! @note
-    //! Only the data type of `x` is used for tag-dispatching.
+    //! Only the tag of `x` is used for tag-dispatching.
     //!
     //! Example
     //! -------

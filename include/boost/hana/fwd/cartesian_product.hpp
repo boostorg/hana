@@ -22,18 +22,9 @@ namespace boost { namespace hana {
     //! original sequences. For this method to finish, a finite number
     //! of finite sequences must be provided.
     //!
-    //! All the sequences must have the same data type, and that data type
-    //! must also match that of the top-level sequence. In other words,
-    //! the sequence must be of the form
-    //! @code
-    //!     make_sequence(
-    //!         make_sequence(...),
-    //!         ...
-    //!         make_sequence(...)
-    //!     )
-    //! @endcode
-    //!
-    //! for some function `make_sequence` returning a `Sequence`.
+    //! @note
+    //! All the sequences must have the same tag, and that tag must also match
+    //! that of the top-level sequence.
     //!
     //!
     //! Signature

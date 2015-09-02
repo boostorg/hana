@@ -37,7 +37,7 @@ namespace boost { namespace hana {
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(std::is_same<typename hana::tag_of<Ys>::type, M>::value,
-        "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same data type");
+        "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same tag");
 
         static_assert(_models<MonadPlus, M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to be MonadPlus");

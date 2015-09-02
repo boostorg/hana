@@ -12,21 +12,21 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-core
-    //! Create an object of the given data type with the given arguments.
+    //! Create an object of the given tag with the given arguments.
     //!
     //! This function serves the same purpose as constructors in usual C++.
     //! However, instead of creating an object of a specific C++ type, it
-    //! creates an object of a specific data type, with a C++ type that is
-    //! left unspecified in the general case.
+    //! creates an object of a specific tag, regardless of the C++ type
+    //! of that object.
     //!
     //! This function is actually a variable template, so `make<T>` can be
-    //! passed around as a function object creating an object of data type
-    //! `T`. Also, it uses tag-dispatching so this is how it should be
-    //! customized for user-defined data types.
+    //! passed around as a function object creating an object of tag `T`.
+    //! Also, it uses tag-dispatching so this is how it should be customized
+    //! for user-defined tags.
     //!
-    //! Finally, the default implementation of `make` is equivalent
-    //! to calling the constructor of the given data type with the
-    //! corresponding arguments. In other words, by default,
+    //! Finally, the default implementation of `make` is equivalent to calling
+    //! the constructor of the given tag with the corresponding arguments.
+    //! In other words, by default,
     //! @code
     //!     make<T>(args...) == T(args...)
     //! @endcode
@@ -35,33 +35,32 @@ namespace boost { namespace hana {
     //! construction which is used is exactly as documented, i.e. `T(args...)`.
     //! However, if `T(args...)` is not a valid expression, a compilation
     //! error is triggered. This default behavior is useful because it makes
-    //! foreign C++ types that have no notion of _data type_ constructible
-    //! with `make` out-of-the-box, since their data type is exactly
-    //! themselves.
+    //! foreign C++ types that have no notion of tag constructible with `make`
+    //! out-of-the-box, since their tag is exactly themselves.
     //!
     //!
     //! Example
     //! -------
     //! @include example/core/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename Datatype>
+    template <typename Tag>
     constexpr auto make = [](auto&& ...x) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
-    template <typename Datatype, typename = void>
+    template <typename Tag, typename = void>
     struct make_impl;
 
-    template <typename Datatype>
+    template <typename Tag>
     struct make_t {
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const {
-            return make_impl<Datatype>::apply(static_cast<X&&>(x)...);
+            return make_impl<Tag>::apply(static_cast<X&&>(x)...);
         }
     };
 
-    template <typename Datatype>
-    constexpr make_t<Datatype> make{};
+    template <typename Tag>
+    constexpr make_t<Tag> make{};
 #endif
 }} // end namespace boost::hana
 

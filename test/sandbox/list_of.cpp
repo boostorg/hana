@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-// A trait representing whether a data type has a single C++ type. This
-// is entirely optional, but can enable some optimizations.
+// A trait representing whether a tag has a single C++ type.
+// This is entirely optional, but can enable some optimizations.
 template <typename T, typename Enable = void>
 struct is_homogeneous {
     static constexpr bool value = false;

@@ -19,8 +19,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! @todo
-    //! We can't specify the signature right now, because the returned
-    //! data type depends on whether `x < y` or not. If we wanted to be
+    //! We can't specify the signature right now, because the tag of the
+    //! returned object depends on whether `x < y` or not. If we wanted to be
     //! mathematically correct, we should probably ask that `if_(cond, x, y)`
     //! returns a common data type of `x` and `y`, and then the behavior
     //! of `min` would follow naturally. However, I'm unsure whether this

@@ -78,8 +78,7 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Make sure we can inherit integral_constant and retain the same
-    // data type.
+    // Make sure we can inherit integral_constant and retain the same tag.
     //////////////////////////////////////////////////////////////////////////
     {
         struct derived : integral_constant<int, 10> { };

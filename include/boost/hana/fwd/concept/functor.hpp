@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! Let `xs` be a Functor of data type `F(A)`,
+    //! Let `xs` be a Functor with tag `F(A)`,
     //!     \f$ f : A \to B \f$ and
     //!     \f$ g : B \to C \f$.
     //! The following laws must be satisfied:
@@ -76,11 +76,11 @@ namespace boost { namespace hana {
     //! the second on the result. While the usual functor laws are usually
     //! restricted to the above, this library includes other convenience
     //! methods and they should satisfy the following equations.
-    //! Let `xs` be a Functor of data type `F(A)`,
+    //! Let `xs` be a Functor with tag `F(A)`,
     //!     \f$ f : A \to A \f$,
     //!     \f$ \mathrm{pred} : A \to \mathrm{Bool} \f$
     //! for some `Logical` `Bool`, and `oldval`, `newval`, `value` objects
-    //! of data type `A`. Then,
+    //! of tag `A`. Then,
     //! @code
     //!     adjust(xs, value, f) == adjust_if(xs, equal.to(value), f)
     //!     adjust_if(xs, pred, f) == transform(xs, [](x){

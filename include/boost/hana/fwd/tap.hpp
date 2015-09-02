@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! @tparam M
-    //! The data type (a `Monad`) of the monads in the tapped monadic chain.
+    //! The tag (a `Monad`) of the monads in the tapped monadic chain.
     //!
     //! @param f
     //! A function to be executed inside a monadic chain. It will be called

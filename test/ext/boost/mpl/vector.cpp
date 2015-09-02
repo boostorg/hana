@@ -42,7 +42,7 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Make sure the data type is resolved correctly
+    // Make sure the tag is resolved correctly
     //////////////////////////////////////////////////////////////////////////
     {
         using mpl_id = mpl::quote1<mpl::identity>;
