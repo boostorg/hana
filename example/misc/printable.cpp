@@ -74,9 +74,9 @@ struct print_impl<S, hana::when<is_valid<decltype(
     }
 };
 
-// model for Maps
+// model for hana::maps
 template <>
-struct print_impl<hana::Map> {
+struct print_impl<hana::map_tag> {
     template <typename M>
     static auto apply(M const& map) {
         std::string result = "{";
@@ -115,7 +115,7 @@ struct print_impl<P, hana::when<hana::models<hana::Product, P>()>> {
     }
 };
 
-// model for String
+// model for hana::strings
 template <>
 struct print_impl<hana::String> {
     template <typename S>
@@ -124,7 +124,7 @@ struct print_impl<hana::String> {
     }
 };
 
-// model for Sets
+// model for hana::sets
 template <>
 struct print_impl<hana::Set> {
     template <typename S>
@@ -140,7 +140,7 @@ struct print_impl<hana::Set> {
     }
 };
 
-// model for Types
+// model for hana::types
 template <>
 struct print_impl<hana::Type> {
     static std::string demangle(char const* mangled) {

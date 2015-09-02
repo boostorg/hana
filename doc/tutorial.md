@@ -1576,10 +1576,10 @@ stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
 
 The main difference between a `Struct` and a `hana::map` is that a map can be
 modified (keys can be added and removed), while a `Struct` is immutable.
-However, you can easily convert a `Struct` into a `hana::map` with `to<Map>`,
+However, you can easily convert a `Struct` into a `hana::map` with `to<map_tag>`,
 and then you can manipulate it in a more flexible way.
 
-@snippet example/tutorial/introspection.adapt.cpp to<Map>
+@snippet example/tutorial/introspection.adapt.cpp to<map_tag>
 
 Using the `BOOST_HANA_DEFINE_STRUCT` macro to adapt a `struct` is convenient,
 but sometimes one can't modify the type that needs to be adapted. In these
@@ -1774,7 +1774,7 @@ rewritten as
 
 This way, the second overload of `f` will only match when `R` is a type whose
 tag is `Range`, regardless of the exact representation of that range. Of
-course, `is_a` can be used with any kind of container: `Tuple`, `Map`, `Set`
+course, `is_a` can be used with any kind of container: `tuple`, `map`, `set`
 and so on.
 
 
@@ -2541,8 +2541,8 @@ containers and other compile-time entities. For example, all of Hana's
 the same tag, `IntegralConstant<int>`. This allows the programmer to think
 in terms of that single type instead of trying to think in terms of the actual
 types of the objects. Furthermore, Hana adopts the convention of naming these
-tags with a capital letter, to make them stand out and differentiate them from
-actual types.
+tags by adding the `_tag` suffix, to make them stand out and differentiate
+them from actual types.
 
 @note
 The tag of an object of type `T` can be obtained by using `tag_of<T>::%type`,

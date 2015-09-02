@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! %Map a function over a `Functor`.
+    //! Map a function over a `Functor`.
     //! @relates Functor
     //!
     //!

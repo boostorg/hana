@@ -23,7 +23,7 @@ int main() {
             hana::make_pair(hana::type_c<void>, 1234)
         )
         ==
-        hana::make<hana::Map>(
+        hana::make<hana::map_tag>(
             hana::make_pair(hana::int_c<1>, "foobar"s),
             hana::make_pair(hana::type_c<void>, 1234)
         )

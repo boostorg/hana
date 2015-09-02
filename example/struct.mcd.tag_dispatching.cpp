@@ -64,7 +64,7 @@ int main() {
         hana::make_pair(age, 30)
     ));
 
-    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::Map>(john) == hana::make_map(
+    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::map_tag>(john) == hana::make_map(
         hana::make_pair(name, "John"),
         hana::make_pair(age, 30)
     ));

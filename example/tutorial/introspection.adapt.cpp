@@ -56,8 +56,8 @@ BOOST_HANA_RUNTIME_CHECK(age == 30);
 
 }{
 
-//! [to<Map>]
-auto map = hana::insert(hana::to<hana::Map>(john), hana::make_pair("last name"_s, "Doe"s));
+//! [to<map_tag>]
+auto map = hana::insert(hana::to<hana::map_tag>(john), hana::make_pair("last name"_s, "Doe"s));
 
 std::string name = map["name"_s];
 BOOST_HANA_RUNTIME_CHECK(name == "John");
@@ -67,7 +67,7 @@ BOOST_HANA_RUNTIME_CHECK(last_name == "Doe");
 
 int age = map["age"_s];
 BOOST_HANA_RUNTIME_CHECK(age == 30);
-//! [to<Map>]
+//! [to<map_tag>]
 
 }
 

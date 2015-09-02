@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <>
-        struct comparable_operators<Map> {
+        struct comparable_operators<map_tag> {
             static constexpr bool value = true;
         };
     }
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     template <typename ...Pairs>
     struct map : detail::searchable_operators<map<Pairs...>>, operators::adl {
         tuple<Pairs...> storage;
-        using hana_tag = Map;
+        using hana_tag = map_tag;
 
         explicit constexpr map(tuple<Pairs...> const& ps)
             : storage(ps)
@@ -78,20 +78,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Map>
+    // make<map_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<Map> {
+    struct make_impl<map_tag> {
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
             static_assert(detail::fast_and<_models<Product, Pairs>::value...>::value,
-            "hana::make<Map>(pairs...) requires all the 'pairs' to be Products");
+            "hana::make_map(pairs...) requires all the 'pairs' to be Products");
 
             static_assert(detail::fast_and<
                 _models<Comparable, decltype(hana::first(pairs))>::value...
             >::value,
-            "hana::make<Map>(pairs...) requires all the keys to be Comparable");
+            "hana::make_map(pairs...) requires all the keys to be Comparable");
 
             static_assert(detail::fast_and<
                 _models<
@@ -99,7 +99,7 @@ namespace boost { namespace hana {
                     decltype(hana::equal(hana::first(pairs), hana::first(pairs)))
                 >::value...
             >::value,
-            "hana::make<Map>(pairs...) requires all the keys to be "
+            "hana::make_map(pairs...) requires all the keys to be "
             "Comparable at compile-time");
         #endif
 
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     // keys
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct keys_impl<Map> {
+    struct keys_impl<map_tag> {
         template <typename Map>
         static constexpr decltype(auto) apply(Map&& map) {
             return hana::transform(static_cast<Map&&>(map).storage, hana::first);
@@ -134,7 +134,7 @@ namespace boost { namespace hana {
     // insert
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct insert_impl<Map> {
+    struct insert_impl<map_tag> {
         template <typename M, typename P>
         static constexpr typename std::decay<M>::type
         insert_helper(M&& map, P&&, decltype(hana::true_c))
@@ -146,7 +146,7 @@ namespace boost { namespace hana {
             return hana::unpack(
                 hana::append(static_cast<M&&>(map).storage,
                              static_cast<P&&>(pair)),
-                hana::make<Map>
+                hana::make_map
             );
         }
 
@@ -165,7 +165,7 @@ namespace boost { namespace hana {
     // erase_key
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct erase_key_impl<Map> {
+    struct erase_key_impl<map_tag> {
         template <typename M, typename Key>
         static constexpr decltype(auto) apply(M&& map, Key&& key) {
             return hana::unpack(
@@ -176,7 +176,7 @@ namespace boost { namespace hana {
                         hana::first
                     )
                 ),
-                hana::make<Map>
+                hana::make_map
             );
         }
     };
@@ -185,7 +185,7 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<Map, Map> {
+    struct equal_impl<map_tag, map_tag> {
         template <typename M1, typename M2>
         static constexpr auto equal_helper(M1 const&, M2 const&, decltype(hana::false_c)) {
             return hana::false_c;
@@ -212,7 +212,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct find_if_impl<Map> {
+    struct find_if_impl<map_tag> {
         template <typename M, typename Pred>
         static constexpr auto apply(M&& map, Pred&& pred) {
             return hana::transform(
@@ -224,14 +224,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct any_of_impl<Map> {
+    struct any_of_impl<map_tag> {
         template <typename M, typename Pred>
         static constexpr auto apply(M map, Pred pred)
         { return hana::any_of(hana::keys(map), pred); }
     };
 
     template <>
-    struct is_subset_impl<Map, Map> {
+    struct is_subset_impl<map_tag, map_tag> {
         template <typename Ys>
         struct all_contained {
             Ys const& ys;
@@ -254,7 +254,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<Map> {
+    struct unpack_impl<map_tag> {
         template <typename M, typename F>
         static constexpr decltype(auto) apply(M&& map, F&& f) {
             return hana::unpack(static_cast<M&&>(map).storage,
@@ -266,11 +266,11 @@ namespace boost { namespace hana {
     // Construction from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<Map, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<map_tag, F, when<_models<Foldable, F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(
-                static_cast<Xs&&>(xs), hana::make<Map>(), hana::insert
+                static_cast<Xs&&>(xs), hana::make_map(), hana::insert
             );
         }
     };
