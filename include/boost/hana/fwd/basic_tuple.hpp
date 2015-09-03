@@ -32,35 +32,35 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::basic_tuple`.
     //! @relates hana::basic_tuple
-    struct BasicTuple { };
+    struct basic_tuple_tag { };
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    //! Function object for creating a `BasicTuple`.
+    //! Function object for creating a `basic_tuple`.
     //! @relates hana::basic_tuple
     //!
-    //! Given zero or more objects `xs...`, `make<BasicTuple>` returns a new
-    //! `basic_tuple` containing those objects. The elements are held by value
-    //! inside the resulting tuple, and they are hence copied or moved in.
-    //! This is analogous to `std::make_tuple` for creating `basic_tuple`s.
+    //! Given zero or more objects `xs...`, `make<basic_tuple_tag>` returns a
+    //! new `basic_tuple` containing those objects. The elements are held by
+    //! value inside the resulting tuple, and they are hence copied or moved
+    //! in. This is analogous to `std::make_tuple` for creating `basic_tuple`s.
     //!
     //!
     //! Example
     //! -------
     //! @include example/basic_tuple/make.cpp
     template <>
-    constexpr auto make<BasicTuple> = [](auto&& ...xs) {
+    constexpr auto make<basic_tuple_tag> = [](auto&& ...xs) {
         return basic_tuple<std::decay_t<decltype(xs)>...>{forwarded(xs)...};
     };
 #endif
 
-    //! Alias to `make<BasicTuple>`; provided for convenience.
+    //! Alias to `make<basic_tuple_tag>`; provided for convenience.
     //! @relates hana::basic_tuple
     //!
     //!
     //! Example
     //! -------
     //! @include example/basic_tuple/make.cpp
-    constexpr auto make_basic_tuple = make<BasicTuple>;
+    constexpr auto make_basic_tuple = make<basic_tuple_tag>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_BASIC_TUPLE_HPP

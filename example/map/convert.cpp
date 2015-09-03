@@ -24,7 +24,7 @@ int main() {
     );
 
     BOOST_HANA_RUNTIME_CHECK(
-        hana::to<hana::Map>(xs) == hana::make_map(
+        hana::to<hana::map_tag>(xs) == hana::make_map(
             hana::make_pair(hana::type_c<int>, "abcd"s),
             hana::make_pair(hana::type_c<void>, 1234)
         )

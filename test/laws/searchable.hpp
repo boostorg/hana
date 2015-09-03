@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
             });
 
             auto predicates = hana::concat(
-                hana::to<hana::Tuple>(hana::transform(keys, equal.to)),
+                hana::to<hana::tuple_tag>(hana::transform(keys, equal.to)),
                 hana::make_tuple(
                     hana::always(false_c),
                     hana::always(true_c)

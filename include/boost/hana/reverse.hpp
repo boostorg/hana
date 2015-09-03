@@ -27,7 +27,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto reverse_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Reverse = BOOST_HANA_DISPATCH_IF(reverse_impl<S>,
             _models<Sequence, S>::value
         );

@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename X>
     constexpr auto append_t::operator()(Xs&& xs, X&& x) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Append = BOOST_HANA_DISPATCH_IF(append_impl<M>,
             _models<MonadPlus, M>::value
         );

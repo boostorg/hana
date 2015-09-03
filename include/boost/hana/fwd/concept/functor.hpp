@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! Let `xs` be a Functor of data type `F(A)`,
+    //! Let `xs` be a Functor with tag `F(A)`,
     //!     \f$ f : A \to B \f$ and
     //!     \f$ g : B \to C \f$.
     //! The following laws must be satisfied:
@@ -76,11 +76,11 @@ namespace boost { namespace hana {
     //! the second on the result. While the usual functor laws are usually
     //! restricted to the above, this library includes other convenience
     //! methods and they should satisfy the following equations.
-    //! Let `xs` be a Functor of data type `F(A)`,
+    //! Let `xs` be a Functor with tag `F(A)`,
     //!     \f$ f : A \to A \f$,
     //!     \f$ \mathrm{pred} : A \to \mathrm{Bool} \f$
     //! for some `Logical` `Bool`, and `oldval`, `newval`, `value` objects
-    //! of data type `A`. Then,
+    //! of tag `A`. Then,
     //! @code
     //!     adjust(xs, value, f) == adjust_if(xs, equal.to(value), f)
     //!     adjust_if(xs, pred, f) == transform(xs, [](x){
@@ -110,11 +110,11 @@ namespace boost { namespace hana {
     //!     f(transform(xs, g)) == transform(f(xs), g)
     //! @endcode
     //!
-    //! There are several examples of such transformations, like `to<Tuple>`
+    //! There are several examples of such transformations, like `to<tuple_tag>`
     //! when applied to an optional value. Indeed, for any function `g` and
     //! `hana::optional` `opt`,
     //! @code
-    //!     to<Tuple>(transform(opt, g)) == transform(to<Tuple>(opt), g)
+    //!     to<tuple_tag>(transform(opt, g)) == transform(to<tuple_tag>(opt), g)
     //! @endcode
     //!
     //! Of course, natural transformations are not limited to the `to<...>`

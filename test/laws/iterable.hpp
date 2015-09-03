@@ -34,18 +34,18 @@ namespace boost { namespace hana { namespace test {
                 static_assert(_models<Iterable, decltype(xs)>{}, "");
 
                 BOOST_HANA_CONSTANT_CHECK(
-                    hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<Tuple>(xs))
+                    hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<tuple_tag>(xs))
                 );
 
                 only_when_(hana::not_(hana::is_empty(xs)), hana::make_lazy([](auto xs) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::front(xs),
-                        hana::front(hana::to<Tuple>(xs))
+                        hana::front(hana::to<tuple_tag>(xs))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::to<Tuple>(hana::tail(xs)),
-                        hana::tail(hana::to<Tuple>(xs))
+                        hana::to<tuple_tag>(hana::tail(xs)),
+                        hana::tail(hana::to<tuple_tag>(xs))
                     ));
 
                     // methods

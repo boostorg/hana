@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Predicate>
     constexpr auto sort_t::operator()(Xs&& xs, Predicate&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Sort = BOOST_HANA_DISPATCH_IF(sort_impl<S>,
             _models<Sequence, S>::value
         );
@@ -50,7 +50,7 @@ namespace boost { namespace hana {
 
     template <typename Xs>
     constexpr auto sort_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Sort = BOOST_HANA_DISPATCH_IF(sort_impl<S>,
             _models<Sequence, S>::value
         );

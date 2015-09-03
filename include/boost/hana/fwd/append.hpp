@@ -17,17 +17,16 @@ namespace boost { namespace hana {
     //! Append an element to a monadic structure.
     //! @relates MonadPlus
     //!
-    //! Given an element `x` of data type `X` and a monadic structure
-    //! `xs` containing objects of data type `X`, `append` returns a
-    //! new monadic structure which is the result of lifting `x` into
-    //! the monadic structure and then combining that (to the right)
-    //! with `xs`. In other words,
+    //! Given an element `x` and a monadic structure `xs`, `append` returns a
+    //! new monadic structure which is the result of lifting `x` into the
+    //! monadic structure and then combining that (to the right) with `xs`.
+    //! In other words,
     //! @code
     //!     append(xs, x) == concat(xs, lift<Xs>(x))
     //! @endcode
-    //!
-    //! For sequences, this has the intuitive behavior of simply appending
-    //! an element to the end of the sequence, hence the name.
+    //! where `Xs` is the tag of `xs`. For sequences, this has the intuitive
+    //! behavior of simply appending an element to the end of the sequence,
+    //! hence the name.
     //!
     //! > #### Rationale for not calling this `push_back`
     //! > See the rationale for using `prepend` instead of `push_front`.

@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::mpl::IntegralC`.
+Adapts Boost.MPL IntegralConstants for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
@@ -31,23 +31,23 @@ namespace boost { namespace hana {
         //! Provided models
         //! ---------------
         //! 1. `Constant`\n
-        //! As Constants holding an integral type, `IntegralC`s are models
-        //! not only of Constant, but also all the other concepts that are
-        //! provided for Constants of an integral type.
+        //! As Constants holding an integral type, `mpl::integral_c`s are
+        //! models not only of Constant, but also all the other concepts
+        //! that are provided for Constants of an integral type.
         //! @snippet example/ext/boost/mpl/integral_c.cpp constant
         template <typename T>
-        struct IntegralC { using value_type = T; };
+        struct integral_c_tag { using value_type = T; };
     }}}
 
     template <typename T>
-    struct datatype<T, when<
+    struct tag_of<T, when<
         std::is_same<
             typename T::tag,
             ::boost::mpl::integral_c_tag
         >::value
     >> {
-        using type = ext::boost::mpl::IntegralC<
-            typename datatype<typename T::value_type>::type
+        using type = ext::boost::mpl::integral_c_tag<
+            typename hana::tag_of<typename T::value_type>::type
         >;
     };
 
@@ -55,14 +55,14 @@ namespace boost { namespace hana {
     // Constant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<ext::boost::mpl::IntegralC<T>> {
+    struct value_impl<ext::boost::mpl::integral_c_tag<T>> {
         template <typename C>
         static constexpr auto apply()
         { return C::value; }
     };
 
     template <typename T, typename C>
-    struct to_impl<ext::boost::mpl::IntegralC<T>, C, when<
+    struct to_impl<ext::boost::mpl::integral_c_tag<T>, C, when<
         _models<Constant, C>::value &&
         std::is_integral<typename C::value_type>::value
     >>

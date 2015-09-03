@@ -48,8 +48,8 @@ namespace boost { namespace hana {
     //!         : It1(T) \times It2(T) \times (T \times T \to Bool) \to Bool
     //! \f]
     //!
-    //! for the variant without a custom predicate, the `T` data type is
-    //! required to be `Orderable`. The signature is then
+    //! for the variant without a custom predicate, `T` is required to be
+    //! `Orderable`. The signature is then
     //! \f[
     //!     \mathtt{lexicographical\_compare} : It1(T) \times It2(T) \to Bool
     //! \f]

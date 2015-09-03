@@ -25,7 +25,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto triple = [](auto x, auto y, auto z) {
 
 namespace boost { namespace hana {
     template <typename X, typename Y, typename Z>
-    struct to_impl<Tuple, Triple<X, Y, Z>> {
+    struct to_impl<tuple_tag, Triple<X, Y, Z>> {
         static constexpr auto apply(Triple<X, Y, Z> xs) {
             return make_tuple(xs.first, xs.second, xs.third);
         }
@@ -34,6 +34,6 @@ namespace boost { namespace hana {
 
 int main() {
     BOOST_HANA_CONSTEXPR_CHECK(
-        hana::to<hana::Tuple>(triple(1, '2', 3.3)) == hana::make_tuple(1, '2', 3.3)
+        hana::to<hana::tuple_tag>(triple(1, '2', 3.3)) == hana::make_tuple(1, '2', 3.3)
     );
 }

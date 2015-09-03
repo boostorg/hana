@@ -28,13 +28,13 @@ namespace boost { namespace hana {
         struct seq_type {
             explicit constexpr seq_type(Storage s) : storage(s) { }
             Storage storage;
-            struct hana { using datatype = Seq; };
+            using hana_tag = Seq;
         };
 
         struct seq_t {
             template <typename ...Xs>
             constexpr decltype(auto) operator()(Xs ...xs) const {
-                auto storage = make<Tuple>(xs...);
+                auto storage = make<tuple_tag>(xs...);
                 return seq_type<decltype(storage)>(storage);
             }
         };

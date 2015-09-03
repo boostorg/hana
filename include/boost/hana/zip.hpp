@@ -30,7 +30,7 @@ namespace boost { namespace hana {
         "hana::zip(xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif
 
-        return zip_impl<typename datatype<Xs>::type>::apply(
+        return zip_impl<typename hana::tag_of<Xs>::type>::apply(
             static_cast<Xs&&>(xs),
             static_cast<Ys&&>(ys)...
         );

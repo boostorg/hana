@@ -20,16 +20,16 @@ int main() {
 
 {
 
-//! [make<Tuple>]
-auto xs = hana::make<hana::Tuple>(1, 2.2, 'a', "bcde"s);
-//! [make<Tuple>]
+//! [make<tuple_tag>]
+auto xs = hana::make<hana::tuple_tag>(1, 2.2, 'a', "bcde"s);
+//! [make<tuple_tag>]
 
 }{
 
-//! [make<Range>]
-constexpr auto r = hana::make<hana::Range>(hana::int_c<3>, hana::int_c<10>);
+//! [make<range_tag>]
+constexpr auto r = hana::make<hana::range_tag>(hana::int_c<3>, hana::int_c<10>);
 static_assert(r == hana::make_range(hana::int_c<3>, hana::int_c<10>), "");
-//! [make<Range>]
+//! [make<range_tag>]
 
 }{
 
@@ -93,7 +93,7 @@ void f(std::vector<T> xs) {
   // ...
 }
 
-template <typename R, typename = std::enable_if_t<hana::is_a<hana::Range, R>()>>
+template <typename R, typename = std::enable_if_t<hana::is_a<hana::range_tag, R>()>>
 void f(R r) {
   // ...
 }

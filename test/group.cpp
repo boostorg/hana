@@ -15,8 +15,8 @@ using namespace boost::hana;
 
 
 int main() {
-    test::TestGroup<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestGroup<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
+    test::TestGroup<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestGroup<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
 
     // minus
     static_assert(minus(6, 4) == 6 - 4, "");

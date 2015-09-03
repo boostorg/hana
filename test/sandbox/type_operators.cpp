@@ -7,8 +7,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/type.hpp>
 
@@ -17,7 +17,7 @@ using namespace boost::hana;
 
 
 #define BOOST_HANA_TYPE_UNARY_PREFIX_OPERATOR(OP)                           \
-    template <typename T, typename = std::enable_if_t<is_a<Type, T>>>       \
+    template <typename T, typename = std::enable_if_t<is_a<type_tag, T>>>   \
     constexpr auto operator OP (T) {                                        \
         return type_c<decltype(                                             \
             OP std::declval<typename T::type>()                             \
@@ -26,7 +26,7 @@ using namespace boost::hana;
 /**/
 
 #define BOOST_HANA_TYPE_UNARY_POSTFIX_OPERATOR(OP)                          \
-    template <typename T, typename = std::enable_if_t<is_a<Type, T>()>>     \
+    template <typename T, typename = std::enable_if_t<is_a<type_tag, T>()>> \
     constexpr auto operator OP (T, int) {                                   \
         return type_c<decltype(                                             \
             std::declval<typename T::type>() OP                             \
@@ -36,7 +36,7 @@ using namespace boost::hana;
 
 #define BOOST_HANA_TYPE_BINARY_OPERATOR(OP)                                 \
     template <typename T, typename U, typename = std::enable_if_t<          \
-        is_a<Type, T>() && is_a<Type, U>()                                  \
+        is_a<type_tag, T>() && is_a<type_tag, U>()                          \
     >>                                                                      \
     constexpr auto operator OP (T, U) {                                     \
         return type_c<decltype(                                             \

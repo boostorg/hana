@@ -65,13 +65,13 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::map`s.
     //! @relates hana::map
-    struct Map { };
+    struct map_tag { };
 
     //! Function object for creating a `hana::map`.
     //! @relates hana::map
     //!
     //! Given zero or more `Product`s representing key/value associations,
-    //! `make<Map>` returns a `hana::map` associating these keys to these
+    //! `make<map_tag>` returns a `hana::map` associating these keys to these
     //! values. All the keys must be unique.
     //!
     //!
@@ -80,19 +80,19 @@ namespace boost { namespace hana {
     //! @include example/map/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Map> = [](auto&& ...pairs) {
+    constexpr auto make<map_tag> = [](auto&& ...pairs) {
         return map<implementation-defined...>{forwarded(pairs)...};
     };
 #endif
 
-    //! Alias to `make<Map>`; provided for convenience.
+    //! Alias to `make<map_tag>`; provided for convenience.
     //! @relates hana::map
     //!
     //!
     //! Example
     //! -------
     //! @include example/map/make.cpp
-    constexpr auto make_map = make<Map>;
+    constexpr auto make_map = make<map_tag>;
 
     //! Returns a `Sequence` of the keys of the map, in unspecified order.
     //! @relates hana::map

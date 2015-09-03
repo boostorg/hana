@@ -17,8 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-constexpr auto letters = hana::to<hana::Tuple>(hana::range_c<char, 'a', 'z'>);
-constexpr auto indices = hana::to<hana::Tuple>(hana::make_range(hana::int_c<0>, hana::length(letters)));
+constexpr auto letters = hana::to<hana::tuple_tag>(hana::range_c<char, 'a', 'z'>);
+constexpr auto indices = hana::to<hana::tuple_tag>(hana::make_range(hana::int_c<0>, hana::length(letters)));
 
 auto even_indices = hana::filter(indices, [](auto n) {
     return n % hana::uint_c<2> == hana::uint_c<0>;

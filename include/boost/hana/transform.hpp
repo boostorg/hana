@@ -26,7 +26,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr auto transform_t::operator()(Xs&& xs, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Transform = BOOST_HANA_DISPATCH_IF(transform_impl<S>,
             _models<Functor, S>::value
         );

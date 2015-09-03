@@ -1576,10 +1576,10 @@ stay 100% standard, you can use the `BOOST_HANA_STRING` macro instead.
 
 The main difference between a `Struct` and a `hana::map` is that a map can be
 modified (keys can be added and removed), while a `Struct` is immutable.
-However, you can easily convert a `Struct` into a `hana::map` with `to<Map>`,
+However, you can easily convert a `Struct` into a `hana::map` with `to<map_tag>`,
 and then you can manipulate it in a more flexible way.
 
-@snippet example/tutorial/introspection.adapt.cpp to<Map>
+@snippet example/tutorial/introspection.adapt.cpp to<map_tag>
 
 Using the `BOOST_HANA_DEFINE_STRUCT` macro to adapt a `struct` is convenient,
 but sometimes one can't modify the type that needs to be adapted. In these
@@ -1683,31 +1683,32 @@ Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
 can be created with `hana::make_tuple`. However, in general, containers in
 Hana may be created with the `make` function:
 
-@snippet example/tutorial/containers.cpp make<Tuple>
+@snippet example/tutorial/containers.cpp make<tuple_tag>
 
-Actually, `make_tuple` is just a shortcut for `make<Tuple>` so you don't
-have to type `boost::hana::make<boost::hana::Tuple>` when you are out of
+Actually, `make_tuple` is just a shortcut for `make<tuple_tag>` so you don't
+have to type `boost::hana::make<boost::hana::tuple_tag>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
 family of functions. For example, one can create a `hana::range` of
-compile-time integers with `make<Range>`:
+compile-time integers with `make<range_tag>`:
 
-@snippet example/tutorial/containers.cpp make<Range>
+@snippet example/tutorial/containers.cpp make<range_tag>
 
-For convenience, whenever a component of Hana provides a `make<XXX>` function,
-it also provides the `make_xxx` shortcut to reduce typing. Also, an interesting
-point that can be raised in this example is the fact that `r` is `constexpr`.
-In general, whenever a container is initialized with constant expressions only
-(which is the case for `r`), that container may be marked as `constexpr`.
+For convenience, whenever a component of Hana provides a `make<xxx_tag>`
+function, it also provides the `make_xxx` shortcut to reduce typing. Also, an
+interesting point that can be raised in this example is the fact that `r` is
+`constexpr`. In general, whenever a container is initialized with constant
+expressions only (which is the case for `r`), that container may be marked
+as `constexpr`.
 
-But what are these types with a capital letter that have popped up a couple of
-times in the tutorial? These types are simply tags __representing__ a given
-container. For example, `Range` is actually an empty `struct` representing the
-"conceptual type" of an object returned by `make_range`, while the actual type
-of such an object is implementation-defined. These tags are very useful because
-they represent families of C++ types that are strongly related, but that are
-not required to have the same representation. These tags are documented in
-the section on [Hana's core](@ref tutorial-core-tags).
+But what are these types with a trailing `_tag` that have popped up a couple
+of times in the tutorial? These types are simply tags __representing__ a given
+container. For example, `range_tag` is actually an empty `struct` representing
+the "conceptual type" of an object returned by `make_range`, while the actual
+type of such an object is implementation-defined. These tags are very useful
+because they represent families of C++ types that are strongly related, but
+that are not required to have the same representation. These tags are
+documented in the section on [Hana's core](@ref tutorial-core-tags).
 
 
 @subsection tutorial-containers-elements Container elements
@@ -1773,8 +1774,8 @@ rewritten as
 @snippet example/tutorial/containers.cpp overloading
 
 This way, the second overload of `f` will only match when `R` is a type whose
-tag is `Range`, regardless of the exact representation of that range. Of
-course, `is_a` can be used with any kind of container: `Tuple`, `Map`, `Set`
+tag is `range_tag`, regardless of the exact representation of that range. Of
+course, `is_a` can be used with any kind of container: `tuple`, `map`, `set`
 and so on.
 
 
@@ -2480,9 +2481,9 @@ of the external adapters that are currently supported:
 - `std::pair`\n
   Model of `Product`. This is essentially equivalent to `hana::pair`.
 - `boost::mpl::vector`\n
-  See `boost::hana::ext::boost::mpl::Vector`.
+  See `boost::hana::ext::boost::mpl::vector_tag`.
 - `boost::mpl::integral_c`\n
-  See `boost::hana::ext::boost::mpl::IntegralC`.
+  See `boost::hana::ext::boost::mpl::integral_c_tag`.
 - `boost::fusion::{deque,list,tuple,vector}`\n
   They are models of `Sequence`, and hence can be used like `hana::tuple`
   in algorithms. However, Fusion has several bugs that make these adapters
@@ -2538,17 +2539,26 @@ values.
 To reflect this reality, Hana provides _tags_ representing its heterogeneous
 containers and other compile-time entities. For example, all of Hana's
 `integral_constant<int, ...>`s have different types, but they all share
-the same tag, `IntegralConstant<int>`. This allows the programmer to think
-in terms of that single tag instead of trying to think in terms of the actual
-types of the objects. Furthermore, Hana adopts the convention of naming these
-tags with a capital letter, to make them stand out and differentiate them from
-actual types. Since we mostly reason in terms of tags instead of specific types,
-we sometimes (ab)use the word _data type_ to mean the same thing as _tag_ in
-the documentation, always referring to the family of related types.
+the same tag, `integral_constant_tag<int>`. This allows the programmer to
+think in terms of that single type instead of trying to think in terms of the
+actual types of the objects. Furthermore, Hana adopts the convention of naming
+these tags by adding the `_tag` suffix, to make them stand out and differentiate
+them from actual types.
 
 @note
-The tag of an object of type `T` can be obtained by using `datatype<T>::%type`,
-or equivalently `datatype_t<T>`.
+The tag of an object of type `T` can be obtained by using `tag_of<T>::%type`,
+or equivalently `tag_of_t<T>`.
+
+Tags are an extension to normal C++ types. Indeed, by default, the tag of a
+type `T` is `T` itself, and the core of the library is designed to work in
+those cases. For example, `hana::make` expects either a tag or an actual type;
+if you send it a type `T`, it will do the logical thing and construct an
+object of type `T` with the arguments you pass it. If you pass a tag to it,
+however, you should specialize `make` for that tag and provide your own
+implementation, as explained below. Because tags are an extension to usual
+types, we end up mostly reasoning in terms of tags instead of usual types,
+and the documentation sometimes uses the words _type_, _data type_ and _tag_
+interchangeably.
 
 
 @subsection tutorial-core-tag_dispatching Tag dispatching
@@ -2586,8 +2596,8 @@ work around it. To do so, we use an infrastructure with three distinct
 components:
 
 1. A metafunction associating a single tag to every type in a family of
-   related types. In Hana, this tag can be accessed using the `datatype`
-   metafunction. Specifically, for any type `T`, `datatype<T>::%type` is
+   related types. In Hana, this tag can be accessed using the `tag_of`
+   metafunction. Specifically, for any type `T`, `tag_of<T>::%type` is
    the tag used to dispatch it.
 
 2. A function belonging to the public interface of the library, for which
@@ -2614,13 +2624,13 @@ of `print`. While some C++14 examples exist, they are too complicated to show
 in this tutorial and we will therefore use a C++03 tuple implemented as several
 different types to illustrate the technique:
 
-@snippet example/tutorial/tag_dispatching.cpp Vector
+@snippet example/tutorial/tag_dispatching.cpp vector
 
-The nested `struct hana { using datatype = Vector; }` part is a terse way of
-controling the result of `datatype` metafunction, and hence the tag of the
-`vectorN` type. This is explained in the reference for `datatype`. Finally,
-if you wanted to customize the behavior of the `print` function for all the
-`vectorN` types, you would normally have to write something along the lines of
+The nested `using hana_tag = vector_tag;` part is a terse way of controling
+the result of the `tag_of` metafunction, and hence the tag of the `vectorN`
+type. This is explained in the reference for `tag_of`. Finally, if you wanted
+to customize the behavior of the `print` function for all the `vectorN` types,
+you would normally have to write something along the lines of
 
 @snippet example/tutorial/tag_dispatching.cpp old_way
 
@@ -2866,7 +2876,7 @@ functions, those signatures are written in terms of argument and return tags.
 This is done because of the heterogeneous setting, where the actual type of
 an object is usually pretty meaningless and does not help to reason about
 what's being returned or taken by a function. For example, instead of
-documenting the `equal` function for `IntegralConstant`s as
+documenting the `equal` function for `integral_constant`s as
 
 @f[
   \mathtt{equal} : \mathtt{integral\_constant<T, n>} \times
@@ -2875,19 +2885,19 @@ documenting the `equal` function for `IntegralConstant`s as
 @f]
 
 which is not really helpful (as it really presents nothing but the
-implementation), it is instead documented using the `IntegralConstant`
-tag. Note that since `equal` is part of the `Comparable` concept, it is
-not _actually_ documented for `IntegralConstant` specifically, but the
-idea is there:
+implementation), it is instead documented using `integral_constant_tag`,
+which acts as the "type" of all `integral_constant`s. Note that since `equal`
+is part of the `Comparable` concept, it is not _actually_ documented for
+`hana::integral_constant` specifically, but the idea is there:
 
 @f[
-  \mathtt{equal} : \mathtt{IntegralConstant<T>} \times
-                   \mathtt{IntegralConstant<T>}
-                      \to \mathtt{IntegralConstant<bool>}
+  \mathtt{equal} : \mathtt{integral_constant_tag<T>} \times
+                   \mathtt{integral_constant_tag<T>}
+                      \to \mathtt{integral_constant_tag<bool>}
 @f]
 
-This clearly conveys the intention that comparing two `IntegralConstant`s
-gives back another `IntegralConstant` holding a `bool`. In general, this
+This clearly conveys the intention that comparing two `integral_constant`s
+gives back another `integral_constant` holding a `bool`. In general, this
 abstraction of the actual representation of objects makes it possible for
 us to reason in a high level manner about functions, even though their
 actual return and argument types are heterogeneous and not helpful. Finally,

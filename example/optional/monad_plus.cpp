@@ -15,6 +15,6 @@ namespace hana = boost::hana;
 static_assert(hana::concat(hana::nothing, hana::just('x')) == hana::just('x'), "");
 BOOST_HANA_CONSTANT_CHECK(hana::concat(hana::nothing, hana::nothing) == hana::nothing);
 static_assert(hana::concat(hana::just('x'), hana::just('y')) == hana::just('x'), "");
-BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::Optional>() == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::empty<hana::optional_tag>() == hana::nothing);
 
 int main() { }

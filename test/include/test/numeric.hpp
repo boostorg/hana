@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_NUMERIC_HPP
 #define BOOST_HANA_TEST_TEST_NUMERIC_HPP
 
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/eval.hpp>
 
 // instances
@@ -29,7 +29,7 @@ namespace boost { namespace hana {
             constexpr operator int() const { return value; }
         };
 
-        using Numeric = datatype_t<numeric_type>;
+        using Numeric = tag_of_t<numeric_type>;
 
         struct numeric_t {
             constexpr numeric_type operator()(int x) const {

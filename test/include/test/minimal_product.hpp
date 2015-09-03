@@ -20,7 +20,7 @@ namespace boost { namespace hana {
         struct product_t {
             X fst;
             Y snd;
-            struct hana { using datatype = MinimalProduct; };
+            using hana_tag = MinimalProduct;
         };
 
         constexpr detail::create<product_t> minimal_product{};

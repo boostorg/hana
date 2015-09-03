@@ -17,7 +17,7 @@ namespace hana = boost::hana;
 
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::unfold_right<hana::Tuple>(hana::int_c<10>, [](auto x) {
+    hana::unfold_right<hana::tuple_tag>(hana::int_c<10>, [](auto x) {
         return hana::if_(x == hana::int_c<0>,
             hana::nothing,
             hana::just(hana::make_pair(x, x - hana::int_c<1>))

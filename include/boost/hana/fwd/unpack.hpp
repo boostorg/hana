@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! @param f
     //! A function to be invoked as `f(x...)`, where `x...` are the elements
-    //! of the structure as-if they had been linearized with `to<Tuple>`.
+    //! of the structure as-if they had been linearized with `to<tuple_tag>`.
     //!
     //!
     //! Example

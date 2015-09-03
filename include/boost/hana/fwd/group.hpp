@@ -34,15 +34,15 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Sequence `s` of data type `S(T)`, a Logical `Bool` and a
+    //! Given a Sequence `s` with tag `S(T)`, a Logical `Bool` and a
     //! predicate \f$ pred : T \times T \to Bool \f$, `group` has the
     //! following signatures. For the variant with a provided predicate,
     //! \f[
     //!     \mathtt{group} : S(T) \times (T \times T \to Bool) \to S(S(T))
     //! \f]
     //!
-    //! for the variant without a custom predicate, the `T` data type is
-    //! required to be Comparable. The signature is then
+    //! for the variant without a custom predicate, `T` is required to be
+    //! Comparable. The signature is then
     //! \f[
     //!     \mathtt{group} : S(T) \to S(S(T))
     //! \f]

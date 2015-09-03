@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the `boost::hana::LambdaTuple` data type.
+Defines `boost::hana::LambdaTuple`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -47,7 +47,7 @@ namespace boost { namespace hana { namespace sandbox {
             : storage(std::move(s))
         { }
 
-        struct hana { using datatype = LambdaTuple; };
+        using hana_tag = LambdaTuple;
         Storage storage;
     };
 

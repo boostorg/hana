@@ -36,7 +36,7 @@ namespace boost { namespace hana {
                 transform(cppcon::rows(std::forward<M1>(m1)),
                     [&](auto&& row) -> decltype(auto) {
                         return zip_with(cppcon::detail::tuple_scalar_product,
-                            repeat<Tuple>(std::forward<decltype(row)>(row), uint_c<R1>),
+                            repeat<tuple_tag>(std::forward<decltype(row)>(row), uint_c<R1>),
                             cols
                         );
                     }

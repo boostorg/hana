@@ -31,7 +31,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            using S = typename datatype<Xs>::type;
+            using S = typename hana::tag_of<Xs>::type;
             using Sum = BOOST_HANA_DISPATCH_IF(sum_impl<S>,
                 _models<Foldable, S>::value
             );

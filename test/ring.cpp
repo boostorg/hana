@@ -15,8 +15,8 @@ using namespace boost::hana;
 
 
 int main() {
-    test::TestRing<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestRing<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
+    test::TestRing<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestRing<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
 
     // one
     static_assert(one<int>() == 1, "");

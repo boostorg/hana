@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pref>
     constexpr auto prefix_t::operator()(Xs&& xs, Pref&& pref) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Prefix = BOOST_HANA_DISPATCH_IF(prefix_impl<M>,
             _models<MonadPlus, M>::value
         );

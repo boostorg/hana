@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Set, typename ...Args>
     constexpr decltype(auto) erase_key_t::operator()(Set&& set, Args&& ...args) const {
-        return erase_key_impl<typename datatype<Set>::type>::apply(
+        return erase_key_impl<typename hana::tag_of<Set>::type>::apply(
             static_cast<Set&&>(set),
             static_cast<Args&&>(args)...
         );

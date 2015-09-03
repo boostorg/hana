@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/logical.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/eval.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/eval_if.hpp>
 #include <boost/hana/fwd/if.hpp>
 #include <boost/hana/fwd/value.hpp>
@@ -72,8 +72,8 @@ namespace boost { namespace hana {
     constexpr ic_detail::times_t<T, v> integral_constant<T, v>::times;
 
     template <typename T, T v>
-    struct datatype<integral_constant<T, v>> {
-        using type = IntegralConstant<T>;
+    struct tag_of<integral_constant<T, v>> {
+        using type = integral_constant_tag<T>;
     };
     //! @endcond
 
@@ -82,19 +82,19 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <typename T>
-        struct comparable_operators<IntegralConstant<T>> {
+        struct comparable_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct orderable_operators<IntegralConstant<T>> {
+        struct orderable_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct arithmetic_operators<IntegralConstant<T>> {
+        struct arithmetic_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct logical_operators<IntegralConstant<T>> {
+        struct logical_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
     }
@@ -156,14 +156,14 @@ namespace boost { namespace hana {
     // Model of Constant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<IntegralConstant<T>> {
+    struct value_impl<integral_constant_tag<T>> {
         template <typename C>
         static constexpr auto apply()
         { return C::value; }
     };
 
     template <typename T, typename C>
-    struct to_impl<IntegralConstant<T>, C, when<
+    struct to_impl<integral_constant_tag<T>, C, when<
         _models<Constant, C>::value &&
         std::is_integral<typename C::value_type>::value
     >>
@@ -184,7 +184,7 @@ namespace boost { namespace hana {
     // Optimizations
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct eval_if_impl<IntegralConstant<T>> {
+    struct eval_if_impl<integral_constant_tag<T>> {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
@@ -204,7 +204,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct if_impl<IntegralConstant<T>> {
+    struct if_impl<integral_constant_tag<T>> {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
@@ -214,8 +214,8 @@ namespace boost { namespace hana {
 
         //! @todo We could return `Then` instead of `auto` to sometimes save
         //! a copy, but that would break some code that would return a
-        //! reference to a Type object. I think the code that would be broken
-        //! should be changed, but more thought needs to be given.
+        //! reference to a `type` object. I think the code that would be
+        //! broken should be changed, but more thought needs to be given.
         template <typename Then, typename Else>
         static constexpr auto
         apply(decltype(hana::true_c) const&, Then&& t, Else&&)

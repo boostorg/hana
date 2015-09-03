@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     //!
     //! Free model for `EqualityComparable` data types
     //! ----------------------------------------------
-    //! Two tags `T` and `U` that model the cross-type EqualityComparable
+    //! Two data types `T` and `U` that model the cross-type EqualityComparable
     //! concept presented in [N3351][2] automatically model the `Comparable`
     //! concept by setting
     //! @code

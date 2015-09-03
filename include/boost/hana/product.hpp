@@ -31,7 +31,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const {
-            using S = typename datatype<Xs>::type;
+            using S = typename hana::tag_of<Xs>::type;
             using Product = BOOST_HANA_DISPATCH_IF(product_impl<S>,
                 _models<Foldable, S>::value
             );

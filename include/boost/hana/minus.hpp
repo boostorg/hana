@@ -30,8 +30,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) minus_t::operator()(X&& x, Y&& y) const {
-        using T = typename datatype<X>::type;
-        using U = typename datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Minus = BOOST_HANA_DISPATCH_IF(decltype(minus_impl<T, U>{}),
             _models<Group, T>::value &&
             _models<Group, U>::value
@@ -101,12 +101,9 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         struct constant_t {
             static constexpr decltype(auto) get() {
-                return boost::hana::minus(boost::hana::value<X>(),
-                                          boost::hana::value<Y>());
+                return hana::minus(hana::value<X>(), hana::value<Y>());
             }
-
-            using hana = constant_t;
-            using datatype = detail::CanonicalConstant<T>;
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X, typename Y>

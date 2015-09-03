@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::std::Tuple`.
+Adapts `std::tuple` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/flatten.hpp>
 #include <boost/hana/fwd/front.hpp>
@@ -37,18 +37,18 @@ Distributed under the Boost Software License, Version 1.0.
 #endif
 
 namespace boost { namespace hana {
-    namespace ext { namespace std { struct Tuple; }}
+    namespace ext { namespace std { struct tuple_tag; }}
 
     template <typename ...Xs>
-    struct datatype<std::tuple<Xs...>> {
-        using type = ext::std::Tuple;
+    struct tag_of<std::tuple<Xs...>> {
+        using type = ext::std::tuple_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // make
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<ext::std::Tuple> {
+    struct make_impl<ext::std::tuple_tag> {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
             return std::make_tuple(static_cast<Xs&&>(xs)...);
@@ -59,7 +59,7 @@ namespace boost { namespace hana {
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct lift_impl<ext::std::Tuple> {
+    struct lift_impl<ext::std::tuple_tag> {
         template <typename X>
         static constexpr auto apply(X&& x) {
             return std::tuple<typename std::decay<X>::type>{
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct flatten_impl<ext::std::Tuple> {
+    struct flatten_impl<ext::std::tuple_tag> {
         template <typename Xs, std::size_t ...i>
         static constexpr decltype(auto)
         flatten_helper(Xs&& xs, std::index_sequence<i...>) {
@@ -96,7 +96,7 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct empty_impl<ext::std::Tuple> {
+    struct empty_impl<ext::std::tuple_tag> {
         static constexpr auto apply()
         { return std::tuple<>{}; }
     };
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<ext::std::Tuple> {
+    struct front_impl<ext::std::tuple_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return std::get<0>(static_cast<Xs&&>(xs));
@@ -113,7 +113,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::Tuple> {
+    struct tail_impl<ext::std::tuple_tag> {
         template <typename Xs, std::size_t ...index>
         static constexpr decltype(auto)
         tail_helper(Xs&& xs, std::index_sequence<index...>) {
@@ -134,14 +134,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct is_empty_impl<ext::std::Tuple> {
+    struct is_empty_impl<ext::std::tuple_tag> {
         template <typename ...Xs>
         static constexpr auto apply(std::tuple<Xs...> const&)
         { return hana::bool_c<sizeof...(Xs) == 0>; }
     };
 
     template <>
-    struct at_impl<ext::std::Tuple> {
+    struct at_impl<ext::std::tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t index = hana::value<N>();
@@ -153,7 +153,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<ext::std::Tuple> {
+    struct length_impl<ext::std::tuple_tag> {
         template <typename ...Xs>
         static constexpr auto apply(std::tuple<Xs...> const&) {
             return hana::size_c<sizeof...(Xs)>;
@@ -164,7 +164,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, ext::std::Tuple> {
+    struct models_impl<Sequence, ext::std::tuple_tag> {
         static constexpr bool value = true;
     };
 }} // end namespace boost::hana

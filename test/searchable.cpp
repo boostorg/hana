@@ -23,7 +23,7 @@ int main() {
     // Laws with a minimal Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto eqs = make<Tuple>(
+        auto eqs = make<tuple_tag>(
               test::seq()
             , test::seq(ct_eq<0>{})
             , test::seq(ct_eq<0>{}, ct_eq<1>{})
@@ -31,11 +31,11 @@ int main() {
             , test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
         );
 
-        auto eq_keys = make<Tuple>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
+        auto eq_keys = make<tuple_tag>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
 
         test::TestSearchable<test::Seq>{eqs, eq_keys};
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
               test::seq(true_c)
             , test::seq(false_c)
             , test::seq(true_c, true_c)
@@ -43,6 +43,6 @@ int main() {
             , test::seq(false_c, true_c)
             , test::seq(false_c, false_c)
         );
-        test::TestSearchable<test::Seq>{bools, make<Tuple>(true_c, false_c)};
+        test::TestSearchable<test::Seq>{bools, make<tuple_tag>(true_c, false_c)};
     }
 }

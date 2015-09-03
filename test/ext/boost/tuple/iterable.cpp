@@ -22,7 +22,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto eq_tuples = make<Tuple>(
+    auto eq_tuples = make<tuple_tag>(
           ::boost::make_tuple()
         , ::boost::make_tuple(eq<0>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{})
@@ -32,6 +32,6 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<ext::boost::Tuple>{eq_tuples};
-    test::TestIterable<ext::boost::Tuple>{eq_tuples};
+    test::TestFoldable<ext::boost::tuple_tag>{eq_tuples};
+    test::TestIterable<ext::boost::tuple_tag>{eq_tuples};
 }

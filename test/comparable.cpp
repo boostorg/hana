@@ -66,9 +66,9 @@ int main() {
     }
 
     // laws
-    test::TestComparable<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestComparable<unsigned int>{make<Tuple>(0u,1u,2u,3u,4u,5u)};
-    test::TestComparable<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
-    test::TestComparable<unsigned long>{make<Tuple>(0ul,1ul,2ul,3ul,4ul,5ul)};
-    test::TestComparable<eq1>{make<Tuple>(eq1{0}, eq1{1}, eq1{2}, eq1{3}, eq1{4})};
+    test::TestComparable<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestComparable<unsigned int>{make<tuple_tag>(0u,1u,2u,3u,4u,5u)};
+    test::TestComparable<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
+    test::TestComparable<unsigned long>{make<tuple_tag>(0ul,1ul,2ul,3ul,4ul,5ul)};
+    test::TestComparable<eq1>{make<tuple_tag>(eq1{0}, eq1{1}, eq1{2}, eq1{3}, eq1{4})};
 }

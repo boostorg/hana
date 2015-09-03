@@ -55,7 +55,7 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::pair`.
     //! @relates hana::pair
-    struct Pair { };
+    struct pair_tag { };
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Creates a `hana::pair` with the given elements.
@@ -66,20 +66,20 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/pair/make.cpp
     template <>
-    constexpr auto make<Pair> = [](auto&& first, auto&& second)
+    constexpr auto make<pair_tag> = [](auto&& first, auto&& second)
         -> hana::pair<std::decay_t<decltype(first)>, std::decay_t<decltype(second)>>
     {
         return {forwarded(first), forwarded(second)};
     };
 #endif
 
-    //! Alias to `make<Pair>`; provided for convenience.
+    //! Alias to `make<pair_tag>`; provided for convenience.
     //! @relates hana::pair
     //!
     //! Example
     //! -------
     //! @include example/pair/make.cpp
-    constexpr auto make_pair = make<Pair>;
+    constexpr auto make_pair = make<pair_tag>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

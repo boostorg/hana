@@ -47,14 +47,14 @@ namespace boost { namespace hana {
 
 int main() {
     // laws
-    test::TestOrderable<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestOrderable<unsigned int>{make<Tuple>(0u,1u,2u,3u,4u,5u)};
-    test::TestOrderable<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
-    test::TestOrderable<unsigned long>{make<Tuple>(0ul,1ul,2ul,3ul,4ul,5ul)};
-    test::TestOrderable<ord1>{make<Tuple>(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4})};
+    test::TestOrderable<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestOrderable<unsigned int>{make<tuple_tag>(0u,1u,2u,3u,4u,5u)};
+    test::TestOrderable<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
+    test::TestOrderable<unsigned long>{make<tuple_tag>(0ul,1ul,2ul,3ul,4ul,5ul)};
+    test::TestOrderable<ord1>{make<tuple_tag>(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4})};
 
     // Orderable => Comparable
-    test::TestComparable<ord1>{make<Tuple>(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4})};
+    test::TestComparable<ord1>{make<tuple_tag>(ord1{0}, ord1{1}, ord1{2}, ord1{3}, ord1{4})};
 
     // less
     {

@@ -27,7 +27,7 @@ int main() {
         , std::vector<test::eq<0>>{4}
     );
 
-    // auto eq_values = make<Tuple>(test::eq<0>{}, test::eq<2>{});
+    // auto eq_values = make<tuple_tag>(test::eq<0>{}, test::eq<2>{});
 
     auto ords = make_tuple(
           std::vector<test::ord<0>>{0}
@@ -40,7 +40,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable, Orderable, Functor
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::std::Vector>{eqs};
-    test::TestOrderable<ext::std::Vector>{ords};
-    // test::TestFunctor<ext::std::Vector>{eqs, eq_values};
+    test::TestComparable<ext::std::vector_tag>{eqs};
+    test::TestOrderable<ext::std::vector_tag>{ords};
+    // test::TestFunctor<ext::std::vector_tag>{eqs, eq_values};
 }

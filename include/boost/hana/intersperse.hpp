@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Z>
     constexpr auto intersperse_t::operator()(Xs&& xs, Z&& z) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Intersperse = BOOST_HANA_DISPATCH_IF(intersperse_impl<S>,
             _models<Sequence, S>::value
         );

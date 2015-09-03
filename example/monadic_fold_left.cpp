@@ -33,7 +33,7 @@ struct common_type<T, U>
 
 template <typename T1, typename ...Tn>
 struct common_type<T1, Tn...>
-    : decltype(hana::monadic_fold_left<hana::Optional>(
+    : decltype(hana::monadic_fold_left<hana::optional_tag>(
         hana::tuple_t<Tn...>,
         hana::type_c<std::decay_t<T1>>,
         hana::sfinae(hana::metafunction<common_type>)

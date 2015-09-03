@@ -39,8 +39,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr auto less_t::operator()(X&& x, Y&& y) const {
-        using T = typename hana::datatype<X>::type;
-        using U = typename hana::datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Less = BOOST_HANA_DISPATCH_IF(decltype(less_impl<T, U>{}),
             _models<Orderable, T>::value &&
             _models<Orderable, U>::value &&

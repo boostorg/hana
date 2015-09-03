@@ -31,27 +31,27 @@ struct undefined { };
 
 int main() {
     //////////////////////////////////////////////////////////////////////////
-    // make<Tuple>
+    // make<tuple_tag>
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_tuple(),
-            hana::make<hana::ext::boost::fusion::Tuple>()
+            hana::make<hana::ext::boost::fusion::tuple_tag>()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_tuple(ct_eq<0>{}),
-            hana::make<hana::ext::boost::fusion::Tuple>(ct_eq<0>{})
+            hana::make<hana::ext::boost::fusion::tuple_tag>(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_tuple(ct_eq<0>{}, ct_eq<1>{}),
-            hana::make<hana::ext::boost::fusion::Tuple>(ct_eq<0>{}, ct_eq<1>{})
+            hana::make<hana::ext::boost::fusion::tuple_tag>(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_tuple(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
-            hana::make<hana::ext::boost::fusion::Tuple>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            hana::make<hana::ext::boost::fusion::tuple_tag>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 
@@ -158,6 +158,6 @@ int main() {
     // models<Sequence>
     //////////////////////////////////////////////////////////////////////////
     {
-        BOOST_HANA_CONSTANT_CHECK(hana::models<hana::Sequence, hana::ext::boost::fusion::Tuple>);
+        BOOST_HANA_CONSTANT_CHECK(hana::models<hana::Sequence, hana::ext::boost::fusion::tuple_tag>);
     }
 }

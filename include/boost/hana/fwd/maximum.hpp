@@ -39,8 +39,8 @@ namespace boost { namespace hana {
     //!     \mathtt{maximum} : F(T) \times (T \times T \to Bool) \to T
     //! \f]
     //!
-    //! for the variant without a custom predicate, the `T` data type is
-    //! required to be Orderable. The signature is then
+    //! for the variant without a custom predicate, `T` is required to be
+    //! Orderable. The signature is then
     //! \f[
     //!     \mathtt{maximum} : F(T) \to T
     //! \f]
@@ -83,8 +83,8 @@ namespace boost { namespace hana {
     //! of `maximum` when the `less` predicate is used. Here is how the
     //! different versions of `maximum` are dispatched:
     //! @code
-    //!     maximum(xs) -> maximum_impl<data type of xs>::apply(xs)
-    //!     maximum(xs, pred) -> maximum_pred_impl<data type of xs>::apply(xs, pred)
+    //!     maximum(xs) -> maximum_impl<tag of xs>::apply(xs)
+    //!     maximum(xs, pred) -> maximum_pred_impl<tag of xs>::apply(xs, pred)
     //! @endcode
     //!
     //! Also note that `maximum.by` is not tag-dispatched on its own, since it

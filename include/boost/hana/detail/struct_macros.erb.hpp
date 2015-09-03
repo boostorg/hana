@@ -153,7 +153,7 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
 %>
 #define BOOST_HANA_DEFINE_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %> )   \
   <%= member_decls.join(' ') %>                                             \
-  struct hana { struct accessors_impl {                                     \
+  struct hana_accessors_impl {                                              \
     static constexpr auto apply() {                                         \
       struct member_names {                                                 \
         static constexpr auto get() {                                       \
@@ -166,7 +166,7 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
         <%= member_pairs.join(", ") %>                                      \
       );                                                                    \
     }                                                                       \
-  }; }                                                                      \
+  }                                                                         \
 /**/
 <% end %>
 

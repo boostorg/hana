@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Expr>
     constexpr decltype(auto) eval_t::operator()(Expr&& expr) const {
-        return eval_impl<typename datatype<Expr>::type>::apply(
+        return eval_impl<typename hana::tag_of<Expr>::type>::apply(
             static_cast<Expr&&>(expr)
         );
     }

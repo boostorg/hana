@@ -15,21 +15,20 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! @ingroup group-core
-    //! Returns whether the data type of an object is a model of the
-    //! given concept.
+    //! Returns whether the tag of an object is a model of the given concept.
     //!
     //! Given a C++ type `T` and a concept `Concept`, `models<Concept, T>`
-    //! is a compile-time Logical representing whether `T`'s data type is a
-    //! model of `Concept`. Usually, concepts provide methods, some of which
+    //! is a compile-time Logical representing whether `T`'s tag is a model
+    //! of `Concept`. Usually, concepts provide methods, some of which
     //! __must__ be implemented in order to model the concept, and the others
     //! are given a default definition in terms of the mandatory ones. More
     //! specifically, `models` returns whether a minimal complete definition
-    //! of a concept is provided by the data type. However, concepts also
-    //! usually provide semantic requirements (called laws) that must be
-    //! satisfied by their models; `models` does not attempt to check whether
-    //! those laws are satisfied. In fact, `models` does not even check
-    //! whether the provided minimal complete definition is syntactically
-    //! correct, but only if it is there.
+    //! of a concept is provided by the tag. However, concepts also usually
+    //! provide semantic requirements (called laws) that must be satisfied by
+    //! their models; `models` does not attempt to check whether those laws
+    //! are satisfied. In fact, `models` does not even check whether the
+    //! provided minimal complete definition is syntactically correct, but
+    //! only if it is there.
     //!
     //! A few concepts (like Sequence) do not introduce methods that suffice
     //! to provide a minimal complete definition. They provide semantic
@@ -41,9 +40,9 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! `models` is a tag-dispatched method. More specifically,
-    //! `models<Concept, T>` dispatches to `models_impl<Concept, datatype_t<T>>`,
+    //! `models<Concept, T>` dispatches to `models_impl<Concept, tag_of_t<T>>`,
     //! which should be a metafunction with a nested boolean `::value`
-    //! representing whether `datatype_t<T>` models the concept `Concept`.
+    //! representing whether `tag_of_t<T>` models the concept `Concept`.
     //!
     //!
     //! Example

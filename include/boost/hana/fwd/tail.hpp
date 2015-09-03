@@ -19,7 +19,7 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
-    //! `tail(xs)` is an Iterable of the same data type whose linearization is
+    //! `tail(xs)` is an Iterable with the same tag whose linearization is
     //! `[x2, ..., xN]`. In particular, `tail(xs)` is functionally equivalent
     //! to `drop(xs, size_t<1>)`.
     //!

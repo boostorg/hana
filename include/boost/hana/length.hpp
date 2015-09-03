@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto length_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Length = BOOST_HANA_DISPATCH_IF(length_impl<S>,
             _models<Foldable, S>::value
         );

@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto partition_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Partition = BOOST_HANA_DISPATCH_IF(partition_impl<S>,
             _models<Sequence, S>::value
         );
@@ -79,7 +79,7 @@ namespace boost { namespace hana {
             static constexpr auto apply(Xs&& xs, std::index_sequence<l...>,
                                                  std::index_sequence<r...>)
             {
-                return hana::make<hana::Pair>(
+                return hana::make<hana::pair_tag>(
                     hana::make<S>(hana::at_c<left[l]>(static_cast<Xs&&>(xs))...),
                     hana::make<S>(hana::at_c<right[r]>(static_cast<Xs&&>(xs))...)
                 );

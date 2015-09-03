@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
@@ -35,7 +35,7 @@ struct empty_type { };
 struct non_pod { virtual ~non_pod() { } };
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         std::integral_constant<int, -10>{},
         std::integral_constant<int, -2>{},
         std::integral_constant<int, 0>{},
@@ -46,37 +46,37 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Make sure the data type is detected properly
+    // Make sure the tag is detected properly
     //////////////////////////////////////////////////////////////////////////
     {
         static_assert(std::is_same<
-            datatype_t<inherit_simple>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<inherit_simple>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<inherit_no_default>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<inherit_no_default>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<std::is_pointer<int*>>,
-            ext::std::IntegralConstant<bool>
+            tag_of_t<std::is_pointer<int*>>,
+            ext::std::integral_constant_tag<bool>
         >{}, "");
 
         static_assert(!std::is_same<
-            datatype_t<incomplete>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<incomplete>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<empty_type>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<empty_type>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<non_pod>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<non_pod>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
         static_assert(!std::is_same<
-            datatype_t<void>,
-            ext::std::IntegralConstant<int>
+            tag_of_t<void>,
+            ext::std::integral_constant_tag<int>
         >{}, "");
     }
 
@@ -101,7 +101,7 @@ int main() {
         static_assert(value(std::integral_constant<int, 3>{}) == 3, "");
 
         // laws
-        test::TestConstant<ext::std::IntegralConstant<int>>{ints, tuple_t<int, long, long long>};
+        test::TestConstant<ext::std::integral_constant_tag<int>>{ints, tuple_t<int, long, long long>};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -109,11 +109,11 @@ int main() {
     // Enumerable, Monoid, Group, Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestEnumerable<ext::std::IntegralConstant<int>>{ints};
-        test::TestMonoid<ext::std::IntegralConstant<int>>{ints};
-        test::TestGroup<ext::std::IntegralConstant<int>>{ints};
-        test::TestRing<ext::std::IntegralConstant<int>>{ints};
-        test::TestIntegralDomain<ext::std::IntegralConstant<int>>{ints};
+        test::TestEnumerable<ext::std::integral_constant_tag<int>>{ints};
+        test::TestMonoid<ext::std::integral_constant_tag<int>>{ints};
+        test::TestGroup<ext::std::integral_constant_tag<int>>{ints};
+        test::TestRing<ext::std::integral_constant_tag<int>>{ints};
+        test::TestIntegralDomain<ext::std::integral_constant_tag<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -149,30 +149,30 @@ int main() {
             ));
         }
 
-        auto ints = make<Tuple>(
+        auto ints = make<tuple_tag>(
             std::integral_constant<int, -2>{},
             std::integral_constant<int, 0>{},
             std::integral_constant<int, 1>{},
             std::integral_constant<int, 3>{}
         );
 
-        auto bools = make<Tuple>(std::true_type{}, std::false_type{});
+        auto bools = make<tuple_tag>(std::true_type{}, std::false_type{});
 
         // laws
-        test::TestLogical<ext::std::IntegralConstant<int>>{ints};
-        test::TestLogical<ext::std::IntegralConstant<bool>>{bools};
+        test::TestLogical<ext::std::integral_constant_tag<int>>{ints};
+        test::TestLogical<ext::std::integral_constant_tag<bool>>{bools};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::std::IntegralConstant<int>>{ints};
+    test::TestComparable<ext::std::integral_constant_tag<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 6
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    test::TestOrderable<ext::std::IntegralConstant<int>>{ints};
+    test::TestOrderable<ext::std::integral_constant_tag<int>>{ints};
 #endif
 }

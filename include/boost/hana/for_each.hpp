@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr void for_each_t::operator()(Xs&& xs, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using ForEach = BOOST_HANA_DISPATCH_IF(for_each_impl<S>,
             _models<Foldable, S>::value
         );

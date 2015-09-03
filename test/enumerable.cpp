@@ -16,10 +16,10 @@ using namespace boost::hana;
 
 
 int main() {
-    test::TestEnumerable<int>{make<Tuple>(0,1,2,3,4,5)};
-    test::TestEnumerable<unsigned int>{make<Tuple>(0u,1u,2u,3u,4u,5u)};
-    test::TestEnumerable<long>{make<Tuple>(0l,1l,2l,3l,4l,5l)};
-    test::TestEnumerable<unsigned long>{make<Tuple>(0ul,1ul,2ul,3ul,4ul,5ul)};
+    test::TestEnumerable<int>{make<tuple_tag>(0,1,2,3,4,5)};
+    test::TestEnumerable<unsigned int>{make<tuple_tag>(0u,1u,2u,3u,4u,5u)};
+    test::TestEnumerable<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
+    test::TestEnumerable<unsigned long>{make<tuple_tag>(0ul,1ul,2ul,3ul,4ul,5ul)};
 
     // succ
     static_assert(succ(6) == 7, "");

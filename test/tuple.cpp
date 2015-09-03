@@ -51,43 +51,43 @@ struct ref_only {
 
 
 int main() {
-    auto eq_tuples = make<Tuple>(
-          make<Tuple>()
-        , make<Tuple>(eq<0>{})
-        , make<Tuple>(eq<0>{}, eq<1>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
-        , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
+    auto eq_tuples = make<tuple_tag>(
+          make<tuple_tag>()
+        , make<tuple_tag>(eq<0>{})
+        , make<tuple_tag>(eq<0>{}, eq<1>{})
+        , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{})
+        , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+        , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
+        , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{}, eq<5>{})
     );
     (void)eq_tuples;
 
-    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{}, eq<4>{});
+    auto eq_values = make<tuple_tag>(eq<0>{}, eq<2>{}, eq<4>{});
     (void)eq_values;
 
-    auto predicates = make<Tuple>(
+    auto predicates = make<tuple_tag>(
         equal.to(eq<0>{}), equal.to(eq<2>{}), equal.to(eq<4>{}),
         always(true_c), always(false_c)
     );
     (void)predicates;
 
-    auto ord_tuples = make<Tuple>(
-          make<Tuple>()
-        , make<Tuple>(ord<0>{})
-        , make<Tuple>(ord<0>{}, ord<1>{})
-        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{})
-        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{})
-        , make<Tuple>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{}, ord<4>{})
+    auto ord_tuples = make<tuple_tag>(
+          make<tuple_tag>()
+        , make<tuple_tag>(ord<0>{})
+        , make<tuple_tag>(ord<0>{}, ord<1>{})
+        , make<tuple_tag>(ord<0>{}, ord<1>{}, ord<2>{})
+        , make<tuple_tag>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{})
+        , make<tuple_tag>(ord<0>{}, ord<1>{}, ord<2>{}, ord<3>{}, ord<4>{})
     );
     (void)ord_tuples;
 
-    auto nested_eqs = make<Tuple>(
-          make<Tuple>()
-        , make<Tuple>(make<Tuple>(eq<0>{}))
-        , make<Tuple>(make<Tuple>(eq<0>{}), make<Tuple>(eq<1>{}, eq<2>{}))
-        , make<Tuple>(make<Tuple>(eq<0>{}),
-                      make<Tuple>(eq<1>{}, eq<2>{}),
-                      make<Tuple>(eq<3>{}, eq<4>{}))
+    auto nested_eqs = make<tuple_tag>(
+          make<tuple_tag>()
+        , make<tuple_tag>(make<tuple_tag>(eq<0>{}))
+        , make<tuple_tag>(make<tuple_tag>(eq<0>{}), make<tuple_tag>(eq<1>{}, eq<2>{}))
+        , make<tuple_tag>(make<tuple_tag>(eq<0>{}),
+                      make<tuple_tag>(eq<1>{}, eq<2>{}),
+                      make<tuple_tag>(eq<3>{}, eq<4>{}))
     );
     (void)nested_eqs;
 
@@ -97,7 +97,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         {
-            auto xs = make<Tuple>(test::move_only{});
+            auto xs = make<tuple_tag>(test::move_only{});
             auto by_val = [](auto) { };
 
             by_val(std::move(xs));
@@ -107,7 +107,7 @@ int main() {
         }
 
         {
-            auto const& xs = make<Tuple>(test::move_only{});
+            auto const& xs = make<tuple_tag>(test::move_only{});
             auto by_const_ref = [](auto const&) { };
 
             by_const_ref(xs);
@@ -117,7 +117,7 @@ int main() {
         }
 
         {
-            auto xs = make<Tuple>(test::move_only{});
+            auto xs = make<tuple_tag>(test::move_only{});
             auto by_ref = [](auto&) { };
 
             by_ref(xs);
@@ -148,7 +148,7 @@ int main() {
     // make sure this does not happen.
     //////////////////////////////////////////////////////////////////////////
     {
-        auto expr = make<Tuple>(test::trap_construct{});
+        auto expr = make<tuple_tag>(test::trap_construct{});
         auto implicit_copy = expr;          (void)implicit_copy;
         decltype(expr) explicit_copy(expr); (void)explicit_copy;
     }
@@ -158,7 +158,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         struct Car { std::string name; };
-        auto stuff = make<Tuple>(Car{}, Car{}, Car{});
+        auto stuff = make<tuple_tag>(Car{}, Car{}, Car{});
         any_of(stuff, [](auto&&) { return true; });
     }
 
@@ -186,7 +186,7 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int, 0, 1>, tuple_c<int, 0, 1>));
         BOOST_HANA_CONSTANT_CHECK(equal(tuple_c<int, 0, 1, 2>, tuple_c<int, 0, 1, 2>));
 
-        test::TestComparable<Tuple>{eq_tuples};
+        test::TestComparable<tuple_tag>{eq_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
@@ -194,7 +194,7 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestOrderable<Tuple>{ord_tuples};
+        test::TestOrderable<tuple_tag>{ord_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -208,19 +208,19 @@ int main() {
 
             // tuple
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(make<Tuple>(), f),
+                unpack(make<tuple_tag>(), f),
                 f()
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(make<Tuple>(eq<0>{}), f),
+                unpack(make<tuple_tag>(eq<0>{}), f),
                 f(eq<0>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(make<Tuple>(eq<0>{}, eq<1>{}), f),
+                unpack(make<tuple_tag>(eq<0>{}, eq<1>{}), f),
                 f(eq<0>{}, eq<1>{})
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                unpack(make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}), f),
+                unpack(make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}), f),
                 f(eq<0>{}, eq<1>{}, eq<2>{})
             ));
 
@@ -364,7 +364,7 @@ int main() {
             ));
         }
 
-        test::TestFoldable<Tuple>{eq_tuples};
+        test::TestFoldable<tuple_tag>{eq_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -432,7 +432,7 @@ int main() {
             ));
         }
 
-        test::TestIterable<Tuple>{eq_tuples};
+        test::TestIterable<tuple_tag>{eq_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -440,25 +440,25 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto eq_tuples = make<Tuple>(
-              make<Tuple>()
-            , make<Tuple>(eq<0>{})
-            , make<Tuple>(eq<0>{}, eq<1>{})
-            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{})
-            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
-            , make<Tuple>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
+        auto eq_tuples = make<tuple_tag>(
+              make<tuple_tag>()
+            , make<tuple_tag>(eq<0>{})
+            , make<tuple_tag>(eq<0>{}, eq<1>{})
+            , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{})
+            , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{})
+            , make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}, eq<4>{})
         );
-        test::TestSearchable<Tuple>{eq_tuples, make<Tuple>(eq<3>{}, eq<5>{})};
+        test::TestSearchable<tuple_tag>{eq_tuples, make<tuple_tag>(eq<3>{}, eq<5>{})};
 
-        auto bool_tuples = make<Tuple>(
-              make<Tuple>(true_c)
-            , make<Tuple>(false_c)
-            , make<Tuple>(true_c, true_c)
-            , make<Tuple>(true_c, false_c)
-            , make<Tuple>(false_c, true_c)
-            , make<Tuple>(false_c, false_c)
+        auto bool_tuples = make<tuple_tag>(
+              make<tuple_tag>(true_c)
+            , make<tuple_tag>(false_c)
+            , make<tuple_tag>(true_c, true_c)
+            , make<tuple_tag>(true_c, false_c)
+            , make<tuple_tag>(false_c, true_c)
+            , make<tuple_tag>(false_c, false_c)
         );
-        test::TestSearchable<Tuple>{bool_tuples, make<Tuple>(true_c, false_c)};
+        test::TestSearchable<tuple_tag>{bool_tuples, make<tuple_tag>(true_c, false_c)};
     }
 
 #elif BOOST_HANA_TEST_PART == 6
@@ -526,7 +526,7 @@ int main() {
             , "");
         }
 
-        test::TestSequence<Tuple>{};
+        test::TestSequence<tuple_tag>{};
     }
 
 #elif BOOST_HANA_TEST_PART == 7
@@ -567,7 +567,7 @@ int main() {
             ));
         }
 
-        // fill with tuple_t and a Type
+        // fill with tuple_t and a hana::type
         {
             struct z;
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -589,14 +589,14 @@ int main() {
         }
 
         // laws
-        test::TestFunctor<Tuple>{eq_tuples, eq_values};
+        test::TestFunctor<tuple_tag>{eq_tuples, eq_values};
     }
 
     //////////////////////////////////////////////////////////////////////////
     // Applicative
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestApplicative<Tuple>{eq_tuples};
+        test::TestApplicative<tuple_tag>{eq_tuples};
     }
 
 #elif BOOST_HANA_TEST_PART == 8
@@ -604,7 +604,7 @@ int main() {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestMonad<Tuple>{eq_tuples, nested_eqs};
+        test::TestMonad<tuple_tag>{eq_tuples, nested_eqs};
     }
 
 #elif BOOST_HANA_TEST_PART == 9
@@ -635,21 +635,21 @@ int main() {
         // empty
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<Tuple>(),
+                empty<tuple_tag>(),
                 tuple_c<int>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<Tuple>(),
+                empty<tuple_tag>(),
                 tuple_c<long>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                empty<Tuple>(),
+                empty<tuple_tag>(),
                 tuple_c<void>
             ));
         }
 
         // laws
-        test::TestMonadPlus<Tuple>{eq_tuples, predicates, eq_values};
+        test::TestMonadPlus<tuple_tag>{eq_tuples, predicates, eq_values};
     }
 #endif
 }

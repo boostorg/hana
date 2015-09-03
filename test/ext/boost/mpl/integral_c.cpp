@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -36,7 +36,7 @@ namespace mpl = boost::mpl;
 
 
 int main() {
-    auto ints = make<Tuple>(
+    auto ints = make<tuple_tag>(
         mpl::int_<-10>{}, mpl::int_<-2>{}, mpl::integral_c<int, 0>{},
         mpl::integral_c<int, 1>{}, mpl::integral_c<int, 3>{}
     );
@@ -44,37 +44,37 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Make sure the datatype is correct
+    // Make sure the tag is correct
     //////////////////////////////////////////////////////////////////////////
     {
         static_assert(std::is_same<
-            datatype_t<mpl::bool_<true>>,
-            ext::boost::mpl::IntegralC<bool>
+            tag_of_t<mpl::bool_<true>>,
+            ext::boost::mpl::integral_c_tag<bool>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::int_<0>>,
-            ext::boost::mpl::IntegralC<int>
+            tag_of_t<mpl::int_<0>>,
+            ext::boost::mpl::integral_c_tag<int>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::long_<0>>,
-            ext::boost::mpl::IntegralC<long>
+            tag_of_t<mpl::long_<0>>,
+            ext::boost::mpl::integral_c_tag<long>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::size_t<0>>,
-            ext::boost::mpl::IntegralC<std::size_t>
+            tag_of_t<mpl::size_t<0>>,
+            ext::boost::mpl::integral_c_tag<std::size_t>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::integral_c<int, 0>>,
-            ext::boost::mpl::IntegralC<int>
+            tag_of_t<mpl::integral_c<int, 0>>,
+            ext::boost::mpl::integral_c_tag<int>
         >::value, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::char_<0>>,
-            ext::boost::mpl::IntegralC<char>
+            tag_of_t<mpl::char_<0>>,
+            ext::boost::mpl::integral_c_tag<char>
         >::value, "");
     }
 
@@ -98,20 +98,20 @@ int main() {
         static_assert(value(mpl::integral_c<int, 3>{}) == 3, "");
 
         // laws
-        test::TestConstant<ext::boost::mpl::IntegralC<int>>{ints, tuple_t<int, long, long long>};
+        test::TestConstant<ext::boost::mpl::integral_c_tag<int>>{ints, tuple_t<int, long, long long>};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
     // Enumerable, Monoid, Group, Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
-    test::TestEnumerable<ext::boost::mpl::IntegralC<int>>{ints};
-    test::TestMonoid<ext::boost::mpl::IntegralC<int>>{ints};
-    test::TestGroup<ext::boost::mpl::IntegralC<int>>{ints};
+    test::TestEnumerable<ext::boost::mpl::integral_c_tag<int>>{ints};
+    test::TestMonoid<ext::boost::mpl::integral_c_tag<int>>{ints};
+    test::TestGroup<ext::boost::mpl::integral_c_tag<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 3
-    test::TestRing<ext::boost::mpl::IntegralC<int>>{ints};
-    test::TestIntegralDomain<ext::boost::mpl::IntegralC<int>>{ints};
+    test::TestRing<ext::boost::mpl::integral_c_tag<int>>{ints};
+    test::TestIntegralDomain<ext::boost::mpl::integral_c_tag<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 4 || BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
@@ -149,18 +149,18 @@ int main() {
         // laws
 #if BOOST_HANA_TEST_PART == 4
 
-        auto ints = make<Tuple>(
+        auto ints = make<tuple_tag>(
             mpl::int_<-2>{}, mpl::integral_c<int, 0>{}, mpl::integral_c<int, 3>{}
         );
-        test::TestLogical<ext::boost::mpl::IntegralC<int>>{ints};
+        test::TestLogical<ext::boost::mpl::integral_c_tag<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 5
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
             mpl::true_{}, mpl::false_{},
             mpl::integral_c<bool, true>{}, mpl::integral_c<bool, false>{}
         );
-        test::TestLogical<ext::boost::mpl::IntegralC<bool>>{bools};
+        test::TestLogical<ext::boost::mpl::integral_c_tag<bool>>{bools};
 
 #endif
     }
@@ -169,12 +169,12 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::boost::mpl::IntegralC<int>>{ints};
+    test::TestComparable<ext::boost::mpl::integral_c_tag<int>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 7
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    test::TestOrderable<ext::boost::mpl::IntegralC<int>>{ints};
+    test::TestOrderable<ext::boost::mpl::integral_c_tag<int>>{ints};
 #endif
 }

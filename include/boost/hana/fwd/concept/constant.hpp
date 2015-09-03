@@ -23,13 +23,13 @@ namespace boost { namespace hana {
     //! `value` method) regardless of the `constexpr`ness of the object itself.
     //!
     //! All `Constant`s must be somewhat equivalent, in the following sense.
-    //! Let `C(T)` and `D(U)` denote the data types of `Constant`s holding
-    //! objects of type `T` and `U`, respectively. Then, an object of data
-    //! type `D(U)` must be convertible to an object of type `C(T)` whenever
-    //! `U` is convertible to `T`, has determined by `is_convertible`. The
-    //! interpretation here is that a `Constant` is just a box holding an
-    //! object of some type, and it should be possible to swap between boxes
-    //! whenever the objects inside the boxes can be swapped.
+    //! Let `C(T)` and `D(U)` denote the tags of `Constant`s holding objects
+    //! of type `T` and `U`, respectively. Then, an object with tag `D(U)`
+    //! must be convertible to an object with tag `C(T)` whenever `U` is
+    //! convertible to `T`, has determined by `is_convertible`. The
+    //! interpretation here is that a `Constant` is just a box holding
+    //! an object of some type, and it should be possible to swap between
+    //! boxes whenever the objects inside the boxes can be swapped.
     //!
     //! Because of this last requirement, one could be tempted to think that
     //! specialized "boxes" like `std::integral_constant` are prevented from
@@ -50,10 +50,10 @@ namespace boost { namespace hana {
     //!
     //! Laws
     //! ----
-    //! Let `c` be an object of a data type `C`, which represents a `Constant`
-    //! holding an object of data type `T`. The first law ensures that the
-    //! value of the wrapped object is always a constant expression by
-    //! requiring the following to be well-formed:
+    //! Let `c` be an object of with tag `C`, which represents a `Constant`
+    //! holding an object with tag `T`. The first law ensures that the value
+    //! of the wrapped object is always a constant expression by requiring
+    //! the following to be well-formed:
     //! @code
     //!     constexpr auto x = hana::value<decltype(x)>();
     //! @endcode
@@ -73,19 +73,19 @@ namespace boost { namespace hana {
     //!     to<C>(i)
     //! @endcode
     //! where, `i` is an _arbitrary_ `Constant` holding an internal value
-    //! of a data type which can be converted to `T`, as determined by the
+    //! with a tag that can be converted to `T`, as determined by the
     //! `is_convertible` metafunction. In other words, whenever `U` is
     //! convertible to `T`, a `Constant` holding a `U` is convertible to
     //! a `Constant` holding a `T`, if such a `Constant` can be created.
     //!
-    //! Finally, the data type `C` must provide a nested `value_type` alias
-    //! to `T`, which allows us to query the data type of the inner value held
-    //! by objects of data type `C`. In other words, the following must be
-    //! true for any object `c` of data type `C`:
+    //! Finally, the tag `C` must provide a nested `value_type` alias to `T`,
+    //! which allows us to query the tag of the inner value held by objects
+    //! with tag `C`. In other words, the following must be true for any
+    //! object `c` with tag `C`:
     //! @code
     //!     std::is_same<
     //!         C::value_type,
-    //!         datatype_t<decltype(hana::value(c))>
+    //!         tag_of<decltype(hana::value(c))>::type
     //!     >::value
     //! @endcode
     //!
@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     //! ----------------
     //! In certain cases, a `Constant` can automatically be made a model of
     //! another concept. In particular, if a `Constant` `C` is holding an
-    //! object of type `T`, and if `T` models a concept `X`, then `C` may
+    //! object of tag `T`, and if `T` models a concept `X`, then `C` may
     //! in most cases model `X` by simply performing whatever operation is
     //! required on its underlying value, and then wrapping the result back
     //! in a `C`.
@@ -129,10 +129,10 @@ namespace boost { namespace hana {
     //! `hana::integral_constant`
     //!
     //!
-    //! Provided conversion to the data type of the underlying value
-    //! ------------------------------------------------------------
-    //! Any `Constant` `c` holding an underlying value of data type `T` is
-    //! convertible to any data type `U` such that `T` is convertible to `U`.
+    //! Provided conversion to the tag of the underlying value
+    //! ------------------------------------------------------
+    //! Any `Constant` `c` holding an underlying value of tag `T` is
+    //! convertible to any tag `U` such that `T` is convertible to `U`.
     //! Specifically, the conversion is equivalent to
     //! @code
     //!     to<U>(c) == to<U>(value<decltype(c)>())
@@ -165,7 +165,7 @@ namespace boost { namespace hana {
     //!
     //! which isn't. To be on the safer side, we could mark the conversion
     //! as not-an-embedding. However, if e.g. the conversion from
-    //! `IntegralConstant<int>` to `int` was not marked as an embedding,
+    //! `integral_constant_tag<int>` to `int` was not marked as an embedding,
     //! we would have to write `plus(to<int>(int_<1>), 1)` instead of just
     //! `plus(int_<1>, 1)`, which is cumbersome. Hence, the conversion is
     //! marked as an embedding, but this also means that code like

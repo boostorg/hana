@@ -48,7 +48,7 @@ namespace tc1 {
     // Make sure we model the Metafunction concept
     BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction<f>));
 
-    // `metafunction` with non-Type arguments
+    // `metafunction` with non-type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction<f>(y1{}),
@@ -133,7 +133,7 @@ namespace tc2 {
     // Make sure we model the Metafunction concept
     BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(metafunction_class<f>));
 
-    // `metafunction_class` with non-Type arguments
+    // `metafunction_class` with non-type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         metafunction_class<f>(y1{}),
@@ -209,7 +209,7 @@ namespace tc3 {
     // Make sure we model the Metafunction concept
     BOOST_HANA_CONSTANT_CHECK(models<Metafunction>(template_<f>));
 
-    // `template_` with non-Type arguments
+    // `template_` with non-type arguments
     // 1 arg
     BOOST_HANA_CONSTANT_CHECK(equal(
         template_<f>(y1{}),

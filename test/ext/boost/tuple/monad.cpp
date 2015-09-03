@@ -24,15 +24,15 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto eq_tuples = make<Tuple>(
+    auto eq_tuples = make<tuple_tag>(
           ::boost::make_tuple()
         , ::boost::make_tuple(eq<0>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{})
     );
 
-    auto eq_values = make<Tuple>(eq<0>{}, eq<2>{});
+    auto eq_values = make<tuple_tag>(eq<0>{}, eq<2>{});
 
-    auto eq_tuples_tuples = make<Tuple>(
+    auto eq_tuples_tuples = make<tuple_tag>(
           ::boost::make_tuple()
         , ::boost::make_tuple(
             ::boost::make_tuple(eq<0>{}))
@@ -48,7 +48,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
-    test::TestFunctor<ext::boost::Tuple>{eq_tuples, eq_values};
-    test::TestApplicative<ext::boost::Tuple>{eq_tuples};
-    test::TestMonad<ext::boost::Tuple>{eq_tuples, eq_tuples_tuples};
+    test::TestFunctor<ext::boost::tuple_tag>{eq_tuples, eq_values};
+    test::TestApplicative<ext::boost::tuple_tag>{eq_tuples};
+    test::TestMonad<ext::boost::tuple_tag>{eq_tuples, eq_tuples_tuples};
 }

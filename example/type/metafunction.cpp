@@ -20,7 +20,7 @@ BOOST_HANA_CONSTANT_CHECK(hana::metafunction<f>() == hana::type_c<f<>::type>);
 BOOST_HANA_CONSTANT_CHECK(hana::metafunction<f>(hana::type_c<x>) == hana::type_c<f<x>::type>);
 BOOST_HANA_CONSTANT_CHECK(hana::metafunction<f>(hana::type_c<x>, hana::type_c<y>) == hana::type_c<f<x, y>::type>);
 
-// calling `metafunction` on non-Types
+// calling `metafunction` on non-types
 BOOST_HANA_CONSTANT_CHECK(hana::metafunction<f>(1) == hana::type_c<f<int>::type>);
 
 static_assert(std::is_same<

@@ -27,8 +27,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) quot_t::operator()(X&& x, Y&& y) const {
-        using T = typename datatype<X>::type;
-        using U = typename datatype<Y>::type;
+        using T = typename hana::tag_of<X>::type;
+        using U = typename hana::tag_of<Y>::type;
         using Quot = BOOST_HANA_DISPATCH_IF(decltype(quot_impl<T, U>{}),
             _models<IntegralDomain, T>::value &&
             _models<IntegralDomain, U>::value &&
@@ -94,12 +94,10 @@ namespace boost { namespace hana {
         template <typename X, typename Y>
         struct constant_t {
             static constexpr decltype(auto) get() {
-                return boost::hana::quot(boost::hana::value<X>(),
-                                         boost::hana::value<Y>());
+                return hana::quot(hana::value<X>(), hana::value<Y>());
             }
 
-            using hana = constant_t;
-            using datatype = detail::CanonicalConstant<T>;
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X, typename Y>

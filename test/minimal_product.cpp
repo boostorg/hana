@@ -32,16 +32,16 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable, Orderable, Foldable, Product
     //////////////////////////////////////////////////////////////////////////
-    auto eq_elems = make<Tuple>(ct_eq<3>{}, ct_eq<4>{});
+    auto eq_elems = make<tuple_tag>(ct_eq<3>{}, ct_eq<4>{});
 
-    auto eqs = make<Tuple>(
+    auto eqs = make<tuple_tag>(
           test::minimal_product(ct_eq<3>{}, ct_eq<3>{})
         , test::minimal_product(ct_eq<3>{}, ct_eq<4>{})
         , test::minimal_product(ct_eq<4>{}, ct_eq<3>{})
         , test::minimal_product(ct_eq<4>{}, ct_eq<4>{})
     );
 
-    auto ords = make<Tuple>(
+    auto ords = make<tuple_tag>(
           test::minimal_product(ct_ord<3>{}, ct_ord<3>{})
         , test::minimal_product(ct_ord<3>{}, ct_ord<4>{})
         , test::minimal_product(ct_ord<4>{}, ct_ord<3>{})

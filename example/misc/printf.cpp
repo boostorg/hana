@@ -48,12 +48,12 @@ constexpr auto format(Tokens ...tokens_) {
     //     return formats[decltype_(token)];
     // }
     auto format_string_tokens = hana::adjust_if(tokens,
-        hana::compose(hana::not_, hana::is_a<hana::String>),
+        hana::compose(hana::not_, hana::is_a<hana::string_tag>),
         hana::compose(hana::partial(hana::at_key, formats), hana::decltype_)
     );
 
     auto format_string = hana::fold_left(format_string_tokens, hana::string_c<>, concat_strings{});
-    auto variables = hana::filter(tokens, hana::compose(hana::not_, hana::is_a<hana::String>));
+    auto variables = hana::filter(tokens, hana::compose(hana::not_, hana::is_a<hana::string_tag>));
     return hana::prepend(variables, format_string);
 }
 

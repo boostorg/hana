@@ -24,7 +24,7 @@ struct print_impl : hana::default_ {
 };
 
 auto print = [](std::ostream& os, auto const& x) -> decltype(auto) {
-    return print_impl<hana::datatype_t<decltype(x)>>::apply(os, x);
+    return print_impl<hana::tag_of_t<decltype(x)>>::apply(os, x);
 };
 
 namespace boost { namespace hana {

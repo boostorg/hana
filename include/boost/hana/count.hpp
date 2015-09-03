@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Value>
     constexpr auto count_t::operator()(Xs&& xs, Value&& value) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Count = BOOST_HANA_DISPATCH_IF(count_impl<S>,
             _models<Foldable, S>::value
         );

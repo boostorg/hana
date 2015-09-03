@@ -31,7 +31,7 @@ int main() {
     using test::ct_eq;
     using test::ct_ord;
 
-    auto eqs = make<Tuple>(
+    auto eqs = make<tuple_tag>(
           test::seq()
         , test::seq(ct_eq<0>{})
         , test::seq(ct_eq<0>{}, ct_eq<1>{})
@@ -40,7 +40,7 @@ int main() {
     );
     (void)eqs;
 
-    auto nested_eqs = make<Tuple>(
+    auto nested_eqs = make<tuple_tag>(
           test::seq()
         , test::seq(
             test::seq(ct_eq<0>{}))
@@ -54,16 +54,16 @@ int main() {
     );
     (void)nested_eqs;
 
-    auto eq_keys = make<Tuple>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
+    auto eq_keys = make<tuple_tag>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
     (void)eq_keys;
 
-    auto predicates = make<Tuple>(
+    auto predicates = make<tuple_tag>(
         equal.to(ct_eq<0>{}), equal.to(ct_eq<3>{}), equal.to(ct_eq<10>{}),
         always(true_c), always(false_c)
     );
     (void)predicates;
 
-    auto ords = make<Tuple>(
+    auto ords = make<tuple_tag>(
           test::seq()
         , test::seq(ct_ord<0>{})
         , test::seq(ct_ord<0>{}, ct_ord<1>{})
@@ -101,7 +101,7 @@ int main() {
     {
         test::TestSearchable<test::Seq>{eqs, eq_keys};
 
-        auto bools = make<Tuple>(
+        auto bools = make<tuple_tag>(
               test::seq(true_c)
             , test::seq(false_c)
             , test::seq(true_c, true_c)
@@ -109,7 +109,7 @@ int main() {
             , test::seq(false_c, true_c)
             , test::seq(false_c, false_c)
         );
-        test::TestSearchable<test::Seq>{bools, make<Tuple>(true_c, false_c)};
+        test::TestSearchable<test::Seq>{bools, make<tuple_tag>(true_c, false_c)};
     }
 #endif
 

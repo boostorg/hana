@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::Tuple`.
+Adapts `boost::tuple` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/models.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/tail.hpp>
@@ -29,28 +29,28 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace ext { namespace boost { struct Tuple; }}
+    namespace ext { namespace boost { struct tuple_tag; }}
 
     template <typename ...Xs>
-    struct datatype< ::boost::tuple<Xs...>> {
-        using type = ext::boost::Tuple;
+    struct tag_of<boost::tuple<Xs...>> {
+        using type = ext::boost::tuple_tag;
     };
 
     template <typename H, typename T>
-    struct datatype< ::boost::tuples::cons<H, T>> {
-        using type = ext::boost::Tuple;
+    struct tag_of<boost::tuples::cons<H, T>> {
+        using type = ext::boost::tuple_tag;
     };
 
     template <>
-    struct datatype< ::boost::tuples::null_type> {
-        using type = ext::boost::Tuple;
+    struct tag_of<boost::tuples::null_type> {
+        using type = ext::boost::tuple_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<ext::boost::Tuple> {
+    struct at_impl<ext::boost::tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t n = hana::value<N>();
@@ -59,37 +59,37 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::boost::Tuple> {
+    struct tail_impl<ext::boost::tuple_tag> {
         template <typename H>
         static constexpr auto
-        apply(::boost::tuples::cons<H, ::boost::tuples::null_type> const&)
-        { return ::boost::tuples::null_type{}; }
+        apply(boost::tuples::cons<H, boost::tuples::null_type> const&)
+        { return boost::tuples::null_type{}; }
 
         template <typename H>
         static constexpr auto
-        apply(::boost::tuples::cons<H, ::boost::tuples::null_type>&)
-        { return ::boost::tuples::null_type{}; }
+        apply(boost::tuples::cons<H, boost::tuples::null_type>&)
+        { return boost::tuples::null_type{}; }
 
         template <typename H, typename T>
-        static constexpr auto const& apply(::boost::tuples::cons<H, T> const& xs)
+        static constexpr auto const& apply(boost::tuples::cons<H, T> const& xs)
         { return xs.get_tail(); }
 
         template <typename H, typename T>
-        static constexpr auto& apply(::boost::tuples::cons<H, T>& xs)
+        static constexpr auto& apply(boost::tuples::cons<H, T>& xs)
         { return xs.get_tail(); }
 
         template <typename H, typename T>
-        static constexpr auto apply(::boost::tuples::cons<H, T>&& xs)
+        static constexpr auto apply(boost::tuples::cons<H, T>&& xs)
         { return std::move(xs).get_tail(); }
     };
 
     template <>
-    struct is_empty_impl<ext::boost::Tuple> {
-        static constexpr auto apply(::boost::tuples::null_type const&)
+    struct is_empty_impl<ext::boost::tuple_tag> {
+        static constexpr auto apply(boost::tuples::null_type const&)
         { return hana::true_c; }
 
         template <typename H, typename T>
-        static constexpr auto apply(::boost::tuples::cons<H, T> const&)
+        static constexpr auto apply(boost::tuples::cons<H, T> const&)
         { return hana::false_c; }
     };
 
@@ -97,10 +97,10 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<ext::boost::Tuple> {
+    struct length_impl<ext::boost::tuple_tag> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
-            return hana::size_c< ::boost::tuples::length<Xs>::value>;
+            return hana::size_c<boost::tuples::length<Xs>::value>;
         }
     };
 
@@ -108,15 +108,15 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, ext::boost::Tuple> {
+    struct models_impl<Sequence, ext::boost::tuple_tag> {
         static constexpr bool value = true;
     };
 
     template <>
-    struct make_impl<ext::boost::Tuple> {
+    struct make_impl<ext::boost::tuple_tag> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
-            return ::boost::tuples::tuple<
+            return boost::tuples::tuple<
                 typename std::decay<Xs>::type...
             >{static_cast<Xs&&>(xs)...};
         }

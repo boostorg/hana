@@ -17,7 +17,7 @@ namespace boost { namespace hana {
     //! Negates a `Logical`.
     //! @relates Logical
     //!
-    //! This method returns a `Logical` of the same data type, but whose
+    //! This method returns a `Logical` with the same tag, but whose
     //! truth-value is negated. Specifically, `not_(x)` returns a false-valued
     //! `Logical` if `x` is a true-valued `Logical`, and a true-valued one
     //! otherwise.

@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-static_assert(hana::models<hana::Iterable, hana::Tuple>, "");
-static_assert(!hana::models<hana::Iterable, hana::IntegralConstant<int>>, "");
+static_assert(hana::models<hana::Iterable, hana::tuple_tag>, "");
+static_assert(!hana::models<hana::Iterable, hana::integral_constant_tag<int>>, "");
 
 int main() { }

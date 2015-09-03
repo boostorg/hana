@@ -37,7 +37,7 @@ namespace boost { namespace hana {
     //!
     //! @note
     //! `value<T>()` is tag-dispatched as `value_impl<C>::%apply<T>()`, where
-    //! `C` is the data type of `T`.
+    //! `C` is the tag of `T`.
     //!
     //!
     //! Example

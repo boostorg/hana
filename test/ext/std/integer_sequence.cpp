@@ -25,7 +25,7 @@ using T = int;
 using U = long long;
 
 int main() {
-    auto sequences = make<Tuple>(
+    auto sequences = make<tuple_tag>(
         std::integer_sequence<T>{},
         std::integer_sequence<U>{},
 
@@ -84,7 +84,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<ext::std::IntegerSequence>{sequences};
+        test::TestComparable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
@@ -125,7 +125,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<ext::std::IntegerSequence>{sequences};
+        test::TestFoldable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -169,7 +169,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<ext::std::IntegerSequence>{sequences};
+        test::TestIterable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -177,7 +177,7 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto sequences = make<Tuple>(
+        auto sequences = make<tuple_tag>(
             std::integer_sequence<T>{},
             std::integer_sequence<T, 2>{},
             std::integer_sequence<T, 3>{},
@@ -185,12 +185,12 @@ int main() {
             std::integer_sequence<T, 3, 4, 5>{}
         );
 
-        auto keys = make<Tuple>(
+        auto keys = make<tuple_tag>(
             std::integral_constant<T, 3>{}, std::integral_constant<U, 4>{}
         );
 
         // laws
-        test::TestSearchable<ext::std::IntegerSequence>{sequences, keys};
+        test::TestSearchable<ext::std::integer_sequence_tag>{sequences, keys};
     }
 #endif
 }

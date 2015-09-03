@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/range.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
@@ -79,12 +79,12 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Range>
+    // make<range_tag>
     //////////////////////////////////////////////////////////////////////////
     {
-        // make sure make<Range> works with arbitrary Constants
+        // make sure make<range_tag> works with arbitrary Constants
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::make<hana::Range>(test::_constant<1>{}, test::_constant<4>{}),
+            hana::make<hana::range_tag>(test::_constant<1>{}, test::_constant<4>{}),
             hana::make_range(hana::integral_c<int, 1>, hana::integral_c<int, 4>)
         ));
     }
@@ -148,7 +148,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<hana::Range>{ranges};
+        test::TestComparable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
@@ -179,7 +179,7 @@ int main() {
             // Previously, we would only unpack with `std::size_t`s. Make
             // sure this does not happen.
             hana::unpack(hana::make_range(hana::int_c<0>, hana::int_c<1>), [](auto x) {
-                using T = hana::datatype_t<decltype(x)>;
+                using T = hana::tag_of_t<decltype(x)>;
                 static_assert(std::is_same<typename T::value_type, int>{}, "");
             });
         }
@@ -344,7 +344,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<hana::Range>{ranges};
+        test::TestFoldable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 3
 
@@ -560,7 +560,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<hana::Range>{ranges};
+        test::TestIterable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
@@ -646,7 +646,7 @@ int main() {
         }
 
         // laws
-        test::TestSearchable<hana::Range>{ranges, integers};
+        test::TestSearchable<hana::range_tag>{ranges, integers};
     }
 #endif
 }

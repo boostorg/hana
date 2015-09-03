@@ -55,12 +55,12 @@ namespace boost { namespace hana {
     //! Conversion from any `Foldable`
     //! ------------------------------
     //! Any `Foldable` structure can be converted into a `hana::set` with
-    //! `to<Set>`. The elements of the structure must all be compile-time
+    //! `to<set_tag>`. The elements of the structure must all be compile-time
     //! `Comparable`. If the structure contains duplicate elements, only
     //! the first occurence will appear in the resulting set. More
     //! specifically, conversion from a `Foldable` is equivalent to
     //! @code
-    //!     to<Set>(xs) == fold_left(xs, make<Set>(), insert)
+    //!     to<set_tag>(xs) == fold_left(xs, make_set(), insert)
     //! @endcode
     //!
     //! __Example__
@@ -70,15 +70,15 @@ namespace boost { namespace hana {
 
     //! Tag representing the `hana::set` container.
     //! @relates hana::set
-    struct Set { };
+    struct set_tag { };
 
     //! Function object for creating a `hana::set`.
     //! @relates hana::set
     //!
-    //! Given zero or more values `xs...`, `make<Set>` returns a `set`
+    //! Given zero or more values `xs...`, `make<set_tag>` returns a `set`
     //! containing those values. The values must all be compile-time
     //! `Comparable`, and no duplicate values may be provided. To create
-    //! a `set` from a sequence with possible duplicates, use `to<Set>`
+    //! a `set` from a sequence with possible duplicates, use `to<set_tag>`
     //! instead.
     //!
     //!
@@ -87,19 +87,19 @@ namespace boost { namespace hana {
     //! @include example/set/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Set> = [](auto&& ...xs) {
+    constexpr auto make<set_tag> = [](auto&& ...xs) {
         return set<implementation-defined...>{forwarded(xs)...};
     };
 #endif
 
-    //! Equivalent to `make<Set>`; provided for convenience.
+    //! Equivalent to `make<set_tag>`; provided for convenience.
     //! @relates hana::set
     //!
     //!
     //! Example
     //! -------
     //! @include example/set/make.cpp
-    constexpr auto make_set = make<Set>;
+    constexpr auto make_set = make<set_tag>;
 
     //! Insert an element in a `hana::set`.
     //! @relates hana::set

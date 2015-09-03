@@ -20,7 +20,7 @@ BOOST_HANA_CONSTANT_CHECK(hana::template_<f>() == hana::type_c<f<>>);
 BOOST_HANA_CONSTANT_CHECK(hana::template_<f>(hana::type_c<x>) == hana::type_c<f<x>>);
 BOOST_HANA_CONSTANT_CHECK(hana::template_<f>(hana::type_c<x>, hana::type_c<y>) == hana::type_c<f<x, y>>);
 
-// calling `hana::template_` on non-Types
+// calling `hana::template_` on non-types
 BOOST_HANA_CONSTANT_CHECK(hana::template_<f>(1) == hana::type_c<f<int>>);
 
 static_assert(std::is_same<

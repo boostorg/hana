@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::fusion::Deque`.
+Adapts `boost::fusion::deque` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/tail.hpp>
 
 #include <boost/fusion/container/deque.hpp>
@@ -27,11 +27,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
-        struct Deque;
+        struct deque_tag;
     }}}
 
     template <typename T>
-    struct datatype<T, when<
+    struct tag_of<T, when<
         std::is_same<
             typename ::boost::fusion::traits::tag_of<T>::type,
             ::boost::fusion::traits::tag_of<
@@ -39,12 +39,12 @@ namespace boost { namespace hana {
             >::type
         >::value
     >> {
-        using type = ext::boost::fusion::Deque;
+        using type = ext::boost::fusion::deque_tag;
     };
 
     namespace detail {
         template <>
-        struct is_fusion_sequence<ext::boost::fusion::Deque> {
+        struct is_fusion_sequence<ext::boost::fusion::deque_tag> {
             static constexpr bool value = true;
         };
     }
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     // Iterable (the rest is in detail/common.hpp)
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tail_impl<ext::boost::fusion::Deque> {
+    struct tail_impl<ext::boost::fusion::deque_tag> {
         template <typename Xs, std::size_t ...i>
         static constexpr auto tail_helper(Xs&& xs, std::index_sequence<0, i...>) {
             return ::boost::fusion::make_deque(::boost::fusion::at_c<i>(xs)...);
@@ -71,7 +71,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<ext::boost::fusion::Deque> {
+    struct make_impl<ext::boost::fusion::deque_tag> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
             return ::boost::fusion::make_deque(static_cast<Xs&&>(xs)...);

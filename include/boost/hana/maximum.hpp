@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr decltype(auto) maximum_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Maximum = BOOST_HANA_DISPATCH_IF(maximum_impl<S>,
             _models<Foldable, S>::value
         );
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename Predicate>
     constexpr decltype(auto) maximum_t::operator()(Xs&& xs, Predicate&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Maximum = BOOST_HANA_DISPATCH_IF(maximum_pred_impl<S>,
             _models<Foldable, S>::value
         );

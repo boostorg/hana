@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
 #include <boost/hana/core/default.hpp>
+#include <boost/hana/core/tag_of.hpp>
 
 #include <algorithm>
 #include <iterator>
@@ -24,7 +24,7 @@ struct print_impl : hana::default_ {
 };
 
 auto print = [](auto& stream, auto const& x) {
-    return print_impl<hana::datatype_t<decltype(x)>>::apply(stream, x);
+    return print_impl<hana::tag_of_t<decltype(x)>>::apply(stream, x);
 };
 
 // In some other header

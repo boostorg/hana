@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Object>
     constexpr auto members_t::operator()(Object&& object) const {
-        using S = typename datatype<Object>::type;
+        using S = typename hana::tag_of<Object>::type;
         using Members = BOOST_HANA_DISPATCH_IF(members_impl<S>,
             _models<Struct, S>::value
         );

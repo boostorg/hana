@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-// A trait representing whether a data type has a single C++ type. This
-// is entirely optional, but can enable some optimizations.
+// A trait representing whether a tag has a single C++ type.
+// This is entirely optional, but can enable some optimizations.
 template <typename T, typename Enable = void>
 struct is_homogeneous {
     static constexpr bool value = false;
@@ -29,7 +29,7 @@ struct is_homogeneous<T, std::enable_if_t<std::is_arithmetic<T>::value>> {
 };
 
 
-// a list of Types
+// a list of types
 template <typename ...xs>
 constexpr auto list_t = hana::tuple_t<xs...>;
 
@@ -42,11 +42,11 @@ template <typename T, typename Enable = void>
 struct list_of {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::make<hana::Tuple>(x...); }
+    { return hana::make<hana::tuple_tag>(x...); }
 };
 
 template <>
-struct list_of<hana::Type> {
+struct list_of<hana::type_tag> {
     template <typename ...X>
     constexpr auto operator()(X ...) const
     { return list_t<typename X::type...>; }
@@ -56,7 +56,7 @@ template <typename T>
 struct list_of<T, std::enable_if_t<is_homogeneous<T>::value>> {
     template <typename ...X>
     constexpr auto operator()(X ...x) const
-    { return hana::make<hana::Tuple>(x...); } // would use an array
+    { return hana::make<hana::tuple_tag>(x...); } // would use an array
 };
 
 
@@ -81,7 +81,7 @@ int main() {
     list(1, 2, 3); // normal version
 
     // uses a list_t internally
-    list.of<hana::Type>(hana::type_c<int>, hana::type_c<void>, hana::type_c<char>);
+    list.of<hana::type_tag>(hana::type_c<int>, hana::type_c<void>, hana::type_c<char>);
 
     // uses an array internally
     list.of<int>(1, 2, 3);

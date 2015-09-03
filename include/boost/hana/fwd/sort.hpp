@@ -41,8 +41,8 @@ namespace boost { namespace hana {
     //!     \mathtt{sort} : S(T) \times (T \times T \to Bool) \to S(T)
     //! \f]
     //!
-    //! for the variant without a custom predicate, the `T` data type is
-    //! required to be `Orderable`. The signature is then
+    //! for the variant without a custom predicate, `T` is required to be
+    //! `Orderable`. The signature is then
     //! \f[
     //!     \mathtt{sort} : S(T) \to S(T)
     //! \f]

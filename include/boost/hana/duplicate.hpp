@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename W_>
     constexpr decltype(auto) duplicate_t::operator()(W_&& w) const {
-        using W = typename datatype<W_>::type;
+        using W = typename hana::tag_of<W_>::type;
         using Duplicate = BOOST_HANA_DISPATCH_IF(duplicate_impl<W>,
             _models<Comonad, W>::value
         );

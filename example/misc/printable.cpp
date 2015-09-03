@@ -27,7 +27,7 @@ struct print_impl<T, hana::when<condition>> : hana::default_ {
 
 template <typename T>
 constexpr auto print(T const& t) {
-    using Print = print_impl<typename hana::datatype<T>::type>;
+    using Print = print_impl<typename hana::tag_of<T>::type>;
     return Print::apply(t);
 }
 
@@ -74,13 +74,13 @@ struct print_impl<S, hana::when<is_valid<decltype(
     }
 };
 
-// model for Maps
+// model for hana::maps
 template <>
-struct print_impl<hana::Map> {
+struct print_impl<hana::map_tag> {
     template <typename M>
     static auto apply(M const& map) {
         std::string result = "{";
-        auto pairs = hana::transform(hana::to<hana::Tuple>(map),
+        auto pairs = hana::transform(hana::to<hana::tuple_tag>(map),
             [](auto const& pair) {
                 return print(hana::first(pair)) + " => " + print(hana::second(pair));
             });
@@ -115,22 +115,22 @@ struct print_impl<P, hana::when<hana::models<hana::Product, P>()>> {
     }
 };
 
-// model for String
+// model for hana::strings
 template <>
-struct print_impl<hana::String> {
+struct print_impl<hana::string_tag> {
     template <typename S>
     static auto apply(S const& s) {
         return '"' + std::string{hana::to<char const*>(s)} + '"';
     }
 };
 
-// model for Sets
+// model for hana::sets
 template <>
-struct print_impl<hana::Set> {
+struct print_impl<hana::set_tag> {
     template <typename S>
     static auto apply(S const& set) {
         std::string result = "{";
-        auto as_tuple = hana::transform(hana::to<hana::Tuple>(set), [](auto const& x) { return print(x); });
+        auto as_tuple = hana::transform(hana::to<hana::tuple_tag>(set), [](auto const& x) { return print(x); });
         auto comma_separated = hana::intersperse(as_tuple, ", ");
         hana::for_each(comma_separated, [&result](auto const& element) {
             result += element;
@@ -140,9 +140,9 @@ struct print_impl<hana::Set> {
     }
 };
 
-// model for Types
+// model for hana::types
 template <>
-struct print_impl<hana::Type> {
+struct print_impl<hana::type_tag> {
     static std::string demangle(char const* mangled) {
         int status;
         std::unique_ptr<char[], void(*)(void*)> result(

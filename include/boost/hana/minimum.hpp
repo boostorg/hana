@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_impl<S>,
             _models<Foldable, S>::value
         );
@@ -40,7 +40,7 @@ namespace boost { namespace hana {
 
     template <typename Xs, typename Predicate>
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs, Predicate&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_pred_impl<S>,
             _models<Foldable, S>::value
         );

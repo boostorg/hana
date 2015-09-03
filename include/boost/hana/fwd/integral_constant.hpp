@@ -142,7 +142,7 @@ namespace boost { namespace hana {
     //! Tag representing `hana::integral_constant`.
     //! @relates hana::integral_constant
     template <typename T>
-    struct IntegralConstant {
+    struct integral_constant_tag {
         using value_type = T;
     };
 
@@ -175,8 +175,7 @@ namespace boost { namespace hana {
         // times
         static constexpr ic_detail::times_t<T, v> times{};
 
-        using hana = integral_constant;
-        using datatype = IntegralConstant<T>;
+        using hana_tag = integral_constant_tag<T>;
     };
     //! @endcond
 

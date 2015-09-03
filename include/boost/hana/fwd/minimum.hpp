@@ -39,8 +39,8 @@ namespace boost { namespace hana {
     //!     \mathtt{minimum} : F(T) \times (T \times T \to Bool) \to T
     //! \f]
     //!
-    //! for the variant without a custom predicate, the `T` data type is
-    //! required to be Orderable. The signature is then
+    //! for the variant without a custom predicate, `T` is required to be
+    //! Orderable. The signature is then
     //! \f[
     //!     \mathtt{minimum} : F(T) \to T
     //! \f]
@@ -83,8 +83,8 @@ namespace boost { namespace hana {
     //! of `minimum` when the `less` predicate is used. Here is how the
     //! different versions of `minimum` are dispatched:
     //! @code
-    //!     minimum(xs) -> minimum_impl<data type of xs>::apply(xs)
-    //!     minimum(xs, pred) -> minimum_pred_impl<data type of xs>::apply(xs, pred)
+    //!     minimum(xs) -> minimum_impl<tag of xs>::apply(xs)
+    //!     minimum(xs, pred) -> minimum_pred_impl<tag of xs>::apply(xs, pred)
     //! @endcode
     //!
     //! Also note that `minimum.by` is not tag-dispatched on its own, since it

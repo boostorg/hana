@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto none_of_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using NoneOf = BOOST_HANA_DISPATCH_IF(none_of_impl<S>,
             _models<Searchable, S>::value
         );

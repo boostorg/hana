@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/datatype.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/minus.hpp>
 #include <boost/hana/not_equal.hpp>
@@ -28,23 +28,23 @@ struct print_impl {
 
 template <typename X>
 void print(std::ostream& os, X x) {
-  using Tag = typename hana::datatype<X>::type;
+  using Tag = typename hana::tag_of<X>::type;
   print_impl<Tag>::apply(os, x);
 }
 //! [setup]
 
-//! [Vector]
-struct Vector;
+//! [vector]
+struct vector_tag;
 
 struct vector0 {
-  struct hana { using datatype = Vector; };
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 0;
 };
 
 template <typename T1>
 struct vector1 {
   T1 t1;
-  struct hana { using datatype = Vector; };
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 1;
 
   template <typename Index>
@@ -57,22 +57,22 @@ struct vector1 {
 template <typename T1, typename T2>
 struct vector2 {
   T1 t1; T2 t2;
-  struct hana { using datatype = Vector; };
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 2;
 
   // Using Hana as a backend to simplify the example.
   template <typename Index>
   auto const& operator[](Index i) const {
-    return *boost::hana::make_tuple(&t1, &t2)[i];
+    return *hana::make_tuple(&t1, &t2)[i];
   }
 };
 
 // and so on...
-//! [Vector]
+//! [vector]
 
 //! [customize]
 template <>
-struct print_impl<Vector> {
+struct print_impl<vector_tag> {
   template <typename vectorN>
   static void apply(std::ostream& os, vectorN xs) {
     constexpr auto N = hana::size_c<vectorN::size>;
@@ -136,7 +136,7 @@ void print(std::ostream& os, X x) {
   // The precondition only has to be checked here; implementations
   // can assume their arguments to always be sane.
 
-  using Tag = typename hana::datatype<X>::type;
+  using Tag = typename hana::tag_of<X>::type;
   print_impl<Tag>::apply(os, x);
 }
 //! [preconditions]
@@ -149,7 +149,7 @@ namespace function_objects {
 struct _print {
   template <typename X>
   void operator()(std::ostream& os, X x) const {
-    using Tag = typename hana::datatype<X>::type;
+    using Tag = typename hana::tag_of<X>::type;
     print_impl<Tag>::apply(os, x);
   }
 };

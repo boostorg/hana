@@ -33,14 +33,14 @@ namespace boost { namespace hana {
     //!
     //! Cross-type version of the method
     //! --------------------------------
-    //! This method is tag-dispatched using the data type of both arguments.
+    //! This method is tag-dispatched using the tags of both arguments.
     //! It can be called with any two `Searchable`s sharing a common
     //! `Searchable` embedding, as defined in the main documentation
-    //! of the `Searchable` concept. When `Searchable`s of two different
-    //! data types but sharing a common embedding are sent to `is_subset`,
-    //! they are first converted to this common `Searchable` and the
-    //! `is_subset` method of the common embedding is then used. Of course,
-    //! the method can be overriden for custom `Searchable`s for efficieny.
+    //! of the `Searchable` concept. When `Searchable`s with two different
+    //! tags but sharing a common embedding are sent to `is_subset`, they
+    //! are first converted to this common `Searchable` and the `is_subset`
+    //! method of the common embedding is then used. Of course, the method
+    //! can be overriden for custom `Searchable`s for efficieny.
     //!
     //! @note
     //! While cross-type dispatching for `is_subset` is supported, it is

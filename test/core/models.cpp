@@ -13,7 +13,7 @@ namespace hana = boost::hana;
 
 // Make sure senseless crap works as expected.
 static_assert(!hana::models<hana::Iterable, void>, "");
-static_assert(!hana::models<void, hana::IntegralConstant<int>>, "");
+static_assert(!hana::models<void, hana::integral_constant_tag<int>>, "");
 static_assert(!hana::models<void, void>, "");
 
 int main() { }

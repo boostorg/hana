@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Value, typename F>
     constexpr auto adjust_t::operator()(Xs&& xs, Value&& value, F&& f) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Adjust = BOOST_HANA_DISPATCH_IF(adjust_impl<S>,
             _models<Functor, S>::value
         );

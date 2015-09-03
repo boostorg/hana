@@ -37,24 +37,34 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
 // Type interface and helper functions
 //////////////////////////////////////////////////////////////////////////
 {
-    // make<Type>
+    // make<type_tag> and make_type
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Type>(T{}),
+            make<type_tag>(T{}),
             decltype_(T{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<Type>(type_c<T>),
+            make<type_tag>(type_c<T>),
             decltype_(type_c<T>)
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make_type(T{}),
+            make<type_tag>(T{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            make_type(type_c<T>),
+            make<type_tag>(type_c<T>)
         ));
 
         // make sure we don't read from non-constexpr variables
         {
             auto t = type_c<T>;
             auto x = 1;
-            constexpr auto r1 = make<Type>(t); (void)r1;
-            constexpr auto r2 = make<Type>(x); (void)r2;
+            constexpr auto r1 = make<type_tag>(t); (void)r1;
+            constexpr auto r2 = make<type_tag>(x); (void)r2;
         }
     }
 
@@ -490,6 +500,6 @@ using boost::hana::size_t; // disambiguate with std::size_t on GCC
         type_c<T volatile>,
         type_c<T const volatile>
     );
-    test::TestComparable<Type>{types};
+    test::TestComparable<type_tag>{types};
 }
 }

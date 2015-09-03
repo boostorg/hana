@@ -41,7 +41,7 @@ struct MinimalStruct;
 template <typename ...Members>
 struct minimal_struct_t {
     tuple<Members...> members;
-    struct hana { using datatype = MinimalStruct<sizeof...(Members)>; };
+    using hana_tag = MinimalStruct<sizeof...(Members)>;
 };
 
 struct obj_t {

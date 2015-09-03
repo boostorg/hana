@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) and_t::operator()(X&& x, Y&& y) const {
-        using Bool = typename datatype<X>::type;
+        using Bool = typename hana::tag_of<X>::type;
         using And = BOOST_HANA_DISPATCH_IF(and_impl<Bool>,
             _models<Logical, Bool>::value
         );

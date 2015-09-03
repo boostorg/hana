@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     //! @include example/lazy/functor.cpp
     //!
     //! 2. `Applicative`\n
-    //! A normal value can be lifted into a lazy value by using `lift<Lazy>`.
+    //! A normal value can be lifted into a lazy value by using `lift<lazy_tag>`.
     //! A lazy function can be lazily applied to a lazy value by using `ap`.
     //!
     //! 3. `Monad`\n
@@ -77,20 +77,23 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::lazy`.
     //! @relates hana::lazy
-    struct Lazy { };
+    struct lazy_tag { };
 
     //! Lifts a normal value to a lazy one.
     //! @relates hana::lazy
     //!
-    //! `make<Lazy>` can be used to lift a normal value or a function call
-    //! into a lazy expression. Precisely, `make<Lazy>(x)` is a lazy value
-    //! equal to `x`, and `make<Lazy>(f)(x1, ..., xN)` is a lazy function
+    //! `make<lazy_tag>` can be used to lift a normal value or a function call
+    //! into a lazy expression. Precisely, `make<lazy_tag>(x)` is a lazy value
+    //! equal to `x`, and `make<lazy_tag>(f)(x1, ..., xN)` is a lazy function
     //! call that is equal to `f(x1, ..., xN)` when it is `eval`uated.
     //!
     //! @note
-    //! It is interesting to note that `make<Lazy>(f)(x1, ..., xN)` is
-    //! equivalent to `ap(make<Lazy>(f), lift<Lazy>(x1), ..., lift<Lazy>(xN))`,
-    //! which in turn is equivalent to `make<Lazy>(f(x1, ..., xN))`, except
+    //! It is interesting to note that `make<lazy_tag>(f)(x1, ..., xN)` is
+    //! equivalent to
+    //! @code
+    //!     ap(make<lazy_tag>(f), lift<lazy_tag>(x1), ..., lift<lazy_tag>(xN))
+    //! @endcode
+    //! which in turn is equivalent to `make<lazy_tag>(f(x1, ..., xN))`, except
     //! for the fact that the inner call to `f` is evaluated lazily.
     //!
     //!
@@ -99,18 +102,18 @@ namespace boost { namespace hana {
     //! @include example/lazy/make.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
-    constexpr auto make<Lazy> = [](auto&& x) {
+    constexpr auto make<lazy_tag> = [](auto&& x) {
         return lazy<implementation-defined>{implementation-defined};
     };
 #endif
 
-    //! Alias to `make<Lazy>`; provided for convenience.
+    //! Alias to `make<lazy_tag>`; provided for convenience.
     //! @relates hana::lazy
     //!
     //! Example
     //! -------
     //! @include example/lazy/make.cpp
-    constexpr auto make_lazy = make<Lazy>;
+    constexpr auto make_lazy = make<lazy_tag>;
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_LAZY_HPP

@@ -32,8 +32,8 @@ namespace boost { namespace hana {
     //! @cond
     template <typename F, typename X>
     constexpr decltype(auto) ap_t::operator()(F&& f, X&& x) const {
-        using Function = typename datatype<F>::type;
-        using Value = typename datatype<X>::type;
+        using Function = typename hana::tag_of<F>::type;
+        using Value = typename hana::tag_of<X>::type;
         using Ap = BOOST_HANA_DISPATCH_IF(ap_impl<Function>,
             _models<Applicative, Function>::value &&
             _models<Applicative, Value>::value

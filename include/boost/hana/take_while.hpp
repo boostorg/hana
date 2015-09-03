@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto take_while_t::operator()(Xs&& xs, Pred&& pred) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using TakeWhile = BOOST_HANA_DISPATCH_IF(take_while_impl<S>,
             _models<Sequence, S>::value
         );

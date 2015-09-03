@@ -20,7 +20,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Pair>
     constexpr decltype(auto) second_t::operator()(Pair&& pair) const {
-        using P = typename datatype<Pair>::type;
+        using P = typename hana::tag_of<Pair>::type;
         using Second = BOOST_HANA_DISPATCH_IF(second_impl<P>,
             _models<Product, P>::value
         );

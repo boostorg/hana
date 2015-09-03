@@ -17,7 +17,7 @@ int main() {
     hana::tuple<int, char, double, std::string> ts{1, '2', 3.3, "abcd"};
     BOOST_HANA_RUNTIME_CHECK(ts == hana::make_tuple(1, '2', 3.3, std::string{"abcd"}));
 
-    // std::string has no notion of data type, but it still works with make<>
+    // std::string has no notion of tag, but it still works with make<>
     std::string foo{"foo"};
     BOOST_HANA_RUNTIME_CHECK(hana::make<std::string>("foo") == foo);
 }

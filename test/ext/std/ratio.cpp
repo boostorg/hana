@@ -22,7 +22,7 @@ using namespace boost::hana;
 
 
 int main() {
-    auto ratios = make<Tuple>(
+    auto ratios = make<tuple_tag>(
           std::ratio<0>{}
         , std::ratio<1, 3>{}
         , std::ratio<1, 2>{}
@@ -42,17 +42,17 @@ int main() {
         // Constant -> Ratio
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<ext::std::Ratio>(test::cnumeric<int, 0>),
+                to<ext::std::ratio_tag>(test::cnumeric<int, 0>),
                 std::ratio<0>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<ext::std::Ratio>(test::cnumeric<int, 1>),
+                to<ext::std::ratio_tag>(test::cnumeric<int, 1>),
                 std::ratio<1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                to<ext::std::Ratio>(test::cnumeric<int, 3>),
+                to<ext::std::ratio_tag>(test::cnumeric<int, 3>),
                 std::ratio<3>{}
             ));
         }
@@ -81,7 +81,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<ext::std::Ratio>{ratios};
+        test::TestComparable<ext::std::ratio_tag>{ratios};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
@@ -108,7 +108,7 @@ int main() {
         }
 
         // laws
-        auto ratios = make<Tuple>(
+        auto ratios = make<tuple_tag>(
               std::ratio<0>{}
             , std::ratio<1, 3>{}
             , std::ratio<1, 2>{}
@@ -117,7 +117,7 @@ int main() {
             , std::ratio<3, 5>{}
         );
 
-        test::TestOrderable<ext::std::Ratio>{ratios};
+        test::TestOrderable<ext::std::ratio_tag>{ratios};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -136,18 +136,18 @@ int main() {
         // zero
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                zero<ext::std::Ratio>(),
+                zero<ext::std::ratio_tag>(),
                 std::ratio<0, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                zero<ext::std::Ratio>(),
+                zero<ext::std::ratio_tag>(),
                 std::ratio<0, 2>{}
             ));
         }
 
         // laws
-        test::TestMonoid<ext::std::Ratio>{ratios};
+        test::TestMonoid<ext::std::ratio_tag>{ratios};
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -163,7 +163,7 @@ int main() {
         }
 
         // laws
-        test::TestGroup<ext::std::Ratio>{ratios};
+        test::TestGroup<ext::std::ratio_tag>{ratios};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -182,18 +182,18 @@ int main() {
         // one
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                one<ext::std::Ratio>(),
+                one<ext::std::ratio_tag>(),
                 std::ratio<1, 1>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                one<ext::std::Ratio>(),
+                one<ext::std::ratio_tag>(),
                 std::ratio<2, 2>{}
             ));
         }
 
         // laws
-        test::TestRing<ext::std::Ratio>{ratios};
+        test::TestRing<ext::std::ratio_tag>{ratios};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -228,7 +228,7 @@ int main() {
         }
 
         // laws
-        test::TestIntegralDomain<ext::std::Ratio>{ratios};
+        test::TestIntegralDomain<ext::std::ratio_tag>{ratios};
     }
 #endif
 }

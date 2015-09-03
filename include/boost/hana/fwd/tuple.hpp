@@ -118,13 +118,13 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::tuple`s.
     //! @related tuple
-    struct Tuple { };
+    struct tuple_tag { };
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Function object for creating a `tuple`.
     //! @relates hana::tuple
     //!
-    //! Given zero or more objects `xs...`, `make<Tuple>` returns a new tuple
+    //! Given zero or more objects `xs...`, `make<tuple_tag>` returns a new tuple
     //! containing those objects. The elements are held by value inside the
     //! resulting tuple, and they are hence copied or moved in. This is
     //! analogous to `std::make_tuple` for creating Hana tuples.
@@ -134,22 +134,22 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/tuple/make.cpp
     template <>
-    constexpr auto make<Tuple> = [](auto&& ...xs) {
+    constexpr auto make<tuple_tag> = [](auto&& ...xs) {
         return tuple<std::decay_t<decltype(xs)>...>{forwarded(xs)...};
     };
 #endif
 
-    //! Alias to `make<Tuple>`; provided for convenience.
+    //! Alias to `make<tuple_tag>`; provided for convenience.
     //! @relates hana::tuple
-    constexpr auto make_tuple = make<Tuple>;
+    constexpr auto make_tuple = make<tuple_tag>;
 
     //! Create a tuple specialized for holding `hana::type`s.
     //! @relates hana::tuple
     //!
-    //! This is functionally equivalent to `make<Tuple>(type_c<T>...)`, except
+    //! This is functionally equivalent to `make<tuple_tag>(type_c<T>...)`, except
     //! that using `tuple_t` allows the library to perform some compile-time
     //! optimizations. Also note that the type of the objects returned by
-    //! `tuple_t` and an equivalent call to `make<Tuple>` may differ.
+    //! `tuple_t` and an equivalent call to `make<tuple_tag>` may differ.
     //!
     //!
     //! Example
@@ -160,16 +160,16 @@ namespace boost { namespace hana {
     constexpr implementation-defined tuple_t{};
 #else
     template <typename ...T>
-    constexpr auto tuple_t = hana::make<Tuple>(hana::type<T>{}...);
+    constexpr auto tuple_t = hana::make<tuple_tag>(hana::type<T>{}...);
 #endif
 
     //! Create a tuple specialized for holding `hana::integral_constant`s.
     //! @relates hana::tuple
     //!
-    //! This is functionally equivalent to `make<Tuple>(integral_c<T, v>...)`,
+    //! This is functionally equivalent to `make<tuple_tag>(integral_c<T, v>...)`,
     //! except that using `tuple_c` allows the library to perform some
     //! compile-time optimizations. Also note that the type of the objects
-    //! returned by `tuple_c` and an equivalent call to `make<Tuple>` may differ.
+    //! returned by `tuple_c` and an equivalent call to `make<tuple_tag>` may differ.
     //!
     //!
     //! Example

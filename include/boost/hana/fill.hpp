@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Value>
     constexpr auto fill_t::operator()(Xs&& xs, Value&& value) const {
-        using S = typename datatype<Xs>::type;
+        using S = typename hana::tag_of<Xs>::type;
         using Fill = BOOST_HANA_DISPATCH_IF(fill_impl<S>,
             _models<Functor, S>::value
         );

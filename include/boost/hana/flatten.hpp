@@ -33,7 +33,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
     constexpr auto flatten_t::operator()(Xs&& xs) const {
-        using M = typename datatype<Xs>::type;
+        using M = typename hana::tag_of<Xs>::type;
         using Flatten = BOOST_HANA_DISPATCH_IF(flatten_impl<M>,
             _models<Monad, M>::value
         );

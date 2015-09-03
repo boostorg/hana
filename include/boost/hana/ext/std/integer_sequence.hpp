@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::std::IntegerSequence`.
+Adapts `std::integer_sequence` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/datatype.hpp>
+#include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/tail.hpp>
@@ -26,18 +26,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace ext { namespace std { struct IntegerSequence; }}
+    namespace ext { namespace std { struct integer_sequence_tag; }}
 
     template <typename T, T ...v>
-    struct datatype<std::integer_sequence<T, v...>> {
-        using type = ext::std::IntegerSequence;
+    struct tag_of<std::integer_sequence<T, v...>> {
+        using type = ext::std::integer_sequence_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<ext::std::IntegerSequence, ext::std::IntegerSequence> {
+    struct equal_impl<ext::std::integer_sequence_tag, ext::std::integer_sequence_tag> {
         template <typename X, X ...xs, typename Y, Y ...ys>
         static constexpr auto apply(
            std::integer_sequence<X, xs...>,
@@ -61,7 +61,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<ext::std::IntegerSequence> {
+    struct unpack_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...v, typename F>
         static constexpr decltype(auto)
         apply(std::integer_sequence<T, v...>, F&& f) {
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<ext::std::IntegerSequence> {
+    struct at_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...v, typename N>
         static constexpr auto apply(std::integer_sequence<T, v...> const&, N const&) {
             constexpr std::size_t n = hana::value<N>();
@@ -85,14 +85,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::IntegerSequence> {
+    struct tail_impl<ext::std::integer_sequence_tag> {
         template <typename T, T x, T ...xs>
         static constexpr auto apply(std::integer_sequence<T, x, xs...>)
         { return std::integer_sequence<T, xs...>{}; }
     };
 
     template <>
-    struct is_empty_impl<ext::std::IntegerSequence> {
+    struct is_empty_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...xs>
         static constexpr auto apply(std::integer_sequence<T, xs...>)
         { return hana::bool_c<sizeof...(xs) == 0>; }

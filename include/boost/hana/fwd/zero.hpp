@@ -18,7 +18,7 @@ namespace boost { namespace hana {
     //! @relates Monoid
     //!
     //! @tparam M
-    //! The data type (a `Monoid`) of the returned identity.
+    //! The tag (a `Monoid`) of the returned identity.
     //!
     //!
     //! Example

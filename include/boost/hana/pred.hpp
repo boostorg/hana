@@ -26,7 +26,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename N>
     constexpr decltype(auto) pred_t::operator()(N&& n) const {
-        using E = typename datatype<N>::type;
+        using E = typename hana::tag_of<N>::type;
         using Pred = BOOST_HANA_DISPATCH_IF(pred_impl<E>,
             _models<Enumerable, E>::value
         );
@@ -71,13 +71,13 @@ namespace boost { namespace hana {
         template <typename X>
         struct constant_t {
             static constexpr decltype(auto) get()
-            { return boost::hana::pred(boost::hana::value<X>()); }
-            struct hana { using datatype = detail::CanonicalConstant<T>; };
+            { return hana::pred(hana::value<X>()); }
+            using hana_tag = detail::CanonicalConstant<T>;
         };
         //! @endcond
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
-        { return to<C>(constant_t<X>{}); }
+        { return hana::to<C>(constant_t<X>{}); }
     };
 }} // end namespace boost::hana
 

@@ -23,7 +23,7 @@ namespace boost { namespace hana {
     //! @f$ \mathtt{empty}_M : \emptyset \to M(T) @f$.
     //!
     //! @tparam M
-    //! The data type of the monadic structure to return. This must be
+    //! The tag of the monadic structure to return. This must be
     //! a model of the MonadPlus concept.
     //!
     //!

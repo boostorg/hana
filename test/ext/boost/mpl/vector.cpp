@@ -32,7 +32,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto vectors = make<Tuple>(
+    auto vectors = make<tuple_tag>(
           mpl::vector<>{}
         , mpl::vector<t1>{}
         , mpl::vector<t1, t2>{}
@@ -42,48 +42,48 @@ int main() {
 
 #if BOOST_HANA_TEST_PART == 1
     //////////////////////////////////////////////////////////////////////////
-    // Make sure the data type is resolved correctly
+    // Make sure the tag is resolved correctly
     //////////////////////////////////////////////////////////////////////////
     {
         using mpl_id = mpl::quote1<mpl::identity>;
 
         static_assert(std::is_same<
-            datatype_t<mpl::vector<>>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::vector<>>,
+            ext::boost::mpl::vector_tag
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::vector<>::type>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::vector<>::type>,
+            ext::boost::mpl::vector_tag
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<>, mpl_id>::type>,
-            ext::boost::mpl::Vector
-        >{}, "");
-
-        static_assert(std::is_same<
-            datatype_t<mpl::vector<t1>>,
-            ext::boost::mpl::Vector
-        >{}, "");
-        static_assert(std::is_same<
-            datatype_t<mpl::vector<t1>::type>,
-            ext::boost::mpl::Vector
-        >{}, "");
-        static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<t1>, mpl_id>::type>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::transform<mpl::vector<>, mpl_id>::type>,
+            ext::boost::mpl::vector_tag
         >{}, "");
 
         static_assert(std::is_same<
-            datatype_t<mpl::vector<t1, t2>>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::vector<t1>>,
+            ext::boost::mpl::vector_tag
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::vector<t1, t2>::type>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::vector<t1>::type>,
+            ext::boost::mpl::vector_tag
         >{}, "");
         static_assert(std::is_same<
-            datatype_t<mpl::transform<mpl::vector<t1, t2>, mpl_id>::type>,
-            ext::boost::mpl::Vector
+            tag_of_t<mpl::transform<mpl::vector<t1>, mpl_id>::type>,
+            ext::boost::mpl::vector_tag
+        >{}, "");
+
+        static_assert(std::is_same<
+            tag_of_t<mpl::vector<t1, t2>>,
+            ext::boost::mpl::vector_tag
+        >{}, "");
+        static_assert(std::is_same<
+            tag_of_t<mpl::vector<t1, t2>::type>,
+            ext::boost::mpl::vector_tag
+        >{}, "");
+        static_assert(std::is_same<
+            tag_of_t<mpl::transform<mpl::vector<t1, t2>, mpl_id>::type>,
+            ext::boost::mpl::vector_tag
         >{}, "");
     }
 
@@ -92,7 +92,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         auto foldable = test::seq;
-        auto to_vec = to<ext::boost::mpl::Vector>;
+        auto to_vec = to<ext::boost::mpl::vector_tag>;
         BOOST_HANA_CONSTANT_CHECK(equal(
             to_vec(foldable()),
             mpl::vector<>{}
@@ -132,7 +132,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::boost::mpl::Vector>{vectors};
+    test::TestComparable<ext::boost::mpl::vector_tag>{vectors};
 
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
@@ -164,7 +164,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<ext::boost::mpl::Vector>{vectors};
+        test::TestFoldable<ext::boost::mpl::vector_tag>{vectors};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -217,7 +217,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<ext::boost::mpl::Vector>{vectors};
+        test::TestIterable<ext::boost::mpl::vector_tag>{vectors};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -227,7 +227,7 @@ int main() {
     {
         auto keys = tuple_t<t1, t2, void>;
 
-        test::TestSearchable<ext::boost::mpl::Vector>{vectors, keys};
+        test::TestSearchable<ext::boost::mpl::vector_tag>{vectors, keys};
     }
 #endif
 }

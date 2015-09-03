@@ -11,6 +11,6 @@ namespace hana = boost::hana;
 
 
 constexpr auto str = hana::string_c<'a', 'b', 'c', 'd', 'e', 'f'>;
-BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::String>(str));
+BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::string_tag>(str));
 
 int main() { }
