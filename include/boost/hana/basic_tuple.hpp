@@ -122,7 +122,7 @@ namespace boost { namespace hana {
 
     template <typename ...Xn>
     struct tag_of<basic_tuple<Xn...>> {
-        using type = BasicTuple;
+        using type = basic_tuple_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -155,10 +155,10 @@ namespace boost { namespace hana {
 
 
     //////////////////////////////////////////////////////////////////////////
-    // make<BasicTuple>
+    // make<basic_tuple_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<BasicTuple> {
+    struct make_impl<basic_tuple_tag> {
         template <typename ...Xn>
         static constexpr basic_tuple<typename std::decay<Xn>::type...>
         apply(Xn&& ...xn) {
@@ -172,7 +172,7 @@ namespace boost { namespace hana {
     // unpack
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<BasicTuple> {
+    struct unpack_impl<basic_tuple_tag> {
         template <std::size_t ...i, typename ...Xn, typename F>
         static constexpr decltype(auto)
         apply(detail::basic_tuple_impl<std::index_sequence<i...>, Xn...> const& xs, F&& f) {
@@ -203,7 +203,7 @@ namespace boost { namespace hana {
     // length
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<BasicTuple> {
+    struct length_impl<basic_tuple_tag> {
         template <typename ...Xn>
         static constexpr auto apply(basic_tuple<Xn...> const&) {
             return hana::size_c<sizeof...(Xn)>;
@@ -214,7 +214,7 @@ namespace boost { namespace hana {
     // models<Sequence>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct models_impl<Sequence, BasicTuple> {
+    struct models_impl<Sequence, basic_tuple_tag> {
         static constexpr bool value = true;
     };
 
@@ -222,7 +222,7 @@ namespace boost { namespace hana {
     // at
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<BasicTuple> {
+    struct at_impl<basic_tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t index = hana::value<N>();
@@ -234,7 +234,7 @@ namespace boost { namespace hana {
     // tail
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tail_impl<BasicTuple> {
+    struct tail_impl<basic_tuple_tag> {
         template <typename Xs, std::size_t ...i>
         static constexpr auto tail_helper(Xs&& xs, std::index_sequence<0, i...>) {
             return hana::make_basic_tuple(hana::get_impl<i>(static_cast<Xs&&>(xs))...);
@@ -252,7 +252,7 @@ namespace boost { namespace hana {
     // is_empty
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct is_empty_impl<BasicTuple> {
+    struct is_empty_impl<basic_tuple_tag> {
         template <typename ...Xs>
         static constexpr auto apply(basic_tuple<Xs...> const&)
         { return hana::bool_c<sizeof...(Xs) == 0>; }

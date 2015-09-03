@@ -10,7 +10,7 @@ namespace hana = boost::hana;
 
 
 constexpr hana::basic_tuple<int, char, double> xs{1, '2', 3.3};
-constexpr auto ys = hana::make<hana::BasicTuple>(1, '2', 3.3);
+constexpr auto ys = hana::make<hana::basic_tuple_tag>(1, '2', 3.3);
 constexpr auto zs = hana::make_basic_tuple(1, '2', 3.3);
 
 int main() { }
