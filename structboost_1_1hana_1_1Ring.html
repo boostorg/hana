@@ -226,7 +226,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::mult(hana::int_&lt;3&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;15&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::mult(hana::int_c&lt;3&gt;, hana::int_c&lt;5&gt;) == hana::int_c&lt;15&gt;);</div>
 <div class="line">static_assert(hana::mult(4, 2) == 8, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -277,7 +277,7 @@ template&lt;typename R &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::one&lt;hana::IntegralConstant&lt;int&gt;&gt;() == hana::int_&lt;1&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::one&lt;hana::IntegralConstant&lt;int&gt;&gt;() == hana::int_c&lt;1&gt;);</div>
 <div class="line">static_assert(hana::one&lt;long&gt;() == 1l, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -329,8 +329,8 @@ template&lt;typename R &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::power(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;) == hana::int_&lt;3 * 3&gt;);</div>
-<div class="line">static_assert(hana::power(2, hana::int_&lt;4&gt;) == 16, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::power(hana::int_c&lt;3&gt;, hana::int_c&lt;2&gt;) == hana::int_c&lt;3 * 3&gt;);</div>
+<div class="line">static_assert(hana::power(2, hana::int_c&lt;4&gt;) == 16, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

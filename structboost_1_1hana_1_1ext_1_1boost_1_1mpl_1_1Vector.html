@@ -148,14 +148,14 @@ Two MPL vectors are equal if and only if they contain the same number of types, 
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a MPL vector is equivalent to folding it as a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><span class="keyword">auto</span> types = mpl::vector&lt;long, float, short, float, long, long double&gt;{};</div>
-<div class="line"><span class="keyword">auto</span> number_of_floats = hana::fold_left(types, hana::int_&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
+<div class="line"><span class="keyword">auto</span> number_of_floats = hana::fold_left(types, hana::int_c&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> hana::if_(hana::trait&lt;std::is_floating_point&gt;(t),</div>
-<div class="line">        count + hana::int_&lt;1&gt;,</div>
+<div class="line">        count + hana::int_c&lt;1&gt;,</div>
 <div class="line">        count</div>
 <div class="line">    );</div>
 <div class="line">});</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(number_of_floats == hana::int_&lt;3&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(number_of_floats == hana::int_c&lt;3&gt;);</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
 Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(mpl::vector&lt;int, char, void&gt;{}) == hana::type_c&lt;int&gt;);</div>

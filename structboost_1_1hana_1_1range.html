@@ -162,11 +162,11 @@ Two ranges are equal if and only if they are both empty or they both span the sa
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// empty ranges are equal</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_&lt;6&gt;, hana::int_&lt;6&gt;) == hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;0&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_c&lt;6&gt;, hana::int_c&lt;6&gt;) == hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;0&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// otherwise, ranges are equal if and only if they span the same interval</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_&lt;2&gt;, hana::int_&lt;5&gt;) == hana::make_range(hana::int_&lt;2&gt;, hana::int_&lt;5&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;3&gt;) != hana::make_range(hana::int_&lt;-1&gt;, hana::int_&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_c&lt;2&gt;, hana::int_c&lt;5&gt;) == hana::make_range(hana::int_c&lt;2&gt;, hana::int_c&lt;5&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;3&gt;) != hana::make_range(hana::int_c&lt;-1&gt;, hana::int_c&lt;3&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -189,12 +189,12 @@ Folding a <code>range</code> is equivalent to folding a list of the <code><a cla
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::fold_left(hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;4&gt;), hana::int_&lt;0&gt;, hana::plus) == hana::int_&lt;6&gt;</div>
+<div class="line">    hana::fold_left(hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;4&gt;), hana::int_c&lt;0&gt;, hana::plus) == hana::int_c&lt;6&gt;</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::unpack(hana::make_range(hana::int_&lt;-2&gt;, hana::int_&lt;2&gt;), hana::make_tuple) ==</div>
-<div class="line">    hana::make_tuple(hana::int_&lt;-2&gt;, hana::int_&lt;-1&gt;, hana::int_&lt;0&gt;, hana::int_&lt;1&gt;)</div>
+<div class="line">    hana::unpack(hana::make_range(hana::int_c&lt;-2&gt;, hana::int_c&lt;2&gt;), hana::make_tuple) ==</div>
+<div class="line">    hana::make_tuple(hana::int_c&lt;-2&gt;, hana::int_c&lt;-1&gt;, hana::int_c&lt;0&gt;, hana::int_c&lt;1&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -218,12 +218,12 @@ Iterating over a <code>range</code> is equivalent to iterating over a list of th
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> r = hana::make_range(hana::int_&lt;0&gt;, hana::int_&lt;1000&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(r) == hana::int_&lt;0&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::back(r) == hana::int_&lt;999&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::tail(r) == hana::make_range(hana::int_&lt;1&gt;, hana::int_&lt;1000&gt;));</div>
+<div class="line">constexpr <span class="keyword">auto</span> r = hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;1000&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(r) == hana::int_c&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::back(r) == hana::int_c&lt;999&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::tail(r) == hana::make_range(hana::int_c&lt;1&gt;, hana::int_c&lt;1000&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_empty(r));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_empty(hana::make_range(hana::int_&lt;3&gt;, hana::int_&lt;3&gt;)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_empty(hana::make_range(hana::int_c&lt;3&gt;, hana::int_c&lt;3&gt;)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -243,8 +243,8 @@ Searching a <code>range</code> is equivalent to searching a list of the values i
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(hana::make_range(hana::int_&lt;1&gt;, hana::int_&lt;25&gt;), hana::int_&lt;10&gt;) == hana::just(hana::int_&lt;10&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(hana::make_range(hana::int_&lt;1&gt;, hana::int_&lt;25&gt;), hana::int_&lt;200&gt;) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(hana::make_range(hana::int_c&lt;1&gt;, hana::int_c&lt;25&gt;), hana::int_c&lt;10&gt;) == hana::just(hana::int_c&lt;10&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(hana::make_range(hana::int_c&lt;1&gt;, hana::int_c&lt;25&gt;), hana::int_c&lt;200&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>
@@ -307,9 +307,9 @@ template&lt;&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> irange = hana::make&lt;hana::Range&gt;(hana::int_&lt;0&gt;, hana::int_&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
-<div class="line">constexpr <span class="keyword">auto</span> lrange = hana::make&lt;hana::Range&gt;(hana::int_&lt;0&gt;, hana::long_&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == hana::make&lt;hana::Range&gt;(hana::long_&lt;0&gt;, hana::long_&lt;10&gt;));</div>
+<div class="line">constexpr <span class="keyword">auto</span> irange = hana::make&lt;hana::Range&gt;(hana::int_c&lt;0&gt;, hana::int_c&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> lrange = hana::make&lt;hana::Range&gt;(hana::int_c&lt;0&gt;, hana::long_c&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == hana::make&lt;hana::Range&gt;(hana::long_c&lt;0&gt;, hana::long_c&lt;10&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -391,9 +391,9 @@ template&lt;typename T , T from, T to&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(hana::range_c&lt;int, 0, 5&gt;) == hana::int_&lt;0&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::back(hana::range_c&lt;unsigned long, 0, 5&gt;) == hana::ulong&lt;4&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::tail(hana::range_c&lt;int, 0, 5&gt;) == hana::make_range(hana::int_&lt;1&gt;, hana::int_&lt;5&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(hana::range_c&lt;int, 0, 5&gt;) == hana::int_c&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::back(hana::range_c&lt;unsigned long, 0, 5&gt;) == hana::ulong_c&lt;4&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::tail(hana::range_c&lt;int, 0, 5&gt;) == hana::make_range(hana::int_c&lt;1&gt;, hana::int_c&lt;5&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

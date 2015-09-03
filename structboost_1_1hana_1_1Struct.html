@@ -412,15 +412,15 @@ template&lt;typename S &gt; </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    constexpr <span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Struct.html#a5706310d661d5d88e708d684e4ea0739">accessors</a> = hana::accessors&lt;Person&gt;();</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::first(accessors[hana::size_t&lt;0&gt;]) == BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>)</div>
+<div class="line">        hana::first(accessors[hana::size_c&lt;0&gt;]) == BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::first(accessors[hana::size_t&lt;1&gt;]) == BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)</div>
+<div class="line">        hana::first(accessors[hana::size_c&lt;1&gt;]) == BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    constexpr <span class="keyword">auto</span> get_name = hana::second(accessors[hana::size_t&lt;0&gt;]);</div>
-<div class="line">    constexpr <span class="keyword">auto</span> get_age = hana::second(accessors[hana::size_t&lt;1&gt;]);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> get_name = hana::second(accessors[hana::size_c&lt;0&gt;]);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> get_age = hana::second(accessors[hana::size_c&lt;1&gt;]);</div>
 <div class="line"></div>
 <div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(get_name(john) == <span class="stringliteral">&quot;John&quot;</span>);</div>

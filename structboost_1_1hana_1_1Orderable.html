@@ -258,7 +258,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::greater(4, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater(hana::int_&lt;1&gt;, hana::int_&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -309,7 +309,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line">static_assert(hana::greater_equal(4, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::greater_equal(1, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater_equal(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::greater_equal(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -362,11 +362,11 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::less(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less(hana::int_c&lt;3&gt;, hana::int_c&lt;2&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// less.than is syntactic sugar</span></div>
 <div class="line">static_assert(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less.than(5)), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less_equal.than(hana::int_&lt;4&gt;)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::tuple_c&lt;int, 1, 2, 3, 4&gt;, hana::less_equal.than(hana::int_c&lt;4&gt;)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -418,7 +418,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line">static_assert(hana::less_equal(1, 4), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::less_equal(1, 1), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less_equal(hana::int_&lt;3&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::less_equal(hana::int_c&lt;3&gt;, hana::int_c&lt;2&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -462,7 +462,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::max(1, 4) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::max(hana::int_&lt;7&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;7&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::max(hana::int_c&lt;7&gt;, hana::int_c&lt;5&gt;) == hana::int_c&lt;7&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -506,7 +506,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::min(1, 4) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::min(hana::int_&lt;7&gt;, hana::int_&lt;5&gt;) == hana::int_&lt;5&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::min(hana::int_c&lt;7&gt;, hana::int_c&lt;5&gt;) == hana::int_c&lt;5&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

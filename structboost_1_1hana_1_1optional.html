@@ -309,7 +309,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line"><span class="comment">// and so on...</span></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keywordtype">char</span> n&gt;</div>
-<div class="line">constexpr <span class="keyword">auto</span> digit = hana::if_(hana::bool_&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
+<div class="line">constexpr <span class="keyword">auto</span> digit = hana::if_(hana::bool_c&lt;(n &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; n &lt;= <span class="charliteral">&#39;9&#39;</span>)&gt;,</div>
 <div class="line">    hana::just(static_cast&lt;int&gt;(n - 48)),</div>
 <div class="line">    hana::nothing</div>
 <div class="line">);</div>
@@ -414,14 +414,14 @@ Searching an optional value is equivalent to searching a list containing <code>x
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> odd = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x % hana::int_&lt;2&gt; != hana::int_&lt;0&gt;;</div>
+<div class="line">    <span class="keywordflow">return</span> x % hana::int_c&lt;2&gt; != hana::int_c&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_&lt;3&gt;), odd) == hana::just(hana::int_&lt;3&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_&lt;2&gt;), odd) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;3&gt;), odd) == hana::just(hana::int_c&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;2&gt;), odd) == hana::nothing);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::nothing, odd) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::just(hana::int_&lt;3&gt;), odd));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::just(hana::int_c&lt;3&gt;), odd));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::nothing, odd));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -701,15 +701,15 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x % hana::int_&lt;2&gt; == hana::int_&lt;0&gt;;</div>
+<div class="line">    <span class="keywordflow">return</span> x % hana::int_c&lt;2&gt; == hana::int_c&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x / hana::int_&lt;2&gt;;</div>
+<div class="line">    <span class="keywordflow">return</span> x / hana::int_c&lt;2&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_&lt;4&gt;) == hana::just(hana::int_&lt;2&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_&lt;3&gt;) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_c&lt;4&gt;) == hana::just(hana::int_c&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_c&lt;3&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

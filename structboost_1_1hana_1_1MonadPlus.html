@@ -361,7 +361,7 @@ Synopsis of associated functions</h2></td></tr>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::cycle(hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), hana::size_t&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::cycle(hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), hana::size_c&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -781,10 +781,10 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::repeat&lt;hana::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::repeat&lt;hana::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an `optional`.</span></div>
-<div class="line">static_assert(hana::repeat&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_t&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::repeat&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

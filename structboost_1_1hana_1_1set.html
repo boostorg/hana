@@ -163,15 +163,15 @@ Two sets are equal iff they contain the same elements, regardless of the order. 
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;char&gt;, hana::int_&lt;1&gt;)</div>
+<div class="line">        hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;char&gt;, hana::int_c&lt;1&gt;)</div>
 <div class="line">            ==</div>
-<div class="line">        hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;0&gt;, hana::type_c&lt;char&gt;)</div>
+<div class="line">        hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;0&gt;, hana::type_c&lt;char&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;char&gt;)</div>
+<div class="line">        hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;char&gt;)</div>
 <div class="line">            !=</div>
-<div class="line">        hana::make_set(hana::int_&lt;1&gt;)</div>
+<div class="line">        hana::make_set(hana::int_c&lt;1&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
@@ -193,10 +193,10 @@ Folding a set is equivalent to folding the sequence of its values. However, note
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;0&gt;, hana::int_&lt;1&gt;, hana::int_&lt;2&gt;);</div>
-<div class="line">    static_assert(hana::minimum(xs) == hana::int_&lt;0&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    static_assert(hana::maximum(xs) == hana::int_&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    static_assert(hana::sum&lt;&gt;(xs) == hana::int_&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;0&gt;, hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;);</div>
+<div class="line">    static_assert(hana::minimum(xs) == hana::int_c&lt;0&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::maximum(xs) == hana::int_c&lt;2&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::sum&lt;&gt;(xs) == hana::int_c&lt;3&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a><br />
@@ -217,15 +217,15 @@ The elements in a set act as both its keys and its values. Since the elements of
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;0&gt;, hana::int_&lt;1&gt;, hana::int_&lt;2&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(xs, hana::int_&lt;0&gt;) == hana::just(hana::int_&lt;0&gt;));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(xs, hana::int_&lt;3&gt;) == hana::nothing);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;0&gt;, hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(xs, hana::int_c&lt;0&gt;) == hana::just(hana::int_c&lt;0&gt;));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(xs, hana::int_c&lt;3&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// operator[] is equivalent to at_key</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[hana::int_&lt;2&gt;] == hana::int_&lt;2&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[hana::int_c&lt;2&gt;] == hana::int_c&lt;2&gt;);</div>
 <div class="line"></div>
-<div class="line">    <span class="comment">// long_&lt;0&gt; == int_&lt;0&gt;, and therefore int_&lt;0&gt; is found</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[hana::long_&lt;0&gt;] == hana::int_&lt;0&gt;);</div>
+<div class="line">    <span class="comment">// long_c&lt;0&gt; == int_&lt;0&gt;, and therefore int_&lt;0&gt; is found</span></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[hana::long_c&lt;0&gt;] == hana::int_c&lt;0&gt;);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 </ol>
@@ -248,9 +248,9 @@ The elements in a set act as both its keys and its values. Since the elements of
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_tuple(hana::int_&lt;1&gt;, hana::int_&lt;3&gt;, hana::type_c&lt;int&gt;, hana::long_&lt;1&gt;);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_tuple(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;, hana::long_c&lt;1&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::Set&gt;(xs) == hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;3&gt;, hana::type_c&lt;int&gt;)</div>
+<div class="line">        hana::to&lt;hana::Set&gt;(xs) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><table class="memberdecls">
@@ -332,10 +332,10 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_&lt;3&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(xs, ys) == hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(ys, xs) == hana::make_set(hana::type_c&lt;void&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -390,10 +390,10 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_&lt;2&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_&lt;3&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::intersection(xs, ys) == hana::make_set(hana::int_&lt;2&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::intersection(xs, ys) == hana::make_set(hana::int_c&lt;2&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
@@ -443,8 +443,8 @@ template&lt;&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -487,8 +487,8 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -544,14 +544,14 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;int&gt;);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        hana::insert(xs, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>)) ==</div>
-<div class="line">        hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
+<div class="line">        hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;, BOOST_HANA_STRING(<span class="stringliteral">&quot;abc&quot;</span>))</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::insert(xs, hana::int_&lt;0&gt;) == hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;int&gt;)</div>
+<div class="line">        hana::insert(xs, hana::int_c&lt;0&gt;) == hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -606,9 +606,9 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;int&gt;, hana::type_c&lt;void&gt;);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;, hana::type_c&lt;void&gt;);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::erase_key(xs, hana::type_c&lt;int&gt;) == hana::make_set(hana::int_&lt;0&gt;, hana::type_c&lt;void&gt;));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::erase_key(xs, hana::type_c&lt;int&gt;) == hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;void&gt;));</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::erase_key(xs, hana::type_c&lt;char&gt;) == xs);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -661,11 +661,11 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_&lt;3&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::symmetric_difference(xs, ys) == hana::make_set(hana::int_&lt;1&gt;, hana::int_&lt;2&gt;, hana::type_c&lt;void&gt;)</div>
+<div class="line">    hana::symmetric_difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;void&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -720,11 +720,11 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_&lt;2&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_&lt;3&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::union_(xs, ys) == hana::make_set(</div>
-<div class="line">    hana::int_&lt;1&gt;, hana::int_&lt;2&gt;, hana::int_&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;</div>
+<div class="line">    hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;</div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line"></div>

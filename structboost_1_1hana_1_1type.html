@@ -348,7 +348,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
 <div class="line">        <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(hana::decltype_(x))::type;</div>
-<div class="line">        <span class="keywordflow">return</span> hana::size_t&lt;sizeof(T)&gt;;</div>
+<div class="line">        <span class="keywordflow">return</span> hana::size_c&lt;sizeof(T)&gt;;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p><code>sizeof</code> keyword, lifted to Hana. </p>
@@ -398,7 +398,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
 <div class="line">        <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(hana::decltype_(x))::type;</div>
-<div class="line">        <span class="keywordflow">return</span> hana::size_t&lt;alignof(T)&gt;;</div>
+<div class="line">        <span class="keywordflow">return</span> hana::size_c&lt;alignof(T)&gt;;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p><code>alignof</code> keyword, lifted to Hana. </p>
