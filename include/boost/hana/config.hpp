@@ -18,6 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_CONFIG_VERSION(version, revision, patch) \
     (((version) << 24) + ((revision) << 16) + (patch))
 
+// Check the compiler for general C++14 capabilities
+#if (__cplusplus < 201400)
+#   warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
+#endif
 
 //////////////////////////////////////////////////////////////////////////////
 // Detect the compiler
@@ -45,6 +49,8 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_GCC BOOST_HANA_CONFIG_VERSION(                 \
                             __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
 
+#   warning "You appear to be using GCC, which is not supported by Hana yet."
+
 #else
 
 #   warning "Your compiler is not officially supported by Hana or it was not detected properly."
@@ -70,12 +76,15 @@ Distributed under the Boost Software License, Version 1.0.
 
 #elif defined(__GLIBCXX__)
 
-#   define BOOST_HANA_CONFIG_GLIBCXX BOOST_HANA_CONFIG_VERSION(             \
-                ((__GLIBCXX__) / 10000) % 10000 - 1970,                     \
-                ((__GLIBCXX__) / 100) % 100,                                \
-                (__GLIBCXX__) % 100                                         \
-            )                                                               \
-/**/
+// We do not define a macro to keep track of libstdc++'s version, because
+// we have no scalable way of associating a value of __GLIBCXX__ to the
+// corresponding GCC release. Instead, we just check that the release date
+// of the libstdc++ in use is recent enough, which should indicate that it
+// was released with a GCC >= 5.1, which in turn indicates good enough C++14
+// support.
+#   if __GLIBCXX__ < 20150422 // --> the libstdc++ shipped with GCC 5.1.0
+#       warning "Versions of libstdc++ prior to the one shipped with GCC 5.1.0 are not supported by Hana for lack of full C++14 support."
+#   endif
 
 #else
 

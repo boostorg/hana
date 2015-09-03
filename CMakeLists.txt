@@ -10,6 +10,9 @@ project(Boost.Hana CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 enable_testing()
 
+# Perform checks to make sure we support the current compiler
+include(CheckCxxCompilerSupport)
+
 
 ##############################################################################
 # Setup CMake options
