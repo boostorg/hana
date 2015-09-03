@@ -1,6 +1,6 @@
 /*!
 @file
-Adapter for `std::vector`.
+Adapts `std::vector` for use with Hana.
 
 @copyright Louis Dionne 2015
 @copyright Gonzalo Brito Gadeschi 2015
@@ -24,18 +24,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace ext { namespace std { struct Vector; }}
+    namespace ext { namespace std { struct vector_tag; }}
 
     template <typename T, typename Allocator>
     struct tag_of<std::vector<T, Allocator>> {
-        using type = ext::std::Vector;
+        using type = ext::std::vector_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<ext::std::Vector, ext::std::Vector> {
+    struct equal_impl<ext::std::vector_tag, ext::std::vector_tag> {
         template <typename T1, typename A1, typename T2, typename A2>
         static bool apply(std::vector<T1, A1> const& v1,
                           std::vector<T2, A2> const& v2)
@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct less_impl<ext::std::Vector, ext::std::Vector> {
+    struct less_impl<ext::std::vector_tag, ext::std::vector_tag> {
         template <typename T1, typename A1, typename T2, typename A2>
         static bool apply(std::vector<T1, A1> const& v1,
                           std::vector<T2, A2> const& v2)
@@ -66,7 +66,7 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct transform_impl<ext::std::Vector> {
+    struct transform_impl<ext::std::vector_tag> {
         template <typename V, typename F>
         static auto apply(V&& v, F&& f) {
             using U = std::remove_cv_t<std::remove_reference_t<

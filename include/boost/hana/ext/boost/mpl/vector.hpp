@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::mpl::Vector`.
+Adapts `boost::mpl::vector` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -77,7 +77,7 @@ namespace boost { namespace hana {
         //! A MPL vector can be created from any `Foldable`. More precisely,
         //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
         //! @code
-        //!     to<ext::boost::mpl::Vector>(xs) == mpl::vector<t1, ..., tn>
+        //!     to<ext::boost::mpl::vector_tag>(xs) == mpl::vector<t1, ..., tn>
         //! @endcode
         //! where `tk` is the type of `xk`, or the type contained in `xk` if
         //! `xk` is a `hana::type`.
@@ -88,9 +88,9 @@ namespace boost { namespace hana {
         //! error.
         //! @snippet example/ext/boost/mpl/vector.cpp from_Foldable
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-        struct Vector { };
+        struct vector_tag { };
 #else
-        using Vector = ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type;
+        using vector_tag = ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type;
 #endif
     }}}
 
@@ -101,14 +101,14 @@ namespace boost { namespace hana {
             ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type
         >::value
     >> {
-        using type = ext::boost::mpl::Vector;
+        using type = ext::boost::mpl::vector_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<ext::boost::mpl::Vector, ext::boost::mpl::Vector> {
+    struct equal_impl<ext::boost::mpl::vector_tag, ext::boost::mpl::vector_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs, Ys) {
             return typename ::boost::mpl::equal<Xs, Ys>::type{};
@@ -119,7 +119,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<ext::boost::mpl::Vector> {
+    struct length_impl<ext::boost::mpl::vector_tag> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
             return hana::size_c< ::boost::mpl::size<Xs>::type::value>;
@@ -130,7 +130,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<ext::boost::mpl::Vector> {
+    struct at_impl<ext::boost::mpl::vector_tag> {
         template <typename Ts, typename N>
         static constexpr auto apply(Ts const&, N const&) {
             constexpr std::size_t n = hana::value<N>();
@@ -140,14 +140,14 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::boost::mpl::Vector> {
+    struct tail_impl<ext::boost::mpl::vector_tag> {
         template <typename xs>
         static constexpr auto apply(xs)
         { return typename ::boost::mpl::pop_front<xs>::type{}; }
     };
 
     template <>
-    struct is_empty_impl<ext::boost::mpl::Vector> {
+    struct is_empty_impl<ext::boost::mpl::vector_tag> {
         template <typename xs>
         static constexpr auto apply(xs)
         { return typename ::boost::mpl::empty<xs>::type{}; }
@@ -157,7 +157,7 @@ namespace boost { namespace hana {
     // Conversion from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<ext::boost::mpl::Vector, F, when<_models<Foldable, F>::value>> {
+    struct to_impl<ext::boost::mpl::vector_tag, F, when<_models<Foldable, F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             auto vector_type = hana::unpack(static_cast<Xs&&>(xs),

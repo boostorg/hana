@@ -32,6 +32,6 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<ext::boost::Tuple>{eq_tuples};
-    test::TestIterable<ext::boost::Tuple>{eq_tuples};
+    test::TestFoldable<ext::boost::tuple_tag>{eq_tuples};
+    test::TestIterable<ext::boost::tuple_tag>{eq_tuples};
 }

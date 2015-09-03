@@ -17,7 +17,7 @@ namespace hana = boost::hana;
 
 
 static_assert(hana::lift<hana::tuple_tag>('x') == hana::make_tuple('x'), "");
-static_assert(hana::equal(hana::lift<hana::ext::std::Tuple>('x'), std::make_tuple('x')), "");
+static_assert(hana::equal(hana::lift<hana::ext::std::tuple_tag>('x'), std::make_tuple('x')), "");
 
 constexpr auto f = hana::make_pair;
 constexpr auto g = hana::flip(hana::make_pair);

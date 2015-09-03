@@ -84,7 +84,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<ext::std::IntegerSequence>{sequences};
+        test::TestComparable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
@@ -125,7 +125,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<ext::std::IntegerSequence>{sequences};
+        test::TestFoldable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -169,7 +169,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<ext::std::IntegerSequence>{sequences};
+        test::TestIterable<ext::std::integer_sequence_tag>{sequences};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -190,7 +190,7 @@ int main() {
         );
 
         // laws
-        test::TestSearchable<ext::std::IntegerSequence>{sequences, keys};
+        test::TestSearchable<ext::std::integer_sequence_tag>{sequences, keys};
     }
 #endif
 }

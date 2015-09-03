@@ -44,6 +44,6 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable and Orderable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::boost::Tuple>{eq_tuples};
-    test::TestOrderable<ext::boost::Tuple>{ord_tuples};
+    test::TestComparable<ext::boost::tuple_tag>{eq_tuples};
+    test::TestOrderable<ext::boost::tuple_tag>{ord_tuples};
 }

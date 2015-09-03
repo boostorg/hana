@@ -39,19 +39,19 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::std::Array>{int_arrays};
+    test::TestComparable<ext::std::array_tag>{int_arrays};
 
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
-    test::TestOrderable<ext::std::Array>{int_arrays};
+    test::TestOrderable<ext::std::array_tag>{int_arrays};
 
 #elif BOOST_HANA_TEST_PART == 3
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<ext::std::Array>{int_arrays};
+    test::TestFoldable<ext::std::array_tag>{int_arrays};
 
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
@@ -93,7 +93,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<ext::std::Array>{int_arrays};
+        test::TestIterable<ext::std::array_tag>{int_arrays};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -111,7 +111,7 @@ int main() {
 
         auto eq_keys = make<tuple_tag>(ct_eq<0>{});
 
-        test::TestSearchable<ext::std::Array>{eq_arrays, eq_keys};
+        test::TestSearchable<ext::std::array_tag>{eq_arrays, eq_keys};
     }
 #endif
 }

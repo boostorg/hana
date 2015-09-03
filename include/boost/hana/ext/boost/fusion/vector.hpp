@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::fusion::Vector`.
+Adapts `boost::fusion::vector` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
-        struct Vector;
+        struct vector_tag;
     }}}
 
     template <typename T>
@@ -39,12 +39,12 @@ namespace boost { namespace hana {
             >::type
         >::value
     >> {
-        using type = ext::boost::fusion::Vector;
+        using type = ext::boost::fusion::vector_tag;
     };
 
     namespace detail {
         template <>
-        struct is_fusion_sequence<ext::boost::fusion::Vector> {
+        struct is_fusion_sequence<ext::boost::fusion::vector_tag> {
             static constexpr bool value = true;
         };
     }
@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     // Iterable (the rest is in detail/common.hpp)
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tail_impl<ext::boost::fusion::Vector> {
+    struct tail_impl<ext::boost::fusion::vector_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return ::boost::fusion::as_vector(
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<ext::boost::fusion::Vector> {
+    struct make_impl<ext::boost::fusion::vector_tag> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
             return ::boost::fusion::make_vector(static_cast<Xs&&>(xs)...);

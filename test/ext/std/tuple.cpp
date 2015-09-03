@@ -96,7 +96,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         auto eq_tuple_keys = make<tuple_tag>(eq<3>{}, eq<5>{}, eq<7>{});
-        test::TestSearchable<ext::std::Tuple>{small_eq_tuples, eq_tuple_keys};
+        test::TestSearchable<ext::std::tuple_tag>{small_eq_tuples, eq_tuple_keys};
 
         auto bools = make<tuple_tag>(
               std::make_tuple(true_c)
@@ -106,43 +106,43 @@ int main() {
             , std::make_tuple(false_c, true_c)
             , std::make_tuple(false_c, false_c)
         );
-        test::TestSearchable<ext::std::Tuple>{bools, make<tuple_tag>(true_c, false_c)};
+        test::TestSearchable<ext::std::tuple_tag>{bools, make<tuple_tag>(true_c, false_c)};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
     // Comparable and Orderable
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::std::Tuple>{big_eq_tuples};
-    test::TestOrderable<ext::std::Tuple>{ord_tuples};
+    test::TestComparable<ext::std::tuple_tag>{big_eq_tuples};
+    test::TestOrderable<ext::std::tuple_tag>{ord_tuples};
 
 #elif BOOST_HANA_TEST_PART == 3
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    test::TestMonadPlus<ext::std::Tuple>{small_eq_tuples, predicates, eq_values};
+    test::TestMonadPlus<ext::std::tuple_tag>{small_eq_tuples, predicates, eq_values};
 
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
     // Foldable, Iterable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<ext::std::Tuple>{big_eq_tuples};
-    test::TestIterable<ext::std::Tuple>{big_eq_tuples};
+    test::TestFoldable<ext::std::tuple_tag>{big_eq_tuples};
+    test::TestIterable<ext::std::tuple_tag>{big_eq_tuples};
 
 #elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
     // Functor up to Monad
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestFunctor<ext::std::Tuple>{big_eq_tuples, eq_values};
-        test::TestApplicative<ext::std::Tuple>{small_eq_tuples};
-        test::TestMonad<ext::std::Tuple>{big_eq_tuples, nested_tuples};
+        test::TestFunctor<ext::std::tuple_tag>{big_eq_tuples, eq_values};
+        test::TestApplicative<ext::std::tuple_tag>{small_eq_tuples};
+        test::TestMonad<ext::std::tuple_tag>{big_eq_tuples, nested_tuples};
     }
 
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
 #elif BOOST_HANA_TEST_PART == 6 || BOOST_HANA_TEST_PART == 7 || BOOST_HANA_TEST_PART == 8
-    test::TestSequence<ext::std::Tuple>{};
+    test::TestSequence<ext::std::tuple_tag>{};
 #endif
 }

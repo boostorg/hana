@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::std::Array`.
+Adapts `std::array` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -29,18 +29,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    namespace ext { namespace std { struct Array; }}
+    namespace ext { namespace std { struct array_tag; }}
 
     template <typename T, std::size_t N>
     struct tag_of<std::array<T, N>> {
-        using type = ext::std::Array;
+        using type = ext::std::array_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<ext::std::Array> {
+    struct length_impl<ext::std::array_tag> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
             return hana::size_c< ::std::tuple_size<Xs>::type::value>;
@@ -51,7 +51,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<ext::std::Array> {
+    struct at_impl<ext::std::array_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t n = hana::value<N>();
@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::Array> {
+    struct tail_impl<ext::std::array_tag> {
         template <typename T, std::size_t N, typename Xs, std::size_t ...index>
         static constexpr auto tail_helper(Xs&& xs, std::index_sequence<index...>) {
             return std::array<T, N - 1>{{
@@ -83,7 +83,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct is_empty_impl<ext::std::Array> {
+    struct is_empty_impl<ext::std::array_tag> {
         template <typename T, std::size_t N>
         static constexpr auto apply(std::array<T, N> const&) {
             return hana::bool_c<N == 0>;
@@ -94,7 +94,7 @@ namespace boost { namespace hana {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<ext::std::Array, ext::std::Array> {
+    struct equal_impl<ext::std::array_tag, ext::std::array_tag> {
         template <typename T, std::size_t n, typename U>
         static constexpr bool apply(std::array<T, n> const& xs, std::array<U, n> const& ys)
         { return xs == ys; }
@@ -112,7 +112,7 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct less_impl<ext::std::Array, ext::std::Array> {
+    struct less_impl<ext::std::array_tag, ext::std::array_tag> {
         template <typename T, std::size_t n, typename U>
         static constexpr bool apply(std::array<T, n> const& xs, std::array<U, n> const& ys)
         { return xs < ys; }

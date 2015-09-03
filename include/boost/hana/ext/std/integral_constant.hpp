@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::std::IntegralConstant`.
+Adapts `std::integral_constant` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -23,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace ext { namespace std {
         template <typename T>
-        struct IntegralConstant { using value_type = T; };
+        struct integral_constant_tag { using value_type = T; };
     }}
 
     namespace std_ic_detail {
@@ -38,7 +38,7 @@ namespace boost { namespace hana {
 
     template <typename T>
     struct tag_of<T, when<std_ic_detail::is_std_integral_constant((T*)0)>> {
-        using type = ext::std::IntegralConstant<
+        using type = ext::std::integral_constant_tag<
             typename hana::tag_of<typename T::value_type>::type
         >;
     };
@@ -47,14 +47,14 @@ namespace boost { namespace hana {
     // Constant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<ext::std::IntegralConstant<T>> {
+    struct value_impl<ext::std::integral_constant_tag<T>> {
         template <typename C>
         static constexpr auto apply()
         { return C::value; }
     };
 
     template <typename T, typename C>
-    struct to_impl<ext::std::IntegralConstant<T>, C, when<
+    struct to_impl<ext::std::integral_constant_tag<T>, C, when<
         _models<Constant, C>::value &&
         std::is_integral<typename C::value_type>::value
     >>

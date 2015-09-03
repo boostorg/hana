@@ -2481,9 +2481,9 @@ of the external adapters that are currently supported:
 - `std::pair`\n
   Model of `Product`. This is essentially equivalent to `hana::pair`.
 - `boost::mpl::vector`\n
-  See `boost::hana::ext::boost::mpl::Vector`.
+  See `boost::hana::ext::boost::mpl::vector_tag`.
 - `boost::mpl::integral_c`\n
-  See `boost::hana::ext::boost::mpl::IntegralC`.
+  See `boost::hana::ext::boost::mpl::integral_c_tag`.
 - `boost::fusion::{deque,list,tuple,vector}`\n
   They are models of `Sequence`, and hence can be used like `hana::tuple`
   in algorithms. However, Fusion has several bugs that make these adapters

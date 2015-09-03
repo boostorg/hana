@@ -40,7 +40,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // Comparable, Orderable, Functor
     //////////////////////////////////////////////////////////////////////////
-    test::TestComparable<ext::std::Vector>{eqs};
-    test::TestOrderable<ext::std::Vector>{ords};
-    // test::TestFunctor<ext::std::Vector>{eqs, eq_values};
+    test::TestComparable<ext::std::vector_tag>{eqs};
+    test::TestOrderable<ext::std::vector_tag>{ords};
+    // test::TestFunctor<ext::std::vector_tag>{eqs, eq_values};
 }

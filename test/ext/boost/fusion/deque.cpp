@@ -37,22 +37,22 @@ int main() {
     {
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_deque(),
-            hana::make<hana::ext::boost::fusion::Deque>()
+            hana::make<hana::ext::boost::fusion::deque_tag>()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_deque(ct_eq<0>{}),
-            hana::make<hana::ext::boost::fusion::Deque>(ct_eq<0>{})
+            hana::make<hana::ext::boost::fusion::deque_tag>(ct_eq<0>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}),
-            hana::make<hana::ext::boost::fusion::Deque>(ct_eq<0>{}, ct_eq<1>{})
+            hana::make<hana::ext::boost::fusion::deque_tag>(ct_eq<0>{}, ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
-            hana::make<hana::ext::boost::fusion::Deque>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            hana::make<hana::ext::boost::fusion::deque_tag>(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
         ));
     }
 
@@ -159,6 +159,6 @@ int main() {
     // models<Sequence>
     //////////////////////////////////////////////////////////////////////////
     {
-        BOOST_HANA_CONSTANT_CHECK(hana::models<hana::Sequence, hana::ext::boost::fusion::Deque>);
+        BOOST_HANA_CONSTANT_CHECK(hana::models<hana::Sequence, hana::ext::boost::fusion::deque_tag>);
     }
 }

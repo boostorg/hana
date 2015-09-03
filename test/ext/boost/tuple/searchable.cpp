@@ -38,7 +38,7 @@ int main() {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestSearchable<ext::boost::Tuple>{eq_tuples, eq_tuple_keys};
+        test::TestSearchable<ext::boost::tuple_tag>{eq_tuples, eq_tuple_keys};
 
         auto bools = make<tuple_tag>(
               ::boost::make_tuple(true_c)
@@ -48,6 +48,6 @@ int main() {
             , ::boost::make_tuple(false_c, true_c)
             , ::boost::make_tuple(false_c, false_c)
         );
-        test::TestSearchable<ext::boost::Tuple>{bools, make<tuple_tag>(true_c, false_c)};
+        test::TestSearchable<ext::boost::tuple_tag>{bools, make<tuple_tag>(true_c, false_c)};
     }
 }

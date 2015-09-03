@@ -1,6 +1,6 @@
 /*!
 @file
-Defines `boost::hana::ext::boost::fusion::Tuple`.
+Adapts `boost::fusion::tuple` for use with Hana.
 
 In the current version of Boost.Fusion, `boost::fusion::tuple` is basically
 an alias to `boost::fusion::vector`, so both data types share the same
@@ -21,7 +21,7 @@ namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
         // In the current version of Boost.Fusion, `boost::fusion::tuple` is
         // basically an alias to `boost::fusion::vector`, hence the alias.
-        using Tuple = Vector;
+        using tuple_tag = vector_tag;
     }}}
 }}
 

@@ -24,42 +24,42 @@ int main() {
 
         static_assert(std::is_same<
             tag_of_t<decltype(boost::make_tuple())>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(boost::make_tuple(1))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(boost::make_tuple(1, '2'))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(boost::make_tuple(1, '2', 3.3))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(make_cons(1, boost::tuples::null_type{}))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(make_cons(1, make_cons('2', boost::tuples::null_type{})))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<decltype(make_cons(1, boost::make_tuple('2', 3.3)))>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
 
         static_assert(std::is_same<
             tag_of_t<boost::tuples::null_type>,
-            ext::boost::Tuple
+            ext::boost::tuple_tag
         >::value, "");
     }
 }
