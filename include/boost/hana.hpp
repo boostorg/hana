@@ -45,6 +45,10 @@ namespace boost { namespace hana {
     namespace literals { }
 }}
 
+// Include config.hpp first, so that warning messages about
+// compiler support appear as soon as possible.
+#include <boost/hana/config.hpp>
+
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/adapt_struct.hpp>
 #include <boost/hana/adjust.hpp>
@@ -67,7 +71,6 @@ namespace boost { namespace hana {
 #include <boost/hana/comparing.hpp>
 #include <boost/hana/concat.hpp>
 #include <boost/hana/concept.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core.hpp>
 #include <boost/hana/count.hpp>
