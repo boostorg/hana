@@ -1690,9 +1690,9 @@ have to type `boost::hana::make<boost::hana::tuple_tag>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
 family of functions. For example, one can create a `hana::range` of
-compile-time integers with `make<Range>`:
+compile-time integers with `make<range_tag>`:
 
-@snippet example/tutorial/containers.cpp make<Range>
+@snippet example/tutorial/containers.cpp make<range_tag>
 
 For convenience, whenever a component of Hana provides a `make<xxx_tag>`
 function, it also provides the `make_xxx` shortcut to reduce typing. Also, an
@@ -1701,14 +1701,14 @@ interesting point that can be raised in this example is the fact that `r` is
 expressions only (which is the case for `r`), that container may be marked
 as `constexpr`.
 
-But what are these types with a capital letter that have popped up a couple of
-times in the tutorial? These types are simply tags __representing__ a given
-container. For example, `Range` is actually an empty `struct` representing the
-"conceptual type" of an object returned by `make_range`, while the actual type
-of such an object is implementation-defined. These tags are very useful because
-they represent families of C++ types that are strongly related, but that are
-not required to have the same representation. These tags are documented in
-the section on [Hana's core](@ref tutorial-core-tags).
+But what are these types with a trailing `_tag` that have popped up a couple
+of times in the tutorial? These types are simply tags __representing__ a given
+container. For example, `range_tag` is actually an empty `struct` representing
+the "conceptual type" of an object returned by `make_range`, while the actual
+type of such an object is implementation-defined. These tags are very useful
+because they represent families of C++ types that are strongly related, but
+that are not required to have the same representation. These tags are
+documented in the section on [Hana's core](@ref tutorial-core-tags).
 
 
 @subsection tutorial-containers-elements Container elements
@@ -1774,7 +1774,7 @@ rewritten as
 @snippet example/tutorial/containers.cpp overloading
 
 This way, the second overload of `f` will only match when `R` is a type whose
-tag is `Range`, regardless of the exact representation of that range. Of
+tag is `range_tag`, regardless of the exact representation of that range. Of
 course, `is_a` can be used with any kind of container: `tuple`, `map`, `set`
 and so on.
 

@@ -72,7 +72,7 @@ struct vector_c : decltype(hana::tuple_c<T, v...>) {
 
 template <typename T, T from, T to>
 struct range_c : decltype(hana::range_c<T, from, to>) {
-    using hana_tag = hana::Range;
+    using hana_tag = hana::range_tag;
 };
 
 

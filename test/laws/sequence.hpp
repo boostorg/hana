@@ -928,10 +928,10 @@ namespace boost { namespace hana { namespace test {
                     list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{}, eq<1>{})
                 ));
 
-                // Try with a Range
+                // Try with a hana::range
                 BOOST_HANA_CONSTANT_CHECK(equal(
                     subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
-                                make<Range>(size_c<1>, size_c<3>)),
+                                make_range(size_c<1>, size_c<3>)),
                     list(eq<1>{}, eq<2>{})
                 ));
 

@@ -66,14 +66,14 @@ namespace boost { namespace hana {
 
     //! Tag representing a `hana::range`.
     //! @relates hana::range
-    struct Range { };
+    struct range_tag { };
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! Create a `hana::range` representing a half-open interval of
     //! `integral_constant`s.
     //! @relates hana::range
     //!
-    //! Given two `Constant`s `from` and `to`, `make<Range>` returns a
+    //! Given two `Constant`s `from` and `to`, `make<range_tag>` returns a
     //! `hana::range` representing the half-open interval of
     //! `integral_constant`s `[from, to)`. `from` and `to` must be
     //! `Constant`s of an integral type such that `from <= to`. Otherwise,
@@ -87,23 +87,22 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/range/make.cpp
     template <>
-    constexpr auto make<Range> = [](auto from, auto to) {
+    constexpr auto make<range_tag> = [](auto from, auto to) {
         return range<implementation-defined>{implementation-defined};
     };
 #endif
 
-    //! Alias to `make<Range>`; provided for convenience.
+    //! Alias to `make<range_tag>`; provided for convenience.
     //! @relates hana::range
-    constexpr auto make_range = make<Range>;
+    constexpr auto make_range = make<range_tag>;
 
     //! Shorthand to create a `hana::range` with the given bounds.
     //! @relates hana::range
     //!
     //! This shorthand is provided for convenience only and it is equivalent
-    //! to `make<Range>`. Specifically, `range_c<T, from, to>` is such that
+    //! to `make_range`. Specifically, `range_c<T, from, to>` is such that
     //! @code
-    //!     range_c<T, from, to> == make<Range>(integral_c<T, from>,
-    //!                                         integral_c<T, to>)
+    //!     range_c<T, from, to> == make_range(integral_c<T, from>, integral_c<T, to>)
     //! @endcode
     //!
     //!
@@ -123,8 +122,7 @@ namespace boost { namespace hana {
     //! @include example/range/range_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T from, T to>
-    constexpr auto range_c = make<Range>(integral_c<T, from>,
-                                         integral_c<T, to>);
+    constexpr auto range_c = make_range(integral_c<T, from>, integral_c<T, to>);
 #else
     template <typename T, T from, T to>
     constexpr range<T, from, to> range_c{};

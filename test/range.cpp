@@ -79,12 +79,12 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // make<Range>
+    // make<range_tag>
     //////////////////////////////////////////////////////////////////////////
     {
-        // make sure make<Range> works with arbitrary Constants
+        // make sure make<range_tag> works with arbitrary Constants
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::make<hana::Range>(test::_constant<1>{}, test::_constant<4>{}),
+            hana::make<hana::range_tag>(test::_constant<1>{}, test::_constant<4>{}),
             hana::make_range(hana::integral_c<int, 1>, hana::integral_c<int, 4>)
         ));
     }
@@ -148,7 +148,7 @@ int main() {
         }
 
         // laws
-        test::TestComparable<hana::Range>{ranges};
+        test::TestComparable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
@@ -344,7 +344,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<hana::Range>{ranges};
+        test::TestFoldable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 3
 
@@ -560,7 +560,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<hana::Range>{ranges};
+        test::TestIterable<hana::range_tag>{ranges};
     }
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
@@ -646,7 +646,7 @@ int main() {
         }
 
         // laws
-        test::TestSearchable<hana::Range>{ranges, integers};
+        test::TestSearchable<hana::range_tag>{ranges, integers};
     }
 #endif
 }

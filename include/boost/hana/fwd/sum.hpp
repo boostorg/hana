@@ -52,8 +52,8 @@ namespace boost { namespace hana {
     //! sequence, so we can't know a `0` value of which type should be
     //! returned when the sequence is empty. Therefore, the type of the
     //! `0` to return in the empty case must be specified explicitly. Other
-    //! foldable structures like Ranges will ignore the suggested Monoid
-    //! because they know the tag of the objects they contain. This
+    //! foldable structures like `hana::range`s will ignore the suggested
+    //! Monoid because they know the tag of the objects they contain. This
     //! inconsistent behavior is a limitation of the current design with
     //! non-parameterized tags, but we have no good solution for now.
     //!
