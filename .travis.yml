@@ -220,10 +220,7 @@ script:
   - |
     if [[ "${UNIT_TESTS}" == "true" ]]; then
       export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-      make examples -k -j2 &>/dev/null
-      make tests.quick -k -j2 &>/dev/null
-      make tests -k -j2
-      make check -k
+      make check -j2 -k
     fi
 
 
