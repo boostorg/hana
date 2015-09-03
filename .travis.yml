@@ -13,7 +13,7 @@ matrix:
     # up builds. There would be little benefit to run the memory checker on
     # different Boost versions.
     ##########################################################################
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: &clang35
         apt:
           packages: ["clang-3.5", "valgrind"]
@@ -23,49 +23,31 @@ matrix:
             - llvm-toolchain-precise-3.6
             - llvm-toolchain-precise-3.7
 
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
-      addons: *clang35
-
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang35
-
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang35
 
     ##########################################################################
     # Clang 3.6
     ##########################################################################
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: &clang36
         apt:
           packages: ["clang-3.6", "valgrind"]
           sources: *sources
 
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
-      addons: *clang36
-
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang36
-
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang36
 
     ##########################################################################
     # Clang 3.7
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: &clang37
         apt:
           packages: ["clang-3.7", "valgrind"]
           sources: *sources
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
-      addons: *clang37
-
     - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang37
-
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang37
 
     ##########################################################################
@@ -87,6 +69,15 @@ matrix:
     # Build without exceptions
     ##########################################################################
     - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_EXCEPTIONS=true
+      addons: *clang37
+
+    ##########################################################################
+    # Build with Boost 1.57.0 and trunk
+    ##########################################################################
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+      addons: *clang37
+
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
       addons: *clang37
 
     ##########################################################################
