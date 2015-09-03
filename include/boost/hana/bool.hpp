@@ -73,7 +73,7 @@ namespace boost { namespace hana {
 
     template <typename T, T v>
     struct tag_of<integral_constant<T, v>> {
-        using type = IntegralConstant<T>;
+        using type = integral_constant_tag<T>;
     };
     //! @endcond
 
@@ -82,19 +82,19 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <typename T>
-        struct comparable_operators<IntegralConstant<T>> {
+        struct comparable_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct orderable_operators<IntegralConstant<T>> {
+        struct orderable_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct arithmetic_operators<IntegralConstant<T>> {
+        struct arithmetic_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
         template <typename T>
-        struct logical_operators<IntegralConstant<T>> {
+        struct logical_operators<integral_constant_tag<T>> {
             static constexpr bool value = true;
         };
     }
@@ -156,14 +156,14 @@ namespace boost { namespace hana {
     // Model of Constant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<IntegralConstant<T>> {
+    struct value_impl<integral_constant_tag<T>> {
         template <typename C>
         static constexpr auto apply()
         { return C::value; }
     };
 
     template <typename T, typename C>
-    struct to_impl<IntegralConstant<T>, C, when<
+    struct to_impl<integral_constant_tag<T>, C, when<
         _models<Constant, C>::value &&
         std::is_integral<typename C::value_type>::value
     >>
@@ -184,7 +184,7 @@ namespace boost { namespace hana {
     // Optimizations
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct eval_if_impl<IntegralConstant<T>> {
+    struct eval_if_impl<integral_constant_tag<T>> {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
@@ -204,7 +204,7 @@ namespace boost { namespace hana {
     };
 
     template <typename T>
-    struct if_impl<IntegralConstant<T>> {
+    struct if_impl<integral_constant_tag<T>> {
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {

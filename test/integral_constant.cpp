@@ -82,7 +82,7 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         struct derived : integral_constant<int, 10> { };
-        static_assert(std::is_same<tag_of_t<derived>, IntegralConstant<int>>{}, "");
+        static_assert(std::is_same<tag_of_t<derived>, integral_constant_tag<int>>{}, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -109,7 +109,7 @@ int main() {
         {
             int index = 0;
             int_c<3>.times.with_index([&](auto i) {
-                static_assert(is_an<IntegralConstant<int>>(i), "");
+                static_assert(is_an<integral_constant_tag<int>>(i), "");
                 BOOST_HANA_RUNTIME_CHECK(value(i) == index);
                 ++index;
             });
@@ -200,8 +200,8 @@ int main() {
         static_assert(value(integral_c<int, 1>) == 1, "");
 
         // laws
-        test::TestConstant<IntegralConstant<int>>{ints, tuple_t<int, long, long long>};
-        test::TestConstant<IntegralConstant<bool>>{bools, tuple_t<bool>};
+        test::TestConstant<integral_constant_tag<int>>{ints, tuple_t<int, long, long long>};
+        test::TestConstant<integral_constant_tag<bool>>{bools, tuple_t<bool>};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -209,9 +209,9 @@ int main() {
     // Enumerable, Monoid, Group
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestEnumerable<IntegralConstant<int>>{ints};
-        test::TestMonoid<IntegralConstant<int>>{ints};
-        test::TestGroup<IntegralConstant<int>>{ints};
+        test::TestEnumerable<integral_constant_tag<int>>{ints};
+        test::TestMonoid<integral_constant_tag<int>>{ints};
+        test::TestGroup<integral_constant_tag<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -219,8 +219,8 @@ int main() {
     // Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestRing<IntegralConstant<int>>{ints};
-        test::TestIntegralDomain<IntegralConstant<int>>{ints};
+        test::TestRing<integral_constant_tag<int>>{ints};
+        test::TestIntegralDomain<integral_constant_tag<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -251,9 +251,9 @@ int main() {
         }
 
         // laws
-        auto ints = make<tuple_tag>(int_c<-2>, int_c<0>, int_c<1>, int_c<3>);
-        test::TestLogical<IntegralConstant<int>>{ints};
-        test::TestLogical<IntegralConstant<bool>>{bools};
+        auto ints = make_tuple(int_c<-2>, int_c<0>, int_c<1>, int_c<3>);
+        test::TestLogical<integral_constant_tag<int>>{ints};
+        test::TestLogical<integral_constant_tag<bool>>{bools};
     }
 
 #elif BOOST_HANA_TEST_PART == 6
@@ -261,7 +261,7 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestComparable<IntegralConstant<int>>{ints};
+        test::TestComparable<integral_constant_tag<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 7
@@ -269,7 +269,7 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestOrderable<IntegralConstant<int>>{ints};
+        test::TestOrderable<integral_constant_tag<int>>{ints};
     }
 #endif
 }

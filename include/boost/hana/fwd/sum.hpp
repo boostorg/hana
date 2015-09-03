@@ -24,10 +24,10 @@ namespace boost { namespace hana {
     //! Monoid. It is sometimes necessary to specify the Monoid to use;
     //! this is possible by using `sum<M>`. If no Monoid is specified,
     //! the structure will use the Monoid formed by the elements it contains
-    //! (if it knows it), or `IntegralConstant<int>` otherwise. Hence,
+    //! (if it knows it), or `integral_constant_tag<int>` otherwise. Hence,
     //! @code
     //!     sum<M>(xs) = fold_left(xs, zero<M or inferred Monoid>(), plus)
-    //!     sum<> = sum<IntegralConstant<int>>
+    //!     sum<> = sum<integral_constant_tag<int>>
     //! @endcode
     //!
     //! For numbers, this will just compute the sum of the numbers in the
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
     template <typename M>
     struct sum_t;
 
-    template <typename M = IntegralConstant<int>>
+    template <typename M = integral_constant_tag<int>>
     constexpr sum_t<M> sum{};
 #endif
 }} // end namespace boost::hana

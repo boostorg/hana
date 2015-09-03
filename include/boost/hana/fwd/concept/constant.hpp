@@ -165,7 +165,7 @@ namespace boost { namespace hana {
     //!
     //! which isn't. To be on the safer side, we could mark the conversion
     //! as not-an-embedding. However, if e.g. the conversion from
-    //! `IntegralConstant<int>` to `int` was not marked as an embedding,
+    //! `integral_constant_tag<int>` to `int` was not marked as an embedding,
     //! we would have to write `plus(to<int>(int_<1>), 1)` instead of just
     //! `plus(int_<1>, 1)`, which is cumbersome. Hence, the conversion is
     //! marked as an embedding, but this also means that code like

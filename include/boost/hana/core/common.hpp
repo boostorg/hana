@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         //! @todo
         //! This is an awful hack to avoid having
         //! @code
-        //!     common<IntegralConstant<int>, IntegralConstant<long>>
+        //!     common<integral_constant_tag<int>, integral_constant_tag<long>>
         //!         ==
         //!     CanonicalConstant<long>
         //! @endcode

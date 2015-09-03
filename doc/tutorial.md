@@ -2539,10 +2539,10 @@ values.
 To reflect this reality, Hana provides _tags_ representing its heterogeneous
 containers and other compile-time entities. For example, all of Hana's
 `integral_constant<int, ...>`s have different types, but they all share
-the same tag, `IntegralConstant<int>`. This allows the programmer to think
-in terms of that single type instead of trying to think in terms of the actual
-types of the objects. Furthermore, Hana adopts the convention of naming these
-tags by adding the `_tag` suffix, to make them stand out and differentiate
+the same tag, `integral_constant_tag<int>`. This allows the programmer to
+think in terms of that single type instead of trying to think in terms of the
+actual types of the objects. Furthermore, Hana adopts the convention of naming
+these tags by adding the `_tag` suffix, to make them stand out and differentiate
 them from actual types.
 
 @note
@@ -2876,7 +2876,7 @@ functions, those signatures are written in terms of argument and return tags.
 This is done because of the heterogeneous setting, where the actual type of
 an object is usually pretty meaningless and does not help to reason about
 what's being returned or taken by a function. For example, instead of
-documenting the `equal` function for `IntegralConstant`s as
+documenting the `equal` function for `integral_constant`s as
 
 @f[
   \mathtt{equal} : \mathtt{integral\_constant<T, n>} \times
@@ -2885,19 +2885,19 @@ documenting the `equal` function for `IntegralConstant`s as
 @f]
 
 which is not really helpful (as it really presents nothing but the
-implementation), it is instead documented using the `IntegralConstant`
-tag. Note that since `equal` is part of the `Comparable` concept, it is
-not _actually_ documented for `IntegralConstant` specifically, but the
-idea is there:
+implementation), it is instead documented using `integral_constant_tag`,
+which acts as the "type" of all `integral_constant`s. Note that since `equal`
+is part of the `Comparable` concept, it is not _actually_ documented for
+`hana::integral_constant` specifically, but the idea is there:
 
 @f[
-  \mathtt{equal} : \mathtt{IntegralConstant<T>} \times
-                   \mathtt{IntegralConstant<T>}
-                      \to \mathtt{IntegralConstant<bool>}
+  \mathtt{equal} : \mathtt{integral_constant_tag<T>} \times
+                   \mathtt{integral_constant_tag<T>}
+                      \to \mathtt{integral_constant_tag<bool>}
 @f]
 
-This clearly conveys the intention that comparing two `IntegralConstant`s
-gives back another `IntegralConstant` holding a `bool`. In general, this
+This clearly conveys the intention that comparing two `integral_constant`s
+gives back another `integral_constant` holding a `bool`. In general, this
 abstraction of the actual representation of objects makes it possible for
 us to reason in a high level manner about functions, even though their
 actual return and argument types are heterogeneous and not helpful. Finally,

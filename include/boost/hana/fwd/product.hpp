@@ -24,11 +24,11 @@ namespace boost { namespace hana {
     //! Ring's operation. It is sometimes necessary to specify the Ring to
     //! use; this is possible by using `product<R>`. If no Ring is specified,
     //! the structure will use the Ring formed by the elements it contains
-    //! (if it knows it), or `IntegralConstant<int>` otherwise.
+    //! (if it knows it), or `integral_constant_tag<int>` otherwise.
     //! Hence,
     //! @code
     //!     product<R>(xs) = fold_left(xs, one<R or inferred Ring>(), mult)
-    //!     product<> = product<IntegralConstant<int>>
+    //!     product<> = product<integral_constant_tag<int>>
     //! @endcode
     //!
     //! For numbers, this will just compute the product of the numbers in the
@@ -69,7 +69,7 @@ namespace boost { namespace hana {
     template <typename R>
     struct product_t;
 
-    template <typename R = IntegralConstant<int>>
+    template <typename R = integral_constant_tag<int>>
     constexpr product_t<R> product{};
 #endif
 }} // end namespace boost::hana

@@ -972,32 +972,32 @@ namespace boost { namespace hana { namespace test {
             // product
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list()),
+                product<integral_constant_tag<int>>(list()),
                 int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_c<2>)),
+                product<integral_constant_tag<int>>(list(int_c<2>)),
                 int_c<2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>)),
+                product<integral_constant_tag<int>>(list(int_c<2>, int_c<3>)),
                 int_c<2 * 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>, int_c<4>)),
+                product<integral_constant_tag<int>>(list(int_c<2>, int_c<3>, int_c<4>)),
                 int_c<2 * 3 * 4>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<int>>(list(int_c<2>, int_c<3>, int_c<4>, int_c<5>)),
+                product<integral_constant_tag<int>>(list(int_c<2>, int_c<3>, int_c<4>, int_c<5>)),
                 int_c<2 * 3 * 4 * 5>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<unsigned long>>(list()),
+                product<integral_constant_tag<unsigned long>>(list()),
                 ulong_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                product<IntegralConstant<unsigned long>>(list(ulong_c<2>, ulong_c<3>, ulong_c<4>)),
+                product<integral_constant_tag<unsigned long>>(list(ulong_c<2>, ulong_c<3>, ulong_c<4>)),
                 ulong_c<2 * 3 * 4>
             ));
 
@@ -1023,33 +1023,33 @@ namespace boost { namespace hana { namespace test {
             // sum
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list()),
+                sum<integral_constant_tag<int>>(list()),
                 int_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_c<1>)),
+                sum<integral_constant_tag<int>>(list(int_c<1>)),
                 int_c<1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>)),
+                sum<integral_constant_tag<int>>(list(int_c<1>, int_c<2>)),
                 int_c<1 + 2>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>, int_c<3>)),
+                sum<integral_constant_tag<int>>(list(int_c<1>, int_c<2>, int_c<3>)),
                 int_c<1 + 2 + 3>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<int>>(list(int_c<1>, int_c<2>, int_c<3>, int_c<4>)),
+                sum<integral_constant_tag<int>>(list(int_c<1>, int_c<2>, int_c<3>, int_c<4>)),
                 int_c<1 + 2 + 3 + 4>
             ));
 
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<unsigned long>>(list()),
+                sum<integral_constant_tag<unsigned long>>(list()),
                 ulong_c<0>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                sum<IntegralConstant<unsigned long>>(list(ulong_c<1>, ulong_c<2>, ulong_c<3>)),
+                sum<integral_constant_tag<unsigned long>>(list(ulong_c<1>, ulong_c<2>, ulong_c<3>)),
                 ulong_c<1 + 2 + 3>
             ));
 
