@@ -10,13 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_HPP
 
-#include <boost/version.hpp>
-
-#if BOOST_VERSION >= 105800
-#   include <boost/hana/ext/boost/fusion/deque.hpp>
-#   include <boost/hana/ext/boost/fusion/list.hpp>
-#endif
-
+#include <boost/hana/ext/boost/fusion/deque.hpp>
+#include <boost/hana/ext/boost/fusion/list.hpp>
 #include <boost/hana/ext/boost/fusion/tuple.hpp>
 #include <boost/hana/ext/boost/fusion/vector.hpp>
 
