@@ -2,13 +2,13 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-set(CMAKE_LEGACY_CYGWIN_WIN32 0)   # Prevent CMake showing a warning
+#set(CMAKE_LEGACY_CYGWIN_WIN32 0)   # Prevent CMake showing a warning
 
 ##############################################################################
 # Setup project
 ##############################################################################
-project(Boost.Hana CXX)
 cmake_minimum_required(VERSION 3.0)
+project(Boost.Hana CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 enable_testing()
 
