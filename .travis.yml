@@ -17,7 +17,11 @@ matrix:
       addons: &clang35
         apt:
           packages: ["clang-3.5", "valgrind"]
-          sources: &sources ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5", "llvm-toolchain-precise-3.6"]
+          sources: &sources
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.5
+            - llvm-toolchain-precise-3.6
+            - llvm-toolchain-precise-3.7
 
     - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
       addons: *clang35
@@ -47,25 +51,43 @@ matrix:
       addons: *clang36
 
     ##########################################################################
+    # Clang 3.7
+    ##########################################################################
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+      addons: &clang37
+        apt:
+          packages: ["clang-3.7", "valgrind"]
+          sources: *sources
+
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+      addons: *clang37
+
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
+      addons: *clang37
+
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+      addons: *clang37
+
+    ##########################################################################
     # Build without concept checks
     ##########################################################################
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
-      addons: *clang36
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
+      addons: *clang37
 
     ##########################################################################
     # Build with libstdc++ instead of libc++
     ##########################################################################
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true STDLIB=libstdc++
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true STDLIB=libstdc++
       addons:
         apt:
-          packages: ["clang-3.6", "g++-5"]
+          packages: ["clang-3.7", "g++-5"]
           sources: *sources
 
     ##########################################################################
     # Build without exceptions
     ##########################################################################
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_EXCEPTIONS=true
-      addons: *clang36
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_EXCEPTIONS=true
+      addons: *clang37
 
     ##########################################################################
     # Benchmarks
@@ -83,6 +105,12 @@ matrix:
     - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
       addons: *clang36
 
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
+      addons: *clang37
+
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
+      addons: *clang37
+
 
 env:
   global:
@@ -99,10 +127,10 @@ env:
   # at all in the matrix.
   ##########################################################################
   matrix:
-    - COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 DOCUMENTATION=true
+    - COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 DOCUMENTATION=true
 
 # Those addons apply only to the documentation job.
-addons: *clang36
+addons: *clang37
 
 
 install:
@@ -141,9 +169,14 @@ install:
   ############################################################################
   - |
     if [[ "${STDLIB}" != "libstdc++" ]]; then
-      LLVM_URL="http://llvm.org/releases/3.6.2/llvm-3.6.2.src.tar.xz"
-      LIBCXX_URL="http://llvm.org/releases/3.6.2/libcxx-3.6.2.src.tar.xz"
-      LIBCXXABI_URL="http://llvm.org/releases/3.6.2/libcxxabi-3.6.2.src.tar.xz"
+      if [[ "${COMPILER}" == "clang++-3.7" ]]; then
+        LLVM_VERSION="3.7.0"
+      else
+        LLVM_VERSION="3.6.2"
+      fi
+      LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
+      LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
+      LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
 
       mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
       travis_retry wget --quiet -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
