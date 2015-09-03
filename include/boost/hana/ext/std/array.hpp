@@ -27,6 +27,43 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace std {
+    //! @ingroup group-ext-std
+    //! Adaptation of `std::array` for Hana.
+    //!
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable`\n
+    //! `std::array`s are compared as per `std::equal`, except that two arrays
+    //! with different sizes compare unequal instead of triggering an error
+    //! and the result of the comparison is `constexpr` if both arrays are
+    //! `constexpr`.
+    //! @include example/ext/std/array/comparable.cpp
+    //!
+    //! 2. `Orderable`\n
+    //! `std::array`s are ordered with the usual lexicographical ordering,
+    //! except that two arrays with different size can be ordered instead
+    //! of triggering an error and the result of the comparison is `constexpr`
+    //! if both arrays are `constexpr`.
+    //! @include example/ext/std/array/orderable.cpp
+    //!
+    //! 3. `Foldable`\n
+    //! Folding an array from the left is equivalent to calling
+    //! `std::accumulate` on it, except it can be `constexpr`.
+    //! @include example/ext/std/array/foldable.cpp
+    //!
+    //! 4. `Iterable`\n
+    //! Iterating over a `std::array` is equivalent to iterating over it with
+    //! a normal `for` loop.
+    //! @include example/ext/std/array/iterable.cpp
+    template <typename T, std::size_t N>
+    struct array { };
+}
+#endif
+
 namespace boost { namespace hana {
     namespace ext { namespace std { struct array_tag; }}
 
@@ -42,7 +79,7 @@ namespace boost { namespace hana {
     struct length_impl<ext::std::array_tag> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
-            return hana::size_c< ::std::tuple_size<Xs>::type::value>;
+            return hana::size_c<std::tuple_size<Xs>::type::value>;
         }
     };
 
@@ -94,7 +131,7 @@ namespace boost { namespace hana {
     struct equal_impl<ext::std::array_tag, ext::std::array_tag> {
         template <typename T, std::size_t n, typename U>
         static constexpr bool apply(std::array<T, n> const& xs, std::array<U, n> const& ys)
-        { return xs == ys; }
+        { return detail::equal(&xs[0], &xs[0] + n, &ys[0], &ys[0] + n); }
 
         template <typename T, typename U>
         static constexpr auto apply(std::array<T, 0> const&, std::array<U, 0> const&)
@@ -110,19 +147,13 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct less_impl<ext::std::array_tag, ext::std::array_tag> {
-        template <typename T, std::size_t n, typename U>
-        static constexpr bool apply(std::array<T, n> const& xs, std::array<U, n> const& ys)
-        { return xs < ys; }
-
         template <typename T, typename U>
         static constexpr auto apply(std::array<T, 0> const&, std::array<U, 0> const&)
         { return hana::false_c; }
 
         template <typename T, std::size_t n, typename U, std::size_t m>
         static constexpr auto apply(std::array<T, n> const& xs, std::array<U, m> const& ys) {
-            return detail::lexicographical_compare(
-                xs.begin(), xs.end(), ys.begin(), ys.end()
-            );
+            return detail::lexicographical_compare(&xs[0], &xs[0] + n, &ys[0], &ys[0] + m);
         }
     };
 }} // end namespace boost::hana
