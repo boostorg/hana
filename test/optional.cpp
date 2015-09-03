@@ -81,7 +81,7 @@ int main() {
         test::ct_eq<2> x{};
         test::ct_eq<3> y{};
 
-        // Interaction with Type (has a nested ::type)
+        // Interaction with hana::type (has a nested ::type)
         {
             struct T;
             static_assert(std::is_same<decltype(just(type_c<T>))::type, T>{}, "");

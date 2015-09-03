@@ -17,10 +17,10 @@ namespace boost { namespace hana {
     //!
     //! A `Metafunction` is an object satisfying the [FunctionObject][1]
     //! concept, but with additional requirements. First, it must be possible
-    //! to apply a `Metafunction` to arguments whose tag is `hana::Type`, and
+    //! to apply a `Metafunction` to arguments whose tag is `type_tag`, and
     //! the result of such an application must be an object whose tag is also
-    //! `hana::Type`. Note that `hana::type` and `hana::basic_type` are the
-    //! only two objects whose tag is `hana::Type`.
+    //! `type_tag`. Note that `hana::type` and `hana::basic_type` are the
+    //! only such types.
     //!
     //! Secondly, a `Metafunction` must provide a nested `::%apply` template
     //! which allows performing the same type-level computation as is done by

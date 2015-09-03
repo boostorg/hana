@@ -142,7 +142,7 @@ struct print_impl<hana::set_tag> {
 
 // model for hana::types
 template <>
-struct print_impl<hana::Type> {
+struct print_impl<hana::type_tag> {
     static std::string demangle(char const* mangled) {
         int status;
         std::unique_ptr<char[], void(*)(void*)> result(

@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     //! particular representation.
     //!
     //!
-    //! Interoperation with `Type`s
+    //! Interoperation with `type`s
     //! ---------------------------
     //! When a `just` contains an object of type `T` which is a `type`,
     //! it has a nested `::%type` alias equivalent to `T::%type`. `nothing`,

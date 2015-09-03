@@ -214,8 +214,8 @@ namespace boost { namespace hana {
 
         //! @todo We could return `Then` instead of `auto` to sometimes save
         //! a copy, but that would break some code that would return a
-        //! reference to a Type object. I think the code that would be broken
-        //! should be changed, but more thought needs to be given.
+        //! reference to a `type` object. I think the code that would be
+        //! broken should be changed, but more thought needs to be given.
         template <typename Then, typename Else>
         static constexpr auto
         apply(decltype(hana::true_c) const&, Then&& t, Else&&)

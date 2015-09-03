@@ -567,7 +567,7 @@ int main() {
             ));
         }
 
-        // fill with tuple_t and a Type
+        // fill with tuple_t and a hana::type
         {
             struct z;
             BOOST_HANA_CONSTANT_CHECK(equal(

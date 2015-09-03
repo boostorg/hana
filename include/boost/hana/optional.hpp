@@ -50,7 +50,7 @@ namespace boost { namespace hana {
         struct nested_type { };
 
         template <typename T>
-        struct nested_type<T, Type> { using type = typename T::type; };
+        struct nested_type<T, type_tag> { using type = typename T::type; };
     }
 
     template <typename T>

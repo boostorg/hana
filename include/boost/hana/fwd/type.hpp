@@ -10,6 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TYPE_HPP
 #define BOOST_HANA_FWD_TYPE_HPP
 
+#include <boost/hana/fwd/core/make.hpp>
+
+
 namespace boost { namespace hana {
     //! Base class of `hana::type`; used for pattern-matching.
     //! @relates hana::type
@@ -89,7 +92,7 @@ namespace boost { namespace hana {
 
     //! Tag representing `hana::type`.
     //! @relates hana::type
-    struct Type { };
+    struct type_tag { };
 
     //! Creates an object representing the C++ type `T`.
     //! @relates hana::type
@@ -170,8 +173,17 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/type/make.cpp
     template <>
-    constexpr auto make<Type> = hana::decltype_;
+    constexpr auto make<type_tag> = hana::decltype_;
 #endif
+
+    //! Equivalent to `make<type_tag>`, provided for convenience.
+    //! @relates hana::type
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/type/make.cpp
+    constexpr auto make_type = hana::make<type_tag>;
 
     //! `sizeof` keyword, lifted to Hana.
     //! @relates hana::type

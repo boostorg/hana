@@ -29,7 +29,7 @@ struct is_homogeneous<T, std::enable_if_t<std::is_arithmetic<T>::value>> {
 };
 
 
-// a list of Types
+// a list of types
 template <typename ...xs>
 constexpr auto list_t = hana::tuple_t<xs...>;
 
@@ -46,7 +46,7 @@ struct list_of {
 };
 
 template <>
-struct list_of<hana::Type> {
+struct list_of<hana::type_tag> {
     template <typename ...X>
     constexpr auto operator()(X ...) const
     { return list_t<typename X::type...>; }
@@ -81,7 +81,7 @@ int main() {
     list(1, 2, 3); // normal version
 
     // uses a list_t internally
-    list.of<hana::Type>(hana::type_c<int>, hana::type_c<void>, hana::type_c<char>);
+    list.of<hana::type_tag>(hana::type_c<int>, hana::type_c<void>, hana::type_c<char>);
 
     // uses an array internally
     list.of<int>(1, 2, 3);
