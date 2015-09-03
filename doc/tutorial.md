@@ -2624,12 +2624,12 @@ of `print`. While some C++14 examples exist, they are too complicated to show
 in this tutorial and we will therefore use a C++03 tuple implemented as several
 different types to illustrate the technique:
 
-@snippet example/tutorial/tag_dispatching.cpp Vector
+@snippet example/tutorial/tag_dispatching.cpp vector
 
-The nested `using hana_tag = Vector;` part is a terse way of controling the
-result of the `tag_of` metafunction, and hence the tag of the `vectorN` type.
-This is explained in the reference for `tag_of`. Finally, if you wanted to
-customize the behavior of the `print` function for all the `vectorN` types,
+The nested `using hana_tag = vector_tag;` part is a terse way of controling
+the result of the `tag_of` metafunction, and hence the tag of the `vectorN`
+type. This is explained in the reference for `tag_of`. Finally, if you wanted
+to customize the behavior of the `print` function for all the `vectorN` types,
 you would normally have to write something along the lines of
 
 @snippet example/tutorial/tag_dispatching.cpp old_way

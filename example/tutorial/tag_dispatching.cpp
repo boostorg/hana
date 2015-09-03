@@ -33,18 +33,18 @@ void print(std::ostream& os, X x) {
 }
 //! [setup]
 
-//! [Vector]
-struct Vector;
+//! [vector]
+struct vector_tag;
 
 struct vector0 {
-  using hana_tag = Vector;
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 0;
 };
 
 template <typename T1>
 struct vector1 {
   T1 t1;
-  using hana_tag = Vector;
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 1;
 
   template <typename Index>
@@ -57,7 +57,7 @@ struct vector1 {
 template <typename T1, typename T2>
 struct vector2 {
   T1 t1; T2 t2;
-  using hana_tag = Vector;
+  using hana_tag = vector_tag;
   static constexpr std::size_t size = 2;
 
   // Using Hana as a backend to simplify the example.
@@ -68,11 +68,11 @@ struct vector2 {
 };
 
 // and so on...
-//! [Vector]
+//! [vector]
 
 //! [customize]
 template <>
-struct print_impl<Vector> {
+struct print_impl<vector_tag> {
   template <typename vectorN>
   static void apply(std::ostream& os, vectorN xs) {
     constexpr auto N = hana::size_c<vectorN::size>;
