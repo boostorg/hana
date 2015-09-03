@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/bool.hpp>
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/operators/arithmetic.hpp>
@@ -152,31 +153,20 @@ namespace boost { namespace hana {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Model of Constant
+    // Model of Constant/IntegralConstant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<integral_constant_tag<T>> {
-        template <typename C>
-        static constexpr auto apply()
-        { return C::value; }
+    struct IntegralConstant<integral_constant_tag<T>> {
+        static constexpr bool value = true;
     };
 
     template <typename T, typename C>
-    struct to_impl<integral_constant_tag<T>, C, when<
-        Constant<C>::value &&
-        std::is_integral<typename C::value_type>::value
-    >>
+    struct to_impl<integral_constant_tag<T>, C, when<IntegralConstant<C>::value>>
         : embedding<is_embedded<typename C::value_type, T>::value>
     {
-        static_assert(std::is_integral<T>::value,
-        "trying to convert a Constant to an integral_constant of a non-integral "
-        "type; hana::integral_constant may only hold integral types");
-
-        template <typename X>
-        static constexpr auto apply(X const&) {
-            constexpr T v = hana::value<X>();
-            return integral_constant<T, v>{};
-        }
+        template <typename N>
+        static constexpr auto apply(N const&)
+        { return integral_constant<T, N::value>{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////

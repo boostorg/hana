@@ -57,22 +57,21 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Ring
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename C>
+        struct constant_from_one {
+            static constexpr auto value = hana::one<typename C::value_type>();
+            using hana_tag = detail::CanonicalConstant<typename C::value_type>;
+        };
+    }
+
     template <typename C>
     struct one_impl<C, when<
         Constant<C>::value &&
         Ring<typename C::value_type>::value
     >> {
-        using T = typename C::value_type;
-        //! @cond
-        struct constant_t {
-            static constexpr decltype(auto) get()
-            { return hana::one<T>(); }
-
-            using hana_tag = detail::CanonicalConstant<T>;
-        };
-        //! @endcond
         static constexpr decltype(auto) apply()
-        { return hana::to<C>(constant_t{}); }
+        { return hana::to<C>(detail::constant_from_one<C>{}); }
     };
 }} // end namespace boost::hana
 

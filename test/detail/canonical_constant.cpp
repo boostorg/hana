@@ -22,8 +22,7 @@ using namespace boost::hana;
 
 template <typename T, T v>
 struct canonical {
-    static constexpr decltype(auto) get()
-    { return v; }
+    static constexpr T value = v;
     using hana_tag = detail::CanonicalConstant<T>;
 };
 

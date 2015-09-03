@@ -52,23 +52,22 @@ namespace boost { namespace hana {
         { return static_cast<Cond>(cond ? false : true); }
     };
 
+    namespace detail {
+        template <typename C, typename X>
+        struct constant_from_not {
+            static constexpr auto value = hana::not_(hana::value<X>());
+            using hana_tag = detail::CanonicalConstant<typename C::value_type>;
+        };
+    }
+
     template <typename C>
     struct not_impl<C, hana::when<
         hana::Constant<C>::value &&
         hana::Logical<typename C::value_type>::value
     >> {
-        using T = typename C::value_type;
-        //! @cond
-        template <typename Cond>
-        struct constant_t {
-            static constexpr decltype(auto) get()
-            { return hana::not_(hana::value<Cond>()); }
-            using hana_tag = detail::CanonicalConstant<T>;
-        };
-        //! @endcond
         template <typename Cond>
         static constexpr auto apply(Cond const&)
-        { return hana::to<C>(constant_t<Cond>{}); }
+        { return hana::to<C>(detail::constant_from_not<C, Cond>{}); }
     };
 }} // end namespace boost::hana
 

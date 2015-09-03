@@ -59,22 +59,21 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Monoid
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename C>
+        struct constant_from_zero {
+            static constexpr auto value = hana::zero<typename C::value_type>();
+            using hana_tag = detail::CanonicalConstant<typename C::value_type>;
+        };
+    }
+
     template <typename C>
     struct zero_impl<C, when<
         Constant<C>::value &&
         Monoid<typename C::value_type>::value
     >> {
-        using T = typename C::value_type;
-        //! @cond
-        struct constant_t {
-            static constexpr decltype(auto) get()
-            { return hana::zero<T>(); }
-
-            using hana_tag = detail::CanonicalConstant<T>;
-        };
-        //! @endcond
         static constexpr decltype(auto) apply()
-        { return hana::to<C>(constant_t{}); }
+        { return hana::to<C>(detail::constant_from_zero<C>{}); }
     };
 }} // end namespace boost::hana
 

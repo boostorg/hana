@@ -101,12 +101,15 @@ namespace boost { namespace hana {
     //!
     //! Modeled concepts
     //! ----------------
-    //! 1. `Constant`\n
-    //! An `integral_constant` is a model of the `Constant` concept in the
-    //! most obvious way possible. Specifically,
+    //! 1. `Constant` and `IntegralConstant`\n
+    //! An `integral_constant` is a model of the `IntegralConstant` concept in
+    //! the most obvious way possible. Specifically,
     //! @code
-    //!     constexpr auto c = integral_c<int, 10>;
-    //!     static_assert(value2<decltype(c)>() == 10, "");
+    //!     integral_constant<T, v>::value == v // of type T
+    //! @endcode
+    //! The model of `Constant` follows naturally from the model of `IntegralConstant`, i.e.
+    //! @code
+    //!     value<integral_constant<T, v>>() == v // of type T
     //! @endcode
     //!
     //! 2. `Enumerable`, `Comparable`, `Orderable`, `Logical`, `Monoid`,

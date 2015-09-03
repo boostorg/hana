@@ -7,16 +7,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 #define BOOST_HANA_TEST_TEST_CNUMERIC_HPP
 
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/config.hpp>
-#include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/convert.hpp>
-#include <boost/hana/core/is_a.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/orderable.hpp>
-
-#include <type_traits>
+#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/less.hpp>
 
 
 namespace boost { namespace hana {
@@ -39,30 +34,22 @@ namespace boost { namespace hana {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Constant
+    // Constant/IntegralConstant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<test::CNumeric<T>> {
-        template <typename X>
-        static constexpr auto apply()
-        { return X::value; }
+    struct IntegralConstant<test::CNumeric<T>> {
+        static constexpr bool value = true;
     };
 
     template <typename T, typename C>
     struct to_impl<test::CNumeric<T>, C, when<
-        Constant<C>::value &&
-        std::is_integral<typename C::value_type>::value
+        hana::IntegralConstant<C>::value
     >>
         : embedding<is_embedded<typename C::value_type, T>::value>
     {
-        static_assert(std::is_integral<T>{},
-        "trying to convert a Constant to a test::CNumeric of a non-integral "
-        "type; test::CNumeric may only hold integral types");
-
-        template <typename X>
-        static constexpr auto apply(X const&) {
-            constexpr T v = hana::value<X>();
-            return test::cnumeric<T, v>;
+        template <typename N>
+        static constexpr auto apply(N const&) {
+            return test::cnumeric<T, N::value>;
         }
     };
 

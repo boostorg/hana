@@ -13,11 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/functional/infix.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/logical.hpp>
 #include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/detail/wrong.hpp>
+#include <boost/hana/functional/infix.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <iostream>
@@ -377,29 +378,23 @@ namespace boost { namespace hana {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Model of Constant
+    // Model of Constant/IntegralConstant
     //////////////////////////////////////////////////////////////////////////
     template <test::Policy policy>
-    struct value_impl<test::Integer<policy>, when<
-        !!(policy & test::Policy::Constant)
-    >> {
-        template <typename C>
-        static constexpr auto apply()
-        { return C::value; }
+    struct IntegralConstant<test::Integer<policy>> {
+        static constexpr bool value = static_cast<bool>(policy & test::Policy::Constant);
     };
 
     template <test::Policy policy, typename C>
     struct to_impl<test::Integer<policy>, C, when<
         (policy & test::Policy::Constant) &&
-        Constant<C>::value &&
-        std::is_integral<typename C::value_type>{}
+        hana::IntegralConstant<C>::value
     >>
         : embedding<is_embedded<typename C::value_type, int>{}>
     {
-        template <typename X>
-        static constexpr auto apply(X const&) {
-            constexpr int v = hana::value<X>();
-            return test::integer<v, policy>{};
+        template <typename N>
+        static constexpr auto apply(N const&) {
+            return test::integer<N::value, policy>{};
         }
     };
 

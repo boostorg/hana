@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/value.hpp>
 
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/dispatch.hpp>
 
 #include <type_traits>
@@ -42,6 +43,13 @@ namespace boost { namespace hana {
 
         return Value::template apply<RawT>();
     }
+
+    template <typename I>
+    struct value_impl<I, when<IntegralConstant<I>::value>> {
+        template <typename C>
+        static constexpr auto apply()
+        { return C::value; }
+    };
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_VALUE_HPP

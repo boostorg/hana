@@ -91,24 +91,22 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over a Group
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename C, typename X, typename Y>
+        struct constant_from_minus {
+            static constexpr auto value = hana::minus(hana::value<X>(), hana::value<Y>());
+            using hana_tag = detail::CanonicalConstant<typename C::value_type>;
+        };
+    }
+
     template <typename C>
     struct minus_impl<C, C, when<
         Constant<C>::value &&
         Group<typename C::value_type>::value
     >> {
-        using T = typename C::value_type;
-        //! @cond
-        template <typename X, typename Y>
-        struct constant_t {
-            static constexpr decltype(auto) get() {
-                return hana::minus(hana::value<X>(), hana::value<Y>());
-            }
-            using hana_tag = detail::CanonicalConstant<T>;
-        };
-        //! @endcond
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
-        { return hana::to<C>(constant_t<X, Y>{}); }
+        { return hana::to<C>(detail::constant_from_minus<C, X, Y>{}); }
     };
 }} // end namespace boost::hana
 

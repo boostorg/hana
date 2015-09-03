@@ -61,23 +61,22 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Model for Constants over an Enumerable data type
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename C, typename X>
+        struct constant_from_succ {
+            static constexpr auto value = hana::succ(hana::value<X>());
+            using hana_tag = detail::CanonicalConstant<typename C::value_type>;
+        };
+    }
+
     template <typename C>
     struct succ_impl<C, when<
         Constant<C>::value &&
         Enumerable<typename C::value_type>::value
     >> {
-        using T = typename C::value_type;
-        //! @cond
-        template <typename X>
-        struct constant_t {
-            static constexpr decltype(auto) get()
-            { return hana::succ(hana::value<X>()); }
-            using hana_tag = detail::CanonicalConstant<T>;
-        };
-        //! @endcond
         template <typename X>
         static constexpr decltype(auto) apply(X const&)
-        { return hana::to<C>(constant_t<X>{}); }
+        { return hana::to<C>(detail::constant_from_succ<C, X>{}); }
     };
 }} // end namespace boost::hana
 

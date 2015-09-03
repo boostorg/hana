@@ -10,11 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 #define BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
-#include <boost/hana/value.hpp>
 
 #include <boost/mpl/integral_c.hpp>
 #include <boost/mpl/integral_c_tag.hpp>
@@ -51,31 +50,20 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Constant
+    // IntegralConstant/Constant
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct value_impl<ext::boost::mpl::integral_c_tag<T>> {
-        template <typename C>
-        static constexpr auto apply()
-        { return C::value; }
+    struct IntegralConstant<ext::boost::mpl::integral_c_tag<T>> {
+        static constexpr bool value = true;
     };
 
     template <typename T, typename C>
-    struct to_impl<ext::boost::mpl::integral_c_tag<T>, C, when<
-        Constant<C>::value &&
-        std::is_integral<typename C::value_type>::value
-    >>
-        : embedding<is_embedded<typename C::value_type, T>::value>
-    {
-        static_assert(std::is_integral<T>{},
-        "trying to convert a Constant to a Boost.MPL IntegralConstant of a "
-        "non-integral type; Boost.MPL IntegralConstants may only hold "
-        "integral types");
-
-        template <typename X>
-        static constexpr auto apply(X const&) {
-            constexpr T v = hana::value<X>();
-            return ::boost::mpl::integral_c<T, v>{};
+    struct to_impl<ext::boost::mpl::integral_c_tag<T>, C,
+        when<hana::IntegralConstant<C>::value>
+    > : embedding<is_embedded<typename C::value_type, T>::value> {
+        template <typename N>
+        static constexpr auto apply(N const&) {
+            return ::boost::mpl::integral_c<T, N::value>{};
         }
     };
 }} // end namespace boost::hana
