@@ -21,7 +21,7 @@ using namespace hana::literals;
     BOOST_HANA_CONSTANT_CHECK(str == hana::string_c<'H', 'e', 'l', 'l', 'o', ' ',
                                                     'w', 'o', 'r', 'l', 'd', '!'>);
 
-    BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::String>(str));
+    BOOST_HANA_CONSTANT_CHECK(hana::is_a<hana::string_tag>(str));
     BOOST_HANA_CONSTANT_CHECK(hana::length(str) == hana::size_c<12>);
 
 #endif

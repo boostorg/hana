@@ -56,14 +56,14 @@ namespace boost { namespace hana {
 
     template <char ...s>
     struct tag_of<string<s...>> {
-        using type = String;
+        using type = string_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // make<String>
+    // make<string_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<String> {
+    struct make_impl<string_tag> {
         template <typename ...Chars>
         static constexpr auto apply(Chars const& ...) {
             return hana::string<hana::value<Chars>()...>{};
@@ -116,11 +116,11 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <>
-        struct comparable_operators<String> {
+        struct comparable_operators<string_tag> {
             static constexpr bool value = true;
         };
         template <>
-        struct orderable_operators<String> {
+        struct orderable_operators<string_tag> {
             static constexpr bool value = true;
         };
     }
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
     // to<char const*>
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct to_impl<char const*, String> {
+    struct to_impl<char const*, string_tag> {
         template <char ...c>
         static constexpr char const c_string[sizeof...(c) + 1] = {c..., '\0'};
 
@@ -139,13 +139,13 @@ namespace boost { namespace hana {
     };
 
     template <char ...c>
-    constexpr char const to_impl<char const*, String>::c_string[sizeof...(c) + 1];
+    constexpr char const to_impl<char const*, string_tag>::c_string[sizeof...(c) + 1];
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<String, String> {
+    struct equal_impl<string_tag, string_tag> {
         template <typename S>
         static constexpr auto apply(S const&, S const&)
         { return hana::true_c; }
@@ -159,7 +159,7 @@ namespace boost { namespace hana {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct less_impl<String, String> {
+    struct less_impl<string_tag, string_tag> {
         template <char ...s1, char ...s2>
         static constexpr auto
         apply(string<s1...> const&, string<s2...> const&) {
@@ -177,14 +177,14 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<String> {
+    struct unpack_impl<string_tag> {
         template <char ...s, typename F>
         static constexpr decltype(auto) apply(string<s...> const&, F&& f)
         { return static_cast<F&&>(f)(char_<s>{}...); }
     };
 
     template <>
-    struct length_impl<String> {
+    struct length_impl<string_tag> {
         template <char ...s>
         static constexpr auto apply(string<s...> const&)
         { return hana::size_c<sizeof...(s)>; }
@@ -194,28 +194,28 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<String> {
+    struct front_impl<string_tag> {
         template <char x, char ...xs>
         static constexpr auto apply(string<x, xs...> const&)
         { return hana::char_c<x>; }
     };
 
     template <>
-    struct tail_impl<String> {
+    struct tail_impl<string_tag> {
         template <char x, char ...xs>
         static constexpr auto apply(string<x, xs...> const&)
         { return hana::string_c<xs...>; }
     };
 
     template <>
-    struct is_empty_impl<String> {
+    struct is_empty_impl<string_tag> {
         template <char ...s>
         static constexpr auto apply(string<s...> const&)
         { return hana::bool_c<sizeof...(s) == 0>; }
     };
 
     template <>
-    struct at_impl<String> {
+    struct at_impl<string_tag> {
         template <char ...s, typename N>
         static constexpr auto apply(string<s...> const&, N const&) {
             // We put a '\0' at the end to avoid an empty array.
@@ -229,7 +229,7 @@ namespace boost { namespace hana {
     // Searchable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct contains_impl<String> {
+    struct contains_impl<string_tag> {
         template <char ...s, typename C>
         static constexpr auto
         helper(string<s...> const&, C const&, decltype(hana::true_c)) {
@@ -251,7 +251,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct find_impl<String> {
+    struct find_impl<string_tag> {
         template <char ...s, typename Char>
         static constexpr auto apply(string<s...> const& str, Char const& c) {
             return hana::if_(hana::contains(str, c),

@@ -53,33 +53,33 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // make<String>
+    // make<string_tag>
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(),
+            make<string_tag>(),
             string_c<>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_c<'a'>),
+            make<string_tag>(char_c<'a'>),
             string_c<'a'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_c<'a'>, char_c<'b'>),
+            make<string_tag>(char_c<'a'>, char_c<'b'>),
             string_c<'a', 'b'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>),
+            make<string_tag>(char_c<'a'>, char_c<'b'>, char_c<'c'>),
             string_c<'a', 'b', 'c'>
         ));
         BOOST_HANA_CONSTANT_CHECK(equal(
-            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>, char_c<'d'>),
+            make<string_tag>(char_c<'a'>, char_c<'b'>, char_c<'c'>, char_c<'d'>),
             string_c<'a', 'b', 'c', 'd'>
         ));
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             make_string(char_c<'a'>, char_c<'b'>, char_c<'c'>),
-            make<String>(char_c<'a'>, char_c<'b'>, char_c<'c'>)
+            make<string_tag>(char_c<'a'>, char_c<'b'>, char_c<'c'>)
         ));
     }
 
@@ -87,8 +87,8 @@ int main() {
     // to<char const*>
     //////////////////////////////////////////////////////////////////////////
     {
-        static_assert(is_convertible<String, char const*>{}, "");
-        static_assert(!is_embedded<String, char const*>{}, "");
+        static_assert(is_convertible<string_tag, char const*>{}, "");
+        static_assert(!is_embedded<string_tag, char const*>{}, "");
 
         BOOST_HANA_RUNTIME_CHECK(std::strcmp(
             to<char const*>(BOOST_HANA_STRING("")),
@@ -178,7 +178,7 @@ int main() {
             BOOST_HANA_STRING("abcde"),
             BOOST_HANA_STRING("ba")
         );
-        test::TestComparable<String>{strings};
+        test::TestComparable<string_tag>{strings};
     }
 
 #elif BOOST_HANA_TEST_PART == 2
@@ -233,7 +233,7 @@ int main() {
         }
 
         // laws
-        test::TestFoldable<String>{strings};
+        test::TestFoldable<string_tag>{strings};
     }
 
 #elif BOOST_HANA_TEST_PART == 3
@@ -337,7 +337,7 @@ int main() {
         }
 
         // laws
-        test::TestIterable<String>{strings};
+        test::TestIterable<string_tag>{strings};
     }
 
 #elif BOOST_HANA_TEST_PART == 4
@@ -404,7 +404,7 @@ int main() {
             BOOST_HANA_STRING("ba"),
             BOOST_HANA_STRING("abd")
         );
-        test::TestOrderable<String>{strings};
+        test::TestOrderable<string_tag>{strings};
     }
 
 #elif BOOST_HANA_TEST_PART == 5
@@ -494,7 +494,7 @@ int main() {
             BOOST_HANA_STRING("ba"),
             BOOST_HANA_STRING("afcd")
         );
-        test::TestSearchable<String>{strings, keys};
+        test::TestSearchable<string_tag>{strings, keys};
     }
 #endif
 }

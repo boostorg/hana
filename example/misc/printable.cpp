@@ -117,7 +117,7 @@ struct print_impl<P, hana::when<hana::models<hana::Product, P>()>> {
 
 // model for hana::strings
 template <>
-struct print_impl<hana::String> {
+struct print_impl<hana::string_tag> {
     template <typename S>
     static auto apply(S const& s) {
         return '"' + std::string{hana::to<char const*>(s)} + '"';

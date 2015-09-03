@@ -13,7 +13,7 @@ namespace hana = boost::hana;
 
 
 constexpr auto vowels = hana::tuple_c<char, 'a', 'e', 'i', 'o', 'u', 'y'>;
-constexpr auto str = hana::unpack(vowels, hana::make<hana::String>);
+constexpr auto str = hana::unpack(vowels, hana::make<hana::string_tag>);
 BOOST_HANA_CONSTANT_CHECK(str == BOOST_HANA_STRING("aeiouy"));
 
 int main() { }
