@@ -1,14 +1,14 @@
 /*!
 @file
-Forward declares `boost::hana::repeat`.
+Forward declares `boost::hana::replicate`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_FWD_REPEAT_HPP
-#define BOOST_HANA_FWD_REPEAT_HPP
+#ifndef BOOST_HANA_FWD_REPLICATE_HPP
+#define BOOST_HANA_FWD_REPLICATE_HPP
 
 #include <boost/hana/core/when.hpp>
 
@@ -19,12 +19,12 @@ namespace boost { namespace hana {
     //! @relates MonadPlus
     //!
     //! Given a value `x`, a non-negative number `n` and the tag of a monadic
-    //! structure `M`, `repeat` creates a new monadic structure which is the
-    //! result of combining `x` with itself `n` times inside the monadic
-    //! structure. In other words, `repeat` simply `lift`s `x` into the
+    //! structure `M`, `replicate` creates a new monadic structure which is
+    //! the result of combining `x` with itself `n` times inside the monadic
+    //! structure. In other words, `replicate` simply `lift`s `x` into the
     //! monadic structure, and then combines that with itself `n` times:
     //! @code
-    //!     repeat<M>(x, n) == cycle(lift<M>(x), n)
+    //!     replicate<M>(x, n) == cycle(lift<M>(x), n)
     //! @endcode
     //!
     //! If `n` is zero, then the identity of the `concat` operation is returned.
@@ -35,7 +35,7 @@ namespace boost { namespace hana {
     //! Signature
     //! ---------
     //! Given a Constant `C` and MonadPlus `M`, the signature is
-    //! @f$ \mathtt{repeat}_M : T \times C \to M(T) @f$.
+    //! @f$ \mathtt{replicate}_M : T \times C \to M(T) @f$.
     //!
     //! @tparam M
     //! The tag of the returned monadic structure. It must be a
@@ -48,27 +48,27 @@ namespace boost { namespace hana {
     //! @param n
     //! A non-negative `Constant` of an unsigned integral type representing
     //! the number of times to combine `lift<M>(x)` with itself. If `n == 0`,
-    //! then `repeat` returns `empty<M>()`.
+    //! then `replicate` returns `empty<M>()`.
     //!
     //!
     //! Example
     //! -------
-    //! @include example/repeat.cpp
+    //! @include example/replicate.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto repeat = [](auto&& x, auto&& n) {
+    constexpr auto replicate = [](auto&& x, auto&& n) {
         return tag-dispatched;
     };
 #else
     template <typename M, typename = void>
-    struct repeat_impl : repeat_impl<M, when<true>> { };
+    struct replicate_impl : replicate_impl<M, when<true>> { };
 
     template <typename M>
-    struct repeat_t;
+    struct replicate_t;
 
     template <typename M>
-    constexpr repeat_t<M> repeat{};
+    constexpr replicate_t<M> replicate{};
 #endif
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_FWD_REPEAT_HPP
+#endif // !BOOST_HANA_FWD_REPLICATE_HPP

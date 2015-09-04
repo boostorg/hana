@@ -30,8 +30,8 @@ namespace boost { namespace hana {
     template <unsigned R, unsigned C>
     struct zero_impl<cppcon::Matrix<R, C>> {
         static constexpr decltype(auto) apply() {
-            auto zeros = repeat(int_<0>, int_<C>);
-            return unpack(repeat(zeros, int_<R>), cppcon::matrix);
+            auto zeros = replicate(int_<0>, int_<C>);
+            return unpack(replicate(zeros, int_<R>), cppcon::matrix);
         }
     };
 }}

@@ -499,35 +499,35 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
-            // repeat
+            // replicate
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<0>),
+                replicate<S>(eq<0>{}, size_c<0>),
                 list()
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<1>),
+                replicate<S>(eq<0>{}, size_c<1>),
                 list(eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<2>),
+                replicate<S>(eq<0>{}, size_c<2>),
                 list(eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<3>),
+                replicate<S>(eq<0>{}, size_c<3>),
                 list(eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<4>),
+                replicate<S>(eq<0>{}, size_c<4>),
                 list(eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{})
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                repeat<S>(eq<0>{}, size_c<5>),
+                replicate<S>(eq<0>{}, size_c<5>),
                 list(eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{}, eq<0>{})
             ));
 

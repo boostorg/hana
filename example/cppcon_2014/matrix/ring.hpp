@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/repeat.hpp>
+#include <boost/hana/replicate.hpp>
 #include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>
@@ -36,7 +36,7 @@ namespace boost { namespace hana {
                 transform(cppcon::rows(std::forward<M1>(m1)),
                     [&](auto&& row) -> decltype(auto) {
                         return zip_with(cppcon::detail::tuple_scalar_product,
-                            repeat<tuple_tag>(std::forward<decltype(row)>(row), uint_c<R1>),
+                            replicate<tuple_tag>(std::forward<decltype(row)>(row), uint_c<R1>),
                             cols
                         );
                     }

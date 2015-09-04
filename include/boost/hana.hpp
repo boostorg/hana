@@ -155,9 +155,9 @@ namespace boost { namespace hana {
 #include <boost/hana/remove_at.hpp>
 #include <boost/hana/remove_if.hpp>
 #include <boost/hana/remove_range.hpp>
-#include <boost/hana/repeat.hpp>
 #include <boost/hana/replace.hpp>
 #include <boost/hana/replace_if.hpp>
+#include <boost/hana/replicate.hpp>
 #include <boost/hana/reverse.hpp>
 #include <boost/hana/reverse_fold.hpp>
 #include <boost/hana/scan_left.hpp>

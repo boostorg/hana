@@ -37,7 +37,7 @@ struct lazy_nil_type { using hana_tag = LazyList; };
 
 constexpr lazy_nil_type lazy_nil{};
 
-auto repeat_ = fix([](auto repeat, auto x) {
+auto repeat = fix([](auto repeat, auto x) {
     return lazy_cons(x, make_lazy(repeat)(x));
 });
 
@@ -90,7 +90,7 @@ namespace boost { namespace hana {
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat_(1)));
-    BOOST_HANA_CONSTEXPR_CHECK(front(repeat_(1)) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(at(repeat_(1), size_c<10>) == 1);
+    BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat(1)));
+    BOOST_HANA_CONSTEXPR_CHECK(front(repeat(1)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(at(repeat(1), size_c<10>) == 1);
 }

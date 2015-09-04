@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::repeat`.
+Defines `boost::hana::replicate`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_REPEAT_HPP
-#define BOOST_HANA_REPEAT_HPP
+#ifndef BOOST_HANA_REPLICATE_HPP
+#define BOOST_HANA_REPLICATE_HPP
 
-#include <boost/hana/fwd/repeat.hpp>
+#include <boost/hana/fwd/replicate.hpp>
 
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/core/dispatch.hpp>
@@ -25,24 +25,24 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     template <typename M>
-    struct repeat_t {
+    struct replicate_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(MonadPlus<M>::value,
-        "hana::repeat<M>(x, n) requires 'M' to be a MonadPlus");
+        "hana::replicate<M>(x, n) requires 'M' to be a MonadPlus");
     #endif
 
         template <typename X, typename N>
         constexpr auto operator()(X&& x, N&& n) const {
-            using Repeat = BOOST_HANA_DISPATCH_IF(repeat_impl<M>,
+            using Replicate = BOOST_HANA_DISPATCH_IF(replicate_impl<M>,
                 MonadPlus<M>::value
             );
 
-            return Repeat::apply(static_cast<X&&>(x), static_cast<N&&>(n));
+            return Replicate::apply(static_cast<X&&>(x), static_cast<N&&>(n));
         }
     };
 
     template <typename M, bool condition>
-    struct repeat_impl<M, when<condition>> : default_ {
+    struct replicate_impl<M, when<condition>> : default_ {
         template <typename X, typename N>
         static constexpr auto apply(X&& x, N&& n) {
             return hana::cycle(hana::lift<M>(static_cast<X&&>(x)),
@@ -51,18 +51,18 @@ namespace boost { namespace hana {
     };
 
     template <typename S>
-    struct repeat_impl<S, when<Sequence<S>::value>> {
+    struct replicate_impl<S, when<Sequence<S>::value>> {
         template <typename X, std::size_t ...i>
-        static constexpr auto repeat_helper(X&& x, std::index_sequence<i...>)
+        static constexpr auto replicate_helper(X&& x, std::index_sequence<i...>)
         { return hana::make<S>(((void)i, x)...); }
 
         template <typename X, typename N>
         static constexpr auto apply(X&& x, N const&) {
             constexpr std::size_t n = hana::value<N>();
-            return repeat_helper(static_cast<X&&>(x),
-                                 std::make_index_sequence<n>{});
+            return replicate_helper(static_cast<X&&>(x),
+                                    std::make_index_sequence<n>{});
         }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_REPEAT_HPP
+#endif // !BOOST_HANA_REPLICATE_HPP
