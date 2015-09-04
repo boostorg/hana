@@ -252,20 +252,20 @@ Searching a <code>range</code> is equivalent to searching a list of the values i
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a2e1347688d03d7298cf90f3cadf0a002"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt; Range &gt;</a></td></tr>
-<tr class="memdesc:a2e1347688d03d7298cf90f3cadf0a002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s.  <a href="#a2e1347688d03d7298cf90f3cadf0a002">More...</a><br /></td></tr>
-<tr class="separator:a2e1347688d03d7298cf90f3cadf0a002"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba8dd69deb1d810ef65ec289127bf0ab"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html">Range</a>&gt;</td></tr>
-<tr class="memdesc:aba8dd69deb1d810ef65ec289127bf0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a hana::range. ">Range</a>&gt;</code>; provided for convenience.  <a href="#aba8dd69deb1d810ef65ec289127bf0ab">More...</a><br /></td></tr>
+<tr class="memitem:ad5ad9a1f847daa24ef62f5d81b8eef8e"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:ad5ad9a1f847daa24ef62f5d81b8eef8e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#ad5ad9a1f847daa24ef62f5d81b8eef8e">make&lt; range_tag &gt;</a></td></tr>
+<tr class="memdesc:ad5ad9a1f847daa24ef62f5d81b8eef8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s.  <a href="#ad5ad9a1f847daa24ef62f5d81b8eef8e">More...</a><br /></td></tr>
+<tr class="separator:ad5ad9a1f847daa24ef62f5d81b8eef8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8dd69deb1d810ef65ec289127bf0ab"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html">range_tag</a>&gt;</td></tr>
+<tr class="memdesc:aba8dd69deb1d810ef65ec289127bf0ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code>; provided for convenience.  <a href="#aba8dd69deb1d810ef65ec289127bf0ab">More...</a><br /></td></tr>
 <tr class="separator:aba8dd69deb1d810ef65ec289127bf0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplParams" colspan="2">template&lt;typename T , T from, T to&gt; </td></tr>
-<tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f">range_c</a></td></tr>
+<tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f">range_c</a> = <a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(integral_c&lt;T, from&gt;, integral_c&lt;T, to&gt;)</td></tr>
 <tr class="memdesc:a899b7a0c065ff64cd747fe1671753d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> with the given bounds.  <a href="#a899b7a0c065ff64cd747fe1671753d3f">More...</a><br /></td></tr>
 <tr class="separator:a899b7a0c065ff64cd747fe1671753d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a2e1347688d03d7298cf90f3cadf0a002"></a>
+<a class="anchor" id="ad5ad9a1f847daa24ef62f5d81b8eef8e"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -277,7 +277,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Range.html">Range</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1range__tag.html">range_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -291,7 +291,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s. </p>
-<p>Given two <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>from</code> and <code>to</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a hana::range. ">Range</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s <code>[from, to)</code>. <code>from</code> and <code>to</code> must be <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s of an integral type such that <code>from &lt;= to</code>. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s whose underlying type is their common type.</p>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s <code>from</code> and <code>to</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s <code>[from, to)</code>. <code>from</code> and <code>to</code> must be <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s of an integral type such that <code>from &lt;= to</code>. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s whose underlying type is their common type.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -307,9 +307,9 @@ template&lt;&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> irange = hana::make&lt;hana::Range&gt;(hana::int_c&lt;0&gt;, hana::int_c&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
-<div class="line">constexpr <span class="keyword">auto</span> lrange = hana::make&lt;hana::Range&gt;(hana::int_c&lt;0&gt;, hana::long_c&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == hana::make&lt;hana::Range&gt;(hana::long_c&lt;0&gt;, hana::long_c&lt;10&gt;));</div>
+<div class="line">constexpr <span class="keyword">auto</span> irange = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;0&gt;, hana::int_c&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> lrange = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;0&gt;, hana::long_c&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == hana::make&lt;hana::range_tag&gt;(hana::long_c&lt;0&gt;, hana::long_c&lt;10&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -325,7 +325,7 @@ template&lt;typename T , T from, T to&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_range = make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html">Range</a>&gt;</td>
+          <td class="memname">constexpr auto make_range = make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html">range_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -335,7 +335,7 @@ template&lt;typename T , T from, T to&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a hana::range. ">Range</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code>; provided for convenience. </p>
 
 </div>
 </div>
@@ -351,7 +351,7 @@ template&lt;typename T , T from, T to&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto range_c</td>
+          <td class="memname">constexpr auto range_c = <a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(integral_c&lt;T, from&gt;, integral_c&lt;T, to&gt;)</td>
         </tr>
       </table>
   </td>
@@ -360,12 +360,9 @@ template&lt;typename T , T from, T to&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <a class="code" href="structboost_1_1hana_1_1range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(integral_c&lt;T, from&gt;,</div>
-<div class="line">                                         integral_c&lt;T, to&gt;)</div>
-</div><!-- fragment -->
+
 <p>Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> with the given bounds. </p>
-<p>This shorthand is provided for convenience only and it is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Range.html" title="Tag representing a hana::range. ">Range</a>&gt;</code>. Specifically, <code>range_c&lt;T, from, to&gt;</code> is such that </p><div class="fragment"><div class="line">range_c&lt;T, from, to&gt; == <a class="code" href="structboost_1_1hana_1_1range.html#a2e1347688d03d7298cf90f3cadf0a002">make&lt;Range&gt;</a>(integral_c&lt;T, from&gt;,</div>
-<div class="line">                                    integral_c&lt;T, to&gt;)</div>
+<p>This shorthand is provided for convenience only and it is equivalent to <code>make_range</code>. Specifically, <code>range_c&lt;T, from, to&gt;</code> is such that </p><div class="fragment"><div class="line">range_c&lt;T, from, to&gt; == <a class="code" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(integral_c&lt;T, from&gt;, integral_c&lt;T, to&gt;)</div>
 </div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The underlying integral type of the <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s in the created range.</td></tr>

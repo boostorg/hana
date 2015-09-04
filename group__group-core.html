@@ -157,14 +157,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1is__embedded.html">boost::hana::is_embedded&lt; From, To, typename &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a data type can be embedded into another data type.  <a href="structboost_1_1hana_1_1is__embedded.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1datatype.html">boost::hana::datatype&lt; T, typename &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning the tag associated to <code>T</code>.  <a href="structboost_1_1hana_1_1datatype.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1default__.html">boost::hana::default_</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark a tag-dispatched method implementation as a default implementation.  <a href="structboost_1_1hana_1_1default__.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1is__default.html">boost::hana::is_default&lt; Method, typename &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a tag-dispatched method implementation is a default implementation.  <a href="structboost_1_1hana_1_1is__default.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tag__of.html">boost::hana::tag_of&lt; T, typename &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Metafunction returning the tag associated to <code>T</code>.  <a href="structboost_1_1hana_1_1tag__of.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1when.html">boost::hana::when&lt; condition &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable a partial specialization only if a boolean condition is true.  <a href="structboost_1_1hana_1_1when.html#details">More...</a><br /></td></tr>
@@ -176,10 +176,10 @@ Typedefs</h2></td></tr>
 <tr class="memitem:ga4da46c97755c0f430b063711b66ca05b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga4da46c97755c0f430b063711b66ca05b">boost::hana::common_t</a> = typename common&lt; T, U &gt;::type</td></tr>
 <tr class="memdesc:ga4da46c97755c0f430b063711b66ca05b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>common&lt;T, U&gt;::type</code>, provided for convenience.  <a href="group__group-core.html#ga4da46c97755c0f430b063711b66ca05b">More...</a><br /></td></tr>
 <tr class="separator:ga4da46c97755c0f430b063711b66ca05b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typename datatype&lt; T &gt;::type</td></tr>
-<tr class="memdesc:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>datatype&lt;T&gt;::type</code>, provided for convenience.  <a href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">More...</a><br /></td></tr>
-<tr class="separator:gae3cedd3772d00ac7c4de9dc3d719f321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga686d1236161b5690ab302500077988e1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga686d1236161b5690ab302500077988e1"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga686d1236161b5690ab302500077988e1">boost::hana::tag_of_t</a> = typename hana::tag_of&lt; T &gt;::type</td></tr>
+<tr class="memdesc:ga686d1236161b5690ab302500077988e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a>&lt;T&gt;::type</code>, provided for convenience.  <a href="group__group-core.html#ga686d1236161b5690ab302500077988e1">More...</a><br /></td></tr>
+<tr class="separator:ga686d1236161b5690ab302500077988e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplParams" colspan="2">template&lt;typename... &gt; </td></tr>
 <tr class="memitem:ga0f5d717bbf6646619bb6219b104384dc"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">boost::hana::when_valid</a> = when&lt; true &gt;</td></tr>
 <tr class="memdesc:ga0f5d717bbf6646619bb6219b104384dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Variant of <code>when</code> allowing specializations to be enabled only if an expression is well-formed.  <a href="group__group-core.html#ga0f5d717bbf6646619bb6219b104384dc">More...</a><br /></td></tr>
@@ -191,22 +191,22 @@ Variables</h2></td></tr>
 <tr class="memitem:gadc70755c1d059139297814fb3bfeb91e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">boost::hana::to</a></td></tr>
 <tr class="memdesc:gadc70755c1d059139297814fb3bfeb91e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an object from one data type to another.  <a href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">More...</a><br /></td></tr>
 <tr class="separator:gadc70755c1d059139297814fb3bfeb91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename DataType , typename optional_T &gt; </td></tr>
+<tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplParams" colspan="2">template&lt;typename Tag , typename optional_T &gt; </td></tr>
 <tr class="memitem:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">boost::hana::is_a</a> = see-documentation</td></tr>
-<tr class="memdesc:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the data type of an object matches a given data type.  <a href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">More...</a><br /></td></tr>
+<tr class="memdesc:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the tag of an object matches a given tag.  <a href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">More...</a><br /></td></tr>
 <tr class="separator:ga38cf78e1e3e262f7f1c71ddd9ca70cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga7fdbde52f5fe384a816c6f39ff272df9"></a>
-template&lt;typename DataType , typename... T&gt; </td></tr>
-<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">boost::hana::is_an</a> = is_a&lt;DataType, T...&gt;</td></tr>
+template&lt;typename Tag , typename... T&gt; </td></tr>
+<tr class="memitem:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">boost::hana::is_an</a> = is_a&lt;Tag, T...&gt;</td></tr>
 <tr class="memdesc:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>is_a</code>; provided for consistency with the rules of the English language. <br /></td></tr>
 <tr class="separator:ga7fdbde52f5fe384a816c6f39ff272df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplParams" colspan="2">template&lt;typename Datatype &gt; </td></tr>
+<tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplParams" colspan="2">template&lt;typename Tag &gt; </td></tr>
 <tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">boost::hana::make</a></td></tr>
-<tr class="memdesc:ga1d92480f0af1029878e773dafa3e2f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of the given data type with the given arguments.  <a href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">More...</a><br /></td></tr>
+<tr class="memdesc:ga1d92480f0af1029878e773dafa3e2f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of the given tag with the given arguments.  <a href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">More...</a><br /></td></tr>
 <tr class="separator:ga1d92480f0af1029878e773dafa3e2f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename optional_T &gt; </td></tr>
 <tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">boost::hana::models</a> = see-documentation</td></tr>
-<tr class="memdesc:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the data type of an object is a model of the given concept.  <a href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">More...</a><br /></td></tr>
+<tr class="memdesc:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the tag of an object is a model of the given concept.  <a href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">More...</a><br /></td></tr>
 <tr class="separator:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
@@ -247,21 +247,21 @@ template&lt;typename T , typename U &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="gae3cedd3772d00ac7c4de9dc3d719f321"></a>
+<a class="anchor" id="ga686d1236161b5690ab302500077988e1"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="group__group-core.html#gae3cedd3772d00ac7c4de9dc3d719f321">boost::hana::datatype_t</a> = typedef typename datatype&lt;T&gt;::type</td>
+          <td class="memname">using <a class="el" href="group__group-core.html#ga686d1236161b5690ab302500077988e1">boost::hana::tag_of_t</a> = typedef typename hana::tag_of&lt;T&gt;::type</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><code>#include &lt;<a class="el" href="fwd_2core_2datatype_8hpp.html">boost/hana/fwd/core/datatype.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="fwd_2core_2tag__of_8hpp.html">boost/hana/fwd/core/tag_of.hpp</a>&gt;</code></p>
 
-<p>Alias to <code>datatype&lt;T&gt;::type</code>, provided for convenience. </p>
+<p>Alias to <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a>&lt;T&gt;::type</code>, provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -269,15 +269,15 @@ template&lt;typename T &gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2datatype_8hpp.html">boost/hana/core/datatype.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2tag__of_8hpp.html">boost/hana/core/tag_of.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">struct </span>Datatype;</div>
-<div class="line"><span class="keyword">struct </span>Person { <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Datatype; }; };</div>
-<div class="line">static_assert(std::is_same&lt;hana::datatype_t&lt;Person&gt;, Datatype&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><span class="keyword">struct </span>PersonTag;</div>
+<div class="line"><span class="keyword">struct </span>Person { <span class="keyword">using</span> hana_tag = PersonTag; };</div>
+<div class="line">static_assert(std::is_same&lt;hana::tag_of_t&lt;Person&gt;, PersonTag&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -396,7 +396,7 @@ template&lt;typename To &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X, <span class="keyword">typename</span> Y, <span class="keyword">typename</span> Z&gt;</div>
-<div class="line">    <span class="keyword">struct </span>to_impl&lt;Tuple, Triple&lt;X, Y, Z&gt;&gt; {</div>
+<div class="line">    <span class="keyword">struct </span>to_impl&lt;tuple_tag, Triple&lt;X, Y, Z&gt;&gt; {</div>
 <div class="line">        <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Triple&lt;X, Y, Z&gt; xs) {</div>
 <div class="line">            <span class="keywordflow">return</span> make_tuple(xs.first, xs.second, xs.third);</div>
 <div class="line">        }</div>
@@ -405,7 +405,7 @@ template&lt;typename To &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -415,7 +415,7 @@ template&lt;typename To &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename DataType , typename optional_T &gt; </div>
+template&lt;typename Tag , typename optional_T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr auto boost::hana::is_a = see-documentation</td>
@@ -425,9 +425,9 @@ template&lt;typename DataType , typename optional_T &gt; </div>
 
 <p><code>#include &lt;<a class="el" href="fwd_2core_2is__a_8hpp.html">boost/hana/fwd/core/is_a.hpp</a>&gt;</code></p>
 
-<p>Returns whether the data type of an object matches a given data type. </p>
-<p>Given a data type <code>D</code> and a C++ type <code>T</code>, <code>is_a&lt;D, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether the data type of <code>T</code> is exactly <code>D</code>. In other words, it is equivalent to </p><div class="fragment"><div class="line">std::is_same&lt;D, datatype_t&lt;T&gt;&gt;</div>
-</div><!-- fragment --><p>For convenience, an alternate syntax is provided for using <code>is_a</code>. Specifically, <code>is_a&lt;D&gt;</code> is a function object returning whether the argument it is passed is of data type <code>D</code>. In other words, </p><div class="fragment"><div class="line">is_a&lt;D&gt;(x) == <a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;D, decltype(x)&gt;</div>
+<p>Returns whether the tag of an object matches a given tag. </p>
+<p>Given a tag <code>Tag</code> and a C++ type <code>T</code>, <code>is_a&lt;Tag, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether the tag of <code>T</code> is exactly <code>Tag</code>. In other words, it is equivalent to </p><div class="fragment"><div class="line">std::is_same&lt;Tag, tag_of&lt;T&gt;::type&gt;</div>
+</div><!-- fragment --><p>For convenience, an alternate syntax is provided for using <code>is_a</code>. Specifically, <code>is_a&lt;Tag&gt;</code> is a function object returning whether the argument it is passed has the given tag. In other words, </p><div class="fragment"><div class="line">is_a&lt;Tag&gt;(x) == <a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;Tag, decltype(x)&gt;</div>
 </div><!-- fragment --><h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -442,9 +442,9 @@ template&lt;typename DataType , typename optional_T &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">hana::is_a</a>&lt;hana::Tuple, decltype(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!hana::is_a&lt;hana::Tuple, void&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(<a class="code" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">hana::is_an</a>&lt;hana::IntegralConstant&lt;int&gt;&gt;(hana::int_c&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">hana::is_a</a>&lt;hana::tuple_tag, decltype(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3))&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!hana::is_a&lt;hana::tuple_tag, void&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9">hana::is_an</a>&lt;hana::integral_constant_tag&lt;int&gt;&gt;(hana::int_c&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -454,7 +454,7 @@ template&lt;typename DataType , typename optional_T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Datatype &gt; </div>
+template&lt;typename Tag &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">constexpr auto boost::hana::make</td>
@@ -467,11 +467,11 @@ template&lt;typename Datatype &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Create an object of the given data type with the given arguments. </p>
-<p>This function serves the same purpose as constructors in usual C++. However, instead of creating an object of a specific C++ type, it creates an object of a specific data type, with a C++ type that is left unspecified in the general case.</p>
-<p>This function is actually a variable template, so <code>make&lt;T&gt;</code> can be passed around as a function object creating an object of data type <code>T</code>. Also, it uses tag-dispatching so this is how it should be customized for user-defined data types.</p>
-<p>Finally, the default implementation of <code>make</code> is equivalent to calling the constructor of the given data type with the corresponding arguments. In other words, by default, </p><div class="fragment"><div class="line">make&lt;T&gt;(args...) == T(args...)</div>
-</div><!-- fragment --><p>Note that the arguments are perfectly forwarded and the form of construction which is used is exactly as documented, i.e. <code>T(args...)</code>. However, if <code>T(args...)</code> is not a valid expression, a compilation error is triggered. This default behavior is useful because it makes foreign C++ types that have no notion of <em>data type</em> constructible with <code>make</code> out-of-the-box, since their data type is exactly themselves.</p>
+<p>Create an object of the given tag with the given arguments. </p>
+<p>This function serves the same purpose as constructors in usual C++. However, instead of creating an object of a specific C++ type, it creates an object of a specific tag, regardless of the C++ type of that object.</p>
+<p>This function is actually a variable template, so <code>make&lt;T&gt;</code> can be passed around as a function object creating an object of tag <code>T</code>. Also, it uses tag-dispatching so this is how it should be customized for user-defined tags.</p>
+<p>Finally, the default implementation of <code>make</code> is equivalent to calling the constructor of the given tag with the corresponding arguments. In other words, by default, </p><div class="fragment"><div class="line">make&lt;T&gt;(args...) == T(args...)</div>
+</div><!-- fragment --><p>Note that the arguments are perfectly forwarded and the form of construction which is used is exactly as documented, i.e. <code>T(args...)</code>. However, if <code>T(args...)</code> is not a valid expression, a compilation error is triggered. This default behavior is useful because it makes foreign C++ types that have no notion of tag constructible with <code>make</code> out-of-the-box, since their tag is exactly themselves.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -492,7 +492,7 @@ template&lt;typename Datatype &gt; </div>
 <div class="line">    hana::tuple&lt;int, char, double, std::string&gt; ts{1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abcd&quot;</span>};</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ts == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
 <div class="line"></div>
-<div class="line">    <span class="comment">// std::string has no notion of data type, but it still works with make&lt;&gt;</span></div>
+<div class="line">    <span class="comment">// std::string has no notion of tag, but it still works with make&lt;&gt;</span></div>
 <div class="line">    std::string foo{<span class="stringliteral">&quot;foo&quot;</span>};</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
 <div class="line">}</div>
@@ -513,10 +513,10 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 
 <p><code>#include &lt;<a class="el" href="fwd_2core_2models_8hpp.html">boost/hana/fwd/core/models.hpp</a>&gt;</code></p>
 
-<p>Returns whether the data type of an object is a model of the given concept. </p>
-<p>Given a C++ type <code>T</code> and a concept <code>Concept</code>, <code>models&lt;Concept, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether <code>T</code>'s data type is a model of <code>Concept</code>. Usually, concepts provide methods, some of which <b>must</b> be implemented in order to model the concept, and the others are given a default definition in terms of the mandatory ones. More specifically, <code>models</code> returns whether a minimal complete definition of a concept is provided by the data type. However, concepts also usually provide semantic requirements (called laws) that must be satisfied by their models; <code>models</code> does not attempt to check whether those laws are satisfied. In fact, <code>models</code> does not even check whether the provided minimal complete definition is syntactically correct, but only if it is there.</p>
+<p>Returns whether the tag of an object is a model of the given concept. </p>
+<p>Given a C++ type <code>T</code> and a concept <code>Concept</code>, <code>models&lt;Concept, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether <code>T</code>'s tag is a model of <code>Concept</code>. Usually, concepts provide methods, some of which <b>must</b> be implemented in order to model the concept, and the others are given a default definition in terms of the mandatory ones. More specifically, <code>models</code> returns whether a minimal complete definition of a concept is provided by the tag. However, concepts also usually provide semantic requirements (called laws) that must be satisfied by their models; <code>models</code> does not attempt to check whether those laws are satisfied. In fact, <code>models</code> does not even check whether the provided minimal complete definition is syntactically correct, but only if it is there.</p>
 <p>A few concepts (like <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>) do not introduce methods that suffice to provide a minimal complete definition. They provide semantic guarantees through laws and refined concepts, and they usually also provide methods that do useful things with existing methods and those additional guarantees. In this case, it is usually necessary to explicitly specialize <code>models_impl</code> in the <code>boost::hana</code> namespace. When this is the case, the concept should document it.</p>
-<dl class="section note"><dt>Note</dt><dd><code>models</code> is a tag-dispatched method. More specifically, <code>models&lt;Concept, T&gt;</code> dispatches to <code>models_impl&lt;Concept, datatype_t&lt;T&gt;&gt;</code>, which should be a metafunction with a nested boolean <code><a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> representing whether <code>datatype_t&lt;T&gt;</code> models the concept <code>Concept</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>models</code> is a tag-dispatched method. More specifically, <code>models&lt;Concept, T&gt;</code> dispatches to <code>models_impl&lt;Concept, tag_of_t&lt;T&gt;&gt;</code>, which should be a metafunction with a nested boolean <code><a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> representing whether <code>tag_of_t&lt;T&gt;</code> models the concept <code>Concept</code>.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -532,8 +532,8 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::models&lt;hana::Iterable, hana::Tuple&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">hana::models</a>&lt;hana::Iterable, hana::IntegralConstant&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::models&lt;hana::Iterable, hana::tuple_tag&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">hana::models</a>&lt;hana::Iterable, hana::integral_constant_tag&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>How does it work </h2>
@@ -564,7 +564,7 @@ template&lt;typename Concept , typename optional_T &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::datatype_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
+<div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::tag_of_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>

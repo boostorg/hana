@@ -142,7 +142,7 @@ struct boost::hana::lazy&lt;... &gt;</h3>
 
 <p><code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> implements superficial laziness via a monadic interface. </p>
 <p>It is important to understand that the laziness implemented by <code>lazy</code> is only superficial; only function applications made inside the <code>lazy</code> monad can be made lazy, not all their subexpressions.</p>
-<dl class="section note"><dt>Note</dt><dd>The actual representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> is completely implementation-defined. <a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a> values may only be created through <code>hana::make_lazy</code>, and they can be stored in variables using <code>auto</code>, but any other assumption about the representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> should be avoided. In particular, one should not rely on the fact that <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> can be pattern-matched on, because it may be a dependent type.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The actual representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> is completely implementation-defined. Lazy values may only be created through <code>hana::make_lazy</code>, and they can be stored in variables using <code>auto</code>, but any other assumption about the representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> should be avoided. In particular, one should not rely on the fact that <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> can be pattern-matched on, because it may be a dependent type.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
@@ -167,7 +167,7 @@ Applying a function over a lazy value with <code>transform</code> returns the re
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
-A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
+A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
 The <code>lazy</code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -262,12 +262,12 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c">eval</a></td></tr>
 <tr class="memdesc:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate a lazy value and return it.  <a href="#aae2998c08f1f80ed52a6acf57c4eec6c">More...</a><br /></td></tr>
 <tr class="separator:aae2998c08f1f80ed52a6acf57c4eec6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedae2ea16780fcfe021053531900d489"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:aedae2ea16780fcfe021053531900d489"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#aedae2ea16780fcfe021053531900d489">make&lt; Lazy &gt;</a></td></tr>
-<tr class="memdesc:aedae2ea16780fcfe021053531900d489"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lifts a normal value to a lazy one.  <a href="#aedae2ea16780fcfe021053531900d489">More...</a><br /></td></tr>
-<tr class="separator:aedae2ea16780fcfe021053531900d489"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc86ca61b84fc42aabb525787ae61b4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#a7dc86ca61b84fc42aabb525787ae61b4">make_lazy</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html">Lazy</a>&gt;</td></tr>
-<tr class="memdesc:a7dc86ca61b84fc42aabb525787ae61b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;</code>; provided for convenience.  <a href="#a7dc86ca61b84fc42aabb525787ae61b4">More...</a><br /></td></tr>
+<tr class="memitem:aa968ecf473c93821f1726fd9692e97f3"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:aa968ecf473c93821f1726fd9692e97f3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#aa968ecf473c93821f1726fd9692e97f3">make&lt; lazy_tag &gt;</a></td></tr>
+<tr class="memdesc:aa968ecf473c93821f1726fd9692e97f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lifts a normal value to a lazy one.  <a href="#aa968ecf473c93821f1726fd9692e97f3">More...</a><br /></td></tr>
+<tr class="separator:aa968ecf473c93821f1726fd9692e97f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dc86ca61b84fc42aabb525787ae61b4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#a7dc86ca61b84fc42aabb525787ae61b4">make_lazy</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html">lazy_tag</a>&gt;</td></tr>
+<tr class="memdesc:a7dc86ca61b84fc42aabb525787ae61b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>; provided for convenience.  <a href="#a7dc86ca61b84fc42aabb525787ae61b4">More...</a><br /></td></tr>
 <tr class="separator:a7dc86ca61b84fc42aabb525787ae61b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
@@ -316,7 +316,7 @@ template&lt;typename... &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="aedae2ea16780fcfe021053531900d489"></a>
+<a class="anchor" id="aa968ecf473c93821f1726fd9692e97f3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -328,7 +328,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Lazy.html">Lazy</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1lazy__tag.html">lazy_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -342,8 +342,9 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Lifts a normal value to a lazy one. </p>
-<p><code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;</code> can be used to lift a normal value or a function call into a lazy expression. Precisely, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(x)</code> is a lazy value equal to <code>x</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(f)(x1, ..., xN)</code> is a lazy function call that is equal to <code>f(x1, ..., xN)</code> when it is <code>eval</code>uated.</p>
-<dl class="section note"><dt>Note</dt><dd>It is interesting to note that <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(f)(x1, ..., xN)</code> is equivalent to <code>ap(make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(f), lift&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(x1), ..., lift&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(xN))</code>, which in turn is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;(f(x1, ..., xN))</code>, except for the fact that the inner call to <code>f</code> is evaluated lazily.</dd></dl>
+<p><code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code> can be used to lift a normal value or a function call into a lazy expression. Precisely, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(x)</code> is a lazy value equal to <code>x</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f)(x1, ..., xN)</code> is a lazy function call that is equal to <code>f(x1, ..., xN)</code> when it is <code>eval</code>uated.</p>
+<dl class="section note"><dt>Note</dt><dd>It is interesting to note that <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f)(x1, ..., xN)</code> is equivalent to <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1lazy.html#aa968ecf473c93821f1726fd9692e97f3">make&lt;lazy_tag&gt;</a>(f), lift&lt;lazy_tag&gt;(x1), ..., lift&lt;lazy_tag&gt;(xN))</div>
+</div><!-- fragment --> which in turn is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f(x1, ..., xN))</code>, except for the fact that the inner call to <code>f</code> is evaluated lazily.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -361,7 +362,7 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = hana::make&lt;hana::Lazy&gt;([](<span class="keyword">auto</span> x) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = hana::make&lt;hana::lazy_tag&gt;([](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">    });</div>
 <div class="line"></div>
@@ -384,7 +385,7 @@ template&lt;typename... &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_lazy = make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html">Lazy</a>&gt;</td>
+          <td class="memname">constexpr auto make_lazy = make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html">lazy_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -394,7 +395,7 @@ template&lt;typename... &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Lazy.html" title="Tag representing hana::lazy. ">Lazy</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -412,7 +413,7 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = hana::make&lt;hana::Lazy&gt;([](<span class="keyword">auto</span> x) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> f = hana::make&lt;hana::lazy_tag&gt;([](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> 1 / x;</div>
 <div class="line">    });</div>
 <div class="line"></div>

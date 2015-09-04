@@ -259,7 +259,7 @@ template&lt;typename R &gt; </div>
 <p>Identity of the <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> multiplication. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">R</td><td>The data type (a <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code>) of the returned identity.</td></tr>
+    <tr><td class="paramname">R</td><td>The tag (must be a model of <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code>) of the returned identity.</td></tr>
   </table>
   </dd>
 </dl>
@@ -277,7 +277,7 @@ template&lt;typename R &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::one&lt;hana::IntegralConstant&lt;int&gt;&gt;() == hana::int_c&lt;1&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::one&lt;hana::integral_constant_tag&lt;int&gt;&gt;() == hana::int_c&lt;1&gt;);</div>
 <div class="line">static_assert(hana::one&lt;long&gt;() == 1l, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -314,7 +314,7 @@ template&lt;typename R &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Only the data type of <code>x</code> is used for tag-dispatching.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Only the tag of <code>x</code> is used for tag-dispatching.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

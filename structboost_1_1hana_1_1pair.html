@@ -225,16 +225,16 @@ The model of <code><a class="el" href="structboost_1_1hana_1_1Product.html" titl
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:acee1d72b1cd90c086252939258b59682"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:acee1d72b1cd90c086252939258b59682"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1pair.html#acee1d72b1cd90c086252939258b59682">make&lt; Pair &gt;</a></td></tr>
-<tr class="memdesc:acee1d72b1cd90c086252939258b59682"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code> with the given elements.  <a href="#acee1d72b1cd90c086252939258b59682">More...</a><br /></td></tr>
-<tr class="separator:acee1d72b1cd90c086252939258b59682"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1bc322b45af2148a413ba45ee8097045"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html">Pair</a>&gt;</td></tr>
-<tr class="memdesc:a1bc322b45af2148a413ba45ee8097045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing hana::pair. ">Pair</a>&gt;</code>; provided for convenience.  <a href="#a1bc322b45af2148a413ba45ee8097045">More...</a><br /></td></tr>
+<tr class="memitem:aab78903e9982284e82744dec570afa8d"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:aab78903e9982284e82744dec570afa8d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1pair.html#aab78903e9982284e82744dec570afa8d">make&lt; pair_tag &gt;</a></td></tr>
+<tr class="memdesc:aab78903e9982284e82744dec570afa8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code> with the given elements.  <a href="#aab78903e9982284e82744dec570afa8d">More...</a><br /></td></tr>
+<tr class="separator:aab78903e9982284e82744dec570afa8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bc322b45af2148a413ba45ee8097045"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1pair__tag.html">pair_tag</a>&gt;</td></tr>
+<tr class="memdesc:a1bc322b45af2148a413ba45ee8097045"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1pair__tag.html" title="Tag representing hana::pair. ">pair_tag</a>&gt;</code>; provided for convenience.  <a href="#a1bc322b45af2148a413ba45ee8097045">More...</a><br /></td></tr>
 <tr class="separator:a1bc322b45af2148a413ba45ee8097045"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="acee1d72b1cd90c086252939258b59682"></a>
+<a class="anchor" id="aab78903e9982284e82744dec570afa8d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -246,7 +246,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Pair.html">Pair</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1pair__tag.html">pair_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -277,9 +277,9 @@ template&lt;&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::first(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::second(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::make_pair(1, <span class="charliteral">&#39;x&#39;</span>) == hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::first(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::second(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::make_pair(1, <span class="charliteral">&#39;x&#39;</span>) == hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -295,7 +295,7 @@ template&lt;typename First , typename Second &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_pair = make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html">Pair</a>&gt;</td>
+          <td class="memname">constexpr auto make_pair = make&lt;<a class="el" href="structboost_1_1hana_1_1pair__tag.html">pair_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -305,7 +305,7 @@ template&lt;typename First , typename Second &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Pair.html" title="Tag representing hana::pair. ">Pair</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1pair__tag.html" title="Tag representing hana::pair. ">pair_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -321,9 +321,9 @@ template&lt;typename First , typename Second &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::first(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::second(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::make_pair(1, <span class="charliteral">&#39;x&#39;</span>) == hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::first(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::second(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::make_pair(1, <span class="charliteral">&#39;x&#39;</span>) == hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

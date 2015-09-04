@@ -1,7 +1,7 @@
 var group__group_datatypes =
 [
     [ "basic_tuple", "structboost_1_1hana_1_1basic__tuple.html", [
-      [ "make< BasicTuple >", "structboost_1_1hana_1_1basic__tuple.html#a014ba5f43f643bac0f8181eac92f2db3", null ],
+      [ "make< basic_tuple_tag >", "structboost_1_1hana_1_1basic__tuple.html#a53975be786ae1db16185edab229547cd", null ],
       [ "make_basic_tuple", "structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e", null ]
     ] ],
     [ "integral_constant", "structboost_1_1hana_1_1integral__constant.html", [
@@ -36,11 +36,11 @@ var group__group_datatypes =
     ] ],
     [ "lazy", "structboost_1_1hana_1_1lazy.html", [
       [ "eval", "structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c", null ],
-      [ "make< Lazy >", "structboost_1_1hana_1_1lazy.html#aedae2ea16780fcfe021053531900d489", null ],
+      [ "make< lazy_tag >", "structboost_1_1hana_1_1lazy.html#aa968ecf473c93821f1726fd9692e97f3", null ],
       [ "make_lazy", "structboost_1_1hana_1_1lazy.html#a7dc86ca61b84fc42aabb525787ae61b4", null ]
     ] ],
     [ "map", "structboost_1_1hana_1_1map.html", [
-      [ "make< Map >", "structboost_1_1hana_1_1map.html#aa98dda24b823031a42e47897de220019", null ],
+      [ "make< map_tag >", "structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30", null ],
       [ "make_map", "structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04", null ],
       [ "keys", "structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "values", "structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ],
@@ -48,7 +48,7 @@ var group__group_datatypes =
       [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],
     [ "optional", "structboost_1_1hana_1_1optional.html", [
-      [ "make< Optional >", "structboost_1_1hana_1_1optional.html#a69dbbfcfdefd5f68dbf3291859f727c7", null ],
+      [ "make< optional_tag >", "structboost_1_1hana_1_1optional.html#a76a84854b3051af000e698157d63a6a8", null ],
       [ "make_optional", "structboost_1_1hana_1_1optional.html#af1105a435d6435a2437cb5dc162ba463", null ],
       [ "just", "structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0", null ],
       [ "nothing", "structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8", null ],
@@ -61,18 +61,18 @@ var group__group_datatypes =
       [ "sfinae", "structboost_1_1hana_1_1optional.html#aa4c8c0b1ef3d8206974734b93646c9fd", null ]
     ] ],
     [ "pair", "structboost_1_1hana_1_1pair.html", [
-      [ "make< Pair >", "structboost_1_1hana_1_1pair.html#acee1d72b1cd90c086252939258b59682", null ],
+      [ "make< pair_tag >", "structboost_1_1hana_1_1pair.html#aab78903e9982284e82744dec570afa8d", null ],
       [ "make_pair", "structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045", null ]
     ] ],
     [ "range", "structboost_1_1hana_1_1range.html", [
-      [ "make< Range >", "structboost_1_1hana_1_1range.html#a2e1347688d03d7298cf90f3cadf0a002", null ],
+      [ "make< range_tag >", "structboost_1_1hana_1_1range.html#ad5ad9a1f847daa24ef62f5d81b8eef8e", null ],
       [ "make_range", "structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab", null ],
       [ "range_c", "structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f", null ]
     ] ],
     [ "set", "structboost_1_1hana_1_1set.html", [
       [ "difference", "structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139", null ],
       [ "intersection", "structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb", null ],
-      [ "make< Set >", "structboost_1_1hana_1_1set.html#ade2be766c8daa85306a8d9c29bf75dfe", null ],
+      [ "make< set_tag >", "structboost_1_1hana_1_1set.html#aa337857e80b8a8c91880b0184aaf7534", null ],
       [ "make_set", "structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
       [ "insert", "structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "erase_key", "structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
@@ -80,14 +80,14 @@ var group__group_datatypes =
       [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ]
     ] ],
     [ "string", "structboost_1_1hana_1_1string.html", [
-      [ "make< String >", "structboost_1_1hana_1_1string.html#a9b68aa92669ceaa2c903b80e7cdf2447", null ],
+      [ "make< string_tag >", "structboost_1_1hana_1_1string.html#a75de1ad7b14dc576a98d759dc3176ae9", null ],
       [ "make_string", "structboost_1_1hana_1_1string.html#acd99ab02697909eba5eb76caf1ca7a8b", null ],
       [ "string_c", "structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722", null ],
       [ "BOOST_HANA_STRING", "structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84", null ],
       [ "operator\"\"_s", "structboost_1_1hana_1_1string.html#ad77f7afff008c2ce15739ad16a8bf0a8", null ]
     ] ],
     [ "tuple", "structboost_1_1hana_1_1tuple.html", [
-      [ "make< Tuple >", "structboost_1_1hana_1_1tuple.html#a4394c4c47cf8dd4934a40a4e2c10f8fb", null ],
+      [ "make< tuple_tag >", "structboost_1_1hana_1_1tuple.html#ad9d8c7efa77e573eba2dfc48b3343e66", null ],
       [ "make_tuple", "structboost_1_1hana_1_1tuple.html#af3c175cfb83276339f91e867d738a2e6", null ],
       [ "tuple_t", "structboost_1_1hana_1_1tuple.html#aea7b637fbc34b451bd1cef82f1b64b6a", null ],
       [ "tuple_c", "structboost_1_1hana_1_1tuple.html#a2362e94b752cbd15155c65ed3f9de0a0", null ],
@@ -102,7 +102,8 @@ var group__group_datatypes =
     [ "type", "structboost_1_1hana_1_1type.html", [
       [ "type_c", "structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628", null ],
       [ "decltype_", "structboost_1_1hana_1_1type.html#a7d68ff2275cbb295556d83598f04e39a", null ],
-      [ "make< Type >", "structboost_1_1hana_1_1type.html#a3c8833c714e03f37d7e593915a407e6a", null ],
+      [ "make< type_tag >", "structboost_1_1hana_1_1type.html#a66f97c1903dcb6f227b29f3e35e68a56", null ],
+      [ "make_type", "structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c", null ],
       [ "sizeof_", "structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c", null ],
       [ "alignof_", "structboost_1_1hana_1_1type.html#a6fd9ac456f4b5574dcb16384dbb85736", null ],
       [ "is_valid", "structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b", null ]

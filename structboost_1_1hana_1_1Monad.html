@@ -442,7 +442,7 @@ template&lt;typename M &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Since C++ is not a pure language, it is possible to perform side effects inside the <code>f</code> function. Actually, side effects are the only reason why one might want to use <code>tap</code>. However, one should not rely on the side effects being done in any specific order.</dd></dl>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">M</td><td>The data type (a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>) of the monads in the tapped monadic chain.</td></tr>
+    <tr><td class="paramname">M</td><td>The tag (a <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code>) of the monads in the tapped monadic chain.</td></tr>
   </table>
   </dd>
 </dl>
@@ -472,9 +472,9 @@ template&lt;typename M &gt; </div>
 <div class="line">    std::stringstream before, after;</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3)</div>
-<div class="line">        | hana::tap&lt;hana::Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
+<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
 <div class="line">        | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> hana::make_tuple(x, -x); }</div>
-<div class="line">        | hana::tap&lt;hana::Tuple&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>

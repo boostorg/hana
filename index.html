@@ -1326,8 +1326,8 @@ Introspecting user-defined types</h2>
 <div class="line"><span class="keywordtype">int</span> age = hana::at_key(john, <span class="stringliteral">&quot;age&quot;</span>_s);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(age == 30);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The <code>_s</code> user-defined literal creates a compile-time <code>hana::string</code>. It is located in the <code><a class="el" href="namespaceboost_1_1hana_1_1literals.html" title="Namespace containing C++14 user-defined literals provided by Hana. ">boost::hana::literals</a></code> namespace. Note that it is not part of the standard yet, but it is supported by Clang and GCC. If you want to stay 100% standard, you can use the <code>BOOST_HANA_STRING</code> macro instead.</dd></dl>
-<p>The main difference between a <code>Struct</code> and a <code>hana::map</code> is that a map can be modified (keys can be added and removed), while a <code>Struct</code> is immutable. However, you can easily convert a <code>Struct</code> into a <code>hana::map</code> with <code>to&lt;Map&gt;</code>, and then you can manipulate it in a more flexible way.</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> map = hana::insert(hana::to&lt;hana::Map&gt;(john), hana::make_pair(<span class="stringliteral">&quot;last name&quot;</span>_s, <span class="stringliteral">&quot;Doe&quot;</span>s));</div>
+<p>The main difference between a <code>Struct</code> and a <code>hana::map</code> is that a map can be modified (keys can be added and removed), while a <code>Struct</code> is immutable. However, you can easily convert a <code>Struct</code> into a <code>hana::map</code> with <code>to&lt;map_tag&gt;</code>, and then you can manipulate it in a more flexible way.</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> map = hana::insert(hana::to&lt;hana::map_tag&gt;(john), hana::make_pair(<span class="stringliteral">&quot;last name&quot;</span>_s, <span class="stringliteral">&quot;Doe&quot;</span>s));</div>
 <div class="line"></div>
 <div class="line">std::string name = map[<span class="stringliteral">&quot;name&quot;</span>_s];</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(name == <span class="stringliteral">&quot;John&quot;</span>);</div>
@@ -1431,12 +1431,12 @@ Generalities on containers</h1>
 <h2><a class="anchor" id="tutorial-containers-creating"></a>
 Container creation</h2>
 <p>Just like one can create a <code>std::tuple</code> with <code>std::make_tuple</code>, a Hana tuple can be created with <code>hana::make_tuple</code>. However, in general, containers in Hana may be created with the <code>make</code> function:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make&lt;hana::Tuple&gt;(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s);</div>
-</div><!-- fragment --><p> Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;Tuple&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1Tuple.html" title="Tag representing hana::tuples. ">boost::hana::Tuple</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code>hana::range</code> of compile-time integers with <code>make&lt;Range&gt;</code>:</p>
-<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = hana::make&lt;hana::Range&gt;(hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;);</div>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make&lt;hana::tuple_tag&gt;(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s);</div>
+</div><!-- fragment --><p> Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;tuple_tag&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">boost::hana::tuple_tag</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code>hana::range</code> of compile-time integers with <code>make&lt;range_tag&gt;</code>:</p>
+<div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;);</div>
 <div class="line">static_assert(r == hana::make_range(hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;XXX&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
-<p>But what are these types with a capital letter that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code>Range</code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_range</code>, while the actual type of such an object is implementation-defined. These tags are very useful because they represent families of C++ types that are strongly related, but that are not required to have the same representation. These tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>.</p>
+</div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;xxx_tag&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
+<p>But what are these types with a trailing <code>_tag</code> that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code>range_tag</code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_range</code>, while the actual type of such an object is implementation-defined. These tags are very useful because they represent families of C++ types that are strongly related, but that are not required to have the same representation. These tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>.</p>
 <h2><a class="anchor" id="tutorial-containers-elements"></a>
 Container elements</h2>
 <p>In Hana, containers own their elements. When a container is created, it makes a <em>copy</em> of the elements used to initialize it and stores them inside the container. Of course, unnecessary copies are avoided by using move semantics. Because of those owning semantics, the lifetime of the objects inside the container is the same as that of the container.</p>
@@ -1486,11 +1486,11 @@ Container types</h2>
 <div class="line">  <span class="comment">// ...</span></div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> = std::enable_if_t&lt;hana::is_a&lt;hana::Range, R&gt;()&gt;&gt;</div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> = std::enable_if_t&lt;hana::is_a&lt;hana::range_tag, R&gt;()&gt;&gt;</div>
 <div class="line"><span class="keywordtype">void</span> f(R r) {</div>
 <div class="line">  <span class="comment">// ...</span></div>
 <div class="line">}</div>
-</div><!-- fragment --><p> This way, the second overload of <code>f</code> will only match when <code>R</code> is a type whose tag is <code>Range</code>, regardless of the exact representation of that range. Of course, <code>is_a</code> can be used with any kind of container: <code>Tuple</code>, <code>Map</code>, <code>Set</code> and so on.</p>
+</div><!-- fragment --><p> This way, the second overload of <code>f</code> will only match when <code>R</code> is a type whose tag is <code>range_tag</code>, regardless of the exact representation of that range. Of course, <code>is_a</code> can be used with any kind of container: <code>tuple</code>, <code>map</code>, <code>set</code> and so on.</p>
 <h1><a class="anchor" id="tutorial-algorithms"></a>
 Generalities on algorithms</h1>
 <hr/>
@@ -1551,7 +1551,7 @@ Side effects and purity</h2>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(r);</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Adapts std::integral_constant for use with Hana. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>According to the previous section on unrolling, this algorithm should be expanded into something like:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
 <div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a> = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
@@ -1611,7 +1611,7 @@ Cross-phase algorithms</h2>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(any_cat);</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Defines boost::hana::ext::std::IntegralConstant. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Adapts std::integral_constant for use with Hana. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>First, since the predicate is only querying information about the type of each element of the tuple, it is clear that its result can be known at compile-time. Since the number of elements in the tuple is also known at compile-time, the overall result of the algorithm can, in theory, be known at compile-time. More precisely, what happens is that the predicate returns a value initialized <code>std::is_same&lt;...&gt;</code>, which inherits from <code>std::integral_constant</code>. Hana recognizes these objects, and the algorithm is written in such a way that it preserves the <code>compile-time</code>ness of the predicate's result. In the end, <code>any_of</code> hence returns an <code>IntegralConstant</code> holding the result of the algorithm, and we use the compiler's type deduction in a clever way to make it look easy. Hence, it would be equivalent to write (but then you would need to already know the result of the algorithm!):</p>
 <div class="fragment"><div class="line">decltype(hana::true_c) any_cat = hana::<a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](auto x) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Cat&gt;{};</div>
@@ -1673,7 +1673,7 @@ Runtime performance</h2>
 Integration with external libraries</h1>
 <hr/>
 <p>Hana provides out-of-the-box integration with some existing libraries. Specifically, this means that you can use some containers from these libraries in Hana's algorithms by simply including the appropriate header making the bridge between Hana and the external component.</p>
-<p>For a component named <code>xxx</code> in a namespace <code>ns</code>, the external adapter lives in the <code>boost/hana/ext/ns/xxx.hpp</code> header. For example, the external adapter for <code>std::tuple</code> lives in the <code><a class="el" href="ext_2std_2tuple_8hpp.html" title="Defines boost::hana::ext::std::Tuple. ">boost/hana/ext/std/tuple.hpp</a></code> header, while the external adapter for <code>boost::mpl::vector</code> is in <code><a class="el" href="boost_2mpl_2vector_8hpp.html" title="Defines boost::hana::ext::boost::mpl::Vector. ">boost/hana/ext/boost/mpl/vector.hpp</a></code>.</p>
+<p>For a component named <code>xxx</code> in a namespace <code>ns</code>, the external adapter lives in the <code>boost/hana/ext/ns/xxx.hpp</code> header. For example, the external adapter for <code>std::tuple</code> lives in the <code><a class="el" href="ext_2std_2tuple_8hpp.html" title="Adapts std::tuple for use with Hana. ">boost/hana/ext/std/tuple.hpp</a></code> header, while the external adapter for <code>boost::mpl::vector</code> is in <code><a class="el" href="boost_2mpl_2vector_8hpp.html" title="Adapts boost::mpl::vector for use with Hana. ">boost/hana/ext/boost/mpl/vector.hpp</a></code>.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:<ul>
 <li><code>std::tuple</code><br />
  Models <code>Sequence</code>. It can basically be used like a <code>hana::tuple</code>. However, please be aware that libc++'s tuple has a couple of bugs (they were reported) that make this adapter buggy.</li>
@@ -1686,9 +1686,9 @@ Integration with external libraries</h1>
 <li><code>std::pair</code><br />
  Model of <code>Product</code>. This is essentially equivalent to <code>hana::pair</code>.</li>
 <li><code>boost::mpl::vector</code><br />
- See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1Vector.html" title="Adapter for Boost.MPL vectors. ">boost::hana::ext::boost::mpl::Vector</a></code>.</li>
+ See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1vector__tag.html" title="Adapter for Boost.MPL vectors. ">boost::hana::ext::boost::mpl::vector_tag</a></code>.</li>
 <li><code>boost::mpl::integral_c</code><br />
- See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::IntegralC</a></code>.</li>
+ See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::integral_c_tag</a></code>.</li>
 <li><code>boost::fusion::{deque,list,tuple,vector}</code><br />
  They are models of <code>Sequence</code>, and hence can be used like <code>hana::tuple</code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
 <li><code>boost::tuple</code><br />
@@ -1708,8 +1708,9 @@ Hana's core</h1>
 <h2><a class="anchor" id="tutorial-core-tags"></a>
 Tags</h2>
 <p>Heterogeneous programming is basically programming with objects having different types. However, it is clear that some families of objects, while having different representations (C++ types), are strongly related. For example, the <code>std::integral_constant&lt;int, n&gt;</code> types are different for each different <code>n</code>, but conceptually they all represent the same thing; a compile-time number. The fact that <code>std::integral_constant&lt;int, 1&gt;{}</code> and <code>std::integral_constant&lt;int, 2&gt;{}</code> have different types is just a side effect of the fact that we're using their type to encode the <em>value</em> of these objects. Indeed, when manipulating a sequence of <code>std::integral_constant&lt;int, ...&gt;</code>s, chances are that you actually think of it as a homogeneous sequence of an imaginary <code>integral_constant</code> type, disregarding the actual types of the objects and pretending they are all just <code>integral_constant</code>s with different values.</p>
-<p>To reflect this reality, Hana provides <em>tags</em> representing its heterogeneous containers and other compile-time entities. For example, all of Hana's <code>integral_constant&lt;int, ...&gt;</code>s have different types, but they all share the same tag, <code>IntegralConstant&lt;int&gt;</code>. This allows the programmer to think in terms of that single tag instead of trying to think in terms of the actual types of the objects. Furthermore, Hana adopts the convention of naming these tags with a capital letter, to make them stand out and differentiate them from actual types. Since we mostly reason in terms of tags instead of specific types, we sometimes (ab)use the word <em>data type</em> to mean the same thing as <em>tag</em> in the documentation, always referring to the family of related types.</p>
-<dl class="section note"><dt>Note</dt><dd>The tag of an object of type <code>T</code> can be obtained by using <code>datatype&lt;T&gt;::type</code>, or equivalently <code>datatype_t&lt;T&gt;</code>.</dd></dl>
+<p>To reflect this reality, Hana provides <em>tags</em> representing its heterogeneous containers and other compile-time entities. For example, all of Hana's <code>integral_constant&lt;int, ...&gt;</code>s have different types, but they all share the same tag, <code>integral_constant_tag&lt;int&gt;</code>. This allows the programmer to think in terms of that single type instead of trying to think in terms of the actual types of the objects. Furthermore, Hana adopts the convention of naming these tags by adding the <code>_tag</code> suffix, to make them stand out and differentiate them from actual types.</p>
+<dl class="section note"><dt>Note</dt><dd>The tag of an object of type <code>T</code> can be obtained by using <code>tag_of&lt;T&gt;::type</code>, or equivalently <code>tag_of_t&lt;T&gt;</code>.</dd></dl>
+<p>Tags are an extension to normal C++ types. Indeed, by default, the tag of a type <code>T</code> is <code>T</code> itself, and the core of the library is designed to work in those cases. For example, <code>hana::make</code> expects either a tag or an actual type; if you send it a type <code>T</code>, it will do the logical thing and construct an object of type <code>T</code> with the arguments you pass it. If you pass a tag to it, however, you should specialize <code>make</code> for that tag and provide your own implementation, as explained below. Because tags are an extension to usual types, we end up mostly reasoning in terms of tags instead of usual types, and the documentation sometimes uses the words <em>type</em>, <em>data type</em> and <em>tag</em> interchangeably.</p>
 <h2><a class="anchor" id="tutorial-core-tag_dispatching"></a>
 Tag dispatching</h2>
 <p>Tag dispatching is a generic programming technique for picking the right implementation of a function depending on the type of the arguments passed to the function. The usual mechanism for overriding a function's behavior is overloading. Unfortunately, this mechanism is not always convenient when dealing with families of related types having different C++ types, or with objects of unspecified types as is often the case in Hana. For example, consider trying to overload a function for all Boost.Fusion vectors:</p>
@@ -1724,7 +1725,7 @@ Tag dispatching</h2>
 <div class="line">...</div>
 </div><!-- fragment --><p>This is an implementation detail required by the lack of variadic templates in C++03 that leaks into the interface. This is unfortunate, but we need a way to work around it. To do so, we use an infrastructure with three distinct components:</p>
 <ol type="1">
-<li>A metafunction associating a single tag to every type in a family of related types. In Hana, this tag can be accessed using the <code>datatype</code> metafunction. Specifically, for any type <code>T</code>, <code>datatype&lt;T&gt;::type</code> is the tag used to dispatch it.</li>
+<li>A metafunction associating a single tag to every type in a family of related types. In Hana, this tag can be accessed using the <code>tag_of</code> metafunction. Specifically, for any type <code>T</code>, <code>tag_of&lt;T&gt;::type</code> is the tag used to dispatch it.</li>
 <li>A function belonging to the public interface of the library, for which we'd like to be able to provide a customized implementation. In Hana, these functions are the algorithms associated to a concept, like <code>transform</code> or <code>unpack</code>.</li>
 <li>An implementation for the function, parameterized with the tag(s) of the argument(s) passed to the function. In Hana, this is usually done by having a separate template called <code>xxx_impl</code> (for an interface function <code>xxx</code>) with a nested <code>apply</code> static function, as will be shown below.</li>
 </ol>
@@ -1739,21 +1740,21 @@ Tag dispatching</h2>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, X x) {</div>
-<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::tag_of&lt;X&gt;::type;</div>
 <div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> Now, let's define a type that needs tag dispatching to customize the behavior of <code>print</code>. While some C++14 examples exist, they are too complicated to show in this tutorial and we will therefore use a C++03 tuple implemented as several different types to illustrate the technique:</p>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Vector;</div>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>vector_tag;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>vector0 {</div>
-<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">using</span> hana_tag = vector_tag;</div>
 <div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 0;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1&gt;</div>
 <div class="line"><span class="keyword">struct </span>vector1 {</div>
 <div class="line">  T1 t1;</div>
-<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">using</span> hana_tag = vector_tag;</div>
 <div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 1;</div>
 <div class="line"></div>
 <div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Index&gt;</div>
@@ -1766,18 +1767,18 @@ Tag dispatching</h2>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
 <div class="line"><span class="keyword">struct </span>vector2 {</div>
 <div class="line">  T1 t1; T2 t2;</div>
-<div class="line">  <span class="keyword">struct </span>hana { <span class="keyword">using</span> datatype = Vector; };</div>
+<div class="line">  <span class="keyword">using</span> hana_tag = vector_tag;</div>
 <div class="line">  <span class="keyword">static</span> constexpr std::size_t size = 2;</div>
 <div class="line"></div>
 <div class="line">  <span class="comment">// Using Hana as a backend to simplify the example.</span></div>
 <div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Index&gt;</div>
 <div class="line">  <span class="keyword">auto</span> <span class="keyword">const</span>&amp; operator[](Index i)<span class="keyword"> const </span>{</div>
-<div class="line">    <span class="keywordflow">return</span> *boost::hana::make_tuple(&amp;t1, &amp;t2)[i];</div>
+<div class="line">    <span class="keywordflow">return</span> *hana::make_tuple(&amp;t1, &amp;t2)[i];</div>
 <div class="line">  }</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// and so on...</span></div>
-</div><!-- fragment --><p> The nested <code>struct hana { using datatype = Vector; }</code> part is a terse way of controling the result of <code>datatype</code> metafunction, and hence the tag of the <code>vectorN</code> type. This is explained in the reference for <code>datatype</code>. Finally, if you wanted to customize the behavior of the <code>print</code> function for all the <code>vectorN</code> types, you would normally have to write something along the lines of</p>
+</div><!-- fragment --><p> The nested <code>using hana_tag = vector_tag;</code> part is a terse way of controling the result of the <code>tag_of</code> metafunction, and hence the tag of the <code>vectorN</code> type. This is explained in the reference for <code>tag_of</code>. Finally, if you wanted to customize the behavior of the <code>print</code> function for all the <code>vectorN</code> types, you would normally have to write something along the lines of</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> print(std::ostream&amp; os, vector0)</div>
 <div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[]&quot;</span>; }</div>
 <div class="line"></div>
@@ -1792,7 +1793,7 @@ Tag dispatching</h2>
 <div class="line"><span class="comment">// and so on...</span></div>
 </div><!-- fragment --><p> Now, with tag dispatching, you can rely on the <code>vectorN</code>s all sharing the same tag and specialize only the <code>print_impl</code> struct instead:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl&lt;Vector&gt; {</div>
+<div class="line"><span class="keyword">struct </span>print_impl&lt;vector_tag&gt; {</div>
 <div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> vectorN&gt;</div>
 <div class="line">  <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, vectorN xs) {</div>
 <div class="line">    constexpr <span class="keyword">auto</span> N = hana::size_c&lt;vectorN::size&gt;;</div>
@@ -1813,7 +1814,7 @@ Tag dispatching</h2>
 <div class="line">  <span class="comment">// The precondition only has to be checked here; implementations</span></div>
 <div class="line">  <span class="comment">// can assume their arguments to always be sane.</span></div>
 <div class="line"></div>
-<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::tag_of&lt;X&gt;::type;</div>
 <div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">}</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Checking preconditions does not make much sense for a <code>print</code> function, but consider for example a function to get the <code>n</code>th element of a sequence; you might want to make sure that the index is not out-of-bounds.</dd></dl>
@@ -1823,7 +1824,7 @@ Tag dispatching</h2>
 <div class="line"><span class="keyword">struct </span>_print {</div>
 <div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line">  <span class="keywordtype">void</span> operator()(std::ostream&amp; os, X x)<span class="keyword"> const </span>{</div>
-<div class="line">    <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::datatype&lt;X&gt;::type;</div>
+<div class="line">    <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::tag_of&lt;X&gt;::type;</div>
 <div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">  }</div>
 <div class="line">};</div>
@@ -1913,15 +1914,15 @@ Function signatures</h2>
 <p class="formulaDsp">
 \[ \mathtt{f} : \mathtt{Arg}_1 \times \dots \times \mathtt{Arg}_n \to \mathtt{Return} \]
 </p>
-<p>However, instead of documenting the actual argument and return types of functions, those signatures are written in terms of argument and return tags. This is done because of the heterogeneous setting, where the actual type of an object is usually pretty meaningless and does not help to reason about what's being returned or taken by a function. For example, instead of documenting the <code>equal</code> function for <code>IntegralConstant</code>s as</p>
+<p>However, instead of documenting the actual argument and return types of functions, those signatures are written in terms of argument and return tags. This is done because of the heterogeneous setting, where the actual type of an object is usually pretty meaningless and does not help to reason about what's being returned or taken by a function. For example, instead of documenting the <code>equal</code> function for <code>integral_constant</code>s as</p>
 <p class="formulaDsp">
 \[ \mathtt{equal} : \mathtt{integral\_constant&lt;T, n&gt;} \times \mathtt{integral\_constant&lt;T, m&gt;} \to \mathtt{integral\_constant&lt;bool, n == m&gt;} \]
 </p>
-<p>which is not really helpful (as it really presents nothing but the implementation), it is instead documented using the <code>IntegralConstant</code> tag. Note that since <code>equal</code> is part of the <code>Comparable</code> concept, it is not <em>actually</em> documented for <code>IntegralConstant</code> specifically, but the idea is there:</p>
+<p>which is not really helpful (as it really presents nothing but the implementation), it is instead documented using <code>integral_constant_tag</code>, which acts as the "type" of all <code>integral_constant</code>s. Note that since <code>equal</code> is part of the <code>Comparable</code> concept, it is not <em>actually</em> documented for <code>hana::integral_constant</code> specifically, but the idea is there:</p>
 <p class="formulaDsp">
-\[ \mathtt{equal} : \mathtt{IntegralConstant&lt;T&gt;} \times \mathtt{IntegralConstant&lt;T&gt;} \to \mathtt{IntegralConstant&lt;bool&gt;} \]
+\[ \mathtt{equal} : \mathtt{integral_constant_tag&lt;T&gt;} \times \mathtt{integral_constant_tag&lt;T&gt;} \to \mathtt{integral_constant_tag&lt;bool&gt;} \]
 </p>
-<p>This clearly conveys the intention that comparing two <code>IntegralConstant</code>s gives back another <code>IntegralConstant</code> holding a <code>bool</code>. In general, this abstraction of the actual representation of objects makes it possible for us to reason in a high level manner about functions, even though their actual return and argument types are heterogeneous and not helpful. Finally, most functions expect container elements to have some properties. For example, this is the case of the <code>sort</code> algorithm, which obviously requires the container elements to be <code>Orderable</code>. Normally, we would write the signature for the non-predicated version of <code>sort</code> as</p>
+<p>This clearly conveys the intention that comparing two <code>integral_constant</code>s gives back another <code>integral_constant</code> holding a <code>bool</code>. In general, this abstraction of the actual representation of objects makes it possible for us to reason in a high level manner about functions, even though their actual return and argument types are heterogeneous and not helpful. Finally, most functions expect container elements to have some properties. For example, this is the case of the <code>sort</code> algorithm, which obviously requires the container elements to be <code>Orderable</code>. Normally, we would write the signature for the non-predicated version of <code>sort</code> as</p>
 <p class="formulaDsp">
 \[ \mathtt{sort} : \mathtt{S} \to \mathtt{S} \\ \text{where S is a Sequence} \]
 </p>
@@ -2182,20 +2183,17 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="comment">//    use `first&lt;pair&lt;...&gt;&gt;` instead</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
 <div class="line"><span class="keyword">struct </span>vector : decltype(hana::tuple_t&lt;T...&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana = vector;</div>
-<div class="line">    <span class="keyword">using</span> datatype = <a class="code" href="structboost_1_1hana_1_1Tuple.html">boost::hana::Tuple</a>;</div>
+<div class="line">    <span class="keyword">using</span> hana_tag = hana::tuple_tag;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T ...v&gt;</div>
 <div class="line"><span class="keyword">struct </span>vector_c : decltype(hana::tuple_c&lt;T, v...&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana = vector_c;</div>
-<div class="line">    <span class="keyword">using</span> datatype = <a class="code" href="structboost_1_1hana_1_1Tuple.html">boost::hana::Tuple</a>;</div>
+<div class="line">    <span class="keyword">using</span> hana_tag = hana::tuple_tag;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T from, T to&gt;</div>
 <div class="line"><span class="keyword">struct </span>range_c : decltype(hana::range_c&lt;T, from, to&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana = range_c;</div>
-<div class="line">    <span class="keyword">using</span> datatype = <a class="code" href="structboost_1_1hana_1_1Range.html">boost::hana::Range</a>;</div>
+<div class="line">    <span class="keyword">using</span> hana_tag = hana::range_tag;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"></div>
@@ -2262,7 +2260,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>pop_back {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::drop_back(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}), hana::size_c&lt;1&gt;</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), hana::size_c&lt;1&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -2364,8 +2362,8 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    : decltype( <span class="comment">// inefficient but whatever</span></div>
 <div class="line">        hana::length(S1{}) == hana::length(S2{}) &amp;&amp;</div>
 <div class="line">        hana::all(hana::zip_shortest_with(detail::mpl_predicate&lt;Pred&gt;,</div>
-<div class="line">                hana::to&lt;hana::Tuple&gt;(S1{}),</div>
-<div class="line">                hana::to&lt;hana::Tuple&gt;(S2{})))</div>
+<div class="line">                hana::to&lt;hana::tuple_tag&gt;(S1{}),</div>
+<div class="line">                hana::to&lt;hana::tuple_tag&gt;(S2{})))</div>
 <div class="line">    )</div>
 <div class="line">{ };</div>
 <div class="line"></div>
@@ -2378,13 +2376,13 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="comment">// 3. All the reverse_* algorithms are not implemented.</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>copy {</div>
-<div class="line">    <span class="keyword">using</span> type = decltype(hana::to&lt;hana::Tuple&gt;(Sequence{}));</div>
+<div class="line">    <span class="keyword">using</span> type = decltype(hana::to&lt;hana::tuple_tag&gt;(Sequence{}));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>copy_if {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::filter(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2395,7 +2393,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Op&gt;</div>
 <div class="line"><span class="keyword">struct </span>transform&lt;Sequence, Op&gt; {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::transform(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}), detail::mpl_metafunction&lt;Op&gt;</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), detail::mpl_metafunction&lt;Op&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -2403,15 +2401,15 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">struct </span>transform {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::zip_with(</div>
 <div class="line">        detail::mpl_metafunction&lt;Op&gt;,</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(S1{}),</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(S2{})</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(S1{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(S2{})</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> OldType, <span class="keyword">typename</span> NewType&gt;</div>
 <div class="line"><span class="keyword">struct </span>replace {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::replace(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        hana::type_c&lt;OldType&gt;,</div>
 <div class="line">        hana::type_c&lt;NewType&gt;</div>
 <div class="line">    ));</div>
@@ -2420,7 +2418,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred, <span class="keyword">typename</span> NewType&gt;</div>
 <div class="line"><span class="keyword">struct </span>replace_if {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::replace_if(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;,</div>
 <div class="line">        hana::type_c&lt;NewType&gt;</div>
 <div class="line">    ));</div>
@@ -2429,7 +2427,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span>remove {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::filter(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        hana::not_equal.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(hana::type_c&lt;T&gt;)</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2437,7 +2435,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>remove_if {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::filter(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">hana::compose</a>(hana::not_, detail::mpl_predicate&lt;Pred&gt;)</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2445,7 +2443,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>unique {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::unique(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2453,7 +2451,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>partition {</div>
 <div class="line">    <span class="keyword">using</span> hana_pair = decltype(hana::partition(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}),</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">    <span class="keyword">using</span> type = pair&lt;</div>
@@ -2465,13 +2463,13 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred = mpl::quote2&lt;less&gt;&gt;</div>
 <div class="line"><span class="keyword">struct </span>sort {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::sort(</div>
-<div class="line">        hana::to&lt;hana::Tuple&gt;(Sequence{}), detail::mpl_predicate&lt;Pred&gt;</div>
+<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>reverse {</div>
-<div class="line">    <span class="keyword">using</span> type = decltype(hana::reverse(hana::to&lt;hana::Tuple&gt;(Sequence{})));</div>
+<div class="line">    <span class="keyword">using</span> type = decltype(hana::reverse(hana::to&lt;hana::tuple_tag&gt;(Sequence{})));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"></div>

@@ -147,16 +147,16 @@ struct boost::hana::basic_tuple&lt; Xs &gt;</h3>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a014ba5f43f643bac0f8181eac92f2db3"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a014ba5f43f643bac0f8181eac92f2db3"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1basic__tuple.html#a014ba5f43f643bac0f8181eac92f2db3">make&lt; BasicTuple &gt;</a></td></tr>
-<tr class="memdesc:a014ba5f43f643bac0f8181eac92f2db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Tag representing hana::basic_tuple. ">BasicTuple</a></code>.  <a href="#a014ba5f43f643bac0f8181eac92f2db3">More...</a><br /></td></tr>
-<tr class="separator:a014ba5f43f643bac0f8181eac92f2db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe2c3fc2808e83353b7274dddd662c7e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e">make_basic_tuple</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a>&gt;</td></tr>
-<tr class="memdesc:afe2c3fc2808e83353b7274dddd662c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Tag representing hana::basic_tuple. ">BasicTuple</a>&gt;</code>; provided for convenience.  <a href="#afe2c3fc2808e83353b7274dddd662c7e">More...</a><br /></td></tr>
+<tr class="memitem:a53975be786ae1db16185edab229547cd"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a53975be786ae1db16185edab229547cd"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1basic__tuple.html#a53975be786ae1db16185edab229547cd">make&lt; basic_tuple_tag &gt;</a></td></tr>
+<tr class="memdesc:a53975be786ae1db16185edab229547cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code>.  <a href="#a53975be786ae1db16185edab229547cd">More...</a><br /></td></tr>
+<tr class="separator:a53975be786ae1db16185edab229547cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe2c3fc2808e83353b7274dddd662c7e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e">make_basic_tuple</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html">basic_tuple_tag</a>&gt;</td></tr>
+<tr class="memdesc:afe2c3fc2808e83353b7274dddd662c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html" title="Tag representing hana::basic_tuple. ">basic_tuple_tag</a>&gt;</code>; provided for convenience.  <a href="#afe2c3fc2808e83353b7274dddd662c7e">More...</a><br /></td></tr>
 <tr class="separator:afe2c3fc2808e83353b7274dddd662c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a014ba5f43f643bac0f8181eac92f2db3"></a>
+<a class="anchor" id="a53975be786ae1db16185edab229547cd"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -168,7 +168,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html">basic_tuple_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -181,8 +181,8 @@ template&lt;&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> basic_tuple&lt;std::decay_t&lt;decltype(xs)&gt;...&gt;{forwarded(xs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Tag representing hana::basic_tuple. ">BasicTuple</a></code>. </p>
-<p>Given zero or more objects <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Tag representing hana::basic_tuple. ">BasicTuple</a>&gt;</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code> containing those objects. The elements are held by value inside the resulting tuple, and they are hence copied or moved in. This is analogous to <code>std::make_tuple</code> for creating <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code>s.</p>
+<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code>. </p>
+<p>Given zero or more objects <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html" title="Tag representing hana::basic_tuple. ">basic_tuple_tag</a>&gt;</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code> containing those objects. The elements are held by value inside the resulting tuple, and they are hence copied or moved in. This is analogous to <code>std::make_tuple</code> for creating <code><a class="el" href="structboost_1_1hana_1_1basic__tuple.html" title="Stripped down version of hana::tuple. ">basic_tuple</a></code>s.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -196,7 +196,7 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr hana::basic_tuple&lt;int, char, double&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.3};</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::BasicTuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::basic_tuple_tag&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line">constexpr <span class="keyword">auto</span> zs = hana::make_basic_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -213,7 +213,7 @@ template&lt;typename... Xs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_basic_tuple = make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html">BasicTuple</a>&gt;</td>
+          <td class="memname">constexpr auto make_basic_tuple = make&lt;<a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html">basic_tuple_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -223,7 +223,7 @@ template&lt;typename... Xs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1BasicTuple.html" title="Tag representing hana::basic_tuple. ">BasicTuple</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1basic__tuple__tag.html" title="Tag representing hana::basic_tuple. ">basic_tuple_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -237,7 +237,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr hana::basic_tuple&lt;int, char, double&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.3};</div>
-<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::BasicTuple&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
+<div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::basic_tuple_tag&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line">constexpr <span class="keyword">auto</span> zs = hana::make_basic_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>

@@ -238,8 +238,8 @@ First, <code>lift</code>ing a value into a <code><a class="el" href="structboost
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::lift&lt;hana::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::equal(hana::lift&lt;hana::ext::std::Tuple&gt;(<span class="charliteral">&#39;x&#39;</span>), std::make_tuple(<span class="charliteral">&#39;x&#39;</span>)), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::lift&lt;hana::tuple_tag&gt;(<span class="charliteral">&#39;x&#39;</span>) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::equal(hana::lift&lt;hana::ext::std::tuple_tag&gt;(<span class="charliteral">&#39;x&#39;</span>), std::make_tuple(<span class="charliteral">&#39;x&#39;</span>)), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> f = hana::make_pair;</div>
 <div class="line">constexpr <span class="keyword">auto</span> g = <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(hana::make_pair);</div>
@@ -304,12 +304,12 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="comment">// Using the Tuple Monad, we generate all the possible combinations of</span></div>
+<div class="line"><span class="comment">// Using the `tuple` Monad, we generate all the possible combinations of</span></div>
 <div class="line"><span class="comment">// cv-qualifiers and reference qualifiers. Then, we use the `optional`</span></div>
 <div class="line"><span class="comment">// Monad to make sure that our generic function can be called with</span></div>
 <div class="line"><span class="comment">// arguments of any of those types.</span></div>
 <div class="line"></div>
-<div class="line"><span class="comment">// cv_qualifiers : Type -&gt; Tuple(Type)</span></div>
+<div class="line"><span class="comment">// cv_qualifiers : type -&gt; tuple(type)</span></div>
 <div class="line"><span class="keyword">auto</span> cv_qualifiers = [](<span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> hana::make_tuple(</div>
 <div class="line">        t,</div>
@@ -319,7 +319,7 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="comment">// ref_qualifiers : Type -&gt; Tuple(Type)</span></div>
+<div class="line"><span class="comment">// ref_qualifiers : type -&gt; tuple(type)</span></div>
 <div class="line"><span class="keyword">auto</span> ref_qualifiers = [](<span class="keyword">auto</span> t) {</div>
 <div class="line">    <span class="keywordflow">return</span> hana::make_tuple(</div>
 <div class="line">        hana::traits::add_lvalue_reference(t),</div>
@@ -374,7 +374,7 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line"><span class="keyword">using namespace </span>std::string_literals;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::Tuple&gt;() == hana::make_tuple());</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::tuple_tag&gt;() == hana::make_tuple());</div>
 <div class="line"></div>
 <div class="line">static_assert(hana::append(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3), <span class="keyword">nullptr</span>)</div>
 <div class="line">                        == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="keyword">nullptr</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
@@ -597,12 +597,7 @@ Synopsis of associated functions</h2></td></tr>
 </div><!-- fragment -->
 <p>Computes the cartesian product of a sequence of sequences. </p>
 <p>Given a sequence of sequences, <code>cartesian_product</code> returns a new sequence of sequences containing the cartesian product of the original sequences. For this method to finish, a finite number of finite sequences must be provided.</p>
-<p>All the sequences must have the same data type, and that data type must also match that of the top-level sequence. In other words, the sequence must be of the form </p><div class="fragment"><div class="line">make_sequence(</div>
-<div class="line">    make_sequence(...),</div>
-<div class="line">    ...</div>
-<div class="line">    make_sequence(...)</div>
-<div class="line">)</div>
-</div><!-- fragment --><p>for some function <code>make_sequence</code> returning a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>.</p>
+<dl class="section note"><dt>Note</dt><dd>All the sequences must have the same tag, and that tag must also match that of the top-level sequence.</dd></dl>
 <h2>Signature </h2>
 <p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S(T)</code>, the signature is </p><p class="formulaDsp">
 \[ \mathtt{cartesian\_product} : S(S(T)) \to S(S(T)) \]
@@ -742,10 +737,10 @@ Synopsis of associated functions</h2></td></tr>
 <p>Given a <em>finite</em> <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> and an optional predicate (by default <code>equal</code>), <code>group</code> returns a sequence of subsequences representing groups of adjacent elements that are "equal" with respect to the predicate. In other words, the groups are such that the predicate is satisfied when it is applied to any two adjacent elements in that group. The sequence returned by <code>group</code> is such that the concatenation of its elements is equal to the original sequence, which is equivalent to saying that the order of the elements is not changed.</p>
 <p>If no predicate is provided, adjacent elements in the sequence must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> <code>s</code> of data type <code>S(T)</code>, a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>group</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> <code>s</code> with tag <code>S(T)</code>, a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code> and a predicate \( pred : T \times T \to Bool \), <code>group</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathtt{group} : S(T) \times (T \times T \to Bool) \to S(S(T)) \]
 </p>
-<p>for the variant without a custom predicate, the <code>T</code> data type is required to be <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. The signature is then </p><p class="formulaDsp">
+<p>for the variant without a custom predicate, <code>T</code> is required to be <a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a>. The signature is then </p><p class="formulaDsp">
 \[ \mathtt{group} : S(T) \to S(S(T)) \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1717,7 +1712,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <p>Given a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> <code>S(T)</code>, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> <code>Bool</code> and a binary predicate \( T \times T \to Bool \), <code>sort</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathtt{sort} : S(T) \times (T \times T \to Bool) \to S(T) \]
 </p>
-<p>for the variant without a custom predicate, the <code>T</code> data type is required to be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. The signature is then </p><p class="formulaDsp">
+<p>for the variant without a custom predicate, <code>T</code> is required to be <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>. The signature is then </p><p class="formulaDsp">
 \[ \mathtt{sort} : S(T) \to S(T) \]
 </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -1925,8 +1920,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to&lt;hana::Tuple&gt;(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to&lt;hana::Tuple&gt;(hana::make_range(hana::int_c&lt;0&gt;, hana::length(letters)));</div>
+<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to&lt;hana::tuple_tag&gt;(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to&lt;hana::tuple_tag&gt;(hana::make_range(hana::int_c&lt;0&gt;, hana::length(letters)));</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> even_indices = hana::filter(indices, [](<span class="keyword">auto</span> n) {</div>
 <div class="line">    <span class="keywordflow">return</span> n % hana::uint_c&lt;2&gt; == hana::uint_c&lt;0&gt;;</div>
@@ -2166,7 +2161,7 @@ template&lt;typename S &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::unfold_left&lt;hana::Tuple&gt;(hana::int_c&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    hana::unfold_left&lt;hana::tuple_tag&gt;(hana::int_c&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> hana::if_(x == hana::int_c&lt;0&gt;,</div>
 <div class="line">            hana::nothing,</div>
 <div class="line">            hana::just(hana::make_pair(x - hana::int_c&lt;1&gt;, x))</div>
@@ -2250,7 +2245,7 @@ template&lt;typename S &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::unfold_right&lt;hana::Tuple&gt;(hana::int_c&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
+<div class="line">    hana::unfold_right&lt;hana::tuple_tag&gt;(hana::int_c&lt;10&gt;, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">        <span class="keywordflow">return</span> hana::if_(x == hana::int_c&lt;0&gt;,</div>
 <div class="line">            hana::nothing,</div>
 <div class="line">            hana::just(hana::make_pair(x, x - hana::int_c&lt;1&gt;))</div>

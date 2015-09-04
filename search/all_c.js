@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['lazy',['lazy',['../structboost_1_1hana_1_1lazy.html',1,'boost::hana::lazy&lt;... &gt;'],['../structboost_1_1hana_1_1Lazy.html',1,'boost::hana::Lazy']]],
+  ['lazy',['lazy',['../structboost_1_1hana_1_1lazy.html',1,'boost::hana']]],
   ['lazy_2ehpp',['lazy.hpp',['../fwd_2lazy_8hpp.html',1,'']]],
   ['lazy_2ehpp',['lazy.hpp',['../lazy_8hpp.html',1,'']]],
+  ['lazy_5ftag',['lazy_tag',['../structboost_1_1hana_1_1lazy__tag.html',1,'boost::hana']]],
   ['length',['length',['../structboost_1_1hana_1_1Foldable.html#a5fb377e43aa7753bb77aa346c67fae0d',1,'boost::hana::Foldable']]],
   ['length_2ehpp',['length.hpp',['../fwd_2length_8hpp.html',1,'']]],
   ['length_2ehpp',['length.hpp',['../length_8hpp.html',1,'']]],
@@ -10,8 +11,8 @@ var searchData=
   ['less_2ehpp',['less.hpp',['../fwd_2less_8hpp.html',1,'']]],
   ['less_2ehpp',['less.hpp',['../less_8hpp.html',1,'']]],
   ['less_5fequal',['less_equal',['../structboost_1_1hana_1_1Orderable.html#a8012cbd416c2067be764046dcd0c2a23',1,'boost::hana::Orderable']]],
-  ['less_5fequal_2ehpp',['less_equal.hpp',['../fwd_2less__equal_8hpp.html',1,'']]],
   ['less_5fequal_2ehpp',['less_equal.hpp',['../less__equal_8hpp.html',1,'']]],
+  ['less_5fequal_2ehpp',['less_equal.hpp',['../fwd_2less__equal_8hpp.html',1,'']]],
   ['lexicographical_5fcompare',['lexicographical_compare',['../structboost_1_1hana_1_1Iterable.html#a3ad76a9f80fe5095d43be85c519f9a20',1,'boost::hana::Iterable']]],
   ['lexicographical_5fcompare_2ehpp',['lexicographical_compare.hpp',['../fwd_2lexicographical__compare_8hpp.html',1,'']]],
   ['lexicographical_5fcompare_2ehpp',['lexicographical_compare.hpp',['../lexicographical__compare_8hpp.html',1,'']]],
@@ -25,8 +26,8 @@ var searchData=
   ['lockstep_2ehpp',['lockstep.hpp',['../lockstep_8hpp.html',1,'']]],
   ['logical',['Logical',['../structboost_1_1hana_1_1Logical.html',1,'boost::hana']]],
   ['logical_2ehpp',['logical.hpp',['../detail_2operators_2logical_8hpp.html',1,'']]],
-  ['logical_2ehpp',['logical.hpp',['../fwd_2concept_2logical_8hpp.html',1,'']]],
   ['logical_2ehpp',['logical.hpp',['../concept_2logical_8hpp.html',1,'']]],
+  ['logical_2ehpp',['logical.hpp',['../fwd_2concept_2logical_8hpp.html',1,'']]],
   ['long_5f',['long_',['../structboost_1_1hana_1_1integral__constant.html#a41f541c4b34b1972d0e84bf10f7908e1',1,'boost::hana::integral_constant']]],
   ['long_5fc',['long_c',['../structboost_1_1hana_1_1integral__constant.html#ab7e3b17ac89121823916ebd7c6f96235',1,'boost::hana::integral_constant']]]
 ];

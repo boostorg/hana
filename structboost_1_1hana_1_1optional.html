@@ -140,10 +140,10 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1optional.html',
 <div class="textblock"><h3>template&lt;typename...&gt;<br />
 struct boost::hana::optional&lt;... &gt;</h3>
 
-<p><a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a> value whose optional-ness is known at compile-time. </p>
+<p>Optional value whose optional-ness is known at compile-time. </p>
 <p>An <code>optional</code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). In essence, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is pretty much like a <code>boost::optional</code> or the upcoming <code>std::optional</code>, except the fact that a <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is empty or not is known at compile-time. This can be particularly useful for returning from a function that might fail, when the reason of failure is unimportant. However, there is an important distinction to make between <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> and <code>std::optional</code>: <code>just(x)</code> and <code>nothing</code> do not share the same type. Hence, whether a <code>just</code> or a <code>nothing</code> will be returned from a function has to be known at compile-time for the return type to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> well suited for static metaprogramming tasks but very poor for anything dynamic.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is implementation-defined. In particular, one should not take for granted any particular representation for <code>hana::just(...)</code> and <code>hana::nothing</code>, or the presence of any constructor/assignment operator. The proper way to create an <code>optional</code> is through <code>hana::just</code> and <code>hana::nothing</code>, and one should use <code>hana::is_just</code> and <code>hana::is_nothing</code> to determine the status of an <code>optional</code> instead of relying on a particular representation.</dd></dl>
-<h2>Interoperation with <code><a class="el" href="structboost_1_1hana_1_1Type.html" title="Tag representing hana::type. ">Type</a></code>s </h2>
+<h2>Interoperation with <code>type</code>s </h2>
 <p>When a <code>just</code> contains an object of type <code>T</code> which is a <code>type</code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code>type</code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -207,7 +207,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
-<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a> values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
+Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -252,7 +252,7 @@ An optional value can be seen as a list containing either one element (<code>jus
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
-First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise: <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
+First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise: <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">ap(nothing, <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == nothing</div>
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), nothing) == nothing</div>
 <div class="line">ap(nothing, nothing) == nothing</div>
@@ -325,7 +325,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
 <div class="line"></div>
-<div class="line">    static_assert(hana::lift&lt;hana::Optional&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::lift&lt;hana::optional_tag&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
@@ -373,7 +373,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The 
 <div class="line">static_assert(hana::concat(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::concat(hana::nothing, hana::nothing) == hana::nothing);</div>
 <div class="line">static_assert(hana::concat(hana::just(<span class="charliteral">&#39;x&#39;</span>), hana::just(<span class="charliteral">&#39;y&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::Optional&gt;() == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::optional_tag&gt;() == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -430,12 +430,12 @@ Searching an optional value is equivalent to searching a list containing <code>x
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a69dbbfcfdefd5f68dbf3291859f727c7">make&lt; Optional &gt;</a></td></tr>
-<tr class="memdesc:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value.  <a href="#a69dbbfcfdefd5f68dbf3291859f727c7">More...</a><br /></td></tr>
-<tr class="separator:a69dbbfcfdefd5f68dbf3291859f727c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1105a435d6435a2437cb5dc162ba463"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#af1105a435d6435a2437cb5dc162ba463">make_optional</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td></tr>
-<tr class="memdesc:af1105a435d6435a2437cb5dc162ba463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a>&gt;</code>; provided for convenience.  <a href="#af1105a435d6435a2437cb5dc162ba463">More...</a><br /></td></tr>
+<tr class="memitem:a76a84854b3051af000e698157d63a6a8"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a76a84854b3051af000e698157d63a6a8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a76a84854b3051af000e698157d63a6a8">make&lt; optional_tag &gt;</a></td></tr>
+<tr class="memdesc:a76a84854b3051af000e698157d63a6a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value.  <a href="#a76a84854b3051af000e698157d63a6a8">More...</a><br /></td></tr>
+<tr class="separator:a76a84854b3051af000e698157d63a6a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1105a435d6435a2437cb5dc162ba463"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#af1105a435d6435a2437cb5dc162ba463">make_optional</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html">optional_tag</a>&gt;</td></tr>
+<tr class="memdesc:af1105a435d6435a2437cb5dc162ba463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>; provided for convenience.  <a href="#af1105a435d6435a2437cb5dc162ba463">More...</a><br /></td></tr>
 <tr class="separator:af1105a435d6435a2437cb5dc162ba463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
 <tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
@@ -466,7 +466,7 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="separator:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a69dbbfcfdefd5f68dbf3291859f727c7"></a>
+<a class="anchor" id="a76a84854b3051af000e698157d63a6a8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -478,7 +478,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1optional__tag.html">optional_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -492,7 +492,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value. </p>
-<p>Specifically, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a>&gt;()</code> is equivalent to <code>nothing</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a>&gt;(x)</code> is equivalent to <code>just(x)</code>. This is provided for consistency with the other <code>make&lt;...&gt;</code> functions.</p>
+<p>Specifically, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;()</code> is equivalent to <code>nothing</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;(x)</code> is equivalent to <code>just(x)</code>. This is provided for consistency with the other <code>make&lt;...&gt;</code> functions.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -508,11 +508,11 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::Optional&gt;();</div>
+<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::optional_tag&gt;();</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
 <div class="line"></div>
-<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
 <div class="line">}</div>
@@ -529,7 +529,7 @@ template&lt;typename... &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_optional = make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html">Optional</a>&gt;</td>
+          <td class="memname">constexpr auto make_optional = make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html">optional_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -539,7 +539,7 @@ template&lt;typename... &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Optional.html" title="Tag representing a hana::optional. ">Optional</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -555,11 +555,11 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::Optional&gt;();</div>
+<div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::optional_tag&gt;();</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
 <div class="line"></div>
-<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::Optional&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
+<div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
 <div class="line">}</div>

@@ -187,10 +187,13 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a7d68ff2275cbb295556d83598f04e39a"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a7d68ff2275cbb295556d83598f04e39a">decltype_</a> = see documentation</td></tr>
 <tr class="memdesc:a7d68ff2275cbb295556d83598f04e39a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>decltype</code> keyword, lifted to Hana.  <a href="#a7d68ff2275cbb295556d83598f04e39a">More...</a><br /></td></tr>
 <tr class="separator:a7d68ff2275cbb295556d83598f04e39a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c8833c714e03f37d7e593915a407e6a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a3c8833c714e03f37d7e593915a407e6a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a3c8833c714e03f37d7e593915a407e6a">make&lt; Type &gt;</a> = hana::decltype_</td></tr>
-<tr class="memdesc:a3c8833c714e03f37d7e593915a407e6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>decltype_</code>, provided for convenience.  <a href="#a3c8833c714e03f37d7e593915a407e6a">More...</a><br /></td></tr>
-<tr class="separator:a3c8833c714e03f37d7e593915a407e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66f97c1903dcb6f227b29f3e35e68a56"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a66f97c1903dcb6f227b29f3e35e68a56"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a66f97c1903dcb6f227b29f3e35e68a56">make&lt; type_tag &gt;</a> = hana::decltype_</td></tr>
+<tr class="memdesc:a66f97c1903dcb6f227b29f3e35e68a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>decltype_</code>, provided for convenience.  <a href="#a66f97c1903dcb6f227b29f3e35e68a56">More...</a><br /></td></tr>
+<tr class="separator:a66f97c1903dcb6f227b29f3e35e68a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c">make_type</a> = hana::make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td></tr>
+<tr class="memdesc:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a>&gt;</code>, provided for convenience.  <a href="#a0c0e00c0ffe63703f3a04960d13c7b1c">More...</a><br /></td></tr>
+<tr class="separator:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b702b280ca02f118affaaca9112a8c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a></td></tr>
 <tr class="memdesc:a26b702b280ca02f118affaaca9112a8c"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>sizeof</code> keyword, lifted to Hana.  <a href="#a26b702b280ca02f118affaaca9112a8c">More...</a><br /></td></tr>
 <tr class="separator:a26b702b280ca02f118affaaca9112a8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,7 +285,7 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="a3c8833c714e03f37d7e593915a407e6a"></a>
+<a class="anchor" id="a66f97c1903dcb6f227b29f3e35e68a56"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -294,7 +297,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Type.html">Type</a> &gt; = hana::decltype_</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a> &gt; = hana::decltype_</td>
         </tr>
       </table>
   </td>
@@ -320,8 +323,57 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::Type&gt;(X{}) == hana::decltype_(X{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::Type&gt;(hana::type_c&lt;X&gt;) == hana::decltype_(hana::type_c&lt;X&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a0c0e00c0ffe63703f3a04960d13c7b1c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto make_type = hana::make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a>&gt;</code>, provided for convenience. </p>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>X { };</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

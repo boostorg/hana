@@ -168,11 +168,11 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Struct.html',''
 <div class="line">        }</div>
 <div class="line">    };</div>
 <div class="line">}}</div>
-</div><!-- fragment --><p> Secondly, it is possible to provide a nested <code>hana::accessors_impl</code> type, which should be equivalent to a specialization of <code>accessors_impl</code> for tag-dispatching. However, for a type <code>S</code>, this technique only works when the data type of <code>S</code> is <code>S</code> itself, which is the case unless you explicitly asked for something else. </p><div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
+</div><!-- fragment --><p> Secondly, it is possible to provide a nested <code>hana_accessors_impl</code> type, which should be equivalent to a specialization of <code>accessors_impl</code> for tag-dispatching. However, for a type <code>S</code>, this technique only works when the data type of <code>S</code> is <code>S</code> itself, which is the case unless you explicitly asked for something else. </p><div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
 <div class="line">    std::string name;</div>
 <div class="line">    <span class="keywordtype">int</span> age;</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">struct </span>hana { <span class="keyword">struct </span>accessors_impl {</div>
+<div class="line">    <span class="keyword">struct </span>hana_accessors_impl {</div>
 <div class="line">        <span class="keyword">static</span> BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>() {</div>
 <div class="line">            <span class="keywordflow">return</span> boost::hana::make_tuple(</div>
 <div class="line">                boost::hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>),</div>
@@ -185,7 +185,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Struct.html',''
 <div class="line">                })</div>
 <div class="line">            );</div>
 <div class="line">        }</div>
-<div class="line">    };};</div>
+<div class="line">    };</div>
 <div class="line">};</div>
 </div><!-- fragment --><p> Finally, the most convenient (but least flexible) option is to use the <code>BOOST_HANA_DEFINE_STRUCT</code> or the <code>BOOST_HANA_ADAPT_STRUCT</code> macro to provide a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept with minimal syntactic overhead. See the documentation of these macros for details on how to use them.</p>
 <p><a class="anchor" id="move-independence"></a></p><h2>Move-independence </h2>
@@ -292,7 +292,7 @@ A <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struc
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>, 30u};</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::Map&gt;(john) == hana::make_map(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::map_tag&gt;(john) == hana::make_map(</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30u)</div>
 <div class="line">    ));</div>
@@ -569,7 +569,7 @@ template&lt;typename S &gt; </div>
 </div><!-- fragment -->
 <p>Defines a model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> with the given members. </p>
 <p>Using this macro at <em>global scope</em> will define a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept for the given type. This can be used to easily adapt existing user-defined types in a ad-hoc manner. Unlike the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, this macro does not require the types of the members to be specified.</p>
-<dl class="section note"><dt>Note</dt><dd>This macro only works if the tag of the user-defined type <code>T</code> is <code>T</code> itself. This is the case unless you specifically asked for something different; see <code>datatype</code>'s documentation.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This macro only works if the tag of the user-defined type <code>T</code> is <code>T</code> itself. This is the case unless you specifically asked for something different; see <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code>'s documentation.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -623,12 +623,12 @@ template&lt;typename S &gt; </div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)) == hana::just(30));</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;foo&quot;</span>)) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::Tuple&gt;(john) == hana::make_tuple(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::tuple_tag&gt;(john) == hana::make_tuple(</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
 <div class="line">    ));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::Map&gt;(john) == hana::make_map(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::map_tag&gt;(john) == hana::make_map(</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
 <div class="line">    ));</div>
@@ -660,7 +660,7 @@ template&lt;typename S &gt; </div>
 
 <p>Defines members of a structure, while at the same time modeling <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>. </p>
 <p>Using this macro in the body of a user-defined type will define the given members inside that type, and will also provide a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept for that user-defined type. This macro is often the easiest way to define a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept.</p>
-<dl class="section note"><dt>Note</dt><dd>This macro only works if the tag of the user-defined type <code>T</code> is <code>T</code> itself. This is the case unless you specifically asked for something different; see <code>datatype</code>'s documentation.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This macro only works if the tag of the user-defined type <code>T</code> is <code>T</code> itself. This is the case unless you specifically asked for something different; see <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code>'s documentation.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -709,12 +709,12 @@ template&lt;typename S &gt; </div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)) == hana::just(30));</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;foo&quot;</span>)) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::Tuple&gt;(john) == hana::make_tuple(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::tuple_tag&gt;(john) == hana::make_tuple(</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
 <div class="line">    ));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::Map&gt;(john) == hana::make_map(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::map_tag&gt;(john) == hana::make_map(</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
 <div class="line">    ));</div>

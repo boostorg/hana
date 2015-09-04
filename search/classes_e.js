@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['range',['range',['../structboost_1_1hana_1_1range.html',1,'boost::hana::range&lt; T, from, to &gt;'],['../structboost_1_1hana_1_1Range.html',1,'boost::hana::Range']]],
+  ['range',['range',['../structboost_1_1hana_1_1range.html',1,'boost::hana']]],
+  ['range_5ftag',['range_tag',['../structboost_1_1hana_1_1range__tag.html',1,'boost::hana']]],
   ['ring',['Ring',['../structboost_1_1hana_1_1Ring.html',1,'boost::hana']]]
 ];

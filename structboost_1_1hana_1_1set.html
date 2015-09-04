@@ -230,7 +230,7 @@ The elements in a set act as both its keys and its values. Since the elements of
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
-<p>Any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing the hana::set container. ">Set</a>&gt;</code>. The elements of the structure must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is equivalent to </p><div class="fragment"><div class="line">to&lt;Set&gt;(xs) == fold_left(xs, <a class="code" href="structboost_1_1hana_1_1set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt;Set&gt;</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
+<p>Any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>. The elements of the structure must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> is equivalent to </p><div class="fragment"><div class="line">to&lt;set_tag&gt;(xs) == fold_left(xs, <a class="code" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
 </div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -250,7 +250,7 @@ The elements in a set act as both its keys and its values. Since the elements of
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_tuple(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;, hana::long_c&lt;1&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::Set&gt;(xs) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;)</div>
+<div class="line">        hana::to&lt;hana::set_tag&gt;(xs) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div><table class="memberdecls">
@@ -262,12 +262,12 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a3b3430482d4e88052e621f63a234f3eb"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">intersection</a></td></tr>
 <tr class="memdesc:a3b3430482d4e88052e621f63a234f3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the intersection of two sets.  <a href="#a3b3430482d4e88052e621f63a234f3eb">More...</a><br /></td></tr>
 <tr class="separator:a3b3430482d4e88052e621f63a234f3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade2be766c8daa85306a8d9c29bf75dfe"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:ade2be766c8daa85306a8d9c29bf75dfe"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#ade2be766c8daa85306a8d9c29bf75dfe">make&lt; Set &gt;</a></td></tr>
-<tr class="memdesc:ade2be766c8daa85306a8d9c29bf75dfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#ade2be766c8daa85306a8d9c29bf75dfe">More...</a><br /></td></tr>
-<tr class="separator:ade2be766c8daa85306a8d9c29bf75dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html">Set</a>&gt;</td></tr>
-<tr class="memdesc:af38c23fb98d8eec68c1491a8bca9ce43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing the hana::set container. ">Set</a>&gt;</code>; provided for convenience.  <a href="#af38c23fb98d8eec68c1491a8bca9ce43">More...</a><br /></td></tr>
+<tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#aa337857e80b8a8c91880b0184aaf7534">make&lt; set_tag &gt;</a></td></tr>
+<tr class="memdesc:aa337857e80b8a8c91880b0184aaf7534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#aa337857e80b8a8c91880b0184aaf7534">More...</a><br /></td></tr>
+<tr class="separator:aa337857e80b8a8c91880b0184aaf7534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td></tr>
+<tr class="memdesc:af38c23fb98d8eec68c1491a8bca9ce43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience.  <a href="#af38c23fb98d8eec68c1491a8bca9ce43">More...</a><br /></td></tr>
 <tr class="separator:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
@@ -400,7 +400,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.intersection.compile.json"> </div> 
 </div>
 </div>
-<a class="anchor" id="ade2be766c8daa85306a8d9c29bf75dfe"></a>
+<a class="anchor" id="aa337857e80b8a8c91880b0184aaf7534"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -412,7 +412,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Set.html">Set</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -426,7 +426,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>. </p>
-<p>Given zero or more values <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing the hana::set container. ">Set</a>&gt;</code> returns a <code>set</code> containing those values. The values must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, and no duplicate values may be provided. To create a <code>set</code> from a sequence with possible duplicates, use <code>to&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing the hana::set container. ">Set</a>&gt;</code> instead.</p>
+<p>Given zero or more values <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> returns a <code>set</code> containing those values. The values must all be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, and no duplicate values may be provided. To create a <code>set</code> from a sequence with possible duplicates, use <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> instead.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -444,7 +444,7 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::set_tag&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -460,7 +460,7 @@ template&lt;typename... Xs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_set = make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html">Set</a>&gt;</td>
+          <td class="memname">constexpr auto make_set = make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -470,7 +470,7 @@ template&lt;typename... Xs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Set.html" title="Tag representing the hana::set container. ">Set</a>&gt;</code>; provided for convenience. </p>
+<p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -488,7 +488,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::Set&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs == hana::make&lt;hana::set_tag&gt;(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

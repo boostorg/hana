@@ -142,7 +142,7 @@ struct boost::hana::map&lt; Pairs &gt;</h3>
 
 <p>Basic associative container requiring unique and <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys. </p>
 <p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</p>
-<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any constructor or assignment operator. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code><a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04" title="Alias to make<Map>; provided for convenience. ">hana::make_map</a></code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any constructor or assignment operator. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
@@ -165,12 +165,12 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::char_c&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
 <div class="line">        )</div>
 <div class="line">        ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&amp;&amp;&gt;, (<span class="keywordtype">void</span>*)0),</div>
 <div class="line">            hana::make_pair(hana::char_c&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s)</div>
 <div class="line">        )</div>
@@ -196,7 +196,7 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">constexpr <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">    hana::make_pair(hana::type_c&lt;int&gt;, <span class="charliteral">&#39;i&#39;</span>),</div>
 <div class="line">    hana::make_pair(hana::type_c&lt;float&gt;, <span class="charliteral">&#39;f&#39;</span>)</div>
 <div class="line">);</div>
@@ -234,19 +234,19 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line">    <span class="comment">// Given a map of (key, value) pairs, returns a map of (value, key) pairs.</span></div>
 <div class="line">    <span class="comment">// This requires both the keys and the values to be compile-time Comparable.</span></div>
 <div class="line">    <span class="keyword">auto</span> invert = [](<span class="keyword">auto</span> map) {</div>
-<div class="line">        <span class="keywordflow">return</span> hana::fold_left(map, <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(), [](<span class="keyword">auto</span> map, <span class="keyword">auto</span> pair) {</div>
-<div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f">hana::insert</a>(map, hana::make_pair(hana::second(pair), hana::first(pair)));</div>
+<div class="line">        <span class="keywordflow">return</span> hana::fold_left(map, hana::make_map(), [](<span class="keyword">auto</span> map, <span class="keyword">auto</span> pair) {</div>
+<div class="line">            <span class="keywordflow">return</span> hana::insert(map, hana::make_pair(hana::second(pair), hana::first(pair)));</div>
 <div class="line">        });</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">    <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;int&gt;, hana::int_c&lt;1&gt;),</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;float&gt;, hana::int_c&lt;2&gt;),</div>
 <div class="line">        hana::make_pair(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(invert(m) ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, hana::type_c&lt;int&gt;),</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;2&gt;, hana::type_c&lt;float&gt;),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, hana::int_c&lt;3&gt;)</div>
@@ -284,7 +284,7 @@ Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::Map&gt;(xs) == <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::to&lt;hana::map_tag&gt;(xs) == hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
@@ -297,12 +297,12 @@ Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:aa98dda24b823031a42e47897de220019"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#aa98dda24b823031a42e47897de220019">make&lt; Map &gt;</a></td></tr>
-<tr class="memdesc:aa98dda24b823031a42e47897de220019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>.  <a href="#aa98dda24b823031a42e47897de220019">More...</a><br /></td></tr>
-<tr class="separator:aa98dda24b823031a42e47897de220019"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1Map.html">Map</a>&gt;</td></tr>
-<tr class="memdesc:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing hana::maps. ">Map</a>&gt;</code>; provided for convenience.  <a href="#ae73cf43ee56352e4c25984b0fe3c3d04">More...</a><br /></td></tr>
+<tr class="memitem:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30">make&lt; map_tag &gt;</a></td></tr>
+<tr class="memdesc:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>.  <a href="#a409d52de54cc7e55eca1a7b5dda4ce30">More...</a><br /></td></tr>
+<tr class="separator:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td></tr>
+<tr class="memdesc:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#ae73cf43ee56352e4c25984b0fe3c3d04">More...</a><br /></td></tr>
 <tr class="separator:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f32260f859b2510dd16235b7bc011ac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac">keys</a></td></tr>
 <tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
@@ -318,7 +318,7 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="aa98dda24b823031a42e47897de220019"></a>
+<a class="anchor" id="a409d52de54cc7e55eca1a7b5dda4ce30"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -330,7 +330,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1Map.html">Map</a> &gt;</td>
+          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -344,7 +344,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. </p>
-<p>Given zero or more <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing hana::maps. ">Map</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
+<p>Given zero or more <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -366,12 +366,12 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
 <div class="line">        ==</div>
-<div class="line">        hana::make&lt;hana::Map&gt;(</div>
+<div class="line">        hana::make&lt;hana::map_tag&gt;(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
@@ -390,7 +390,7 @@ template&lt;typename... Pairs&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_map = make&lt;<a class="el" href="structboost_1_1hana_1_1Map.html">Map</a>&gt;</td>
+          <td class="memname">constexpr auto make_map = make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -400,7 +400,7 @@ template&lt;typename... Pairs&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1Map.html" title="Tag representing hana::maps. ">Map</a>&gt;</code>; provided for convenience. </p>
+<p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -422,12 +422,12 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
 <div class="line">        ==</div>
-<div class="line">        hana::make&lt;hana::Map&gt;(</div>
+<div class="line">        hana::make&lt;hana::map_tag&gt;(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
@@ -483,14 +483,14 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">    <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">        hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// The order of the keys is unspecified.</span></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac">hana::keys</a>(m) ^hana::in^ hana::permutations(hana::make_tuple(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;))</div>
+<div class="line">        hana::keys(m) ^hana::in^ hana::permutations(hana::make_tuple(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;))</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -542,14 +542,14 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">    <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">        hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// The order of the values is unspecified.</span></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132">hana::values</a>(m) ^hana::in^ hana::permutations(hana::make_tuple(<span class="stringliteral">&quot;foobar&quot;</span>s, 1234))</div>
+<div class="line">        hana::values(m) ^hana::in^ hana::permutations(hana::make_tuple(<span class="stringliteral">&quot;foobar&quot;</span>s, 1234))</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -606,21 +606,21 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">    <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f">hana::insert</a>(m, hana::make_pair(hana::type_c&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)) ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::insert(m, hana::make_pair(hana::type_c&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)) ==</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f">hana::insert</a>(m, hana::make_pair(hana::type_c&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::insert(m, hana::make_pair(hana::type_c&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -677,21 +677,21 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <span class="keyword">auto</span> m = <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">    <span class="keyword">auto</span> m = hana::make_map(</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">        hana::make_pair(hana::type_c&lt;void&gt;, 1234),</div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>), hana::type_c&lt;char&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">hana::erase_key</a>(m, BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>)) ==</div>
-<div class="line">        <a class="code" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">hana::make_map</a>(</div>
+<div class="line">        hana::erase_key(m, BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>)) ==</div>
+<div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">hana::erase_key</a>(m, hana::type_c&lt;char&gt;) == m);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::erase_key(m, hana::type_c&lt;char&gt;) == m);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

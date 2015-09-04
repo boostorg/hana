@@ -155,8 +155,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Product.html','
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::first(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::second(hana::make&lt;hana::Pair&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::first(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::second(hana::make&lt;hana::pair_tag&gt;(1, <span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Laws </h2>

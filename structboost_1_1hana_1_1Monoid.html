@@ -259,7 +259,7 @@ template&lt;typename M &gt; </div>
 <p>Identity of <code>plus</code>. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">M</td><td>The data type (a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>) of the returned identity.</td></tr>
+    <tr><td class="paramname">M</td><td>The tag (a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>) of the returned identity.</td></tr>
   </table>
   </dd>
 </dl>
@@ -277,7 +277,7 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::zero&lt;hana::IntegralConstant&lt;int&gt;&gt;() == hana::int_c&lt;0&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::zero&lt;hana::integral_constant_tag&lt;int&gt;&gt;() == hana::int_c&lt;0&gt;);</div>
 <div class="line">static_assert(hana::zero&lt;long&gt;() == 0l, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>

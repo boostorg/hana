@@ -139,14 +139,14 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dt><a class="anchor" id="_todo000001"></a>Namespace <a class="el" href="namespaceboost.html">boost</a>  </dt>
 <dd>Until we strip down headers, this includes too much  </dd>
 <dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structboost_1_1hana_1_1constant__detail_1_1which.html">boost::hana::constant_detail::which&lt; A, B, C &gt;</a>  </dt>
-<dd>This is an awful hack to avoid having <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;common&lt;IntegralConstant&lt;int&gt;, IntegralConstant&lt;long&gt;&gt;</div>
+<dd>This is an awful hack to avoid having <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;common&lt;integral_constant_tag&lt;int&gt;, integral_constant_tag&lt;long&gt;&gt;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    ==</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;CanonicalConstant&lt;long&gt;</div>
 </div><!-- fragment -->  </dd>
 <dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
 <dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
-<dd>We can't specify the signature right now, because the returned data type depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
+<dd>We can't specify the signature right now, because the tag of the returned object depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
 <dt><a class="anchor" id="_todo000011"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><p class="startdd">This section has not been written yet for lack of time. Also note that the reference documentation for external adapters is currently incomplete. However, for reference and until the documentation is updated, here is a list of the external adapters that are currently supported:</p><ul>
 <li><code>std::tuple</code><br />
@@ -160,9 +160,9 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <li><code>std::pair</code><br />
  Model of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>. This is essentially equivalent to <code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code>.</li>
 <li><code>boost::mpl::vector</code><br />
- See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1Vector.html" title="Adapter for Boost.MPL vectors. ">boost::hana::ext::boost::mpl::Vector</a></code>.</li>
+ See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1vector__tag.html" title="Adapter for Boost.MPL vectors. ">boost::hana::ext::boost::mpl::vector_tag</a></code>.</li>
 <li><code>boost::mpl::integral_c</code><br />
- See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1IntegralC.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::IntegralC</a></code>.</li>
+ See <code><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html" title="Adapter for IntegralConstants from the Boost.MPL. ">boost::hana::ext::boost::mpl::integral_c_tag</a></code>.</li>
 <li><code>boost::fusion::{deque,list,tuple,vector}</code><br />
  They are models of <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and hence can be used like <code><a class="el" href="structboost_1_1hana_1_1tuple.html" title="General purpose index-based heterogeneous sequence with a fixed length. ">hana::tuple</a></code> in algorithms. However, Fusion has several bugs that make these adapters slightly explosive to use (sometimes things may fail without apparent reason).</li>
 <li><code>boost::tuple</code><br />
