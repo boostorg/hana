@@ -143,6 +143,10 @@ namespace boost { namespace hana {
         //! call `times` on objects just as well as on types:
         //! @snippet example/integral_constant.cpp from_object
         //!
+        //! @note
+        //! `times` is equivalent to the `hana::repeat` function, which works
+        //! on an arbitrary `IntegralConstant`.
+        //!
         //! Sometimes, it is also useful to know the index we're at inside the
         //! function. This can be achieved by using `times.with_index`:
         //! @snippet example/integral_constant.cpp times_with_index_runtime

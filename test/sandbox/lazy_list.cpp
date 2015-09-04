@@ -4,20 +4,25 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
 #include <boost/hana/assert.hpp>
+#include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/functional.hpp>
+#include <boost/hana/eval.hpp>
+#include <boost/hana/front.hpp>
+#include <boost/hana/functional/fix.hpp>
 #include <boost/hana/functional/iterate.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/empty.hpp>
+#include <boost/hana/fwd/prepend.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/is_empty.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/tuple.hpp>
+#include <boost/hana/not.hpp>
+#include <boost/hana/tail.hpp>
 #include <boost/hana/value.hpp>
-using namespace boost::hana;
+
+#include <cstddef>
+namespace hana = boost::hana;
 
 
 struct LazyList;
@@ -37,8 +42,8 @@ struct lazy_nil_type { using hana_tag = LazyList; };
 
 constexpr lazy_nil_type lazy_nil{};
 
-auto repeat = fix([](auto repeat, auto x) {
-    return lazy_cons(x, make_lazy(repeat)(x));
+auto repeat = hana::fix([](auto repeat, auto x) {
+    return lazy_cons(x, hana::make_lazy(repeat)(x));
 });
 
 namespace boost { namespace hana {
@@ -58,17 +63,17 @@ namespace boost { namespace hana {
     struct tail_impl<LazyList> {
         template <typename Xs>
         static constexpr auto apply(Xs lcons)
-        { return eval(lcons.xs); }
+        { return hana::eval(lcons.xs); }
     };
 
     template <>
     struct is_empty_impl<LazyList> {
         template <typename Xs>
         static constexpr auto apply(Xs)
-        { return false_c; }
+        { return hana::false_c; }
 
         static constexpr auto apply(lazy_nil_type)
-        { return true_c; }
+        { return hana::true_c; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -78,7 +83,7 @@ namespace boost { namespace hana {
     struct prepend_impl<LazyList> {
         template <typename Xs, typename X>
         static constexpr auto apply(Xs xs, X x)
-        { return lazy_cons(x, make_lazy(xs)); }
+        { return lazy_cons(x, hana::make_lazy(xs)); }
     };
 
     template <>
@@ -90,7 +95,7 @@ namespace boost { namespace hana {
 
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(!is_empty(repeat(1)));
-    BOOST_HANA_CONSTEXPR_CHECK(front(repeat(1)) == 1);
-    BOOST_HANA_CONSTEXPR_CHECK(at(repeat(1), size_c<10>) == 1);
+    BOOST_HANA_CONSTANT_CHECK(!hana::is_empty(repeat(1)));
+    BOOST_HANA_CONSTEXPR_CHECK(hana::front(repeat(1)) == 1);
+    BOOST_HANA_CONSTEXPR_CHECK(hana::at(repeat(1), hana::size_c<10>) == 1);
 }
