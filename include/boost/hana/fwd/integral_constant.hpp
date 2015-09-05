@@ -16,6 +16,29 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //! Tag representing `hana::integral_constant`.
+    //! @relates hana::integral_constant
+    template <typename T>
+    struct integral_constant_tag {
+        using value_type = T;
+    };
+
+    namespace ic_detail {
+        template <typename T, T v>
+        struct with_index_t {
+            template <typename F>
+            constexpr void operator()(F&& f) const;
+        };
+
+        template <typename T, T v>
+        struct times_t {
+            static constexpr with_index_t<T, v> with_index{};
+
+            template <typename F>
+            constexpr void operator()(F&& f) const;
+        };
+    }
+
     //! @ingroup group-datatypes
     //! Compile-time value of an integral type.
     //!
@@ -67,53 +90,6 @@ namespace boost { namespace hana {
     //! - Member access: `*` (dereference)
     //!
     //!
-    //! `times` function
-    //! ----------------
-    //! `hana::integral_constant`s also have a static member function object
-    //! named `times`, which allows a nullary function to be invoked `n` times:
-    //! @code
-    //!     int_<3>.times(f)
-    //! @endcode
-    //! should be expanded by any decent compiler to
-    //! @code
-    //!     f(); f(); f();
-    //! @endcode
-    //!
-    //! This can be useful in several contexts, e.g. for loop unrolling:
-    //! @snippet example/integral_constant.cpp times_loop_unrolling
-    //!
-    //! Note that `times` is really a static function object. Since static
-    //! members can be accessed using both the `.` and the `::` syntax, Hana
-    //! takes advantage of this (loophole?) to make `times` accessible both
-    //! from the type of an `integral_constant` object and from an object
-    //! itself:
-    //! @snippet example/integral_constant.cpp as_static_member
-    //!
-    //! Also, since `times` is a function object instead of an
-    //! overloaded function, it does not need to be called right away, which
-    //! can be useful in conjunction with some higher-order algorithms:
-    //! @snippet example/integral_constant.cpp times_higher_order
-    //!
-    //! Sometimes, it is also useful to know the index we're at inside the
-    //! function. This is also possible:
-    //! @snippet example/integral_constant.cpp times_with_index_runtime
-    //!
-    //! Remember that `times` is a _function object_, and hence it can have
-    //! subobjects. `with_index` is then just a function object nested inside
-    //! `times`, which allows for this nice little interface. Also note that
-    //! the indices passed to the function are `integral_constant`s; they are
-    //! known at compile-time. Hence, we can do compile-time stuff with them,
-    //! like indexing inside a tuple:
-    //! @snippet example/integral_constant.cpp times_with_index_compile_time
-    //!
-    //! @note
-    //! `times.with_index(f)` guarantees that the calls to `f` will be done in
-    //! order of ascending index. In other words, `f` will be called as `f(0)`,
-    //! `f(1)`, `f(2)`, etc., but with `integral_constant`s instead of normal
-    //! integers. Side effects can also be done in the function passed to
-    //! `.times` and `.times.with_index`.
-    //!
-    //!
     //! Construction with user-defined literals
     //! ---------------------------------------
     //! `integral_constant`s of type `long long` can be created with the
@@ -136,33 +112,57 @@ namespace boost { namespace hana {
     //!    `Group`, `Ring`, and `IntegralDomain`\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T v>
-    struct integral_constant;
-
-    //! Tag representing `hana::integral_constant`.
-    //! @relates hana::integral_constant
-    template <typename T>
-    struct integral_constant_tag {
-        using value_type = T;
+    struct integral_constant {
+        //! Call a function n times.
+        //!
+        //! `times` allows a nullary function to be invoked `n` times:
+        //! @code
+        //!     int_<3>::times(f)
+        //! @endcode
+        //! should be expanded by any decent compiler to
+        //! @code
+        //!     f(); f(); f();
+        //! @endcode
+        //!
+        //! This can be useful in several contexts, e.g. for loop unrolling:
+        //! @snippet example/integral_constant.cpp times_loop_unrolling
+        //!
+        //! Note that `times` is really a static function object, not just a
+        //! static function. This allows `int_<n>::%times` to be passed to
+        //! higher-order algorithms:
+        //! @snippet example/integral_constant.cpp times_higher_order
+        //!
+        //! Also, since static members can be accessed using both the `.` and
+        //! the `::` syntax, one can take advantage of this (loophole?) to
+        //! call `times` on objects just as well as on types:
+        //! @snippet example/integral_constant.cpp from_object
+        //!
+        //! Sometimes, it is also useful to know the index we're at inside the
+        //! function. This can be achieved by using `times.with_index`:
+        //! @snippet example/integral_constant.cpp times_with_index_runtime
+        //!
+        //! Remember that `times` is a _function object_, and hence it can
+        //! have subobjects. `with_index` is just a function object nested
+        //! inside `times`, which allows for this nice little interface. Also
+        //! note that the indices passed to the function are `integral_constant`s;
+        //! they are known at compile-time. Hence, we can do compile-time stuff
+        //! with them, like indexing inside a tuple:
+        //! @snippet example/integral_constant.cpp times_with_index_compile_time
+        //!
+        //! @note
+        //! `times.with_index(f)` guarantees that the calls to `f` will be
+        //! done in order of ascending index. In other words, `f` will be
+        //! called as `f(0)`, `f(1)`, `f(2)`, etc., but with `integral_constant`s
+        //! instead of normal integers. Side effects can also be done in the
+        //! function passed to `times` and `times.with_index`.
+        template <typename F>
+        static constexpr void times(F&& f) {
+            f(); f(); ... f(); // n times total
+        }
     };
-
-    namespace ic_detail {
-        template <typename T, T v>
-        struct with_index_t {
-            template <typename F>
-            constexpr void operator()(F&& f) const;
-        };
-
-        template <typename T, T v>
-        struct times_t {
-            static constexpr with_index_t<T, v> with_index{};
-
-            template <typename F>
-            constexpr void operator()(F&& f) const;
-        };
-    }
-
-    //! @cond
+#else
     template <typename T, T v>
     struct integral_constant : operators::adl {
         // std::integral_constant interface
@@ -177,7 +177,7 @@ namespace boost { namespace hana {
 
         using hana_tag = integral_constant_tag<T>;
     };
-    //! @endcond
+#endif
 
     //! Creates an `integral_constant` holding the given compile-time value.
     //! @relates hana::integral_constant
@@ -212,14 +212,12 @@ namespace boost { namespace hana {
     //! @relates hana::integral_constant
     using true_ = bool_<true>;
 
-    //! Equivalent to `bool_<true>`.
     //! @relates hana::integral_constant
     constexpr auto true_c = bool_c<true>;
 
     //! @relates hana::integral_constant
     using false_ = bool_<false>;
 
-    //! Equivalent to `bool_<false>`.
     //! @relates hana::integral_constant
     constexpr auto false_c = bool_c<false>;
 

@@ -37,20 +37,10 @@ BOOST_HANA_CONSTANT_CHECK(hana::llong_c<15> == hana::int_c<15>);
 //! [times_loop_unrolling]
 std::string s;
 for (char c = 'x'; c <= 'z'; ++c)
-    hana::int_c<5>.times([&] { s += c; });
+    hana::int_<5>::times([&] { s += c; });
 
 BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
 //! [times_loop_unrolling]
-
-}{
-
-//! [as_static_member]
-std::string s;
-for (char c = 'x'; c <= 'z'; ++c)
-    decltype(hana::int_c<5>)::times([&] { s += c; });
-
-BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
-//! [as_static_member]
 
 }{
 
@@ -61,22 +51,32 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto functions = hana::make_tuple(
     [&] { s += "y"; },
     [&] { s += "z"; }
 );
-hana::for_each(functions, hana::int_c<5>.times);
+hana::for_each(functions, hana::int_<5>::times);
 BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
 //! [times_higher_order]
 
 }{
 
+//! [from_object]
+std::string s;
+for (char c = 'x'; c <= 'z'; ++c)
+    hana::int_c<5>.times([&] { s += c; });
+
+BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
+//! [from_object]
+
+}{
+
 //! [times_with_index_runtime]
 std::vector<int> v;
-hana::int_c<5>.times.with_index([&](auto index) { v.push_back(index); });
+hana::int_<5>::times.with_index([&](auto index) { v.push_back(index); });
 
 BOOST_HANA_RUNTIME_CHECK(v == std::vector<int>{0, 1, 2, 3, 4});
 //! [times_with_index_runtime]
 
 //! [times_with_index_compile_time]
 constexpr auto xs = hana::tuple_c<int, 0, 1, 2>;
-hana::int_c<3>.times.with_index([xs](auto index) {
+hana::int_<3>::times.with_index([xs](auto index) {
     BOOST_HANA_CONSTANT_CHECK(xs[index] == index);
 });
 //! [times_with_index_compile_time]
