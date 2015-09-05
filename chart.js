@@ -43,6 +43,25 @@ Distributed under the Boost Software License, Version 1.0.
       options.series.stickyTracking = false;
     }
 
+    // Fix the colors so that a series has the same color on all the charts.
+    // Based on the colors at http://api.highcharts.com/highcharts#colors.
+    var colorMap = {
+        'hana::tuple': '#f45b5b'
+      , 'hana::basic_tuple': '#434348'
+      , 'mpl::vector': '#90ed7d'
+      , 'std::array': '#8085e9'
+      , 'fusion::vector': '#f7a35c'
+      , 'std::vector: ': '#f15c80'
+      , 'std::tuple': '#e4d354'
+      , 'hana::set': '#2b908f'
+      , 'hana::map': '#7cb5ec'
+      , 'fusion::list': '#91e8e1'
+    };
+    options.series.forEach(function(series) {
+      if (colorMap[series.name])
+        series.color = colorMap[series.name];
+    });
+
     options.tooltip = options.tooltip || {};
     options.tooltip.valueSuffix = options.tooltip.valueSuffix || 's';
 
