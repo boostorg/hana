@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/is_empty.hpp>

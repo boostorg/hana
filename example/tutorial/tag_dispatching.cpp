@@ -146,14 +146,14 @@ namespace function_objects {
 //! [function_objects]
 // Defining a function object is only needed once and implementations do not
 // have to worry about static initialization and other painful tricks.
-struct _print {
+struct print_t {
   template <typename X>
   void operator()(std::ostream& os, X x) const {
     using Tag = typename hana::tag_of<X>::type;
     print_impl<Tag>::apply(os, x);
   }
 };
-constexpr _print print{};
+constexpr print_t print{};
 //! [function_objects]
 
 static_assert(sizeof(print) || true, "remove unused variable print warning");

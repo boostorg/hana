@@ -7,7 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/struct.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/string.hpp>
 
 #include <laws/base.hpp>

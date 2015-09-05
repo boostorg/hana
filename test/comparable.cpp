@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/comparable.hpp>
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>

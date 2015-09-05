@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/common.hpp>
 
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std_common_type.hpp>

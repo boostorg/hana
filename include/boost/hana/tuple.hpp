@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/tail.hpp>

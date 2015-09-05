@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>

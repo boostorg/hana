@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/fwd/concept/metafunction.hpp>
 #include <boost/hana/fwd/core/make.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 
@@ -156,7 +155,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // models
+    // Metafunction
     //////////////////////////////////////////////////////////////////////////
     template <template <typename ...> class F>
     struct Metafunction<template_t<F>> {

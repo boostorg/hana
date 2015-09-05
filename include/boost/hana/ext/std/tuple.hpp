@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/flatten.hpp>

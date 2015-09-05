@@ -32,14 +32,14 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `Iterable`, `Foldable`, `make`, and `models`
+    //! `Iterable`, `Foldable`, and `make`
     //!
     //! The `Sequence` concept does not provide basic methods that could be
     //! used as a minimal complete definition; instead, it borrows methods
     //! from other concepts and add laws to them. For this reason, it is
-    //! necessary to specialize the `models_impl` metafunction in Hana's
+    //! necessary to specialize the `Sequence` metafunction in Hana's
     //! namespace to tell Hana that a type is indeed a `Sequence`. Explicitly
-    //! specializing the `models_impl` metafunction can be seen like a seal
+    //! specializing the `Sequence` metafunction can be seen like a seal
     //! saying "this data type satisfies the additional laws of a `Sequence`",
     //! since those can't be checked by Hana automatically.
     //!

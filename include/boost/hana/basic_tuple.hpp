@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/bool.hpp>
 #include <boost/hana/fwd/concept/sequence.hpp>
-#include <boost/hana/fwd/core/models.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>

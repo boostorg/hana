@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
 
 #include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/fwd/at.hpp>

@@ -269,17 +269,16 @@ screw up and see what kind of mess is thrown at us. First, the mistake:
 Now, the punishment:
 
 @code{cpp}
-error: static_assert failed "hana::for_each(xs, f) requires xs to be Foldable"
-            static_assert(Foldable<S>::value,
-            ^             ~~~~~~~~~~~~~~~~~~~~~~
+error: static_assert failed "hana::for_each(xs, f) requires 'xs' to be Foldable"
+        static_assert(Foldable<S>::value,
+        ^             ~~~~~~~~~~~~~~~~~~
 note: in instantiation of function template specialization
-      'boost::hana::_for_each::operator()<
-        std::__1::basic_ostream<char, std::__1::char_traits<char> > &,
-        (lambda at [snip]/example/tutorial/quickstart.cpp:70:16)>' requested here
-  for_each(os, [&](auto member) {
+      'boost::hana::for_each_t::operator()<
+        std::__1::basic_ostream<char> &, (lambda at [snip])>' requested here
+  hana::for_each(os, [&](auto member) {
   ^
 note: in instantiation of function template specialization
-      'main()::(anonymous class)::operator()<Person>' requested here
+    'main()::(anonymous class)::operator()<Person>' requested here
 serialize(std::cout, john);
          ^
 @endcode
@@ -2567,9 +2566,10 @@ Tag dispatching is a generic programming technique for picking the right
 implementation of a function depending on the type of the arguments passed
 to the function. The usual mechanism for overriding a function's behavior
 is overloading. Unfortunately, this mechanism is not always convenient when
-dealing with families of related types having different C++ types, or with
-objects of unspecified types as is often the case in Hana. For example,
-consider trying to overload a function for all Boost.Fusion vectors:
+dealing with families of related types having different base templates, or
+when the kind of template parameters is not known (is it a type or a non-type
+template parameter?). For example, consider trying to overload a function for
+all Boost.Fusion vectors:
 
 @code{cpp}
     template <typename ...T>
@@ -2663,9 +2663,96 @@ ability to be used in higher order algorithms or as variables:
 @snippet example/tutorial/tag_dispatching.cpp function_objects
 
 
-@subsection tutorial-core-creating_concepts Creating new concepts
+@subsection tutorial-core-concepts Emulation of C++ concepts
 
-@todo Write this section.
+The implementation of concepts in Hana is very simple. At its heart, a concept
+is just a template `struct` with a nested `::%value` boolean representing
+whether the given type is a _model_ of the concept:
+
+@code{cpp}
+template <typename T>
+struct Concept {
+  static constexpr bool value = whether T models Concept;
+};
+@endcode
+
+Then, one can test whether a type `T` is a model of `Concept` by looking at
+`Concept<T>::value`. Simple enough, right? Now, while the way one might
+implement the check does not have to be anything specific as far as Hana
+is concerned, the rest of this section will explain how it is usually done
+in Hana, and how it interacts with tag dispatching. You should then be able
+to define your own concepts if you so desire, or at least to understand better
+how Hana works internally.
+
+Usually, a concept defined by Hana will require that any model implements some
+tag-dispatched functions. For example, the `Foldable` concept requires that
+any model defines at least one of `hana::unpack` and `hana::fold_left`. Of
+course, concepts usually also define semantic requirements (called laws) that
+must be satisfied by their models, but these laws are not (and couldn't be)
+checked by the concept. But how do we check that some functions are properly
+implemented? For this, we'll have to slightly modify the way we defined
+tag-dispatched methods as shown in the previous section. Let's go back to
+our `print` example and try to define a `Printable` concept for those objects
+that can be `print`ed. Our end goal is to have a template struct such as
+
+@code{cpp}
+template <typename T>
+struct Printable {
+  static constexpr bool value = whether print_impl<tag of T> is defined;
+};
+@endcode
+
+To know whether `print_impl<...>` has been defined, we'll modify `print_impl`
+so that it inherits from a special base class when it is not overridden, and
+we'll simply check whether `print_impl<T>` inherits from that base class:
+
+@snippet example/tutorial/concepts.cpp special_base_class
+
+Of course, when we specialize `print_impl` with a custom type, we don't
+inherit from that `special_base_class` type:
+
+@snippet example/tutorial/concepts.cpp special_base_class_customize
+
+As you can see, `Printable<T>::value` really only checks whether the
+`print_impl<T>` struct was specialized by a custom type. In particular,
+it does not even check whether the nested `::%apply` function is defined
+or if it is syntactically valid. It is assumed that if one specializes
+`print_impl` for a custom type, the nested `::%apply` function exists and
+is correct. If it is not, a compilation error will be triggered when one
+tries to call `print` on an object of that type. Concepts in Hana make the
+same assumptions.
+
+Since this pattern of inheriting from a special base class is quite abundant
+in Hana, the library provides a dummy type called `hana::default_` that can be
+used in place of `special_base_class`. Then, instead of using `std::is_base_of`,
+one can use `hana::is_default`, which looks nicer. With this syntactic sugar,
+the code now becomes:
+
+@snippet example/tutorial/concepts.cpp actual
+
+This is all that there's to know about the interaction between tag-dispatched
+functions and concepts. However, some concepts in Hana do not rely solely on
+the definition of specific tag-dispatched functions to determine if a type is
+a model of the concept. This can happen when a concept merely introduces
+semantic guarantees through laws and refined concepts, but no additional
+syntactic requirements. Defining such a concept can be useful for several
+reasons. First, it sometimes happen that an algorithm can be implemented
+more efficiently if we can assume some semantic guarantees X or Y, so we
+might create a concept to enforce those guarantees. Secondly, it is sometimes
+possible to automatically define the models for several concepts when we have
+additional semantic guarantees, which saves the user the trouble of defining
+those models manually. For example, this is the case of the `Sequence` concept,
+which basically adds semantic guarantees to `Iterable` and `Foldable`, and in
+turn allows us to define the models for a myriad of concepts ranging from
+`Comparable` to `Monad`.
+
+For these concepts, it is usually necessary to specialize the corresponding
+template struct in the `boost::hana` namespace to provide a model for a custom
+type. Doing so is like providing a seal saying that the semantic guarantees
+required by the concept are respected by the custom type. The concepts that
+require being explicitly specialized will document that fact. So that's it!
+This is all that there's to know about concepts in Hana, which ends this
+section about the core of Hana.
 
 
 
@@ -3190,14 +3277,16 @@ requirements of the concept are respected to the user. Secondly, when checking
 whether a type is a model of some concept, we basically check that some key
 functions are implemented. In particular, we check that the functions from the
 minimal complete definition of that concept are implemented. For example,
-`models<Iterable, T>` checks whether the `is_empty`, `at` and `tail`
-functions implemented for `T`. However, the only way to detect this without
-tag-dispatching is to basically check whether the following expressions are
-valid in a SFINAE-able context:
+`Iterable<T>` checks whether the `is_empty`, `at` and `tail` functions
+implemented for `T`. However, the only way to detect this without
+tag-dispatching is to basically check whether the following expressions
+are valid in a SFINAE-able context:
 
-    implementation_of_at(std::declval<T>(), std::declval<N>())
-    implementation_of_is_empty(std::declval<T>())
-    implementation_of_tail(std::declval<T>())
+@code{cpp}
+implementation_of_at(std::declval<T>(), std::declval<N>())
+implementation_of_is_empty(std::declval<T>())
+implementation_of_tail(std::declval<T>())
+@endcode
 
 Unfortunately, this requires actually doing the algorithms, which might either
 trigger a hard compile-time error or hurt compile-time performance. Also, this
@@ -3207,7 +3296,7 @@ is empty? With tag dispatching, we can just ask whether `at_impl<T>`,
 until we actually call their nested `::%apply` function.
 
 
-@subsection tutorial-rationales-zip_longest Why not provide `zip_longest`?
+@subsection tutorial-rationales-zip_longest Why not provide zip_longest?
 
 It would require either (1) padding the shortest sequences with an arbitrary
 object, or (2) padding the shortest sequences with an object provided by the
@@ -3216,6 +3305,45 @@ zipped sequences have elements of similar types, there is no way to provide a
 single consistent padding object in all cases. A tuple of padding objects
 should be provided, but I find it perhaps too complicated to be worth it for
 now. If you need this functionality, open a GitHub issue.
+
+
+@subsection tutorial-rationales-concepts Why aren't concepts constexpr functions?
+
+Since the C++ concept proposal maps concepts to boolean `constexpr` functions,
+it would make sense that Hana defines its concepts as such too, instead of as
+structs with a nested `::%value`. Indeed, this was the first choice, but it
+had to be revised because template functions have one limitation that makes
+them less flexible. Specifically, a template function can't be passed to a
+higher-order metafunction. In other words, it is not possible to write the
+following
+
+@code{cpp}
+template <??? Concept>
+struct some_metafunction {
+  // ...
+};
+@endcode
+
+This sort of code is very useful in some contexts, such as checking whether
+two types have a common embedding modeling a concept:
+
+@code{cpp}
+template <??? Concept, typename T, typename U>
+struct have_common_embedding {
+  // whether T and U both model Concept, and share a common type that also models Concept
+};
+@endcode
+
+With concepts as boolean `constexpr` functions, this can't be written
+generically. When concepts are just template structs, however, we can
+use template template parameters:
+
+@code{cpp}
+template <template <typename ...> class Concept, typename T, typename U>
+struct have_common_embedding {
+  // whether T and U both model Concept, and share a common type that also models Concept
+};
+@endcode
 
 
 

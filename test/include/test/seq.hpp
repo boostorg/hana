@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/monad_plus.hpp>

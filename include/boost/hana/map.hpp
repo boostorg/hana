@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>

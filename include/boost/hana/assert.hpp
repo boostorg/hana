@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/value.hpp>
 

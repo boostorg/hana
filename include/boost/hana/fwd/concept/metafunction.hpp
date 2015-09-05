@@ -46,8 +46,8 @@ namespace boost { namespace hana {
     //! ---------------------------
     //! The `Metafunction` concept does not have a minimal complete definition
     //! in terms of tag-dispatched methods. Instead, the syntactic requirements
-    //! documented above should be satisfied, and the `models` metafunction
-    //! should be specialized explicitly.
+    //! documented above should be satisfied, and the `Metafunction` struct
+    //! should be specialized explicitly in Hana's namespace.
     //!
     //!
     //! Concrete models

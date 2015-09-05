@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
-#include <boost/hana/core/models.hpp>
 #include <boost/hana/functional.hpp>
 #include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/integral_constant.hpp>
