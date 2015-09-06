@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -23,6 +24,41 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 #include <utility>
 
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace std {
+    //! @ingroup group-ext-std
+    //! Adaptation of `std::integer_sequence` for Hana.
+    //!
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable`\n
+    //! Two `std::integer_sequence`s are equal if and only if they have the
+    //! same number of elements, and if corresponding elements compare equal.
+    //! The types of the elements held in both `integer_sequence`s may be
+    //! different, as long as they can be compared.
+    //! @include example/ext/std/integer_sequence/comparable.cpp
+    //!
+    //! 2. `Foldable`\n
+    //! Folding an `integer_sequence` is equivalent to folding a sequence of
+    //! `std::integral_constant`s with the corresponding types.
+    //! @include example/ext/std/integer_sequence/foldable.cpp
+    //!
+    //! 3. `Iterable`\n
+    //! Iterating over an `integer_sequence` is equivalent to iterating over
+    //! a sequence of the corresponding `std::integral_constant`s.
+    //! @include example/ext/std/integer_sequence/iterable.cpp
+    //!
+    //! 4. `Searchable`\n
+    //! Searching through an `integer_sequence` is equivalent to searching
+    //! through the corresponding sequence of `std::integral_constant`s.
+    //! @include example/ext/std/integer_sequence/searchable.cpp
+    template <typename T, T ...v>
+    struct integer_sequence { };
+}
+#endif
 
 namespace boost { namespace hana {
     namespace ext { namespace std { struct integer_sequence_tag; }}
@@ -38,22 +74,13 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<ext::std::integer_sequence_tag, ext::std::integer_sequence_tag> {
         template <typename X, X ...xs, typename Y, Y ...ys>
-        static constexpr auto apply(
-           std::integer_sequence<X, xs...>,
-           std::integer_sequence<Y, ys...>,
-            // this dummy parameter disables this specialization if
-            // sizeof...(xs) != sizeof...(ys)
-            char(*)[sizeof...(xs) == sizeof...(ys)] = 0)
-        {
-            return hana::bool_c<std::is_same<
-               std::integer_sequence<bool, (xs == ys)...>,
-               std::integer_sequence<bool, ((void)xs, true)...>
-            >::value>;
-        }
+        static constexpr hana::bool_<detail::fast_and<(xs == ys)...>::value>
+        apply(std::integer_sequence<X, xs...> const&, std::integer_sequence<Y, ys...> const&)
+        { return {}; }
 
         template <typename Xs, typename Ys>
-        static constexpr auto apply(Xs, Ys, ...)
-        { return hana::false_c; }
+        static constexpr hana::false_ apply(Xs const&, Ys const&, ...)
+        { return {}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -63,10 +90,8 @@ namespace boost { namespace hana {
     struct unpack_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...v, typename F>
         static constexpr decltype(auto)
-        apply(std::integer_sequence<T, v...>, F&& f) {
-            return static_cast<F&&>(f)(
-                std::integral_constant<T, v>{}...
-            );
+        apply(std::integer_sequence<T, v...> const&, F&& f) {
+            return static_cast<F&&>(f)(std::integral_constant<T, v>{}...);
         }
     };
 
@@ -105,7 +130,7 @@ namespace boost { namespace hana {
     template <>
     struct is_empty_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...xs>
-        static constexpr auto apply(std::integer_sequence<T, xs...>)
+        static constexpr auto apply(std::integer_sequence<T, xs...> const&)
         { return hana::bool_c<sizeof...(xs) == 0>; }
     };
 }} // end namespace boost::hana
