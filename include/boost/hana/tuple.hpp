@@ -215,17 +215,19 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct unpack_impl<tuple_tag> {
-        template <typename Xs, typename F, std::size_t ...i>
-        static constexpr decltype(auto)
-        unpack_helper(Xs&& xs, F&& f, std::index_sequence<i...>) {
-            return static_cast<F&&>(f)(hana::at_c<i>(static_cast<Xs&&>(xs))...);
-        }
+        template <typename F>
+        static constexpr decltype(auto) apply(tuple<>&&, F&& f)
+        { return static_cast<F&&>(f)(); }
+        template <typename F>
+        static constexpr decltype(auto) apply(tuple<>&, F&& f) 
+        { return static_cast<F&&>(f)(); }
+        template <typename F>
+        static constexpr decltype(auto) apply(tuple<> const&, F&& f)
+        { return static_cast<F&&>(f)(); }
 
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
-            return unpack_helper(static_cast<Xs&&>(xs), static_cast<F&&>(f),
-                                 std::make_index_sequence<N>{});
+            return hana::unpack(static_cast<Xs&&>(xs).storage_, static_cast<F&&>(f));
         }
     };
 
