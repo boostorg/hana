@@ -15,6 +15,5 @@ var group__group_core =
     [ "to", "group__group-core.html#gadc70755c1d059139297814fb3bfeb91e", null ],
     [ "is_a", "group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9", null ],
     [ "is_an", "group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9", null ],
-    [ "make", "group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60", null ],
-    [ "models", "group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946", null ]
+    [ "make", "group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60", null ]
 ];

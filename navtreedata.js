@@ -59,7 +59,7 @@ var NAVTREE =
       [ "Hana's core", "index.html#tutorial-core", [
         [ "Tags", "index.html#tutorial-core-tags", null ],
         [ "Tag dispatching", "index.html#tutorial-core-tag_dispatching", null ],
-        [ "Creating new concepts", "index.html#tutorial-core-creating_concepts", null ]
+        [ "Emulation of C++ concepts", "index.html#tutorial-core-concepts", null ]
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
       [ "Conclusion", "index.html#tutorial-conclusion", [
@@ -79,7 +79,8 @@ var NAVTREE =
         [ "How are names chosen?", "index.html#tutorial-rationales-naming", null ],
         [ "How is the parameter order decided?", "index.html#tutorial-rationales-parameters", null ],
         [ "Why tag dispatching?", "index.html#tutorial-rationales-tag_dispatching", null ],
-        [ "Why not provide `zip_longest`?", "index.html#tutorial-rationales-zip_longest", null ]
+        [ "Why not provide zip_longest?", "index.html#tutorial-rationales-zip_longest", null ],
+        [ "Why aren't concepts constexpr functions?", "index.html#tutorial-rationales-concepts", null ]
       ] ],
       [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
         [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
@@ -100,9 +101,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2fold__left_8hpp.html",
-"index.html#tutorial-rationales-tag_dispatching",
-"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd"
+"fwd_2front_8hpp.html",
+"index.html#tutorial-rationales-zip_longest",
+"structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

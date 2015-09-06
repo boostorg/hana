@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Comonad Struct Reference</title>
+<title>Boost.Hana: boost::hana::Comonad&lt; W &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Comonad.html','
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Comonad-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Comonad Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Comonad&lt; W &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code> concept represents context-sensitive computations and data. </p>
+<div class="textblock"><h3>template&lt;typename W&gt;<br />
+struct boost::hana::Comonad&lt; W &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code> concept represents context-sensitive computations and data. </p>
 <p>Formally, the <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> concept is dual to the <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> concept. But unless you're a mathematician, you don't care about that and it's fine. So intuitively, a <a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a> represents context sensitive values and computations. First, Comonads make it possible to extract context-sensitive values from their context with <code>extract</code>. In contrast, Monads make it possible to wrap raw values into a given context with <code>lift</code> (from <a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a>).</p>
 <p>Second, Comonads make it possible to apply context-sensitive values to functions accepting those, and to return the result as a context-sensitive value using <code>extend</code>. In contrast, Monads make it possible to apply a monadic value to a function accepting a normal value and returning a monadic value, and to return the result as a monadic value (with <code>chain</code>).</p>
 <p>Finally, Comonads make it possible to wrap a context-sensitive value into an extra layer of context using <code>duplicate</code>, while Monads make it possible to take a value with an extra layer of context and to strip it with <code>flatten</code>.</p>
@@ -179,6 +182,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="afad82256757090063fe46aab188dd0e1"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename W &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -230,6 +235,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ad060d73b868bea1e0f4aa8037d5a3447"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename W &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -303,6 +310,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a5b42ad77d8de0ba34a0d7cafef951d75"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename W &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

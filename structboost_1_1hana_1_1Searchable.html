@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Searchable Struct Reference</title>
+<title>Boost.Hana: boost::hana::Searchable&lt; S &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Searchable.html
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Searchable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Searchable Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Searchable&lt; S &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept represents structures that can be searched. </p>
+<div class="textblock"><h3>template&lt;typename S&gt;<br />
+struct boost::hana::Searchable&lt; S &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> concept represents structures that can be searched. </p>
 <p>Intuitively, a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> is any structure, finite or infinite, containing elements that can be searched using a predicate. Sometimes, <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s will associate keys to values; one can search for a key with a predicate, and the value associated to it is returned. This gives rise to map-like data structures. Other times, the elements of the structure that are searched (i.e. those to which the predicate is applied) are the same that are returned, which gives rise to set-like data structures. In general, we will refer to the <em>keys</em> of a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> structure as those elements that are used for searching, and to the <em>values</em> of a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> as those elements that are returned when a search is successful. As was explained, there is no requirement that both notions differ, and it is often useful to have keys and values coincide (think about <code>std::set</code>).</p>
 <p>Some methods like <code>any_of</code>, <code>all_of</code> and <code>none_of</code> allow simple queries to be performed on the keys of the structure, while other methods like <code>find</code> and <code>find_if</code> make it possible to find the value associated to a key. The most specific method should always be used if one cares about performance, because it is usually the case that heavy optimizations can be performed in more specific methods. For example, an associative data structure implemented as a hash table will be much faster to access using <code>find</code> than <code>find_if</code>, because in the second case it will have to do a linear search through all the entries. Similarly, using <code>contains</code> will likely be much faster than <code>any_of</code> with an equivalent predicate.</p>
 <blockquote class="doxtable">
@@ -219,6 +222,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a695907e4a3ef7d0e9ab34f5afff709b2"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -264,6 +269,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="adadd57241c497cbe1a2ce5ac57549080"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -335,6 +342,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a67dd29f7921b76f7d2bd372605f73f7c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -380,6 +389,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a2dc05dc4553467aa0a2235088de41b4b"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -451,6 +462,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ae98adce2584ff5cb8a19ea2a74d5bb34"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -514,6 +527,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a1b4a67c4fd522de62b101ed99bb423e3"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -573,6 +588,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a234e4ee0bd5e0e9e604d6140fde24074"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -613,6 +630,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a2772d97163d2e2ca3f51b2d16d13ff66"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -680,6 +699,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ade889e960898a96ac6502c9301827220"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -751,6 +772,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a8d02fba3a74d476e179b4d9d8be6b6bb"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -832,6 +855,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a386ac8af7123ea1e8ea1fa2bbd4cbf3d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -892,6 +917,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a9365b793fe547271e48fa719a7f4854d"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -938,6 +965,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="abf1dbf83a1d98c62994e207ea18eea8a"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

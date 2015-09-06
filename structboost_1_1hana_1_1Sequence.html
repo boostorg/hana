@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Sequence Struct Reference</title>
+<title>Boost.Hana: boost::hana::Sequence&lt; S &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,16 +133,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Sequence.html',
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Sequence-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Sequence Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Sequence&lt; S &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> concept represents generic index-based sequences. </p>
+<div class="textblock"><h3>template&lt;typename S&gt;<br />
+struct boost::hana::Sequence&lt; S &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> concept represents generic index-based sequences. </p>
 <p>Compared to other abstract concepts, the <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> concept is very specific. It represents generic index-based sequences. The reason why such a specific concept is provided is because there are a lot of models that behave exactly the same while being implemented in wildly different ways. It is useful to regroup all those data types under the same umbrella for the purpose of generic programming.</p>
 <p>In fact, models of this concept are not only <em>similar</em>. They are actually <em>isomorphic</em>, in a sense that we define below, which is a fancy way of rigorously saying that they behave exactly the same to an external observer.</p>
 <h2>Minimal complete definition </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, <code>make</code>, and <code>models</code></p>
-<p>The <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> concept does not provide basic methods that could be used as a minimal complete definition; instead, it borrows methods from other concepts and add laws to them. For this reason, it is necessary to specialize the <code>models_impl</code> metafunction in Hana's namespace to tell Hana that a type is indeed a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. Explicitly specializing the <code>models_impl</code> metafunction can be seen like a seal saying "this data type satisfies the additional laws of a `Sequence`", since those can't be checked by Hana automatically.</p>
+<p><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>, and <code>make</code></p>
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> concept does not provide basic methods that could be used as a minimal complete definition; instead, it borrows methods from other concepts and add laws to them. For this reason, it is necessary to specialize the <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> metafunction in Hana's namespace to tell Hana that a type is indeed a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>. Explicitly specializing the <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> metafunction can be seen like a seal saying "this data type satisfies the additional laws of a `Sequence`", since those can't be checked by Hana automatically.</p>
 <h2>Laws </h2>
 <p>The laws for being a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> are simple, and their goal is to restrict the semantics that can be associated to the functions provided by other concepts. First, a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> must be a finite <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> (thus a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> too). Secondly, for a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> tag <code>S</code>, <code>make&lt;S&gt;(x1, ..., xn)</code> must be an object of tag <code>S</code> and whose linearization is <code>[x1, ..., xn]</code>. This basically ensures that objects of tag <code>S</code> are equivalent to their linearization, and that they can be created from such a linearization (with <code>make</code>).</p>
 <p>While it would be possible in theory to handle infinite sequences, doing so complicates the implementation of many algorithms. For simplicity, the current version of the library only handles finite sequences. However, note that this does not affect in any way the potential for having infinite <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code>s and <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s.</p>
@@ -577,6 +580,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a211a6ce41e4972cd7642b77a1afa8e95"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -655,6 +660,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="aaee87c07664e57a8ffbfdceed39265ef"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -715,6 +722,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a83d9b8f0f293c6fe7cfccd2359dec330"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -827,6 +836,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a5791e6dc0e27d8e3a113e4d94482550f"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -887,6 +898,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a3c12b49d0683af43f766a0093e413cea"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -946,6 +959,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ab6e88c5dd3f638a60c0a451ad6db95ec"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -997,6 +1012,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a788b65dd69bb016d647801718e840816"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1094,6 +1111,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a45ec7767d19eb7eaabb71ead3796a7f1"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1156,6 +1175,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a65295edabe2029007e7ecf640ae7bb0b"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1210,6 +1231,8 @@ Synopsis of associated functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
+template&lt;typename S &gt; </div>
+<div class="memtemplate">
 template&lt;std::size_t n&gt; </div>
 <table class="mlabels">
   <tr>
@@ -1254,6 +1277,8 @@ template&lt;std::size_t n&gt; </div>
 <a class="anchor" id="aa1b84e0e0a256620d98ed5062b456c96"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1308,6 +1333,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
+template&lt;typename S &gt; </div>
+<div class="memtemplate">
 template&lt;std::size_t from, std::size_t to&gt; </div>
 <table class="mlabels">
   <tr>
@@ -1352,6 +1379,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a4471413ccc3835db5e48658683b8aba0"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1400,6 +1429,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a8a82d04d19ba3ce7dcb6aaef0dbd0423"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1491,6 +1522,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a4fdf082af400671e43a4035e14ae7f82"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1582,6 +1615,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a18968c488a8b0cdc2697296024da9293"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1639,6 +1674,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
+template&lt;typename S &gt; </div>
+<div class="memtemplate">
 template&lt;std::size_t from, std::size_t to&gt; </div>
 <table class="mlabels">
   <tr>
@@ -1686,6 +1723,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a58c1454689bf6d2264bc428dc1d039db"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1782,6 +1821,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="ab663fc84c23656a41d4dfcb586f0085c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1872,6 +1913,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a65b5d2d363fb5e2d444e8bfe6bc712c7"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1940,6 +1983,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <a class="anchor" id="a2c20028c5115dcf38063d322f27b4ee1"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1995,6 +2040,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
+template&lt;typename S &gt; </div>
+<div class="memtemplate">
 template&lt;std::size_t n&gt; </div>
 <table class="mlabels">
   <tr>
@@ -2037,6 +2084,8 @@ template&lt;std::size_t n&gt; </div>
 <a class="anchor" id="a86916c5c62a42f01f85450b366ef6eff"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2094,6 +2143,8 @@ template&lt;std::size_t n&gt; </div>
 <a class="anchor" id="a435bb610ac90db4df48bd3fce876b8a2"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <div class="memtemplate">
 template&lt;typename S &gt; </div>
 <table class="mlabels">
@@ -2180,6 +2231,8 @@ template&lt;typename S &gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename S &gt; </div>
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2262,6 +2315,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a00c9ad102df93f8e88c37afd92f34590"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2344,6 +2399,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a23b6ac9e78577d70b9108a80e6b1534c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2396,6 +2453,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a10f6d2040b9c9f2aea6a334e41c89ac7"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2448,6 +2507,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="aef70e8791ace2fafabf0ff3adaa8630c"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -2502,6 +2563,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a5eadaf63535ebb8cdd8d9e4c16b9bacd"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

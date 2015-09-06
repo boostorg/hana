@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Metafunction Struct Reference</title>
+<title>Boost.Hana: boost::hana::Metafunction&lt; F &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,16 +133,19 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Metafunction.ht
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Metafunction-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Metafunction Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Metafunction&lt; F &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>A <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> is a function that takes <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s as inputs and returns a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> as output. </p>
+<div class="textblock"><h3>template&lt;typename F&gt;<br />
+struct boost::hana::Metafunction&lt; F &gt;</h3>
+
+<p>A <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> is a function that takes <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s as inputs and returns a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> as output. </p>
 <p>A <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> is an object satisfying the <a href="http://en.cppreference.com/w/cpp/concept/FunctionObject">FunctionObject</a> concept, but with additional requirements. First, it must be possible to apply a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> to arguments whose tag is <code><a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a></code>, and the result of such an application must be an object whose tag is also <code><a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a></code>. Note that <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> and <code><a class="el" href="structboost_1_1hana_1_1basic__type.html" title="Base class of hana::type; used for pattern-matching. ">hana::basic_type</a></code> are the only such types.</p>
 <p>Secondly, a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> must provide a nested <code>::apply</code> template which allows performing the same type-level computation as is done by the call operator. In Boost.MPL parlance, a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> <code>F</code> is hence a <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html">MetafunctionClass</a> in addition to being a <code>FunctionObject</code>. Rigorously, the following must be satisfied by any object <code>f</code> of type <code>F</code> which is a <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code>, and for arbitrary types <code>T...</code>: </p><div class="fragment"><div class="line">f(hana::type_c&lt;T&gt;...) == hana::type_c&lt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">F::apply</a>&lt;T...&gt;::type&gt;</div>
 </div><!-- fragment --><p>Thirdly, to ease the inter-operation of values and types, <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code>s must also allow being called with arguments that are not <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s. In that case, the result is equivalent to calling the metafunction on the types of the arguments. Rigorously, this means that for arbitrary objects <code>x...</code>, </p><div class="fragment"><div class="line">f(x...) == f(hana::type_c&lt;decltype(x)&gt;...)</div>
 </div><!-- fragment --><h2>Minimal complete definition </h2>
-<p>The <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> concept does not have a minimal complete definition in terms of tag-dispatched methods. Instead, the syntactic requirements documented above should be satisfied, and the <code>models</code> metafunction should be specialized explicitly.</p>
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> concept does not have a minimal complete definition in terms of tag-dispatched methods. Instead, the syntactic requirements documented above should be satisfied, and the <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code> struct should be specialized explicitly in Hana's namespace.</p>
 <h2>Concrete models </h2>
 <p><code>hana::metafunction</code>, <code>hana::metafunction_class</code>, <code>hana::template_</code></p>
 <h2>Rationale: Why aren't <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code>s <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>? </h2>
@@ -152,7 +155,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Metafunction.ht
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">using</span> G = void;</div>
 </div><!-- fragment --><p>shallow comparison would determine that <code>F</code> and <code>G</code> are different because they are two different template aliases, while deep comparison would determine that <code>F</code> and <code>G</code> are equal because they always expand to the same type, <code>void</code>. Unfortunately, deep comparison is impossible to implement because one would have to check <code>F</code> and <code>G</code> on all possible types. On the other hand, shallow comparison is not satisfactory because <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code>s are nothing but functions on <code>type</code>s, and the equality of two functions is normally defined with deep comparison. Hence, we adopt a conservative stance and avoid providing comparison for <code><a class="el" href="structboost_1_1hana_1_1Metafunction.html" title="A Metafunction is a function that takes hana::types as inputs and returns a hana::type as output...">Metafunction</a></code>s. </p>
-</div><table class="memberdecls">
+</div>
+<p>Inherits boost::hana::detail::metafunction_dispatch&lt; F, Tag &gt;.</p>
+<table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a2d1a544fac1be2f9d9ac3ed2aeb5e9d2"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class F&gt; </td></tr>
@@ -179,6 +184,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a2d1a544fac1be2f9d9ac3ed2aeb5e9d2"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
 <div class="memtemplate">
 template&lt;template&lt; typename... &gt; class F&gt; </div>
 <table class="mlabels">
@@ -242,6 +249,8 @@ template&lt;template&lt; typename... &gt; class F&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
+template&lt;typename F &gt; </div>
+<div class="memtemplate">
 template&lt;template&lt; typename... &gt; class F&gt; </div>
 <table class="mlabels">
   <tr>
@@ -304,6 +313,8 @@ template&lt;template&lt; typename... &gt; class F&gt; </div>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename F &gt; </div>
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -363,6 +374,8 @@ template&lt;typename F &gt; </div>
 <a class="anchor" id="aa47f4f55c497fae1542947d5862bdab5"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -417,6 +430,8 @@ template&lt;typename F &gt; </div>
 <a class="anchor" id="a5ed3cf82ea662dcfaff23e0e3f710ebd"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
 <div class="memtemplate">
 template&lt;template&lt; typename... &gt; class F&gt; </div>
 <table class="mlabels">

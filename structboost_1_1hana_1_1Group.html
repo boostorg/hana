@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Group Struct Reference</title>
+<title>Boost.Hana: boost::hana::Group&lt; G &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Group.html','')
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Group-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Group Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Group&lt; G &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> concept represents <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>s where all objects have an inverse w.r.t. the <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>'s binary operation. </p>
+<div class="textblock"><h3>template&lt;typename G&gt;<br />
+struct boost::hana::Group&lt; G &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> concept represents <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>s where all objects have an inverse w.r.t. the <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>'s binary operation. </p>
 <p>A <a href="http://en.wikipedia.org/wiki/Group_(mathematics)">Group</a> is an algebraic structure built on top of a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> which adds the ability to invert the action of the <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>'s binary operation on any element of the set. Specifically, a <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code> is a <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> <code>(S, +)</code> such that every element <code>s</code> in <code>S</code> has an inverse (say <code>s'</code>) which is such that </p><div class="fragment"><div class="line">s + s<span class="stringliteral">&#39; == s&#39;</span> + s == identity of the Monoid</div>
 </div><!-- fragment --><p>There are many examples of <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>s, one of which would be the additive <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> on integers, where the inverse of any integer <code>n</code> is the integer <code>-n</code>. The method names used here refer to exactly this model.</p>
 <h2>Minimal complete definitions </h2>
@@ -179,6 +182,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a866303b4a7433e5320efc6b961a04238"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename G &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -230,6 +235,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a69e56a0004a93e0745ee178ce0b80e65"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename G &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

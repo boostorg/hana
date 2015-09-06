@@ -204,10 +204,6 @@ template&lt;typename Tag , typename... T&gt; </td></tr>
 <tr class="memitem:ga1d92480f0af1029878e773dafa3e2f60"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">boost::hana::make</a></td></tr>
 <tr class="memdesc:ga1d92480f0af1029878e773dafa3e2f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an object of the given tag with the given arguments.  <a href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">More...</a><br /></td></tr>
 <tr class="separator:ga1d92480f0af1029878e773dafa3e2f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename optional_T &gt; </td></tr>
-<tr class="memitem:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">boost::hana::models</a> = see-documentation</td></tr>
-<tr class="memdesc:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the tag of an object is a model of the given concept.  <a href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">More...</a><br /></td></tr>
-<tr class="separator:ga91ecb6ee4fe2f7d156e5026e37df8946"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a class="anchor" id="ga4da46c97755c0f430b063711b66ca05b"></a>
@@ -495,99 +491,6 @@ template&lt;typename Tag &gt; </div>
 <div class="line">    <span class="comment">// std::string has no notion of tag, but it still works with make&lt;&gt;</span></div>
 <div class="line">    std::string foo{<span class="stringliteral">&quot;foo&quot;</span>};</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
-<div class="line">}</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="ga91ecb6ee4fe2f7d156e5026e37df8946"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Concept , typename optional_T &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto boost::hana::models = see-documentation</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="fwd_2core_2models_8hpp.html">boost/hana/fwd/core/models.hpp</a>&gt;</code></p>
-
-<p>Returns whether the tag of an object is a model of the given concept. </p>
-<p>Given a C++ type <code>T</code> and a concept <code>Concept</code>, <code>models&lt;Concept, T&gt;</code> is a compile-time <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> representing whether <code>T</code>'s tag is a model of <code>Concept</code>. Usually, concepts provide methods, some of which <b>must</b> be implemented in order to model the concept, and the others are given a default definition in terms of the mandatory ones. More specifically, <code>models</code> returns whether a minimal complete definition of a concept is provided by the tag. However, concepts also usually provide semantic requirements (called laws) that must be satisfied by their models; <code>models</code> does not attempt to check whether those laws are satisfied. In fact, <code>models</code> does not even check whether the provided minimal complete definition is syntactically correct, but only if it is there.</p>
-<p>A few concepts (like <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a>) do not introduce methods that suffice to provide a minimal complete definition. They provide semantic guarantees through laws and refined concepts, and they usually also provide methods that do useful things with existing methods and those additional guarantees. In this case, it is usually necessary to explicitly specialize <code>models_impl</code> in the <code>boost::hana</code> namespace. When this is the case, the concept should document it.</p>
-<dl class="section note"><dt>Note</dt><dd><code>models</code> is a tag-dispatched method. More specifically, <code>models&lt;Concept, T&gt;</code> dispatches to <code>models_impl&lt;Concept, tag_of_t&lt;T&gt;&gt;</code>, which should be a metafunction with a nested boolean <code><a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> representing whether <code>tag_of_t&lt;T&gt;</code> models the concept <code>Concept</code>.</dd></dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="concept_2iterable_8hpp.html">boost/hana/concept/iterable.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2models_8hpp.html">boost/hana/core/models.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">static_assert(hana::models&lt;hana::Iterable, hana::tuple_tag&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(!<a class="code" href="group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946">hana::models</a>&lt;hana::Iterable, hana::integral_constant_tag&lt;int&gt;&gt;, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --><h2>How does it work </h2>
-<p>When a concept writer provides minimal complete definitions in terms of other methods introduced by the concept, they specialize the <code>models_impl</code> metafunction so that whenever a proper minimal complete definition is provided by the user, <code>models</code> returns true. Here's an example of how a simple concept could support <code>models</code>:</p>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2models_8hpp.html">boost/hana/core/models.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2default_8hpp.html">boost/hana/core/default.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="concept_2iterable_8hpp.html">boost/hana/concept/iterable.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="keyword">struct </span>Printable { };</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl : hana::default_ {</div>
-<div class="line">    <span class="comment">/* no definition; `print(x)` fails at compile-time by default */</span></div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> print = [](std::ostream&amp; os, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::tag_of_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(os, x);</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
-<div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">    <span class="keyword">struct </span>models_impl&lt;Printable, T&gt;</div>
-<div class="line">        : std::integral_constant&lt;bool, !is_default&lt;print_impl&lt;T&gt;&gt;::value&gt;</div>
-<div class="line">    { };</div>
-<div class="line">}}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><span class="keyword">struct </span>print_impl&lt;Person&gt; {</div>
-<div class="line">    <span class="keyword">static</span> std::ostream&amp; <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(std::ostream&amp; os, Person <span class="keyword">const</span>&amp; p) {</div>
-<div class="line">        os &lt;&lt; p.name;</div>
-<div class="line">        <span class="keywordflow">return</span> os;</div>
-<div class="line">    }</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line">static_assert(hana::_models&lt;Printable, Person&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    print(std::cout, Person{<span class="stringliteral">&quot;Louis&quot;</span>});</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

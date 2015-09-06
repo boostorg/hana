@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Orderable Struct Reference</title>
+<title>Boost.Hana: boost::hana::Orderable&lt; Ord &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Orderable.html'
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Orderable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Orderable Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Orderable&lt; Ord &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept represents totally ordered data types. </p>
+<div class="textblock"><h3>template&lt;typename Ord&gt;<br />
+struct boost::hana::Orderable&lt; Ord &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> concept represents totally ordered data types. </p>
 <p>Intuitively, <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code> objects must define a binary predicate named <code>less</code> returning whether the first argument is to be considered less than the second argument. The word "total" means that <em>distinct</em> objects must always be ordered; if <code>a</code> and <code>b</code> are not equal, then exactly one of <code>less(a, b)</code> and <code>less(b, a)</code> must be true. This is a contrast with weaker kinds of orders that would allow some objects to be incomparable (neither less than nor greater than). Also note that a non-strict total order may always be obtained from a strict total order (and vice-versa) by setting </p><div class="fragment"><div class="line">a &lt;= b  =  !(b &lt; a)</div>
 <div class="line">a &lt;  b  =  !(b &lt;= a)</div>
 </div><!-- fragment --><p> The non-strict version is used in the description of the laws because it makes them easier to parse for humans, but they could be formulated equivalently using the strict order.</p>
@@ -217,6 +220,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a1c9f968a4217ff87b9fdd6c3bbea72bc"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -267,6 +272,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a062300116ac52000449518ec546e65a3"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -318,6 +325,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ad835070573ed8da3e607eafa824cd7e5"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -375,6 +384,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a8012cbd416c2067be764046dcd0c2a23"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -427,6 +438,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a9fb8718f43756efef3953635f34fd67e"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -471,6 +484,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="af10ea2fee24c0a780758f67721bb5bfa"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -515,6 +530,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="aaeb89edbf804237ca6710cba8cab9c37"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename Ord &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

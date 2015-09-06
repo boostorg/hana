@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Constant Struct Reference</title>
+<title>Boost.Hana: boost::hana::Constant&lt; C &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Constant.html',
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Constant-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Constant Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Constant&lt; C &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> concept represents data that can be manipulated at compile-time. </p>
+<div class="textblock"><h3>template&lt;typename C&gt;<br />
+struct boost::hana::Constant&lt; C &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> concept represents data that can be manipulated at compile-time. </p>
 <p>At its core, <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> is simply a generalization of the principle behind <code>std::integral_constant</code> to all types that can be constructed at compile-time, i.e. to all types with a <code>constexpr</code> constructor (also called <a href="http://en.cppreference.com/w/cpp/concept/LiteralType">Literal types</a>). More specifically, a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> is an object from which a <code>constexpr</code> value may be obtained (through the <code>value</code> method) regardless of the <code>constexpr</code>ness of the object itself.</p>
 <p>All <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s must be somewhat equivalent, in the following sense. Let <code>C(T)</code> and <code>D(U)</code> denote the tags of <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s holding objects of type <code>T</code> and <code>U</code>, respectively. Then, an object with tag <code>D(U)</code> must be convertible to an object with tag <code>C(T)</code> whenever <code>U</code> is convertible to <code>T</code>, has determined by <code><a class="el" href="structboost_1_1hana_1_1is__convertible.html" title="Returns whether there is a Hana-conversion from a data type to another. ">is_convertible</a></code>. The interpretation here is that a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> is just a box holding an object of some type, and it should be possible to swap between boxes whenever the objects inside the boxes can be swapped.</p>
 <p>Because of this last requirement, one could be tempted to think that specialized "boxes" like <code>std::integral_constant</code> are prevented from being <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s because they are not able to hold objects of any type <code>T</code> (<code>std::integral_constant</code> may only hold integral types). This is false; the requirement should be interpreted as saying that whenever <code>C(T)</code> is <em>meaningful</em> (e.g. only when <code>T</code> is integral for <code>std::integral_constant</code>) <em>and</em> there exists a conversion from <code>U</code> to <code>T</code>, then a conversion from <code>D(U)</code> to <code>C(T)</code> should also exist. The precise requirements for being a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> are embodied in the following laws.</p>
@@ -151,7 +154,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Constant.html',
 <p>Finally, the tag <code>C</code> must provide a nested <code>value_type</code> alias to <code>T</code>, which allows us to query the tag of the inner value held by objects with tag <code>C</code>. In other words, the following must be true for any object <code>c</code> with tag <code>C</code>: </p><div class="fragment"><div class="line">std::is_same&lt;</div>
 <div class="line">    C::value_type,</div>
 <div class="line">    tag_of&lt;decltype(hana::value(c))&gt;::type</div>
-<div class="line">&gt;<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">::value</a></div>
+<div class="line">&gt;::value</div>
 </div><!-- fragment --><h2>Refined concepts </h2>
 <p>In certain cases, a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> can automatically be made a model of another concept. In particular, if a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>C</code> is holding an object of tag <code>T</code>, and if <code>T</code> models a concept <code>X</code>, then <code>C</code> may in most cases model <code>X</code> by simply performing whatever operation is required on its underlying value, and then wrapping the result back in a <code>C</code>.</p>
 <p>More specifically, if a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>C</code> has an underlying value (<code>C::value_type</code>) which is a model of <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, or <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code> up to <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code>, then <code>C</code> must also be a model of those concepts. In other words, when <code>C::value_type</code> models one of the listed concepts, <code>C</code> itself must also model that concept. However, note that free models are provided for all of those concepts, so no additional work must be done.</p>
@@ -160,7 +163,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Constant.html',
 <h2>Concrete models </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code></p>
 <h2>Provided conversion to the tag of the underlying value </h2>
-<p>Any <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>c</code> holding an underlying value of tag <code>T</code> is convertible to any tag <code>U</code> such that <code>T</code> is convertible to <code>U</code>. Specifically, the conversion is equivalent to </p><div class="fragment"><div class="line">to&lt;U&gt;(c) == to&lt;U&gt;(<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>&lt;decltype(c)&gt;())</div>
+<p>Any <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>c</code> holding an underlying value of tag <code>T</code> is convertible to any tag <code>U</code> such that <code>T</code> is convertible to <code>U</code>. Specifically, the conversion is equivalent to </p><div class="fragment"><div class="line">to&lt;U&gt;(c) == to&lt;U&gt;(value&lt;decltype(c)&gt;())</div>
 </div><!-- fragment --><p>Also, those conversions are marked as an embedding whenever the conversion of underlying types is an embedding. This is to allow Constants to inter-operate with <code>constexpr</code> objects easily: </p><div class="fragment"><div class="line">plus(int_&lt;1&gt;, 1) == 2</div>
 </div><!-- fragment --><p>Strictly speaking, <b>this is sometimes a violation</b> of what it means to be an embedding. Indeed, while there exists an embedding from any <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> to a <code>constexpr</code> object (since <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> is just the canonical inclusion), there is no embedding from a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> to a runtime object since we would lose the ability to define the <code>value</code> method (the <code>constexpr</code>ness of the object would have been lost). Since there is no way to distinguish <code>constexpr</code> and non-<code>constexpr</code> objects based on their type, Hana has no way to know whether the conversion is to a <code>constexpr</code> object of not. In other words, the <code>to</code> method has no way to differentiate between </p><div class="fragment"><div class="line">constexpr <span class="keywordtype">int</span> i = hana::to&lt;int&gt;(int_&lt;1&gt;);</div>
 </div><!-- fragment --><p> which is an embedding, and </p><div class="fragment"><div class="line"><span class="keywordtype">int</span> i = hana::to&lt;int&gt;(int_&lt;1&gt;);</div>
@@ -185,6 +188,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="adea9453327ac4d6834a555ae9887d3f5"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename C &gt; </div>
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
 <table class="mlabels">
@@ -233,6 +238,8 @@ template&lt;typename T &gt; </div>
 <a class="anchor" id="ad06a1ad6dece8a0337c3a9e754067051"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename C &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

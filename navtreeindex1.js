@@ -1,8 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"fwd_2fold__left_8hpp.html":[3,0,0,5,48],
-"fwd_2fold__right_8hpp.html":[3,0,0,5,49],
-"fwd_2for__each_8hpp.html":[3,0,0,5,50],
 "fwd_2front_8hpp.html":[3,0,0,5,51],
 "fwd_2fuse_8hpp.html":[3,0,0,5,52],
 "fwd_2greater_8hpp.html":[3,0,0,5,53],
@@ -141,7 +138,6 @@ var NAVTREEINDEX1 =
 "group__group-core.html#ga4da46c97755c0f430b063711b66ca05b":[1,3,9],
 "group__group-core.html#ga686d1236161b5690ab302500077988e1":[1,3,10],
 "group__group-core.html#ga7fdbde52f5fe384a816c6f39ff272df9":[1,3,14],
-"group__group-core.html#ga91ecb6ee4fe2f7d156e5026e37df8946":[1,3,16],
 "group__group-core.html#gadc70755c1d059139297814fb3bfeb91e":[1,3,12],
 "group__group-datatypes.html":[1,1],
 "group__group-details.html":[1,7],
@@ -211,7 +207,7 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-containers-elements":[0,8,1],
 "index.html#tutorial-containers-types":[0,8,2],
 "index.html#tutorial-core":[0,12],
-"index.html#tutorial-core-creating_concepts":[0,12,2],
+"index.html#tutorial-core-concepts":[0,12,2],
 "index.html#tutorial-core-tag_dispatching":[0,12,1],
 "index.html#tutorial-core-tags":[0,12,0],
 "index.html#tutorial-description":[0,0],
@@ -245,9 +241,13 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-quickstart-any":[0,3,0],
 "index.html#tutorial-quickstart-cheatsheet":[0,3,1],
 "index.html#tutorial-rationales":[0,18],
+"index.html#tutorial-rationales-concepts":[0,18,9],
 "index.html#tutorial-rationales-container_representation":[0,18,2],
 "index.html#tutorial-rationales-dependencies":[0,18,0],
 "index.html#tutorial-rationales-iterators":[0,18,1],
 "index.html#tutorial-rationales-naming":[0,18,5],
-"index.html#tutorial-rationales-parameters":[0,18,6]
+"index.html#tutorial-rationales-parameters":[0,18,6],
+"index.html#tutorial-rationales-tag_dispatching":[0,18,7],
+"index.html#tutorial-rationales-tuple":[0,18,4],
+"index.html#tutorial-rationales-why_Hana":[0,18,3]
 };

@@ -131,6 +131,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1integral__const
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1integral__constant-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::integral_constant&lt; T, v &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -170,36 +171,6 @@ struct boost::hana::integral_constant&lt; T, v &gt;</h3>
 <li>Logical: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
 <li>Member access: <code>*</code> (dereference)</li>
 </ul>
-<h2><code>times</code> function </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s also have a static member function object named <code>times</code>, which allows a nullary function to be invoked <code>n</code> times: </p><div class="fragment"><div class="line">int_&lt;3&gt;.times(f)</div>
-</div><!-- fragment --><p> should be expanded by any decent compiler to </p><div class="fragment"><div class="line">f(); f(); f();</div>
-</div><!-- fragment --><p>This can be useful in several contexts, e.g. for loop unrolling: </p><div class="fragment"><div class="line">std::string s;</div>
-<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">char</span> c = <span class="charliteral">&#39;x&#39;</span>; c &lt;= <span class="charliteral">&#39;z&#39;</span>; ++c)</div>
-<div class="line">    hana::int_c&lt;5&gt;.times([&amp;] { s += c; });</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
-</div><!-- fragment --><p> Note that <code>times</code> is really a static function object. Since static members can be accessed using both the <code>.</code> and the <code>::</code> syntax, Hana takes advantage of this (loophole?) to make <code>times</code> accessible both from the type of an <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code> object and from an object itself: </p><div class="fragment"><div class="line">std::string s;</div>
-<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">char</span> c = <span class="charliteral">&#39;x&#39;</span>; c &lt;= <span class="charliteral">&#39;z&#39;</span>; ++c)</div>
-<div class="line">    decltype(hana::int_c&lt;5&gt;)::times([&amp;] { s += c; });</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
-</div><!-- fragment --><p> Also, since <code>times</code> is a function object instead of an overloaded function, it does not need to be called right away, which can be useful in conjunction with some higher-order algorithms: </p><div class="fragment"><div class="line">std::string s;</div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> functions = hana::make_tuple(</div>
-<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;x&quot;</span>; },</div>
-<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;y&quot;</span>; },</div>
-<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;z&quot;</span>; }</div>
-<div class="line">);</div>
-<div class="line">hana::for_each(functions, hana::int_c&lt;5&gt;.times);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
-</div><!-- fragment --><p> Sometimes, it is also useful to know the index we're at inside the function. This is also possible: </p><div class="fragment"><div class="line">std::vector&lt;int&gt; v;</div>
-<div class="line">hana::int_c&lt;5&gt;.times.with_index([&amp;](<span class="keyword">auto</span> index) { v.push_back(index); });</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(v == std::vector&lt;int&gt;{0, 1, 2, 3, 4});</div>
-</div><!-- fragment --><p> Remember that <code>times</code> is a <em>function object</em>, and hence it can have subobjects. <code>with_index</code> is then just a function object nested inside <code>times</code>, which allows for this nice little interface. Also note that the indices passed to the function are <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s; they are known at compile-time. Hence, we can do compile-time stuff with them, like indexing inside a tuple: </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = hana::tuple_c&lt;int, 0, 1, 2&gt;;</div>
-<div class="line">hana::int_c&lt;3&gt;.times.with_index([xs](<span class="keyword">auto</span> index) {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[index] == index);</div>
-<div class="line">});</div>
-</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>times.with_index(f)</code> guarantees that the calls to <code>f</code> will be done in order of ascending index. In other words, <code>f</code> will be called as <code>f(0)</code>, <code>f(1)</code>, <code>f(2)</code>, etc., but with <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s instead of normal integers. Side effects can also be done in the function passed to <code>.times</code> and <code>.times.with_index</code>.</dd></dl>
 <h2>Construction with user-defined literals </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s of type <code>long long</code> can be created with the <code>_c</code> user-defined literal, which is contained in the <code>literals</code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">using namespace </span>hana::literals; <span class="comment">// contains the _c suffix</span></div>
 <div class="line"></div>
@@ -263,10 +234,8 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:aa301b96de91d665fdc846bde4659b0d3"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1integral__constant.html#adeaf00ee03ae0daf97d60d5258bd3703">bool_</a>&lt; b &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3">bool_c</a> {}</td></tr>
 <tr class="separator:aa301b96de91d665fdc846bde4659b0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96c109b048f822be0ca7578c93694405"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405">true_c</a> = <a class="el" href="structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3">bool_c</a>&lt;true&gt;</td></tr>
-<tr class="memdesc:a96c109b048f822be0ca7578c93694405"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bool_&lt;true&gt;</code>.  <a href="#a96c109b048f822be0ca7578c93694405">More...</a><br /></td></tr>
 <tr class="separator:a96c109b048f822be0ca7578c93694405"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec1a5deaa7bcdf7c07c2da4af8959454"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#aec1a5deaa7bcdf7c07c2da4af8959454">false_c</a> = <a class="el" href="structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3">bool_c</a>&lt;false&gt;</td></tr>
-<tr class="memdesc:aec1a5deaa7bcdf7c07c2da4af8959454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>bool_&lt;false&gt;</code>.  <a href="#aec1a5deaa7bcdf7c07c2da4af8959454">More...</a><br /></td></tr>
 <tr class="separator:aec1a5deaa7bcdf7c07c2da4af8959454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca22320011be96155645b79fe53dd8c2"><td class="memTemplParams" colspan="2">template&lt;char c&gt; </td></tr>
 <tr class="memitem:aca22320011be96155645b79fe53dd8c2"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1integral__constant.html#a08598ceb1797047d8938049b0cad6ccc">char_</a>&lt; c &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#aca22320011be96155645b79fe53dd8c2">char_c</a> {}</td></tr>
@@ -302,6 +271,13 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a1c078fd00db48686ca9e0aa17f47344e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator&quot;&quot;_c</a> ()</td></tr>
 <tr class="memdesc:a1c078fd00db48686ca9e0aa17f47344e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code> from a literal.  <a href="#a1c078fd00db48686ca9e0aa17f47344e">More...</a><br /></td></tr>
 <tr class="separator:a1c078fd00db48686ca9e0aa17f47344e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a2d4bda4a9114a5e803a91def599fae76"><td class="memTemplParams" colspan="2">template&lt;typename F &gt; </td></tr>
+<tr class="memitem:a2d4bda4a9114a5e803a91def599fae76"><td class="memTemplItemLeft" align="right" valign="top">static constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a2d4bda4a9114a5e803a91def599fae76">times</a> (F &amp;&amp;f)</td></tr>
+<tr class="memdesc:a2d4bda4a9114a5e803a91def599fae76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a function n times.  <a href="#a2d4bda4a9114a5e803a91def599fae76">More...</a><br /></td></tr>
+<tr class="separator:a2d4bda4a9114a5e803a91def599fae76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="adeaf00ee03ae0daf97d60d5258bd3703"></a>
@@ -693,8 +669,6 @@ template&lt;typename T, T v&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Equivalent to <code>bool_&lt;true&gt;</code>. </p>
-
 </div>
 </div>
 <a class="anchor" id="aec1a5deaa7bcdf7c07c2da4af8959454"></a>
@@ -716,8 +690,6 @@ template&lt;typename T, T v&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Equivalent to <code>bool_&lt;false&gt;</code>. </p>
 
 </div>
 </div>
@@ -994,6 +966,66 @@ template&lt;char... c&gt; </div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == hana::llong_c&lt;-1234&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == hana::llong_c&lt;1 + (3 * 4)&gt;);</div>
 </div><!-- fragment -->
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2d4bda4a9114a5e803a91def599fae76"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, T v&gt; </div>
+<div class="memtemplate">
+template&lt;typename F &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static constexpr void <a class="el" href="structboost_1_1hana_1_1integral__constant.html">boost::hana::integral_constant</a>&lt; T, v &gt;::times </td>
+          <td>(</td>
+          <td class="paramtype">F &amp;&amp;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Call a function n times. </p>
+<p><code>times</code> allows a nullary function to be invoked <code>n</code> times: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1integral__constant.html#a2d4bda4a9114a5e803a91def599fae76">int_&lt;3&gt;::times</a>(f)</div>
+</div><!-- fragment --><p> should be expanded by any decent compiler to </p><div class="fragment"><div class="line">f(); f(); f();</div>
+</div><!-- fragment --><p>This can be useful in several contexts, e.g. for loop unrolling: </p><div class="fragment"><div class="line">std::string s;</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">char</span> c = <span class="charliteral">&#39;x&#39;</span>; c &lt;= <span class="charliteral">&#39;z&#39;</span>; ++c)</div>
+<div class="line">    hana::int_&lt;5&gt;::times([&amp;] { s += c; });</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
+</div><!-- fragment --><p> Note that <code>times</code> is really a static function object, not just a static function. This allows <code>int_&lt;n&gt;::times</code> to be passed to higher-order algorithms: </p><div class="fragment"><div class="line">std::string s;</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> functions = hana::make_tuple(</div>
+<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;x&quot;</span>; },</div>
+<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;y&quot;</span>; },</div>
+<div class="line">    [&amp;] { s += <span class="stringliteral">&quot;z&quot;</span>; }</div>
+<div class="line">);</div>
+<div class="line">hana::for_each(functions, hana::int_&lt;5&gt;::times);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
+</div><!-- fragment --><p> Also, since static members can be accessed using both the <code>.</code> and the <code>::</code> syntax, one can take advantage of this (loophole?) to call <code>times</code> on objects just as well as on types: </p><div class="fragment"><div class="line">std::string s;</div>
+<div class="line"><span class="keywordflow">for</span> (<span class="keywordtype">char</span> c = <span class="charliteral">&#39;x&#39;</span>; c &lt;= <span class="charliteral">&#39;z&#39;</span>; ++c)</div>
+<div class="line">    hana::int_c&lt;5&gt;.<a class="code" href="structboost_1_1hana_1_1integral__constant.html#a2d4bda4a9114a5e803a91def599fae76">times</a>([&amp;] { s += c; });</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;xxxxxyyyyyzzzzz&quot;</span>);</div>
+</div><!-- fragment --><p> Sometimes, it is also useful to know the index we're at inside the function. This can be achieved by using <code>times.with_index</code>: </p><div class="fragment"><div class="line">std::vector&lt;int&gt; v;</div>
+<div class="line">hana::int_&lt;5&gt;::times.with_index([&amp;](<span class="keyword">auto</span> index) { v.push_back(index); });</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(v == std::vector&lt;int&gt;{0, 1, 2, 3, 4});</div>
+</div><!-- fragment --><p> Remember that <code>times</code> is a <em>function object</em>, and hence it can have subobjects. <code>with_index</code> is just a function object nested inside <code>times</code>, which allows for this nice little interface. Also note that the indices passed to the function are <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s; they are known at compile-time. Hence, we can do compile-time stuff with them, like indexing inside a tuple: </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> xs = hana::tuple_c&lt;int, 0, 1, 2&gt;;</div>
+<div class="line">hana::int_&lt;3&gt;::times.with_index([xs](<span class="keyword">auto</span> index) {</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(xs[index] == index);</div>
+<div class="line">});</div>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd><code>times.with_index(f)</code> guarantees that the calls to <code>f</code> will be done in order of ascending index. In other words, <code>f</code> will be called as <code>f(0)</code>, <code>f(1)</code>, <code>f(2)</code>, etc., but with <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s instead of normal integers. Side effects can also be done in the function passed to <code>times</code> and <code>times.with_index</code>. </dd></dl>
+
 </div>
 </div>
 </div><!-- contents -->

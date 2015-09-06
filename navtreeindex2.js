@@ -1,8 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"index.html#tutorial-rationales-tag_dispatching":[0,18,7],
-"index.html#tutorial-rationales-tuple":[0,18,4],
-"index.html#tutorial-rationales-why_Hana":[0,18,3],
 "index.html#tutorial-rationales-zip_longest":[0,18,8],
 "index.html#tutorial-reference":[0,15],
 "index.html#tutorial-reference-signatures":[0,15,0],
@@ -249,5 +246,8 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,7],
 "structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,19,14],
 "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,0,19,3],
-"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,17]
+"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,17],
+"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,29],
+"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,21],
+"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,19,8]
 };

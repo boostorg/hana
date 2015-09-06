@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Logical Struct Reference</title>
+<title>Boost.Hana: boost::hana::Logical&lt; L &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Logical.html','
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Logical-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Logical Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Logical&lt; L &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> concept represents types with a truth value. </p>
+<div class="textblock"><h3>template&lt;typename L&gt;<br />
+struct boost::hana::Logical&lt; L &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> concept represents types with a truth value. </p>
 <p>Intuitively, a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> is just a <code>bool</code>, or something that can act like one. However, in the context of programming with heterogeneous objects, it becomes extremely important to distinguish between those objects whose truth value is known at compile-time, and those whose truth value is only known at runtime. The reason why this is so important is because it is possible to branch at compile-time on a condition whose truth value is known at compile-time, and hence the return type of the enclosing function can depend on that truth value. However, if the truth value is only known at runtime, then the compiler has to compile both branches (because any or both of them may end up being used), which creates the additional requirement that both branches must evaluate to the same type.</p>
 <p>More specifically, <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> (almost) represents a <a href="http://en.wikipedia.org/wiki/Boolean_algebra_(structure)">boolean algebra</a>, which is a mathematical structure encoding the usual properties that allow us to reason with <code>bool</code>. The exact properties that must be satisfied by any model of <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> are rigorously stated in the laws below.</p>
 <h2>Truth, falsity and logical equivalence </h2>
@@ -220,6 +223,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a8d0365b860f1383b8077ea86eee79a23"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -264,6 +269,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a97f92ff5d73f8ebd7e9eb61142b2e68e"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -380,6 +387,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a06927a2badb729e1522b9030d18234df"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -441,6 +450,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a3c5a578f274b7513e5008eab698fa5bc"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -485,6 +496,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ac5683e17dd3318d3be74e5defb1e7252"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -530,6 +543,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="abd199c2e8d8947decc01a5e43b1f4489"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename L &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

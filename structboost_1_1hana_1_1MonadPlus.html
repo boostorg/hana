@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::MonadPlus Struct Reference</title>
+<title>Boost.Hana: boost::hana::MonadPlus&lt; M &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1MonadPlus.html'
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1MonadPlus-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::MonadPlus Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::MonadPlus&lt; M &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept represents Monads with a monoidal structure. </p>
+<div class="textblock"><h3>template&lt;typename M&gt;<br />
+struct boost::hana::MonadPlus&lt; M &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept represents Monads with a monoidal structure. </p>
 <p>Intuitively, whereas a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> can be seen as some kind of container or context, a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> can be seen as a container or a context that can be concatenated with other containers or contexts. There must also be an identity element for this combining operation. For example, a tuple is a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, because tuples can be concatenated and the empty tuple would act as an identity for concatenation. How is this different from a <a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a> which is also a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a>? The answer is that the monoidal structure on a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> must <em>not</em> depend of the contents of the structure; it must not require the contents to be a <a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a> in order to work.</p>
 <p>While sequences are not the only possible model for <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a>, the method names used here refer to the <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> of sequences under concatenation. Several useful functions generalizing operations on sequences are included with this concept, like <code>append</code>, <code>prepend</code> and <code>filter</code>.</p>
 <h2>Minimal complete definition </h2>
@@ -198,6 +201,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="ae469094a7fee3a0f7dfcc900da9b07b4"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -256,6 +261,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a30a6926751dfcafbe2bb67738e2da3c4"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -314,6 +321,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a15cd26f8259bdd4306cd0907ef578b47"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -372,6 +381,8 @@ Synopsis of associated functions</h2></td></tr>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename M &gt; </div>
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -424,6 +435,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="a929370eddd43bb1a4a11b00a7880eadb"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -493,6 +506,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="a85ba602a660bdb3bbeb43cc600de3008"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -556,6 +571,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="a3e173a5524274624703353bb3ac4c129"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -613,6 +630,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="a08e2f3034ed81a7bfff513a5b5f82031"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -669,6 +688,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="ad993eca017378409ad0b3a2e6b6807ff"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -728,6 +749,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="acbf4797cf95bb19dfe33a16cf86fe3c9"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <div class="memtemplate">
 template&lt;typename M &gt; </div>
 <table class="mlabels">
@@ -793,6 +816,8 @@ template&lt;typename M &gt; </div>
 <a class="anchor" id="a9b6622ade385d42bf03dd18f226cd080"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename M &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

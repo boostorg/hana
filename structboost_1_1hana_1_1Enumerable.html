@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Enumerable Struct Reference</title>
+<title>Boost.Hana: boost::hana::Enumerable&lt; E &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Enumerable.html
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Enumerable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Enumerable Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Enumerable&lt; E &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Represents data types whose values can be enumerated. </p>
+<div class="textblock"><h3>template&lt;typename E&gt;<br />
+struct boost::hana::Enumerable&lt; E &gt;</h3>
+
+<p>Represents data types whose values can be enumerated. </p>
 <p><code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> provides the <code>succ</code> and <code>pred</code> methods, whose names come from the <a href="http://en.wikipedia.org/wiki/Successor_function">successor</a> and predecessor functions used when defining the natural numbers with the Peano axioms. Those functions allow the values of a data type to be enumerated. Note that an <code><a class="el" href="structboost_1_1hana_1_1Enumerable.html" title="Represents data types whose values can be enumerated. ">Enumerable</a></code> data type <code>E</code> may contain infinitely many values; <code>pred</code> and <code>succ</code> can be implemented as long as the infinity is <a href="http://en.wikipedia.org/wiki/Countable_set">countable</a> (in its mathematical sense).</p>
 <h2>Minimal complete definition </h2>
 <p><code>succ</code> and <code>pred</code> satisfying the laws below</p>
@@ -163,6 +166,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a283eaffe2c556e841a84a2e03d6b95f9"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename E &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -206,6 +211,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a09bc77dab527650793cab53fce2c14b0"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename E &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

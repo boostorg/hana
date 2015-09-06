@@ -202,11 +202,11 @@ template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 <tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; std::size_t, N, F &gt;</td></tr>
 <tr class="memdesc:gac7f5853430d8d73d097d7ec46aafe453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
 <tr class="separator:gac7f5853430d8d73d097d7ec46aafe453"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
+<tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class Concept, typename T , typename U &gt; </td></tr>
 <tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typename has_common_embedding_impl&lt; Concept, T, U &gt;::type</td></tr>
 <tr class="memdesc:gae85b604ae6c7a386f0fc3631c561091b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type.  <a href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">More...</a><br /></td></tr>
 <tr class="separator:gae85b604ae6c7a386f0fc3631c561091b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplParams" colspan="2">template&lt;typename Concept , typename T , typename U &gt; </td></tr>
+<tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class Concept, typename T , typename U &gt; </td></tr>
 <tr class="memitem:ga9acac3c4609cff5f0957572744c61ec4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typename has_nontrivial_common_embedding_impl&lt; Concept, T, U &gt;::type</td></tr>
 <tr class="memdesc:ga9acac3c4609cff5f0957572744c61ec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> are distinct and both have an embedding into a common type.  <a href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">More...</a><br /></td></tr>
 <tr class="separator:ga9acac3c4609cff5f0957572744c61ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,7 +360,7 @@ template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Concept , typename T , typename U &gt; </div>
+template&lt;template&lt; typename... &gt; class Concept, typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typedef typename has_common_embedding_impl&lt;Concept, T, U&gt;::type</td>
@@ -379,7 +379,7 @@ template&lt;typename Concept , typename T , typename U &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Concept , typename T , typename U &gt; </div>
+template&lt;template&lt; typename... &gt; class Concept, typename T , typename U &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4">boost::hana::detail::has_nontrivial_common_embedding</a> = typedef typename has_nontrivial_common_embedding_impl&lt;Concept, T, U&gt;::type</td>

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::IntegralDomain Struct Reference</title>
+<title>Boost.Hana: boost::hana::IntegralDomain&lt; D &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1IntegralDomain.
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1IntegralDomain-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::IntegralDomain Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::IntegralDomain&lt; D &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> concept represents a commutative <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> whose multiplication has some "nice" properties. </p>
+<div class="textblock"><h3>template&lt;typename D&gt;<br />
+struct boost::hana::IntegralDomain&lt; D &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1IntegralDomain.html" title="The IntegralDomain concept represents a commutative Ring whose multiplication has some &quot;nice&quot; propert...">IntegralDomain</a></code> concept represents a commutative <code><a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a></code> whose multiplication has some "nice" properties. </p>
 <p>In a <a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a> <code>(R, +, *)</code>, it follows quite easily from the axioms that <code>x * 0 == 0</code> for any ring element <code>x</code>. However, there is nothing that mandates <code>0</code> to be the only ring element sending other elements to <code>0</code>. Hence, in some Rings, it is possible to have elements <code>x</code> and <code>y</code> such that <code>x * y == 0</code> while not having <code>x == 0</code> nor <code>y == 0</code>. We call these elements divisors of zero, or zero divisors. For example, this situation arises in the <a class="el" href="structboost_1_1hana_1_1Ring.html" title="The Ring concept represents Groups that also form a Monoid under a second binary operation that distr...">Ring</a> of integers modulo 4 (the set <code>{0, 1, 2, 3}</code>) with addition and multiplication <code>mod 4</code> as binary operations. In this case, we have that </p><div class="fragment"><div class="line">2 * 2 == 4</div>
 <div class="line">      == 0 (mod 4)</div>
 </div><!-- fragment --><p> even though <code>2 != 0 (mod 4)</code>.</p>
@@ -173,6 +176,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a0e8bcb07d9b0d681cb9c4dc0b4df3481"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename D &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -226,6 +231,8 @@ Synopsis of associated functions</h2></td></tr>
 <a class="anchor" id="a42de609cbe102ff3becddf8cb8dcc5a9"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename D &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::Struct Struct Reference</title>
+<title>Boost.Hana: boost::hana::Struct&lt; S &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -133,11 +133,14 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1Struct.html',''
 <a href="#related">Synopsis of associated functions</a> &#124;
 <a href="structboost_1_1hana_1_1Struct-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::Struct Struct Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
+<div class="title">boost::hana::Struct&lt; S &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>The <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept represents <code>struct</code>-like user-defined types. </p>
+<div class="textblock"><h3>template&lt;typename S&gt;<br />
+struct boost::hana::Struct&lt; S &gt;</h3>
+
+<p>The <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept represents <code>struct</code>-like user-defined types. </p>
 <p>The <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept allows restricted compile-time reflection over user-defined types. In particular, it allows accessing the names of the members of a user-defined type, and also the value of those members. <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>s can also be folded, searched and converted to some types of containers, where more advanced transformations can be performed.</p>
 <p>While all types can <em>in theory</em> be made <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>s, only a subset of them are actually interesting to see as such. More precisely, it is only interesting to make a type a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> when it is conceptually a C++ <code>struct</code>, i.e. a mostly dumb aggregate of named data. The way this data is accessed is mostly unimportant to the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept; it could be through getters and setters, through public members, through non-member functions or it could even be generated on-the-fly. The important part, which is made precise below, is that those accessor methods should be move-independent.</p>
 <p>Another way to see a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> is as a map where the keys are the names of the members and the values are the values of those members. However, there are subtle differences like the fact that one can't add a member to a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>, and also that the order of the members inside a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> plays a role in determining the equality of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>s, which is not the case for maps.</p>
@@ -362,6 +365,8 @@ Synopsis of associated functions</h2></td></tr>
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename S &gt; </div>
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -432,6 +437,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a0f32260f859b2510dd16235b7bc011ac"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -490,6 +497,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a5daffa262501273590ec3164122eb92e"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -544,6 +553,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a41037f470ac6ca2f7135802592ef5977"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -639,6 +650,8 @@ template&lt;typename S &gt; </div>
 <a class="anchor" id="a733de713ae2407331983c60186b215ca"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

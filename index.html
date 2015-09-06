@@ -190,7 +190,7 @@ $(document).ready(function(){initNavTree('index.html','');});
 </li>
 <li class="level1"><a href="#tutorial-core">Hana&#39;s core</a><ul><li class="level2"><a href="#tutorial-core-tags">Tags</a></li>
 <li class="level2"><a href="#tutorial-core-tag_dispatching">Tag dispatching</a></li>
-<li class="level2"><a href="#tutorial-core-creating_concepts">Creating new concepts</a></li>
+<li class="level2"><a href="#tutorial-core-concepts">Emulation of C++ concepts</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-header_organization">Header organization</a></li>
@@ -210,7 +210,8 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-rationales-naming">How are names chosen?</a></li>
 <li class="level2"><a href="#tutorial-rationales-parameters">How is the parameter order decided?</a></li>
 <li class="level2"><a href="#tutorial-rationales-tag_dispatching">Why tag dispatching?</a></li>
-<li class="level2"><a href="#tutorial-rationales-zip_longest">Why not provide `zip_longest`?</a></li>
+<li class="level2"><a href="#tutorial-rationales-zip_longest">Why not provide zip_longest?</a></li>
+<li class="level2"><a href="#tutorial-rationales-concepts">Why aren&#39;t concepts constexpr functions?</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-appendix-constexpr">Apendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
@@ -382,17 +383,16 @@ Quick start</h1>
 <div class="line">  });</div>
 <div class="line">};</div>
 </div><!-- fragment --><p> Now, the punishment:</p>
-<div class="fragment"><div class="line">error: static_assert failed <span class="stringliteral">&quot;hana::for_each(xs, f) requires xs to be Foldable&quot;</span></div>
-<div class="line">            static_assert(_models&lt;Foldable, S&gt;{},</div>
-<div class="line">            ^             ~~~~~~~~~~~~~~~~~~~~~~</div>
+<div class="fragment"><div class="line">error: static_assert failed <span class="stringliteral">&quot;hana::for_each(xs, f) requires &#39;xs&#39; to be Foldable&quot;</span></div>
+<div class="line">        static_assert(Foldable&lt;S&gt;::value,</div>
+<div class="line">        ^             ~~~~~~~~~~~~~~~~~~</div>
 <div class="line">note: <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> instantiation of <span class="keyword">function</span> <span class="keyword">template</span> specialization</div>
-<div class="line">      <span class="stringliteral">&#39;boost::hana::_for_each::operator()&lt;</span></div>
-<div class="line"><span class="stringliteral">        std::__1::basic_ostream&lt;char, std::__1::char_traits&lt;char&gt; &gt; &amp;,</span></div>
-<div class="line"><span class="stringliteral">        (lambda at [snip]/example/tutorial/quickstart.cpp:70:16)&gt;&#39;</span> requested here</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Foldable.html#a80176fbdfbccc09e902263557eb0984d">for_each</a>(os, [&amp;](<span class="keyword">auto</span> member) {</div>
+<div class="line">      <span class="stringliteral">&#39;boost::hana::for_each_t::operator()&lt;</span></div>
+<div class="line"><span class="stringliteral">        std::__1::basic_ostream&lt;char&gt; &amp;, (lambda at [snip])&gt;&#39;</span> requested here</div>
+<div class="line">  hana::for_each(os, [&amp;](<span class="keyword">auto</span> member) {</div>
 <div class="line">  ^</div>
 <div class="line">note: <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> instantiation of <span class="keyword">function</span> <span class="keyword">template</span> specialization</div>
-<div class="line">      <span class="stringliteral">&#39;main()::(anonymous class)::operator()&lt;Person&gt;&#39;</span> requested here</div>
+<div class="line">    <span class="stringliteral">&#39;main()::(anonymous class)::operator()&lt;Person&gt;&#39;</span> requested here</div>
 <div class="line">serialize(std::cout, john);</div>
 <div class="line">         ^</div>
 </div><!-- fragment --><p>Not that bad, right? However, since small examples are very good to show off without actually doing something useful, let's examine a real world example.</p>
@@ -1404,7 +1404,7 @@ Example: generating JSON</h2>
 <div class="line">std::string to_json(std::string s) { <span class="keywordflow">return</span> quote(s); }</div>
 </div><!-- fragment --><p> The <code>quote</code> and the <code>to_json</code> overloads are pretty self-explanatory. The <code>join</code> function, however, might need a bit of explanation. Basically, the <code>intersperse</code> function takes a sequence and a separator, and returns a new sequence with the separator in between each pair of elements of the original sequence. In other words, we take a sequence of the form <code>[x1, ..., xn]</code> and turn it into a sequence of the form <code>[x1, seq, x2, sep, ..., sep, xn]</code>. Finally, we fold the resulting sequence with the <code>_ + _</code> function object, which is equivalent to <code>std::plus&lt;&gt;{}</code>. Since our sequence contains <code>std::string</code>s (we assume it does), this has the effect of concatenating all the strings of the sequence into one big string. Now, let's define how to print a <code>Sequence</code>:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Xs&gt;</div>
-<div class="line">  std::enable_if_t&lt;hana::models&lt;hana::Sequence, Xs&gt;(),</div>
+<div class="line">  std::enable_if_t&lt;hana::Sequence&lt;Xs&gt;::value,</div>
 <div class="line">std::string&gt; to_json(Xs <span class="keyword">const</span>&amp; xs) {</div>
 <div class="line">  <span class="keyword">auto</span> json = hana::transform(xs, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
 <div class="line">    <span class="keywordflow">return</span> to_json(x);</div>
@@ -1414,7 +1414,7 @@ Example: generating JSON</h2>
 <div class="line">}</div>
 </div><!-- fragment --><p> First, we use the <code>transform</code> algorithm to turn our sequence of objects into a sequence of <code>std::string</code>s in JSON format. Then, we join that sequence with commas and we enclose it with <code>[]</code> to denote a sequence in JSON notation. Simple enough? Let's now take a look at how to print user-defined types:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line">  std::enable_if_t&lt;hana::models&lt;hana::Struct, T&gt;(),</div>
+<div class="line">  std::enable_if_t&lt;hana::Struct&lt;T&gt;::value,</div>
 <div class="line">std::string&gt; to_json(T <span class="keyword">const</span>&amp; x) {</div>
 <div class="line">  <span class="keyword">auto</span> json = hana::transform(hana::keys(x), [&amp;](<span class="keyword">auto</span> name) {</div>
 <div class="line">    <span class="keyword">auto</span> <span class="keyword">const</span>&amp; member = hana::at_key(x, name);</div>
@@ -1713,7 +1713,7 @@ Tags</h2>
 <p>Tags are an extension to normal C++ types. Indeed, by default, the tag of a type <code>T</code> is <code>T</code> itself, and the core of the library is designed to work in those cases. For example, <code>hana::make</code> expects either a tag or an actual type; if you send it a type <code>T</code>, it will do the logical thing and construct an object of type <code>T</code> with the arguments you pass it. If you pass a tag to it, however, you should specialize <code>make</code> for that tag and provide your own implementation, as explained below. Because tags are an extension to usual types, we end up mostly reasoning in terms of tags instead of usual types, and the documentation sometimes uses the words <em>type</em>, <em>data type</em> and <em>tag</em> interchangeably.</p>
 <h2><a class="anchor" id="tutorial-core-tag_dispatching"></a>
 Tag dispatching</h2>
-<p>Tag dispatching is a generic programming technique for picking the right implementation of a function depending on the type of the arguments passed to the function. The usual mechanism for overriding a function's behavior is overloading. Unfortunately, this mechanism is not always convenient when dealing with families of related types having different C++ types, or with objects of unspecified types as is often the case in Hana. For example, consider trying to overload a function for all Boost.Fusion vectors:</p>
+<p>Tag dispatching is a generic programming technique for picking the right implementation of a function depending on the type of the arguments passed to the function. The usual mechanism for overriding a function's behavior is overloading. Unfortunately, this mechanism is not always convenient when dealing with families of related types having different base templates, or when the kind of template parameters is not known (is it a type or a non-type template parameter?). For example, consider trying to overload a function for all Boost.Fusion vectors:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
 <div class="line"><span class="keywordtype">void</span> <span class="keyword">function</span>(boost::fusion::vector&lt;T...&gt; v) {</div>
 <div class="line">    <span class="comment">// whatever</span></div>
@@ -1821,17 +1821,66 @@ Tag dispatching</h2>
 <p>This technique also makes it easier to provide interface functions as function objects instead of normal overloaded functions, because only the interface function itself must go through the trouble of defining a function object. Function objects have several advantages over overloaded functions, like the ability to be used in higher order algorithms or as variables:</p>
 <div class="fragment"><div class="line"><span class="comment">// Defining a function object is only needed once and implementations do not</span></div>
 <div class="line"><span class="comment">// have to worry about static initialization and other painful tricks.</span></div>
-<div class="line"><span class="keyword">struct </span>_print {</div>
+<div class="line"><span class="keyword">struct </span>print_t {</div>
 <div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
 <div class="line">  <span class="keywordtype">void</span> operator()(std::ostream&amp; os, X x)<span class="keyword"> const </span>{</div>
 <div class="line">    <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::tag_of&lt;X&gt;::type;</div>
 <div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">  }</div>
 <div class="line">};</div>
-<div class="line">constexpr _print print{};</div>
-</div><!-- fragment --><h2><a class="anchor" id="tutorial-core-creating_concepts"></a>
-Creating new concepts</h2>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Write this section.</dd></dl>
+<div class="line">constexpr print_t print{};</div>
+</div><!-- fragment --><h2><a class="anchor" id="tutorial-core-concepts"></a>
+Emulation of C++ concepts</h2>
+<p>The implementation of concepts in Hana is very simple. At its heart, a concept is just a template <code>struct</code> with a nested <code>::value</code> boolean representing whether the given type is a <em>model</em> of the concept:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Concept {</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value = whether T models Concept;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>Then, one can test whether a type <code>T</code> is a model of <code>Concept</code> by looking at <code>Concept&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code>. Simple enough, right? Now, while the way one might implement the check does not have to be anything specific as far as Hana is concerned, the rest of this section will explain how it is usually done in Hana, and how it interacts with tag dispatching. You should then be able to define your own concepts if you so desire, or at least to understand better how Hana works internally.</p>
+<p>Usually, a concept defined by Hana will require that any model implements some tag-dispatched functions. For example, the <code>Foldable</code> concept requires that any model defines at least one of <code>hana::unpack</code> and <code>hana::fold_left</code>. Of course, concepts usually also define semantic requirements (called laws) that must be satisfied by their models, but these laws are not (and couldn't be) checked by the concept. But how do we check that some functions are properly implemented? For this, we'll have to slightly modify the way we defined tag-dispatched methods as shown in the previous section. Let's go back to our <code>print</code> example and try to define a <code>Printable</code> concept for those objects that can be <code>print</code>ed. Our end goal is to have a template struct such as</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value = whether print_impl&lt;tag of T&gt; is defined;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p>To know whether <code>print_impl&lt;...&gt;</code> has been defined, we'll modify <code>print_impl</code> so that it inherits from a special base class when it is not overridden, and we'll simply check whether <code>print_impl&lt;T&gt;</code> inherits from that base class:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>special_base_class { };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl : special_base_class {</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Args&amp;&amp; ...) = <span class="keyword">delete</span>;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">  <span class="keyword">using</span> Tag = hana::tag_of_t&lt;T&gt;;</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value = !std::is_base_of&lt;special_base_class, print_impl&lt;Tag&gt;&gt;::value;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> Of course, when we specialize <code>print_impl</code> with a custom type, we don't inherit from that <code>special_base_class</code> type:</p>
+<div class="fragment"><div class="line"><span class="keyword">struct </span>Person { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl&lt;Person&gt; <span class="comment">/* don&#39;t inherit from special_base_class */</span> {</div>
+<div class="line">  <span class="comment">// ... implementation ...</span></div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line">static_assert(Printable&lt;Person&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(!Printable&lt;void&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+</div><!-- fragment --><p> As you can see, <code>Printable&lt;T&gt;<a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> really only checks whether the <code>print_impl&lt;T&gt;</code> struct was specialized by a custom type. In particular, it does not even check whether the nested <code>::apply</code> function is defined or if it is syntactically valid. It is assumed that if one specializes <code>print_impl</code> for a custom type, the nested <code>::apply</code> function exists and is correct. If it is not, a compilation error will be triggered when one tries to call <code>print</code> on an object of that type. Concepts in Hana make the same assumptions.</p>
+<p>Since this pattern of inheriting from a special base class is quite abundant in Hana, the library provides a dummy type called <code>hana::default_</code> that can be used in place of <code>special_base_class</code>. Then, instead of using <code>std::is_base_of</code>, one can use <code>hana::is_default</code>, which looks nicer. With this syntactic sugar, the code now becomes:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>print_impl : hana::default_ {</div>
+<div class="line">  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">apply</a>(Args&amp;&amp; ...) = <span class="keyword">delete</span>;</div>
+<div class="line">};</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keyword">struct </span>Printable {</div>
+<div class="line">  <span class="keyword">using</span> Tag = hana::tag_of_t&lt;T&gt;;</div>
+<div class="line">  <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> value = !hana::is_default&lt;print_impl&lt;Tag&gt;&gt;::value;</div>
+<div class="line">};</div>
+</div><!-- fragment --><p> This is all that there's to know about the interaction between tag-dispatched functions and concepts. However, some concepts in Hana do not rely solely on the definition of specific tag-dispatched functions to determine if a type is a model of the concept. This can happen when a concept merely introduces semantic guarantees through laws and refined concepts, but no additional syntactic requirements. Defining such a concept can be useful for several reasons. First, it sometimes happen that an algorithm can be implemented more efficiently if we can assume some semantic guarantees X or Y, so we might create a concept to enforce those guarantees. Secondly, it is sometimes possible to automatically define the models for several concepts when we have additional semantic guarantees, which saves the user the trouble of defining those models manually. For example, this is the case of the <code>Sequence</code> concept, which basically adds semantic guarantees to <code>Iterable</code> and <code>Foldable</code>, and in turn allows us to define the models for a myriad of concepts ranging from <code>Comparable</code> to <code>Monad</code>.</p>
+<p>For these concepts, it is usually necessary to specialize the corresponding template struct in the <code>boost::hana</code> namespace to provide a model for a custom type. Doing so is like providing a seal saying that the semantic guarantees required by the concept are respected by the custom type. The concepts that require being explicitly specialized will document that fact. So that's it! This is all that there's to know about concepts in Hana, which ends this section about the core of Hana.</p>
 <h1><a class="anchor" id="tutorial-header_organization"></a>
 Header organization</h1>
 <hr/>
@@ -2020,14 +2069,32 @@ How is the parameter order decided?</h2>
 </div><!-- fragment --><h2><a class="anchor" id="tutorial-rationales-tag_dispatching"></a>
 Why tag dispatching?</h2>
 <p>There are several different techniques we could have used to provide customization points in the library, and tag-dispatching was chosen. Why? First, I wanted a two-layer dispatching system because this allows functions from the first layer (the ones that are called by users) to actually be function objects, which allows passing them to higher-order algorithms. Using a dispatching system with two layers also allows adding some compile-time sanity checks to the first layer, which improves error messages.</p>
-<p>Now, tag-dispatching was chosen over other techniques with two layers for a couple of reasons. First, having to explicitly state how some tag is a model of a concept gives the responsibility of making sure that the semantic requirements of the concept are respected to the user. Secondly, when checking whether a type is a model of some concept, we basically check that some key functions are implemented. In particular, we check that the functions from the minimal complete definition of that concept are implemented. For example, <code>models&lt;Iterable, T&gt;</code> checks whether the <code>is_empty</code>, <code>at</code> and <code>tail</code> functions implemented for <code>T</code>. However, the only way to detect this without tag-dispatching is to basically check whether the following expressions are valid in a SFINAE-able context: </p><pre class="fragment">implementation_of_at(std::declval&lt;T&gt;(), std::declval&lt;N&gt;())
-implementation_of_is_empty(std::declval&lt;T&gt;())
-implementation_of_tail(std::declval&lt;T&gt;())
-</pre><p>Unfortunately, this requires actually doing the algorithms, which might either trigger a hard compile-time error or hurt compile-time performance. Also, this requires picking an arbitrary index <code>N</code> to call <code>at</code> with: what if the <code>Iterable</code> is empty? With tag dispatching, we can just ask whether <code>at_impl&lt;T&gt;</code>, <code>is_empty_impl&lt;T&gt;</code> and <code>tail_impl&lt;T&gt;</code> are defined, and nothing happens until we actually call their nested <code>::apply</code> function.</p>
+<p>Now, tag-dispatching was chosen over other techniques with two layers for a couple of reasons. First, having to explicitly state how some tag is a model of a concept gives the responsibility of making sure that the semantic requirements of the concept are respected to the user. Secondly, when checking whether a type is a model of some concept, we basically check that some key functions are implemented. In particular, we check that the functions from the minimal complete definition of that concept are implemented. For example, <code>Iterable&lt;T&gt;</code> checks whether the <code>is_empty</code>, <code>at</code> and <code>tail</code> functions implemented for <code>T</code>. However, the only way to detect this without tag-dispatching is to basically check whether the following expressions are valid in a SFINAE-able context:</p>
+<div class="fragment"><div class="line">implementation_of_at(std::declval&lt;T&gt;(), std::declval&lt;N&gt;())</div>
+<div class="line">implementation_of_is_empty(<a class="code" href="namespacestd.html">std</a>::declval&lt;T&gt;())</div>
+<div class="line">implementation_of_tail(<a class="code" href="namespacestd.html">std</a>::declval&lt;T&gt;())</div>
+</div><!-- fragment --><p>Unfortunately, this requires actually doing the algorithms, which might either trigger a hard compile-time error or hurt compile-time performance. Also, this requires picking an arbitrary index <code>N</code> to call <code>at</code> with: what if the <code>Iterable</code> is empty? With tag dispatching, we can just ask whether <code>at_impl&lt;T&gt;</code>, <code>is_empty_impl&lt;T&gt;</code> and <code>tail_impl&lt;T&gt;</code> are defined, and nothing happens until we actually call their nested <code>::apply</code> function.</p>
 <h2><a class="anchor" id="tutorial-rationales-zip_longest"></a>
-Why not provide `zip_longest`?</h2>
+Why not provide zip_longest?</h2>
 <p>It would require either (1) padding the shortest sequences with an arbitrary object, or (2) padding the shortest sequences with an object provided by the user when calling <code>zip_longest</code>. Since there is no requirement that all the zipped sequences have elements of similar types, there is no way to provide a single consistent padding object in all cases. A tuple of padding objects should be provided, but I find it perhaps too complicated to be worth it for now. If you need this functionality, open a GitHub issue.</p>
-<h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
+<h2><a class="anchor" id="tutorial-rationales-concepts"></a>
+Why aren't concepts constexpr functions?</h2>
+<p>Since the C++ concept proposal maps concepts to boolean <code>constexpr</code> functions, it would make sense that Hana defines its concepts as such too, instead of as structs with a nested <code>::value</code>. Indeed, this was the first choice, but it had to be revised because template functions have one limitation that makes them less flexible. Specifically, a template function can't be passed to a higher-order metafunction. In other words, it is not possible to write the following</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;??? Concept&gt;</div>
+<div class="line"><span class="keyword">struct </span>some_metafunction {</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><p>This sort of code is very useful in some contexts, such as checking whether two types have a common embedding modeling a concept:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;??? Concept, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
+<div class="line"><span class="keyword">struct </span>have_common_embedding {</div>
+<div class="line">  <span class="comment">// whether T and U both model Concept, and share a common type that also models Concept</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><p>With concepts as boolean <code>constexpr</code> functions, this can't be written generically. When concepts are just template structs, however, we can use template template parameters:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...&gt; <span class="keyword">class </span>Concept, <span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
+<div class="line"><span class="keyword">struct </span>have_common_embedding {</div>
+<div class="line">  <span class="comment">// whether T and U both model Concept, and share a common type that also models Concept</span></div>
+<div class="line">};</div>
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
 Apendix I: Advanced constexpr</h1>
 <hr/>
 <p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++14. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. This section covers advanced concepts about to constant expressions; only readers with a good understanding of <code>constexpr</code> should attempt to read this.</p>
@@ -2071,7 +2138,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -2119,7 +2186,7 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000014">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix II: A minimal MPL</h1>
 <hr/>
