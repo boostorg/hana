@@ -75,6 +75,10 @@ int main() {
 
         // nested ::value_type
         static_assert(std::is_same<decltype(int_c<1>)::value_type, int>{}, "");
+
+        // inherits from std::integral_constant
+        static_assert(std::is_base_of<std::integral_constant<int, 3>,
+                                      integral_constant<int, 3>>{}, "");
     }
 
     //////////////////////////////////////////////////////////////////////////
