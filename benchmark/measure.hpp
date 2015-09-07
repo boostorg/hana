@@ -9,19 +9,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <chrono>
 #include <iostream>
-#include <thread>
 
 
 namespace boost { namespace hana { namespace benchmark {
-    template <int i>
-    struct object {
-        constexpr object() = default;
-
-        object(object const&) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds(1));
-        }
-    };
-
     auto measure = [](auto f) {
         constexpr auto repetitions = 500ull;
         auto start = std::chrono::steady_clock::now();
