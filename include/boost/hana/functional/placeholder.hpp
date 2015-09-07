@@ -10,9 +10,9 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 #define BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/closure.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -94,12 +94,34 @@ namespace boost { namespace hana {
 
         template <typename F, typename Xs, std::size_t ...i>
         constexpr decltype(auto) invoke_impl(F&& f, Xs&& xs, std::index_sequence<i...>) {
-            return static_cast<F&&>(f)(detail::get<i>(static_cast<Xs&&>(xs))...);
+            return static_cast<F&&>(f)(hana::get_impl<i>(static_cast<Xs&&>(xs).storage_)...);
         }
 
         template <typename ...X>
-        struct invoke : detail::closure<X...> {
-            using detail::closure<X...>::closure;
+        struct invoke;
+
+        struct placeholder {
+            struct secret { };
+
+            template <typename X>
+            constexpr decltype(auto) operator[](X&& x) const
+            { return detail::create<subscript>{}(static_cast<X&&>(x)); }
+
+            template <typename ...X>
+            constexpr invoke<typename std::decay<X>::type...>
+            operator()(X&& ...x) const {
+                return {secret{}, static_cast<X&&>(x)...};
+            }
+        };
+
+        template <typename ...X>
+        struct invoke {
+            template <typename ...Y>
+            constexpr invoke(placeholder::secret, Y&& ...y)
+                : storage_{static_cast<Y&&>(y)...}
+            { }
+
+            basic_tuple<X...> storage_;
 
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) const& -> decltype(
@@ -126,18 +148,6 @@ namespace boost { namespace hana {
                                    std::make_index_sequence<sizeof...(X)>{});
             }
 #endif
-        };
-
-        struct placeholder {
-            template <typename X>
-            constexpr decltype(auto) operator[](X&& x) const
-            { return detail::create<subscript>{}(static_cast<X&&>(x)); }
-
-            template <typename ...X>
-            constexpr invoke<typename std::decay<X>::type...>
-            operator()(X&& ...x) const {
-                return {static_cast<X&&>(x)...};
-            }
         };
 
 #ifdef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST

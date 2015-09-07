@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_CAPTURE_HPP
 #define BOOST_HANA_FUNCTIONAL_CAPTURE_HPP
 
-#include <boost/hana/detail/closure.hpp>
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/functional/partial.hpp>
 
 #include <cstddef>
@@ -47,13 +47,31 @@ namespace boost { namespace hana {
         template <typename F, typename Closure, std::size_t ...i>
         constexpr auto apply_capture(F&& f, Closure&& closure, std::index_sequence<i...>) {
             return hana::partial(static_cast<F&&>(f),
-                                 detail::get<i>(static_cast<Closure&&>(closure))...);
+                hana::get_impl<i>(static_cast<Closure&&>(closure).storage_)...
+            );
         }
     }
 
     template <typename ...X>
-    struct capture_t : detail::closure<X...> {
-        using detail::closure<X...>::closure;
+    struct capture_t;
+
+    struct make_capture_t {
+        struct secret { };
+        template <typename ...X>
+        constexpr capture_t<typename std::decay<X>::type...>
+        operator()(X&& ...x) const {
+            return {secret{}, static_cast<X&&>(x)...};
+        }
+    };
+
+    template <typename ...X>
+    struct capture_t {
+        template <typename ...Y>
+        constexpr capture_t(make_capture_t::secret, Y&& ...y)
+            : storage_{static_cast<Y&&>(y)...}
+        { }
+
+        basic_tuple<X...> storage_;
 
         template <typename F>
         constexpr auto operator()(F&& f) const& {
@@ -77,14 +95,6 @@ namespace boost { namespace hana {
                 static_cast<F&&>(f), static_cast<capture_t&&>(*this),
                 std::make_index_sequence<sizeof...(X)>{}
             );
-        }
-    };
-
-    struct make_capture_t {
-        template <typename ...X>
-        constexpr capture_t<typename std::decay<X>::type...>
-        operator()(X&& ...x) const {
-            return {static_cast<X&&>(x)...};
         }
     };
 

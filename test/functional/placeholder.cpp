@@ -4,15 +4,12 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
+#include <boost/hana/assert.hpp>
 #include <boost/hana/functional/placeholder.hpp>
 
-#include <boost/hana/assert.hpp>
-
-#include <type_traits>
 #include <utility>
-using namespace boost::hana;
+namespace hana = boost::hana;
+using hana::_;
 
 
 struct extra_t { virtual ~extra_t() { } };
@@ -28,20 +25,20 @@ constexpr auto valid_call(F&& f, Args&& ...args)
 { return true; }
 
 #define BOOST_HANA_TEST_BINARY_OP(op, x, y)                                 \
-    BOOST_HANA_CONSTEXPR_CHECK((_ op _)(x, y) == (x op y));                 \
+    static_assert((_ op _)(x, y) == (x op y), "");                          \
     BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra) == (x op y));            \
     BOOST_HANA_RUNTIME_CHECK((_ op _)(x, y, extra, extra) == (x op y));     \
     static_assert(!valid_call(_ op _), "");                                 \
     static_assert(!valid_call(_ op _, invalid), "");                        \
     static_assert(!valid_call(_ op _, invalid, invalid), "");               \
                                                                             \
-    BOOST_HANA_CONSTEXPR_CHECK((_ op y)(x) == (x op y));                    \
+    static_assert((_ op y)(x) == (x op y), "");                             \
     BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra) == (x op y));               \
     BOOST_HANA_RUNTIME_CHECK((_ op y)(x, extra, extra) == (x op y));        \
     static_assert(!valid_call(_ op y), "");                                 \
     static_assert(!valid_call(_ op y, invalid), "");                        \
                                                                             \
-    BOOST_HANA_CONSTEXPR_CHECK((x op _)(y) == (x op y));                    \
+    static_assert((x op _)(y) == (x op y), "");                             \
     BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra) == (x op y));               \
     BOOST_HANA_RUNTIME_CHECK((x op _)(y, extra, extra) == (x op y));        \
     static_assert(!valid_call(x op _), "");                                 \
@@ -50,7 +47,7 @@ constexpr auto valid_call(F&& f, Args&& ...args)
 /**/
 
 #define BOOST_HANA_TEST_UNARY_OP(op, x)                                     \
-    BOOST_HANA_CONSTEXPR_CHECK((op _)(x) == (op x));                        \
+    static_assert((op _)(x) == (op x), "");                                 \
     BOOST_HANA_RUNTIME_CHECK((op _)(x, extra) == (op x));                   \
     BOOST_HANA_RUNTIME_CHECK((op _)(x, extra, extra) == (op x));            \
     static_assert(!valid_call(op _), "");                                   \
@@ -100,23 +97,23 @@ int main() {
     constexpr int array[] = {0, 1, 2};
     BOOST_HANA_TEST_UNARY_OP(*, &i)
 
-    BOOST_HANA_CONSTEXPR_CHECK(_[0](array) == array[0]);
+    static_assert(_[0](array) == array[0], "");
     BOOST_HANA_RUNTIME_CHECK(_[0](array, extra) == array[0]);
     BOOST_HANA_RUNTIME_CHECK(_[0](array, extra, extra) == array[0]);
-    BOOST_HANA_CONSTEXPR_CHECK(_[1](array) == array[1]);
-    BOOST_HANA_CONSTEXPR_CHECK(_[1](array) == array[1]);
-    BOOST_HANA_CONSTEXPR_CHECK(_[2](array) == array[2]);
+    static_assert(_[1](array) == array[1], "");
+    static_assert(_[1](array) == array[1], "");
+    static_assert(_[2](array) == array[2], "");
     static_assert(!valid_call(_[invalid]), "");
     static_assert(!valid_call(_[invalid], array), "");
     static_assert(!valid_call(_[invalid], invalid), "");
     static_assert(!valid_call(_[0], invalid), "");
 
     // Call operator
-    BOOST_HANA_CONSTEXPR_CHECK(_(1)(incr) == incr(1));
+    static_assert(_(1)(incr) == incr(1), "");
     BOOST_HANA_RUNTIME_CHECK(_(1)(incr, extra) == incr(1));
     BOOST_HANA_RUNTIME_CHECK(_(1)(incr, extra, extra) == incr(1));
-    BOOST_HANA_CONSTEXPR_CHECK(_(2)(incr) == incr(2));
-    BOOST_HANA_CONSTEXPR_CHECK(_(3)(incr) == incr(3));
+    static_assert(_(2)(incr) == incr(2), "");
+    static_assert(_(3)(incr) == incr(3), "");
     static_assert(!valid_call(_(invalid)), "");
     static_assert(!valid_call(_(invalid), incr), "");
     static_assert(!valid_call(_(invalid), invalid), "");

@@ -10,9 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 #define BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/closure.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -168,6 +167,17 @@ namespace boost { namespace hana {
         };
     };
 #else
+    template <typename F>
+    struct pre_demux_t;
+
+    struct make_pre_demux_t {
+        struct secret { };
+        template <typename F>
+        constexpr pre_demux_t<typename std::decay<F>::type> operator()(F&& f) const {
+            return {static_cast<F&&>(f)};
+        }
+    };
+
     template <typename Indices, typename F, typename ...G>
     struct demux_t;
 
@@ -177,80 +187,86 @@ namespace boost { namespace hana {
 
         template <typename ...G>
         constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
-                         typename std::decay<G>::type...>
+                          typename std::decay<G>::type...>
         operator()(G&& ...g) const& {
-            return {this->f, static_cast<G&&>(g)...};
+            return {make_pre_demux_t::secret{}, this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
         constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
                           typename std::decay<G>::type...>
         operator()(G&& ...g) && {
-            return {static_cast<F&&>(this->f), static_cast<G&&>(g)...};
+            return {make_pre_demux_t::secret{}, static_cast<F&&>(this->f), static_cast<G&&>(g)...};
         }
     };
 
     template <std::size_t ...n, typename F, typename ...G>
-    struct demux_t<std::index_sequence<n...>, F, G...>
-        : detail::closure<F, G...>
-    {
-        using detail::closure<F, G...>::closure;
+    struct demux_t<std::index_sequence<n...>, F, G...> {
+        template <typename ...T>
+        constexpr demux_t(make_pre_demux_t::secret, T&& ...t)
+            : storage_{static_cast<T&&>(t)...}
+        { }
+
+        basic_tuple<F, G...> storage_;
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
-            return detail::get<0>(*this)(
-                detail::get<n+1>(*this)(x...)...
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<n+1>(storage_)(x...)...
             );
         }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
-            return detail::get<0>(*this)(
-                detail::get<n+1>(*this)(x...)...
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<n+1>(storage_)(x...)...
             );
         }
 #endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
-            return static_cast<F&&>(detail::get<0>(*this))(
-                static_cast<G&&>(detail::get<n+1>(*this))(x...)...
+            return static_cast<F&&>(hana::get_impl<0>(storage_))(
+                static_cast<G&&>(hana::get_impl<n+1>(storage_))(x...)...
             );
         }
     };
 
     template <typename F, typename G>
-    struct demux_t<std::index_sequence<0>, F, G>
-        : detail::closure<F, G>
-    {
-        using detail::closure<F, G>::closure;
+    struct demux_t<std::index_sequence<0>, F, G> {
+        template <typename ...T>
+        constexpr demux_t(make_pre_demux_t::secret, T&& ...t)
+            : storage_{static_cast<T&&>(t)...}
+        { }
+
+        basic_tuple<F, G> storage_;
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) const& {
-            return detail::get<0>(*this)(
-                detail::get<1>(*this)(static_cast<X&&>(x)...)
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<1>(storage_)(static_cast<X&&>(x)...)
             );
         }
 
 #ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
-            return detail::get<0>(*this)(
-                detail::get<1>(*this)(static_cast<X&&>(x)...)
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<1>(storage_)(static_cast<X&&>(x)...)
             );
         }
 #endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
-            return static_cast<F&&>(detail::get<0>(*this))(
-                static_cast<G&&>(detail::get<1>(*this))(static_cast<X&&>(x)...)
+            return static_cast<F&&>(hana::get_impl<0>(storage_))(
+                static_cast<G&&>(hana::get_impl<1>(storage_))(static_cast<X&&>(x)...)
             );
         }
     };
 
-    constexpr detail::create<pre_demux_t> demux{};
+    constexpr make_pre_demux_t demux{};
 #endif
 }} // end namespace boost::hana
 

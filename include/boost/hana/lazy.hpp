@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/lazy.hpp>
 
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/closure.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/functional/apply.hpp>
@@ -40,25 +40,27 @@ namespace boost { namespace hana {
     template <typename Indices, typename F, typename ...Args>
     struct lazy_apply_t;
 
+    namespace detail { struct lazy_secret { }; }
+
     template <std::size_t ...n, typename F, typename ...Args>
-    struct lazy_apply_t<std::index_sequence<n...>, F, Args...>
-        : operators::adl, detail::closure<F, Args...>
-    {
-        lazy_apply_t(lazy_apply_t const&) = default;
-        lazy_apply_t(lazy_apply_t&) = default;
-        lazy_apply_t(lazy_apply_t&&) = default;
-        using detail::closure<F, Args...>::closure;
+    struct lazy_apply_t<std::index_sequence<n...>, F, Args...> : operators::adl {
+        template <typename ...T>
+        constexpr lazy_apply_t(detail::lazy_secret, T&& ...t)
+            : storage_{static_cast<T&&>(t)...}
+        { }
+
+        basic_tuple<F, Args...> storage_;
         using hana_tag = lazy_tag;
     };
 
     template <typename X>
-    struct lazy_value_t
-        : operators::adl, detail::closure<X>
-    {
-        lazy_value_t(lazy_value_t const&) = default;
-        lazy_value_t(lazy_value_t&) = default;
-        lazy_value_t(lazy_value_t&&) = default;
-        using detail::closure<X>::closure;
+    struct lazy_value_t : operators::adl {
+        template <typename Y>
+        constexpr lazy_value_t(detail::lazy_secret, Y&& y)
+            : storage_{static_cast<Y&&>(y)}
+        { }
+
+        basic_tuple<X> storage_;
         using hana_tag = lazy_tag;
 
         // If this is called, we assume that `X` is in fact a function.
@@ -67,7 +69,8 @@ namespace boost { namespace hana {
             std::make_index_sequence<sizeof...(Args)>,
             X, typename std::decay<Args>::type...
         > operator()(Args&& ...args) const& {
-            return {detail::get<0>(*this), static_cast<Args&&>(args)...};
+            return {detail::lazy_secret{},
+                    hana::get_impl<0>(storage_), static_cast<Args&&>(args)...};
         }
 
         template <typename ...Args>
@@ -75,8 +78,8 @@ namespace boost { namespace hana {
             std::make_index_sequence<sizeof...(Args)>,
             X, typename std::decay<Args>::type...
         > operator()(Args&& ...args) && {
-            return {
-                static_cast<X&&>(detail::get<0>(*this)),
+            return {detail::lazy_secret{},
+                static_cast<X&&>(hana::get_impl<0>(storage_)),
                 static_cast<Args&&>(args)...
             };
         }
@@ -88,10 +91,8 @@ namespace boost { namespace hana {
     template <>
     struct make_impl<lazy_tag> {
         template <typename X>
-        static constexpr auto apply(X&& x) {
-            return lazy_value_t<typename std::decay<X>::type>{
-                static_cast<X&&>(x)
-            };
+        static constexpr lazy_value_t<typename std::decay<X>::type> apply(X&& x) {
+            return {detail::lazy_secret{}, static_cast<X&&>(x)};
         }
     };
 
@@ -112,39 +113,39 @@ namespace boost { namespace hana {
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
         apply(lazy_apply_t<std::index_sequence<n...>, F, Args...> const& expr) {
-            return detail::get<0>(expr)(
-                detail::get<n+1>(expr)...
+            return hana::get_impl<0>(expr.storage_)(
+                hana::get_impl<n+1>(expr.storage_)...
             );
         }
 
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
         apply(lazy_apply_t<std::index_sequence<n...>, F, Args...>& expr) {
-            return detail::get<0>(expr)(
-                detail::get<n+1>(expr)...
+            return hana::get_impl<0>(expr.storage_)(
+                hana::get_impl<n+1>(expr.storage_)...
             );
         }
 
         template <std::size_t ...n, typename F, typename ...Args>
         static constexpr decltype(auto)
         apply(lazy_apply_t<std::index_sequence<n...>, F, Args...>&& expr) {
-            return static_cast<F&&>(detail::get<0>(expr))(
-                static_cast<Args&&>(detail::get<n+1>(expr))...
+            return static_cast<F&&>(hana::get_impl<0>(expr.storage_))(
+                static_cast<Args&&>(hana::get_impl<n+1>(expr.storage_))...
             );
         }
 
         // lazy_value_t
         template <typename X>
         static constexpr X const& apply(lazy_value_t<X> const& expr)
-        { return detail::get<0>(expr); }
+        { return hana::get_impl<0>(expr.storage_); }
 
         template <typename X>
         static constexpr X& apply(lazy_value_t<X>& expr)
-        { return detail::get<0>(expr); }
+        { return hana::get_impl<0>(expr.storage_); }
 
         template <typename X>
         static constexpr X apply(lazy_value_t<X>&& expr)
-        { return static_cast<X&&>(detail::get<0>(expr)); }
+        { return static_cast<X&&>(hana::get_impl<0>(expr.storage_)); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -168,7 +169,7 @@ namespace boost { namespace hana {
         template <typename X>
         static constexpr lazy_value_t<typename std::decay<X>::type>
         apply(X&& x) {
-            return {static_cast<X&&>(x)};
+            return {detail::lazy_secret{}, static_cast<X&&>(x)};
         }
     };
 

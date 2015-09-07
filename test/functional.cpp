@@ -35,7 +35,6 @@ int main() {
     test::_injection<0> f{};
     test::_injection<1> g{};
     test::_injection<2> h{};
-    test::_injection<3> i{};
     using test::ct_eq;
 
     // always
@@ -335,24 +334,9 @@ int main() {
         auto z = f(); (void)z;
     }
 
-    // lockstep
+    // lockstep (tested separately)
     {
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            lockstep(f)()(),
-            f()
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            lockstep(f)(g)(ct_eq<1>{}),
-            f(g(ct_eq<1>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            lockstep(f)(g, h)(ct_eq<1>{}, ct_eq<2>{}),
-            f(g(ct_eq<1>{}), h(ct_eq<2>{}))
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            lockstep(f)(g, h, i)(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
-            f(g(ct_eq<1>{}), h(ct_eq<2>{}), i(ct_eq<3>{}))
-        ));
+
     }
 
     // infix
@@ -531,55 +515,9 @@ int main() {
         }
     }
 
-    // partial
+    // partial (tested separately)
     {
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f)(),
-            f()
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f)(ct_eq<1>{}),
-            f(ct_eq<1>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f)(ct_eq<1>{}, ct_eq<2>{}),
-            f(ct_eq<1>{}, ct_eq<2>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f)(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
-            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
-        ));
 
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{})(),
-            f(ct_eq<1>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{})(ct_eq<2>{}),
-            f(ct_eq<1>{}, ct_eq<2>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{})(ct_eq<2>{}, ct_eq<3>{}),
-            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{}, ct_eq<2>{})(),
-            f(ct_eq<1>{}, ct_eq<2>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{}, ct_eq<2>{})(ct_eq<3>{}),
-            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{}, ct_eq<2>{})(ct_eq<3>{}, ct_eq<4>{}),
-            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{})
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            partial(f, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})(),
-            f(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
-        ));
     }
 
     // placeholder (tested separately)

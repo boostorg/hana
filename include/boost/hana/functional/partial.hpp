@@ -10,9 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/create.hpp>
-#include <boost/hana/detail/closure.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -50,40 +49,8 @@ namespace boost { namespace hana {
     template <typename Indices, typename F, typename ...X>
     struct partial_t;
 
-    template <std::size_t ...n, typename F, typename ...X>
-    struct partial_t<std::index_sequence<n...>, F, X...>
-        : detail::closure<F, X...>
-    {
-        using detail::closure<F, X...>::closure;
-
-        template <typename ...Y>
-        constexpr decltype(auto) operator()(Y&& ...y) const& {
-            return detail::get<0>(*this)(
-                detail::get<n+1>(*this)...,
-                static_cast<Y&&>(y)...
-            );
-        }
-
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
-        template <typename ...Y>
-        constexpr decltype(auto) operator()(Y&& ...y) & {
-            return detail::get<0>(*this)(
-                detail::get<n+1>(*this)...,
-                static_cast<Y&&>(y)...
-            );
-        }
-#endif
-
-        template <typename ...Y>
-        constexpr decltype(auto) operator()(Y&& ...y) && {
-            return static_cast<F&&>(detail::get<0>(*this))(
-                static_cast<X&&>(detail::get<n+1>(*this))...,
-                static_cast<Y&&>(y)...
-            );
-        }
-    };
-
     struct make_partial_t {
+        struct secret { };
         template <typename F, typename ...X>
         constexpr partial_t<
             std::make_index_sequence<sizeof...(X)>,
@@ -91,7 +58,43 @@ namespace boost { namespace hana {
             typename std::decay<X>::type...
         >
         operator()(F&& f, X&& ...x) const {
-            return {static_cast<F&&>(f), static_cast<X&&>(x)...};
+            return {secret{}, static_cast<F&&>(f), static_cast<X&&>(x)...};
+        }
+    };
+
+    template <std::size_t ...n, typename F, typename ...X>
+    struct partial_t<std::index_sequence<n...>, F, X...> {
+        template <typename ...T>
+        constexpr partial_t(make_partial_t::secret, T&& ...t)
+            : storage_{static_cast<T&&>(t)...}
+        { }
+
+        basic_tuple<F, X...> storage_;
+
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) const& {
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<n+1>(storage_)...,
+                static_cast<Y&&>(y)...
+            );
+        }
+
+#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) & {
+            return hana::get_impl<0>(storage_)(
+                hana::get_impl<n+1>(storage_)...,
+                static_cast<Y&&>(y)...
+            );
+        }
+#endif
+
+        template <typename ...Y>
+        constexpr decltype(auto) operator()(Y&& ...y) && {
+            return static_cast<F&&>(hana::get_impl<0>(storage_))(
+                static_cast<X&&>(hana::get_impl<n+1>(storage_))...,
+                static_cast<Y&&>(y)...
+            );
         }
     };
 
