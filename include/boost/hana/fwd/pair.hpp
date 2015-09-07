@@ -50,8 +50,51 @@ namespace boost { namespace hana {
     //! The model of `Product` is the simplest one possible; the first element
     //! of a pair `(x, y)` is `x`, and its second element is `y`.
     //! @include example/pair/product.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename First, typename Second>
+    struct pair {
+        //! Default constructs the `pair`. Only exists when both elements
+        //! of the pair are default constructible.
+        constexpr pair();
+
+        //! Initialize each element of the pair with the corresponding element.
+        //! Only exists when both elements of the pair are copy-constructible.
+        constexpr pair(First const& first, Second const& second);
+
+        //! Initialize both elements of the pair by perfect-forwarding the
+        //! corresponding argument. Only exists when both arguments are
+        //! implicitly-convertible to the corresponding element of the pair.
+        template <typename T, typename U>
+        constexpr pair(T&& t, U&& u);
+
+        //! Copy-initialize a pair from another pair. Only exists when both
+        //! elements of the source pair are implicitly convertible to the
+        //! corresponding element of the constructed pair.
+        template <typename T, typename U>
+        constexpr pair(pair<T, U> const& other);
+
+        //! Move-initialize a pair from another pair. Only exists when both
+        //! elements of the source pair are implicitly convertible to the
+        //! corresponding element of the constructed pair.
+        template <typename T, typename U>
+        constexpr pair(pair<T, U>&& other);
+
+        //! Assign a pair to another pair. Only exists when both elements
+        //! of the destination pair are assignable from the corresponding
+        //! element in the source pair.
+        template <typename T, typename U>
+        constexpr pair& operator=(pair<T, U> const& other);
+
+        //! Move-assign a pair to another pair. Only exists when both elements
+        //! of the destination pair are move-assignable from the corresponding
+        //! element in the source pair.
+        template <typename T, typename U>
+        constexpr pair& operator=(pair<T, U>&& other);
+    };
+#else
     template <typename First, typename Second>
     struct pair;
+#endif
 
     //! Tag representing `hana::pair`.
     //! @relates hana::pair
