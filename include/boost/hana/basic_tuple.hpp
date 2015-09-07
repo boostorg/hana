@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/basic_tuple.hpp>
 
-#include <boost/hana/config.hpp>
+#include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/unpack.hpp>
@@ -34,12 +34,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-#if defined(BOOST_HANA_CONFIG_CLANG)
-#   if __has_extension(is_empty) && __has_extension(is_final)
-#       define BOOST_HANA_HAS_TUPLE_ELEMENT_INTRINSICS
-#   endif
-#endif
-
     namespace detail {
         //////////////////////////////////////////////////////////////////////
         // elt<n, Xn>
@@ -54,11 +48,7 @@ namespace boost { namespace hana {
         // of instantiations.
         //////////////////////////////////////////////////////////////////////
         template <std::size_t n, typename Xn, bool =
-#if defined(BOOST_HANA_HAS_TUPLE_ELEMENT_INTRINSICS)
-            __is_empty(Xn) && !__is_final(Xn)
-#else
-            std::is_empty<Xn>::value && !std::is_final<Xn>::value
-#endif
+            BOOST_HANA_TT_IS_EMPTY(Xn) && !BOOST_HANA_TT_IS_FINAL(Xn)
         >
         struct elt;
 

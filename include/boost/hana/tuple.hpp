@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/iterable.hpp>
@@ -46,40 +47,6 @@ namespace boost { namespace hana {
 
         struct from_index_sequence_t { };
     }
-
-    // We use intrinsics if they are available because it speeds up the
-    // compile-times.
-    //
-    // @todo Right now, this is always disabled because they are already
-    // defined in boost/hana/detail/closure.hpp
-#if defined(BOOST_HANA_CONFIG_CLANG) && false
-    //! @todo
-    //! Right now, this intrinsic is never used directly because of
-    //  https://llvm.org/bugs/show_bug.cgi?id=24173
-#   if __has_extension(is_constructible) && false
-#       define BOOST_HANA_TT_IS_CONSTRUCTIBLE(...) __is_constructible(__VA_ARGS__)
-#   endif
-
-#   if __has_extension(is_assignable)
-#       define BOOST_HANA_TT_IS_ASSIGNABLE(T, U) __is_assignable(T, U)
-#   endif
-#endif
-
-#if !defined(BOOST_HANA_TT_IS_EMPTY)
-#   define BOOST_HANA_TT_IS_EMPTY(T) ::std::is_empty<T>::value
-#endif
-
-#if !defined(BOOST_HANA_TT_IS_FINAL)
-#   define BOOST_HANA_TT_IS_FINAL(T) ::std::is_final<T>::value
-#endif
-
-#if !defined(BOOST_HANA_TT_IS_CONSTRUCTIBLE)
-#   define BOOST_HANA_TT_IS_CONSTRUCTIBLE(...) ::std::is_constructible<__VA_ARGS__>::value
-#endif
-
-#if !defined(BOOST_HANA_TT_IS_ASSIGNABLE)
-#   define BOOST_HANA_TT_IS_ASSIGNABLE(T, U) ::std::is_assignable<T, U>::value
-#endif
 
     //////////////////////////////////////////////////////////////////////////
     // tuple
@@ -219,7 +186,7 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(tuple<>&&, F&& f)
         { return static_cast<F&&>(f)(); }
         template <typename F>
-        static constexpr decltype(auto) apply(tuple<>&, F&& f) 
+        static constexpr decltype(auto) apply(tuple<>&, F&& f)
         { return static_cast<F&&>(f)(); }
         template <typename F>
         static constexpr decltype(auto) apply(tuple<> const&, F&& f)
