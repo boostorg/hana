@@ -189,10 +189,10 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ad993eca017378409ad0b3a2e6b6807ff"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff">remove_if</a></td></tr>
 <tr class="memdesc:ad993eca017378409ad0b3a2e6b6807ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all the elements of a monadic structure that satisfy some predicate.  <a href="#ad993eca017378409ad0b3a2e6b6807ff">More...</a><br /></td></tr>
 <tr class="separator:ad993eca017378409ad0b3a2e6b6807ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
-<tr class="memitem:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9">repeat</a></td></tr>
-<tr class="memdesc:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a monadic structure by combining a lifted value with itself <code>n</code> times.  <a href="#acbf4797cf95bb19dfe33a16cf86fe3c9">More...</a><br /></td></tr>
-<tr class="separator:acbf4797cf95bb19dfe33a16cf86fe3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a569ec3976bbafb2627a4984af87ce6"><td class="memTemplParams" colspan="2">template&lt;typename M &gt; </td></tr>
+<tr class="memitem:a3a569ec3976bbafb2627a4984af87ce6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#a3a569ec3976bbafb2627a4984af87ce6">replicate</a></td></tr>
+<tr class="memdesc:a3a569ec3976bbafb2627a4984af87ce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a monadic structure by combining a lifted value with itself <code>n</code> times.  <a href="#a3a569ec3976bbafb2627a4984af87ce6">More...</a><br /></td></tr>
+<tr class="separator:a3a569ec3976bbafb2627a4984af87ce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b6622ade385d42bf03dd18f226cd080"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080">suffix</a></td></tr>
 <tr class="memdesc:a9b6622ade385d42bf03dd18f226cd080"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a value after each element of a monadic structure.  <a href="#a9b6622ade385d42bf03dd18f226cd080">More...</a><br /></td></tr>
 <tr class="separator:a9b6622ade385d42bf03dd18f226cd080"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -746,7 +746,7 @@ template&lt;typename M &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="acbf4797cf95bb19dfe33a16cf86fe3c9"></a>
+<a class="anchor" id="a3a569ec3976bbafb2627a4984af87ce6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -758,7 +758,7 @@ template&lt;typename M &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto repeat</td>
+          <td class="memname">constexpr auto replicate</td>
         </tr>
       </table>
   </td>
@@ -772,10 +772,10 @@ template&lt;typename M &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a monadic structure by combining a lifted value with itself <code>n</code> times. </p>
-<p>Given a value <code>x</code>, a non-negative number <code>n</code> and the tag of a monadic structure <code>M</code>, <code>repeat</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>repeat</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">repeat&lt;M&gt;(x, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(lift&lt;M&gt;(x), n)</div>
+<p>Given a value <code>x</code>, a non-negative number <code>n</code> and the tag of a monadic structure <code>M</code>, <code>replicate</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>replicate</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">replicate&lt;M&gt;(x, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(lift&lt;M&gt;(x), n)</div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of the <code>concat</code> operation is returned. In the case of sequences, this corresponds to creating a new sequence holding <code>n</code> copies of <code>x</code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathtt{repeat}_M : T \times C \to M(T) \).</p>
+<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathtt{replicate}_M : T \times C \to M(T) \).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The tag of the returned monadic structure. It must be a model of the <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept.</td></tr>
@@ -785,7 +785,7 @@ template&lt;typename M &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The value to lift into a monadic structure and then combine with itself.</td></tr>
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>repeat</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>replicate</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -799,15 +799,15 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="repeat_8hpp.html">boost/hana/repeat.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="replicate_8hpp.html">boost/hana/replicate.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::repeat&lt;hana::tuple_tag&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::replicate&lt;hana::tuple_tag&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Of course, there can&#39;t be more than one element in an `optional`.</span></div>
-<div class="line">static_assert(hana::repeat&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::replicate&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>, hana::size_c&lt;2&gt;) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

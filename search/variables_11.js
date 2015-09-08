@@ -8,9 +8,9 @@ var searchData=
   ['remove_5fif',['remove_if',['../structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff',1,'boost::hana::MonadPlus']]],
   ['remove_5frange',['remove_range',['../structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96',1,'boost::hana::Sequence']]],
   ['remove_5frange_5fc',['remove_range_c',['../structboost_1_1hana_1_1Sequence.html#af53da1ba4620bb48ef50cbc1d7812131',1,'boost::hana::Sequence']]],
-  ['repeat',['repeat',['../structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9',1,'boost::hana::MonadPlus']]],
   ['replace',['replace',['../structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967',1,'boost::hana::Functor']]],
   ['replace_5fif',['replace_if',['../structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5',1,'boost::hana::Functor']]],
+  ['replicate',['replicate',['../structboost_1_1hana_1_1MonadPlus.html#a3a569ec3976bbafb2627a4984af87ce6',1,'boost::hana::MonadPlus']]],
   ['reverse',['reverse',['../structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0',1,'boost::hana::Sequence']]],
   ['reverse_5ffold',['reverse_fold',['../structboost_1_1hana_1_1Foldable.html#a9240a51cd23ef65186e32d643e82f52e',1,'boost::hana::Foldable']]],
   ['reverse_5fpartial',['reverse_partial',['../group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8',1,'boost::hana']]]

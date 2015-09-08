@@ -100,7 +100,7 @@ var group__group_concepts =
       [ "prepend", "structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129", null ],
       [ "remove", "structboost_1_1hana_1_1MonadPlus.html#a08e2f3034ed81a7bfff513a5b5f82031", null ],
       [ "remove_if", "structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff", null ],
-      [ "repeat", "structboost_1_1hana_1_1MonadPlus.html#acbf4797cf95bb19dfe33a16cf86fe3c9", null ],
+      [ "replicate", "structboost_1_1hana_1_1MonadPlus.html#a3a569ec3976bbafb2627a4984af87ce6", null ],
       [ "suffix", "structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080", null ]
     ] ],
     [ "Monoid", "structboost_1_1hana_1_1Monoid.html", [
