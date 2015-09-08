@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/any_of.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/not_equal.hpp>
