@@ -1,6 +1,7 @@
 var searchData=
 [
   ['pair',['pair',['../structboost_1_1hana_1_1pair.html',1,'boost::hana']]],
+  ['pair',['pair',['../structboost_1_1hana_1_1pair.html#acb8494edc410c10d824e942341f30719',1,'boost::hana::pair::pair()'],['../structboost_1_1hana_1_1pair.html#ad258681a711a7bf24d79e9d13a7a441e',1,'boost::hana::pair::pair(First const &amp;first, Second const &amp;second)'],['../structboost_1_1hana_1_1pair.html#aae31a284451c1c0486339c289a7887fe',1,'boost::hana::pair::pair(T &amp;&amp;t, U &amp;&amp;u)'],['../structboost_1_1hana_1_1pair.html#ad295aada872521bce6e7775795b8318e',1,'boost::hana::pair::pair(pair&lt; T, U &gt; const &amp;other)'],['../structboost_1_1hana_1_1pair.html#a962bff38110b5c39b1267fc88851198d',1,'boost::hana::pair::pair(pair&lt; T, U &gt; &amp;&amp;other)']]],
   ['pair_2ehpp',['pair.hpp',['../ext_2std_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../fwd_2pair_8hpp.html',1,'']]],
   ['pair_2ehpp',['pair.hpp',['../pair_8hpp.html',1,'']]],
@@ -32,8 +33,8 @@ var searchData=
   ['preprocessor_2ehpp',['preprocessor.hpp',['../preprocessor_8hpp.html',1,'']]],
   ['product',['Product',['../structboost_1_1hana_1_1Product.html',1,'boost::hana']]],
   ['product',['product',['../structboost_1_1hana_1_1Foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]],
+  ['product_2ehpp',['product.hpp',['../product_8hpp.html',1,'']]],
   ['product_2ehpp',['product.hpp',['../fwd_2concept_2product_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../fwd_2product_8hpp.html',1,'']]],
   ['product_2ehpp',['product.hpp',['../concept_2product_8hpp.html',1,'']]],
-  ['product_2ehpp',['product.hpp',['../product_8hpp.html',1,'']]]
+  ['product_2ehpp',['product.hpp',['../fwd_2product_8hpp.html',1,'']]]
 ];

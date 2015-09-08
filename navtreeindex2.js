@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"index.html#tutorial-rationales-zip_longest":[0,18,8],
 "index.html#tutorial-reference":[0,15],
 "index.html#tutorial-reference-signatures":[0,15,0],
 "index.html#tutorial-tutorial-appendix-constexpr-preservation":[0,19,1],
@@ -18,6 +17,7 @@ var NAVTREEINDEX2 =
 "integral__constant_8hpp.html":[3,0,0,67],
 "intersection_8hpp.html":[3,0,0,68],
 "intersperse_8hpp.html":[3,0,0,69],
+"intrinsics_8hpp.html":[3,0,0,2,15],
 "is__disjoint_8hpp.html":[3,0,0,70],
 "is__empty_8hpp.html":[3,0,0,71],
 "is__subset_8hpp.html":[3,0,0,72],
