@@ -557,9 +557,9 @@ function                                                                        
 <code>[reverse](@ref boost::hana::Sequence::reverse)(sequence)</code>                            | Reverse the order of the elements in a sequence.
 <code>[reverse_fold](@ref boost::hana::Foldable::reverse_fold)(sequence[, state], f)</code>      | Equivalent to `fold_right`; provided for consistency with Boost.MPL and Boost.Fusion.
 <code>[size](@ref boost::hana::Foldable::size)(sequence)</code>                                  | Equivalent to `length`; provided for consistency with the C++ standard library.
-<code>[slice](@ref boost::hana::Sequence::slice)(sequence, from, to)</code>                      | Returns the elements of a sequence at indices contained in `[from, to)`.
+<code>[slice](@ref boost::hana::Sequence::slice)(sequence, indices)</code>                       | Returns a new sequence containing the elements at the given indices of the original sequence.
+<code>[slice_c](@ref boost::hana::Sequence::slice_c)<from, to>(sequence)</code>                  | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
 <code>[sort](@ref boost::hana::Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[subsequence](@ref boost::hana::Sequence::subsequence)(sequence, indices)</code>           | Returns the elements of a sequence at the `indices` in the given sequence.
 <code>[tail](@ref boost::hana::Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
 <code>[take](@ref boost::hana::Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
 <code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.

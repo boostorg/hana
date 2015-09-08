@@ -16,34 +16,40 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Extract a subsequence delimited by the given indices.
+    //! Extract the elements of a `Sequence` at the given indices.
     //! @relates Sequence
     //!
-    //! Specifically, `slice(xs, from, to)` is a sequence containing all the
-    //! elements of `xs` at indices in the half-open interval delimited by
-    //! [`from`, `to`). Note that the indices are 0-based. For this operation
-    //! to be valid, `xs` must contain at least `to + 1` elements, and it must
-    //! be true that `from <= to`.
+    //! Given an arbitrary sequence of `indices`, `slice` returns a new
+    //! sequence of the elements of the original sequence that appear at
+    //! those indices. In other words,
+    //! @code
+    //!     slice([x1, ..., xn], [i1, ..., ik]) == [x_i1, ..., x_ik]
+    //! @endcode
+    //!
+    //! The indices do not have to be ordered or contiguous in any particular
+    //! way, but they must not be out of the bounds of the sequence. It is
+    //! also possible to specify the same index multiple times, in which case
+    //! the element at this index will be repeatedly included in the resulting
+    //! sequence.
     //!
     //!
     //! @param xs
-    //! The sequence to slice.
+    //! The sequence from which a subsequence is extracted.
     //!
-    //! @param from
-    //! The index of the first element in the slice. `from` must be a
-    //! non-negative `Constant` of an unsigned integral type.
-    //!
-    //! @param to
-    //! One-past the index of the last element in the slice. `to` must be
-    //! a non-negative `Constant` of an unsigned integral type such that
-    //! `from <= to`.
+    //! @param indices
+    //! A compile-time `Foldable` containing `Constant`s representing the
+    //! indices. The `Constant`s must hold a value of an unsigned integral
+    //! type. The indices are 0-based, and they must all be in bounds of
+    //! the `xs` sequence. Note that any `Foldable` will really do (no need
+    //! for an `Iterable`, for example); the linearization of the `indices`
+    //! is used to determine the order of the elements included in the slice.
     //!
     //!
     //! Example
     //! -------
     //! @include example/slice.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto slice = [](auto&& xs, auto&& from, auto&& to) {
+    constexpr auto slice = [](auto&& xs, auto&& indices) {
         return tag-dispatched;
     };
 #else
@@ -51,15 +57,31 @@ namespace boost { namespace hana {
     struct slice_impl : slice_impl<S, when<true>> { };
 
     struct slice_t {
-        template <typename Xs, typename From, typename To>
-        constexpr auto operator()(Xs&& xs, From&& from, To&& to) const;
+        template <typename Xs, typename Indices>
+        constexpr auto operator()(Xs&& xs, Indices&& indices) const;
     };
 
     constexpr slice_t slice{};
 #endif
 
-    //! Equivalent to `slice`; provided for convenience.
+    //! Shorthand to `slice` a contiguous range of elements.
     //! @relates Sequence
+    //!
+    //! `slice_c` is simply a shorthand to slice a contiguous range of
+    //! elements. In particular, `slice_c<from, to>(xs)` is equivalent to
+    //! `slice(xs, range_c<std::size_t, from, to>)`, which simply slices
+    //! all the elements of `xs` contained in the half-open interval
+    //! delimited by `[from, to)`. Like for `slice`, the indices used with
+    //! `slice_c` are 0-based and they must be in the bounds of the sequence
+    //! being sliced.
+    //!
+    //!
+    //! @tparam from
+    //! The index of the first element in the slice.
+    //!
+    //! @tparam to
+    //! One-past the index of the last element in the slice. It must hold
+    //! that `from <= to`.
     //!
     //!
     //! Example
@@ -68,7 +90,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t from, std::size_t to>
     constexpr auto slice_c = [](auto&& xs) {
-        return hana::slice(forwarded(xs), hana::size_c<from>, hana::size_c<to>);
+        return hana::slice(forwarded(xs), hana::range_c<std::size_t, from, to>);
     };
 #else
     template <std::size_t from, std::size_t to>

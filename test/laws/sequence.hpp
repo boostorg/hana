@@ -320,52 +320,137 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // slice
+            // slice (arbitrary indices)
             //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(), size_c<0>, size_c<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(undefined{}), size_c<0>, size_c<0>),
-                list()
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(undefined{}, undefined{}), size_c<0>, size_c<0>),
-                list()
-            ));
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(), foldable()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}), foldable()),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, undefined{}), foldable()),
+                    list()
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(eq<0>{}), size_c<0>, size_c<1>),
-                list(eq<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(eq<0>{}, undefined{}), size_c<0>, size_c<1>),
-                list(eq<0>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}), foldable(size_c<0>)),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, undefined{}), foldable(size_c<0>)),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, eq<1>{}), foldable(size_c<1>)),
+                    list(eq<1>{})
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(undefined{}, eq<1>{}), size_c<1>, size_c<2>),
-                list(eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(undefined{}, eq<1>{}, undefined{}), size_c<1>, size_c<2>),
-                list(eq<1>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}), foldable(size_c<0>, size_c<1>)),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}), foldable(size_c<1>, size_c<0>)),
+                    list(eq<1>{}, eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}), foldable(size_c<0>, size_c<0>)),
+                    list(eq<0>{}, eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}), foldable(size_c<1>, size_c<1>)),
+                    list(eq<1>{}, eq<1>{})
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(eq<0>{}, eq<1>{}), size_c<0>, size_c<2>),
-                list(eq<0>{}, eq<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(eq<0>{}, eq<1>{}, undefined{}), size_c<0>, size_c<2>),
-                list(eq<0>{}, eq<1>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                          foldable(size_c<0>, size_c<1>, size_c<2>)),
+                    list(eq<0>{}, eq<1>{}, eq<2>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                          foldable(size_c<0>, size_c<2>, size_c<1>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{})
+                ));
 
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                slice(list(undefined{}, eq<1>{}, eq<2>{}), size_c<1>, size_c<3>),
-                list(eq<1>{}, eq<2>{})
-            ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                          foldable(size_c<0>, size_c<2>, size_c<1>, size_c<0>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, eq<2>{}),
+                          foldable(size_c<0>, size_c<2>, size_c<1>, size_c<0>, size_c<1>)),
+                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{}, eq<1>{})
+                ));
+
+                // Try with a tuple_c
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
+                          tuple_c<unsigned, 1, 3, 2>),
+                    list(eq<1>{}, eq<3>{}, eq<2>{})
+                ));
+            }
+
+            //////////////////////////////////////////////////////////////////
+            // With a `range` (check the optimization for contiguous indices)
+            //////////////////////////////////////////////////////////////////
+            {
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(), make_range(size_c<0>, size_c<0>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}), make_range(size_c<0>, size_c<0>)),
+                    list()
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, undefined{}), make_range(size_c<0>, size_c<0>)),
+                    list()
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}), make_range(size_c<0>, size_c<1>)),
+                    list(eq<0>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, undefined{}), make_range(size_c<0>, size_c<1>)),
+                    list(eq<0>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, eq<1>{}), make_range(size_c<1>, size_c<2>)),
+                    list(eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, eq<1>{}, undefined{}), make_range(size_c<1>, size_c<2>)),
+                    list(eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}), make_range(size_c<0>, size_c<2>)),
+                    list(eq<0>{}, eq<1>{})
+                ));
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(eq<0>{}, eq<1>{}, undefined{}), make_range(size_c<0>, size_c<2>)),
+                    list(eq<0>{}, eq<1>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, eq<1>{}, eq<2>{}), make_range(size_c<1>, size_c<3>)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+
+                BOOST_HANA_CONSTANT_CHECK(equal(
+                    slice(list(undefined{}, eq<1>{}, eq<2>{}, undefined{}), make_range(size_c<1>, size_c<3>)),
+                    list(eq<1>{}, eq<2>{})
+                ));
+            }
 
             //////////////////////////////////////////////////////////////////
             // take
@@ -857,92 +942,6 @@ namespace boost { namespace hana { namespace test {
 
 #endif
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 2
-            //////////////////////////////////////////////////////////////////
-            // subsequence
-            //////////////////////////////////////////////////////////////////
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(), foldable()),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(undefined{}), foldable()),
-                    list()
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(undefined{}, undefined{}), foldable()),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}), foldable(size_c<0>)),
-                    list(eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, undefined{}), foldable(size_c<0>)),
-                    list(eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(undefined{}, eq<1>{}), foldable(size_c<1>)),
-                    list(eq<1>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_c<0>, size_c<1>)),
-                    list(eq<0>{}, eq<1>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_c<1>, size_c<0>)),
-                    list(eq<1>{}, eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_c<0>, size_c<0>)),
-                    list(eq<0>{}, eq<0>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}), foldable(size_c<1>, size_c<1>)),
-                    list(eq<1>{}, eq<1>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
-                                foldable(size_c<0>, size_c<1>, size_c<2>)),
-                    list(eq<0>{}, eq<1>{}, eq<2>{})
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
-                                foldable(size_c<0>, size_c<2>, size_c<1>)),
-                    list(eq<0>{}, eq<2>{}, eq<1>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
-                                foldable(size_c<0>, size_c<2>, size_c<1>, size_c<0>)),
-                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{})
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}),
-                                foldable(size_c<0>, size_c<2>, size_c<1>,
-                                         size_c<0>, size_c<1>)),
-                    list(eq<0>{}, eq<2>{}, eq<1>{}, eq<0>{}, eq<1>{})
-                ));
-
-                // Try with a hana::range
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
-                                make_range(size_c<1>, size_c<3>)),
-                    list(eq<1>{}, eq<2>{})
-                ));
-
-                // Try with a tuple_c
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    subsequence(list(eq<0>{}, eq<1>{}, eq<2>{}, eq<3>{}),
-                                tuple_c<unsigned, 1, 3, 2>),
-                    list(eq<1>{}, eq<3>{}, eq<2>{})
-                ));
-            }
-
             //////////////////////////////////////////////////////////////////
             // take_while
             //////////////////////////////////////////////////////////////////

@@ -172,7 +172,6 @@ namespace boost { namespace hana {
 #include <boost/hana/sort.hpp>
 #include <boost/hana/span.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/subsequence.hpp>
 #include <boost/hana/succ.hpp>
 #include <boost/hana/suffix.hpp>
 #include <boost/hana/sum.hpp>
