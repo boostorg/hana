@@ -130,7 +130,6 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "sort.hpp", "sort_8hpp.html", null ],
     [ "span.hpp", "span_8hpp.html", null ],
     [ "string.hpp", "string_8hpp.html", "string_8hpp" ],
-    [ "subsequence.hpp", "subsequence_8hpp.html", null ],
     [ "succ.hpp", "succ_8hpp.html", null ],
     [ "suffix.hpp", "suffix_8hpp.html", null ],
     [ "sum.hpp", "sum_8hpp.html", null ],

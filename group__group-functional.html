@@ -1085,7 +1085,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">hana::overload_linearly</a>(</div>
 <div class="line">    [](<span class="keywordtype">int</span> i) { <span class="keywordflow">return</span> i + 1; },</div>
 <div class="line">    [](std::string s) { <span class="keywordflow">return</span> s + <span class="stringliteral">&quot;d&quot;</span>; },</div>
-<div class="line">    [](double) { <span class="keywordflow">throw</span> <span class="stringliteral">&quot;never called&quot;</span>; }</div>
+<div class="line">    [](double) { <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<span class="keyword">false</span> &amp;&amp; <span class="stringliteral">&quot;never called&quot;</span>); }</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>

@@ -13,7 +13,6 @@ var searchData=
   ['sort',['sort',['../structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db',1,'boost::hana::Sequence']]],
   ['span',['span',['../structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c',1,'boost::hana::Sequence']]],
   ['string_5fc',['string_c',['../structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722',1,'boost::hana::string']]],
-  ['subsequence',['subsequence',['../structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7',1,'boost::hana::Sequence']]],
   ['succ',['succ',['../structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0',1,'boost::hana::Enumerable']]],
   ['suffix',['suffix',['../structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080',1,'boost::hana::MonadPlus']]],
   ['sum',['sum',['../structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]],

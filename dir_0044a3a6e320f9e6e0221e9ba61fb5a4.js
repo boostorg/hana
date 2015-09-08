@@ -136,7 +136,6 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "sort.hpp", "fwd_2sort_8hpp.html", null ],
     [ "span.hpp", "fwd_2span_8hpp.html", null ],
     [ "string.hpp", "fwd_2string_8hpp.html", "fwd_2string_8hpp" ],
-    [ "subsequence.hpp", "fwd_2subsequence_8hpp.html", null ],
     [ "succ.hpp", "fwd_2succ_8hpp.html", null ],
     [ "suffix.hpp", "fwd_2suffix_8hpp.html", null ],
     [ "sum.hpp", "fwd_2sum_8hpp.html", null ],

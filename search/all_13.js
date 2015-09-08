@@ -1,8 +1,8 @@
 var searchData=
 [
   ['scan_5fleft',['scan_left',['../structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423',1,'boost::hana::Sequence']]],
-  ['scan_5fleft_2ehpp',['scan_left.hpp',['../scan__left_8hpp.html',1,'']]],
   ['scan_5fleft_2ehpp',['scan_left.hpp',['../fwd_2scan__left_8hpp.html',1,'']]],
+  ['scan_5fleft_2ehpp',['scan_left.hpp',['../scan__left_8hpp.html',1,'']]],
   ['scan_5fright',['scan_right',['../structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82',1,'boost::hana::Sequence']]],
   ['scan_5fright_2ehpp',['scan_right.hpp',['../fwd_2scan__right_8hpp.html',1,'']]],
   ['scan_5fright_2ehpp',['scan_right.hpp',['../scan__right_8hpp.html',1,'']]],
@@ -53,19 +53,16 @@ var searchData=
   ['struct_2ehpp',['struct.hpp',['../fwd_2concept_2struct_8hpp.html',1,'']]],
   ['struct_2ehpp',['struct.hpp',['../concept_2struct_8hpp.html',1,'']]],
   ['struct_5fmacros_2ehpp',['struct_macros.hpp',['../struct__macros_8hpp.html',1,'']]],
-  ['subsequence',['subsequence',['../structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7',1,'boost::hana::Sequence']]],
-  ['subsequence_2ehpp',['subsequence.hpp',['../fwd_2subsequence_8hpp.html',1,'']]],
-  ['subsequence_2ehpp',['subsequence.hpp',['../subsequence_8hpp.html',1,'']]],
   ['succ',['succ',['../structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0',1,'boost::hana::Enumerable']]],
-  ['succ_2ehpp',['succ.hpp',['../fwd_2succ_8hpp.html',1,'']]],
   ['succ_2ehpp',['succ.hpp',['../succ_8hpp.html',1,'']]],
+  ['succ_2ehpp',['succ.hpp',['../fwd_2succ_8hpp.html',1,'']]],
   ['suffix',['suffix',['../structboost_1_1hana_1_1MonadPlus.html#a9b6622ade385d42bf03dd18f226cd080',1,'boost::hana::MonadPlus']]],
   ['suffix_2ehpp',['suffix.hpp',['../fwd_2suffix_8hpp.html',1,'']]],
   ['suffix_2ehpp',['suffix.hpp',['../suffix_8hpp.html',1,'']]],
   ['sum',['sum',['../structboost_1_1hana_1_1Foldable.html#ae99a05a203907d1381a00d9e05425ab7',1,'boost::hana::Foldable']]],
-  ['sum_2ehpp',['sum.hpp',['../fwd_2sum_8hpp.html',1,'']]],
   ['sum_2ehpp',['sum.hpp',['../sum_8hpp.html',1,'']]],
+  ['sum_2ehpp',['sum.hpp',['../fwd_2sum_8hpp.html',1,'']]],
   ['symmetric_5fdifference',['symmetric_difference',['../structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::set']]],
-  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]],
-  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]]
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]],
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]]
 ];

@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"index.html#tutorial-reference":[0,15],
 "index.html#tutorial-reference-signatures":[0,15,0],
 "index.html#tutorial-tutorial-appendix-constexpr-preservation":[0,19,1],
 "index.html#tutorial-type":[0,6],
@@ -234,20 +233,21 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Searchable.html#ade889e960898a96ac6502c9301827220":[1,0,18,8],
 "structboost_1_1hana_1_1Searchable.html#ae98adce2584ff5cb8a19ea2a74d5bb34":[1,0,18,4],
 "structboost_1_1hana_1_1Sequence.html":[1,0,19],
-"structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590":[1,0,19,25],
-"structboost_1_1hana_1_1Sequence.html#a10f6d2040b9c9f2aea6a334e41c89ac7":[1,0,19,27],
+"structboost_1_1hana_1_1Sequence.html#a00c9ad102df93f8e88c37afd92f34590":[1,0,19,24],
+"structboost_1_1hana_1_1Sequence.html#a10f6d2040b9c9f2aea6a334e41c89ac7":[1,0,19,26],
 "structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293":[1,0,19,15],
 "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95":[1,0,19,0],
-"structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,19,26],
-"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,20],
+"structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,19,25],
+"structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,19],
 "structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea":[1,0,19,4],
-"structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,19,23],
+"structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,19,22],
 "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,12],
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,7],
 "structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,19,14],
 "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,0,19,3],
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,17],
-"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,29],
-"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,21],
-"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,19,8]
+"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,28],
+"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,20],
+"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,19,8],
+"structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816":[1,0,19,6]
 };

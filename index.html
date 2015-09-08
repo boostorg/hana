@@ -704,11 +704,11 @@ Cheatsheet</h2>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Foldable.html#a95d3fe103aa2ab8634a824562dd8390c">size</a>(sequence)</code> </td><td align="left">Equivalent to <code>length</code>; provided for consistency with the C++ standard library. </td></tr>
 <tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>(sequence, from, to)</code> </td><td align="left">Returns the elements of a sequence at indices contained in <code>[from, to)</code>. </td></tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>(sequence, indices)</code> </td><td align="left">Returns a new sequence containing the elements at the given indices of the original sequence. </td></tr>
+<tr>
+<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba">slice_c</a>&lt;from, to&gt;(sequence)</code> </td><td align="left">Returns a new sequence containing the elements at indices contained in <code>[from, to)</code> of the original sequence. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a>(sequence[, predicate])</code> </td><td align="left">Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be <code>Orderable</code> if no predicate is provided. </td></tr>
-<tr>
-<td align="left"><code><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">subsequence</a>(sequence, indices)</code> </td><td align="left">Returns the elements of a sequence at the <code>indices</code> in the given sequence. </td></tr>
 <tr>
 <td align="left"><code><a class="el" href="structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96">tail</a>(sequence)</code> </td><td align="left">Returns all the elements except the first one. Analogous to <code>pop_front</code>. </td></tr>
 <tr>

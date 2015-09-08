@@ -527,11 +527,11 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memdesc:a4fdf082af400671e43a4035e14ae7f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fold a <a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a> to the right and return a list containing the successive reduction states.  <a href="#a4fdf082af400671e43a4035e14ae7f82">More...</a><br /></td></tr>
 <tr class="separator:a4fdf082af400671e43a4035e14ae7f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18968c488a8b0cdc2697296024da9293"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a></td></tr>
-<tr class="memdesc:a18968c488a8b0cdc2697296024da9293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract a subsequence delimited by the given indices.  <a href="#a18968c488a8b0cdc2697296024da9293">More...</a><br /></td></tr>
+<tr class="memdesc:a18968c488a8b0cdc2697296024da9293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the elements of a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> at the given indices.  <a href="#a18968c488a8b0cdc2697296024da9293">More...</a><br /></td></tr>
 <tr class="separator:a18968c488a8b0cdc2697296024da9293"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa204f71aac9f461d8574653295c67ba"><td class="memTemplParams" colspan="2">template&lt;std::size_t from, std::size_t to&gt; </td></tr>
 <tr class="memitem:afa204f71aac9f461d8574653295c67ba"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#afa204f71aac9f461d8574653295c67ba">slice_c</a></td></tr>
-<tr class="memdesc:afa204f71aac9f461d8574653295c67ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>slice</code>; provided for convenience.  <a href="#afa204f71aac9f461d8574653295c67ba">More...</a><br /></td></tr>
+<tr class="memdesc:afa204f71aac9f461d8574653295c67ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand to <code>slice</code> a contiguous range of elements.  <a href="#afa204f71aac9f461d8574653295c67ba">More...</a><br /></td></tr>
 <tr class="separator:afa204f71aac9f461d8574653295c67ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58c1454689bf6d2264bc428dc1d039db"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db">sort</a></td></tr>
 <tr class="memdesc:a58c1454689bf6d2264bc428dc1d039db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a sequence, optionally based on a custom <code>predicate</code>.  <a href="#a58c1454689bf6d2264bc428dc1d039db">More...</a><br /></td></tr>
@@ -539,9 +539,6 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ab663fc84c23656a41d4dfcb586f0085c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c">span</a></td></tr>
 <tr class="memdesc:ab663fc84c23656a41d4dfcb586f0085c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> containing the longest prefix of a sequence satisfying a predicate, and the rest of the sequence.  <a href="#ab663fc84c23656a41d4dfcb586f0085c">More...</a><br /></td></tr>
 <tr class="separator:ab663fc84c23656a41d4dfcb586f0085c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65b5d2d363fb5e2d444e8bfe6bc712c7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">subsequence</a></td></tr>
-<tr class="memdesc:a65b5d2d363fb5e2d444e8bfe6bc712c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elements at the given indices of a sequence.  <a href="#a65b5d2d363fb5e2d444e8bfe6bc712c7">More...</a><br /></td></tr>
-<tr class="separator:a65b5d2d363fb5e2d444e8bfe6bc712c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c20028c5115dcf38063d322f27b4ee1"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1">take</a></td></tr>
 <tr class="memdesc:a2c20028c5115dcf38063d322f27b4ee1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first <code>n</code> elements of a sequence, or the whole sequence if the sequence has less than <code>n</code> elements.  <a href="#a2c20028c5115dcf38063d322f27b4ee1">More...</a><br /></td></tr>
 <tr class="separator:a2c20028c5115dcf38063d322f27b4ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1631,17 +1628,17 @@ template&lt;typename S &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; from, <span class="keyword">auto</span>&amp;&amp; <a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; indices) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Extract a subsequence delimited by the given indices. </p>
-<p>Specifically, <code>slice(xs, from, to)</code> is a sequence containing all the elements of <code>xs</code> at indices in the half-open interval delimited by [<code>from</code>, <code>to</code>). Note that the indices are 0-based. For this operation to be valid, <code>xs</code> must contain at least <code>to + 1</code> elements, and it must be true that <code>from &lt;= to</code>.</p>
+<p>Extract the elements of a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> at the given indices. </p>
+<p>Given an arbitrary sequence of <code>indices</code>, <code>slice</code> returns a new sequence of the elements of the original sequence that appear at those indices. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a18968c488a8b0cdc2697296024da9293">slice</a>([x1, ..., xn], [i1, ..., ik]) == [x_i1, ..., x_ik]</div>
+</div><!-- fragment --><p>The indices do not have to be ordered or contiguous in any particular way, but they must not be out of the bounds of the sequence. It is also possible to specify the same index multiple times, in which case the element at this index will be repeatedly included in the resulting sequence.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">xs</td><td>The sequence to slice.</td></tr>
-    <tr><td class="paramname">from</td><td>The index of the first element in the slice. <code>from</code> must be a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type.</td></tr>
-    <tr><td class="paramname">to</td><td>One-past the index of the last element in the slice. <code>to</code> must be a non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type such that <code>from &lt;= to</code>.</td></tr>
+    <tr><td class="paramname">xs</td><td>The sequence from which a subsequence is extracted.</td></tr>
+    <tr><td class="paramname">indices</td><td>A compile-time <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s representing the indices. The <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s must hold a value of an unsigned integral type. The indices are 0-based, and they must all be in bounds of the <code>xs</code> sequence. Note that any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> will really do (no need for an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>, for example); the linearization of the <code>indices</code> is used to determine the order of the elements included in the slice.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1652,19 +1649,43 @@ template&lt;typename S &gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="filter_8hpp.html">boost/hana/filter.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="length_8hpp.html">boost/hana/length.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="rem_8hpp.html">boost/hana/rem.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="slice_8hpp.html">boost/hana/slice.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"><span class="keyword">using namespace </span>hana::literals;</div>
 <div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Slice a contiguous range</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(0, <span class="charliteral">&#39;1&#39;</span>, 2.2, 3_c, hana::type_c&lt;float&gt;);</div>
 <div class="line"></div>
 <div class="line">static_assert(</div>
-<div class="line">    hana::slice(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, hana::type_c&lt;float&gt;), hana::size_c&lt;1&gt;, hana::size_c&lt;3&gt;)</div>
-<div class="line">    ==</div>
-<div class="line">    hana::make_tuple(<span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
+<div class="line">    hana::slice(xs, hana::tuple_c&lt;std::size_t, 1, 2, 3&gt;) ==</div>
+<div class="line">    hana::make_tuple(<span class="charliteral">&#39;1&#39;</span>, 2.2, 3_c)</div>
 <div class="line">, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// A more complex example with a non-contiguous range</span></div>
+<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to&lt;hana::tuple_tag&gt;(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to&lt;hana::tuple_tag&gt;(hana::make_range(hana::size_c&lt;0&gt;, hana::length(letters)));</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> even_indices = hana::filter(indices, [](<span class="keyword">auto</span> n) {</div>
+<div class="line">    <span class="keywordflow">return</span> n % hana::size_c&lt;2&gt; == hana::size_c&lt;0&gt;;</div>
+<div class="line">});</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    hana::slice(letters, even_indices) == hana::tuple_c&lt;<span class="keywordtype">char</span>,</div>
+<div class="line">        <span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;c&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;g&#39;</span>, <span class="charliteral">&#39;i&#39;</span>, <span class="charliteral">&#39;k&#39;</span>, <span class="charliteral">&#39;m&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;q&#39;</span>, <span class="charliteral">&#39;s&#39;</span>, <span class="charliteral">&#39;u&#39;</span>, <span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;y&#39;</span></div>
+<div class="line">    &gt;</div>
+<div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -1692,10 +1713,18 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> hana::slice(forwarded(xs), hana::size_c&lt;from&gt;, hana::size_c&lt;to&gt;);</div>
+<div class="line">        <span class="keywordflow">return</span> hana::slice(forwarded(xs), hana::range_c&lt;std::size_t, from, to&gt;);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Equivalent to <code>slice</code>; provided for convenience. </p>
+<p>Shorthand to <code>slice</code> a contiguous range of elements. </p>
+<p><code>slice_c</code> is simply a shorthand to slice a contiguous range of elements. In particular, <code>slice_c&lt;from, to&gt;(xs)</code> is equivalent to <code>slice(xs, range_c&lt;std::size_t, from, to&gt;)</code>, which simply slices all the elements of <code>xs</code> contained in the half-open interval delimited by <code>[from, to)</code>. Like for <code>slice</code>, the indices used with <code>slice_c</code> are 0-based and they must be in the bounds of the sequence being sliced.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">from</td><td>The index of the first element in the slice.</td></tr>
+    <tr><td class="paramname">to</td><td>One-past the index of the last element in the slice. It must hold that <code>from &lt;= to</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -1904,76 +1933,6 @@ template&lt;typename S &gt; </div>
 <div class="line">    ==</div>
 <div class="line">    hana::make_pair(hana::make_tuple(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;),</div>
 <div class="line">                    hana::make_tuple(hana::int_c&lt;3&gt;, hana::int_c&lt;4&gt;))</div>
-<div class="line">);</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="a65b5d2d363fb5e2d444e8bfe6bc712c7"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename S &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto subsequence</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; indices) {</div>
-<div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Returns the elements at the given indices of a sequence. </p>
-<p>Given a (finite) and compile-time <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> containing indices, <code>subsequence</code> returns a new <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the elements of the original sequence that appear at those indices. The indices must be <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s of an unsigned integral type. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Sequence.html#a65b5d2d363fb5e2d444e8bfe6bc712c7">subsequence</a>([x1, ..., xn], [i1, ..., ik]) == [xi1, ..., xik]</div>
-</div><!-- fragment --><p>In particular, note that indices do not have to be ordered or sequential in any particular way, and they may contain duplicates.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">xs</td><td>The sequence from which a subsequence is extracted.</td></tr>
-    <tr><td class="paramname">indices</td><td>A compile-time <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> holding <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>s of an unsigned integral type, and whose linearization represents the indices of the elements in the returned sequence.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="filter_8hpp.html">boost/hana/filter.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="length_8hpp.html">boost/hana/length.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="range_8hpp.html">boost/hana/range.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="rem_8hpp.html">boost/hana/rem.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="subsequence_8hpp.html">boost/hana/subsequence.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to&lt;hana::tuple_tag&gt;(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to&lt;hana::tuple_tag&gt;(hana::make_range(hana::int_c&lt;0&gt;, hana::length(letters)));</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> even_indices = hana::filter(indices, [](<span class="keyword">auto</span> n) {</div>
-<div class="line">    <span class="keywordflow">return</span> n % hana::uint_c&lt;2&gt; == hana::uint_c&lt;0&gt;;</div>
-<div class="line">});</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::subsequence(letters, even_indices) == hana::tuple_c&lt;<span class="keywordtype">char</span>,</div>
-<div class="line">        <span class="charliteral">&#39;a&#39;</span>, <span class="charliteral">&#39;c&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;g&#39;</span>, <span class="charliteral">&#39;i&#39;</span>, <span class="charliteral">&#39;k&#39;</span>, <span class="charliteral">&#39;m&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;q&#39;</span>, <span class="charliteral">&#39;s&#39;</span>, <span class="charliteral">&#39;u&#39;</span>, <span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;y&#39;</span></div>
-<div class="line">    &gt;</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
