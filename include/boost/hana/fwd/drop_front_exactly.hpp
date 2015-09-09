@@ -18,12 +18,11 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
-    //! a (non-negative) `Constant` `n` holding an unsigned integral value,
-    //! `drop_front_exactly(xs, n)` is an iterable with the same tag whose
-    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
-    //! function does not mutate the original iterable in any way. If `n` is
-    //! not given, it defaults to a `Constant` with an unsigned integral value
-    //! equal to `1`.
+    //! a non-negative `IntegralConstant` `n`, `drop_front_exactly(xs, n)` is
+    //! an iterable with the same tag as `xs` whose linearization is
+    //! `[xn+1, xn+2, ...]`. In particular, note that this function does not
+    //! mutate the original iterable in any way. If `n` is not given, it
+    //! defaults to an `IntegralConstant` with a value equal to `1`.
     //!
     //! It is an error to use `drop_front_exactly` with `n > length(xs)`. This
     //! additional guarantee allows `drop_front_exactly` to be better optimized
@@ -34,18 +33,18 @@ namespace boost { namespace hana {
     //! The iterable from which elements are dropped.
     //!
     //! @param n
-    //! A non-negative `Constant` holding an unsigned integral value
-    //! representing the number of elements to be dropped from the iterable.
+    //! A non-negative `IntegralConstant` representing the number of elements
+    //! to be dropped from the iterable. In addition to being non-negative,
     //! `n` must be less than or equal to the number of elements in `xs`.
-    //! If `n` is not given, it defaults to a `Constant` with an unsigned
-    //! integral value equal to `1`.
+    //! If `n` is not given, it defaults to an `IntegralConstant` with a value
+    //! equal to `1`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/drop_front_exactly.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop_front_exactly = [](auto&& xs[, auto&& n]) {
+    constexpr auto drop_front_exactly = [](auto&& xs[, auto const& n]) {
         return tag-dispatched;
     };
 #else
@@ -54,7 +53,7 @@ namespace boost { namespace hana {
 
     struct drop_front_exactly_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
 
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;

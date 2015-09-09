@@ -17,16 +17,20 @@ namespace boost { namespace hana {
     //! Return the number of elements in a foldable structure.
     //! @relates Foldable
     //!
-    //! Specifically, returns an object of an unsigned integral type, or
-    //! a `Constant` holding such an object, which represents the number
-    //! of elements in the structure.
+    //! Given a `Foldable` `xs`, `length(xs)` must return an object of an
+    //! unsigned integral type, or an `IntegralConstant` holding such an
+    //! object, which represents the number of elements in the structure.
+    //!
+    //! @note
+    //! Since only compile-time `Foldable`s are supported in the library
+    //! right now, `length` must always return an `IntegralConstant`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/length.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto length = [](auto&& xs) {
+    constexpr auto length = [](auto const& xs) {
         return tag-dispatched;
     };
 #else
@@ -35,7 +39,7 @@ namespace boost { namespace hana {
 
     struct length_t {
         template <typename Xs>
-        constexpr auto operator()(Xs&& xs) const;
+        constexpr auto operator()(Xs const& xs) const;
     };
 
     constexpr length_t length{};

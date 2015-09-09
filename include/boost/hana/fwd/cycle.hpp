@@ -40,23 +40,23 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Constant `C` and a MonadPlus `M`, the signature is
+    //! Given an `IntegralConstant` `C` and a `MonadPlus` `M`, the signature is
     //! @f$ \mathrm{cycle} : M(T) \times C \to M(T) @f$.
     //!
     //! @param xs
     //! A monadic structure to combine with itself a certain number of times.
     //!
     //! @param n
-    //! A non-negative `Constant` of an unsigned integral type representing
-    //! the number of times to combine the monadic structure with itself.
-    //! If `n` is zero, `cycle` returns `empty`.
+    //! A non-negative `IntegralConstant` representing the number of times to
+    //! combine the monadic structure with itself. If `n` is zero, `cycle`
+    //! returns `empty`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/cycle.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto cycle = [](auto&& xs, auto&& n) {
+    constexpr auto cycle = [](auto&& xs, auto const& n) {
         return tag-dispatched;
     };
 #else
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
 
     struct cycle_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
     constexpr cycle_t cycle{};

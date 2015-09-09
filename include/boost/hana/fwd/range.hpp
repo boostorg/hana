@@ -73,21 +73,21 @@ namespace boost { namespace hana {
     //! `integral_constant`s.
     //! @relates hana::range
     //!
-    //! Given two `Constant`s `from` and `to`, `make<range_tag>` returns a
-    //! `hana::range` representing the half-open interval of
-    //! `integral_constant`s `[from, to)`. `from` and `to` must be
-    //! `Constant`s of an integral type such that `from <= to`. Otherwise,
+    //! Given two `IntegralConstant`s `from` and `to`, `make<range_tag>`
+    //! returns a `hana::range` representing the half-open interval of
+    //! `integral_constant`s `[from, to)`. `from` and `to` must form a
+    //! valid interval, which means that `from <= to` must be true. Otherwise,
     //! a compilation error is triggered. Also note that if `from` and `to`
-    //! are `Constant`s with different underlying integral types, the created
-    //! range contains `integral_constant`s whose underlying type is their
-    //! common type.
+    //! are `IntegralConstant`s with different underlying integral types,
+    //! the created range contains `integral_constant`s whose underlying
+    //! type is their common type.
     //!
     //!
     //! Example
     //! -------
     //! @include example/range/make.cpp
     template <>
-    constexpr auto make<range_tag> = [](auto from, auto to) {
+    constexpr auto make<range_tag> = [](auto const& from, auto const& to) {
         return range<implementation-defined>{implementation-defined};
     };
 #endif

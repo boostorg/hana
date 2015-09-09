@@ -115,10 +115,10 @@ namespace boost { namespace hana {
 
         template <typename S1, typename S2>
         static constexpr decltype(auto) apply(S1&& s1, S2&& s2) {
-            constexpr bool same_length = hana::value<decltype(
-                hana::equal(hana::length(s1.storage), hana::length(s2.storage)
-            ))>();
-            return equal_helper(s1, s2, hana::bool_c<same_length>);
+            return equal_impl::equal_helper(s1, s2, hana::bool_c<
+                decltype(hana::length(s1.storage))::value ==
+                decltype(hana::length(s2.storage))::value
+            >);
         }
     };
 

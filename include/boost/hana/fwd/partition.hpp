@@ -26,8 +26,9 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Sequence `S(T)`, a `Logical` `Bool` and a predicate
-    //! \f$ T \to Bool \f$, `partition` has the following signature:
+    //! Given a Sequence `S(T)`, an `IntegralConstant` `Bool` holding a value
+    //! of type `bool`, and a predicate \f$ T \to Bool \f$, `partition` has
+    //! the following signature:
     //! \f[
     //!     \mathtt{partition} : S(T) \times (T \to Bool) \to S(T) \times S(T)
     //! \f]
@@ -37,10 +38,10 @@ namespace boost { namespace hana {
     //!
     //! @param predicate
     //! A function called as `predicate(x)` for each element `x` in the
-    //! sequence and returning a `Constant Logical`. If the result of
-    //! `predicate` is true, then `x` is added to the sequence in the first
-    //! component of the resulting `Product`. Otherwise, `x` is added to the
-    //! sequence in the second component.
+    //! sequence, and returning whether `x` should be added to the sequence
+    //! in the first component or in the second component of the resulting
+    //! pair. In the current version of the library, `predicate` must return
+    //! an `IntegralConstant` holding a value convertible to `bool`.
     //!
     //!
     //! Syntactic sugar (`partition.by`)

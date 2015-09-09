@@ -219,7 +219,7 @@ namespace boost { namespace hana {
         static constexpr auto apply(string<s...> const&, N const&) {
             // We put a '\0' at the end to avoid an empty array.
             constexpr char characters[] = {s..., '\0'};
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return hana::char_c<characters[n]>;
         }
     };

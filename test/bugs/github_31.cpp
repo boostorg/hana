@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/value.hpp>
 namespace hana = boost::hana;
 
 
@@ -27,7 +26,7 @@ namespace boost { namespace hana {
     struct at_impl<counter<i>> {
         template <typename N>
         static constexpr auto apply(counter<i>, N const&) {
-            return hana::int_c<i + hana::value<N>()>;
+            return hana::int_c<i + N::value>;
         }
     };
 

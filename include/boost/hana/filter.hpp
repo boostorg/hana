@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/lift.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -62,7 +61,7 @@ namespace boost { namespace hana {
 
             template <typename X>
             constexpr auto operator()(X&& x) const {
-                constexpr bool cond = hana::value<decltype(std::declval<Pred>()(x))>();
+                constexpr bool cond = decltype(std::declval<Pred>()(x))::value;
                 return helper(static_cast<X&&>(x), hana::bool_c<cond>);
             }
         };
@@ -109,11 +108,9 @@ namespace boost { namespace hana {
     struct filter_impl<M, when<Sequence<M>::value>> {
         template <typename Pred, typename Xs, std::size_t ...i>
         static constexpr auto filter_indices(Xs&& xs, std::index_sequence<i...>) {
-            using info = detail::filter_central<
-                hana::value<decltype(
-                    std::declval<Pred>()(hana::at_c<i>(static_cast<Xs&&>(xs)))
-                )>()...
-            >;
+            using info = detail::filter_central<decltype(
+                std::declval<Pred>()(hana::at_c<i>(static_cast<Xs&&>(xs)))
+            )::value...>;
             return info::template finish<M>(static_cast<Xs&&>(xs),
                 std::make_index_sequence<info::filtered_size>{});
         }
@@ -124,7 +121,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred const&) {
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             return filter_indices<Pred>(static_cast<Xs&&>(xs),
                                         std::make_index_sequence<len>{});
         }

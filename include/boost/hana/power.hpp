@@ -12,13 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/power.hpp>
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/ring.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/mult.hpp>
 #include <boost/hana/one.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 
@@ -26,18 +26,25 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename X, typename N>
-    constexpr decltype(auto) power_t::operator()(X&& x, N&& n) const {
+    constexpr decltype(auto) power_t::operator()(X&& x, N const& n) const {
         using R = typename hana::tag_of<X>::type;
         using Power = BOOST_HANA_DISPATCH_IF(power_impl<R>,
-            Ring<R>::value
+            Ring<R>::value &&
+            IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Ring<R>::value,
         "hana::power(x, n) requires 'x' to be in a Ring");
+
+        static_assert(IntegralConstant<N>::value,
+        "hana::power(x, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return Power::apply(static_cast<X&&>(x), static_cast<N&&>(n));
+        static_assert(N::value >= 0,
+        "hana::power(x, n) requires 'n' to be non-negative");
+
+        return Power::apply(static_cast<X&&>(x), n);
     }
     //! @endcond
 
@@ -45,7 +52,7 @@ namespace boost { namespace hana {
     struct power_impl<R, when<condition>> : default_ {
         template <typename X, typename N>
         static constexpr decltype(auto) apply(X&& x, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return hana::iterate<n>(
                 hana::partial(hana::mult, static_cast<X&&>(x)),
                 hana::one<R>()

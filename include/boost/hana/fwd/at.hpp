@@ -19,8 +19,8 @@ namespace boost { namespace hana {
     //! Returns the `n`th element of an iterable.
     //! @relates Iterable
     //!
-    //! Given an `Iterable` and a `Constant` index, `at` returns the element
-    //! located at the index in the linearization of the iterable.
+    //! Given an `Iterable` and an `IntegralConstant` index, `at` returns the
+    //! element located at the index in the linearization of the iterable.
     //! Specifically, given an iterable `xs` with a linearization of
     //! `[x1, ..., xN]`, `at(xs, k)` is equivalent to `xk`.
     //!
@@ -30,10 +30,9 @@ namespace boost { namespace hana {
     //! contain at least `n + 1` elements.
     //!
     //! @param n
-    //! A (non-negative) `Constant` of an unsigned integral type representing
-    //! the 0-based index of the element to return. It is an error to call
-    //! `at` with an index that is either out of bounds for the iterable,
-    //! not of an unsigned type or not a `Constant`.
+    //! A non-negative `IntegralConstant` representing the 0-based index of
+    //! the element to return. It is an error to call `at` with an index that
+    //! out of bounds of the iterable.
     //!
     //!
     //! Example
@@ -48,7 +47,7 @@ namespace boost { namespace hana {
     //!      data-dataset="benchmark.at.compile.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto at = [](auto&& xs, auto&& n) -> decltype(auto) {
+    constexpr auto at = [](auto&& xs, auto const& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -57,7 +56,7 @@ namespace boost { namespace hana {
 
     struct at_t {
         template <typename Xs, typename N>
-        constexpr decltype(auto) operator()(Xs&& xs, N&& n) const;
+        constexpr decltype(auto) operator()(Xs&& xs, N const& n) const;
     };
 
     constexpr at_t at{};

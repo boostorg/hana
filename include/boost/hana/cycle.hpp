@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/at.hpp>
 #include <boost/hana/concat.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
@@ -21,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/array.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -30,7 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr auto cycle_t::operator()(Xs&& xs, N&& n) const {
+    constexpr auto cycle_t::operator()(Xs&& xs, N const& n) const {
         using M = typename hana::tag_of<Xs>::type;
         using Cycle = BOOST_HANA_DISPATCH_IF(cycle_impl<M>,
             MonadPlus<M>::value
@@ -39,9 +39,15 @@ namespace boost { namespace hana {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(MonadPlus<M>::value,
         "hana::cycle(xs, n) requires 'xs' to be a MonadPlus");
+
+        static_assert(IntegralConstant<N>::value,
+        "hana::cycle(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return Cycle::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        static_assert(N::value >= 0,
+        "hana::cycle(xs, n) requires 'n' to be non-negative");
+
+        return Cycle::apply(static_cast<Xs&&>(xs), n);
     }
     //! @endcond
 
@@ -75,7 +81,7 @@ namespace boost { namespace hana {
     struct cycle_impl<M, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs const& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return detail::cycle_helper<M, n>::apply(xs);
         }
     };
@@ -108,8 +114,8 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             using Indices = detail::cycle_indices<n, len>;
             return cycle_helper<Indices>(static_cast<Xs&&>(xs),
                                          std::make_index_sequence<n * len>{});

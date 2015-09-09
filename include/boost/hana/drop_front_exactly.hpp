@@ -12,36 +12,33 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/drop_front_exactly.hpp>
 
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/iterate.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/tail.hpp>
-#include <boost/hana/value.hpp>
 
 
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr auto drop_front_exactly_t::operator()(Xs&& xs, N&& n) const {
+    constexpr auto drop_front_exactly_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
-        using DropFrontExactly = BOOST_HANA_DISPATCH_IF(
-            drop_front_exactly_impl<It>,
+        using DropFrontExactly = BOOST_HANA_DISPATCH_IF(drop_front_exactly_impl<It>,
             Iterable<It>::value &&
-            Constant<N>::value
+            IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Iterable<It>::value,
         "hana::drop_front_exactly(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(Constant<N>::value,
-        "hana::drop_front_exactly(xs, n) requires 'n' to be a Constant");
+        static_assert(IntegralConstant<N>::value,
+        "hana::drop_front_exactly(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return DropFrontExactly::apply(static_cast<Xs&&>(xs),
-                                       static_cast<N&&>(n));
+        return DropFrontExactly::apply(static_cast<Xs&&>(xs), n);
     }
 
     template <typename Xs>
@@ -54,7 +51,7 @@ namespace boost { namespace hana {
     struct drop_front_exactly_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return hana::iterate<n>(hana::tail)(static_cast<Xs&&>(xs));
         }
     };

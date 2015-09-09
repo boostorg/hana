@@ -20,11 +20,11 @@ namespace boost { namespace hana {
     //! Returns whether the key occurs in the structure.
     //! @relates Searchable
     //!
-    //! Specifically, returns whether any of the keys of the structure is
-    //! equal to the given `key`. If the structure is not finite, an equal
-    //! key has to appear at a finite "index" in the structure for this
-    //! method to finish. For convenience, `contains` can also be applied in
-    //! infix notation.
+    //! Given a `Searchable` structure `xs` and a `key`, `contains` returns
+    //! whether any of the keys of the structure is equal to the given `key`.
+    //! If the structure is not finite, an equal key has to appear at a finite
+    //! position in the structure for this method to finish. For convenience,
+    //! `contains` can also be applied in infix notation.
     //!
     //!
     //! @param xs

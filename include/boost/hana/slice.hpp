@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -55,7 +54,7 @@ namespace boost { namespace hana {
 
             template <typename ...N>
             constexpr auto operator()(N const& ...) const {
-                return hana::make<S>(hana::at_c<hana::value<N>()>(xs)...);
+                return hana::make<S>(hana::at_c<N::value>(xs)...);
             }
         };
     }

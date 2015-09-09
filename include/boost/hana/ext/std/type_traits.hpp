@@ -104,7 +104,7 @@ namespace boost { namespace hana { namespace traits {
     constexpr struct extent_t {
         template <typename T, typename N>
         constexpr auto operator()(T&&, N const&) const {
-            constexpr unsigned n = hana::value<N>();
+            constexpr unsigned n = N::value;
             constexpr auto result = std::extent<
                 typename detail::decltype_t<T>::type, n
             >::value;
@@ -154,15 +154,15 @@ namespace boost { namespace hana { namespace traits {
     constexpr struct aligned_storage_t {
         template <typename Len, typename Align>
         constexpr auto operator()(Len const&, Align const&) const {
-            constexpr std::size_t len = hana::value<Len>();
-            constexpr std::size_t align = hana::value<Align>();
+            constexpr std::size_t len = Len::value;
+            constexpr std::size_t align = Align::value;
             using Result = typename std::aligned_storage<len, align>::type;
             return hana::type_c<Result>;
         }
 
         template <typename Len>
         constexpr auto operator()(Len const&) const {
-            constexpr std::size_t len = hana::value<Len>();
+            constexpr std::size_t len = Len::value;
             using Result = typename std::aligned_storage<len>::type;
             return hana::type_c<Result>;
         }
@@ -171,7 +171,7 @@ namespace boost { namespace hana { namespace traits {
     constexpr struct aligned_union_t {
         template <typename Len, typename ...T>
         constexpr auto operator()(Len const&, T&&...) const {
-            constexpr std::size_t len = hana::value<Len>();
+            constexpr std::size_t len = Len::value;
             using Result = typename std::aligned_union<
                 len, typename detail::decltype_t<T>::type...
             >::type;

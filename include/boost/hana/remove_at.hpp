@@ -13,13 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/remove_at.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -28,22 +27,25 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr auto remove_at_t::operator()(Xs&& xs, N&& n) const {
+    constexpr auto remove_at_t::operator()(Xs&& xs, N const& n) const {
         using S = typename hana::tag_of<Xs>::type;
         using RemoveAt = BOOST_HANA_DISPATCH_IF(remove_at_impl<S>,
             Sequence<S>::value &&
-            Constant<N>::value
+            IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Sequence<S>::value,
         "hana::remove_at(xs, n) requires 'xs' to be a Sequence");
 
-        static_assert(Constant<N>::value,
-        "hana::remove_at(xs, n) requires 'n' to be a Constant");
+        static_assert(IntegralConstant<N>::value,
+        "hana::remove_at(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return RemoveAt::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        static_assert(N::value >= 0,
+        "hana::remove_at(xs, n) requires 'n' to be non-negative");
+
+        return RemoveAt::apply(static_cast<Xs&&>(xs), n);
     }
     //! @endcond
 
@@ -62,8 +64,10 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            static_assert(n < len,
+            "hana::remove_at(xs, n) requires 'n' to be in the bounds of the sequence");
             return remove_at_helper(static_cast<Xs&&>(xs),
                                     std::make_index_sequence<n>{},
                                     std::make_index_sequence<len - n - 1>{});

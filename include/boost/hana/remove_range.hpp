@@ -13,13 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/remove_range.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -28,28 +27,26 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename From, typename To>
-    constexpr auto remove_range_t::operator()(Xs&& xs, From&& from, To&& to) const {
+    constexpr auto remove_range_t::operator()(Xs&& xs, From const& from, To const& to) const {
         using S = typename hana::tag_of<Xs>::type;
         using RemoveRange = BOOST_HANA_DISPATCH_IF(remove_range_impl<S>,
             Sequence<S>::value &&
-            Constant<From>::value &&
-            Constant<To>::value
+            IntegralConstant<From>::value &&
+            IntegralConstant<To>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Sequence<S>::value,
         "hana::remove_range(xs, from, to) requires 'xs' to be a Sequence");
 
-        static_assert(Constant<From>::value,
-        "hana::remove_range(xs, from, to) requires 'from' to be a Constant");
+        static_assert(IntegralConstant<From>::value,
+        "hana::remove_range(xs, from, to) requires 'from' to be an IntegralConstant");
 
-        static_assert(Constant<To>::value,
-        "hana::remove_range(xs, from, to) requires 'to' to be a Constant");
+        static_assert(IntegralConstant<To>::value,
+        "hana::remove_range(xs, from, to) requires 'to' to be an IntegralConstant");
     #endif
 
-        return RemoveRange::apply(static_cast<Xs&&>(xs),
-                                  static_cast<From&&>(from),
-                                  static_cast<To&&>(to));
+        return RemoveRange::apply(static_cast<Xs&&>(xs), from, to);
     }
     //! @endcond
 
@@ -68,12 +65,20 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename From, typename To>
         static constexpr auto apply(Xs&& xs, From const&, To const&) {
-            constexpr std::size_t from = hana::value<From>();
-            constexpr std::size_t to = hana::value<To>();
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t from = From::value;
+            constexpr std::size_t to = To::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             constexpr std::size_t before = from == to ? len : from;
             constexpr std::size_t after = from == to ? 0 : len - to;
-            static_assert(from <= to, "hana::remove_range(xs, from, to) requires 'from <= to'");
+
+            static_assert(from <= to,
+            "hana::remove_range(xs, from, to) requires '[from, to)' to be a "
+            "valid interval, meaning that 'from <= to'");
+            static_assert(from == to || from >= 0,
+            "hana::remove_range(xs, from, to) requires 'from' to be non-negative");
+            static_assert(from == to || to <= len,
+            "hana::remove_range(xs, from, to) requires 'to <= length(xs)'");
+
             return remove_range_helper<to>(static_cast<Xs&&>(xs),
                                            std::make_index_sequence<before>{},
                                            std::make_index_sequence<after>{});

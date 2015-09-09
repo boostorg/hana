@@ -18,10 +18,10 @@ namespace boost { namespace hana {
     //! @relates Sequence
     //!
     //! Given a finite `Sequence` `xs` with a linearization of `[x1, ..., xm]`
-    //! and a non-negative `Constant` `n` holding an unsigned integral value,
-    //! `drop_back(xs, n)` is a sequence with the same tag as `xs` whose
-    //! linearization is `[x1, ..., xm-n]`. If `n` is not given, it defaults
-    //! to a `Constant` with an unsigned integral value equal to `1`.
+    //! and a non-negative `IntegralConstant` `n`, `drop_back(xs, n)` is a
+    //! sequence with the same tag as `xs` whose linearization is
+    //! `[x1, ..., xm-n]`. If `n` is not given, it defaults to an
+    //! `IntegralConstant` with a value equal to `1`.
     //!
     //! In case `length(xs) <= n`, `drop_back` will simply drop the whole
     //! sequence without failing, thus returning an empty sequence.
@@ -31,17 +31,16 @@ namespace boost { namespace hana {
     //! The sequence from which elements are dropped.
     //!
     //! @param n
-    //! A non-negative `Constant` holding an unsigned integral value
-    //! representing the number of elements to be dropped from the end
-    //! of the sequence. If `n` is not given, it defaults to a `Constant`
-    //! with an unsigned integral value equal to `1`.
+    //! A non-negative `IntegralConstant` representing the number of elements
+    //! to be dropped from the end of the sequence. If `n` is not given, it
+    //! defaults to an `IntegralConstant` with a value equal to `1`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/drop_back.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop_back = [](auto&& xs[, auto&& n]) {
+    constexpr auto drop_back = [](auto&& xs[, auto const& n]) {
         return tag-dispatched;
     };
 #else
@@ -50,7 +49,7 @@ namespace boost { namespace hana {
 
     struct drop_back_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
 
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;

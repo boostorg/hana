@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/at.hpp>
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr decltype(auto) at_t::operator()(Xs&& xs, N&& n) const {
+    constexpr decltype(auto) at_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using At = BOOST_HANA_DISPATCH_IF(at_impl<It>,
             Iterable<It>::value
@@ -31,9 +32,12 @@ namespace boost { namespace hana {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Iterable<It>::value,
         "hana::at(xs, n) requires 'xs' to be an Iterable");
+
+        static_assert(IntegralConstant<N>::value,
+        "hana::at(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return At::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        return At::apply(static_cast<Xs&&>(xs), n);
     }
     //! @endcond
 

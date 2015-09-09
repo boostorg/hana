@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/lift.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <tuple>
@@ -143,7 +142,7 @@ namespace boost { namespace hana {
     struct at_impl<ext::std::tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
-            constexpr std::size_t index = hana::value<N>();
+            constexpr std::size_t index = N::value;
             return std::get<index>(static_cast<Xs&&>(xs));
         }
     };

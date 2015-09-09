@@ -20,25 +20,25 @@ namespace boost { namespace hana {
     //! if the sequence has less than `n` elements.
     //! @relates Sequence
     //!
-    //! Given a `Sequence` `xs` and a `Constant` `n` holding an unsigned
-    //! integral value, `take(xs, n)` is a new sequence containing the first
-    //! `n` elements of `xs`, in the same order. If `length(xs) <= n`, the
-    //! whole sequence is returned and no error is triggered.
+    //! Given a `Sequence` `xs` and an `IntegralConstant` `n`, `take(xs, n)`
+    //! is a new sequence containing the first `n` elements of `xs`, in the
+    //! same order. If `length(xs) <= n`, the whole sequence is returned and
+    //! no error is triggered.
     //!
     //!
     //! @param xs
     //! The sequence to take the elements from.
     //!
     //! @param n
-    //! A non-negative `Constant` holding an unsigned integral value
-    //! representing the number of elements to keep in the resulting sequence.
+    //! A non-negative `IntegralConstant` representing the number of elements
+    //! to keep in the resulting sequence.
     //!
     //!
     //! Example
     //! -------
     //! @include example/take.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto take = [](auto&& xs, auto&& n) {
+    constexpr auto take = [](auto&& xs, auto const& n) {
         return tag-dispatched;
     };
 #else
@@ -47,7 +47,7 @@ namespace boost { namespace hana {
 
     struct take_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
     constexpr take_t take{};

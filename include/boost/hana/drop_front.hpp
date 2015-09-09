@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/drop_front.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/tail.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -34,22 +33,22 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr auto drop_front_t::operator()(Xs&& xs, N&& n) const {
+    constexpr auto drop_front_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using DropFront = BOOST_HANA_DISPATCH_IF(drop_front_impl<It>,
             Iterable<It>::value &&
-            Constant<N>::value
+            IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Iterable<It>::value,
         "hana::drop_front(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(Constant<N>::value,
-        "hana::drop_front(xs, n) requires 'n' to be a Constant");
+        static_assert(IntegralConstant<N>::value,
+        "hana::drop_front(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return DropFront::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        return DropFront::apply(static_cast<Xs&&>(xs), n);
     }
 
     template <typename Xs>
@@ -73,7 +72,7 @@ namespace boost { namespace hana {
     struct drop_front_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return hana::iterate<n>(detail::maybe_tail{}, static_cast<Xs&&>(xs));
         }
     };
@@ -89,8 +88,8 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             return drop_front_helper<n>(static_cast<Xs&&>(xs),
                     std::make_index_sequence<(n < len ? len - n : 0)>{});
         }

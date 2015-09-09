@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/by.hpp> // required by fwd decl
 #include <boost/hana/pair.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -41,8 +40,7 @@ namespace boost { namespace hana {
         "hana::partition(xs, pred) requires 'xs' to be a Sequence");
     #endif
 
-        return Partition::apply(static_cast<Xs&&>(xs),
-                                static_cast<Pred&&>(pred));
+        return Partition::apply(static_cast<Xs&&>(xs), static_cast<Pred&&>(pred));
     }
     //! @endcond
 
@@ -90,7 +88,7 @@ namespace boost { namespace hana {
         struct deduce_partition_indices {
             template <typename ...Xs>
             auto operator()(Xs&& ...xs) const -> detail::partition_indices<
-                hana::value<decltype(std::declval<Pred>()(static_cast<Xs&&>(xs)))>()...
+                decltype(std::declval<Pred>()(static_cast<Xs&&>(xs)))::value...
             > { return {}; }
         };
     }

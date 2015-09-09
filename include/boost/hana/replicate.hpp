@@ -12,12 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/replicate.hpp>
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/monad_plus.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/cycle.hpp>
 #include <boost/hana/lift.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -32,21 +32,26 @@ namespace boost { namespace hana {
     #endif
 
         template <typename X, typename N>
-        constexpr auto operator()(X&& x, N&& n) const {
+        constexpr auto operator()(X&& x, N const& n) const {
             using Replicate = BOOST_HANA_DISPATCH_IF(replicate_impl<M>,
-                MonadPlus<M>::value
+                MonadPlus<M>::value &&
+                IntegralConstant<N>::value
             );
 
-            return Replicate::apply(static_cast<X&&>(x), static_cast<N&&>(n));
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(IntegralConstant<N>::value,
+            "hana::replicate<M>(x, n) requires 'n' to be an IntegralConstant");
+        #endif
+
+            return Replicate::apply(static_cast<X&&>(x), n);
         }
     };
 
     template <typename M, bool condition>
     struct replicate_impl<M, when<condition>> : default_ {
         template <typename X, typename N>
-        static constexpr auto apply(X&& x, N&& n) {
-            return hana::cycle(hana::lift<M>(static_cast<X&&>(x)),
-                               static_cast<N&&>(n));
+        static constexpr auto apply(X&& x, N const& n) {
+            return hana::cycle(hana::lift<M>(static_cast<X&&>(x)), n);
         }
     };
 
@@ -58,7 +63,7 @@ namespace boost { namespace hana {
 
         template <typename X, typename N>
         static constexpr auto apply(X&& x, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return replicate_helper(static_cast<X&&>(x),
                                     std::make_index_sequence<n>{});
         }

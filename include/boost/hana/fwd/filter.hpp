@@ -42,17 +42,19 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a MonadPlus `M` and a Logical `Bool`, the signature is
-    //! @f$ \mathrm{filter} : M(T) \times (T \to \mathrm{Bool}) \to M(T) @f$.
+    //! Given a `MonadPlus` `M` and an `IntegralConstant` `Bool` holding a
+    //! value of type `bool`, the signature is
+    //! @f$ \mathtt{filter} : M(T) \times (T \to \mathtt{Bool}) \to M(T) @f$.
     //!
     //! @param xs
     //! The monadic structure to filter.
     //!
     //! @param pred
     //! A function called as `pred(x)` for each element `x` in the monadic
-    //! structure and returning a `Logical` representing whether that element
-    //! should be __kept__ in the resulting structure. In the current version
-    //! of the library, the predicate has to return a compile-time `Logical`.
+    //! structure and returning whether that element should be __kept__ in
+    //! the resulting structure. In the current version of the library, the
+    //! predicate has to return an `IntegralConstant` holding a value
+    //! convertible to a `bool`.
     //!
     //!
     //! Example

@@ -15,9 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 
@@ -44,9 +42,9 @@ namespace boost { namespace hana {
     struct back_impl<It, when<condition>> : default_ {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             static_assert(len > 0, "hana::back(xs) requires 'xs' to be non-empty");
-            return hana::at(static_cast<Xs&&>(xs), hana::size_c<len - 1>);
+            return hana::at_c<len - 1>(static_cast<Xs&&>(xs));
         }
     };
 }} // end namespace boost::hana

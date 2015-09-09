@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_RATIO_HPP
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -24,7 +24,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/quot.hpp>
 #include <boost/hana/fwd/rem.hpp>
 #include <boost/hana/fwd/zero.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstdint>
 #include <ratio>
@@ -40,17 +39,15 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Conversion from Constants
+    // Conversion from IntegralConstants
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct to_impl<ext::std::ratio_tag, C, when<
-        Constant<C>::value &&
-        std::is_integral<typename C::value_type>::value
+        hana::IntegralConstant<C>::value
     >> {
         template <typename N>
         static constexpr auto apply(N const&) {
-            constexpr auto v = hana::value<N>();
-            return std::ratio<v>{};
+            return std::ratio<N::value>{};
         }
     };
 

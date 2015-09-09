@@ -23,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/chain.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -89,7 +88,7 @@ namespace boost { namespace hana {
     struct flatten_impl<S, when<Sequence<S>::value>> {
         template <typename ...Xs>
         auto operator()(Xs const& ...xs) const -> detail::flatten_indices<
-            hana::value<decltype(hana::length(xs))>()...
+            decltype(hana::length(xs))::value...
         >;
 
         template <typename Xs>

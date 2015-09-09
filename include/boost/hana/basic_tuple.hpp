@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/tail.hpp>
-#include <boost/hana/value.hpp>
 #endif
 
 #include <cstddef>
@@ -214,7 +213,7 @@ namespace boost { namespace hana {
     struct at_impl<basic_tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
-            constexpr std::size_t index = hana::value<N>();
+            constexpr std::size_t index = N::value;
             return hana::get_impl<index>(static_cast<Xs&&>(xs));
         }
     };

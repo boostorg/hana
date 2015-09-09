@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/array.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -68,7 +67,7 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto apply(Xs const& xs) {
-            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t N = decltype(hana::length(xs))::value;
             constexpr std::size_t total_perms = detail::factorial(N);
             return permutations_helper<N>(xs, std::make_index_sequence<total_perms>{});
         }

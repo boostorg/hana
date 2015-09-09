@@ -30,7 +30,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 #include <boost/hana/second.hpp>
 #include <boost/hana/transform.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -66,9 +65,9 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred, std::size_t i, std::size_t N>
         struct advance_until<Xs, Pred, i, N, false>
-            : advance_until<Xs, Pred, i + 1, N, hana::value<decltype(
+            : advance_until<Xs, Pred, i + 1, N, decltype(
                 std::declval<Pred>()(hana::at_c<i>(std::declval<Xs>()))
-            )>()>
+            )::value>
         { };
 
         template <typename Xs, typename Pred, std::size_t N>
@@ -92,7 +91,7 @@ namespace boost { namespace hana {
     struct find_if_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&&) {
-            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t N = decltype(hana::length(xs))::value;
             return detail::advance_until<Xs&&, Pred&&, 0, N, false>::apply(
                 static_cast<Xs&&>(xs)
             );
@@ -128,7 +127,9 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
             return find_if_helper(static_cast<Xs&&>(xs),
-                hana::bool_c<hana::value<decltype(pred(xs[0]))>()>
+                hana::bool_c<decltype(
+                    static_cast<Pred&&>(pred)(static_cast<Xs&&>(xs)[0])
+                )::value>
             );
         }
     };

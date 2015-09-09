@@ -37,12 +37,12 @@ namespace boost { namespace hana {
     //! The sequence from which a subsequence is extracted.
     //!
     //! @param indices
-    //! A compile-time `Foldable` containing `Constant`s representing the
-    //! indices. The `Constant`s must hold a value of an unsigned integral
-    //! type. The indices are 0-based, and they must all be in bounds of
-    //! the `xs` sequence. Note that any `Foldable` will really do (no need
-    //! for an `Iterable`, for example); the linearization of the `indices`
-    //! is used to determine the order of the elements included in the slice.
+    //! A compile-time `Foldable` containing non-negative `IntegralConstant`s
+    //! representing the indices. The indices are 0-based, and they must all
+    //! be in bounds of the `xs` sequence. Note that any `Foldable` will
+    //! really do (no need for an `Iterable`, for example); the linearization
+    //! of the `indices` is used to determine the order of the elements
+    //! included in the slice.
     //!
     //!
     //! Example

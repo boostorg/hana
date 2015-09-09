@@ -34,16 +34,18 @@ namespace boost { namespace hana {
     //! A sequence from which elements are removed.
     //!
     //! @param [from, to)
-    //! An half-open interval of `Constant`s holding unsigned integral values,
-    //! and representing the indices of the elements to be removed from the
-    //! sequence.
+    //! An half-open interval of `IntegralConstant`s representing the indices
+    //! of the elements to be removed from the sequence. The `IntegralConstant`s
+    //! in the half-open interval must be non-negative and in the bounds of
+    //! the sequence. The half-open interval must also be valid, meaning that
+    //! `from <= to`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/remove_range.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto remove_range = [](auto&& xs, auto&& from, auto&& to) {
+    constexpr auto remove_range = [](auto&& xs, auto const& from, auto const& to) {
         return tag-dispatched;
     };
 #else
@@ -52,7 +54,7 @@ namespace boost { namespace hana {
 
     struct remove_range_t {
         template <typename Xs, typename From, typename To>
-        constexpr auto operator()(Xs&& xs, From&& from, To&& to) const;
+        constexpr auto operator()(Xs&& xs, From const& from, To const& to) const;
     };
 
     constexpr remove_range_t remove_range{};

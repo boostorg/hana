@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/less.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/value.hpp>
 
 #include <array>
 #include <cstddef>
@@ -54,7 +53,7 @@ namespace boost { namespace hana {
     struct at_impl<ext::std::array_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return static_cast<Xs&&>(xs)[n];
         }
     };

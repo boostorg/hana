@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
-    constexpr auto is_empty_t::operator()(Xs&& xs) const {
+    constexpr auto is_empty_t::operator()(Xs const& xs) const {
         using It = typename hana::tag_of<Xs>::type;
         using IsEmpty = BOOST_HANA_DISPATCH_IF(is_empty_impl<It>,
             Iterable<It>::value
@@ -30,7 +30,7 @@ namespace boost { namespace hana {
         "hana::is_empty(xs) requires 'xs' to be an Iterable");
     #endif
 
-        return IsEmpty::apply(static_cast<Xs&&>(xs));
+        return IsEmpty::apply(xs);
     }
     //! @endcond
 

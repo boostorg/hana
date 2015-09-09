@@ -23,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/empty.hpp>
@@ -132,7 +131,7 @@ namespace boost { namespace hana {
     struct at_impl<ext::boost::mpl::vector_tag> {
         template <typename Ts, typename N>
         static constexpr auto apply(Ts const&, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             using T = typename ::boost::mpl::at_c<Ts, n>::type;
             return hana::type_c<T>;
         }

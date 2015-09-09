@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -65,7 +64,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Z>
         static constexpr auto apply(Xs&& xs, Z&& z) {
-            constexpr std::size_t size = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t size = decltype(hana::length(xs))::value;
             constexpr std::size_t new_size = size == 0 ? 0 : (size * 2) - 1;
             return intersperse_helper(static_cast<Xs&&>(xs), static_cast<Z&&>(z),
                                       std::make_index_sequence<new_size>{});

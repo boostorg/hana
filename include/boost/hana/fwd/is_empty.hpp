@@ -17,15 +17,19 @@ namespace boost { namespace hana {
     //! Returns whether the iterable is empty.
     //! @relates Iterable
     //!
-    //! `is_empty` must return a compile-time `Logical` representing
-    //! whether the iterable is empty.
+    //! Given an `Iterable` `xs`, `is_empty` returns whether `xs` contains
+    //! no more elements. In other words, it returns whether trying to
+    //! extract the tail of `xs` would be an error. In the current version
+    //! of the library, `is_empty` must return an `IntegralConstant` holding
+    //! a value convertible to `bool`. This is because only compile-time
+    //! `Iterable`s are supported right now.
     //!
     //!
     //! Example
     //! -------
     //! @include example/is_empty.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto is_empty = [](auto&& xs) {
+    constexpr auto is_empty = [](auto const& xs) {
         return tag-dispatched;
     };
 #else
@@ -34,7 +38,7 @@ namespace boost { namespace hana {
 
     struct is_empty_t {
         template <typename Xs>
-        constexpr auto operator()(Xs&& xs) const;
+        constexpr auto operator()(Xs const& xs) const;
     };
 
     constexpr is_empty_t is_empty{};

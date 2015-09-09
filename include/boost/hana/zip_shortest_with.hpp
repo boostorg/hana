@@ -19,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/take.hpp>
-#include <boost/hana/value.hpp>
 #include <boost/hana/zip_with.hpp>
 
 #include <cstddef>
@@ -50,7 +49,7 @@ namespace boost { namespace hana {
         template <typename F, typename ...Xs>
         static constexpr decltype(auto) apply(F&& f, Xs&& ...xs) {
             constexpr std::size_t lengths[] = {
-                hana::value<decltype(hana::length(xs))>()...
+                decltype(hana::length(xs))::value...
             };
             constexpr std::size_t min = *detail::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),

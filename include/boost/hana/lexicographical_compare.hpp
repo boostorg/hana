@@ -99,8 +99,8 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto apply(Xs const& xs, Ys const& ys, Pred const& pred) {
             return helper(xs, ys, pred, hana::bool_c<
-                hana::value<decltype(hana::is_empty(xs))>() ||
-                hana::value<decltype(hana::is_empty(ys))>()
+                decltype(hana::is_empty(xs))::value ||
+                decltype(hana::is_empty(ys))::value
             >);
         }
     };

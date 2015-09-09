@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs>
-    constexpr auto length_t::operator()(Xs&& xs) const {
+    constexpr auto length_t::operator()(Xs const& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Length = BOOST_HANA_DISPATCH_IF(length_impl<S>,
             Foldable<S>::value
@@ -32,7 +32,7 @@ namespace boost { namespace hana {
         "hana::length(xs) requires 'xs' to be Foldable");
     #endif
 
-        return Length::apply(static_cast<Xs&&>(xs));
+        return Length::apply(xs);
     }
     //! @endcond
 

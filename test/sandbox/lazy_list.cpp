@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     struct at_impl<LazyList> {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& lcons, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return hana::iterate<n>(hana::tail, lcons).x;
         }
     };

@@ -128,7 +128,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Index>
         static constexpr decltype(auto) apply(Xs&& xs, Index const&) {
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::at<hana::value<Index>()>
+                detail::variadic::at<Index::value>
             );
         }
     };

@@ -33,15 +33,16 @@ namespace boost { namespace hana {
     //! A sequence from which an element is to be removed.
     //!
     //! @param n
-    //! An non-negative `Constant` of an unsigned integral type representing
-    //! the index of the element to be removed from the sequence.
+    //! An non-negative `IntegralConstant` representing the index of the
+    //! element to be removed from the sequence. The behavior is undefined
+    //! if that index is not in the bounds of the sequence.
     //!
     //!
     //! Example
     //! -------
     //! @include example/remove_at.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto remove_at = [](auto&& xs, auto&& n) {
+    constexpr auto remove_at = [](auto&& xs, auto const& n) {
         return tag-dispatched;
     };
 #else
@@ -50,7 +51,7 @@ namespace boost { namespace hana {
 
     struct remove_at_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
     constexpr remove_at_t remove_at{};

@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -78,7 +77,7 @@ namespace boost { namespace hana {
     struct at_impl<ext::std::integer_sequence_tag> {
         template <typename T, T ...v, typename N>
         static constexpr auto apply(std::integer_sequence<T, v...> const&, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             constexpr T values[] = {v...};
             return std::integral_constant<T, values[n]>{};
         }

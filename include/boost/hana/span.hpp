@@ -21,7 +21,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/length.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -64,7 +63,7 @@ namespace boost { namespace hana {
                              detail::first_unsatisfied_index<Pred&&>{})
             );
             constexpr std::size_t breakpoint = FirstUnsatisfied::value;
-            constexpr std::size_t N = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t N = decltype(hana::length(xs))::value;
             return span_helper(static_cast<Xs&&>(xs),
                                std::make_index_sequence<breakpoint>{},
                                std::make_index_sequence<N - breakpoint>{});

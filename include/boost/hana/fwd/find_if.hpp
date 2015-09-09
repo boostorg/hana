@@ -17,8 +17,9 @@ namespace boost { namespace hana {
     //! Finds the value associated to the first key satisfying a predicate.
     //! @relates Searchable
     //!
-    //! Specifically, returns `just` the first value whose key satisfies the
-    //! `predicate`, or `nothing` if there is no such key.
+    //! Given a `Searchable` structure `xs` and a predicate `pred`,
+    //! `find_if(xs, pred)` returns `just` the first element whose key
+    //! satisfies the predicate, or `nothing` if there is no such element.
     //!
     //!
     //! @param xs
@@ -26,9 +27,10 @@ namespace boost { namespace hana {
     //!
     //! @param predicate
     //! A function called as `predicate(k)`, where `k` is a key of the
-    //! structure, and returning a `Logical`. Note that in the current
-    //! version of the library, the `predicate` has to return a compile-time
-    //! `Logical` because `find_if` returns either a `just(...)` or `nothing`.
+    //! structure, and returning whether `k` is the key of the element
+    //! being searched for. In the current version of the library, the
+    //! predicate has to return an `IntegralConstant` holding a value
+    //! that can be converted to `bool`.
     //!
     //!
     //! Example

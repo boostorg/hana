@@ -25,8 +25,8 @@ namespace boost { namespace hana {
     //! A `Ring` element that is elevated to its `n`th power.
     //!
     //! @param n
-    //! A `Constant` of an unsigned integral type representing the power
-    //! to which `x` is elevated.
+    //! A non-negative `IntegralConstant` representing the power to which `x`
+    //! is elevated.
     //!
     //!
     //! @note
@@ -36,7 +36,7 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/power.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto power = [](auto&& x, auto&& n) -> decltype(auto) {
+    constexpr auto power = [](auto&& x, auto const& n) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -45,7 +45,7 @@ namespace boost { namespace hana {
 
     struct power_t {
         template <typename X, typename N>
-        constexpr decltype(auto) operator()(X&& x, N&& n) const;
+        constexpr decltype(auto) operator()(X&& x, N const& n) const;
     };
 
     constexpr power_t power{};

@@ -26,7 +26,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/tail.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 
@@ -93,9 +92,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
-            constexpr std::size_t len = hana::value<
-                decltype(hana::length(xs))
-            >();
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             return any_of_impl::any_of_helper<0, len>::apply(hana::false_c,
                                             static_cast<Xs&&>(xs),
                                             static_cast<Pred&&>(pred));
@@ -112,7 +109,7 @@ namespace boost { namespace hana {
         static constexpr auto lazy_any_of_helper(hana::false_, bool prev_cond, Xs&& xs, Pred&& pred) {
             auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
             decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
-            constexpr bool done = hana::value<decltype(hana::is_empty(tail))>();
+            constexpr bool done = decltype(hana::is_empty(tail))::value;
             return prev_cond ? hana::true_c
                 : lazy_any_of_helper(hana::bool_c<done>, cond,
                                      static_cast<decltype(tail)&&>(tail),
@@ -126,9 +123,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto lazy_any_of_helper(hana::false_, hana::false_, Xs&& xs, Pred&& pred) {
             auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
-            constexpr bool done = hana::value<decltype(
-                hana::is_empty(hana::tail(xs))
-            )>();
+            constexpr bool done = decltype(hana::is_empty(hana::tail(xs)))::value;
             return lazy_any_of_helper(hana::bool_c<done>, cond,
                                       hana::tail(static_cast<Xs&&>(xs)),
                                       static_cast<Pred&&>(pred));
@@ -140,7 +135,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
-            constexpr bool done = hana::value<decltype(hana::is_empty(xs))>();
+            constexpr bool done = decltype(hana::is_empty(xs))::value;
             return lazy_any_of_helper(hana::bool_c<done>, hana::false_c,
                                       static_cast<Xs&&>(xs),
                                       static_cast<Pred&&>(pred));

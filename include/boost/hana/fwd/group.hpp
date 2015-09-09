@@ -34,9 +34,10 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Sequence `s` with tag `S(T)`, a Logical `Bool` and a
-    //! predicate \f$ pred : T \times T \to Bool \f$, `group` has the
-    //! following signatures. For the variant with a provided predicate,
+    //! Given a Sequence `s` with tag `S(T)`, an `IntegralConstant` `Bool`
+    //! holding a value of type `bool`, and a predicate
+    //! \f$ pred : T \times T \to Bool \f$, `group` has the following
+    //! signatures. For the variant with a provided predicate,
     //! \f[
     //!     \mathtt{group} : S(T) \times (T \times T \to Bool) \to S(S(T))
     //! \f]
@@ -51,13 +52,15 @@ namespace boost { namespace hana {
     //! The sequence to split into groups.
     //!
     //! @param predicate
-    //! A binary function called as `predicate(x, y)`, where `x` and `y`
-    //! are _adjacent_ elements in the sequence, and returning a `Logical`
-    //! representing whether both elements should be in the same group
-    //! (subsequence) of the result. The result returned by `predicate` must
-    //! be a compile-time `Logical`. Also, `predicate` has to define an
-    //! equivalence relation as defined by the `Comparable` concept.
-    //! When this predicate is not provided, it defaults to `equal`.
+    //! A binary function called as `predicate(x, y)`, where `x` and `y` are
+    //! _adjacent_ elements in the sequence, whether both elements should be
+    //! in the same group (subsequence) of the result. In the current version
+    //! of the library, the result returned by `predicate` must be an
+    //! `IntegralConstant` holding a value of a type convertible to `bool`.
+    //! Also, `predicate` has to define an equivalence relation as defined by
+    //! the `Comparable` concept. When this predicate is not provided, it
+    //! defaults to `equal`, which requires the comparison of any two adjacent
+    //! elements in the sequence to return a boolean `IntegralConstant`.
     //!
     //!
     //! Syntactic sugar (`group.by`)

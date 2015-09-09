@@ -18,11 +18,11 @@ namespace boost { namespace hana {
     //! `n` times.
     //! @relates MonadPlus
     //!
-    //! Given a value `x`, a non-negative number `n` and the tag of a monadic
-    //! structure `M`, `replicate` creates a new monadic structure which is
-    //! the result of combining `x` with itself `n` times inside the monadic
-    //! structure. In other words, `replicate` simply `lift`s `x` into the
-    //! monadic structure, and then combines that with itself `n` times:
+    //! Given a value `x`, a non-negative `IntegralConstant` `n` and the tag
+    //! of a monadic structure `M`, `replicate` creates a new monadic structure
+    //! which is the result of combining `x` with itself `n` times inside the
+    //! monadic structure. In other words, `replicate` simply `lift`s `x` into
+    //! the monadic structure, and then combines that with itself `n` times:
     //! @code
     //!     replicate<M>(x, n) == cycle(lift<M>(x), n)
     //! @endcode
@@ -34,7 +34,7 @@ namespace boost { namespace hana {
     //!
     //! Signature
     //! ---------
-    //! Given a Constant `C` and MonadPlus `M`, the signature is
+    //! Given an `IntegralConstant` `C` and MonadPlus `M`, the signature is
     //! @f$ \mathtt{replicate}_M : T \times C \to M(T) @f$.
     //!
     //! @tparam M
@@ -46,9 +46,9 @@ namespace boost { namespace hana {
     //! itself.
     //!
     //! @param n
-    //! A non-negative `Constant` of an unsigned integral type representing
-    //! the number of times to combine `lift<M>(x)` with itself. If `n == 0`,
-    //! then `replicate` returns `empty<M>()`.
+    //! A non-negative `IntegralConstant` representing the number of times to
+    //! combine `lift<M>(x)` with itself. If `n == 0`, `replicate` returns
+    //! `empty<M>()`.
     //!
     //!
     //! Example
@@ -56,7 +56,7 @@ namespace boost { namespace hana {
     //! @include example/replicate.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename M>
-    constexpr auto replicate = [](auto&& x, auto&& n) {
+    constexpr auto replicate = [](auto&& x, auto const& n) {
         return tag-dispatched;
     };
 #else

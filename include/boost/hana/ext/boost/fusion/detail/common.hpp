@@ -40,7 +40,7 @@ namespace boost { namespace hana {
     struct at_impl<S, when<detail::is_fusion_sequence<S>::value>> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
+            constexpr std::size_t n = N::value;
             return boost::fusion::at_c<n>(static_cast<Xs&&>(xs));
         }
     };

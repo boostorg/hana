@@ -13,13 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/take.hpp>
 
 #include <boost/hana/at.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -28,22 +27,22 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
-    constexpr auto take_t::operator()(Xs&& xs, N&& n) const {
+    constexpr auto take_t::operator()(Xs&& xs, N const& n) const {
         using S = typename hana::tag_of<Xs>::type;
         using Take = BOOST_HANA_DISPATCH_IF(take_impl<S>,
             Sequence<S>::value &&
-            Constant<N>::value
+            IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(Sequence<S>::value,
         "hana::take(xs, n) requires 'xs' to be a Sequence");
 
-        static_assert(Constant<N>::value,
-        "hana::take(xs, n) requires 'n' to be a Constant");
+        static_assert(IntegralConstant<N>::value,
+        "hana::take(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
-        return Take::apply(static_cast<Xs&&>(xs), static_cast<N&&>(n));
+        return Take::apply(static_cast<Xs&&>(xs), n);
     }
     //! @endcond
 
@@ -56,8 +55,8 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = hana::value<N>();
-            constexpr std::size_t size = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t size = decltype(hana::length(xs))::value;
             return take_helper(static_cast<Xs&&>(xs),
                         std::make_index_sequence<(n < size ? n : size)>{});
         }

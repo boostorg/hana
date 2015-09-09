@@ -20,7 +20,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/unpack.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -97,7 +96,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         constexpr auto operator()(Xs&& ...xs) const {
             using indices = detail::cartesian_product_indices<
-                hana::value<decltype(hana::length(xs))>()...
+                decltype(hana::length(xs))::value...
             >;
             return indices::template create_product<S>(
                         std::make_index_sequence<indices::length>{},

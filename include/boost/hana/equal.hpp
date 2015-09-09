@@ -164,8 +164,8 @@ namespace boost { namespace hana {
     struct equal_impl<T, U, when<Sequence<T>::value && Sequence<U>::value>> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
-            constexpr std::size_t xs_size = hana::value<decltype(hana::length(xs))>();
-            constexpr std::size_t ys_size = hana::value<decltype(hana::length(ys))>();
+            constexpr std::size_t xs_size = decltype(hana::length(xs))::value;
+            constexpr std::size_t ys_size = decltype(hana::length(ys))::value;
             detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
             return comp.template apply<0>(hana::bool_c<xs_size == 0>,
                                           hana::bool_c<xs_size == ys_size>);

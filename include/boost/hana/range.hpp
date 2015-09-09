@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/range.hpp>
 
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/tag_of.hpp>
@@ -55,7 +55,7 @@ namespace boost { namespace hana {
         , detail::iterable_operators<range<T, From, To>>
     {
         static_assert(From <= To,
-        "invalid usage of boost::hana::make_range(from, to) with from > to");
+        "hana::make_range(from, to) requires 'from <= to'");
 
         using value_type = T;
         static constexpr value_type from = From;
@@ -77,19 +77,19 @@ namespace boost { namespace hana {
         static constexpr auto apply(From const&, To const&) {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(Constant<From>::value,
-            "hana::make_range(from, to) requires 'from' to be a Constant");
+            static_assert(IntegralConstant<From>::value,
+            "hana::make_range(from, to) requires 'from' to be an IntegralConstant");
 
-            static_assert(Constant<To>::value,
-            "hana::make_range(from, to) requires 'to' to be a Constant");
+            static_assert(IntegralConstant<To>::value,
+            "hana::make_range(from, to) requires 'to' to be an IntegralConstant");
         #endif
 
             using T = typename common<
                 typename hana::tag_of<From>::type::value_type,
                 typename hana::tag_of<To>::type::value_type
             >::type;
-            constexpr T from = hana::to<T>(hana::value<From>());
-            constexpr T to = hana::to<T>(hana::value<To>());
+            constexpr T from = hana::to<T>(From::value);
+            constexpr T to = hana::to<T>(To::value);
             return range<T, from, to>{};
         }
     };
@@ -215,18 +215,18 @@ namespace boost { namespace hana {
     struct find_impl<range_tag> {
         template <typename T, T from, typename N>
         static constexpr auto find_helper(hana::true_) {
-            constexpr auto n = static_cast<T>(hana::value<N>());
-            return hana::just(integral_c<T, n>);
+            constexpr T n = N::value;
+            return hana::just(hana::integral_c<T, n>);
         }
 
         template <typename T, T from, typename N>
         static constexpr auto find_helper(hana::false_)
-        { return nothing; }
+        { return hana::nothing; }
 
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
-            constexpr auto n = hana::value<N>();
-            return find_helper<T, from, N>(bool_c<(n >= from && n < to)>);
+            constexpr auto n = N::value;
+            return find_helper<T, from, N>(hana::bool_c<(n >= from && n < to)>);
         }
     };
 
@@ -234,7 +234,7 @@ namespace boost { namespace hana {
     struct contains_impl<range_tag> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return bool_c<(n >= from && n < to)>;
         }
     };
@@ -267,7 +267,7 @@ namespace boost { namespace hana {
     struct at_impl<range_tag> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return integral_c<T, from + n>;
         }
     };
@@ -283,7 +283,7 @@ namespace boost { namespace hana {
     struct drop_front_impl<range_tag> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return range<T, (to < from + n ? to : from + n), to>{};
         }
     };
@@ -292,7 +292,7 @@ namespace boost { namespace hana {
     struct drop_front_exactly_impl<range_tag> {
         template <typename T, T from, T to, typename N>
         static constexpr auto apply(range<T, from, to> const&, N const&) {
-            constexpr auto n = hana::value<N>();
+            constexpr auto n = N::value;
             return range<T, from + n, to>{};
         }
     };

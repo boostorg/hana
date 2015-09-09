@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/by.hpp> // required by fwd decl
 #include <boost/hana/equal.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <utility>
@@ -120,12 +119,10 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred, std::size_t ...i>
         static constexpr auto
         group_helper(Xs&& xs, Pred&& pred, std::index_sequence<0, i...>) {
-            using info = detail::group_indices<
-                hana::value<decltype(
-                    pred(hana::at_c<i - 1>(static_cast<Xs&&>(xs)),
-                         hana::at_c<i>(static_cast<Xs&&>(xs)))
-                )>()...
-            >;
+            using info = detail::group_indices<decltype(
+                pred(hana::at_c<i - 1>(static_cast<Xs&&>(xs)),
+                     hana::at_c<i>(static_cast<Xs&&>(xs)))
+            )::value...>;
             return info::template finish<S>(static_cast<Xs&&>(xs),
                 std::make_index_sequence<info::n_groups>{}
             );
@@ -145,7 +142,7 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&& pred) {
-            constexpr std::size_t len = hana::value<decltype(hana::length(xs))>();
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
             return group_helper(static_cast<Xs&&>(xs),
                                 static_cast<Pred&&>(pred),
                                 std::make_index_sequence<len>{});

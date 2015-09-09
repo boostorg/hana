@@ -18,12 +18,11 @@ namespace boost { namespace hana {
     //! @relates Iterable
     //!
     //! Given an `Iterable` `xs` with a linearization of `[x1, x2, ...]` and
-    //! a (non-negative) `Constant` `n` holding an unsigned integral value,
-    //! `drop_front(xs, n)` is an iterable with the same tag whose
-    //! linearization is `[xn+1, xn+2, ...]`. In particular, note that this
-    //! function does not mutate the original iterable in any way. If `n` is
-    //! not given, it defaults to a `Constant` with an unsigned integral value
-    //! equal to `1`.
+    //! a non-negative `IntegralConstant` `n`, `drop_front(xs, n)` is an
+    //! iterable with the same tag as `xs` whose linearization is
+    //! `[xn+1, xn+2, ...]`. In particular, note that this function does not
+    //! mutate the original iterable in any way. If `n` is not given, it
+    //! defaults to an `IntegralConstant` with a value equal to `1`.
     //!
     //! In case `length(xs) <= n`, `drop_front` will simply drop the whole
     //! iterable without failing, thus returning an empty iterable. This is
@@ -35,17 +34,16 @@ namespace boost { namespace hana {
     //! The iterable from which elements are dropped.
     //!
     //! @param n
-    //! A non-negative `Constant` holding an unsigned integral value
-    //! representing the number of elements to be dropped from the iterable.
-    //! If `n` is not given, it defaults to a `Constant` with an unsigned
-    //! integral value equal to `1`.
+    //! A non-negative `IntegralConstant` representing the number of elements
+    //! to be dropped from the iterable. If `n` is not given, it defaults to
+    //! an `IntegralConstant` with a value equal to `1`.
     //!
     //!
     //! Example
     //! -------
     //! @include example/drop_front.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto drop_front = [](auto&& xs[, auto&& n]) {
+    constexpr auto drop_front = [](auto&& xs[, auto const& n]) {
         return tag-dispatched;
     };
 #else
@@ -54,7 +52,7 @@ namespace boost { namespace hana {
 
     struct drop_front_t {
         template <typename Xs, typename N>
-        constexpr auto operator()(Xs&& xs, N&& n) const;
+        constexpr auto operator()(Xs&& xs, N const& n) const;
 
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;
