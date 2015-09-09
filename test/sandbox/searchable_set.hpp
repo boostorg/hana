@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //! Taken from http://math.andrej.com/2008/11/21/a-haskell-monad-for-infinite-search-in-finite-time/.
     struct SearchableSet { };
 
-    template <typename Find, typename = operators::adl>
+    template <typename Find, typename = detail::operators::adl>
     struct sset_t {
         Find find;
         using hana_tag = SearchableSet;

@@ -53,13 +53,13 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <>
-    struct tuple<> : operators::adl, detail::iterable_operators<tuple<>> {
+    struct tuple<> : detail::operators::adl, detail::iterable_operators<tuple<>> {
         constexpr tuple() { }
         using hana_tag = tuple_tag;
     };
 
     template <typename ...Xn>
-    struct tuple : operators::adl, detail::iterable_operators<tuple<Xn...>> {
+    struct tuple : detail::operators::adl, detail::iterable_operators<tuple<Xn...>> {
         basic_tuple<Xn...> storage_;
         using hana_tag = tuple_tag;
 

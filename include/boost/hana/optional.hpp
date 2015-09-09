@@ -54,7 +54,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T>
-    struct optional<T> : operators::adl, maybe_detail::nested_type<T> {
+    struct optional<T> : detail::operators::adl, maybe_detail::nested_type<T> {
         T val;
         static constexpr bool is_just = true;
 

@@ -198,7 +198,7 @@ namespace boost { namespace hana {
     constexpr optional<implementation-defined> nothing{implementation-defined};
 #else
     template <>
-    struct optional<> : operators::adl {
+    struct optional<> : detail::operators::adl {
         static constexpr bool is_just = false;
     };
 

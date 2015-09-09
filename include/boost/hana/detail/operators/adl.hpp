@@ -1,6 +1,6 @@
 /*!
 @file
-Defines a class enabling ADL in the boost::hana::operators namespace.
+Defines `boost::hana::detail::operators::adl`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -10,8 +10,15 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_OPERATORS_ADL_HPP
 #define BOOST_HANA_DETAIL_OPERATORS_ADL_HPP
 
-namespace boost { namespace hana { namespace operators {
+namespace boost { namespace hana { namespace detail { namespace operators {
+    //! @ingroup group-details
+    //! Enables [ADL](http://en.cppreference.com/w/cpp/language/adl) in the
+    //! `hana::detail::operators` namespace.
+    //!
+    //! This is used by containers in Hana as a quick way to automatically
+    //! define the operators associated to some concepts, in conjunction
+    //! with the `detail::xxx_operators` family of metafunctions.
     struct adl { };
-}}}
+}}}} // end namespace boost::hana::detail::operators
 
 #endif // !BOOST_HANA_DETAIL_OPERATORS_ADL_HPP

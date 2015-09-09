@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename First, typename Second>
-    struct pair : operators::adl {
+    struct pair : detail::operators::adl {
         template <typename ...dummy, typename = typename std::enable_if<
             BOOST_HANA_TT_IS_CONSTRUCTIBLE(First, dummy...) &&
             BOOST_HANA_TT_IS_CONSTRUCTIBLE(Second, dummy...)

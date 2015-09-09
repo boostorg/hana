@@ -30,7 +30,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename T>
-    struct basic_type : operators::adl {
+    struct basic_type : detail::operators::adl {
         using hana_tag = type_tag;
 
         using type = T;
