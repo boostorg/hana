@@ -46,7 +46,7 @@ namespace boost { namespace hana {
     //! ----------
     //! <div class="benchmark-chart"
     //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.transform.compile.json">
+    //!      data-dataset="benchmark.unpack.compile.json">
     //! </div>
     //!
     //!
