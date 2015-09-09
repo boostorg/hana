@@ -406,23 +406,6 @@ namespace boost { namespace hana { namespace test {
             }
 
             //////////////////////////////////////////////////////////////////
-            // for_each
-            //////////////////////////////////////////////////////////////////
-            auto check = [list](auto ...xs) {
-                std::vector<int> seen{};
-                hana::for_each(list(xs...), [&seen](int x) {
-                    seen.push_back(x);
-                });
-                BOOST_HANA_RUNTIME_CHECK(seen == std::vector<int>{xs...});
-            };
-            check();
-            check(0);
-            check(0, 1);
-            check(0, 1, 2);
-            check(0, 1, 2, 3);
-            check(0, 1, 2, 3, 4);
-
-            //////////////////////////////////////////////////////////////////
             // length
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
