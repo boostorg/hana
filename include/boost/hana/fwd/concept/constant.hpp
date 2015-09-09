@@ -45,7 +45,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `value`, satisfying the laws below.
+    //! `value` and `to`, satisfying the laws below.
     //!
     //!
     //! Laws
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     //! @endcode
     //! where, `i` is an _arbitrary_ `Constant` holding an internal value
     //! with a tag that can be converted to `T`, as determined by the
-    //! `is_convertible` metafunction. In other words, whenever `U` is
+    //! `hana::is_convertible` metafunction. In other words, whenever `U` is
     //! convertible to `T`, a `Constant` holding a `U` is convertible to
     //! a `Constant` holding a `T`, if such a `Constant` can be created.
     //!
