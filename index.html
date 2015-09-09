@@ -534,16 +534,19 @@ A real world example</h2>
 <div class="line"><span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;utility&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//! [cases]</span></div>
+<div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">auto</span> case_ = [](<span class="keyword">auto</span> f) {</div>
 <div class="line">  <span class="keywordflow">return</span> hana::make_pair(hana::type_c&lt;T&gt;, f);</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>default_t;</div>
-<div class="line"><span class="keyword">auto</span> default_ = case_&lt;default_t&gt;;</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any, <span class="keyword">typename</span> Default&gt;</div>
+<div class="line"><span class="keyword">auto</span> default_ = case_&lt;default_t&gt;;<span class="comment"></span></div>
+<div class="line"><span class="comment">//! [cases]</span></div>
+<div class="line"><span class="comment"></span><span class="comment"></span></div>
+<div class="line"><span class="comment">//! [process]</span></div>
+<div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any, <span class="keyword">typename</span> Default&gt;</div>
 <div class="line"><span class="keyword">auto</span> process(Any&amp;, std::type_index <span class="keyword">const</span>&amp;, Default&amp; default_) {</div>
 <div class="line">  <span class="keywordflow">return</span> default_();</div>
 <div class="line">}</div>
@@ -555,9 +558,11 @@ A real world example</h2>
 <div class="line">  <span class="keyword">using</span> T = <span class="keyword">typename</span> decltype(+hana::first(case_))::type;</div>
 <div class="line">  <span class="keywordflow">return</span> t == <span class="keyword">typeid</span>(T) ? hana::second(case_)(*boost::unsafe_any_cast&lt;T&gt;(&amp;a))</div>
 <div class="line">                        : process(a, t, default_, rest...);</div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
+<div class="line">}<span class="comment"></span></div>
+<div class="line"><span class="comment">//! [process]</span></div>
+<div class="line"><span class="comment"></span><span class="comment"></span></div>
+<div class="line"><span class="comment">//! [switch_]</span></div>
+<div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Any&gt;</div>
 <div class="line"><span class="keyword">auto</span> switch_(Any&amp; a) {</div>
 <div class="line">  <span class="keywordflow">return</span> [&amp;a](<span class="keyword">auto</span> ...cases_) {</div>
 <div class="line">    <span class="keyword">auto</span> cases = hana::make_tuple(cases_...);</div>
@@ -576,7 +581,8 @@ A real world example</h2>
 <div class="line">      <span class="keywordflow">return</span> process(a, a.type(), hana::second(*default_), rest...);</div>
 <div class="line">    });</div>
 <div class="line">  };</div>
-<div class="line">}</div>
+<div class="line">}<span class="comment"></span></div>
+<div class="line"><span class="comment">//! [switch_]</span></div>
 </div><!-- fragment --><p> That's it for the quick start! This example only introduced a couple of useful algorithms (<code>find_if</code>, <code>filter</code>, <code>unpack</code>) and heterogeneous containers (<code>tuple</code>, <code>optional</code>), but rest assured that there is much more. The next sections of the tutorial gradually introduce general concepts pertaining to Hana in a friendly way, but you may use the following cheatsheet for quick reference if you want to start coding right away. This cheatsheet contains the most frequently used algorithms and containers, along with a short description of what each of them does.</p>
 <h2><a class="anchor" id="tutorial-quickstart-cheatsheet"></a>
 Cheatsheet</h2>
@@ -1613,7 +1619,7 @@ Cross-phase algorithms</h2>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(any_cat);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Adapts std::integral_constant for use with Hana. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>First, since the predicate is only querying information about the type of each element of the tuple, it is clear that its result can be known at compile-time. Since the number of elements in the tuple is also known at compile-time, the overall result of the algorithm can, in theory, be known at compile-time. More precisely, what happens is that the predicate returns a value initialized <code>std::is_same&lt;...&gt;</code>, which inherits from <code>std::integral_constant</code>. Hana recognizes these objects, and the algorithm is written in such a way that it preserves the <code>compile-time</code>ness of the predicate's result. In the end, <code>any_of</code> hence returns an <code>IntegralConstant</code> holding the result of the algorithm, and we use the compiler's type deduction in a clever way to make it look easy. Hence, it would be equivalent to write (but then you would need to already know the result of the algorithm!):</p>
-<div class="fragment"><div class="line">decltype(hana::true_c) any_cat = hana::<a class="code" href="structboost_1_1hana_1_1Searchable.html#a2dc05dc4553467aa0a2235088de41b4b">any_of</a>(animals, [](auto x) {</div>
+<div class="fragment"><div class="line">hana::integral_constant&lt;bool, true&gt; any_cat = hana::any_of(animals, [](<span class="keyword">auto</span> x) {</div>
 <div class="line">  <span class="keywordflow">return</span> std::is_same&lt;decltype(x), Cat&gt;{};</div>
 <div class="line">});</div>
 <div class="line"></div>
@@ -2212,8 +2218,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">namespace </span>mpl = boost::mpl;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">namespace </span>hpl {</div>
-<div class="line"><span class="comment">// Utilities</span></div>
+<div class="line"><span class="keyword">namespace </span>hpl {<span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Utilities</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">namespace </span>detail {</div>
 <div class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Pred&gt;</div>
 <div class="line">    constexpr <span class="keyword">auto</span> mpl_predicate = hana::integral(hana::metafunction_class&lt;</div>
@@ -2225,8 +2233,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">        <span class="keyword">typename</span> mpl::lambda&lt;F&gt;::type</div>
 <div class="line">    &gt;;</div>
 <div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// integral_c</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// integral_c</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T v&gt;</div>
 <div class="line"><span class="keyword">using</span> integral_c = std::integral_constant&lt;T, v&gt;;</div>
 <div class="line"></div>
@@ -2242,12 +2252,14 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">using</span> true_ = bool_&lt;true&gt;;</div>
 <div class="line"><span class="keyword">using</span> false_ = bool_&lt;false&gt;;</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Sequences, compile-time integers &amp; al</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Sequences, compile-time integers &amp; al</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// Differences with the MPL:</span></div>
 <div class="line"><span class="comment">// 1. `pair&lt;...&gt;::first` and `pair&lt;...&gt;::second` won&#39;t work;</span></div>
-<div class="line"><span class="comment">//    use `first&lt;pair&lt;...&gt;&gt;` instead</span></div>
+<div class="line"><span class="comment">//    use `first&lt;pair&lt;...&gt;&gt;` instead</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
 <div class="line"><span class="keyword">struct </span>vector : decltype(hana::tuple_t&lt;T...&gt;) {</div>
 <div class="line">    <span class="keyword">using</span> hana_tag = hana::tuple_tag;</div>
@@ -2273,8 +2285,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P&gt;</div>
 <div class="line"><span class="keyword">struct </span>second : decltype(+hana::second(P{})) { };</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Miscellaneous metafunctions</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Miscellaneous metafunctions</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> C1, <span class="keyword">typename</span> C2&gt;</div>
 <div class="line"><span class="keyword">struct </span>equal_to</div>
 <div class="line">    : bool_&lt;C1::value == C2::value&gt;</div>
@@ -2294,13 +2308,15 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">struct </span>next</div>
 <div class="line">    : integral_c&lt;typename N::value_type, N::value + 1&gt;</div>
 <div class="line">{ };</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Intrinsics</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Intrinsics</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// Differences with the MPL:</span></div>
 <div class="line"><span class="comment">// 1. `at` does not work for associative sequences; use `find` instead.</span></div>
 <div class="line"><span class="comment">// 2. `begin`, `end`, `clear`, `erase`, `erase_key`, `insert`, `insert_range`,</span></div>
-<div class="line"><span class="comment">//    `is_sequence`, `key_type`, `order`, `sequence_tag`, `value_type`: not implemented</span></div>
+<div class="line"><span class="comment">//    `is_sequence`, `key_type`, `order`, `sequence_tag`, `value_type`: not implemented</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> N&gt;</div>
 <div class="line"><span class="keyword">struct </span>at</div>
 <div class="line">    : decltype(hana::at(Sequence{}, N{}))</div>
@@ -2350,15 +2366,17 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">struct </span>size</div>
 <div class="line">    : decltype(hana::length(Sequence{}))</div>
 <div class="line">{ };</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Iteration algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Iteration algorithms</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// Differences with the MPL:</span></div>
 <div class="line"><span class="comment">// 1. reverse_fold:</span></div>
 <div class="line"><span class="comment">//    Does not take an optional additional ForwardOp argument.</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// 2. iter_fold, reverse_iter_fold:</span></div>
-<div class="line"><span class="comment">//    Not implemented because we don&#39;t use iterators</span></div>
+<div class="line"><span class="comment">//    Not implemented because we don&#39;t use iterators</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> State, <span class="keyword">typename</span> F&gt;</div>
 <div class="line"><span class="keyword">struct </span>fold</div>
 <div class="line">    : decltype(hana::fold(</div>
@@ -2375,8 +2393,9 @@ Apendix II: A minimal MPL</h1>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> State, <span class="keyword">typename</span> F&gt;</div>
 <div class="line"><span class="keyword">using</span> accumulate = fold&lt;Sequence, State, F&gt;;</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Query algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Query algorithms</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// Differences with the MPL:</span></div>
 <div class="line"><span class="comment">// 1. find_if and find:</span></div>
@@ -2388,7 +2407,8 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="comment">//    Not implemented.</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// 3. {min,max}_element:</span></div>
-<div class="line"><span class="comment">//    Not returning an iterator, and also won&#39;t work on empty sequences.</span></div>
+<div class="line"><span class="comment">//    Not returning an iterator, and also won&#39;t work on empty sequences.</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>find_if</div>
 <div class="line">    : decltype(hana::find_if(Sequence{}, detail::mpl_predicate&lt;Pred&gt;))</div>
@@ -2433,14 +2453,16 @@ Apendix II: A minimal MPL</h1>
 <div class="line">                hana::to&lt;hana::tuple_tag&gt;(S2{})))</div>
 <div class="line">    )</div>
 <div class="line">{ };</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Transformation algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Transformation algorithms</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// Differences from the MPL:</span></div>
 <div class="line"><span class="comment">// 1. The algorithms do not accept an optional inserter, and they always</span></div>
 <div class="line"><span class="comment">//    return a `vector`.</span></div>
 <div class="line"><span class="comment">// 2. stable_partition: not implemented</span></div>
-<div class="line"><span class="comment">// 3. All the reverse_* algorithms are not implemented.</span></div>
+<div class="line"><span class="comment">// 3. All the reverse_* algorithms are not implemented.</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>copy {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::to&lt;hana::tuple_tag&gt;(Sequence{}));</div>
@@ -2539,8 +2561,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    <span class="keyword">using</span> type = decltype(hana::reverse(hana::to&lt;hana::tuple_tag&gt;(Sequence{})));</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Runtime algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Runtime algorithms</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> F&gt;</div>
 <div class="line"><span class="keywordtype">void</span> for_each(F f) {</div>
 <div class="line">    hana::for_each(Sequence{}, [&amp;f](<span class="keyword">auto</span> t) {</div>
@@ -2564,16 +2588,20 @@ Apendix II: A minimal MPL</h1>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line"><span class="keyword">using namespace </span>hpl;</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Misc</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Misc</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">// pair</span></div>
 <div class="line">{</div>
 <div class="line">    static_assert(std::is_same&lt;first&lt;pair&lt;int, float&gt;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    static_assert(std::is_same&lt;second&lt;pair&lt;int, float&gt;&gt;::type, <span class="keywordtype">float</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Intrinsics</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Intrinsics</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">// at</span></div>
 <div class="line">{</div>
@@ -2692,8 +2720,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    static_assert(size&lt;more_numbers&gt;{} == 100u, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Iteration algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Iteration algorithms</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">// fold</span></div>
 <div class="line">{</div>
@@ -2719,8 +2749,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    &gt;::type;</div>
 <div class="line">    static_assert(equal&lt;negatives, result&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Query algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Query algorithms</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">// find_if</span></div>
 <div class="line">{</div>
@@ -2770,8 +2802,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    static_assert(!equal&lt;s1,s2&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Transformaton algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Transformaton algorithms</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="comment">// copy</span></div>
 <div class="line">{</div>
 <div class="line">    <span class="keyword">using</span> numbers = vector_c&lt;int,10, 11, 12, 13, 14, 15, 16, 17, 18, 19&gt;;</div>
@@ -2854,8 +2888,10 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    <span class="keyword">using</span> result = reverse&lt;numbers&gt;::type;</div>
 <div class="line">    static_assert(equal&lt;result, range_c&lt;int,0,10&gt;&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="comment">// Runtime algorithms</span></div>
+<div class="line"><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
+<div class="line"><span class="comment"></span><span class="comment">// Runtime algorithms</span><span class="comment"></span></div>
+<div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span></div>
 <div class="line"><span class="comment">// for_each</span></div>
 <div class="line">{</div>
