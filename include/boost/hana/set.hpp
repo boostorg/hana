@@ -106,11 +106,11 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<set_tag, set_tag> {
         template <typename S1, typename S2>
-        static constexpr auto equal_helper(S1 const& s1, S2 const& s2, decltype(hana::true_c))
+        static constexpr auto equal_helper(S1 const& s1, S2 const& s2, hana::true_)
         { return hana::is_subset(s1, s2); }
 
         template <typename S1, typename S2>
-        static constexpr auto equal_helper(S1 const&, S2 const&, decltype(hana::false_c))
+        static constexpr auto equal_helper(S1 const&, S2 const&, hana::false_)
         { return hana::false_c; }
 
         template <typename S1, typename S2>
@@ -204,13 +204,13 @@ namespace boost { namespace hana {
     struct insert_impl<set_tag> {
         template <typename Xs, typename X, typename Indices>
         static constexpr auto
-        insert_helper(Xs&& xs, X&&, decltype(hana::true_c), Indices) {
+        insert_helper(Xs&& xs, X&&, hana::true_, Indices) {
             return static_cast<Xs&&>(xs);
         }
 
         template <typename Xs, typename X, std::size_t ...n>
         static constexpr auto
-        insert_helper(Xs&& xs, X&& x, decltype(hana::false_c), std::index_sequence<n...>) {
+        insert_helper(Xs&& xs, X&& x, hana::false_, std::index_sequence<n...>) {
             return hana::make_set(
                 hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<X&&>(x)
             );
@@ -249,12 +249,12 @@ namespace boost { namespace hana {
             Ys const& ys;
 
             template <typename Result, typename Key>
-            static constexpr auto helper(Result&& result, Key&& key, decltype(hana::true_c)) {
+            static constexpr auto helper(Result&& result, Key&& key, hana::true_) {
                 return hana::insert(static_cast<Result&&>(result), static_cast<Key&&>(key));
             }
 
             template <typename Result, typename Key>
-            static constexpr auto helper(Result&& result, Key&&, decltype(hana::false_c)) {
+            static constexpr auto helper(Result&& result, Key&&, hana::false_) {
                 return static_cast<Result&&>(result);
             }
 

@@ -70,12 +70,12 @@ namespace boost { namespace hana {
     >> {
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        eval_if_helper(decltype(hana::true_c), Then&& t, Else&&)
+        eval_if_helper(hana::true_, Then&& t, Else&&)
         { return hana::eval(static_cast<Then&&>(t)); }
 
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        eval_if_helper(decltype(hana::false_c), Then&&, Else&& e)
+        eval_if_helper(hana::false_, Then&&, Else&& e)
         { return hana::eval(static_cast<Else&&>(e)); }
 
         template <typename Cond, typename Then, typename Else>

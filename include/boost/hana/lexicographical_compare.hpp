@@ -55,12 +55,12 @@ namespace boost { namespace hana {
     struct lexicographical_compare_impl<It, when<condition>> : default_ {
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper2(Xs const&, Ys const&, Pred const&, decltype(hana::true_c))
+        helper2(Xs const&, Ys const&, Pred const&, hana::true_)
         { return hana::false_c; }
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper2(Xs const& xs, Ys const& ys, Pred const& pred, decltype(hana::false_c))
+        helper2(Xs const& xs, Ys const& ys, Pred const& pred, hana::false_)
         { return apply(hana::tail(xs), hana::tail(ys), pred); }
 
         template <typename Xs, typename Ys, typename Pred>
@@ -71,12 +71,12 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper1(Xs const&, Ys const&, Pred const&, decltype(hana::true_c))
+        helper1(Xs const&, Ys const&, Pred const&, hana::true_)
         { return hana::true_c; }
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper1(Xs const& xs, Ys const& ys, Pred const& pred, decltype(hana::false_c))
+        helper1(Xs const& xs, Ys const& ys, Pred const& pred, hana::false_)
         { return helper2(xs, ys, pred, hana::if_(pred(hana::front(ys), hana::front(xs)), hana::true_c, hana::false_c)); }
 
         template <typename Xs, typename Ys, typename Pred>
@@ -87,12 +87,12 @@ namespace boost { namespace hana {
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper(Xs const&, Ys const& ys, Pred const&, decltype(hana::true_c))
+        helper(Xs const&, Ys const& ys, Pred const&, hana::true_)
         { return hana::not_(hana::is_empty(ys)); }
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
-        helper(Xs const& xs, Ys const& ys, Pred const& pred, decltype(hana::false_c))
+        helper(Xs const& xs, Ys const& ys, Pred const& pred, hana::false_)
         { return helper1(xs, ys, pred, hana::if_(pred(hana::front(xs), hana::front(ys)), hana::true_c, hana::false_c)); }
 
 

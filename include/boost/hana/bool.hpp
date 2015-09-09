@@ -193,12 +193,12 @@ namespace boost { namespace hana {
 
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        apply(decltype(hana::true_c) const&, Then&& t, Else&&)
+        apply(hana::true_ const&, Then&& t, Else&&)
         { return hana::eval(static_cast<Then&&>(t)); }
 
         template <typename Then, typename Else>
         static constexpr decltype(auto)
-        apply(decltype(hana::false_c) const&, Then&&, Else&& e)
+        apply(hana::false_ const&, Then&&, Else&& e)
         { return hana::eval(static_cast<Else&&>(e)); }
     };
 
@@ -217,12 +217,12 @@ namespace boost { namespace hana {
         //! broken should be changed, but more thought needs to be given.
         template <typename Then, typename Else>
         static constexpr auto
-        apply(decltype(hana::true_c) const&, Then&& t, Else&&)
+        apply(hana::true_ const&, Then&& t, Else&&)
         { return static_cast<Then&&>(t); }
 
         template <typename Then, typename Else>
         static constexpr auto
-        apply(decltype(hana::false_c) const&, Then&&, Else&& e)
+        apply(hana::false_ const&, Then&&, Else&& e)
         { return static_cast<Else&&>(e); }
     };
 }} // end namespace boost::hana

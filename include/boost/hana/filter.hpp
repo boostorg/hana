@@ -53,11 +53,11 @@ namespace boost { namespace hana {
         template <typename Pred, typename M>
         struct lift_or_empty {
             template <typename X>
-            static constexpr auto helper(X&& x, decltype(hana::true_c))
+            static constexpr auto helper(X&& x, hana::true_)
             { return hana::lift<M>(static_cast<X&&>(x)); }
 
             template <typename X>
-            static constexpr auto helper(X&&, decltype(hana::false_c))
+            static constexpr auto helper(X&&, hana::false_)
             { return hana::empty<M>(); }
 
             template <typename X>

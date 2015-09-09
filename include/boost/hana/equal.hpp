@@ -133,7 +133,7 @@ namespace boost { namespace hana {
             Ys const& ys;
 
             template <std::size_t i>
-            constexpr auto apply(decltype(hana::false_c), decltype(hana::true_c)) const {
+            constexpr auto apply(hana::false_, hana::true_) const {
                 return compare_finite_sequences::apply<i+1>(
                     hana::bool_c<i+1 == Length>,
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),
@@ -142,15 +142,15 @@ namespace boost { namespace hana {
             }
 
             template <std::size_t i>
-            constexpr auto apply(decltype(hana::false_c), decltype(hana::false_c)) const
+            constexpr auto apply(hana::false_, hana::false_) const
             { return hana::false_c; }
 
             template <std::size_t i, typename Result>
-            constexpr auto apply(decltype(hana::true_c), Result r) const
+            constexpr auto apply(hana::true_, Result r) const
             { return r; }
 
             template <std::size_t i>
-            constexpr bool apply(decltype(hana::false_c), bool b) const {
+            constexpr bool apply(hana::false_, bool b) const {
                 return b && compare_finite_sequences::apply<i+1>(
                     hana::bool_c<i+1 == Length>,
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),

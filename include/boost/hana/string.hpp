@@ -231,7 +231,7 @@ namespace boost { namespace hana {
     struct contains_impl<string_tag> {
         template <char ...s, typename C>
         static constexpr auto
-        helper(string<s...> const&, C const&, decltype(hana::true_c)) {
+        helper(string<s...> const&, C const&, hana::true_) {
             constexpr char const characters[] = {s..., '\0'};
             constexpr char c = hana::value<C>();
             return hana::bool_c<
@@ -241,7 +241,7 @@ namespace boost { namespace hana {
         }
 
         template <typename S, typename C>
-        static constexpr auto helper(S const&, C const&, decltype(hana::false_c))
+        static constexpr auto helper(S const&, C const&, hana::false_)
         { return hana::false_c; }
 
         template <typename S, typename C>

@@ -137,12 +137,12 @@ namespace boost { namespace hana {
     struct insert_impl<map_tag> {
         template <typename M, typename P>
         static constexpr typename std::decay<M>::type
-        insert_helper(M&& map, P&&, decltype(hana::true_c))
+        insert_helper(M&& map, P&&, hana::true_)
         { return static_cast<M&&>(map); }
 
         template <typename M, typename P>
         static constexpr decltype(auto)
-        insert_helper(M&& map, P&& pair, decltype(hana::false_c)) {
+        insert_helper(M&& map, P&& pair, hana::false_) {
             return hana::unpack(
                 hana::append(static_cast<M&&>(map).storage,
                              static_cast<P&&>(pair)),
@@ -187,12 +187,12 @@ namespace boost { namespace hana {
     template <>
     struct equal_impl<map_tag, map_tag> {
         template <typename M1, typename M2>
-        static constexpr auto equal_helper(M1 const&, M2 const&, decltype(hana::false_c)) {
+        static constexpr auto equal_helper(M1 const&, M2 const&, hana::false_) {
             return hana::false_c;
         }
 
         template <typename M1, typename M2>
-        static constexpr auto equal_helper(M1 const& m1, M2 const& m2, decltype(hana::true_c)) {
+        static constexpr auto equal_helper(M1 const& m1, M2 const& m2, hana::true_) {
             return hana::all_of(hana::keys(m1), hana::demux(equal)(
                 hana::partial(hana::find, m1),
                 hana::partial(hana::find, m2)

@@ -78,13 +78,13 @@ namespace boost { namespace hana {
     >> {
         template <typename Pred, typename State, typename F>
         static constexpr State
-        while_helper(decltype(hana::false_c), Pred&&, State&& state, F&&) {
+        while_helper(hana::false_, Pred&&, State&& state, F&&) {
             return static_cast<State&&>(state);
         }
 
         template <typename Pred, typename State, typename F>
         static constexpr decltype(auto)
-        while_helper(decltype(hana::true_c), Pred&& pred, State&& state, F&& f) {
+        while_helper(hana::true_, Pred&& pred, State&& state, F&& f) {
             decltype(auto) r = f(static_cast<State&&>(state));
             return hana::while_(static_cast<Pred&&>(pred),
                                 static_cast<decltype(r)&&>(r),

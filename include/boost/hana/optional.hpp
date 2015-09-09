@@ -261,12 +261,12 @@ namespace boost { namespace hana {
     template <>
     struct ap_impl<optional_tag> {
         template <typename F, typename X>
-        static constexpr decltype(auto) apply_impl(F&& f, X&& x, decltype(hana::true_c)) {
+        static constexpr decltype(auto) apply_impl(F&& f, X&& x, hana::true_) {
             return hana::just(static_cast<F&&>(f).val(static_cast<X&&>(x).val));
         }
 
         template <typename F, typename X>
-        static constexpr auto apply_impl(F&&, X&&, decltype(hana::false_c))
+        static constexpr auto apply_impl(F&&, X&&, hana::false_)
         { return hana::nothing; }
 
         template <typename F, typename X>

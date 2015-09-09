@@ -46,12 +46,12 @@ namespace boost { namespace hana {
     struct intersperse_impl<S, when<condition>> : default_ {
         template <std::size_t i, typename Xs, typename Z>
         static constexpr decltype(auto)
-        pick(Xs&&, Z&& z, decltype(hana::false_c) /* odd index */)
+        pick(Xs&&, Z&& z, hana::false_ /* odd index */)
         { return static_cast<Z&&>(z); }
 
         template <std::size_t i, typename Xs, typename Z>
         static constexpr decltype(auto)
-        pick(Xs&& xs, Z&&, decltype(hana::true_c) /* even index */)
+        pick(Xs&& xs, Z&&, hana::true_ /* even index */)
         { return hana::at_c<(i + 1) / 2>(static_cast<Xs&&>(xs)); }
 
         template <typename Xs, typename Z, std::size_t ...i>

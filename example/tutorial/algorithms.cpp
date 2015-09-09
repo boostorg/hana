@@ -116,7 +116,7 @@ BOOST_HANA_CONSTANT_CHECK(any_cat);
 }{
 
 //! [cross_phase.any_of_explicit]
-decltype(hana::true_c) any_cat = hana::any_of(animals, [](auto x) {
+hana::integral_constant<bool, true> any_cat = hana::any_of(animals, [](auto x) {
   return std::is_same<decltype(x), Cat>{};
 });
 

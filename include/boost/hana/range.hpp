@@ -214,13 +214,13 @@ namespace boost { namespace hana {
     template <>
     struct find_impl<range_tag> {
         template <typename T, T from, typename N>
-        static constexpr auto find_helper(decltype(hana::true_c)) {
+        static constexpr auto find_helper(hana::true_) {
             constexpr auto n = static_cast<T>(hana::value<N>());
             return hana::just(integral_c<T, n>);
         }
 
         template <typename T, T from, typename N>
-        static constexpr auto find_helper(decltype(hana::false_c))
+        static constexpr auto find_helper(hana::false_)
         { return nothing; }
 
         template <typename T, T from, T to, typename N>
