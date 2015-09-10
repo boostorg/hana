@@ -548,7 +548,7 @@ template&lt;typename S &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns whether the key occurs in the structure. </p>
-<p>Specifically, returns whether any of the keys of the structure is equal to the given <code>key</code>. If the structure is not finite, an equal key has to appear at a finite "index" in the structure for this method to finish. For convenience, <code>contains</code> can also be applied in infix notation.</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> structure <code>xs</code> and a <code>key</code>, <code>contains</code> returns whether any of the keys of the structure is equal to the given <code>key</code>. If the structure is not finite, an equal key has to appear at a finite position in the structure for this method to finish. For convenience, <code>contains</code> can also be applied in infix notation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to search.</td></tr>
@@ -720,11 +720,11 @@ template&lt;typename S &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Finds the value associated to the first key satisfying a predicate. </p>
-<p>Specifically, returns <code>just</code> the first value whose key satisfies the <code>predicate</code>, or <code>nothing</code> if there is no such key.</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code> structure <code>xs</code> and a predicate <code>pred</code>, <code>find_if(xs, pred)</code> returns <code>just</code> the first element whose key satisfies the predicate, or <code>nothing</code> if there is no such element.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to be searched.</td></tr>
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Note that in the current version of the library, the <code>predicate</code> has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> because <code>find_if</code> returns either a <code>just(...)</code> or <code>nothing</code>.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(k)</code>, where <code>k</code> is a key of the structure, and returning whether <code>k</code> is the key of the element being searched for. In the current version of the library, the predicate has to return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value that can be converted to <code>bool</code>.</td></tr>
   </table>
   </dd>
 </dl>

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::detail::CanonicalConstant&lt; T &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost/hana/concept/integral_constant.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1detail_1_1CanonicalConstant.html','');});
+$(document).ready(function(){initNavTree('concept_2integral__constant_8hpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -130,24 +130,37 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1detail_1_1Canon
 
 <div class="header">
   <div class="summary">
-<a href="structboost_1_1hana_1_1detail_1_1CanonicalConstant-members.html">List of all members</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::detail::CanonicalConstant&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
+<div class="title">integral_constant.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename T&gt;<br />
-struct boost::hana::detail::CanonicalConstant&lt; T &gt;</h3>
 
-<p>Tag representing a canonical <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>. </p>
-<p>This is an implementation detail used to provide many models for stuff like <code><a class="el" href="structboost_1_1hana_1_1Monoid.html" title="The Monoid concept represents data types with an associative binary operation that has an identity...">Monoid</a></code>, <code><a class="el" href="structboost_1_1hana_1_1Group.html" title="The Group concept represents Monoids where all objects have an inverse w.r.t. the Monoid&#39;s binary ope...">Group</a></code>, etc. To create a <code><a class="el" href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html" title="Tag representing a canonical Constant. ">CanonicalConstant</a></code>, simply create an object with a nested <code>hana_tag</code> equal to the proper specialization of <code><a class="el" href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html" title="Tag representing a canonical Constant. ">CanonicalConstant</a>&lt;T&gt;</code>, and then also provide a <code>constexpr</code> static member <code><a class="el" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5" title="Return the compile-time value associated to a constant. ">value</a></code> holding the value of the constant. </p>
+<p>Defines <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">boost::hana::IntegralConstant</a></code>.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html">boost::hana::IntegralConstant&lt; C &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> concept represents compile-time integral values.  <a href="structboost_1_1hana_1_1IntegralConstant.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceboost"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost.html">boost</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Defines <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">boost::hana::IntegralConstant</a></code>. </p>
+<dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><b>detail</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1detail_1_1CanonicalConstant.html">CanonicalConstant</a></li>
+    <li class="navelem"><a class="el" href="dir_8ba7d03e214d8b93f63f7ed9669a8ee5.html">boost</a></li><li class="navelem"><a class="el" href="dir_62ceaa6da6a428bacbefa2ca5daffcb8.html">hana</a></li><li class="navelem"><a class="el" href="dir_31bae35ba77cf46cafd60ea6f23fb9fb.html">concept</a></li><li class="navelem"><a class="el" href="concept_2integral__constant_8hpp.html">integral_constant.hpp</a></li>
   </ul>
 </div>
 </body>

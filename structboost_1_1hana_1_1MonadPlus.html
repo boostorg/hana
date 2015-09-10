@@ -337,7 +337,7 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; n) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -348,11 +348,11 @@ template&lt;typename M &gt; </div>
 <div class="line">                          <span class="comment">// ^^^^^ n times total</span></div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of <code>concat</code>, <code>empty</code>, is returned. In the case of sequences, this boils down to returning a sequence containing <code>n</code> copies of itself; for other models it might differ.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathrm{cycle} : M(T) \times C \to M(T) \).</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>C</code> and a <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> <code>M</code>, the signature is \( \mathrm{cycle} : M(T) \times C \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>A monadic structure to combine with itself a certain number of times.</td></tr>
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing the number of times to combine the monadic structure with itself. If <code>n</code> is zero, <code>cycle</code> returns <code>empty</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -467,11 +467,11 @@ template&lt;typename M &gt; </div>
 <div class="line">]</div>
 </div><!-- fragment --><p> and we then <code>flatten</code> that.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code> and a <a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a> <code>Bool</code>, the signature is \( \mathrm{filter} : M(T) \times (T \to \mathrm{Bool}) \to M(T) \).</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> <code>M</code> and an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>Bool</code> holding a value of type <code>bool</code>, the signature is \( \mathtt{filter} : M(T) \times (T \to \mathtt{Bool}) \to M(T) \).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The monadic structure to filter.</td></tr>
-    <tr><td class="paramname">pred</td><td>A function called as <code>pred(x)</code> for each element <code>x</code> in the monadic structure and returning a <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether that element should be <b>kept</b> in the resulting structure. In the current version of the library, the predicate has to return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</td></tr>
+    <tr><td class="paramname">pred</td><td>A function called as <code>pred(x)</code> for each element <code>x</code> in the monadic structure and returning whether that element should be <b>kept</b> in the resulting structure. In the current version of the library, the predicate has to return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value convertible to a <code>bool</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -767,15 +767,15 @@ template&lt;typename M &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span>&amp;&amp; n) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; n) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a monadic structure by combining a lifted value with itself <code>n</code> times. </p>
-<p>Given a value <code>x</code>, a non-negative number <code>n</code> and the tag of a monadic structure <code>M</code>, <code>replicate</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>replicate</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">replicate&lt;M&gt;(x, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(lift&lt;M&gt;(x), n)</div>
+<p>Given a value <code>x</code>, a non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>n</code> and the tag of a monadic structure <code>M</code>, <code>replicate</code> creates a new monadic structure which is the result of combining <code>x</code> with itself <code>n</code> times inside the monadic structure. In other words, <code>replicate</code> simply <code>lift</code>s <code>x</code> into the monadic structure, and then combines that with itself <code>n</code> times: </p><div class="fragment"><div class="line">replicate&lt;M&gt;(x, n) == <a class="code" href="structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47">cycle</a>(lift&lt;M&gt;(x), n)</div>
 </div><!-- fragment --><p>If <code>n</code> is zero, then the identity of the <code>concat</code> operation is returned. In the case of sequences, this corresponds to creating a new sequence holding <code>n</code> copies of <code>x</code>.</p>
 <h2>Signature </h2>
-<p>Given a <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathtt{replicate}_M : T \times C \to M(T) \).</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>C</code> and <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> <code>M</code>, the signature is \( \mathtt{replicate}_M : T \times C \to M(T) \).</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">M</td><td>The tag of the returned monadic structure. It must be a model of the <a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a> concept.</td></tr>
@@ -785,7 +785,7 @@ template&lt;typename M &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>The value to lift into a monadic structure and then combine with itself.</td></tr>
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, then <code>replicate</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing the number of times to combine <code>lift&lt;M&gt;(x)</code> with itself. If <code>n == 0</code>, <code>replicate</code> returns <code>empty&lt;M&gt;()</code>.</td></tr>
   </table>
   </dd>
 </dl>

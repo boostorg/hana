@@ -760,12 +760,13 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; xs) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return the number of elements in a foldable structure. </p>
-<p>Specifically, returns an object of an unsigned integral type, or a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding such an object, which represents the number of elements in the structure.</p>
+<p>Given a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> <code>xs</code>, <code>length(xs)</code> must return an object of an unsigned integral type, or an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding such an object, which represents the number of elements in the structure.</p>
+<dl class="section note"><dt>Note</dt><dd>Since only compile-time <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code>s are supported in the library right now, <code>length</code> must always return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

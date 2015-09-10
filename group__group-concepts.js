@@ -53,6 +53,9 @@ var group__group_concepts =
       [ "minus", "structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238", null ],
       [ "negate", "structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65", null ]
     ] ],
+    [ "IntegralConstant", "structboost_1_1hana_1_1IntegralConstant.html", [
+      [ "repeat", "structboost_1_1hana_1_1IntegralConstant.html#a466c712ea96d2b62065e067d062842b9", null ]
+    ] ],
     [ "IntegralDomain", "structboost_1_1hana_1_1IntegralDomain.html", [
       [ "quot", "structboost_1_1hana_1_1IntegralDomain.html#a0e8bcb07d9b0d681cb9c4dc0b4df3481", null ],
       [ "rem", "structboost_1_1hana_1_1IntegralDomain.html#a42de609cbe102ff3becddf8cb8dcc5a9", null ]

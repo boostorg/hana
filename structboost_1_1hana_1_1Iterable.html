@@ -266,16 +266,16 @@ template&lt;typename It &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; n) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the <code>n</code>th element of an iterable. </p>
-<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> index, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(xs, k)</code> is equivalent to <code>xk</code>.</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> and an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> index, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(xs, k)</code> is equivalent to <code>xk</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The iterable in which an element is retrieved. The iterable must contain at least <code>n + 1</code> elements.</td></tr>
-    <tr><td class="paramname">n</td><td>A (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> of an unsigned integral type representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that is either out of bounds for the iterable, not of an unsigned type or not a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing the 0-based index of the element to return. It is an error to call <code>at</code> with an index that out of bounds of the iterable.</td></tr>
   </table>
   </dd>
 </dl>
@@ -366,17 +366,17 @@ template&lt;typename It &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; n]) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; n]) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Drop the first <code>n</code> elements of an iterable, and return the rest. </p>
-<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> holding an unsigned integral value, <code>drop_front(xs, n)</code> is an iterable with the same tag whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this function does not mutate the original iterable in any way. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>n</code>, <code>drop_front(xs, n)</code> is an iterable with the same tag as <code>xs</code> whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this function does not mutate the original iterable in any way. If <code>n</code> is not given, it defaults to an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> with a value equal to <code>1</code>.</p>
 <p>In case <code>length(xs) &lt;= n</code>, <code>drop_front</code> will simply drop the whole iterable without failing, thus returning an empty iterable. This is different from <code>drop_front_exactly</code>, which expects <code>n &lt;= length(xs)</code> but can be better optimized because of this additional guarantee.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The iterable from which elements are dropped.</td></tr>
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding an unsigned integral value representing the number of elements to be dropped from the iterable. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing the number of elements to be dropped from the iterable. If <code>n</code> is not given, it defaults to an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> with a value equal to <code>1</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -429,17 +429,17 @@ template&lt;typename It &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; n]) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; n]) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Drop the first <code>n</code> elements of an iterable, and return the rest. </p>
-<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a (non-negative) <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> <code>n</code> holding an unsigned integral value, <code>drop_front_exactly(xs, n)</code> is an iterable with the same tag whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this function does not mutate the original iterable in any way. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>n</code>, <code>drop_front_exactly(xs, n)</code> is an iterable with the same tag as <code>xs</code> whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this function does not mutate the original iterable in any way. If <code>n</code> is not given, it defaults to an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> with a value equal to <code>1</code>.</p>
 <p>It is an error to use <code>drop_front_exactly</code> with <code>n &gt; length(xs)</code>. This additional guarantee allows <code>drop_front_exactly</code> to be better optimized than the <code>drop_front</code> function, which allows <code>n &gt; length(xs)</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The iterable from which elements are dropped.</td></tr>
-    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> holding an unsigned integral value representing the number of elements to be dropped from the iterable. <code>n</code> must be less than or equal to the number of elements in <code>xs</code>. If <code>n</code> is not given, it defaults to a <code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code> with an unsigned integral value equal to <code>1</code>.</td></tr>
+    <tr><td class="paramname">n</td><td>A non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing the number of elements to be dropped from the iterable. In addition to being non-negative, <code>n</code> must be less than or equal to the number of elements in <code>xs</code>. If <code>n</code> is not given, it defaults to an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> with a value equal to <code>1</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -603,12 +603,12 @@ template&lt;typename It &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; xs) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns whether the iterable is empty. </p>
-<p><code>is_empty</code> must return a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> representing whether the iterable is empty.</p>
+<p>Given an <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code> <code>xs</code>, <code>is_empty</code> returns whether <code>xs</code> contains no more elements. In other words, it returns whether trying to extract the tail of <code>xs</code> would be an error. In the current version of the library, <code>is_empty</code> must return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value convertible to <code>bool</code>. This is because only compile-time <code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code>s are supported right now.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

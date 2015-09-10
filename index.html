@@ -750,7 +750,7 @@ Assertions</h1>
 <tr>
 <td align="left"><code>static_assert</code> </td><td align="left">Assertion on a <code>constexpr</code> condition. This is stronger than <code>BOOST_HANA_CONSTEXPR_CHECK</code> in that it requires the condition to be a constant expression, and it hence assures that the algorithms used in the expression are <code>constexpr</code>-friendly. </td></tr>
 <tr>
-<td align="left"><code>BOOST_HANA_CONSTANT_CHECK</code> </td><td align="left">Assertion on a boolean <code>IntegralConstant</code>. This assertion provides the strongest form of guarantee, because an <code>IntegralConstant</code> can be converted to a <code>constexpr</code> value even if it is not <code>constexpr</code> itself. Note that in reality, any compile-time <code>Logical</code> is accepted by this macro, which is more general than requiring a boolean <code>IntegralConstant</code>. </td></tr>
+<td align="left"><code>BOOST_HANA_CONSTANT_CHECK</code> </td><td align="left">Assertion on a boolean <code>IntegralConstant</code>. This assertion provides the strongest form of guarantee, because an <code>IntegralConstant</code> can be converted to a <code>constexpr</code> value even if it is not <code>constexpr</code> itself. </td></tr>
 </table>
 <h1><a class="anchor" id="tutorial-integral"></a>
 Compile-time numbers</h1>

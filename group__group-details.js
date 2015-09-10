@@ -6,6 +6,7 @@ var group__group_details =
     [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
     [ "nested_than", "structboost_1_1hana_1_1detail_1_1nested__than.html", null ],
     [ "nested_to", "structboost_1_1hana_1_1detail_1_1nested__to.html", null ],
+    [ "adl", "structboost_1_1hana_1_1detail_1_1operators_1_1adl.html", null ],
     [ "std_common_type", "structboost_1_1hana_1_1detail_1_1std__common__type.html", null ],
     [ "BOOST_HANA_DISPATCH_IF", "group__group-details.html#ga2146bcdd5d899bf7c3d20fb15d2e25e5", null ],
     [ "BOOST_HANA_PP_NARG", "group__group-details.html#ga62fe3327023c37706c827cc82624998b", null ],

@@ -8,6 +8,7 @@ var searchData=
   ['remove_5fif',['remove_if',['../structboost_1_1hana_1_1MonadPlus.html#ad993eca017378409ad0b3a2e6b6807ff',1,'boost::hana::MonadPlus']]],
   ['remove_5frange',['remove_range',['../structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96',1,'boost::hana::Sequence']]],
   ['remove_5frange_5fc',['remove_range_c',['../structboost_1_1hana_1_1Sequence.html#af53da1ba4620bb48ef50cbc1d7812131',1,'boost::hana::Sequence']]],
+  ['repeat',['repeat',['../structboost_1_1hana_1_1IntegralConstant.html#a466c712ea96d2b62065e067d062842b9',1,'boost::hana::IntegralConstant']]],
   ['replace',['replace',['../structboost_1_1hana_1_1Functor.html#a72e73dcc09699c619bcfb006029a8967',1,'boost::hana::Functor']]],
   ['replace_5fif',['replace_if',['../structboost_1_1hana_1_1Functor.html#ab57d42b572f43016f929b5729c2533f5',1,'boost::hana::Functor']]],
   ['replicate',['replicate',['../structboost_1_1hana_1_1MonadPlus.html#a3a569ec3976bbafb2627a4984af87ce6',1,'boost::hana::MonadPlus']]],
