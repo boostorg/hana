@@ -101,9 +101,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2for__each_8hpp.html",
-"index.html#tutorial-rationales-why_Hana",
-"structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f"
+"fwd_2front_8hpp.html",
+"index.html#tutorial-rationales-zip_longest",
+"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"index.html#tutorial-rationales-why_Hana":[0,18,3],
 "index.html#tutorial-rationales-zip_longest":[0,18,8],
 "index.html#tutorial-reference":[0,15],
 "index.html#tutorial-reference-signatures":[0,15,0],
@@ -96,7 +95,7 @@ var NAVTREEINDEX2 =
 "replace__if_8hpp.html":[3,0,0,118],
 "replicate_8hpp.html":[3,0,0,119],
 "reverse_8hpp.html":[3,0,0,120],
-"reverse__apply_8hpp.html":[3,0,0,2,1,6],
+"reverse__apply_8hpp.html":[3,0,0,2,1,5],
 "reverse__fold_8hpp.html":[3,0,0,121],
 "reverse__partial_8hpp.html":[3,0,0,4,18],
 "reverse__partial_8hpp.html#ga6e648f0d3fc0209ec024e9d759a5e8f8":[3,0,0,4,18,0],
@@ -108,7 +107,7 @@ var NAVTREEINDEX2 =
 "slice_8hpp.html":[3,0,0,127],
 "sort_8hpp.html":[3,0,0,128],
 "span_8hpp.html":[3,0,0,129],
-"split__at_8hpp.html":[3,0,0,2,1,7],
+"split__at_8hpp.html":[3,0,0,2,1,6],
 "std_2vector_8hpp.html":[3,0,0,3,1,8],
 "std_8hpp.html":[3,0,0,3,3],
 "std__common__type_8hpp.html":[3,0,0,2,21],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,20,22],
 "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,20,12],
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,20,7],
-"structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,20,14]
+"structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,20,14],
+"structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,0,20,3]
 };

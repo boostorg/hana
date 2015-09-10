@@ -1,6 +1,5 @@
 var NAVTREEINDEX1 =
 {
-"fwd_2for__each_8hpp.html":[3,0,0,5,50],
 "fwd_2front_8hpp.html":[3,0,0,5,51],
 "fwd_2fuse_8hpp.html":[3,0,0,5,52],
 "fwd_2greater_8hpp.html":[3,0,0,5,53],
@@ -152,8 +151,8 @@ var NAVTREEINDEX1 =
 "group__group-details.html#ga444e73a2fe13732b802a770b55b4a99c":[3,0,0,2,20,1],
 "group__group-details.html#ga62fe3327023c37706c827cc82624998b":[1,7,9],
 "group__group-details.html#ga62fe3327023c37706c827cc82624998b":[3,0,0,2,20,0],
-"group__group-details.html#ga70518e009e7d025eb93fe2f17d9053ab":[1,7,11],
 "group__group-details.html#ga70518e009e7d025eb93fe2f17d9053ab":[3,0,0,2,20,2],
+"group__group-details.html#ga70518e009e7d025eb93fe2f17d9053ab":[1,7,11],
 "group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4":[1,7,18],
 "group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453":[1,7,16],
 "group__group-details.html#gadcf0cf5cb650681b8cac90d94ce52d44":[1,7,13],
@@ -249,5 +248,6 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-rationales-naming":[0,18,5],
 "index.html#tutorial-rationales-parameters":[0,18,6],
 "index.html#tutorial-rationales-tag_dispatching":[0,18,7],
-"index.html#tutorial-rationales-tuple":[0,18,4]
+"index.html#tutorial-rationales-tuple":[0,18,4],
+"index.html#tutorial-rationales-why_Hana":[0,18,3]
 };
