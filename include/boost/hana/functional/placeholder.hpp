@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PLACEHOLDER_HPP
 
 #include <boost/hana/basic_tuple.hpp>
-#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 
 #include <cstddef>
@@ -79,7 +78,6 @@ namespace boost { namespace hana {
                 -> decltype(static_cast<Xs&&>(xs)[i])
             { return static_cast<Xs&&>(xs)[i]; }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename Xs, typename ...Z>
             constexpr auto operator()(Xs&& xs, Z const& ...) &
                 -> decltype(static_cast<Xs&&>(xs)[i])
@@ -89,7 +87,6 @@ namespace boost { namespace hana {
             constexpr auto operator()(Xs&& xs, Z const& ...) &&
                 -> decltype(static_cast<Xs&&>(xs)[std::declval<I>()])
             { return static_cast<Xs&&>(xs)[std::move(i)]; }
-#endif
         };
 
         template <typename F, typename Xs, std::size_t ...i>
@@ -131,7 +128,6 @@ namespace boost { namespace hana {
                                    std::make_index_sequence<sizeof...(X)>{});
             }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
             template <typename F, typename ...Z>
             constexpr auto operator()(F&& f, Z const& ...) & -> decltype(
                 static_cast<F&&>(f)(std::declval<X&>()...)
@@ -147,14 +143,7 @@ namespace boost { namespace hana {
                 return invoke_impl(static_cast<F&&>(f), static_cast<invoke&&>(*this),
                                    std::make_index_sequence<sizeof...(X)>{});
             }
-#endif
         };
-
-#ifdef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
-#   define BOOST_HANA_IMPL_CONST_OVERLOAD(...) /* nothing */
-#else
-#   define BOOST_HANA_IMPL_CONST_OVERLOAD(...) __VA_ARGS__
-#endif
 
 #define BOOST_HANA_PLACEHOLDER_BINARY_OP(op, op_name)                           \
     template <typename X>                                                       \
@@ -264,7 +253,6 @@ namespace boost { namespace hana {
 
 #undef BOOST_HANA_PREFIX_PLACEHOLDER_OP
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
-#undef BOOST_HANA_IMPL_CONST_OVERLOAD
     } // end namespace placeholder_detail
 
     constexpr placeholder_detail::placeholder _{};

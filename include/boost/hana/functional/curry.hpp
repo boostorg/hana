@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_CURRY_HPP
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
-#include <boost/hana/config.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/partial.hpp>
 
@@ -131,7 +130,6 @@ namespace boost { namespace hana {
             );
         }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
             static_assert(sizeof...(x) <= n,
@@ -140,7 +138,6 @@ namespace boost { namespace hana {
                 partial(f, static_cast<X&&>(x)...)
             );
         }
-#endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {
@@ -159,10 +156,8 @@ namespace boost { namespace hana {
         constexpr decltype(auto) operator()() const&
         { return f(); }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         constexpr decltype(auto) operator()() &
         { return f(); }
-#endif
 
         constexpr decltype(auto) operator()() &&
         { return std::move(f)(); }

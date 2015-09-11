@@ -129,23 +129,6 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
 #endif
 
-// Whether non-static constexpr member functions are automatically marked
-// as `const`.
-//
-// In C++11, a non-static constexpr member function is automatically
-// marked as `const`. In C++14, this is not the case. This macro
-// essentially influences which overloads are provided for non-static
-// constexpr member functions. In particular, when such a function is
-// automatically marked as `const`, we can't provide both overloads:
-// @code
-//     constexpr ... member_function(...) const&
-//     constexpr ... member_function(...) &
-// @endcode
-// since they are actually the same.
-#if defined(BOOST_HANA_CONFIG_GCC)
-#   define BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
-#endif
-
 
 //////////////////////////////////////////////////////////////////////////////
 // Library features and options that can be tweaked by users

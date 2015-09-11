@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_LOCKSTEP_HPP
 
 #include <boost/hana/basic_tuple.hpp>
-#include <boost/hana/config.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -72,14 +71,12 @@ namespace boost { namespace hana {
             );
         }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) & {
             return hana::get_impl<0>(storage_)(
                 hana::get_impl<n+1>(storage_)(static_cast<X&&>(x))...
             );
         }
-#endif
 
         template <typename ...X>
         constexpr decltype(auto) operator()(X&& ...x) && {

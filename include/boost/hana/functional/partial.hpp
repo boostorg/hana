@@ -11,7 +11,6 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
 #include <boost/hana/basic_tuple.hpp>
-#include <boost/hana/config.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -83,7 +82,6 @@ namespace boost { namespace hana {
             );
         }
 
-#ifndef BOOST_HANA_CONFIG_CONSTEXPR_MEMBER_FUNCTION_IS_CONST
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) & {
             return hana::get_impl<0>(storage_)(
@@ -91,7 +89,6 @@ namespace boost { namespace hana {
                 static_cast<Y&&>(y)...
             );
         }
-#endif
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) && {
