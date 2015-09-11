@@ -629,7 +629,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">            <span class="keywordflow">return</span> forwarded(f)(<a class="code" href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">fix</a>(f), forwarded(x)...);</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> fix.hpp:53</div></div>
+<div class="ttc" id="group__group-functional_html_ga1393f40da2e8da6e0c12fce953e56a6c"><div class="ttname"><a href="group__group-functional.html#ga1393f40da2e8da6e0c12fce953e56a6c">boost::hana::fix</a></div><div class="ttdeci">constexpr auto fix</div><div class="ttdoc">Return a function computing the fixed point of a function. </div><div class="ttdef"><b>Definition:</b> fix.hpp:52</div></div>
 <div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:38</div></div>
 </div><!-- fragment -->
 <p>Return a function computing the fixed point of a function. </p>
@@ -935,7 +935,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        };</div>
 <div class="line">    })</div>
 <div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:38</div></div>
-<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> infix.hpp:78</div></div>
+<div class="ttc" id="group__group-functional_html_ga7bdafba6dc801f1d2d83731ad9714557"><div class="ttname"><a href="group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557">boost::hana::infix</a></div><div class="ttdeci">constexpr auto infix</div><div class="ttdoc">Return an equivalent function that can also be applied in infix notation. </div><div class="ttdef"><b>Definition:</b> infix.hpp:77</div></div>
 </div><!-- fragment -->
 <p>Invoke a function with the result of invoking another function on each argument. </p>
 <p>Specifically, <code>on(f, g)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(x...) == f(g(x)...)</div>
