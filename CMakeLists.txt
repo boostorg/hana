@@ -17,7 +17,6 @@ include(CheckCxxCompilerSupport)
 ##############################################################################
 # Setup CMake options
 ##############################################################################
-include(CMakeDependentOption)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
