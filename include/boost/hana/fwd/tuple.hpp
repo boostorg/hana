@@ -160,7 +160,7 @@ namespace boost { namespace hana {
     constexpr implementation-defined tuple_t{};
 #else
     template <typename ...T>
-    constexpr auto tuple_t = hana::make<tuple_tag>(hana::type<T>{}...);
+    constexpr hana::tuple<hana::type<T>...> tuple_t{};
 #endif
 
     //! Create a tuple specialized for holding `hana::integral_constant`s.
@@ -180,7 +180,7 @@ namespace boost { namespace hana {
     constexpr implementation-defined tuple_c{};
 #else
     template <typename T, T ...v>
-    constexpr auto tuple_c = hana::make_tuple(hana::integral_constant<T, v>{}...);
+    constexpr hana::tuple<hana::integral_constant<T, v>...> tuple_c{};
 #endif
 }} // end namespace boost::hana
 

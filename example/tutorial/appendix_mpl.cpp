@@ -61,23 +61,17 @@ using false_ = bool_<false>;
 //    use `first<pair<...>>` instead
 //////////////////////////////////////////////////////////////////////////////
 template <typename ...T>
-struct vector : decltype(hana::tuple_t<T...>) {
-    using hana_tag = hana::tuple_tag;
-};
+using vector = hana::tuple<hana::type<T>...>;
 
 template <typename T, T ...v>
-struct vector_c : decltype(hana::tuple_c<T, v...>) {
-    using hana_tag = hana::tuple_tag;
-};
+using vector_c = hana::tuple<hana::integral_constant<T, v>...>;
 
 template <typename T, T from, T to>
-struct range_c : decltype(hana::range_c<T, from, to>) {
-    using hana_tag = hana::range_tag;
-};
+using range_c = decltype(hana::range_c<T, from, to>);
 
 
 template <typename T, typename U>
-struct pair : decltype(hana::make_pair(hana::type_c<T>, hana::type_c<U>)) { };
+using pair = hana::pair<hana::type<T>, hana::type<U>>;
 
 template <typename P>
 struct first : decltype(+hana::first(P{})) { };

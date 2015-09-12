@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/detail/index_if.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
@@ -23,12 +24,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/find_if.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
+#include <boost/hana/fwd/optional.hpp>
 #include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/type.hpp> // required by fwd decl of tuple_t
-#include <boost/hana/value.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -269,6 +271,27 @@ namespace boost { namespace hana {
         static constexpr
         tuple<typename std::decay<Xs>::type...> apply(Xs&& ...xs)
         { return {static_cast<Xs&&>(xs)...}; }
+    };
+
+    template <>
+    struct find_if_impl<tuple_tag> {
+        template <std::size_t index, typename Xs>
+        static constexpr auto helper(Xs&&, hana::true_) {
+            return hana::nothing;
+        }
+
+        template <std::size_t index, typename Xs>
+        static constexpr auto helper(Xs&& xs, hana::false_) {
+            return hana::just(hana::at_c<index>(static_cast<Xs&&>(xs)));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&&) {
+            using Pack = typename detail::make_pack<Xs>::type;
+            constexpr std::size_t index = detail::index_if<Pred&&, Pack>::value;
+            constexpr std::size_t len = Pack::length;
+            return helper<index>(static_cast<Xs&&>(xs), hana::bool_c<index == len>);
+        }
     };
 }} // end namespace boost::hana
 
