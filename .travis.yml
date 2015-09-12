@@ -5,6 +5,9 @@ sudo: false
 
 
 matrix:
+  allow_failures:
+    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+
   include:
     ##########################################################################
     # Clang 3.5
