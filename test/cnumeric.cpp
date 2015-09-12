@@ -17,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
 #include <laws/constant.hpp>
-#include <laws/enumerable.hpp>
 #include <laws/group.hpp>
 #include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
@@ -54,10 +53,9 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Enumerable, Monoid, Group, Ring, IntegralDomain
+    // Monoid, Group, Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestEnumerable<test::CNumeric<int>>{ints};
         test::TestMonoid<test::CNumeric<int>>{ints};
         test::TestGroup<test::CNumeric<int>>{ints};
         test::TestRing<test::CNumeric<int>>{ints};

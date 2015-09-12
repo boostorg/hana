@@ -12,7 +12,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 // instances
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/enumerable.hpp>
 #include <boost/hana/concept/group.hpp>
 #include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/concept/logical.hpp>
@@ -63,23 +62,6 @@ namespace boost { namespace hana {
             int xv = x.value, yv = y.value;
             return test::numeric(xv < yv);
         }
-    };
-
-    //////////////////////////////////////////////////////////////////////////
-    // Enumerable
-    //////////////////////////////////////////////////////////////////////////
-    template <>
-    struct succ_impl<test::Numeric> {
-        template <typename N>
-        static constexpr auto apply(N n)
-        { return test::numeric(n.value + 1); }
-    };
-
-    template <>
-    struct pred_impl<test::Numeric> {
-        template <typename N>
-        static constexpr auto apply(N n)
-        { return test::numeric(n.value - 1); }
     };
 
     //////////////////////////////////////////////////////////////////////////

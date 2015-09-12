@@ -10,10 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/when.hpp>
 #include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/capture.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
+#include <boost/hana/minus.hpp>
 #include <boost/hana/range.hpp>
 
 #include <laws/base.hpp>
@@ -57,7 +59,7 @@ namespace boost { namespace hana { namespace test {
                     // back(xs) == at(xs, length(xs)-1)
                     BOOST_HANA_CHECK(hana::equal(
                         hana::back(xs),
-                        hana::at(xs, hana::pred(hana::length(xs)))
+                        hana::at(xs, hana::minus(hana::length(xs), hana::size_c<1>))
                     ));
 
                 })(xs));

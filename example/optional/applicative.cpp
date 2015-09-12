@@ -8,13 +8,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/succ.hpp>
 namespace hana = boost::hana;
 
 
-static_assert(hana::ap(hana::just(hana::succ), hana::just('x')) == hana::just('y'), "");
+constexpr char next(char c) { return c + 1; }
+
+static_assert(hana::ap(hana::just(next), hana::just('x')) == hana::just('y'), "");
 BOOST_HANA_CONSTANT_CHECK(hana::ap(hana::nothing, hana::just('x')) == hana::nothing);
-BOOST_HANA_CONSTANT_CHECK(hana::ap(hana::just(hana::succ), hana::nothing) == hana::nothing);
+BOOST_HANA_CONSTANT_CHECK(hana::ap(hana::just(next), hana::nothing) == hana::nothing);
 BOOST_HANA_CONSTANT_CHECK(hana::ap(hana::nothing, hana::nothing) == hana::nothing);
 
 int main() { }

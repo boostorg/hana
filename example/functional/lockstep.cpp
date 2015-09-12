@@ -6,7 +6,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional/lockstep.hpp>
 #include <boost/hana/plus.hpp>
-#include <boost/hana/succ.hpp>
 namespace hana = boost::hana;
 
 
@@ -14,6 +13,10 @@ constexpr int to_int(char c) {
     return static_cast<int>(c) - 48;
 }
 
-static_assert(hana::lockstep(hana::plus)(to_int, hana::succ)('3', 4) == 3 + 5, "");
+constexpr int increment(int i) {
+    return i + 1;
+}
+
+static_assert(hana::lockstep(hana::plus)(to_int, increment)('3', 4) == 3 + 5, "");
 
 int main() { }

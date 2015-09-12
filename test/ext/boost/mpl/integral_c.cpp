@@ -14,7 +14,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
 #include <laws/constant.hpp>
-#include <laws/enumerable.hpp>
 #include <laws/group.hpp>
 #include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
@@ -103,9 +102,8 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 2
     //////////////////////////////////////////////////////////////////////////
-    // Enumerable, Monoid, Group, Ring, IntegralDomain
+    // Monoid, Group, Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
-    test::TestEnumerable<ext::boost::mpl::integral_c_tag<int>>{ints};
     test::TestMonoid<ext::boost::mpl::integral_c_tag<int>>{ints};
     test::TestGroup<ext::boost::mpl::integral_c_tag<int>>{ints};
 

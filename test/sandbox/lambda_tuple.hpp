@@ -18,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/detail/variadic/take.hpp>
-#include <boost/hana/concept/enumerable.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/id.hpp>

@@ -112,8 +112,7 @@ namespace boost { namespace hana {
     //!     value<integral_constant<T, v>>() == v // of type T
     //! @endcode
     //!
-    //! 2. `Enumerable`, `Comparable`, `Orderable`, `Logical`, `Monoid`,
-    //!    `Group`, `Ring`, and `IntegralDomain`\n
+    //! 2. `Comparable`, `Orderable`, `Logical`, `Monoid`, `Group`, `Ring`, and `IntegralDomain`\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

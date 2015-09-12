@@ -4,12 +4,8 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
 #include <boost/hana/functional/iterate.hpp>
-
 #include <boost/hana/assert.hpp>
-#include <boost/hana/concept/enumerable.hpp>
 
 #include <laws/base.hpp>
 
@@ -26,7 +22,7 @@ int main() {
     using test::ct_eq;
 
     // "real usage" tests
-    static_assert(iterate<3>(succ, 0) == 3, "");
+    static_assert(iterate<3>(incr, 0) == 3, "");
     {
         std::vector<int> vec;
         iterate<10>([&](int i) { vec.push_back(i); return i + 1; }, 0);

@@ -101,11 +101,11 @@ namespace boost { namespace hana {
     //!
     //! More specifically, if a `Constant` `C` has an underlying value
     //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
-    //! `Enumerable`, `Logical`, or `Monoid` up to `IntegralDomain`, then
-    //! `C` must also be a model of those concepts. In other words, when
-    //! `C::value_type` models one of the listed concepts, `C` itself must
-    //! also model that concept. However, note that free models are provided
-    //! for all of those concepts, so no additional work must be done.
+    //! `Logical`, or `Monoid` up to `IntegralDomain`, then `C` must also
+    //! be a model of those concepts. In other words, when `C::value_type`
+    //! models one of the listed concepts, `C` itself must also model that
+    //! concept. However, note that free models are provided for all of
+    //! those concepts, so no additional work must be done.
     //!
     //! While it would be possible in theory to provide models for concepts
     //! like `Foldable` too, only a couple of concepts are useful to have as

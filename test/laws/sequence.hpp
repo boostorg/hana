@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/plus.hpp>
 #include <boost/hana/range.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -1492,7 +1493,7 @@ namespace boost { namespace hana { namespace test {
                     return [=](auto x) {
                         return hana::if_(hana::equal(stop, x),
                             hana::nothing,
-                            hana::just(prod(hana::succ(x), f(x)))
+                            hana::just(prod(x + hana::int_c<1>, f(x)))
                         );
                     };
                 };
@@ -1529,7 +1530,7 @@ namespace boost { namespace hana { namespace test {
                     return [=](auto x) {
                         return hana::if_(hana::equal(stop, x),
                             nothing,
-                            hana::just(prod(f(x), hana::succ(x)))
+                            hana::just(prod(f(x), x + hana::int_c<1>))
                         );
                     };
                 };

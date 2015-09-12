@@ -147,7 +147,6 @@ namespace boost { namespace hana {
 #include <boost/hana/permutations.hpp>
 #include <boost/hana/plus.hpp>
 #include <boost/hana/power.hpp>
-#include <boost/hana/pred.hpp>
 #include <boost/hana/prefix.hpp>
 #include <boost/hana/prepend.hpp>
 #include <boost/hana/product.hpp>
@@ -173,7 +172,6 @@ namespace boost { namespace hana {
 #include <boost/hana/sort.hpp>
 #include <boost/hana/span.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/succ.hpp>
 #include <boost/hana/suffix.hpp>
 #include <boost/hana/sum.hpp>
 #include <boost/hana/symmetric_difference.hpp>

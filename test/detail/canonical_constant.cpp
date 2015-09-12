@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/comparable.hpp>
 #include <laws/constant.hpp>
-#include <laws/enumerable.hpp>
 #include <laws/group.hpp>
 #include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
@@ -45,10 +44,9 @@ int main() {
 #endif
 
     //////////////////////////////////////////////////////////////////////////
-    // Enumerable, Monoid, Group, Ring, IntegralDomain
+    // Monoid, Group, Ring, IntegralDomain
     //////////////////////////////////////////////////////////////////////////
 #if BOOST_HANA_TEST_PART == 2
-    test::TestEnumerable<detail::CanonicalConstant<int>>{ints};
     test::TestMonoid<detail::CanonicalConstant<int>>{ints};
     test::TestGroup<detail::CanonicalConstant<int>>{ints};
 #endif

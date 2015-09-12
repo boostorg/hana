@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
-#include <laws/enumerable.hpp>
 #include <laws/group.hpp>
 #include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>

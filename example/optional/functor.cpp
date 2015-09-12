@@ -6,13 +6,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/equal.hpp>
+#include <boost/hana/functional/placeholder.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/succ.hpp>
 #include <boost/hana/transform.hpp>
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTANT_CHECK(hana::transform(hana::nothing, hana::succ) == hana::nothing);
-static_assert(hana::transform(hana::just(1), hana::succ) == hana::just(2), "");
+BOOST_HANA_CONSTANT_CHECK(hana::transform(hana::nothing, hana::_ + 1) == hana::nothing);
+static_assert(hana::transform(hana::just(1), hana::_ + 1) == hana::just(2), "");
 
 int main() { }

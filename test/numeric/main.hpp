@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
-#include <laws/enumerable.hpp>
 #include <laws/group.hpp>
 #include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
@@ -147,37 +146,6 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
                 ordering(f)(ord(0), ord(0)),
                 less(f(ord(0)), f(ord(0)))
-            ));
-        }
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    // Enumerable
-    //////////////////////////////////////////////////////////////////////////
-    {
-        // succ
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                succ(test::numeric(0)),
-                test::numeric(1)
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                succ(test::numeric(1)),
-                test::numeric(2)
-            ));
-        }
-
-        // pred
-        {
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                pred(test::numeric(1)),
-                test::numeric(0)
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                pred(test::numeric(2)),
-                test::numeric(1)
             ));
         }
     }

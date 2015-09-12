@@ -9,7 +9,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/extend.hpp>
 #include <boost/hana/extract.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/succ.hpp>
 
 #include <sstream>
 namespace hana = boost::hana;
@@ -24,7 +23,7 @@ int main() {
     })();
 
     auto i_plus_one = hana::extend(i, [](auto lazy_int) {
-        return hana::succ(hana::eval(lazy_int));
+        return hana::eval(lazy_int) + 1;
     });
 
     BOOST_HANA_RUNTIME_CHECK(hana::extract(i_plus_one) == 2);
