@@ -1678,13 +1678,20 @@ to create them, the lifetime of their elements and other concerns.
 
 @subsection tutorial-containers-creating Container creation
 
-Just like one can create a `std::tuple` with `std::make_tuple`, a Hana tuple
-can be created with `hana::make_tuple`. However, in general, containers in
-Hana may be created with the `make` function:
+While the usual way of creating an object in C++ is to use its constructor,
+heterogeneous programming makes things a bit more complicated. Indeed, in
+most cases, one is not interested in (or even aware of) the actual type of
+the heterogeneous container to be created. At other times, one could write
+out that type explicitly, but it would be redundant or cumbersome to do so.
+For this reason, Hana uses a different approach borrowed from `std::make_tuple`
+to create new containers. Much like one can create a `std::tuple` with
+`std::make_tuple`, a `hana::tuple` can be created with `hana::make_tuple`.
+However, more generally, containers in Hana may be created with the `make`
+function:
 
 @snippet example/tutorial/containers.cpp make<tuple_tag>
 
-Actually, `make_tuple` is just a shortcut for `make<tuple_tag>` so you don't
+In fact, `make_tuple` is just a shortcut for `make<tuple_tag>` so you don't
 have to type `boost::hana::make<boost::hana::tuple_tag>` when you are out of
 Hana's namespace. Simply put, `make<...>` is is used all around the library
 to create different types of objects, thus generalizing the `std::make_xxx`
@@ -1693,6 +1700,10 @@ compile-time integers with `make<range_tag>`:
 
 @snippet example/tutorial/containers.cpp make<range_tag>
 
+> These types with a trailing `_tag` are dummy types __representing__ a family
+> of heterogeneous containers (`hana::tuple`, `hana::map`, etc..). Tags are
+> documented in the section on [Hana's core](@ref tutorial-core-tags).
+
 For convenience, whenever a component of Hana provides a `make<xxx_tag>`
 function, it also provides the `make_xxx` shortcut to reduce typing. Also, an
 interesting point that can be raised in this example is the fact that `r` is
@@ -1700,14 +1711,84 @@ interesting point that can be raised in this example is the fact that `r` is
 expressions only (which is the case for `r`), that container may be marked
 as `constexpr`.
 
-But what are these types with a trailing `_tag` that have popped up a couple
-of times in the tutorial? These types are simply tags __representing__ a given
-container. For example, `range_tag` is actually an empty `struct` representing
-the "conceptual type" of an object returned by `make_range`, while the actual
-type of such an object is implementation-defined. These tags are very useful
-because they represent families of C++ types that are strongly related, but
-that are not required to have the same representation. These tags are
-documented in the section on [Hana's core](@ref tutorial-core-tags).
+So far, we have only created containers with the `make_xxx` family of
+functions. However, some containers do provide constructors as part of
+their interface. For example, one can create a `hana::tuple` just like
+one would create a `std::tuple`:
+
+@snippet example/tutorial/containers.cpp tuple_constructor
+
+When constructors (or any member function really) are part of the public
+interface, they will be documented on a per-container basis. However,
+in the general case, one should not take for granted that a container
+can be constructed as the tuple was constructed above. For example,
+trying to create a `hana::range` that way will __not__ work:
+
+@code{.cpp}
+hana::range<???> xs{hana::int_c<3>, hana::int_c<10>};
+@endcode
+
+In fact, we can't even specify the type of the object we'd like to create in
+that case, because the exact type of a `hana::range` is implementation-defined,
+which brings us to the next section.
+
+
+@subsection tutorial-containers-types Container types
+
+The goal of this section is to clarify what can be expected from the types of
+Hana's containers. Indeed, so far, we always let the compiler deduce the
+actual type of containers by using the `make_xxx` family of functions along
+with `auto`. But in general, what can we say about the type of a container?
+
+@snippet example/tutorial/containers.cpp types
+
+The answer is that it depends. Some containers have well defined types, while
+others do not specify their representation. In this example, the type of the
+object returned by `make_tuple` is well-defined, while the type returned by
+`make_range` is implementation-defined:
+
+@snippet example/tutorial/containers.cpp types_maximally_specified
+
+This is documented on a per-container basis; when a container has an
+implementation-defined representation, a note explaining exactly what
+can be expected from that representation is included in the container's
+description. There are several reasons for leaving the representation of
+a container unspecified; they are explained in the
+[rationales](@ref tutorial-rationales-container_representation).
+When the representation of a container is implementation-defined, one must
+be careful not to make any assumptions about it, unless those assumption
+are explicitly allowed in the documentation of the container.
+
+
+@subsubsection tutorial-containers-types-overloading Overloading on container types
+
+While necessary, leaving the type of some containers unspecified makes some
+things very difficult to achieve, like overloading functions on heterogeneous
+containers:
+
+@code{cpp}
+template <typename T>
+void f(std::vector<T> xs) {
+  // ...
+}
+
+template <typename ...???>
+void f(unspecified-range-type<???> r) {
+  // ...
+}
+@endcode
+
+The `is_a` utility is provided for this reason (and others). `is_a` allows
+checking whether a type is a precise kind of container using its tag,
+regardless of the actual type of the container. For example, the above
+example could be rewritten as
+
+@snippet example/tutorial/containers.cpp overloading
+
+This way, the second overload of `f` will only match when `R` is a type whose
+tag is `range_tag`, regardless of the exact representation of that range. Of
+course, `is_a` can be used with any kind of container: `tuple`, `map`, `set`
+and so on.
 
 
 @subsection tutorial-containers-elements Container elements
@@ -1726,56 +1807,6 @@ them. When references must be stored inside a container, one should use a
 `std::reference_wrapper` instead:
 
 @snippet example/tutorial/containers.cpp reference_wrapper
-
-
-@subsection tutorial-containers-types Container types
-
-So far, we have only created containers with the `make_xxx` family of
-functions, and we always let the compiler deduce the actual type of the
-container by using `auto`. We will now clarify what can be expected from
-the types of Hana's containers:
-
-@snippet example/tutorial/containers.cpp types
-
-The answer is that it depends. Some containers have well defined types, while
-others do not specify their representation. In this example, the type of the
-object returned by `make_tuple` is well-defined, while the type returned by
-`make_range` is implementation-defined:
-
-@snippet example/tutorial/containers.cpp types_maximally_specified
-
-This is documented on a per-container basis; when a container has an
-implementation-defined representation, a note explaining exactly what
-can be expected from that representation is included in the container's
-description. There are several reasons for leaving the representation of
-a container unspecified; they are explained in the
-[rationales](@ref tutorial-rationales-container_representation). However,
-leaving the type of some containers unspecified makes some things very
-difficult to achieve, like overloading functions on heterogeneous containers:
-
-@code{cpp}
-template <typename T>
-void f(std::vector<T> xs) {
-  // ...
-}
-
-template <typename ...???>
-void f(unspecified-range-type<???> r) {
-  // ...
-}
-@endcode
-
-The `is_a` utility is provided for this reason (and others). `is_a` allows
-checking whether a type is a precise kind of container, regardless of the
-actual type of the container. For example, the above example could be
-rewritten as
-
-@snippet example/tutorial/containers.cpp overloading
-
-This way, the second overload of `f` will only match when `R` is a type whose
-tag is `range_tag`, regardless of the exact representation of that range. Of
-course, `is_a` can be used with any kind of container: `tuple`, `map`, `set`
-and so on.
 
 
 
@@ -2540,9 +2571,9 @@ containers and other compile-time entities. For example, all of Hana's
 `integral_constant<int, ...>`s have different types, but they all share
 the same tag, `integral_constant_tag<int>`. This allows the programmer to
 think in terms of that single type instead of trying to think in terms of the
-actual types of the objects. Furthermore, Hana adopts the convention of naming
-these tags by adding the `_tag` suffix, to make them stand out and differentiate
-them from actual types.
+actual types of the objects. Concretely, tags are implemented as empty `struct`s.
+To make them stand out, Hana adopts the convention of naming these tags by
+adding the `_tag` suffix.
 
 @note
 The tag of an object of type `T` can be obtained by using `tag_of<T>::%type`,

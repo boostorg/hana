@@ -33,6 +33,33 @@ static_assert(r == hana::make_range(hana::int_c<3>, hana::int_c<10>), "");
 
 }{
 
+//! [tuple_constructor]
+hana::tuple<int, double, char, std::string> xs{1, 2.2, 'a', "bcde"s};
+//! [tuple_constructor]
+(void)xs;
+
+}{
+
+//! [types]
+auto xs = hana::make_tuple(1, '2', "345");
+auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
+// what can we say about the types of `xs` and `ints`?
+//! [types]
+(void)xs;
+(void)ints;
+
+}{
+
+//! [types_maximally_specified]
+hana::tuple<int, char, char const*> xs = hana::make_tuple(1, '2', "345");
+auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
+// can't specify the type of ints, however
+//! [types_maximally_specified]
+(void)xs;
+(void)ints;
+
+}{
+
 //! [lifetime]
 std::string hello = "Hello";
 std::vector<char> world = {'W', 'o', 'r', 'l', 'd'};
@@ -60,26 +87,6 @@ auto map = hana::make_map(
 auto& v = map[hana::type_c<int>].get();
 BOOST_HANA_RUNTIME_CHECK(&v == &ints);
 //! [reference_wrapper]
-
-}{
-
-//! [types]
-auto xs = hana::make_tuple(1, '2', "345");
-auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
-// what can we say about the types of xs and ints?
-//! [types]
-(void)xs;
-(void)ints;
-
-}{
-
-//! [types_maximally_specified]
-hana::tuple<int, char, char const*> xs = hana::make_tuple(1, '2', "345");
-auto ints = hana::make_range(hana::int_c<0>, hana::int_c<100>);
-// can't specify the type of ints, however
-//! [types_maximally_specified]
-(void)xs;
-(void)ints;
 
 }
 
