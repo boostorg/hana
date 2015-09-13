@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/array.hpp>
-#include <boost/hana/detail/by.hpp> // required by fwd decl
+#include <boost/hana/detail/nested_by.hpp> // required by fwd decl
 #include <boost/hana/equal.hpp>
 #include <boost/hana/length.hpp>
 

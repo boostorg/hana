@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SPAN_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct span_impl : span_impl<S, when<true>> { };
 
-    struct span_t : detail::by<span_t> {
+    struct span_t : detail::nested_by<span_t> {
         template <typename Xs, typename Pred>
         constexpr auto operator()(Xs&& xs, Pred&& pred) const;
     };

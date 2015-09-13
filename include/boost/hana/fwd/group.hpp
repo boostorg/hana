@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_GROUP_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct group_impl : group_impl<S, when<true>> { };
 
-    struct group_t : detail::by<group_t> {
+    struct group_t : detail::nested_by<group_t> {
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;
 

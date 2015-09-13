@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_PARTITION_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct partition_impl : partition_impl<S, when<true>> { };
 
-    struct partition_t : detail::by<partition_t> {
+    struct partition_t : detail::nested_by<partition_t> {
         template <typename Xs, typename Pred>
         constexpr auto operator()(Xs&& xs, Pred&& pred) const;
     };

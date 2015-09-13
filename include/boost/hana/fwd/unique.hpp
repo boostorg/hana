@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_UNIQUE_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -75,7 +75,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct unique_impl : unique_impl<S, when<true>> { };
 
-    struct unique_t : detail::by<unique_t> {
+    struct unique_t : detail::nested_by<unique_t> {
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;
 

@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MINIMUM_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -100,7 +100,7 @@ namespace boost { namespace hana {
     template <typename T, typename = void>
     struct minimum_pred_impl : minimum_pred_impl<T, when<true>> { };
 
-    struct minimum_t : detail::by<minimum_t> {
+    struct minimum_t : detail::nested_by<minimum_t> {
         template <typename Xs>
         constexpr decltype(auto) operator()(Xs&& xs) const;
 

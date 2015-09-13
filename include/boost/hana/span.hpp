@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/by.hpp> // required by fwd decl
+#include <boost/hana/detail/nested_by.hpp> // required by fwd decl
 #include <boost/hana/detail/first_unsatisfied_index.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/pair.hpp>

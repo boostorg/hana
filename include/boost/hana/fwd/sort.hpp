@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SORT_HPP
 
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/detail/by_fwd.hpp>
+#include <boost/hana/detail/nested_by_fwd.hpp>
 
 
 namespace boost { namespace hana {
@@ -87,7 +87,7 @@ namespace boost { namespace hana {
     template <typename S, typename = void>
     struct sort_impl : sort_impl<S, when<true>> { };
 
-    struct sort_t : detail::by<sort_t> {
+    struct sort_t : detail::nested_by<sort_t> {
         template <typename Xs>
         constexpr auto operator()(Xs&& xs) const;
 

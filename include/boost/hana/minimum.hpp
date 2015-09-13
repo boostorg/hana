@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/detail/by.hpp> // required by fwd decl
+#include <boost/hana/detail/nested_by.hpp> // required by fwd decl
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/less.hpp>
