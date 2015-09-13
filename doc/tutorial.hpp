@@ -2034,20 +2034,39 @@ and so on.
 
 @subsection tutorial-containers-elements Container elements
 
-In Hana, containers own their elements. When a container is created, it makes
-a _copy_ of the elements used to initialize it and stores them inside the
-container. Of course, unnecessary copies are avoided by using move semantics.
-Because of those owning semantics, the lifetime of the objects inside the
-container is the same as that of the container.
+In Hana, containers own their elements. When a container is created, it
+normally makes a _copy_ of the elements used to initialize it and stores them
+inside the container. Of course, unnecessary copies are avoided by using move
+semantics. Because of those owning semantics, the lifetime of the objects
+inside the container is the same as that of the container.
 
 @snippet example/tutorial/containers.cpp lifetime
 
-Much like containers in the standard library, containers in Hana expect their
-elements to be objects. For this reason, references _may not_ be stored in
-them. When references must be stored inside a container, one should use a
-`std::reference_wrapper` instead:
+However, some containers allow storing references instead of actual objects.
+In that case, the owning semantics explained above do not hold anymore. For
+example, it is possible to create a `hana::tuple` holding references as
+follows:
+
+@snippet example/tutorial/containers.cpp reference_tuple
+
+@note
+Of course, a single tuple can also hold some elements by value and other
+elements by reference.
+
+Since explicitly specifying the type of the container to achieve by-reference
+semantics can be cumbersome (and sometimes downright impossible when that
+type is implementation-defined), the `make_xxx` family of functions also
+support the use of `reference_wrapper`s:
 
 @snippet example/tutorial/containers.cpp reference_wrapper
+
+When passed to a `hana::make_xxx` function, `std::reference_wrapper`s and
+`boost::reference_wrapper`s will cause the container to hold a reference
+instead of a `reference_wrapper`. Of course, only the `make_xxx` functions
+associated to containers that support holding references implement this
+special behavior. To know whether a container is able to hold references
+(and implements this behavior), one should consult the reference documentation
+for that container.
 
 
 
