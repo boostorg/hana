@@ -30,8 +30,10 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // to
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename To, typename From, typename>
     struct to_impl : to_impl<To, From, when<true>> { };
+    //! @endcond
 
     namespace convert_detail {
         struct no_conversion { };

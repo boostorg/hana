@@ -25,8 +25,10 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // common
     //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename T, typename U, typename>
     struct common : common<T, U, when<true>> { };
+    //! @endcond
 
     template <typename T, typename U, bool condition>
     struct common<T, U, when<condition>>

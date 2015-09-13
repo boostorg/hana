@@ -17,11 +17,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //////////////////////////////////////////////////////////////////////////
-    // make
-    //////////////////////////////////////////////////////////////////////////
+    //! @cond
     template <typename Datatype, typename>
     struct make_impl : make_impl<Datatype, when<true>> { };
+    //! @endcond
 
     template <typename Datatype, bool condition>
     struct make_impl<Datatype, when<condition>> : default_ {

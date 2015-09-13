@@ -16,8 +16,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
+    //! @cond
     template <typename T, typename>
     struct tag_of : tag_of<T, when<true>> { };
+    //! @endcond
 
     namespace core_detail {
         template <typename ...>
