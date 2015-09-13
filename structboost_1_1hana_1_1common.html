@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::common&lt; T, U, typename &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::common&lt; T, U, enabler &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -130,12 +130,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1common.html',''
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::common&lt; T, U, typename &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
+<div class="title">boost::hana::common&lt; T, U, enabler &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-core.html">Core</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename T, typename U, typename&gt;<br />
-struct boost::hana::common&lt; T, U, typename &gt;</h3>
+<div class="textblock"><h3>template&lt;typename T, typename U, optional when-based enabler&gt;<br />
+struct boost::hana::common&lt; T, U, enabler &gt;</h3>
 
 <p>Metafunction returning the common data type between two data types. </p>
 <p><code>common</code> is a natural extension of the <code>std::common_type</code> metafunction to data types. Given two data types <code>T</code> and <code>U</code>, we say that they share a common type <code>C</code> if both objects of data type <code>T</code> and objects of data type <code>U</code> may be converted (using <code>to</code>) to an object of data type <code>C</code>, and if that conversion is equality preserving. In other words, this means that for any objects <code>t1, t2</code> of data type <code>T</code> and <code>u1, u2</code> of data type <code>U</code>, the following law is satisfied: </p><div class="fragment"><div class="line">to&lt;C&gt;(t1) == to&lt;C&gt;(t2)  if and only if  t1 == t2</div>
