@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
-#include <boost/hana/detail/decay.hpp>
+#include <boost/hana/detail/as_container_element.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
@@ -122,8 +122,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_impl<pair_tag> {
         template <typename F, typename S>
         static constexpr pair<
-            typename detail::decay<F>::type,
-            typename detail::decay<S>::type
+            detail::as_container_element_t<F>,
+            detail::as_container_element_t<S>
         > apply(F&& f, S&& s) {
             return {static_cast<F&&>(f), static_cast<S&&>(s)};
         }
