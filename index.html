@@ -767,7 +767,7 @@ Compile-time numbers</h1>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>If this is totally new to you, you might want to take a look at the <a href="http://en.cppreference.com/w/cpp/types/integral_constant">documentation</a> for <code>std::integral_constant</code>.</dd></dl>
 <p>One valid answer is that <code>integral_constant</code> represents a type-level encoding of a number, or more generally any object of an integral type. For illustration, we could define a successor function on numbers in that representation very easily by using a template alias:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
-<div class="line"><span class="keyword">using</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a> = integral_constant&lt;int, N::value + 1&gt;;</div>
+<div class="line"><span class="keyword">using</span> succ = integral_constant&lt;int, N::value + 1&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">using</span> <a class="code" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">one</a> = integral_constant&lt;int, 1&gt;;</div>
 <div class="line"><span class="keyword">using</span> two = succ&lt;one&gt;;</div>
@@ -780,13 +780,13 @@ Compile-time numbers</h1>
 <div class="line">constexpr <span class="keywordtype">int</span> one_constexpr = decltype(<a class="code" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">one</a>)::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a>;</div>
 </div><!-- fragment --><p>But why on earth would we want to consider <code>integral_constant</code>s as objects instead of type-level entities? To see why, consider how we could now implement the same successor function as before:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> N&gt;</div>
-<div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(N) {</div>
+<div class="line"><span class="keyword">auto</span> succ(N) {</div>
 <div class="line">  <span class="keywordflow">return</span> integral_constant&lt;int, N::value + 1&gt;{};</div>
 <div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">one</a> = integral_constant&lt;int, 1&gt;{};</div>
-<div class="line"><span class="keyword">auto</span> two = <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(<a class="code" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">one</a>);</div>
-<div class="line"><span class="keyword">auto</span> three = <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0">succ</a>(two);</div>
+<div class="line"><span class="keyword">auto</span> two = succ(<a class="code" href="structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1">one</a>);</div>
+<div class="line"><span class="keyword">auto</span> three = succ(two);</div>
 <div class="line"><span class="comment">// ...</span></div>
 </div><!-- fragment --><p>Did you notice anything new? The difference is that instead of implementing <code>succ</code> at the type-level with a template alias, we're now implementing it at the value-level with a template function. Furthermore, we can now perform compile-time arithmetic using the same syntax as that of normal C++. This way of seeing compile-time entities as objects instead of types is the key to Hana's expressive power.</p>
 <h2><a class="anchor" id="tutorial-integral-arithmetic"></a>
@@ -1560,24 +1560,24 @@ Side effects and purity</h2>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>For this to work, the external adapters for <code>std::integral_constant</code> contained in <code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Adapts std::integral_constant for use with Hana. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code> must be included.</dd></dl>
 <p>According to the previous section on unrolling, this algorithm should be expanded into something like:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
-<div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a> = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
+<div class="line"><span class="keyword">auto</span> pred = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> r = hana::bool_c&lt;</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[0_c]) ? <span class="keyword">true</span> :</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[1_c]) ? <span class="keyword">true</span> :</div>
-<div class="line">  <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[2_c]) ? <span class="keyword">true</span> :</div>
+<div class="line">  pred(xs[0_c]) ? <span class="keyword">true</span> :</div>
+<div class="line">  pred(xs[1_c]) ? <span class="keyword">true</span> :</div>
+<div class="line">  pred(xs[2_c]) ? <span class="keyword">true</span> :</div>
 <div class="line">  <span class="keyword">false</span></div>
 <div class="line">&gt;;</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(r);</div>
 </div><!-- fragment --><p>Of course, the above code can't work as-is, because we're calling <code>pred</code> inside something that would have to be a constant expression, but <code>pred</code> is a lambda (and lambdas can't be called in constant expressions). However, whether any of these objects has an integral type is clearly known at compile-time, and hence we would expect that computing the answer only involves compile-time computations. In fact, this is exactly what Hana does, and the above algorithm is expanded into something like:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(<span class="stringliteral">&quot;hello&quot;</span>s, 1.2, 3);</div>
-<div class="line"><span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a> = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
+<div class="line"><span class="keyword">auto</span> pred = [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> std::is_integral&lt;decltype(x)&gt;{}; };</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> r = hana::bool_c&lt;</div>
-<div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[0_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
-<div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[1_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
-<div class="line">  decltype(<a class="code" href="structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9">pred</a>(xs[2_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
+<div class="line">  decltype(pred(xs[0_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
+<div class="line">  decltype(pred(xs[1_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
+<div class="line">  decltype(pred(xs[2_c]))::<a class="code" href="structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5">value</a> ? true :</div>
 <div class="line">  false</div>
 <div class="line">&gt;;</div>
 <div class="line"></div>
@@ -2261,23 +2261,17 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="comment">//    use `first&lt;pair&lt;...&gt;&gt;` instead</span><span class="comment"></span></div>
 <div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...T&gt;</div>
-<div class="line"><span class="keyword">struct </span>vector : decltype(hana::tuple_t&lt;T...&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana_tag = hana::tuple_tag;</div>
-<div class="line">};</div>
+<div class="line"><span class="keyword">using</span> vector = hana::tuple&lt;hana::type&lt;T&gt;...&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T ...v&gt;</div>
-<div class="line"><span class="keyword">struct </span>vector_c : decltype(hana::tuple_c&lt;T, v...&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana_tag = hana::tuple_tag;</div>
-<div class="line">};</div>
+<div class="line"><span class="keyword">using</span> vector_c = hana::tuple&lt;hana::integral_constant&lt;T, v&gt;...&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, T from, T to&gt;</div>
-<div class="line"><span class="keyword">struct </span>range_c : decltype(hana::range_c&lt;T, from, to&gt;) {</div>
-<div class="line">    <span class="keyword">using</span> hana_tag = hana::range_tag;</div>
-<div class="line">};</div>
+<div class="line"><span class="keyword">using</span> range_c = decltype(hana::range_c&lt;T, from, to&gt;);</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U&gt;</div>
-<div class="line"><span class="keyword">struct </span>pair : decltype(hana::make_pair(hana::type_c&lt;T&gt;, hana::type_c&lt;U&gt;)) { };</div>
+<div class="line"><span class="keyword">using</span> pair = hana::pair&lt;hana::type&lt;T&gt;, hana::type&lt;U&gt;&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> P&gt;</div>
 <div class="line"><span class="keyword">struct </span>first : decltype(+hana::first(P{})) { };</div>

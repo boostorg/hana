@@ -231,7 +231,6 @@ The <code>lazy</code> comonad allows evaluating a lazy computation to get its re
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extend_8hpp.html">boost/hana/extend.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extract_8hpp.html">boost/hana/extract.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -246,7 +245,7 @@ The <code>lazy</code> comonad allows evaluating a lazy computation to get its re
 <div class="line">    })();</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> i_plus_one = hana::extend(i, [](<span class="keyword">auto</span> lazy_int) {</div>
-<div class="line">        <span class="keywordflow">return</span> hana::succ(hana::eval(lazy_int));</div>
+<div class="line">        <span class="keywordflow">return</span> hana::eval(lazy_int) + 1;</div>
 <div class="line">    });</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 2);</div>

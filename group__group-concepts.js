@@ -18,10 +18,6 @@ var group__group_concepts =
       [ "value", "structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5", null ],
       [ "value_of", "structboost_1_1hana_1_1Constant.html#ad06a1ad6dece8a0337c3a9e754067051", null ]
     ] ],
-    [ "Enumerable", "structboost_1_1hana_1_1Enumerable.html", [
-      [ "pred", "structboost_1_1hana_1_1Enumerable.html#a283eaffe2c556e841a84a2e03d6b95f9", null ],
-      [ "succ", "structboost_1_1hana_1_1Enumerable.html#a09bc77dab527650793cab53fce2c14b0", null ]
-    ] ],
     [ "Foldable", "structboost_1_1hana_1_1Foldable.html", [
       [ "count", "structboost_1_1hana_1_1Foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53", null ],
       [ "count_if", "structboost_1_1hana_1_1Foldable.html#a21ca48cce90274a5f54354f9d4622930", null ],

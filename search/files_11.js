@@ -15,8 +15,8 @@ var searchData=
   ['set_2ehpp',['set.hpp',['../set_8hpp.html',1,'']]],
   ['size_2ehpp',['size.hpp',['../fwd_2size_8hpp.html',1,'']]],
   ['size_2ehpp',['size.hpp',['../size_8hpp.html',1,'']]],
-  ['slice_2ehpp',['slice.hpp',['../fwd_2slice_8hpp.html',1,'']]],
   ['slice_2ehpp',['slice.hpp',['../slice_8hpp.html',1,'']]],
+  ['slice_2ehpp',['slice.hpp',['../fwd_2slice_8hpp.html',1,'']]],
   ['sort_2ehpp',['sort.hpp',['../fwd_2sort_8hpp.html',1,'']]],
   ['sort_2ehpp',['sort.hpp',['../sort_8hpp.html',1,'']]],
   ['span_2ehpp',['span.hpp',['../span_8hpp.html',1,'']]],
@@ -29,12 +29,10 @@ var searchData=
   ['struct_2ehpp',['struct.hpp',['../fwd_2concept_2struct_8hpp.html',1,'']]],
   ['struct_2ehpp',['struct.hpp',['../concept_2struct_8hpp.html',1,'']]],
   ['struct_5fmacros_2ehpp',['struct_macros.hpp',['../struct__macros_8hpp.html',1,'']]],
-  ['succ_2ehpp',['succ.hpp',['../fwd_2succ_8hpp.html',1,'']]],
-  ['succ_2ehpp',['succ.hpp',['../succ_8hpp.html',1,'']]],
-  ['suffix_2ehpp',['suffix.hpp',['../fwd_2suffix_8hpp.html',1,'']]],
   ['suffix_2ehpp',['suffix.hpp',['../suffix_8hpp.html',1,'']]],
+  ['suffix_2ehpp',['suffix.hpp',['../fwd_2suffix_8hpp.html',1,'']]],
   ['sum_2ehpp',['sum.hpp',['../sum_8hpp.html',1,'']]],
   ['sum_2ehpp',['sum.hpp',['../fwd_2sum_8hpp.html',1,'']]],
-  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]],
-  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]]
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]],
+  ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]]
 ];

@@ -858,13 +858,13 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tail_8hpp.html">boost/hana/tail.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> next_10 = hana::iterate&lt;10&gt;(hana::succ);</div>
+<div class="line">constexpr <span class="keyword">auto</span> next_10 = hana::iterate&lt;10&gt;(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1);</div>
 <div class="line">static_assert(next_10(3) == 13, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
@@ -904,7 +904,6 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lockstep_8hpp.html">boost/hana/functional/lockstep.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
@@ -912,7 +911,11 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(c) - 48;</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">hana::lockstep</a>(hana::plus)(to_int, hana::succ)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">constexpr <span class="keywordtype">int</span> increment(<span class="keywordtype">int</span> i) {</div>
+<div class="line">    <span class="keywordflow">return</span> i + 1;</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">hana::lockstep</a>(hana::plus)(to_int, increment)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

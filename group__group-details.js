@@ -4,6 +4,7 @@ var group__group_details =
     [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
     [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
+    [ "index_if", "structboost_1_1hana_1_1detail_1_1index__if.html", null ],
     [ "nested_than", "structboost_1_1hana_1_1detail_1_1nested__than.html", null ],
     [ "nested_to", "structboost_1_1hana_1_1detail_1_1nested__to.html", null ],
     [ "adl", "structboost_1_1hana_1_1detail_1_1operators_1_1adl.html", null ],

@@ -348,13 +348,13 @@ template&lt;typename W &gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="extract_8hpp.html">boost/hana/extract.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lazy_8hpp.html">boost/hana/lazy.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="succ_8hpp.html">boost/hana/succ.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::extract(hana::make_lazy(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::extract(hana::make_lazy(hana::succ)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::extract(hana::make_lazy(<a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1)(3)) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
