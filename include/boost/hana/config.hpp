@@ -86,6 +86,8 @@ Distributed under the Boost Software License, Version 1.0.
 #       warning "Versions of libstdc++ prior to the one shipped with GCC 5.1.0 are not supported by Hana for lack of full C++14 support."
 #   endif
 
+#   define BOOST_HANA_CONFIG_LIBSTDCXX
+
 #else
 
 #   warning "Your standard library is not officially supported by Hana or it was not detected properly."
