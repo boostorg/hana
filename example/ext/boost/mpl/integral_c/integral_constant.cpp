@@ -16,18 +16,11 @@ namespace hana = boost::hana;
 namespace mpl = boost::mpl;
 
 
-int main() {
-
-{
-
-//! [constant]
 static_assert(hana::value(mpl::integral_c<int, 3>{}) == 3, "");
+static_assert(mpl::integral_c<int, 3>::value == 3, "");
 
 BOOST_HANA_CONSTANT_CHECK(hana::equal(mpl::integral_c<int, 3>{}, mpl::int_<3>{}));
 BOOST_HANA_CONSTANT_CHECK(hana::equal(mpl::integral_c<int, 3>{}, mpl::long_<3>{}));
 BOOST_HANA_CONSTANT_CHECK(hana::not_equal(mpl::integral_c<int, 3>{}, mpl::int_<0>{}));
-//! [constant]
 
-}
-
-}
+int main() { }
