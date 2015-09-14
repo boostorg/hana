@@ -29,10 +29,12 @@ namespace boost { namespace hana {
         };
     }
 
+    //! @cond
     template <typename S, bool condition>
     struct Sequence<S, when<condition>>
         : detail::sequence_dispatch<S>
     { };
+    //! @endcond
 }}
 
 #endif // !BOOST_HANA_CONCEPT_SEQUENCE_HPP
