@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::rem`.
+Defines `boost::hana::mod`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_REM_HPP
-#define BOOST_HANA_REM_HPP
+#ifndef BOOST_HANA_MOD_HPP
+#define BOOST_HANA_MOD_HPP
 
-#include <boost/hana/fwd/rem.hpp>
+#include <boost/hana/fwd/mod.hpp>
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/integral_domain.hpp>
@@ -26,46 +26,46 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
-    constexpr decltype(auto) rem_t::operator()(X&& x, Y&& y) const {
+    constexpr decltype(auto) mod_t::operator()(X&& x, Y&& y) const {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
-        using Rem = BOOST_HANA_DISPATCH_IF(decltype(rem_impl<T, U>{}),
+        using Mod = BOOST_HANA_DISPATCH_IF(decltype(mod_impl<T, U>{}),
             IntegralDomain<T>::value &&
             IntegralDomain<U>::value &&
-            !is_default<rem_impl<T, U>>::value
+            !is_default<mod_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(IntegralDomain<T>::value,
-        "hana::rem(x, y) requires 'x' to be an IntegralDomain");
+        "hana::mod(x, y) requires 'x' to be an IntegralDomain");
 
         static_assert(IntegralDomain<U>::value,
-        "hana::rem(x, y) requires 'y' to be an IntegralDomain");
+        "hana::mod(x, y) requires 'y' to be an IntegralDomain");
 
-        static_assert(!is_default<rem_impl<T, U>>::value,
-        "hana::rem(x, y) requires 'x' and 'y' to be embeddable "
+        static_assert(!is_default<mod_impl<T, U>>::value,
+        "hana::mod(x, y) requires 'x' and 'y' to be embeddable "
         "in a common IntegralDomain");
     #endif
 
-        return Rem::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
+        return Mod::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
     }
     //! @endcond
 
     template <typename T, typename U, bool condition>
-    struct rem_impl<T, U, when<condition>> : default_ {
+    struct mod_impl<T, U, when<condition>> : default_ {
         template <typename ...Args>
         static constexpr auto apply(Args&& ...) = delete;
     };
 
     // Cross-type overload
     template <typename T, typename U>
-    struct rem_impl<T, U, when<
+    struct mod_impl<T, U, when<
         detail::has_nontrivial_common_embedding<IntegralDomain, T, U>::value
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::rem(hana::to<C>(static_cast<X&&>(x)),
+            return hana::mod(hana::to<C>(static_cast<X&&>(x)),
                              hana::to<C>(static_cast<Y&&>(y)));
         }
     };
@@ -74,7 +74,7 @@ namespace boost { namespace hana {
     // Model for integral data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct rem_impl<T, T, when<std::is_integral<T>::value &&
+    struct mod_impl<T, T, when<std::is_integral<T>::value &&
                                !std::is_same<T, bool>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
@@ -86,21 +86,21 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <typename C, typename X, typename Y>
-        struct constant_from_rem {
-            static constexpr auto value = hana::rem(hana::value<X>(), hana::value<Y>());
+        struct constant_from_mod {
+            static constexpr auto value = hana::mod(hana::value<X>(), hana::value<Y>());
             using hana_tag = detail::CanonicalConstant<typename C::value_type>;
         };
     }
 
     template <typename C>
-    struct rem_impl<C, C, when<
+    struct mod_impl<C, C, when<
         Constant<C>::value &&
         IntegralDomain<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
-        { return hana::to<C>(detail::constant_from_rem<C, X, Y>{}); }
+        { return hana::to<C>(detail::constant_from_mod<C, X, Y>{}); }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_REM_HPP
+#endif // !BOOST_HANA_MOD_HPP

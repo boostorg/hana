@@ -156,14 +156,14 @@ namespace boost { namespace hana {
     // IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct quot_impl<test::Numeric, test::Numeric> {
+    struct div_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value / y.value); }
     };
 
     template <>
-    struct rem_impl<test::Numeric, test::Numeric> {
+    struct mod_impl<test::Numeric, test::Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
         { return test::numeric(x.value % y.value); }

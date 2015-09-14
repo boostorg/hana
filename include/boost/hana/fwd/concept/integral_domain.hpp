@@ -55,7 +55,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `quot` and `rem` satisfying the laws below
+    //! `div` and `mod` satisfying the laws below
     //!
     //!
     //! Laws
@@ -89,8 +89,8 @@ namespace boost { namespace hana {
     //! is automatically defined by using the `Ring` model provided for
     //! arithmetic data types and setting
     //! @code
-    //!     quot(x, y) = (x / y)
-    //!     rem(x, y)  = (x % y)
+    //!     div(x, y) = (x / y)
+    //!     mod(x, y)  = (x % y)
     //! @endcode
     //!
     //! @note

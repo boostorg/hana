@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::quot`.
+Defines `boost::hana::div`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_QUOT_HPP
-#define BOOST_HANA_QUOT_HPP
+#ifndef BOOST_HANA_DIV_HPP
+#define BOOST_HANA_DIV_HPP
 
-#include <boost/hana/fwd/quot.hpp>
+#include <boost/hana/fwd/div.hpp>
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/integral_domain.hpp>
@@ -26,47 +26,47 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename X, typename Y>
-    constexpr decltype(auto) quot_t::operator()(X&& x, Y&& y) const {
+    constexpr decltype(auto) div_t::operator()(X&& x, Y&& y) const {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
-        using Quot = BOOST_HANA_DISPATCH_IF(decltype(quot_impl<T, U>{}),
+        using Div = BOOST_HANA_DISPATCH_IF(decltype(div_impl<T, U>{}),
             IntegralDomain<T>::value &&
             IntegralDomain<U>::value &&
-            !is_default<quot_impl<T, U>>::value
+            !is_default<div_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(IntegralDomain<T>::value,
-        "hana::quot(x, y) requires 'x' to be an IntegralDomain");
+        "hana::div(x, y) requires 'x' to be an IntegralDomain");
 
         static_assert(IntegralDomain<U>::value,
-        "hana::quot(x, y) requires 'y' to be an IntegralDomain");
+        "hana::div(x, y) requires 'y' to be an IntegralDomain");
 
-        static_assert(!is_default<quot_impl<T, U>>::value,
-        "hana::quot(x, y) requires 'x' and 'y' to be embeddable "
+        static_assert(!is_default<div_impl<T, U>>::value,
+        "hana::div(x, y) requires 'x' and 'y' to be embeddable "
         "in a common IntegralDomain");
     #endif
 
-        return Quot::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
+        return Div::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
     }
     //! @endcond
 
     template <typename T, typename U, bool condition>
-    struct quot_impl<T, U, when<condition>> : default_ {
+    struct div_impl<T, U, when<condition>> : default_ {
         template <typename ...Args>
         static constexpr auto apply(Args&& ...) = delete;
     };
 
     // Cross-type overload
     template <typename T, typename U>
-    struct quot_impl<T, U, when<
+    struct div_impl<T, U, when<
         detail::has_nontrivial_common_embedding<IntegralDomain, T, U>::value
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y) {
-            return hana::quot(hana::to<C>(static_cast<X&&>(x)),
-                              hana::to<C>(static_cast<Y&&>(y)));
+            return hana::div(hana::to<C>(static_cast<X&&>(x)),
+                             hana::to<C>(static_cast<Y&&>(y)));
         }
     };
 
@@ -74,8 +74,8 @@ namespace boost { namespace hana {
     // Model for integral data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct quot_impl<T, T, when<std::is_integral<T>::value &&
-                                !std::is_same<T, bool>::value>> {
+    struct div_impl<T, T, when<std::is_integral<T>::value &&
+                               !std::is_same<T, bool>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) / static_cast<Y&&>(y); }
@@ -86,21 +86,21 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <typename C, typename X, typename Y>
-        struct constant_from_quot {
-            static constexpr auto value = hana::quot(hana::value<X>(), hana::value<Y>());
+        struct constant_from_div {
+            static constexpr auto value = hana::div(hana::value<X>(), hana::value<Y>());
             using hana_tag = detail::CanonicalConstant<typename C::value_type>;
         };
     }
 
     template <typename C>
-    struct quot_impl<C, C, when<
+    struct div_impl<C, C, when<
         Constant<C>::value &&
         IntegralDomain<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)
-        { return hana::to<C>(detail::constant_from_quot<C, X, Y>{}); }
+        { return hana::to<C>(detail::constant_from_div<C, X, Y>{}); }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_QUOT_HPP
+#endif // !BOOST_HANA_DIV_HPP

@@ -6,13 +6,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/div.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/monadic_fold_right.hpp>
 #include <boost/hana/optional.hpp>
-#include <boost/hana/quot.hpp>
 #include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
 

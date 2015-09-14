@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/filter.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/mod.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/rem.hpp>
 #include <boost/hana/slice.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>

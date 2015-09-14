@@ -43,14 +43,14 @@ namespace boost { namespace hana { namespace test {
                 hana::make_lazy([](auto a, auto b) {
                     BOOST_HANA_CHECK(hana::equal(
                         hana::plus(
-                            hana::mult(hana::quot(a, b), b),
-                            hana::rem(a, b)
+                            hana::mult(hana::div(a, b), b),
+                            hana::mod(a, b)
                         ),
                         a
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::rem(zero<D>(), b),
+                        hana::mod(zero<D>(), b),
                         zero<D>()
                     ));
                 })(a, b));
@@ -69,13 +69,13 @@ namespace boost { namespace hana { namespace test {
                 only_when_(hana::not_equal(zero<C>(), y),
                 hana::make_lazy([](auto x, auto y) {
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::quot(hana::value(x), hana::value(y)),
-                        hana::value(hana::quot(x, y))
+                        hana::div(hana::value(x), hana::value(y)),
+                        hana::value(hana::div(x, y))
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::rem(hana::value(x), hana::value(y)),
-                        hana::value(hana::rem(x, y))
+                        hana::mod(hana::value(x), hana::value(y)),
+                        hana::value(hana::mod(x, y))
                     ));
 
                 })(x, y));

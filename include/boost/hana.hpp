@@ -78,6 +78,7 @@ namespace boost { namespace hana {
 #include <boost/hana/cycle.hpp>
 #include <boost/hana/define_struct.hpp>
 #include <boost/hana/difference.hpp>
+#include <boost/hana/div.hpp>
 #include <boost/hana/drop_back.hpp>
 #include <boost/hana/drop_front.hpp>
 #include <boost/hana/drop_front_exactly.hpp>
@@ -129,6 +130,7 @@ namespace boost { namespace hana {
 #include <boost/hana/min.hpp>
 #include <boost/hana/minimum.hpp>
 #include <boost/hana/minus.hpp>
+#include <boost/hana/mod.hpp>
 #include <boost/hana/monadic_compose.hpp>
 #include <boost/hana/monadic_fold_left.hpp>
 #include <boost/hana/monadic_fold_right.hpp>
@@ -150,9 +152,7 @@ namespace boost { namespace hana {
 #include <boost/hana/prefix.hpp>
 #include <boost/hana/prepend.hpp>
 #include <boost/hana/product.hpp>
-#include <boost/hana/quot.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/rem.hpp>
 #include <boost/hana/remove.hpp>
 #include <boost/hana/remove_at.hpp>
 #include <boost/hana/remove_if.hpp>

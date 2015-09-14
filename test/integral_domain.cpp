@@ -4,29 +4,27 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana.hpp>
-
-#include <boost/hana/assert.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
+#include <boost/hana/div.hpp>
+#include <boost/hana/mod.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <laws/integral_domain.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 int main() {
-    test::TestIntegralDomain<int>{make<tuple_tag>(0,1,2,3,4,5)};
-    test::TestIntegralDomain<long>{make<tuple_tag>(0l,1l,2l,3l,4l,5l)};
+    hana::test::TestIntegralDomain<int>{hana::make_tuple(0,1,2,3,4,5)};
+    hana::test::TestIntegralDomain<long>{hana::make_tuple(0l,1l,2l,3l,4l,5l)};
 
-    // quot
+    // div
     {
-        static_assert(quot(6, 4) == 6 / 4, "");
-        static_assert(quot(7, -3) == 7 / -3, "");
+        static_assert(hana::div(6, 4) == 6 / 4, "");
+        static_assert(hana::div(7, -3) == 7 / -3, "");
     }
 
-    // rem
+    // mod
     {
-        static_assert(rem(6, 4) == 6 % 4, "");
-        static_assert(rem(7, -3) == 7 % -3, "");
+        static_assert(hana::mod(6, 4) == 6 % 4, "");
+        static_assert(hana::mod(7, -3) == 7 % -3, "");
     }
 }

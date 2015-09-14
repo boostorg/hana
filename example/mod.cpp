@@ -7,12 +7,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/rem.hpp>
+#include <boost/hana/mod.hpp>
 namespace hana = boost::hana;
 
 
-int main() {
-    BOOST_HANA_CONSTANT_CHECK(hana::rem(hana::int_c<6>, hana::int_c<4>) == hana::int_c<2>);
-    BOOST_HANA_CONSTANT_CHECK(hana::rem(hana::int_c<-6>, hana::int_c<4>) == hana::int_c<-2>);
-    static_assert(hana::rem(6, 4) == 2, "");
-}
+BOOST_HANA_CONSTANT_CHECK(hana::mod(hana::int_c<6>, hana::int_c<4>) == hana::int_c<2>);
+BOOST_HANA_CONSTANT_CHECK(hana::mod(hana::int_c<-6>, hana::int_c<4>) == hana::int_c<-2>);
+static_assert(hana::mod(6, 4) == 2, "");
+
+int main() { }

@@ -201,28 +201,29 @@ int main() {
     // IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     {
-        // quot
+        // div
         {
+            using boost::hana::div; // hide ::div
             BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<6>{}, std::ratio<4>{}),
+                div(std::ratio<6>{}, std::ratio<4>{}),
                 std::ratio<6, 4>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                quot(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                div(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<3*10, 4*5>{}
             ));
         }
 
-        // rem
+        // mod
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<6>{}, std::ratio<4>{}),
+                mod(std::ratio<6>{}, std::ratio<4>{}),
                 std::ratio<0>{}
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                rem(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
+                mod(std::ratio<3, 4>{}, std::ratio<5, 10>{}),
                 std::ratio<0>{}
             ));
         }

@@ -247,28 +247,29 @@ int main() {
     {
         constexpr int x = 6, y = 3, z = 4;
 
-        // quot
+        // div
         {
+            using boost::hana::div; // hide ::div
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                quot(test::numeric(x), test::numeric(y)),
+                div(test::numeric(x), test::numeric(y)),
                 test::numeric(x / y)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                quot(test::numeric(x), test::numeric(z)),
+                div(test::numeric(x), test::numeric(z)),
                  test::numeric(x/ z)
             ));
         }
 
-        // rem
+        // mod
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                rem(test::numeric(x), test::numeric(y)),
+                mod(test::numeric(x), test::numeric(y)),
                 test::numeric(x % y)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                rem(test::numeric(x), test::numeric(z)),
+                mod(test::numeric(x), test::numeric(z)),
                 test::numeric(x % z)
             ));
         }

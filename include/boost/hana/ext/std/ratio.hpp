@@ -15,14 +15,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/div.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/less.hpp>
 #include <boost/hana/fwd/minus.hpp>
+#include <boost/hana/fwd/mod.hpp>
 #include <boost/hana/fwd/mult.hpp>
 #include <boost/hana/fwd/one.hpp>
 #include <boost/hana/fwd/plus.hpp>
-#include <boost/hana/fwd/quot.hpp>
-#include <boost/hana/fwd/rem.hpp>
 #include <boost/hana/fwd/zero.hpp>
 
 #include <cstdint>
@@ -117,14 +117,14 @@ namespace boost { namespace hana {
     // IntegralDomain
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct quot_impl<ext::std::ratio_tag, ext::std::ratio_tag> {
+    struct div_impl<ext::std::ratio_tag, ext::std::ratio_tag> {
         template <typename R1, typename R2>
         static constexpr std::ratio_divide<R1, R2> apply(R1 const&, R2 const&)
         { return {}; }
     };
 
     template <>
-    struct rem_impl<ext::std::ratio_tag, ext::std::ratio_tag> {
+    struct mod_impl<ext::std::ratio_tag, ext::std::ratio_tag> {
         template <typename R1, typename R2>
         static constexpr std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }
