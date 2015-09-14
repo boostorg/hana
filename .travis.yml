@@ -6,7 +6,8 @@ sudo: false
 
 matrix:
   allow_failures:
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
 
   include:
     ##########################################################################
@@ -16,7 +17,7 @@ matrix:
     # up builds. There would be little benefit to run the memory checker on
     # different Boost versions.
     ##########################################################################
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang35
         apt:
           packages: ["clang-3.5", "valgrind"]
@@ -25,44 +26,59 @@ matrix:
             - llvm-toolchain-precise-3.5
             - llvm-toolchain-precise-3.6
             - llvm-toolchain-precise-3.7
-
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang35
+            - llvm-toolchain-precise
 
     ##########################################################################
     # Clang 3.6
     ##########################################################################
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang36
         apt:
           packages: ["clang-3.6", "valgrind"]
           sources: *sources
 
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang36
-
     ##########################################################################
     # Clang 3.7
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.58.0 UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang37
         apt:
           packages: ["clang-3.7", "valgrind"]
           sources: *sources
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true ENABLE_MEMCHECK=true
-      addons: *clang37
+    ##########################################################################
+    # Xcode 6.4
+    ##########################################################################
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      osx_image: xcode6.4
+
+    ##########################################################################
+    # Xcode 7
+    ##########################################################################
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      osx_image: xcode7
+
+    ##########################################################################
+    # Clang trunk (allowed to fail)
+    ##########################################################################
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+      addons:
+        apt:
+          packages: ["clang-3.8"]
+          sources: *sources
 
     ##########################################################################
     # Build without concept checks
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_CONCEPT_CHECKS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
       addons: *clang37
 
     ##########################################################################
     # Build with libstdc++ instead of libc++
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true STDLIB=libstdc++
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 STDLIB=libstdc++
       addons:
         apt:
           packages: ["clang-3.7", "g++-5"]
@@ -71,38 +87,47 @@ matrix:
     ##########################################################################
     # Build without exceptions
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 UNIT_TESTS=true DISABLE_EXCEPTIONS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       addons: *clang37
 
     ##########################################################################
-    # Build with Boost 1.57.0 and trunk
+    # Build with Boost 1.57.0, 1.58.0 and trunk
     ##########################################################################
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.57.0 UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.57.0
       addons: *clang37
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=trunk UNIT_TESTS=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.58.0
+      addons: *clang37
+
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
+      addons: *clang37
+
+    ##########################################################################
+    # Build without Boost
+    ##########################################################################
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7
       addons: *clang37
 
     ##########################################################################
     # Benchmarks
     ##########################################################################
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: BENCHMARKS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang35
 
     # Clang 3.5 does not support debug info for `auto`, so we use the Default build type instead.
-    - env: COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 BENCHMARKS=true
+    - env: BENCHMARKS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0
       addons: *clang35
 
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang36
 
-    - env: COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
+    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
       addons: *clang36
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Release
+    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang37
 
-    - env: COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BENCHMARKS=true BUILD_TYPE=Debug
+    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
       addons: *clang37
 
 
@@ -121,7 +146,7 @@ env:
   # at all in the matrix.
   ##########################################################################
   matrix:
-    - COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 DOCUMENTATION=true
+    - DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0
 
 # Those addons apply only to the documentation job.
 addons: *clang37
@@ -140,7 +165,7 @@ install:
   - if [[ "${BOOST_VERSION}" == "1.57.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.57.0/boost_1_57_0.tar.gz"; fi
   - if [[ "${BOOST_VERSION}" == "1.58.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.58.0/boost_1_58_0.tar.gz"; fi
   - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
-  - if [[ "${BOOST_VERSION}" != "trunk" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
+  - if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
 
   - |
     if [[ "${BOOST_VERSION}" == "trunk" ]]; then
@@ -149,20 +174,27 @@ install:
       (cd boost && ./bootstrap.sh && ./b2 headers)
     fi
 
+  - if [[ -d ${DEPS_DIR}/boost ]]; then CMAKE_OPTIONS+=" -DBOOST_ROOT=${DEPS_DIR}/boost"; fi
+
   ############################################################################
   # Install a recent CMake
   ############################################################################
-  - CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.1-Linux-x86_64.tar.gz"
-  - mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
-  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.1-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else
+      brew install cmake
+    fi
 
   ############################################################################
-  # Install libc++ and libc++abi
+  # Install libc++ and libc++abi (on Linux only; Xcode uses libc++ by default)
   # Note: We install libc++[abi] 3.6 even with Clang 3.5, because the 3.5
   #       version does not seem to provide <ciso646>, which we require.
   ############################################################################
   - |
-    if [[ "${STDLIB}" != "libstdc++" ]]; then
+    if [[ "${TRAVIS_OS_NAME}" == "linux" && "${STDLIB}" != "libstdc++" ]]; then
       if [[ "${COMPILER}" == "clang++-3.7" ]]; then
         LLVM_VERSION="3.7.0"
       else
@@ -186,9 +218,12 @@ install:
   ############################################################################
   # Install a recent Doxygen
   ############################################################################
-  - DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.linux.bin.tar.gz"
-  - mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
-  - export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+  - |
+    if [[ "${DOCUMENTATION}" == "true" ]]; then
+      DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.10.linux.bin.tar.gz"
+      mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
+      export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+    fi
 
   ############################################################################
   # Install and use a more recent Ruby and install the gems for the benchmarks
@@ -208,10 +243,7 @@ before_script:
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir build && cd build
-  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_ROOT=${DEPS_DIR}/boost -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DBOOST_HANA_ENABLE_WERROR=ON
-  - if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_MEMCHECK=ON; fi
-  - if [[ "${DISABLE_CONCEPT_CHECKS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF; fi
-  - if [[ "${DISABLE_EXCEPTIONS}" == "true" ]]; then cmake .. -DBOOST_HANA_ENABLE_EXCEPTIONS=OFF; fi
+  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS}
 
 
 script:
