@@ -37,61 +37,65 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost { namespace mpl {
+    //! @ingroup group-ext-mpl
+    //! Adapter for Boost.MPL vectors.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! It is possible for MPL vectors to model a couple of concepts.
+    //! However, because they are only able to hold types, they lack
+    //! the generality required to model concepts like `Functor`,
+    //! `Sequence` and other related concepts.
+    //!
+    //! 1. `Comparable`\n
+    //! Two MPL vectors are equal if and only if they contain the same
+    //! number of types, and if all those types are equal.
+    //! @include example/ext/boost/mpl/vector/comparable.cpp
+    //!
+    //! 2. `Foldable`\n
+    //! Folding a MPL vector is equivalent to folding it as a `Sequence`.
+    //! @include example/ext/boost/mpl/vector/foldable.cpp
+    //!
+    //! 3. `Iterable`\n
+    //! Iterating over a MPL vector is just iterating over each of the
+    //! types it contains, as if it were a `Sequence`.
+    //! @include example/ext/boost/mpl/vector/iterable.cpp
+    //!
+    //! 4. `Searchable`\n
+    //! A MPL vector can be searched as if it were a tuple containing
+    //! `hana::type`s.
+    //! @include example/ext/boost/mpl/vector/searchable.cpp
+    //!
+    //!
+    //! Conversion from any `Foldable`
+    //! ------------------------------
+    //! A MPL vector can be created from any `Foldable`. More precisely,
+    //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
+    //! @code
+    //!     to<ext::boost::mpl::vector_tag>(xs) == mpl::vector<t1, ..., tn>
+    //! @endcode
+    //! where `tk` is the type of `xk`, or the type contained in `xk` if
+    //! `xk` is a `hana::type`.
+    //! @warning
+    //! The limitations on the size of `mpl::vector`s are inherited by
+    //! this conversion utility, and hence trying to convert a `Foldable`
+    //! containing more than [BOOST_MPL_LIMIT_VECTOR_SIZE][1] elements
+    //! is an error.
+    //! @include example/ext/boost/mpl/vector/conversion.cpp
+    //!
+    //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-vector-size.html
+    template <typename ...T>
+    struct vector { };
+}}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
-        //! @ingroup group-ext
-        //! Adapter for Boost.MPL vectors.
-        //!
-        //!
-        //! Modeled concepts
-        //! ----------------
-        //! It is possible for MPL vectors to model a couple of concepts.
-        //! However, because they are only able to hold types, they lack
-        //! the generality required to model concepts like `Functor`,
-        //! `Sequence` and other related concepts.
-        //!
-        //! 1. `Comparable`\n
-        //! Two MPL vectors are equal if and only if they contain the same
-        //! number of types, and if all those types are equal.
-        //! @snippet example/ext/boost/mpl/vector.cpp Comparable
-        //!
-        //! 2. `Foldable`\n
-        //! Folding a MPL vector is equivalent to folding it as a `Sequence`.
-        //! @snippet example/ext/boost/mpl/vector.cpp Foldable
-        //!
-        //! 3. `Iterable`\n
-        //! Iterating over a MPL vector is just iterating over each of the
-        //! types it contains, as if it were a `Sequence`.
-        //! @snippet example/ext/boost/mpl/vector.cpp Iterable
-        //!
-        //! 4. `Searchable`\n
-        //! A MPL vector can be searched as if it were a tuple containing
-        //! `hana::type`s.
-        //! @snippet example/ext/boost/mpl/vector.cpp Searchable
-        //!
-        //!
-        //! Conversion from any `Foldable`
-        //! ------------------------------
-        //! A MPL vector can be created from any `Foldable`. More precisely,
-        //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
-        //! @code
-        //!     to<ext::boost::mpl::vector_tag>(xs) == mpl::vector<t1, ..., tn>
-        //! @endcode
-        //! where `tk` is the type of `xk`, or the type contained in `xk` if
-        //! `xk` is a `hana::type`.
-        //! @warning
-        //! The limitations on the size of `mpl::vector`s are inherited by
-        //! this conversion utility, and hence trying to convert a `Foldable`
-        //! containing more than [BOOST_MPL_LIMIT_VECTOR_SIZE][1] elements
-        //! is an error.
-        //! @snippet example/ext/boost/mpl/vector.cpp from_Foldable
-        //!
-        //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-vector-size.html
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-        struct vector_tag { };
-#else
         using vector_tag = ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type;
-#endif
     }}}
 
     template <typename T>
