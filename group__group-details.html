@@ -157,6 +157,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1index__if.html">boost::hana::detail::index_if&lt; Pred, Ts, typename &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the first element of the <code>pack&lt;&gt;</code> that satisfies the predicate, or the size of the pack if there is no such element.  <a href="structboost_1_1hana_1_1detail_1_1index__if.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1nested__by.html">boost::hana::detail::nested_by&lt; Algorithm &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.by</code> static constexpr function object.  <a href="structboost_1_1hana_1_1detail_1_1nested__by.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1nested__than.html">boost::hana::detail::nested_than&lt; Algorithm &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.than</code> static constexpr function object.  <a href="structboost_1_1hana_1_1detail_1_1nested__than.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,19 +198,6 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplParams" colspan="2">template&lt;typename Algorithm &gt; </td></tr>
-<tr class="memitem:ga1f92c27de855a682eebde5f7d0138d18"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = by_holder&lt; Algorithm &gt;</td></tr>
-<tr class="memdesc:ga1f92c27de855a682eebde5f7d0138d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a <code>.by</code> static constexpr function object.  <a href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">More...</a><br /></td></tr>
-<tr class="separator:ga1f92c27de855a682eebde5f7d0138d18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplParams" colspan="2">template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:ga37aa8462ac506500444eb455346f0883"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = decltype(generate_integer_sequence_impl&lt; T, F &gt;(std::make_index_sequence&lt; N &gt;{}))</td></tr>
-<tr class="memdesc:ga37aa8462ac506500444eb455346f0883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates an <code>integer_sequence</code> from an array-returning function.  <a href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">More...</a><br /></td></tr>
-<tr class="separator:ga37aa8462ac506500444eb455346f0883"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplParams" colspan="2"><a class="anchor" id="gac7f5853430d8d73d097d7ec46aafe453"></a>
-template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
-<tr class="memitem:gac7f5853430d8d73d097d7ec46aafe453"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gac7f5853430d8d73d097d7ec46aafe453">boost::hana::detail::generate_index_sequence</a> = generate_integer_sequence&lt; std::size_t, N, F &gt;</td></tr>
-<tr class="memdesc:gac7f5853430d8d73d097d7ec46aafe453"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>generate_integer_sequence&lt;std::size_t, N, F&gt;</code>. <br /></td></tr>
-<tr class="separator:gac7f5853430d8d73d097d7ec46aafe453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplParams" colspan="2">template&lt;template&lt; typename... &gt; class Concept, typename T , typename U &gt; </td></tr>
 <tr class="memitem:gae85b604ae6c7a386f0fc3631c561091b"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">boost::hana::detail::has_common_embedding</a> = typename has_common_embedding_impl&lt; Concept, T, U &gt;::type</td></tr>
 <tr class="memdesc:gae85b604ae6c7a386f0fc3631c561091b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether <code>T</code> and <code>U</code> both have an embedding into a common type.  <a href="group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b">More...</a><br /></td></tr>
@@ -320,48 +310,6 @@ template&lt;std::size_t N, typename F  = decltype(id)&gt; </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="ga1f92c27de855a682eebde5f7d0138d18"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Algorithm &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">boost::hana::detail::by</a> = typedef by_holder&lt;Algorithm&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="by__fwd_8hpp.html">boost/hana/detail/by_fwd.hpp</a>&gt;</code></p>
-
-<p>Provides a <code>.by</code> static constexpr function object. </p>
-<p>When creating a binary function object of type <code>Algo</code> whose signature is <code>Object x Predicate -&gt; Return</code>, <code>by&lt;Algo&gt;</code> can be used as a base class to <code>Algo</code>. Doing so will provide a static constexpr member called <code>by</code>, which has the two following signatures: </p><div class="fragment"><div class="line">Predicate x Object -&gt; Return</div>
-<div class="line">Predicate -&gt; (Object -&gt; Return)</div>
-</div><!-- fragment --><p>In other words, <code>by</code> is a <code>curry</code>ed and <code>flip</code>ped version of <code>Algo</code>. Note that the function object <code>Algo</code> must be default-constructible, since the algorithm will be called as <code>Algo{}(arguments...)</code> by <code>by</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>This function object is especially useful because it takes care of avoiding ODR violations caused by the nested static constexpr member. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga37aa8462ac506500444eb455346f0883"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T , std::size_t N, typename F  = decltype(id)&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="group__group-details.html#ga37aa8462ac506500444eb455346f0883">boost::hana::detail::generate_integer_sequence</a> = typedef decltype(generate_integer_sequence_impl&lt;T, F&gt;( std::make_index_sequence&lt;N&gt;{} ))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="generate__integer__sequence_8hpp.html">boost/hana/detail/generate_integer_sequence.hpp</a>&gt;</code></p>
-
-<p>Generates an <code>integer_sequence</code> from an array-returning function. </p>
-<p>First, <code>F</code> must be a constexpr-callable type and <code>T</code> must be a type that can be used to create an <code>integer_sequence</code>. The following happens when <code>generate_integer_sequence&lt;T, N, F&gt;</code> is used: a default- constructed object of type <code>F</code> is called with a <code><a class="el" href="structboost_1_1hana_1_1detail_1_1array.html" title="A minimal std::array with better constexpr support. ">detail::array</a></code> containing the numbers in the range <code>[0, N-1)</code> of type <code>T</code>. The function <code>F</code> should return a <code><a class="el" href="structboost_1_1hana_1_1detail_1_1array.html" title="A minimal std::array with better constexpr support. ">detail::array</a></code>, possibly with different contents. The contents of the returned array is what will end up in the final <code>integer_sequence</code>.</p>
-<p>By default, when no generator function is given, <code>generate_integer_sequence</code> is equivalent to <code>make_integer_sequence</code>. </p>
-
-</div>
-</div>
 <a class="anchor" id="gae85b604ae6c7a386f0fc3631c561091b"></a>
 <div class="memitem">
 <div class="memproto">

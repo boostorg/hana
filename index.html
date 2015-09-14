@@ -168,8 +168,10 @@ $(document).ready(function(){initNavTree('index.html','');});
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-containers">Generalities on containers</a><ul><li class="level2"><a href="#tutorial-containers-creating">Container creation</a></li>
+<li class="level2"><a href="#tutorial-containers-types">Container types</a><ul><li class="level3"><a href="#tutorial-containers-types-overloading">Overloading on container types</a></li>
+</ul>
+</li>
 <li class="level2"><a href="#tutorial-containers-elements">Container elements</a></li>
-<li class="level2"><a href="#tutorial-containers-types">Container types</a></li>
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-algorithms">Generalities on algorithms</a><ul><li class="level2"><a href="#tutorial-algorithms-value">By-value semantics</a></li>
@@ -234,9 +236,9 @@ Prerequisites and installation</h1>
 <tr>
 <th>Compiler/Toolchain </th><th>Status  </th></tr>
 <tr>
-<td>Clang &gt;= 3.5.0 </td><td>Fully working; tested on each push to <code>master</code> </td></tr>
+<td>Clang &gt;= 3.5.0 </td><td>Fully working; tested on each push to GitHub </td></tr>
 <tr>
-<td>Xcode &gt;= 6.3 </td><td>Fully working; locally tested now and then </td></tr>
+<td>Xcode &gt;= 6.3 </td><td>Fully working; tested on each push to GitHub </td></tr>
 <tr>
 <td>GCC &gt;= 5.1.0 </td><td>Almost working; waiting for the GCC team to fix a couple of C++14-related bugs </td></tr>
 </table>
@@ -993,7 +995,7 @@ Benefits of this representation</h2>
 Working with this representation</h2>
 <p>So far, we can represent types as values and perform type-level computations on those objects using the usual C++ syntax. This is nice, but it is not very useful because we have no way to get back a normal C++ type from an object representation. For example, how could we declare a variable whose type is the result of a type computation?</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(hana::type_c&lt;int&gt;); <span class="comment">// could be a complex type computation</span></div>
-<div class="line"><span class="keyword">using</span> T = the-type-represented-<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>-t;</div>
+<div class="line"><span class="keyword">using</span> T = the-type-represented-by-t;</div>
 <div class="line"></div>
 <div class="line">T var = ...;</div>
 </div><!-- fragment --><p>Right now, there is no easy way to do it. To make this easier to achieve, we enrich the interface of the <code>basic_type</code> container that we defined above. Instead of being an empty <code>struct</code>, we now define it as</p>
@@ -1436,13 +1438,54 @@ Generalities on containers</h1>
 <p> This section explains several important notions about Hana's containers: how to create them, the lifetime of their elements and other concerns.</p>
 <h2><a class="anchor" id="tutorial-containers-creating"></a>
 Container creation</h2>
-<p>Just like one can create a <code>std::tuple</code> with <code>std::make_tuple</code>, a Hana tuple can be created with <code>hana::make_tuple</code>. However, in general, containers in Hana may be created with the <code>make</code> function:</p>
+<p>While the usual way of creating an object in C++ is to use its constructor, heterogeneous programming makes things a bit more complicated. Indeed, in most cases, one is not interested in (or even aware of) the actual type of the heterogeneous container to be created. At other times, one could write out that type explicitly, but it would be redundant or cumbersome to do so. For this reason, Hana uses a different approach borrowed from <code>std::make_tuple</code> to create new containers. Much like one can create a <code>std::tuple</code> with <code>std::make_tuple</code>, a <code>hana::tuple</code> can be created with <code>hana::make_tuple</code>. However, more generally, containers in Hana may be created with the <code>make</code> function:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make&lt;hana::tuple_tag&gt;(1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s);</div>
-</div><!-- fragment --><p> Actually, <code>make_tuple</code> is just a shortcut for <code>make&lt;tuple_tag&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">boost::hana::tuple_tag</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code>hana::range</code> of compile-time integers with <code>make&lt;range_tag&gt;</code>:</p>
+</div><!-- fragment --><p> In fact, <code>make_tuple</code> is just a shortcut for <code>make&lt;tuple_tag&gt;</code> so you don't have to type <code>boost::hana::make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">boost::hana::tuple_tag</a>&gt;</code> when you are out of Hana's namespace. Simply put, <code>make&lt;...&gt;</code> is is used all around the library to create different types of objects, thus generalizing the <code>std::make_xxx</code> family of functions. For example, one can create a <code>hana::range</code> of compile-time integers with <code>make&lt;range_tag&gt;</code>:</p>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> r = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;);</div>
 <div class="line">static_assert(r == hana::make_range(hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;), <span class="stringliteral">&quot;&quot;</span>);</div>
-</div><!-- fragment --><p> For convenience, whenever a component of Hana provides a <code>make&lt;xxx_tag&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
-<p>But what are these types with a trailing <code>_tag</code> that have popped up a couple of times in the tutorial? These types are simply tags <b>representing</b> a given container. For example, <code>range_tag</code> is actually an empty <code>struct</code> representing the "conceptual type" of an object returned by <code>make_range</code>, while the actual type of such an object is implementation-defined. These tags are very useful because they represent families of C++ types that are strongly related, but that are not required to have the same representation. These tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>.</p>
+</div><!-- fragment --> <blockquote class="doxtable">
+<p>These types with a trailing <code>_tag</code> are dummy types <b>representing</b> a family of heterogeneous containers (<code>hana::tuple</code>, <code>hana::map</code>, etc..). Tags are documented in the section on <a class="el" href="index.html#tutorial-core-tags">Hana's core</a>. </p>
+</blockquote>
+<p>For convenience, whenever a component of Hana provides a <code>make&lt;xxx_tag&gt;</code> function, it also provides the <code>make_xxx</code> shortcut to reduce typing. Also, an interesting point that can be raised in this example is the fact that <code>r</code> is <code>constexpr</code>. In general, whenever a container is initialized with constant expressions only (which is the case for <code>r</code>), that container may be marked as <code>constexpr</code>.</p>
+<p>So far, we have only created containers with the <code>make_xxx</code> family of functions. However, some containers do provide constructors as part of their interface. For example, one can create a <code>hana::tuple</code> just like one would create a <code>std::tuple</code>:</p>
+<div class="fragment"><div class="line">hana::tuple&lt;int, double, char, std::string&gt; xs{1, 2.2, <span class="charliteral">&#39;a&#39;</span>, <span class="stringliteral">&quot;bcde&quot;</span>s};</div>
+</div><!-- fragment --><p> When constructors (or any member function really) are part of the public interface, they will be documented on a per-container basis. However, in the general case, one should not take for granted that a container can be constructed as the tuple was constructed above. For example, trying to create a <code>hana::range</code> that way will <b>not</b> work:</p>
+<div class="fragment"><div class="line">hana::range&lt;???&gt; xs{hana::int_c&lt;3&gt;, hana::int_c&lt;10&gt;};</div>
+</div><!-- fragment --><p>In fact, we can't even specify the type of the object we'd like to create in that case, because the exact type of a <code>hana::range</code> is implementation-defined, which brings us to the next section.</p>
+<h2><a class="anchor" id="tutorial-containers-types"></a>
+Container types</h2>
+<p>The goal of this section is to clarify what can be expected from the types of Hana's containers. Indeed, so far, we always let the compiler deduce the actual type of containers by using the <code>make_xxx</code> family of functions along with <code>auto</code>. But in general, what can we say about the type of a container?</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> ints = hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;100&gt;);</div>
+<div class="line"><span class="comment">// what can we say about the types of `xs` and `ints`?</span></div>
+</div><!-- fragment --><p> The answer is that it depends. Some containers have well defined types, while others do not specify their representation. In this example, the type of the object returned by <code>make_tuple</code> is well-defined, while the type returned by <code>make_range</code> is implementation-defined:</p>
+<div class="fragment"><div class="line">hana::tuple&lt;int, char, char const*&gt; xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
+<div class="line"><span class="keyword">auto</span> ints = hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;100&gt;);</div>
+<div class="line"><span class="comment">// can&#39;t specify the type of ints, however</span></div>
+</div><!-- fragment --><p> This is documented on a per-container basis; when a container has an implementation-defined representation, a note explaining exactly what can be expected from that representation is included in the container's description. There are several reasons for leaving the representation of a container unspecified; they are explained in the <a class="el" href="index.html#tutorial-rationales-container_representation">rationales</a>. When the representation of a container is implementation-defined, one must be careful not to make any assumptions about it, unless those assumption are explicitly allowed in the documentation of the container.</p>
+<h3><a class="anchor" id="tutorial-containers-types-overloading"></a>
+Overloading on container types</h3>
+<p>While necessary, leaving the type of some containers unspecified makes some things very difficult to achieve, like overloading functions on heterogeneous containers:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(std::vector&lt;T&gt; xs) {</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...???&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(unspecified-range-type&lt;???&gt; r) {</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p>The <code>is_a</code> utility is provided for this reason (and others). <code>is_a</code> allows checking whether a type is a precise kind of container using its tag, regardless of the actual type of the container. For example, the above example could be rewritten as</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(std::vector&lt;T&gt; xs) {</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> = std::enable_if_t&lt;hana::is_a&lt;hana::range_tag, R&gt;()&gt;&gt;</div>
+<div class="line"><span class="keywordtype">void</span> f(R r) {</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">}</div>
+</div><!-- fragment --><p> This way, the second overload of <code>f</code> will only match when <code>R</code> is a type whose tag is <code>range_tag</code>, regardless of the exact representation of that range. Of course, <code>is_a</code> can be used with any kind of container: <code>tuple</code>, <code>map</code>, <code>set</code> and so on.</p>
 <h2><a class="anchor" id="tutorial-containers-elements"></a>
 Container elements</h2>
 <p>In Hana, containers own their elements. When a container is created, it makes a <em>copy</em> of the elements used to initialize it and stores them inside the container. Of course, unnecessary copies are avoided by using move semantics. Because of those owning semantics, the lifetime of the objects inside the container is the same as that of the container.</p>
@@ -1466,38 +1509,7 @@ Container elements</h2>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span>&amp; v = map[hana::type_c&lt;int&gt;].get();</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(&amp;v == &amp;ints);</div>
-</div><!-- fragment --><h2><a class="anchor" id="tutorial-containers-types"></a>
-Container types</h2>
-<p>So far, we have only created containers with the <code>make_xxx</code> family of functions, and we always let the compiler deduce the actual type of the container by using <code>auto</code>. We will now clarify what can be expected from the types of Hana's containers:</p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
-<div class="line"><span class="keyword">auto</span> ints = hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;100&gt;);</div>
-<div class="line"><span class="comment">// what can we say about the types of xs and ints?</span></div>
-</div><!-- fragment --><p> The answer is that it depends. Some containers have well defined types, while others do not specify their representation. In this example, the type of the object returned by <code>make_tuple</code> is well-defined, while the type returned by <code>make_range</code> is implementation-defined:</p>
-<div class="fragment"><div class="line">hana::tuple&lt;int, char, char const*&gt; xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>);</div>
-<div class="line"><span class="keyword">auto</span> ints = hana::make_range(hana::int_c&lt;0&gt;, hana::int_c&lt;100&gt;);</div>
-<div class="line"><span class="comment">// can&#39;t specify the type of ints, however</span></div>
-</div><!-- fragment --><p> This is documented on a per-container basis; when a container has an implementation-defined representation, a note explaining exactly what can be expected from that representation is included in the container's description. There are several reasons for leaving the representation of a container unspecified; they are explained in the <a class="el" href="index.html#tutorial-rationales-container_representation">rationales</a>. However, leaving the type of some containers unspecified makes some things very difficult to achieve, like overloading functions on heterogeneous containers:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keywordtype">void</span> f(std::vector&lt;T&gt; xs) {</div>
-<div class="line">  <span class="comment">// ...</span></div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> ...???&gt;</div>
-<div class="line"><span class="keywordtype">void</span> f(unspecified-range-type&lt;???&gt; r) {</div>
-<div class="line">  <span class="comment">// ...</span></div>
-<div class="line">}</div>
-</div><!-- fragment --><p>The <code>is_a</code> utility is provided for this reason (and others). <code>is_a</code> allows checking whether a type is a precise kind of container, regardless of the actual type of the container. For example, the above example could be rewritten as</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="line"><span class="keywordtype">void</span> f(std::vector&lt;T&gt; xs) {</div>
-<div class="line">  <span class="comment">// ...</span></div>
-<div class="line">}</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> R, <span class="keyword">typename</span> = std::enable_if_t&lt;hana::is_a&lt;hana::range_tag, R&gt;()&gt;&gt;</div>
-<div class="line"><span class="keywordtype">void</span> f(R r) {</div>
-<div class="line">  <span class="comment">// ...</span></div>
-<div class="line">}</div>
-</div><!-- fragment --><p> This way, the second overload of <code>f</code> will only match when <code>R</code> is a type whose tag is <code>range_tag</code>, regardless of the exact representation of that range. Of course, <code>is_a</code> can be used with any kind of container: <code>tuple</code>, <code>map</code>, <code>set</code> and so on.</p>
-<h1><a class="anchor" id="tutorial-algorithms"></a>
+</div><!-- fragment --><h1><a class="anchor" id="tutorial-algorithms"></a>
 Generalities on algorithms</h1>
 <hr/>
 <p> Much like the previous section introduced general but important notions about heterogeneous containers, this section introduces general notions about heterogeneous algorithms.</p>
@@ -1714,7 +1726,7 @@ Hana's core</h1>
 <h2><a class="anchor" id="tutorial-core-tags"></a>
 Tags</h2>
 <p>Heterogeneous programming is basically programming with objects having different types. However, it is clear that some families of objects, while having different representations (C++ types), are strongly related. For example, the <code>std::integral_constant&lt;int, n&gt;</code> types are different for each different <code>n</code>, but conceptually they all represent the same thing; a compile-time number. The fact that <code>std::integral_constant&lt;int, 1&gt;{}</code> and <code>std::integral_constant&lt;int, 2&gt;{}</code> have different types is just a side effect of the fact that we're using their type to encode the <em>value</em> of these objects. Indeed, when manipulating a sequence of <code>std::integral_constant&lt;int, ...&gt;</code>s, chances are that you actually think of it as a homogeneous sequence of an imaginary <code>integral_constant</code> type, disregarding the actual types of the objects and pretending they are all just <code>integral_constant</code>s with different values.</p>
-<p>To reflect this reality, Hana provides <em>tags</em> representing its heterogeneous containers and other compile-time entities. For example, all of Hana's <code>integral_constant&lt;int, ...&gt;</code>s have different types, but they all share the same tag, <code>integral_constant_tag&lt;int&gt;</code>. This allows the programmer to think in terms of that single type instead of trying to think in terms of the actual types of the objects. Furthermore, Hana adopts the convention of naming these tags by adding the <code>_tag</code> suffix, to make them stand out and differentiate them from actual types.</p>
+<p>To reflect this reality, Hana provides <em>tags</em> representing its heterogeneous containers and other compile-time entities. For example, all of Hana's <code>integral_constant&lt;int, ...&gt;</code>s have different types, but they all share the same tag, <code>integral_constant_tag&lt;int&gt;</code>. This allows the programmer to think in terms of that single type instead of trying to think in terms of the actual types of the objects. Concretely, tags are implemented as empty <code>struct</code>s. To make them stand out, Hana adopts the convention of naming these tags by adding the <code>_tag</code> suffix.</p>
 <dl class="section note"><dt>Note</dt><dd>The tag of an object of type <code>T</code> can be obtained by using <code>tag_of&lt;T&gt;::type</code>, or equivalently <code>tag_of_t&lt;T&gt;</code>.</dd></dl>
 <p>Tags are an extension to normal C++ types. Indeed, by default, the tag of a type <code>T</code> is <code>T</code> itself, and the core of the library is designed to work in those cases. For example, <code>hana::make</code> expects either a tag or an actual type; if you send it a type <code>T</code>, it will do the logical thing and construct an object of type <code>T</code> with the arguments you pass it. If you pass a tag to it, however, you should specialize <code>make</code> for that tag and provide your own implementation, as explained below. Because tags are an extension to usual types, we end up mostly reasoning in terms of tags instead of usual types, and the documentation sometimes uses the words <em>type</em>, <em>data type</em> and <em>tag</em> interchangeably.</p>
 <h2><a class="anchor" id="tutorial-core-tag_dispatching"></a>
@@ -2173,7 +2185,7 @@ Side effects</h2>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n, <span class="keyword">false</span>); <span class="comment">// ok</span></div>
 <div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
 </div><!-- fragment --><p>The error given by Clang for the second invocation is</p>
-<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;j&#39;</span> must be initialized <a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a> a constant expression</div>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;j&#39;</span> must be initialized by a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> j = f(n, <span class="keyword">true</span>); <span class="comment">// error</span></div>
 <div class="line">              ^   ~~~~~~~~~~</div>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>
@@ -2186,7 +2198,7 @@ Side effects</h2>
 <div class="line"><span class="keywordtype">int</span> n = 0;</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 </div><!-- fragment --><p>The only difference with our initial scenario is that <code>f</code> now takes its argument by value instead of by reference. However, this makes a world of difference. Indeed, we're now asking the compiler to make a copy of <code>n</code> and to pass this copy to <code>f</code>. However, <code>n</code> is not <code>constexpr</code>, so its value is only known at runtime. How could the compiler make a copy (at compile-time) of a variable whose value is only known at runtime? Of course, it can't. Indeed, the error message given by Clang is pretty explicit about what's happening:</p>
-<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;i&#39;</span> must be initialized <a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a> a constant expression</div>
+<div class="fragment"><div class="line">error: constexpr variable <span class="charliteral">&#39;i&#39;</span> must be initialized by a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">              ^   ~~~~</div>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>

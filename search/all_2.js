@@ -1,8 +1,8 @@
 var searchData=
 [
   ['back',['back',['../structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895',1,'boost::hana::Iterable']]],
-  ['back_2ehpp',['back.hpp',['../back_8hpp.html',1,'']]],
   ['back_2ehpp',['back.hpp',['../fwd_2back_8hpp.html',1,'']]],
+  ['back_2ehpp',['back.hpp',['../back_8hpp.html',1,'']]],
   ['basic_5ftuple',['basic_tuple',['../structboost_1_1hana_1_1basic__tuple.html',1,'boost::hana']]],
   ['basic_5ftuple_2ehpp',['basic_tuple.hpp',['../basic__tuple_8hpp.html',1,'']]],
   ['basic_5ftuple_2ehpp',['basic_tuple.hpp',['../fwd_2basic__tuple_8hpp.html',1,'']]],
@@ -38,8 +38,5 @@ var searchData=
   ['boost_5fhana_5fruntime_5fcheck',['BOOST_HANA_RUNTIME_CHECK',['../group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101',1,'assert.hpp']]],
   ['boost_5fhana_5fstring',['BOOST_HANA_STRING',['../structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84',1,'boost::hana::string']]],
   ['bug_20list',['Bug List',['../bug.html',1,'']]],
-  ['by',['by',['../group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18',1,'boost::hana::detail']]],
-  ['by_2ehpp',['by.hpp',['../by_8hpp.html',1,'']]],
-  ['by_5ffwd_2ehpp',['by_fwd.hpp',['../by__fwd_8hpp.html',1,'']]],
   ['literals',['literals',['../namespaceboost_1_1hana_1_1literals.html',1,'boost::hana']]]
 ];

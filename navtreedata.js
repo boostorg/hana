@@ -37,8 +37,10 @@ var NAVTREE =
       ] ],
       [ "Generalities on containers", "index.html#tutorial-containers", [
         [ "Container creation", "index.html#tutorial-containers-creating", null ],
-        [ "Container elements", "index.html#tutorial-containers-elements", null ],
-        [ "Container types", "index.html#tutorial-containers-types", null ]
+        [ "Container types", "index.html#tutorial-containers-types", [
+          [ "Overloading on container types", "index.html#tutorial-containers-types-overloading", null ]
+        ] ],
+        [ "Container elements", "index.html#tutorial-containers-elements", null ]
       ] ],
       [ "Generalities on algorithms", "index.html#tutorial-algorithms", [
         [ "By-value semantics", "index.html#tutorial-algorithms-value", null ],
@@ -101,9 +103,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2greater_8hpp.html",
-"index.html#tutorial-type",
-"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423"
+"fwd_2if_8hpp.html",
+"insert_8hpp.html",
+"structboost_1_1hana_1_1Sequence.html#acd815736023ac04d4cb8f99c4c490442"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

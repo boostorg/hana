@@ -863,7 +863,7 @@ template&lt;typename T &gt; </div>
 <div class="line">}</div>
 </div><!-- fragment --><h2>Syntactic sugar (<code>maximum.by</code>) </h2>
 <p><code>maximum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(-, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#ac49a8fde2d3de61959c99e755a81c0a1">maximum</a>(-, predicate)</div>
 </div><!-- fragment --><p>where <code>maximum(-, predicate)</code> denotes the partial application of <code>maximum</code> to <code>predicate</code>.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -882,7 +882,7 @@ template&lt;typename T &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    static_assert(</div>
-<div class="line">        hana::maximum.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(hana::ordering(hana::length), hana::make_tuple(</div>
+<div class="line">        hana::maximum.by(hana::ordering(hana::length), hana::make_tuple(</div>
 <div class="line">            hana::make_tuple(),</div>
 <div class="line">            hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
 <div class="line">            hana::make_tuple(3.3, <span class="keyword">nullptr</span>, 4)</div>
@@ -967,7 +967,7 @@ template&lt;typename T &gt; </div>
 <div class="line">}</div>
 </div><!-- fragment --><h2>Syntactic sugar (<code>minimum.by</code>) </h2>
 <p><code>minimum</code> can be called in a third way, which provides a nice syntax especially when working with the <code>ordering</code> combinator: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.by(predicate, xs) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(xs, predicate)</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(-, predicate)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>.by(predicate) == <a class="code" href="structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4">minimum</a>(-, predicate)</div>
 </div><!-- fragment --><p>where <code>minimum(-, predicate)</code> denotes the partial application of <code>minimum</code> to <code>predicate</code>.</p>
 <h3>Example</h3>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -987,7 +987,7 @@ template&lt;typename T &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::minimum.<a class="code" href="group__group-details.html#ga1f92c27de855a682eebde5f7d0138d18">by</a>(hana::ordering(hana::length), hana::make_tuple(</div>
+<div class="line">        hana::minimum.by(hana::ordering(hana::length), hana::make_tuple(</div>
 <div class="line">            hana::make_tuple(),</div>
 <div class="line">            hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>),</div>
 <div class="line">            hana::make_tuple(3.3, <span class="keyword">nullptr</span>, 4)</div>
