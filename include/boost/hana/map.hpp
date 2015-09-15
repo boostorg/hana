@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/any_of.hpp>
 #include <boost/hana/append.hpp>
+#include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
@@ -45,7 +46,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
 
+#include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -67,6 +70,7 @@ namespace boost { namespace hana {
     struct map : detail::searchable_operators<map<Pairs...>>, detail::operators::adl {
         tuple<Pairs...> storage;
         using hana_tag = map_tag;
+        static constexpr std::size_t size = sizeof...(Pairs);
 
         explicit constexpr map(tuple<Pairs...> const& ps)
             : storage(ps)
@@ -135,29 +139,28 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<map_tag> {
-        template <typename M, typename P>
-        static constexpr typename std::decay<M>::type
-        insert_helper(M&& map, P&&, hana::true_)
-        { return static_cast<M&&>(map); }
+        template <typename Xs, typename Pair, typename Indices>
+        static constexpr auto
+        insert_helper(Xs&& xs, Pair&&, hana::true_, Indices) {
+            return static_cast<Xs&&>(xs);
+        }
 
-        template <typename M, typename P>
-        static constexpr decltype(auto)
-        insert_helper(M&& map, P&& pair, hana::false_) {
-            return hana::unpack(
-                hana::append(static_cast<M&&>(map).storage,
-                             static_cast<P&&>(pair)),
-                hana::make_map
+        template <typename Xs, typename Pair, std::size_t ...n>
+        static constexpr auto
+        insert_helper(Xs&& xs, Pair&& pair, hana::false_, std::index_sequence<n...>) {
+            return hana::make_map(
+                hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<Pair&&>(pair)
             );
         }
 
-        template <typename M, typename P>
-        static constexpr decltype(auto) apply(M&& map, P&& pair) {
+        template <typename Xs, typename Pair>
+        static constexpr auto apply(Xs&& xs, Pair&& pair) {
             constexpr bool contains = hana::value<decltype(
-                hana::contains(map, hana::first(pair))
+                hana::contains(xs, hana::first(pair))
             )>();
-            return insert_helper(static_cast<M&&>(map),
-                                 static_cast<P&&>(pair),
-                                 hana::bool_c<contains>);
+            constexpr std::size_t size = std::remove_reference<Xs>::type::size;
+            return insert_helper(static_cast<Xs&&>(xs), static_cast<Pair&&>(pair),
+                                 hana::bool_c<contains>, std::make_index_sequence<size>{});
         }
     };
 
