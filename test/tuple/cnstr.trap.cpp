@@ -16,28 +16,56 @@ namespace hana = boost::hana;
 // element that can be constructed from tuple<Yn...> const& and
 // tuple<Yn...>&&, respectively.
 
-struct trap_construct {
-    trap_construct() = default;
-    trap_construct(trap_construct const&) = default;
-    trap_construct(trap_construct&) = default;
-    trap_construct(trap_construct&&) = default;
+struct Trap1 {
+    Trap1() = default;
+    Trap1(Trap1 const&) = default;
+    Trap1(Trap1&) = default;
+    Trap1(Trap1&&) = default;
 
     template <typename X>
-    trap_construct(X&&) {
+    Trap1(X&&) {
+        static_assert(sizeof(X) && false,
+        "this constructor must not be instantiated");
+    }
+};
+
+struct Trap2 {
+    Trap2() = default;
+    Trap2(Trap2 const&) = default;
+    Trap2(Trap2&) = default;
+    Trap2(Trap2&&) = default;
+
+    template <typename X>
+    Trap2(X) { // not by reference
         static_assert(sizeof(X) && false,
         "this constructor must not be instantiated");
     }
 };
 
 int main() {
-    hana::tuple<trap_construct> tuple{};
-    hana::tuple<trap_construct> implicit_copy = tuple;
-    hana::tuple<trap_construct> explicit_copy(tuple);
-    hana::tuple<trap_construct> implicit_move = std::move(tuple);
-    hana::tuple<trap_construct> explicit_move(std::move(tuple));
+    {
+        hana::tuple<Trap1> tuple{};
+        hana::tuple<Trap1> implicit_copy = tuple;
+        hana::tuple<Trap1> explicit_copy(tuple);
+        hana::tuple<Trap1> implicit_move = std::move(tuple);
+        hana::tuple<Trap1> explicit_move(std::move(tuple));
 
-    (void)implicit_copy;
-    (void)explicit_copy;
-    (void)implicit_move;
-    (void)explicit_move;
+        (void)implicit_copy;
+        (void)explicit_copy;
+        (void)implicit_move;
+        (void)explicit_move;
+    }
+
+    {
+        hana::tuple<Trap2> tuple{};
+        hana::tuple<Trap2> implicit_copy = tuple;
+        hana::tuple<Trap2> explicit_copy(tuple);
+        hana::tuple<Trap2> implicit_move = std::move(tuple);
+        hana::tuple<Trap2> explicit_move(std::move(tuple));
+
+        (void)implicit_copy;
+        (void)explicit_copy;
+        (void)implicit_move;
+        (void)explicit_move;
+    }
 }
