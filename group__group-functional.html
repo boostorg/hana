@@ -1222,12 +1222,12 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="div_8hpp.html">boost/hana/div.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="reverse__partial_8hpp.html">boost/hana/functional/reverse_partial.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="quot_8hpp.html">boost/hana/quot.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">hana::reverse_partial</a>(hana::quot, 2);</div>
+<div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">hana::reverse_partial</a>(hana::div, 2);</div>
 <div class="line">static_assert(half(4) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(half(8) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>

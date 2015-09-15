@@ -31,6 +31,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "cycle.hpp", "fwd_2cycle_8hpp.html", null ],
     [ "define_struct.hpp", "fwd_2define__struct_8hpp.html", null ],
     [ "difference.hpp", "fwd_2difference_8hpp.html", null ],
+    [ "div.hpp", "fwd_2div_8hpp.html", null ],
     [ "drop_back.hpp", "fwd_2drop__back_8hpp.html", null ],
     [ "drop_front.hpp", "fwd_2drop__front_8hpp.html", null ],
     [ "drop_front_exactly.hpp", "fwd_2drop__front__exactly_8hpp.html", null ],
@@ -85,6 +86,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "min.hpp", "fwd_2min_8hpp.html", null ],
     [ "minimum.hpp", "fwd_2minimum_8hpp.html", null ],
     [ "minus.hpp", "fwd_2minus_8hpp.html", null ],
+    [ "mod.hpp", "fwd_2mod_8hpp.html", null ],
     [ "monadic_compose.hpp", "fwd_2monadic__compose_8hpp.html", null ],
     [ "monadic_fold_left.hpp", "fwd_2monadic__fold__left_8hpp.html", null ],
     [ "monadic_fold_right.hpp", "fwd_2monadic__fold__right_8hpp.html", null ],
@@ -110,11 +112,9 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "prefix.hpp", "fwd_2prefix_8hpp.html", null ],
     [ "prepend.hpp", "fwd_2prepend_8hpp.html", null ],
     [ "product.hpp", "fwd_2product_8hpp.html", null ],
-    [ "quot.hpp", "fwd_2quot_8hpp.html", null ],
     [ "range.hpp", "fwd_2range_8hpp.html", [
       [ "range_tag", "structboost_1_1hana_1_1range__tag.html", null ]
     ] ],
-    [ "rem.hpp", "fwd_2rem_8hpp.html", null ],
     [ "remove.hpp", "fwd_2remove_8hpp.html", null ],
     [ "remove_at.hpp", "fwd_2remove__at_8hpp.html", null ],
     [ "remove_if.hpp", "fwd_2remove__if_8hpp.html", null ],
