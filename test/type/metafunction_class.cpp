@@ -53,53 +53,6 @@ static_assert(!valid_call(hana::metafunction_class<no_type>, hana::type_c<x1>), 
 static_assert(hana::Metafunction<decltype(hana::metafunction_class<f>)>::value, "");
 static_assert(hana::Metafunction<decltype(hana::metafunction_class<f>)&>::value, "");
 
-// `metafunction_class` with non-type arguments
-// 1 arg
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}),
-    hana::metafunction_class<f>(hana::type_c<y1>)
-));
-
-// 2 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(hana::type_c<x1>, y2{}),
-    hana::metafunction_class<f>(hana::type_c<x1>, hana::type_c<y2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}, hana::type_c<x2>),
-    hana::metafunction_class<f>(hana::type_c<y1>, hana::type_c<x2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}, y2{}),
-    hana::metafunction_class<f>(hana::type_c<y1>, hana::type_c<y2>)
-));
-
-// 3 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(hana::type_c<x1>, hana::type_c<x2>, y3{}),
-    hana::metafunction_class<f>(hana::type_c<x1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(hana::type_c<x1>, y2{}, hana::type_c<x3>),
-    hana::metafunction_class<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(hana::type_c<x1>, y2{}, y3{}),
-    hana::metafunction_class<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}, hana::type_c<x2>, hana::type_c<x3>),
-    hana::metafunction_class<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}, hana::type_c<x2>, y3{}),
-    hana::metafunction_class<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction_class<f>(y1{}, y2{}, y3{}),
-    hana::metafunction_class<f>(hana::type_c<y1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-
 
 // Make sure we don't read from a non-constexpr variable
 int main() {

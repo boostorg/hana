@@ -115,16 +115,6 @@ int main() {
             to_list(foldable(type_c<t1>, type_c<t2>, type_c<t3>, type_c<t4>)),
             mpl::list<t1, t2, t3, t4>{}
         ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            to_list(foldable(1, '2', 3.0)),
-            mpl::list<int, char, double>{}
-        ));
-
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            to_list(foldable(1, type_c<t1>, 3.0)),
-            mpl::list<int, t1, double>{}
-        ));
     }
 
     //////////////////////////////////////////////////////////////////////////

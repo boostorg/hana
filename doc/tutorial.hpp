@@ -1245,8 +1245,9 @@ is what we must do:
 
 @snippet example/tutorial/type.cpp single_library.then
 
-With Hana, a single library is required (notice how we use the same `filter`
-algorithm and the same container):
+With Hana, a single library is required. Notice how we use the same `filter`
+algorithm and the same container, and only tweak the predicate so it can
+operate on values:
 
 @snippet example/tutorial/type.cpp single_library.Hana
 

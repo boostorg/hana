@@ -101,8 +101,8 @@ auto ts = hana::filter(types, [](auto t) {
 
 // values
 auto values = hana::make_tuple(1, 'c', nullptr, 3.5);
-auto vs = hana::filter(values, [](auto t) {
-  return is_integral(t);
+auto vs = hana::filter(values, [](auto const& t) {
+  return is_integral(hana::decltype_(t));
 });
 //! [single_library.Hana]
 

@@ -13,16 +13,10 @@ namespace hana = boost::hana;
 namespace mpl = boost::mpl;
 
 
-auto xs = hana::make_tuple(1, '2', 3.0);
+auto xs = hana::make_tuple(hana::type_c<int>, hana::type_c<char>, hana::type_c<double>);
 static_assert(std::is_same<
     decltype(hana::to<hana::ext::boost::mpl::vector_tag>(xs)),
     mpl::vector<int, char, double>
->{}, "");
-
-auto ys = hana::make_tuple(1, '2', hana::type_c<void>);
-static_assert(std::is_same<
-    decltype(hana::to<hana::ext::boost::mpl::vector_tag>(ys)),
-    mpl::vector<int, char, void>
 >{}, "");
 
 int main() { }

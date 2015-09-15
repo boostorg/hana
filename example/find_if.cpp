@@ -7,6 +7,7 @@
 #include <boost/hana/equal.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/find_if.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -15,12 +16,16 @@
 namespace hana = boost::hana;
 
 
+// First get the type of the object, and then call the trait on it.
+constexpr auto is_integral = hana::compose(hana::trait<std::is_integral>, hana::decltype_);
+constexpr auto is_class = hana::compose(hana::trait<std::is_class>, hana::decltype_);
+
 static_assert(
-    hana::find_if(hana::make_tuple(1.0, 2, '3'), hana::trait<std::is_integral>) == hana::just(2)
+    hana::find_if(hana::make_tuple(1.0, 2, '3'), is_integral) == hana::just(2)
 , "");
 
 BOOST_HANA_CONSTANT_CHECK(
-    hana::find_if(hana::make_tuple(1.0, 2, '3'), hana::trait<std::is_class>) == hana::nothing
+    hana::find_if(hana::make_tuple(1.0, 2, '3'), is_class) == hana::nothing
 );
 
 constexpr auto types = hana::tuple_t<char, int, unsigned, long, unsigned long>;

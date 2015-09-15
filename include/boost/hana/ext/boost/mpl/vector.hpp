@@ -175,9 +175,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename F>
     struct to_impl<ext::boost::mpl::vector_tag, F, when<hana::Foldable<F>::value>> {
         template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            auto vector_type = hana::unpack(static_cast<Xs&&>(xs),
-                                    hana::template_<::boost::mpl::vector>);
+        static constexpr auto apply(Xs const& xs) {
+            auto vector_type = hana::unpack(xs, hana::template_<boost::mpl::vector>);
             return typename decltype(vector_type)::type{};
         }
     };
