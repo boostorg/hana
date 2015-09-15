@@ -14,28 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Insert a key in a structure.
-    //!
-    //! This function is not associated to a concept right now, so its
-    //! behavior can't be described generally. `hana::map`, `hana::set` and
-    //! the `Sequence` concept all implement this function in different ways,
-    //! so you should refer to the documentation of `insert` for each of
-    //! them instead.
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.insert.compile.json">
-    //! </div>
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto insert = [](auto&& xs, auto&& ...args) {
-        return tag-dispatched;
-    };
-#else
+    // Note: This function is documented per datatype/concept only.
+    //! @cond
     template <typename T, typename = void>
     struct insert_impl : insert_impl<T, when<true>> { };
+    //! @endcond
 
     struct insert_t {
         template <typename Set, typename ...Args>
@@ -43,7 +26,7 @@ namespace boost { namespace hana {
     };
 
     constexpr insert_t insert{};
-#endif
+
 
     //! Insert a value at a given index in a sequence.
     //! @relates Sequence

@@ -118,8 +118,16 @@ namespace boost { namespace hana {
     //! Example
     //! -------
     //! @include example/set/insert.cpp
+    //!
+    //!
+    //! Benchmarks
+    //! ----------
+    //! <div class="benchmark-chart"
+    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
+    //!      data-dataset="benchmark.insert.compile.json">
+    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto insert = [](auto&& set, auto&& element) -> decltype(auto) {
+    constexpr auto insert = [](auto&& set, auto&& element) {
         return tag-dispatched;
     };
 #endif
@@ -144,7 +152,7 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/set/erase_key.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto erase_key = [](auto&& set, auto&& element) -> decltype(auto) {
+    constexpr auto erase_key = [](auto&& set, auto&& element) {
         return tag-dispatched;
     };
 #endif

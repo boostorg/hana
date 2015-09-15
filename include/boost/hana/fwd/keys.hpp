@@ -14,18 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Returns the keys of a data structure.
-    //!
-    //! This function is not associated to any concept right now. As such,
-    //! it can't be described generally and the documentation for specific
-    //! implementations should be consulted instead.
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto keys = [](auto&& xs) {
-        return tag-dispatched;
-    };
-#else
+    // Note: This function is documented per datatype/concept only.
+    //! @cond
     template <typename T, typename = void>
     struct keys_impl : keys_impl<T, when<true>> { };
+    //! @endcond
 
     struct keys_t {
         template <typename Map>
@@ -33,7 +26,6 @@ namespace boost { namespace hana {
     };
 
     constexpr keys_t keys{};
-#endif
 
     //! Returns a `Sequence` containing the name of the members of
     //! the data structure.

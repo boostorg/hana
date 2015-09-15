@@ -14,20 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    //! Erase a key in a structure.
-    //!
-    //! This function is not associated to a concept right now, so its
-    //! behavior can't be described generally. `hana::map` and `hana::set`
-    //! are the only containers implementing this function right now, and
-    //! you should refer to the documentation of `erase_key` for these
-    //! containers instead.
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto erase_key = [](auto&& xs, auto&& ...args) {
-        return tag-dispatched;
-    };
-#else
+    // Note: This function is documented per datatype/concept only.
+    //! @cond
     template <typename T, typename = void>
     struct erase_key_impl : erase_key_impl<T, when<true>> { };
+    //! @endcond
 
     struct erase_key_t {
         template <typename Set, typename ...Args>
@@ -35,7 +26,6 @@ namespace boost { namespace hana {
     };
 
     constexpr erase_key_t erase_key{};
-#endif
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ERASE_KEY_HPP
