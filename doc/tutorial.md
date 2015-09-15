@@ -1011,6 +1011,9 @@ much clearer:
 
 @snippet example/tutorial/type.cpp make_map.Hana
 
+While Hana's way takes more lines of codes, it is also arguably more readable
+and closer to how someone would expect to initialize a map.
+
 
 @subsection tutorial-type-working Working with this representation
 
