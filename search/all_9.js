@@ -10,7 +10,7 @@ var searchData=
   ['index_5fif_2ehpp',['index_if.hpp',['../index__if_8hpp.html',1,'']]],
   ['infix',['infix',['../group__group-functional.html#ga7bdafba6dc801f1d2d83731ad9714557',1,'boost::hana']]],
   ['infix_2ehpp',['infix.hpp',['../infix_8hpp.html',1,'']]],
-  ['insert',['insert',['../structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::Sequence::insert()'],['../structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::map::insert()'],['../structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::set::insert()'],['../namespaceboost_1_1hana.html#ae22a1a184b1b2dd550fa4fa619bed2e9',1,'boost::hana::insert()']]],
+  ['insert',['insert',['../structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::Sequence::insert()'],['../structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::map::insert()'],['../structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f',1,'boost::hana::set::insert()']]],
   ['insert_2ehpp',['insert.hpp',['../fwd_2insert_8hpp.html',1,'']]],
   ['insert_2ehpp',['insert.hpp',['../insert_8hpp.html',1,'']]],
   ['insert_5frange',['insert_range',['../structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea',1,'boost::hana::Sequence']]],

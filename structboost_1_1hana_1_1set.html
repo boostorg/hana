@@ -513,7 +513,7 @@ template&lt;typename... Xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -554,7 +554,8 @@ template&lt;typename... Xs&gt; </div>
 <div class="line">        hana::insert(xs, hana::int_c&lt;0&gt;) == hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --> 
+</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.insert.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="af856f7bf77f69cdf1b8fd4e566eaef9b"></a>
@@ -576,7 +577,7 @@ template&lt;typename... Xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; set, <span class="keyword">auto</span>&amp;&amp; element) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->

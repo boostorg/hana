@@ -10,7 +10,7 @@ var searchData=
   ['equal',['equal',['../structboost_1_1hana_1_1Comparable.html#aa3d0a020ddd527610472c91f5a8cc627',1,'boost::hana::Comparable']]],
   ['equal_2ehpp',['equal.hpp',['../fwd_2equal_8hpp.html',1,'']]],
   ['equal_2ehpp',['equal.hpp',['../equal_8hpp.html',1,'']]],
-  ['erase_5fkey',['erase_key',['../structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b',1,'boost::hana::map::erase_key()'],['../structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b',1,'boost::hana::set::erase_key()'],['../namespaceboost_1_1hana.html#a7d0b77ad94aa058c498c4c5ca4c4aba5',1,'boost::hana::erase_key()']]],
+  ['erase_5fkey',['erase_key',['../structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b',1,'boost::hana::map::erase_key()'],['../structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b',1,'boost::hana::set::erase_key()']]],
   ['erase_5fkey_2ehpp',['erase_key.hpp',['../erase__key_8hpp.html',1,'']]],
   ['erase_5fkey_2ehpp',['erase_key.hpp',['../fwd_2erase__key_8hpp.html',1,'']]],
   ['eval',['eval',['../structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c',1,'boost::hana::lazy']]],
