@@ -137,8 +137,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         };
 
         template <typename ...T>
-        constexpr auto operator()(T&& ...) const
-        { return hana::type_c<F<typename detail::decltype_t<T>::type...>>; }
+        constexpr auto operator()(T const& ...) const
+        { return hana::type<F<typename T::type...>>{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -150,9 +150,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         using apply = F<T...>;
 
         template <typename ...T>
-        constexpr auto operator()(T&& ...) const -> hana::type<
-            typename F<typename detail::decltype_t<T>::type...>::type
-        > { return {}; }
+        constexpr hana::type<typename F<typename T::type...>::type>
+        operator()(T const& ...) const { return {}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -179,10 +178,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename F>
     struct integral_t {
         template <typename ...T>
-        constexpr auto operator()(T&& ...) const {
-            using Result = typename F::template apply<
-                typename detail::decltype_t<T>::type...
-            >::type;
+        constexpr auto operator()(T const& ...) const {
+            using Result = typename F::template apply<typename T::type...>::type;
             return Result{};
         }
     };

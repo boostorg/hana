@@ -42,53 +42,6 @@ static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
 static_assert(hana::Metafunction<decltype(hana::template_<f>)>::value, "");
 static_assert(hana::Metafunction<decltype(hana::template_<f>)&>::value, "");
 
-// `template_` with non-type arguments
-// 1 arg
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}),
-    hana::template_<f>(hana::type_c<y1>)
-));
-
-// 2 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(hana::type_c<x1>, y2{}),
-    hana::template_<f>(hana::type_c<x1>, hana::type_c<y2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}, hana::type_c<x2>),
-    hana::template_<f>(hana::type_c<y1>, hana::type_c<x2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}, y2{}),
-    hana::template_<f>(hana::type_c<y1>, hana::type_c<y2>)
-));
-
-// 3 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(hana::type_c<x1>, hana::type_c<x2>, y3{}),
-    hana::template_<f>(hana::type_c<x1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(hana::type_c<x1>, y2{}, hana::type_c<x3>),
-    hana::template_<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(hana::type_c<x1>, y2{}, y3{}),
-    hana::template_<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}, hana::type_c<x2>, hana::type_c<x3>),
-    hana::template_<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}, hana::type_c<x2>, y3{}),
-    hana::template_<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::template_<f>(y1{}, y2{}, y3{}),
-    hana::template_<f>(hana::type_c<y1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-
 // Make sure we can use aliases
 template <typename T> using alias = T;
 static_assert(hana::template_<alias>(hana::type_c<x1>) == hana::type_c<x1>, "");

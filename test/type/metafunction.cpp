@@ -56,53 +56,6 @@ static_assert(!valid_call(hana::metafunction<no_type>, hana::type_c<x1>), "");
 static_assert(hana::Metafunction<decltype(hana::metafunction<f>)>::value, "");
 static_assert(hana::Metafunction<decltype(hana::metafunction<f>)&>::value, "");
 
-// `metafunction` with non-type arguments
-// 1 arg
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}),
-    hana::metafunction<f>(hana::type_c<y1>)
-));
-
-// 2 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(hana::type_c<x1>, y2{}),
-    hana::metafunction<f>(hana::type_c<x1>, hana::type_c<y2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}, hana::type_c<x2>),
-    hana::metafunction<f>(hana::type_c<y1>, hana::type_c<x2>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}, y2{}),
-    hana::metafunction<f>(hana::type_c<y1>, hana::type_c<y2>)
-));
-
-// 3 args
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(hana::type_c<x1>, hana::type_c<x2>, y3{}),
-    hana::metafunction<f>(hana::type_c<x1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(hana::type_c<x1>, y2{}, hana::type_c<x3>),
-    hana::metafunction<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(hana::type_c<x1>, y2{}, y3{}),
-    hana::metafunction<f>(hana::type_c<x1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}, hana::type_c<x2>, hana::type_c<x3>),
-    hana::metafunction<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<x3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}, hana::type_c<x2>, y3{}),
-    hana::metafunction<f>(hana::type_c<y1>, hana::type_c<x2>, hana::type_c<y3>)
-));
-BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::metafunction<f>(y1{}, y2{}, y3{}),
-    hana::metafunction<f>(hana::type_c<y1>, hana::type_c<y2>, hana::type_c<y3>)
-));
-
 
 // Make sure we don't read from a non-constexpr variable
 int main() {

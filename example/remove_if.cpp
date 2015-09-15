@@ -5,6 +5,7 @@
 #include <boost/hana/assert.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/remove_if.hpp>
 #include <boost/hana/tuple.hpp>
@@ -14,8 +15,11 @@
 namespace hana = boost::hana;
 
 
-static_assert(hana::remove_if(hana::make_tuple(1, 2.0, 3, 4.0), hana::trait<std::is_integral>) == hana::make_tuple(2.0, 4.0), "");
-static_assert(hana::remove_if(hana::just(3.0), hana::trait<std::is_integral>) == hana::just(3.0), "");
-BOOST_HANA_CONSTANT_CHECK(hana::remove_if(hana::just(3), hana::trait<std::is_integral>) == hana::nothing);
+// First get the type of the object, and then call the trait on it.
+constexpr auto is_integral = hana::compose(hana::trait<std::is_integral>, hana::decltype_);
+
+static_assert(hana::remove_if(hana::make_tuple(1, 2.0, 3, 4.0), is_integral) == hana::make_tuple(2.0, 4.0), "");
+static_assert(hana::remove_if(hana::just(3.0), is_integral) == hana::just(3.0), "");
+BOOST_HANA_CONSTANT_CHECK(hana::remove_if(hana::just(3), is_integral) == hana::nothing);
 
 int main() { }

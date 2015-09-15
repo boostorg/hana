@@ -6,6 +6,7 @@
 #include <boost/hana/equal.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/filter.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
@@ -14,8 +15,11 @@
 namespace hana = boost::hana;
 
 
-static_assert(hana::filter(hana::make_tuple(1, 2.0, 3, 4.0), hana::trait<std::is_integral>) == hana::make_tuple(1, 3), "");
-static_assert(hana::filter(hana::just(3), hana::trait<std::is_integral>) == hana::just(3), "");
-BOOST_HANA_CONSTANT_CHECK(hana::filter(hana::just(3.0), hana::trait<std::is_integral>) == hana::nothing);
+// First take the type of an object, and then tell whether it's integral
+constexpr auto is_integral = hana::compose(hana::trait<std::is_integral>, hana::decltype_);
+
+static_assert(hana::filter(hana::make_tuple(1, 2.0, 3, 4.0), is_integral) == hana::make_tuple(1, 3), "");
+static_assert(hana::filter(hana::just(3), is_integral) == hana::just(3), "");
+BOOST_HANA_CONSTANT_CHECK(hana::filter(hana::just(3.0), is_integral) == hana::nothing);
 
 int main() { }
