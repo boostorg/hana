@@ -5,8 +5,8 @@
 ##############################################################################
 # Setup custom functions, master targets and file lists for the examples
 ##############################################################################
-add_custom_target(examples
-    COMMENT "Build all the examples.")
+add_custom_target(examples COMMENT "Build all the examples.")
+add_dependencies(check examples)
 
 # Several examples have unused parameters because the name of the parameters
 # are useful for illustration, even if the implementation is not actually

@@ -155,8 +155,7 @@ endfunction()
 # test will run the provided command under the memory checker.
 function(boost_hana_add_test name)
     if (BOOST_HANA_ENABLE_MEMCHECK)
-        add_test(${name}
-            ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
+        add_test(${name} ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
     else()
         add_test(${name} ${ARGN})
     endif()
@@ -173,19 +172,18 @@ endmacro()
 
 
 ##############################################################################
-# Setup subdirectories
-##############################################################################
-add_subdirectory(benchmark)
-add_subdirectory(doc)
-add_subdirectory(example)
-add_subdirectory(test)
-
-
-##############################################################################
 # Setup the `check` target to build and then run all the tests and examples.
 ##############################################################################
 add_custom_target(check ALL
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    DEPENDS tests examples
     COMMENT "Build and then run all the tests and examples.")
+
+##############################################################################
+# Setup subdirectories
+##############################################################################
+add_subdirectory(benchmark)
+add_subdirectory(doc)
+add_subdirectory(example)
+add_subdirectory(experimental)
+add_subdirectory(test)

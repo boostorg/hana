@@ -1,6 +1,6 @@
 # Simple Makefile to ease day-to-day development
 
-.PHONY: doc benchmark example include test gen-cmake
+.PHONY: doc benchmark example include test experimental gen-cmake
 
 ${VERBOSE}.SILENT:
 
@@ -11,6 +11,9 @@ all:
 	make -C build $@
 
 doc:
+	make -C build $@
+
+experimental:
 	make -C build $@
 
 gen-cmake:

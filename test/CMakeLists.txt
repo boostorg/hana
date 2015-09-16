@@ -5,16 +5,14 @@
 ##############################################################################
 # Setup custom functions, master targets and file lists for the unit tests
 ##############################################################################
-add_custom_target(test.headers
-    COMMENT "Build all the header-inclusion unit tests.")
+add_custom_target(tests COMMENT "Build all the unit tests.")
+add_dependencies(check tests)
 
-add_custom_target(tests
-    DEPENDS test.headers
-    COMMENT "Build all the unit tests.")
+add_custom_target(tests.quick COMMENT "Build a subset of all the unit tests to finish faster.")
 
-add_custom_target(tests.quick
-    DEPENDS test.headers
-    COMMENT "Build a subset of all the unit tests to finish faster.")
+add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
+add_dependencies(tests.quick test.headers)
+add_dependencies(tests test.headers)
 
 #   boost_hana_add_unit_test(<name> ...)
 #

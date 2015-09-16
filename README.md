@@ -195,6 +195,8 @@ The project is organized in a couple of subdirectories.
   cloning the gh-pages branch into that directory, as explained above.
 - The [example](example) directory contains the source code for all the
   examples of both the tutorial and the reference documentation.
+- The [experimental](experimental) directory contains various experiments that
+  might or might not make it into Hana at some point.
 - The [include](include) directory contains the library itself, which is
   header only.
 - The [test](test) directory contains the source code for all the unit tests.

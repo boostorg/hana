@@ -1,66 +1,67 @@
-/*!
-@file
-Defines `boost::hana::LambdaTuple`.
-
+/*
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
-#define BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
-
-#include <boost/hana.hpp>
-
+#include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/variadic/at.hpp>
 #include <boost/hana/detail/variadic/drop_into.hpp>
 #include <boost/hana/detail/variadic/take.hpp>
-#include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/on.hpp>
-#include <boost/hana/concept/functor.hpp>
+#include <boost/hana/fwd/append.hpp>
+#include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/concat.hpp>
+#include <boost/hana/fwd/concept/sequence.hpp>
+#include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
+#include <boost/hana/fwd/empty.hpp>
+#include <boost/hana/fwd/front.hpp>
+#include <boost/hana/fwd/prepend.hpp>
+#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/take.hpp>
+#include <boost/hana/fwd/transform.hpp>
+#include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/fwd/zip_shortest_with.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/monad.hpp>
-#include <boost/hana/concept/monad_plus.hpp>
-#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/is_empty.hpp>
+#include <boost/hana/length.hpp>
+#include <boost/hana/min.hpp>
+#include <boost/hana/minimum.hpp>
 #include <boost/hana/range.hpp>
-#include <boost/hana/concept/searchable.hpp>
-#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/unpack.hpp>
 
 #include <utility>
+namespace hana = boost::hana;
 
 
-namespace boost { namespace hana { namespace sandbox {
-    struct LambdaTuple { };
+struct lambda_tuple_tag { };
 
-    template <typename Storage>
-    struct lambda_tuple_t {
-        explicit constexpr lambda_tuple_t(Storage&& s)
-            : storage(std::move(s))
-        { }
+template <typename Storage>
+struct lambda_tuple_t {
+    explicit constexpr lambda_tuple_t(Storage&& s)
+        : storage(std::move(s))
+    { }
 
-        using hana_tag = LambdaTuple;
-        Storage storage;
-    };
+    using hana_tag = lambda_tuple_tag;
+    Storage storage;
+};
 
-    BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
-        auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
-        return lambda_tuple_t<decltype(storage)>{std::move(storage)};
-    };
-}}} // end namespace boost::hana::sandbox
+BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
+    auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
+    return lambda_tuple_t<decltype(storage)>{std::move(storage)};
+};
 
 namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct unpack_impl<sandbox::LambdaTuple> {
+    struct unpack_impl<lambda_tuple_tag> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             return static_cast<Xs&&>(xs)
@@ -72,12 +73,12 @@ namespace boost { namespace hana {
     // Functor
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct transform_impl<sandbox::LambdaTuple> {
+    struct transform_impl<lambda_tuple_tag> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F f) {
             return static_cast<Xs&&>(xs).storage(
                 [f(std::move(f))](auto&& ...xs) -> decltype(auto) {
-                    return sandbox::lambda_tuple(f(static_cast<decltype(xs)&&>(xs))...);
+                    return lambda_tuple(f(static_cast<decltype(xs)&&>(xs))...);
                 }
             );
         }
@@ -87,11 +88,11 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct front_impl<sandbox::LambdaTuple> {
+    struct front_impl<lambda_tuple_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
-                [](auto&& x, auto&& ...rest) -> decltype(auto) {
+                [](auto&& x, auto&& ...) -> decltype(auto) {
                     return id(static_cast<decltype(x)&&>(x));
                 }
             );
@@ -99,31 +100,31 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<sandbox::LambdaTuple> {
+    struct tail_impl<lambda_tuple_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
-                [](auto&& x, auto&& ...rest) -> decltype(auto) {
-                    return sandbox::lambda_tuple(static_cast<decltype(rest)&&>(rest)...);
+                [](auto&&, auto&& ...rest) -> decltype(auto) {
+                    return lambda_tuple(static_cast<decltype(rest)&&>(rest)...);
                 }
             );
         }
     };
 
     template <>
-    struct is_empty_impl<sandbox::LambdaTuple> {
+    struct is_empty_impl<lambda_tuple_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return static_cast<Xs&&>(xs).storage(
                 [](auto const& ...xs) -> decltype(auto) {
-                    return _bool<sizeof...(xs) == 0>{};
+                    return hana::bool_c<sizeof...(xs) == 0>;
                 }
             );
         }
     };
 
     template <>
-    struct at_impl<sandbox::LambdaTuple> {
+    struct at_impl<lambda_tuple_tag> {
         template <typename Xs, typename Index>
         static constexpr decltype(auto) apply(Xs&& xs, Index const&) {
             return static_cast<Xs&&>(xs).storage(
@@ -133,12 +134,12 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_front_impl<sandbox::LambdaTuple> {
+    struct drop_front_impl<lambda_tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::drop_into<hana::value(m)>(sandbox::lambda_tuple)
+                detail::variadic::drop_into<hana::value(m)>(lambda_tuple)
             );
         }
     };
@@ -147,7 +148,7 @@ namespace boost { namespace hana {
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct concat_impl<sandbox::LambdaTuple> {
+    struct concat_impl<lambda_tuple_tag> {
         template <typename Xs, typename Ys>
         static constexpr decltype(auto) apply(Xs&& xs, Ys&& ys) {
             return static_cast<Xs&&>(xs).storage(
@@ -157,7 +158,7 @@ namespace boost { namespace hana {
                         // forwarding since that's not supported by the
                         // language.
                         [=](auto&& ...ys) -> decltype(auto) {
-                            return sandbox::lambda_tuple(
+                            return lambda_tuple(
                                 std::move(xs)...,
                                 static_cast<decltype(ys)&&>(ys)...
                             );
@@ -169,12 +170,12 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct prepend_impl<sandbox::LambdaTuple> {
+    struct prepend_impl<lambda_tuple_tag> {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return static_cast<Xs&&>(xs).storage(
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
-                    return sandbox::lambda_tuple(
+                    return lambda_tuple(
                         std::move(x),
                         static_cast<decltype(xs)&&>(xs)...
                     );
@@ -184,12 +185,12 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct append_impl<sandbox::LambdaTuple> {
+    struct append_impl<lambda_tuple_tag> {
         template <typename Xs, typename X>
         static constexpr decltype(auto) apply(Xs&& xs, X&& x) {
             return static_cast<Xs&&>(xs).storage(
                 [x(static_cast<X&&>(x))](auto&& ...xs) -> decltype(auto) {
-                    return sandbox::lambda_tuple(
+                    return lambda_tuple(
                         static_cast<decltype(xs)&&>(xs)...,
                         std::move(x)
                     );
@@ -199,9 +200,9 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct empty_impl<sandbox::LambdaTuple> {
+    struct empty_impl<lambda_tuple_tag> {
         static BOOST_HANA_CONSTEXPR_LAMBDA decltype(auto) apply() {
-            return sandbox::lambda_tuple();
+            return lambda_tuple();
         }
     };
 
@@ -209,31 +210,31 @@ namespace boost { namespace hana {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct Sequence<sandbox::LambdaTuple> {
+    struct Sequence<lambda_tuple_tag> {
         static constexpr bool value = true;
     };
 
     template <>
-    struct take_impl<sandbox::LambdaTuple> {
+    struct take_impl<lambda_tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));
             return static_cast<Xs&&>(xs).storage(
-                detail::variadic::take<hana::value(m)>
-            )(sandbox::lambda_tuple);
+                detail::variadic::take<decltype(m)::value>
+            )(lambda_tuple);
         }
     };
 
     template <>
-    struct zip_shortest_with_impl<sandbox::LambdaTuple> {
+    struct zip_shortest_with_impl<lambda_tuple_tag> {
         template <typename F, typename ...Xss>
         static constexpr auto apply(F f, Xss ...tuples) {
             auto go = [=](auto index, auto ...nothing) {
                 return always(f)(nothing...)(at(tuples, index)...);
             };
-            auto zip_length = minimum(sandbox::lambda_tuple(length(tuples)...));
-            return unpack(range(size_c<0>, zip_length),
-                on(sandbox::lambda_tuple, go)
+            auto zip_length = minimum(lambda_tuple(length(tuples)...));
+            return unpack(make_range(size_c<0>, zip_length),
+                on(lambda_tuple, go)
             );
         }
     };
@@ -242,12 +243,16 @@ namespace boost { namespace hana {
     // make
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct make_impl<sandbox::LambdaTuple> {
+    struct make_impl<lambda_tuple_tag> {
         template <typename ...Xs>
         static constexpr decltype(auto) apply(Xs&& ...xs) {
-            return sandbox::lambda_tuple(static_cast<Xs&&>(xs)...);
+            return lambda_tuple(static_cast<Xs&&>(xs)...);
         }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_SANDBOX_LAMBDA_TUPLE_HPP
+
+int main() {
+    auto xs = lambda_tuple(1, '2', 3.3);
+    static_assert(!decltype(hana::is_empty(xs))::value, "");
+}
