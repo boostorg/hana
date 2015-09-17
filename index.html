@@ -991,7 +991,8 @@ Benefits of this representation</h2>
 <div class="line"></div>
 <div class="line">std::string Int = map[hana::type_c&lt;int&gt;];</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(Int == <span class="stringliteral">&quot;int&quot;</span>);</div>
-</div><!-- fragment --><h2><a class="anchor" id="tutorial-type-working"></a>
+</div><!-- fragment --><p> While Hana's way takes more lines of codes, it is also arguably more readable and closer to how someone would expect to initialize a map.</p>
+<h2><a class="anchor" id="tutorial-type-working"></a>
 Working with this representation</h2>
 <p>So far, we can represent types as values and perform type-level computations on those objects using the usual C++ syntax. This is nice, but it is not very useful because we have no way to get back a normal C++ type from an object representation. For example, how could we declare a variable whose type is the result of a type computation?</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> t = add_pointer(hana::type_c&lt;int&gt;); <span class="comment">// could be a complex type computation</span></div>
