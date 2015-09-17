@@ -52,10 +52,14 @@ if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
     add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
 endif()
 
-if (BOOST_HANA_ENABLE_STRING_UDL)
+if (BOOST_HANA_ENABLE_STRING_UDL AND NOT IS_ON_GCC)
     add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
-    boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
-                           -Wno-gnu-string-literal-operator-template)
+    # GCC pretends to have the flag, but produces a "unrecognized command line option"
+    # warning when we use it.
+    if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+        boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
+                               -Wno-gnu-string-literal-operator-template)
+    endif()
 endif()
 
 if (NOT BOOST_HANA_ENABLE_EXCEPTIONS)
