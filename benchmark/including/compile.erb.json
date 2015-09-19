@@ -38,7 +38,7 @@
     "colorByPoint": true,
     "data": [
       {
-        "name": "Hana",
+        "name": "Boost.Hana",
         "y": <%= amortize('hana.erb.cpp') %>
       }
 
