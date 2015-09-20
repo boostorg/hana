@@ -285,10 +285,8 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --></li>
-</ol>
-<p>Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>chain</code>ing a sequence of values into such a function will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences.<br />
-<b>Example</b>: </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
+</div><!-- fragment --> Also note that the model of <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> for <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s can be seen as modeling nondeterminism. A nondeterministic computation can be modeled as a function which returns a sequence of possible results. In this line of thought, <code>chain</code>ing a sequence of values into such a function will return a sequence of all the possible output values, i.e. a sequence of all the values applied to all the functions in the sequences.<br />
+<b>Example</b>: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -357,7 +355,7 @@ First, <code>flaten</code>ning a <code><a class="el" href="structboost_1_1hana_1
 <div class="line">        <span class="stringliteral">&quot;some_function should be callable with any type of argument&quot;</span>);</div>
 <div class="line">    });</div>
 <div class="line">}</div>
-</div><!-- fragment --><ol type="1">
+</div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> (definition provided automatically)<br />
 <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>s are models of the <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> concept by considering the empty sequence as the unit of <code>concat</code>, and sequence concatenation as <code>concat</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
