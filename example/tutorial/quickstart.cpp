@@ -10,7 +10,6 @@ Distributed under the Boost Software License, Version 1.0.
 #endif
 
 //! [additional_setup]
-#include <boost/hana/ext/std/type_traits.hpp> // for traits::is_pointer
 #include <cassert>
 #include <iostream>
 #include <string>

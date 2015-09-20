@@ -4,7 +4,7 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/traits.hpp>
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -21,9 +21,9 @@ int main() {
     // We just make sure that they compile. If the forwarding to `std::` is
     // well done, it is the job of `std::` to return the right thing.
 
-    ///////////////////
+    ///////////////////////
     // Type properties
-    ///////////////////
+    ///////////////////////
     // Primary type categories
     static_assert(!hana::traits::is_void(s), "the traits should be compile-time checkable");
     hana::traits::is_null_pointer(s);
@@ -109,9 +109,9 @@ int main() {
     hana::traits::is_base_of(s, s);
     hana::traits::is_convertible(s, s);
 
-    ///////////////////
+    ///////////////////////
     // Type modifications
-    ///////////////////
+    ///////////////////////
     // Const-volatility specifiers
     hana::traits::remove_cv(s);
     hana::traits::remove_const(s);
@@ -148,4 +148,9 @@ int main() {
     hana::traits::underlying_type(e);
     using FunctionPointer = void(*)();
     hana::traits::result_of(hana::type_c<FunctionPointer(void)>);
+
+    ///////////////////////
+    // Utilities
+    ///////////////////////
+    using Z = decltype(hana::traits::declval(hana::type_c<Structure>));
 }

@@ -5,7 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
 
 #include <boost/fusion/include/find_if.hpp>
 #include <boost/fusion/include/make_vector.hpp>

@@ -180,6 +180,7 @@ namespace boost { namespace hana {
 #include <boost/hana/take_while.hpp>
 #include <boost/hana/tap.hpp>
 #include <boost/hana/then.hpp>
+#include <boost/hana/traits.hpp>
 #include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>

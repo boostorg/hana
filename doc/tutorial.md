@@ -1204,12 +1204,16 @@ hand-written function object specific to that type-level computation:
 
 @snippet example/tutorial/type.cpp extent
 
+@note
+Do not forget to include the bridge header for `std::integral_constant`s
+(`<boost/hana/ext/std/integral_constant.hpp>`) when using type traits from
+`<type_traits>` directly.
+
 In practice, however, this should not be a problem since the vast majority
 of type-level computations can be lifted easily. Finally, since metafunctions
 provided by the `<type_traits>` header are used so frequently, Hana provides
 a lifted version for every one of them. Those lifted traits are in the
-`hana::traits` namespace, and they live in the
-`<boost/hana/ext/std/type_traits.hpp>` header:
+`hana::traits` namespace, and they live in the `<boost/hana/traits.hpp>` header:
 
 @snippet example/tutorial/type.cpp traits
 
@@ -1423,12 +1427,11 @@ alternate implementation can be better suited:
 This validity checker is different from what we saw earlier because the
 generic lambda is not expecting an usual object anymore; it is now expecting
 a `type` (which is an object, but still represents a type). We then use the
-`hana::traits::declval` _lifted metafunction_ from the
-`<boost/hana/ext/std/utility.hpp>` header to create an rvalue of the type
-represented by `t`, which we can then use to check for a non-static member.
-Finally, instead of passing an actual object to `has_member` (like `Foo{}`
-or `Bar{}`), we now pass a `type_c<...>`. This implementation is ideal for
-when no object is lying around.
+`hana::traits::declval` _lifted metafunction_ from the `<boost/hana/traits.hpp>`
+header to create an rvalue of the type represented by `t`, which we can then
+use to check for a non-static member. Finally, instead of passing an actual
+object to `has_member` (like `Foo{}` or `Bar{}`), we now pass a `type_c<...>`.
+This implementation is ideal for when no object is lying around.
 
 
 @subsubsection tutorial-introspection-is_valid-static Static members

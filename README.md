@@ -11,7 +11,6 @@ However, the library is still not included in a Boost release, and API stability
 <!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
 #include <cassert>
 #include <string>
 namespace hana = boost::hana;

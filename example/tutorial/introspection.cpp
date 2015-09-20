@@ -5,7 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/utility.hpp>
 
 #include <string>
 #include <type_traits>

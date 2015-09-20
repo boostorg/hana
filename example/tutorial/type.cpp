@@ -5,7 +5,7 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
+#include <boost/hana/ext/std/integral_constant.hpp>
 
 #include <boost/mpl/copy_if.hpp>
 #include <boost/mpl/equal.hpp>
@@ -66,7 +66,7 @@ using hana::traits::is_reference; // yet, so we use unqualified names for now
 auto types = hana::tuple_t<int*, char&, void>;
 
 auto ts = hana::filter(types, [](auto t) {
-  return hana::or_(is_pointer(t), is_reference(t));
+  return is_pointer(t) || is_reference(t);
 });
 
 BOOST_HANA_CONSTANT_CHECK(ts == hana::tuple_t<int*, char&>);
@@ -98,7 +98,7 @@ using hana::traits::is_integral;
 // types
 auto types = hana::tuple_t<int*, char&, void>;
 auto ts = hana::filter(types, [](auto t) {
-  return hana::or_(is_pointer(t), is_reference(t));
+  return is_pointer(t) || is_reference(t);
 });
 
 // values

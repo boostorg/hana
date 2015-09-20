@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 // Important: Keep this file in sync with the Overview in the README
 //////////////////////////////////////////////////////////////////////////////
 #include <boost/hana.hpp>
-#include <boost/hana/ext/std/type_traits.hpp>
 #include <cassert>
 #include <string>
 namespace hana = boost::hana;

@@ -5,9 +5,9 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/equal.hpp>
-#include <boost/hana/ext/std/utility.hpp>
 #include <boost/hana/monadic_fold_left.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/traits.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
