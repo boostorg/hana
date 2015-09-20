@@ -53,7 +53,7 @@ namespace boost { namespace hana {
     //!     concat(a, concat(b, c)) == concat(concat(a, b), c)
     //! @endcode
     //!
-    //! Second, a MonadPlus is also required to obey the following laws,
+    //! Secondly, a MonadPlus is also required to obey the following laws,
     //! which represent the fact that `empty<M(T)>()` must be some kind of
     //! absorbing element for the `chain` operation. For all objects `a` of
     //! data type `M(T)` and functions @f$ f : T \to M(U) @f$,

@@ -110,7 +110,6 @@ namespace boost { namespace hana {
     //! flatten.\n
     //! __Example__:
     //! @include example/sequence/monad.ints.cpp
-    //!
     //! Also note that the model of `Monad` for `Sequence`s can be seen as
     //! modeling nondeterminism. A nondeterministic computation can be
     //! modeled as a function which returns a sequence of possible results.
