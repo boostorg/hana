@@ -52,7 +52,7 @@ if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
     add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
 endif()
 
-if (BOOST_HANA_ENABLE_STRING_UDL AND NOT IS_ON_GCC)
+if (BOOST_HANA_ENABLE_STRING_UDL)
     add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
     # GCC pretends to have the flag, but produces a "unrecognized command line option"
     # warning when we use it.
