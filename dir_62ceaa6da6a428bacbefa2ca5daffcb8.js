@@ -138,6 +138,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "take_while.hpp", "take__while_8hpp.html", null ],
     [ "tap.hpp", "tap_8hpp.html", null ],
     [ "then.hpp", "then_8hpp.html", null ],
+    [ "traits.hpp", "traits_8hpp.html", null ],
     [ "transform.hpp", "transform_8hpp.html", null ],
     [ "tuple.hpp", "tuple_8hpp.html", null ],
     [ "type.hpp", "type_8hpp.html", null ],

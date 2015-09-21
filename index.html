@@ -317,8 +317,7 @@ Quick start</h1>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hana_8hpp.html">boost/hana.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 </div><!-- fragment --><p> Unless specified otherwise, the documentation assumes the above lines to be present before examples and code snippets. Also note that finer grained headers are provided and will be explained in the <a class="el" href="index.html#tutorial-header_organization">Header organization</a> section. For the purpose of the quickstart, let's now include some additional headers and define some lovely animal types that we'll need below:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type__traits_8hpp.html">boost/hana/ext/std/type_traits.hpp</a>&gt;</span> <span class="comment">// for traits::is_pointer</span></div>
-<div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;cassert&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"></div>
@@ -948,7 +947,7 @@ Benefits of this representation</h2>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int*, char&amp;, void&gt;;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> ts = hana::filter(types, [](<span class="keyword">auto</span> t) {</div>
-<div class="line">  <span class="keywordflow">return</span> hana::or_(is_pointer(t), is_reference(t));</div>
+<div class="line">  <span class="keywordflow">return</span> is_pointer(t) || is_reference(t);</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(ts == hana::tuple_t&lt;int*, char&amp;&gt;);</div>
@@ -965,7 +964,7 @@ Benefits of this representation</h2>
 <div class="fragment"><div class="line"><span class="comment">// types</span></div>
 <div class="line"><span class="keyword">auto</span> types = hana::tuple_t&lt;int*, char&amp;, void&gt;;</div>
 <div class="line"><span class="keyword">auto</span> ts = hana::filter(types, [](<span class="keyword">auto</span> t) {</div>
-<div class="line">  <span class="keywordflow">return</span> hana::or_(is_pointer(t), is_reference(t));</div>
+<div class="line">  <span class="keywordflow">return</span> is_pointer(t) || is_reference(t);</div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// values</span></div>
@@ -1126,7 +1125,8 @@ The generic lifting process</h2>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(hana::type_c&lt;char&gt;, hana::int_c&lt;1&gt;) == hana::size_c&lt;0&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(extent(hana::type_c&lt;<span class="keywordtype">char</span>[1][2]&gt;, hana::int_c&lt;1&gt;) == hana::size_c&lt;2&gt;);</div>
-</div><!-- fragment --><p> In practice, however, this should not be a problem since the vast majority of type-level computations can be lifted easily. Finally, since metafunctions provided by the <code>&lt;type_traits&gt;</code> header are used so frequently, Hana provides a lifted version for every one of them. Those lifted traits are in the <code>hana::traits</code> namespace, and they live in the <code>&lt;<a class="el" href="type__traits_8hpp.html" title="Defines adapters for standard components in the <type_traits> header, and also most things in the boo...">boost/hana/ext/std/type_traits.hpp</a>&gt;</code> header:</p>
+</div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>Do not forget to include the bridge header for <code>std::integral_constant</code>s (<code>&lt;<a class="el" href="ext_2std_2integral__constant_8hpp.html" title="Adapts std::integral_constant for use with Hana. ">boost/hana/ext/std/integral_constant.hpp</a>&gt;</code>) when using type traits from <code>&lt;type_traits&gt;</code> directly.</dd></dl>
+<p>In practice, however, this should not be a problem since the vast majority of type-level computations can be lifted easily. Finally, since metafunctions provided by the <code>&lt;type_traits&gt;</code> header are used so frequently, Hana provides a lifted version for every one of them. Those lifted traits are in the <code>hana::traits</code> namespace, and they live in the <code>&lt;<a class="el" href="traits_8hpp.html" title="Defines function-like equivalents to the standard <type_traits>, and also to some utilities like std:...">boost/hana/traits.hpp</a>&gt;</code> header:</p>
 <div class="fragment"><div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::add_pointer(hana::type_c&lt;int&gt;) == hana::type_c&lt;int*&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::common_type(hana::type_c&lt;int&gt;, hana::type_c&lt;long&gt;) == hana::type_c&lt;long&gt;);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::traits::is_integral(hana::type_c&lt;int&gt;));</div>
@@ -1231,7 +1231,7 @@ Non-static members</h3>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type_c&lt;Foo&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type_c&lt;Bar&gt;));</div>
-</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>type</code> (which is an object, but still represents a type). We then use the <code>hana::traits::declval</code> <em>lifted metafunction</em> from the <code>&lt;<a class="el" href="utility_8hpp.html" title="Defines adapters for components in the <utility> header. ">boost/hana/ext/std/utility.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type_c&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
+</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>type</code> (which is an object, but still represents a type). We then use the <code>hana::traits::declval</code> <em>lifted metafunction</em> from the <code>&lt;<a class="el" href="traits_8hpp.html" title="Defines function-like equivalents to the standard <type_traits>, and also to some utilities like std:...">boost/hana/traits.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type_c&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-static"></a>
 Static members</h3>
 <p>Checking for a static member is easy, and it is provided for completeness:</p>

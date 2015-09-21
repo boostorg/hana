@@ -95,7 +95,7 @@ var NAVTREEINDEX2 =
 "sort_8hpp.html":[3,0,0,127],
 "span_8hpp.html":[3,0,0,128],
 "split__at_8hpp.html":[3,0,0,2,1,6],
-"std_2vector_8hpp.html":[3,0,0,3,1,8],
+"std_2vector_8hpp.html":[3,0,0,3,1,6],
 "std_8hpp.html":[3,0,0,3,3],
 "std__common__type_8hpp.html":[3,0,0,2,21],
 "string_8hpp.html":[3,0,0,129],
