@@ -60,30 +60,9 @@ int main() {
         auto m = always(move_only{})(undefined<1>{}); (void)m;
     }
 
-    // apply
+    // apply (tested separately)
     {
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            apply(f),
-            f()
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            apply(f, ct_eq<0>{}),
-            f(ct_eq<0>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            apply(f, ct_eq<0>{}, ct_eq<1>{}),
-            f(ct_eq<0>{}, ct_eq<1>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}),
-            f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
-        ));
-        BOOST_HANA_CONSTANT_CHECK(equal(
-            apply(f, ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}),
-            f(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
-        ));
 
-        apply(f, nonpod<>{});
     }
 
     // arg
