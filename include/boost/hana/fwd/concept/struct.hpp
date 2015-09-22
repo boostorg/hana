@@ -52,10 +52,7 @@ namespace boost { namespace hana {
     //! provide "names" that are `hana::string`s representing the actual names
     //! of the members, but one could provide `hana::integral_constant`s just
     //! as well. The values must be functions which, when given an object,
-    //! retrieve the appropriate member from it. It is not important that
-    //! the functions actually retrieve a member (e.g. `x.member`); what
-    //! is important is that they are move-independent, a notion which is
-    //! defined below.
+    //! retrieve the appropriate member from it.
     //!
     //! There are several ways of providing the `accessors` method, some of
     //! which are more flexible and others which are more convenient. First,
@@ -74,6 +71,15 @@ namespace boost { namespace hana {
     //! to provide a model of the `Struct` concept with minimal syntactic
     //! overhead. See the documentation of these macros for details on how
     //! to use them.
+    //!
+    //! Also note that it is not important that the accessor functions retrieve
+    //! an actual member of the struct (e.g. `x.member`). Indeed, an accessor
+    //! function could call a custom getter or even compute the value of the
+    //! member on the fly:
+    //! @snippet example/struct.custom_accessor.cpp main
+    //!
+    //! The only important thing is that the accessor functions are
+    //! move-independent, a notion which is defined below.
     //!
     //!
     //! @anchor move-independence
