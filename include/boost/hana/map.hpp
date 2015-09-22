@@ -23,6 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/detail/index_if.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
@@ -34,6 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/at_key.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/is_subset.hpp>
@@ -250,6 +252,17 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
             auto ys_keys = hana::keys(ys);
             return hana::unpack(hana::keys(xs), all_contained<decltype(ys_keys)>{ys_keys});
+        }
+    };
+
+    template <>
+    struct at_key_impl<map_tag> {
+        template <typename Xs, typename Key>
+        static constexpr decltype(auto) apply(Xs&& xs, Key const& key) {
+            using Pack = typename detail::make_pack<Xs>::type;
+            using Pred = decltype(hana::compose(hana::equal.to(key), hana::first));
+            constexpr std::size_t index = detail::index_if<Pred, Pack>::value;
+            return hana::second(hana::at_c<index>(static_cast<Xs&&>(xs).storage));
         }
     };
 
