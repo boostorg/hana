@@ -190,7 +190,7 @@ struct boost::hana::Struct&lt; S &gt;</h3>
 <div class="line">        }</div>
 <div class="line">    };</div>
 <div class="line">};</div>
-</div><!-- fragment --><p> Finally, the most convenient (but least flexible) option is to use the <code>BOOST_HANA_DEFINE_STRUCT</code> or the <code>BOOST_HANA_ADAPT_STRUCT</code> macro to provide a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept with minimal syntactic overhead. See the documentation of these macros for details on how to use them.</p>
+</div><!-- fragment --><p> Finally, the most convenient (but least flexible) option is to use the <code>BOOST_HANA_DEFINE_STRUCT</code>, the <code>BOOST_HANA_ADAPT_STRUCT</code> or the <code>BOOST_HANA_ADAPT_ADT</code> macro, which provide a minimal syntactic overhead. See the documentation of these macros for details on how to use them.</p>
 <p>Also note that it is not important that the accessor functions retrieve an actual member of the struct (e.g. <code>x.member</code>). Indeed, an accessor function could call a custom getter or even compute the value of the member on the fly: </p><div class="fragment"><div class="line"><span class="keyword">struct </span>Person {</div>
 <div class="line">    Person(std::string <span class="keyword">const</span>&amp; name, <span class="keywordtype">int</span> age) : name_(name), age_(age) { }</div>
 <div class="line"></div>
@@ -379,6 +379,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a5daffa262501273590ec3164122eb92e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#a5daffa262501273590ec3164122eb92e">members</a></td></tr>
 <tr class="memdesc:a5daffa262501273590ec3164122eb92e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> containing the members of a <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code>.  <a href="#a5daffa262501273590ec3164122eb92e">More...</a><br /></td></tr>
 <tr class="separator:a5daffa262501273590ec3164122eb92e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac04636bb22fdfb729855f39d0eb0892"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#aac04636bb22fdfb729855f39d0eb0892">BOOST_HANA_ADAPT_ADT</a>(...)                                                                                                                                                                </td></tr>
+<tr class="memdesc:aac04636bb22fdfb729855f39d0eb0892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> with the given accessors.  <a href="#aac04636bb22fdfb729855f39d0eb0892">More...</a><br /></td></tr>
+<tr class="separator:aac04636bb22fdfb729855f39d0eb0892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41037f470ac6ca2f7135802592ef5977"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977">BOOST_HANA_ADAPT_STRUCT</a>(...)                                                                                                                                                    </td></tr>
 <tr class="memdesc:a41037f470ac6ca2f7135802592ef5977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> with the given members.  <a href="#a41037f470ac6ca2f7135802592ef5977">More...</a><br /></td></tr>
 <tr class="separator:a41037f470ac6ca2f7135802592ef5977"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -573,6 +576,110 @@ template&lt;typename S &gt; </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    Person john{<span class="stringliteral">&quot;John&quot;</span>, 30};</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::members(john) == hana::make_tuple(<span class="stringliteral">&quot;John&quot;</span>, 30));</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="aac04636bb22fdfb729855f39d0eb0892"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename S &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_ADAPT_ADT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt;                                                               \</div>
+<div class="line">  struct BOOST_HANA_ADAPT_ADT_must_be_called_in_the_global_namespace&lt;&gt;;     \</div>
+<div class="line">  BOOST_HANA_ADAPT_ADT_IMPL(<a class="code" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)   \</div>
+<div class="line">  static_assert(<span class="keyword">true</span>, <span class="stringliteral">&quot;force the usage of a trailing semicolon&quot;</span>)            \</div>
+</div><!-- fragment -->
+<p>Defines a model of <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> with the given accessors. </p>
+<p>Using this macro at <em>global scope</em> will define a model of the <code><a class="el" href="structboost_1_1hana_1_1Struct.html" title="The Struct concept represents struct-like user-defined types. ">Struct</a></code> concept for the given type. This can be used to easily adapt existing user-defined types in a ad-hoc manner. Unlike <code>BOOST_HANA_ADAPT_STRUCT</code>, this macro requires specifying the way to retrieve each member by providing a function that does the extraction.</p>
+<dl class="section note"><dt>Note</dt><dd>This macro only works if the tag of the user-defined type <code>T</code> is <code>T</code> itself. This is the case unless you specifically asked for something different; see <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code>'s documentation.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="accessors_8hpp.html">boost/hana/accessors.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="adapt__adt_8hpp.html">boost/hana/adapt_adt.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="find_8hpp.html">boost/hana/find.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="first_8hpp.html">boost/hana/first.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="map_8hpp.html">boost/hana/map.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not__equal_8hpp.html">boost/hana/not_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="pair_8hpp.html">boost/hana/pair.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="string_8hpp.html">boost/hana/string.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">namespace </span>ns {</div>
+<div class="line">    <span class="keyword">struct </span>Person {</div>
+<div class="line">        <span class="keyword">explicit</span> Person(std::string <span class="keyword">const</span>&amp; name, <span class="keywordtype">int</span> age)</div>
+<div class="line">            : name_(name), age_(age)</div>
+<div class="line">        { }</div>
+<div class="line">        std::string <span class="keyword">const</span>&amp; get_name()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> name_; }</div>
+<div class="line">        <span class="keywordtype">int</span> get_age()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> age_; }</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">private</span>:</div>
+<div class="line">        std::string name_;</div>
+<div class="line">        <span class="keywordtype">int</span> age_;</div>
+<div class="line">    };</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Struct.html#aac04636bb22fdfb729855f39d0eb0892">BOOST_HANA_ADAPT_ADT</a>(ns::Person,</div>
+<div class="line">    (name, [](ns::Person <span class="keyword">const</span>&amp; p) { <span class="keywordflow">return</span> p.get_name(); }),</div>
+<div class="line">    (age, [](ns::Person <span class="keyword">const</span>&amp; p) { <span class="keywordflow">return</span> p.get_age(); })</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// The member names are hana::strings:</span></div>
+<div class="line"><span class="keyword">auto</span> names = hana::transform(hana::accessors&lt;ns::Person&gt;(), hana::first);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    names == hana::make_tuple(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>))</div>
+<div class="line">);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    ns::Person john{<span class="stringliteral">&quot;John&quot;</span>, 30}, bob{<span class="stringliteral">&quot;Bob&quot;</span>, 40};</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::equal(john, john));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::not_equal(john, bob));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>)) == hana::just(<span class="stringliteral">&quot;John&quot;</span>));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>)) == hana::just(30));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(john, BOOST_HANA_STRING(<span class="stringliteral">&quot;foo&quot;</span>)) == hana::nothing);</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::tuple_tag&gt;(john) == hana::make_tuple(</div>
+<div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
+<div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
+<div class="line">    ));</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::to&lt;hana::map_tag&gt;(john) == hana::make_map(</div>
+<div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;name&quot;</span>), <span class="stringliteral">&quot;John&quot;</span>),</div>
+<div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;age&quot;</span>), 30)</div>
+<div class="line">    ));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

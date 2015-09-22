@@ -1356,7 +1356,19 @@ Introspecting user-defined types</h2>
 <div class="line"></div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977">BOOST_HANA_ADAPT_STRUCT</a>(not_my_namespace::Person, name, age);</div>
 </div><!-- fragment --> <dl class="section note"><dt>Note</dt><dd>The <code>BOOST_HANA_ADAPT_STRUCT</code> macro must be used at global scope.</dd></dl>
-<p>The effect is exactly the same as with the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, except you do not need to modify the type you want to adapt, which is sometimes useful. Before we move on to a concrete example of using these introspection features, it should also be mentioned that <code>struct</code>s can be adapted without using macros. This advanced interface for defining <code>Struct</code>s can be used to specify keys that are not compile-time strings and to specify custom accessors for the members of the structure. The advanced interface is described in the documentation for the <code>Struct</code> concept.</p>
+<p>The effect is exactly the same as with the <code>BOOST_HANA_DEFINE_STRUCT</code> macro, except you do not need to modify the type you want to adapt, which is sometimes useful. Finally, it is also possible to define custom accessors by using the <code>BOOST_HANA_ADAPT_ADT</code> macro:</p>
+<div class="fragment"><div class="line"><span class="keyword">namespace </span>also_not_my_namespace {</div>
+<div class="line">  <span class="keyword">struct </span>Person {</div>
+<div class="line">    std::string get_name();</div>
+<div class="line">    <span class="keywordtype">int</span> get_age();</div>
+<div class="line">  };</div>
+<div class="line">}</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1Struct.html#aac04636bb22fdfb729855f39d0eb0892">BOOST_HANA_ADAPT_ADT</a>(also_not_my_namespace::Person,</div>
+<div class="line">  (name, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; p) { <span class="keywordflow">return</span> p.get_name(); }),</div>
+<div class="line">  (age, [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; p) { <span class="keywordflow">return</span> p.get_age(); })</div>
+<div class="line">);</div>
+</div><!-- fragment --><p> This way, the names used to access the members of the <code>Struct</code> will be those specified, and the associated function will be called on the <code>Struct</code> when retrieving that member. Before we move on to a concrete example of using these introspection features, it should also be mentioned that <code>struct</code>s can be adapted without using macros. This advanced interface for defining <code>Struct</code>s can be used for example to specify keys that are not compile-time strings. The advanced interface is described in the documentation of the <code>Struct</code> concept.</p>
 <h2><a class="anchor" id="tutorial-introspection-json"></a>
 Example: generating JSON</h2>
 <p>Let's now move on with a concrete example of using the introspection capabilities we just presented for printing custom objects as JSON. Our end goal is to have something like this:</p>

@@ -3,6 +3,7 @@ var dir_0044a3a6e320f9e6e0221e9ba61fb5a4 =
     [ "concept", "dir_9888f0cb703c73a78887daa7117b723a.html", "dir_9888f0cb703c73a78887daa7117b723a" ],
     [ "core", "dir_be86e00bfcc0dc458ea333eaabee816c.html", "dir_be86e00bfcc0dc458ea333eaabee816c" ],
     [ "accessors.hpp", "fwd_2accessors_8hpp.html", null ],
+    [ "adapt_adt.hpp", "fwd_2adapt__adt_8hpp.html", null ],
     [ "adapt_struct.hpp", "fwd_2adapt__struct_8hpp.html", null ],
     [ "adjust.hpp", "fwd_2adjust_8hpp.html", null ],
     [ "adjust_if.hpp", "fwd_2adjust__if_8hpp.html", null ],

@@ -144,7 +144,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:ga835970cb25a0c8dc200f1e5f8943538b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a constant function returning <code>x</code> regardless of the argument(s) it is invoked with.  <a href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">More...</a><br /></td></tr>
 <tr class="separator:ga835970cb25a0c8dc200f1e5f8943538b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga30027c383676084be151ef3c6cf2829f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">boost::hana::apply</a></td></tr>
-<tr class="memdesc:ga30027c383676084be151ef3c6cf2829f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke <code>f</code> with <code>x...</code> as arguments.  <a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">More...</a><br /></td></tr>
+<tr class="memdesc:ga30027c383676084be151ef3c6cf2829f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a Callable with the given arguments.  <a href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">More...</a><br /></td></tr>
 <tr class="separator:ga30027c383676084be151ef3c6cf2829f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplParams" colspan="2">template&lt;std::size_t n&gt; </td></tr>
 <tr class="memitem:ga6acc765a35c4dc85f0deab4785831a3d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d">boost::hana::arg</a></td></tr>
@@ -256,15 +256,16 @@ Variables</h2></td></tr>
 <div class="line">        <span class="keywordflow">return</span> forwarded(f)(forwarded(x)...);</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Invoke <code>f</code> with <code>x...</code> as arguments. </p>
+<p>Invokes a Callable with the given arguments. </p>
+<p>This is equivalent to <a href="http://en.cppreference.com/w/cpp/utility/functional/invoke">std::invoke</a> that will be added in C++17. However, <code>apply</code> is a function object instead of a function, which makes it possible to pass it to higher-order algorithms.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">f</td><td>A function called as <code>f(x...)</code> whose result is the return value of <code>apply</code>.</td></tr>
+    <tr><td class="paramname">f</td><td>A <a href="http://en.cppreference.com/w/cpp/concept/Callable">Callable</a> to be invoked with the given arguments.</td></tr>
     <tr><td class="paramname">x...</td><td>The arguments to call <code>f</code> with. The number of <code>x...</code> must match the arity of <code>f</code>.</td></tr>
   </table>
   </dd>
 </dl>
-<h3>Example</h3>
+<h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>

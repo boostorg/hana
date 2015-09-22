@@ -16,6 +16,8 @@ var group__group_details =
     [ "BOOST_HANA_PP_STRINGIZE", "group__group-details.html#ga70518e009e7d025eb93fe2f17d9053ab", null ],
     [ "BOOST_HANA_PP_BACK", "group__group-details.html#ga1be7a4bd805ffff2882fe54995dc41bd", null ],
     [ "BOOST_HANA_PP_DROP_BACK", "group__group-details.html#gadcf0cf5cb650681b8cac90d94ce52d44", null ],
+    [ "BOOST_HANA_PP_FRONT", "group__group-details.html#gaf8319341c937c45415ae0eae8d656723", null ],
+    [ "BOOST_HANA_PP_DROP_FRONT", "group__group-details.html#ga4bd17b3ef62e1e275dfe485923fdf666", null ],
     [ "has_common_embedding", "group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b", null ],
     [ "has_nontrivial_common_embedding", "group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4", null ]
 ];

@@ -7,6 +7,7 @@ var dir_62ceaa6da6a428bacbefa2ca5daffcb8 =
     [ "functional", "dir_481811edad3b6f31288f3abf2108f93e.html", "dir_481811edad3b6f31288f3abf2108f93e" ],
     [ "fwd", "dir_0044a3a6e320f9e6e0221e9ba61fb5a4.html", "dir_0044a3a6e320f9e6e0221e9ba61fb5a4" ],
     [ "accessors.hpp", "accessors_8hpp.html", null ],
+    [ "adapt_adt.hpp", "adapt__adt_8hpp.html", null ],
     [ "adapt_struct.hpp", "adapt__struct_8hpp.html", null ],
     [ "adjust.hpp", "adjust_8hpp.html", null ],
     [ "adjust_if.hpp", "adjust__if_8hpp.html", null ],
