@@ -83,8 +83,24 @@ static_assert(BOOST_HANA_PP_BACK(0, 1, 2, 3, 4, 5, 6, 6, 8, 9,
 static_assert(BOOST_HANA_PP_BACK(0, 1, 2, 3, 4, 5, 6, 6, 8, 9,
                                  10, 11, 12, 13, 14, 15, 16, 16, 18, 19) == 19, "");
 
+//////////////////////////////////////////////////////////////////////////////
+// BOOST_HANA_PP_FRONT
+//////////////////////////////////////////////////////////////////////////////
+static_assert(BOOST_HANA_PP_FRONT(0) == 0, "");
+static_assert(BOOST_HANA_PP_FRONT(0, 1) == 0, "");
+static_assert(BOOST_HANA_PP_FRONT(0, 1, 2) == 0, "");
+static_assert(BOOST_HANA_PP_FRONT(0, 1, 2, 3) == 0, "");
+
+static_assert(BOOST_HANA_PP_FRONT(0, 1, 2, 3, 4, 5, 6, 6, 8, 9,
+                                  10, 11, 12, 13, 14, 15, 16, 16, 18) == 0, "");
+
+static_assert(BOOST_HANA_PP_FRONT(0, 1, 2, 3, 4, 5, 6, 6, 8, 9,
+                                  10, 11, 12, 13, 14, 15, 16, 16, 18, 19) == 0, "");
+
 
 int main() {
+    using Vector = std::vector<int>;
+
     //////////////////////////////////////////////////////////////////////////
     // BOOST_HANA_PP_STRINGIZE
     //////////////////////////////////////////////////////////////////////////
@@ -96,7 +112,6 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     // BOOST_HANA_PP_DROP_BACK
     //////////////////////////////////////////////////////////////////////////
-    using Vector = std::vector<int>;
     {
         Vector args = {BOOST_HANA_PP_DROP_BACK(0)};
         BOOST_HANA_RUNTIME_CHECK(args.empty());
@@ -128,5 +143,22 @@ int main() {
         BOOST_HANA_RUNTIME_CHECK(args == Vector{
             0, 1, 2, 3, 4, 5, 6, 6, 8, 9,
             10, 11, 12, 13, 14, 15, 16, 16, 18});
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // BOOST_HANA_PP_DROP_FRONT
+    //////////////////////////////////////////////////////////////////////////
+    {
+        Vector args = {BOOST_HANA_PP_DROP_FRONT(0, 1)};
+        BOOST_HANA_RUNTIME_CHECK(args == Vector{1});
+    }{
+        Vector args = {BOOST_HANA_PP_DROP_FRONT(0, 1, 2)};
+        BOOST_HANA_RUNTIME_CHECK(args == Vector{1, 2});
+    }{
+        Vector args = {BOOST_HANA_PP_DROP_FRONT(0, 1, 2, 3)};
+        BOOST_HANA_RUNTIME_CHECK(args == Vector{1, 2, 3});
+    }{
+        Vector args = {BOOST_HANA_PP_DROP_FRONT(0, 1, 2, 3, 4)};
+        BOOST_HANA_RUNTIME_CHECK(args == Vector{1, 2, 3, 4});
     }
 }

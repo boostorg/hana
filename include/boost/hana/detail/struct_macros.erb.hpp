@@ -20,7 +20,8 @@
 
 /*!
 @file
-Defines the `BOOST_HANA_DEFINE_STRUCT` and the `BOOST_HANA_ADAPT_STRUCT` macros.
+Defines the `BOOST_HANA_DEFINE_STRUCT`, `BOOST_HANA_ADAPT_STRUCT`, and
+`BOOST_HANA_ADAPT_ADT` macros.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
@@ -73,12 +74,12 @@ namespace boost { namespace hana { namespace struct_detail {
     }
 }}}
 
-template <typename ...>
-struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
-
 //////////////////////////////////////////////////////////////////////////////
 // BOOST_HANA_ADAPT_STRUCT
 //////////////////////////////////////////////////////////////////////////////
+template <typename ...>
+struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
+
 #define BOOST_HANA_ADAPT_STRUCT(...)                                        \
   template <>                                                               \
   struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace<>;  \
@@ -89,43 +90,64 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
 #define BOOST_HANA_ADAPT_STRUCT_IMPL(N, ...) \
   BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_STRUCT_IMPL_, N)(__VA_ARGS__)
 
-#define BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, i, MEMBER)                        \
-  ::boost::hana::make_pair(                                                 \
-    ::boost::hana::struct_detail::prepare_member_name<i, member_names>(),   \
-    ::boost::hana::struct_detail::member_ptr<                               \
-      decltype(&TYPE::MEMBER), &TYPE::MEMBER                                \
-    >{}                                                                     \
-  )                                                                         \
+<% (0..MAX_NUMBER_OF_MEMBERS).each do |n| %>
+#define BOOST_HANA_ADAPT_STRUCT_IMPL_<%= n+1 %>(TYPE <%= (1..n).map { |i| ", m#{i}" }.join %>)    \
+    namespace boost { namespace hana {                                                            \
+        template <>                                                                               \
+        struct accessors_impl<TYPE> {                                                             \
+            static constexpr auto apply() {                                                       \
+                struct member_names {                                                             \
+                  static constexpr auto get() {                                                   \
+                      return ::boost::hana::make_tuple(                                           \
+                          <%= (1..n).map { |i| "BOOST_HANA_PP_STRINGIZE(m#{i})" }.join(', ') %>   \
+                      );                                                                          \
+                  }                                                                               \
+                };                                                                                \
+                return ::boost::hana::make_tuple(                                                 \
+                    <%= (1..n).map { |i| "::boost::hana::make_pair(::boost::hana::struct_detail::prepare_member_name<#{i-1}, member_names>(), ::boost::hana::struct_detail::member_ptr<decltype(&TYPE::m#{i}), &TYPE::m#{i}>{})" }.join(', ') %>\
+                );                                                                                \
+            }                                                                                     \
+        };                                                                                        \
+    }}                                                                                            \
+/**/
+<% end %>
+
+//////////////////////////////////////////////////////////////////////////////
+// BOOST_HANA_ADAPT_ADT
+//////////////////////////////////////////////////////////////////////////////
+template <typename ...>
+struct BOOST_HANA_ADAPT_ADT_must_be_called_in_the_global_namespace;
+
+#define BOOST_HANA_ADAPT_ADT(...)                                           \
+  template <>                                                               \
+  struct BOOST_HANA_ADAPT_ADT_must_be_called_in_the_global_namespace<>;     \
+  BOOST_HANA_ADAPT_ADT_IMPL(BOOST_HANA_PP_NARG(__VA_ARGS__), __VA_ARGS__)   \
+  static_assert(true, "force the usage of a trailing semicolon")            \
 /**/
 
-<% (0..MAX_NUMBER_OF_MEMBERS).each do |n|
-    members = (1..n).to_a.map { |i| "m#{i}" }
-    args = ["TYPE"] + members
-    member_pairs = members.map.with_index { |member, i|
-        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, #{member})"
-    }
-    member_names = members.map { |member|
-        "BOOST_HANA_PP_STRINGIZE(#{member})"
-    }
-%>
-#define BOOST_HANA_ADAPT_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %>)     \
-    namespace boost { namespace hana {                                      \
-        template <>                                                         \
-        struct accessors_impl<TYPE> {                                       \
-            static constexpr auto apply() {                                 \
-                struct member_names {                                       \
-                  static constexpr auto get() {                             \
-                      return ::boost::hana::make_tuple(                     \
-                          <%= member_names.join(', ') %>                    \
-                      );                                                    \
-                  }                                                         \
-                };                                                          \
-                return ::boost::hana::make_tuple(                           \
-                    <%= member_pairs.join(', ') %>                          \
-                );                                                          \
-            }                                                               \
-        };                                                                  \
-    }}                                                                      \
+#define BOOST_HANA_ADAPT_ADT_IMPL(N, ...) \
+  BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_ADT_IMPL_, N)(__VA_ARGS__)
+
+<% (0..MAX_NUMBER_OF_MEMBERS).each do |n| %>
+#define BOOST_HANA_ADAPT_ADT_IMPL_<%= n+1 %>(TYPE <%= (1..n).map { |i| ", m#{i}" }.join %>)             \
+    namespace boost { namespace hana {                                                                  \
+        template <>                                                                                     \
+        struct accessors_impl<TYPE> {                                                                   \
+            template <typename ...>                                                                     \
+            static constexpr auto apply() {                                                             \
+                struct member_names {                                                                   \
+                  static constexpr auto get() {                                                         \
+                      return ::boost::hana::make_tuple(                                                 \
+                        <%= (1..n).map { |i| "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_FRONT m#{i})" }.join(', ') %>\
+                      );                                                                                \
+                  }                                                                                     \
+                };                                                                                      \
+                return ::boost::hana::make_tuple(                                                       \
+                    <%= (1..n).map { |i| "::boost::hana::make_pair(::boost::hana::struct_detail::prepare_member_name<#{i-1}, member_names>(), BOOST_HANA_PP_DROP_FRONT m#{i})" }.join(', ') %>\
+                );                                                                                      \
+            }                                                                                           \
+        };                                                                                              \
+    }}                                                                                                  \
 /**/
 <% end %>
 
@@ -138,35 +160,24 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
 #define BOOST_HANA_DEFINE_STRUCT_IMPL(N, ...) \
     BOOST_HANA_PP_CONCAT(BOOST_HANA_DEFINE_STRUCT_IMPL_, N)(__VA_ARGS__)
 
-<% (0..MAX_NUMBER_OF_MEMBERS).each do |n|
-    members = (1..n).to_a.map { |i| "m#{i}" }
-    args = ["TYPE"] + members
-    member_pairs = members.map.with_index { |member, i|
-        "BOOST_HANA_MEMBER_PAIR_IMPL(TYPE, #{i}, BOOST_HANA_PP_BACK #{member})"
-    }
-    member_decls = members.map { |member|
-        "BOOST_HANA_PP_DROP_BACK #{member} BOOST_HANA_PP_BACK #{member};"
-    }
-    member_names = members.map { |member|
-        "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_BACK #{member})"
-    }
-%>
-#define BOOST_HANA_DEFINE_STRUCT_IMPL_<%= n+1 %>(<%= args.join(', ') %> )   \
-  <%= member_decls.join(' ') %>                                             \
-  struct hana_accessors_impl {                                              \
-    static constexpr auto apply() {                                         \
-      struct member_names {                                                 \
-        static constexpr auto get() {                                       \
-            return ::boost::hana::make_tuple(                               \
-                <%= member_names.join(', ') %>                              \
-            );                                                              \
-        }                                                                   \
-      };                                                                    \
-      return ::boost::hana::make_tuple(                                     \
-        <%= member_pairs.join(", ") %>                                      \
-      );                                                                    \
-    }                                                                       \
-  }                                                                         \
+<% (0..MAX_NUMBER_OF_MEMBERS).each do |n| %>
+#define BOOST_HANA_DEFINE_STRUCT_IMPL_<%= n+1 %>(TYPE <%= (1..n).map { |i| ", m#{i}" }.join %>)       \
+  <%= (1..n).map { |i| "BOOST_HANA_PP_DROP_BACK m#{i} BOOST_HANA_PP_BACK m#{i};" }.join(' ') %>       \
+                                                                                                      \
+  struct hana_accessors_impl {                                                                        \
+    static constexpr auto apply() {                                                                   \
+      struct member_names {                                                                           \
+        static constexpr auto get() {                                                                 \
+            return ::boost::hana::make_tuple(                                                         \
+              <%= (1..n).map { |i| "BOOST_HANA_PP_STRINGIZE(BOOST_HANA_PP_BACK m#{i})" }.join(', ') %>\
+            );                                                                                        \
+        }                                                                                             \
+      };                                                                                              \
+      return ::boost::hana::make_tuple(                                                               \
+        <%= (1..n).map { |i| "::boost::hana::make_pair(::boost::hana::struct_detail::prepare_member_name<#{i-1}, member_names>(), ::boost::hana::struct_detail::member_ptr<decltype(&TYPE::BOOST_HANA_PP_BACK m#{i}), &TYPE::BOOST_HANA_PP_BACK m#{i}>{})" }.join(', ') %>\
+      );                                                                                              \
+    }                                                                                                 \
+  }                                                                                                   \
 /**/
 <% end %>
 

@@ -1598,12 +1598,19 @@ The `BOOST_HANA_ADAPT_STRUCT` macro must be used at global scope.
 
 The effect is exactly the same as with the `BOOST_HANA_DEFINE_STRUCT` macro,
 except you do not need to modify the type you want to adapt, which is
-sometimes useful. Before we move on to a concrete example of using these
+sometimes useful. Finally, it is also possible to define custom accessors
+by using the `BOOST_HANA_ADAPT_ADT` macro:
+
+@snippet example/tutorial/introspection.adapt.cpp BOOST_HANA_ADAPT_ADT
+
+This way, the names used to access the members of the `Struct` will be those
+specified, and the associated function will be called on the `Struct` when
+retrieving that member. Before we move on to a concrete example of using these
 introspection features, it should also be mentioned that `struct`s can be
 adapted without using macros. This advanced interface for defining `Struct`s
-can be used to specify keys that are not compile-time strings and to specify
-custom accessors for the members of the structure. The advanced interface is
-described in the documentation for the `Struct` concept.
+can be used for example to specify keys that are not compile-time strings.
+The advanced interface is described in the documentation of the `Struct`
+concept.
 
 
 @subsection tutorial-introspection-json Example: generating JSON

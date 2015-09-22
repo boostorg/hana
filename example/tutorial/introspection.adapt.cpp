@@ -85,3 +85,18 @@ namespace not_my_namespace {
 
 BOOST_HANA_ADAPT_STRUCT(not_my_namespace::Person, name, age);
 //! [BOOST_HANA_ADAPT_STRUCT]
+
+
+//! [BOOST_HANA_ADAPT_ADT]
+namespace also_not_my_namespace {
+  struct Person {
+    std::string get_name();
+    int get_age();
+  };
+}
+
+BOOST_HANA_ADAPT_ADT(also_not_my_namespace::Person,
+  (name, [](auto const& p) { return p.get_name(); }),
+  (age, [](auto const& p) { return p.get_age(); })
+);
+//! [BOOST_HANA_ADAPT_ADT]

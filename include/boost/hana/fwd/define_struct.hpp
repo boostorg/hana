@@ -1,6 +1,6 @@
 /*!
 @file
-Forward declares the `BOOST_HANA_DEFINE_STRUCT` macro.
+Documents the `BOOST_HANA_DEFINE_STRUCT` macro.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.

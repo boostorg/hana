@@ -67,8 +67,8 @@ namespace boost { namespace hana {
     //! @snippet example/struct.mcd.nested.cpp main
     //!
     //! Finally, the most convenient (but least flexible) option is to use
-    //! the `BOOST_HANA_DEFINE_STRUCT` or the `BOOST_HANA_ADAPT_STRUCT` macro
-    //! to provide a model of the `Struct` concept with minimal syntactic
+    //! the `BOOST_HANA_DEFINE_STRUCT`, the `BOOST_HANA_ADAPT_STRUCT` or the
+    //! `BOOST_HANA_ADAPT_ADT` macro, which provide a minimal syntactic
     //! overhead. See the documentation of these macros for details on how
     //! to use them.
     //!

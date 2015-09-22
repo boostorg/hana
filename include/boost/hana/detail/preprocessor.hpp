@@ -92,4 +92,15 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_PP_DROP_BACK_IMPL_19(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18) e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17
 #define BOOST_HANA_PP_DROP_BACK_IMPL_20(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19) e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18
 
+//! @ingroup group-details
+//! Expands to its first argument.
+#define BOOST_HANA_PP_FRONT(...) BOOST_HANA_PP_FRONT_IMPL(__VA_ARGS__, )
+#define BOOST_HANA_PP_FRONT_IMPL(e0, ...) e0
+
+//! @ingroup group-details
+//! Expands to all of its arguments, except for the first one.
+//!
+//! This macro may not be called with less than 2 arguments.
+#define BOOST_HANA_PP_DROP_FRONT(e0, ...) __VA_ARGS__
+
 #endif // !BOOST_HANA_DETAIL_PREPROCESSOR_HPP

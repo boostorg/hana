@@ -50,6 +50,7 @@ namespace boost { namespace hana {
 #include <boost/hana/config.hpp>
 
 #include <boost/hana/accessors.hpp>
+#include <boost/hana/adapt_adt.hpp>
 #include <boost/hana/adapt_struct.hpp>
 #include <boost/hana/adjust.hpp>
 #include <boost/hana/adjust_if.hpp>

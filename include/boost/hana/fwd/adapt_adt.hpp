@@ -1,14 +1,14 @@
 /*!
 @file
-Documents the `BOOST_HANA_ADAPT_STRUCT` macro.
+Documents the `BOOST_HANA_ADAPT_ADT` macro.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_FWD_ADAPT_STRUCT_HPP
-#define BOOST_HANA_FWD_ADAPT_STRUCT_HPP
+#ifndef BOOST_HANA_FWD_ADAPT_ADT_HPP
+#define BOOST_HANA_FWD_ADAPT_ADT_HPP
 
 namespace boost { namespace hana {
     // Note:
@@ -16,14 +16,14 @@ namespace boost { namespace hana {
     // which makes the macro appear in the related objects of Struct (as we
     // want it to).
 
-    //! Defines a model of `Struct` with the given members.
+    //! Defines a model of `Struct` with the given accessors.
     //! @relates Struct
     //!
     //! Using this macro at _global scope_ will define a model of the `Struct`
     //! concept for the given type. This can be used to easily adapt existing
-    //! user-defined types in a ad-hoc manner. Unlike the
-    //! `BOOST_HANA_DEFINE_STRUCT` macro, this macro does not
-    //! require the types of the members to be specified.
+    //! user-defined types in a ad-hoc manner. Unlike `BOOST_HANA_ADAPT_STRUCT`,
+    //! this macro requires specifying the way to retrieve each member by
+    //! providing a function that does the extraction.
     //!
     //! @note
     //! This macro only works if the tag of the user-defined type `T` is `T`
@@ -33,13 +33,13 @@ namespace boost { namespace hana {
     //!
     //! Example
     //! -------
-    //! @include example/adapt_struct.cpp
+    //! @include example/adapt_adt.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    auto BOOST_HANA_ADAPT_STRUCT(...) = ;
-    #define BOOST_HANA_ADAPT_STRUCT(Name, ...) see documentation
+    auto BOOST_HANA_ADAPT_ADT(...) = ;
+    #define BOOST_HANA_ADAPT_ADT(Name, ...) see documentation
 #else
-    // defined in <boost/hana/adapt_struct.hpp>
+    // defined in <boost/hana/adapt_adt.hpp>
 #endif
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_FWD_ADAPT_STRUCT_HPP
+#endif // !BOOST_HANA_FWD_ADAPT_ADT_HPP

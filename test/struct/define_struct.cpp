@@ -4,16 +4,16 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/concept/struct.hpp>
-
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/struct.hpp>
+#include <boost/hana/contains.hpp>
+#include <boost/hana/define_struct.hpp>
 #include <boost/hana/string.hpp>
 
 #include <laws/base.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
+using hana::test::ct_eq;
 
-
-using test::ct_eq;
 
 // This allows us to make sure we can enter template types
 // containing commas in the macro.
@@ -42,18 +42,18 @@ struct Data3 {
     );
 };
 
-static_assert(Struct<Data0>::value, "");
-static_assert(Struct<Data1>::value, "");
-static_assert(Struct<Data2>::value, "");
-static_assert(Struct<Data3>::value, "");
+static_assert(hana::Struct<Data0>::value, "");
+static_assert(hana::Struct<Data1>::value, "");
+static_assert(hana::Struct<Data2>::value, "");
+static_assert(hana::Struct<Data3>::value, "");
 
 int main() {
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ Data1{});
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data1{}, BOOST_HANA_STRING("member1")));
 
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ Data2{});
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member2") ^in^ Data2{});
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data2{}, BOOST_HANA_STRING("member1")));
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data2{}, BOOST_HANA_STRING("member2")));
 
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member1") ^in^ Data3{});
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member2") ^in^ Data3{});
-    BOOST_HANA_CONSTANT_CHECK(BOOST_HANA_STRING("member3") ^in^ Data3{});
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data3{}, BOOST_HANA_STRING("member1")));
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data3{}, BOOST_HANA_STRING("member2")));
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(Data3{}, BOOST_HANA_STRING("member3")));
 }
