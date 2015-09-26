@@ -12,11 +12,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/sequence.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename S, typename Tag = typename tag_of<S>::type>
         struct sequence_dispatch {
@@ -35,6 +36,6 @@ namespace boost { namespace hana {
         : detail::sequence_dispatch<S>
     { };
     //! @endcond
-}}
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_SEQUENCE_HPP

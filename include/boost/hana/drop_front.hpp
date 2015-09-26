@@ -14,12 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename N>
     constexpr auto drop_front_t::operator()(Xs&& xs, N const& n) const {
@@ -51,6 +52,6 @@ namespace boost { namespace hana {
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&&, N const&) = delete;
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DROP_FRONT_HPP

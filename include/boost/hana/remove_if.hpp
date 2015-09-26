@@ -13,13 +13,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/remove_if.hpp>
 
 #include <boost/hana/concept/monad_plus.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/filter.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/not.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto remove_if_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -46,6 +47,6 @@ namespace boost { namespace hana {
                         hana::compose(hana::not_, static_cast<Pred&&>(pred)));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_REMOVE_IF_HPP

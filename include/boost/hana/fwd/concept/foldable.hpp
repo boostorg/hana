@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
     //! The `Foldable` concept represents data structures that can be reduced
     //! to a single value.
@@ -132,6 +135,6 @@ namespace boost { namespace hana {
     //! course result in different effects.
     template <typename T>
     struct Foldable;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_FOLDABLE_HPP

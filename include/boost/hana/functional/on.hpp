@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ON_HPP
 #define BOOST_HANA_FUNCTIONAL_ON_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/functional/infix.hpp>
 
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Invoke a function with the result of invoking another function on
     //! each argument.
@@ -77,6 +78,6 @@ namespace boost { namespace hana {
 
     constexpr auto on = infix(detail::create<on_t>{});
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_ON_HPP

@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_COMONAD_HPP
 #define BOOST_HANA_FWD_CONCEPT_COMONAD_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     // Note: We use a multiline C++ comment because there's a double backslash
     // symbol in the documentation (for LaTeX), which triggers
     //      warning: multi-line comment [-Wcomment]
@@ -102,6 +105,6 @@ namespace boost { namespace hana {
     */
     template <typename W>
     struct Comonad;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_COMONAD_HPP

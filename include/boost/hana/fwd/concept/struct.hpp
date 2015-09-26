@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
 #define BOOST_HANA_FWD_CONCEPT_STRUCT_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
     //! The `Struct` concept represents `struct`-like user-defined types.
     //!
@@ -147,6 +150,6 @@ namespace boost { namespace hana {
     //! @include example/struct/searchable.cpp
     template <typename S>
     struct Struct;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_STRUCT_HPP

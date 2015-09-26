@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/bool.hpp>
 
 #include <boost/hana/concept/integral_constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/operators/arithmetic.hpp>
@@ -30,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // integral_constant
     //////////////////////////////////////////////////////////////////////////
@@ -215,6 +216,6 @@ namespace boost { namespace hana {
         apply(hana::false_ const&, Then&&, Else&& e)
         { return static_cast<Else&&>(e); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_BOOL_HPP

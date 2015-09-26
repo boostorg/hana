@@ -14,10 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/at.hpp>
 #include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs>
     constexpr decltype(auto) front_t::operator()(Xs&& xs) const {
@@ -41,6 +42,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(Xs&& xs)
         { return hana::at_c<0>(static_cast<Xs&&>(xs)); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FRONT_HPP

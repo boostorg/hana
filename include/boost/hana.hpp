@@ -35,14 +35,14 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup group-details Details
 //! Implementation details.
 
-namespace boost { namespace hana {
+// Include config.hpp first, so that warning messages about compiler support
+// appear as soon as possible, and the version namespace macros are defined.
+#include <boost/hana/config.hpp>
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! Namespace containing C++14 user-defined literals provided by Hana.
     namespace literals { }
-}}
-
-// Include config.hpp first, so that warning messages about
-// compiler support appear as soon as possible.
-#include <boost/hana/config.hpp>
+BOOST_HANA_NAMESPACE_END
 
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/adapt_adt.hpp>

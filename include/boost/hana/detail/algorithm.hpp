@@ -12,11 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/functional/placeholder.hpp>
 
+#include <boost/hana/config.hpp>
+
 #include <cstddef>
 #include <utility>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename T>
     constexpr void swap(T& x, T& y) {
         auto tmp = x;
@@ -177,6 +179,6 @@ namespace boost { namespace hana { namespace detail {
                 smallest = first;
         return smallest;
     }
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_ALGORITHM_HPP

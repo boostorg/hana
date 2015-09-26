@@ -12,10 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/core/tag_of.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename T, typename>
     struct tag_of : tag_of<T, when<true>> { };
@@ -43,6 +44,6 @@ namespace boost { namespace hana {
     template <typename T> struct tag_of<T const volatile> : tag_of<T> { };
     template <typename T> struct tag_of<T&> : tag_of<T> { };
     template <typename T> struct tag_of<T&&> : tag_of<T> { };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CORE_TAG_OF_HPP

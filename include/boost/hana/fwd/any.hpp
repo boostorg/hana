@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_ANY_HPP
 #define BOOST_HANA_FWD_ANY_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether any key of the structure is true-valued.
     //! @relates Searchable
     //!
@@ -40,6 +41,6 @@ namespace boost { namespace hana {
 
     constexpr any_t any{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_ANY_HPP

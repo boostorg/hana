@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_CAPTURE_HPP
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/functional/partial.hpp>
 
@@ -18,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Create a function capturing the given variables.
     //!
@@ -106,6 +107,6 @@ namespace boost { namespace hana {
 
     constexpr make_capture_t capture{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_CAPTURE_HPP

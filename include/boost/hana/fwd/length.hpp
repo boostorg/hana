@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LENGTH_HPP
 #define BOOST_HANA_FWD_LENGTH_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Return the number of elements in a foldable structure.
     //! @relates Foldable
     //!
@@ -44,6 +45,6 @@ namespace boost { namespace hana {
 
     constexpr length_t length{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_LENGTH_HPP

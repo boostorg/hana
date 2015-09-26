@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FOLD_RIGHT_HPP
 #define BOOST_HANA_FWD_FOLD_RIGHT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Right-fold of a structure using a binary operation and an optional
     //! initial reduction state.
     //! @relates Foldable
@@ -94,6 +95,6 @@ namespace boost { namespace hana {
 
     constexpr fold_right_t fold_right{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FOLD_RIGHT_HPP

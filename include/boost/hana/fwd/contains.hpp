@@ -10,13 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONTAINS_HPP
 #define BOOST_HANA_FWD_CONTAINS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
-
 #include <boost/hana/functional/flip.hpp>
 #include <boost/hana/functional/infix.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether the key occurs in the structure.
     //! @relates Searchable
     //!
@@ -68,6 +68,6 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/in.cpp
     constexpr auto in = hana::infix(hana::flip(hana::contains));
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONTAINS_HPP

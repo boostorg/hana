@@ -10,11 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SET_HPP
 #define BOOST_HANA_FWD_SET_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Basic unordered container requiring compile-time `Comparable` elements.
     //!
@@ -156,6 +157,6 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SET_HPP

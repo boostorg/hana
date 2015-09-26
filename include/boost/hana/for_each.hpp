@@ -13,11 +13,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/for_each.hpp>
 
 #include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/unpack.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename F>
     constexpr void for_each_t::operator()(Xs&& xs, F&& f) const {
@@ -56,6 +57,6 @@ namespace boost { namespace hana {
                          detail::on_each<decltype(&f)>{&f});
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FOR_EACH_HPP

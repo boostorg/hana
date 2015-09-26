@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/concept/struct.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
@@ -40,7 +41,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename X, typename Y>
     constexpr auto equal_t::operator()(X&& x, Y&& y) const {
@@ -193,6 +194,6 @@ namespace boost { namespace hana {
                 detail::compare_struct_members<X, Y>{x, y});
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EQUAL_HPP

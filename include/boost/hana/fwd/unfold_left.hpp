@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_UNFOLD_LEFT_HPP
 #define BOOST_HANA_FWD_UNFOLD_LEFT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Dual operation to `fold_left` for sequences.
     //! @relates Sequence
     //!
@@ -79,6 +80,6 @@ namespace boost { namespace hana {
     template <typename S>
     constexpr unfold_left_t<S> unfold_left{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_UNFOLD_LEFT_HPP

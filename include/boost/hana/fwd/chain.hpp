@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CHAIN_HPP
 #define BOOST_HANA_FWD_CHAIN_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Feed a monadic value into a monadic computation.
     //! @relates Monad
     //!
@@ -61,6 +62,6 @@ namespace boost { namespace hana {
 
     constexpr chain_t chain{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CHAIN_HPP

@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/variadic/reverse_apply/unrolled.hpp>
 
 
-namespace boost { namespace hana { namespace detail { namespace variadic {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     BOOST_HANA_CONSTEXPR_LAMBDA auto reverse_apply =
         [](auto&& f, auto&& ...x) -> decltype(auto) {
             return detail::variadic::reverse_apply_unrolled(
@@ -22,6 +22,6 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
                 static_cast<decltype(x)&&>(x)...
             );
         };
-}}}} // end namespace boost::hana::detail::variadic
+}} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_HPP

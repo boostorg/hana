@@ -14,11 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/id.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs>
     constexpr auto all_t::operator()(Xs&& xs) const {
@@ -42,6 +43,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs)
         { return hana::all_of(static_cast<Xs&&>(xs), hana::id); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ALL_HPP

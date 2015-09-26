@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_LIST_HPP
 
 #include <boost/hana/concept/foldable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/mpl/integral_c.hpp>
 #include <boost/hana/fwd/at.hpp>
@@ -93,7 +94,7 @@ namespace boost { namespace mpl {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace boost { namespace mpl {
         using list_tag = ::boost::mpl::sequence_tag< ::boost::mpl::list<>>::type;
     }}}
@@ -180,6 +181,6 @@ namespace boost { namespace hana {
             return typename decltype(list_type)::type{};
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_LIST_HPP

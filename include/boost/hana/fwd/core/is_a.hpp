@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CORE_IS_A_HPP
 #define BOOST_HANA_FWD_CORE_IS_A_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-core
     //! Returns whether the tag of an object matches a given tag.
     //!
@@ -53,6 +56,6 @@ namespace boost { namespace hana {
     template <typename Tag, typename ...T>
     constexpr is_a_t<Tag, T...> is_an{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CORE_IS_A_HPP

@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/concept/struct.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
 #include <boost/hana/first.hpp>
@@ -30,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto any_of_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -184,6 +185,6 @@ namespace boost { namespace hana {
                     hana::compose(static_cast<Pred&&>(pred), hana::first));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ANY_OF_HPP

@@ -10,12 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TAKE_HPP
 #define BOOST_HANA_FWD_TAKE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 #include <cstddef>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the first `n` elements of a sequence, or the whole sequence
     //! if the sequence has less than `n` elements.
     //! @relates Sequence
@@ -72,6 +73,6 @@ namespace boost { namespace hana {
     template <std::size_t n>
     constexpr take_c_t<n> take_c{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_TAKE_HPP

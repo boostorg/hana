@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_OPERATORS_ARITHMETIC_HPP
 #define BOOST_HANA_DETAIL_OPERATORS_ARITHMETIC_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/fwd/div.hpp>
 #include <boost/hana/fwd/minus.hpp>
@@ -21,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename Tag>
     struct arithmetic_operators {
         static constexpr bool value = false;
@@ -72,6 +73,6 @@ namespace boost { namespace hana { namespace detail {
         constexpr auto operator%(X&& x, Y&& y)
         { return hana::mod(static_cast<X&&>(x), static_cast<Y&&>(y)); }
     } // end namespace operators
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_OPERATORS_ARITHMETIC_HPP

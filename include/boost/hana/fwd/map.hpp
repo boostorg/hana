@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAP_HPP
 #define BOOST_HANA_FWD_MAP_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/keys.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/insert.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Basic associative container requiring unique and `Comparable` keys.
     //!
@@ -184,6 +185,6 @@ namespace boost { namespace hana {
         return tag-dispatched;
     };
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAP_HPP

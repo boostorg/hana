@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/or.hpp>
 
 #include <boost/hana/concept/logical.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/if.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) or_t::operator()(X&& x, Y&& y) const {
@@ -55,6 +56,6 @@ namespace boost { namespace hana {
             return hana::if_(x, x, static_cast<Y&&>(y));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_OR_HPP

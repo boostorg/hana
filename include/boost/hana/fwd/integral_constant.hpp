@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 #define BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 
 #include <cstddef>
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Tag representing `hana::integral_constant`.
     //! @relates hana::integral_constant
     template <typename T>
@@ -334,6 +335,6 @@ namespace boost { namespace hana {
         template <char ...c>
         constexpr auto operator"" _c();
     }
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP

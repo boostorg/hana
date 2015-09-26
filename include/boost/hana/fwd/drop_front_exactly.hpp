@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_DROP_FRONT_EXACTLY_HPP
 #define BOOST_HANA_FWD_DROP_FRONT_EXACTLY_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Drop the first `n` elements of an iterable, and return the rest.
     //! @relates Iterable
     //!
@@ -61,6 +62,6 @@ namespace boost { namespace hana {
 
     constexpr drop_front_exactly_t drop_front_exactly{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_DROP_FRONT_EXACTLY_HPP

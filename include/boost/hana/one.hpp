@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/ring.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
@@ -21,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename R>
     struct one_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -73,6 +74,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply()
         { return hana::to<C>(detail::constant_from_one<C>{}); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ONE_HPP

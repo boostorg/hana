@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_DROP_BACK_HPP
 #define BOOST_HANA_FWD_DROP_BACK_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Drop the last `n` elements of a finite sequence, and return the rest.
     //! @relates Sequence
     //!
@@ -57,6 +58,6 @@ namespace boost { namespace hana {
 
     constexpr drop_back_t drop_back{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_DROP_BACK_HPP

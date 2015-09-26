@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FUSE_HPP
 #define BOOST_HANA_FWD_FUSE_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! Transform a function taking multiple arguments into a function that
     //! can be called with a compile-time `Foldable`.
     //! @relates Foldable
@@ -47,6 +50,6 @@ namespace boost { namespace hana {
 
     constexpr fuse_t fuse{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FUSE_HPP

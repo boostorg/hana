@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_COMPARING_HPP
 #define BOOST_HANA_FWD_COMPARING_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a function performing `equal` after applying a transformation
     //! to both arguments.
     //! @relates Comparable
@@ -57,6 +60,6 @@ namespace boost { namespace hana {
 
     constexpr comparing_t comparing{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_COMPARING_HPP

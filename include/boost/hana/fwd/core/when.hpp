@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CORE_WHEN_HPP
 #define BOOST_HANA_FWD_CORE_WHEN_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-core
     //! Enable a partial specialization only if a boolean condition is true.
     //!
@@ -63,6 +66,6 @@ namespace boost { namespace hana {
         core_detail::always_true<Dummy...>::value
     >;
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CORE_WHEN_HPP

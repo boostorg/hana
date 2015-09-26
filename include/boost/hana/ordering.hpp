@@ -12,12 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/ordering.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/less.hpp>
 
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename F>
         struct less_by {
@@ -39,6 +40,6 @@ namespace boost { namespace hana {
         return detail::less_by<typename std::decay<F>::type>{static_cast<F&&>(f)};
     }
     //! @endcond
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ORDERING_HPP

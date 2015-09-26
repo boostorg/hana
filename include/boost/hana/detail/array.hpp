@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_ARRAY_HPP
 #define BOOST_HANA_DETAIL_ARRAY_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/functional/placeholder.hpp>
 
 #include <cstddef>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename N>
     constexpr N factorial(N n) {
         N result = 1;
@@ -99,6 +100,6 @@ namespace boost { namespace hana { namespace detail {
         return M < N || detail::lexicographical_compare(a.begin(), a.end(), b.begin(), b.end());
     }
 
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_ARRAY_HPP

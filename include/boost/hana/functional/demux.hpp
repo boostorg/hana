@@ -11,13 +11,14 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Invoke a function with the results of invoking other functions
     //! on its arguments.
@@ -263,6 +264,6 @@ namespace boost { namespace hana {
 
     constexpr make_pre_demux_t demux{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_DEMUX_HPP

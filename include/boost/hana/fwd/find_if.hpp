@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FIND_IF_HPP
 #define BOOST_HANA_FWD_FIND_IF_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Finds the value associated to the first key satisfying a predicate.
     //! @relates Searchable
     //!
@@ -58,6 +59,6 @@ namespace boost { namespace hana {
 
     constexpr find_if_t find_if{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FIND_IF_HPP

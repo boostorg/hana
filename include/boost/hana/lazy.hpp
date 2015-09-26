@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/lazy.hpp>
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -34,7 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // lazy
     //////////////////////////////////////////////////////////////////////////
@@ -223,6 +224,6 @@ namespace boost { namespace hana {
             return hana::make_lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_LAZY_HPP

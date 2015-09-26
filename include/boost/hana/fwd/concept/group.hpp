@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_GROUP_HPP
 #define BOOST_HANA_FWD_CONCEPT_GROUP_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
     //! The `Group` concept represents `Monoid`s where all objects have
     //! an inverse w.r.t. the `Monoid`'s binary operation.
@@ -102,6 +105,6 @@ namespace boost { namespace hana {
     //! [2]: http://en.wikipedia.org/wiki/Group_homomorphism
     template <typename G>
     struct Group;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_GROUP_HPP

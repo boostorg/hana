@@ -10,11 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MAXIMUM_HPP
 #define BOOST_HANA_FWD_MAXIMUM_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/nested_by_fwd.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Return the greatest element of a non-empty structure with respect to
     //! a `predicate`, by default `less`.
     //! @relates Foldable
@@ -110,6 +111,6 @@ namespace boost { namespace hana {
 
     constexpr maximum_t maximum{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAXIMUM_HPP

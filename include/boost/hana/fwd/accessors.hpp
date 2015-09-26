@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_ACCESSORS_HPP
 #define BOOST_HANA_FWD_ACCESSORS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Sequence` of pairs representing the accessors of the
     //! data structure.
     //! @relates Struct
@@ -44,6 +45,6 @@ namespace boost { namespace hana {
     template <typename S>
     constexpr accessors_t<S> accessors{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_ACCESSORS_HPP

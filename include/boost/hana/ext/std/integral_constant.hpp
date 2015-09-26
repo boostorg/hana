@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP
 
 #include <boost/hana/concept/integral_constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -38,7 +39,7 @@ namespace std {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace std {
         template <typename T>
         struct integral_constant_tag { using value_type = T; };
@@ -90,6 +91,6 @@ namespace boost { namespace hana {
             return std::integral_constant<T, N::value>{};
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_STD_INTEGRAL_CONSTANT_HPP

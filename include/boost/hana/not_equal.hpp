@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/not_equal.hpp>
 
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
@@ -21,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/not.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename X, typename Y>
     constexpr auto not_equal_t::operator()(X&& x, Y&& y) const {
@@ -53,6 +54,6 @@ namespace boost { namespace hana {
                                    hana::to<C>(static_cast<Y&&>(y)));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_NOT_EQUAL_HPP

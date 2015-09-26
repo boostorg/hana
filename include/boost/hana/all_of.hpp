@@ -14,12 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/any_of.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/not.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto all_of_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -45,6 +46,6 @@ namespace boost { namespace hana {
                     hana::compose(hana::not_, static_cast<Pred&&>(pred))));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ALL_OF_HPP

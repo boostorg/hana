@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CORE_MAKE_HPP
 #define BOOST_HANA_FWD_CORE_MAKE_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-core
     //! Create an object of the given tag with the given arguments.
     //!
@@ -62,6 +65,6 @@ namespace boost { namespace hana {
     template <typename Tag>
     constexpr make_t<Tag> make{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CORE_MAKE_HPP

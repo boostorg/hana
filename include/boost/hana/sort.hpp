@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concat.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/nested_by.hpp> // required by fwd decl
 #include <boost/hana/drop_front.hpp>
@@ -30,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/second.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Predicate>
     constexpr auto sort_t::operator()(Xs&& xs, Predicate&& pred) const {
@@ -105,6 +106,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(Xs&& xs)
         { return sort_impl::apply(static_cast<Xs&&>(xs), hana::less); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_SORT_HPP

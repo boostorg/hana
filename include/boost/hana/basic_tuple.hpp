@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/basic_tuple.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/fwd/core/make.hpp>
@@ -32,7 +33,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         //////////////////////////////////////////////////////////////////////
         // elt<n, Xn>
@@ -246,6 +247,6 @@ namespace boost { namespace hana {
         { return hana::bool_c<sizeof...(Xs) == 0>; }
     };
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_BASIC_TUPLE_HPP

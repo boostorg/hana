@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_POWER_HPP
 #define BOOST_HANA_FWD_POWER_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Elevate a ring element to its `n`th power.
     //! @relates Ring
     //!
@@ -50,6 +51,6 @@ namespace boost { namespace hana {
 
     constexpr power_t power{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_POWER_HPP

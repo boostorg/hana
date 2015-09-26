@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_TYPE_HPP
 #define BOOST_HANA_FWD_TYPE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Base class of `hana::type`; used for pattern-matching.
     //! @relates hana::type
     //!
@@ -454,6 +455,6 @@ namespace boost { namespace hana {
     //! @include example/type/trait.cpp
     template <template <typename ...> class F>
     constexpr auto trait = hana::integral(hana::metafunction<F>);
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_TYPE_HPP

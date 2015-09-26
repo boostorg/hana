@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_COMPOSE_HPP
 #define BOOST_HANA_FUNCTIONAL_COMPOSE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Return the composition of two functions or more.
     //!
@@ -102,6 +103,6 @@ namespace boost { namespace hana {
 
     constexpr _make_compose compose{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_COMPOSE_HPP

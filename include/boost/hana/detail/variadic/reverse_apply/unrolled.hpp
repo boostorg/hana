@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/functional/reverse_partial.hpp>
 
 
-namespace boost { namespace hana { namespace detail { namespace variadic {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     struct reverse_apply_unrolled_impl {
         template <typename F>
         constexpr decltype(auto) operator()(F&& f) const {
@@ -81,6 +82,6 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
     constexpr reverse_apply_unrolled_impl reverse_apply_unrolled{};
 
-}}}} // end namespace boost::hana::detail::variadic
+}} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP

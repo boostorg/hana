@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MOD_HPP
 #define BOOST_HANA_FWD_MOD_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Generalized integer modulus.
     //! @relates EuclideanRing
     //!
@@ -56,6 +57,6 @@ namespace boost { namespace hana {
 
     constexpr mod_t mod{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MOD_HPP

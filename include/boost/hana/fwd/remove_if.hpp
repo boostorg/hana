@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_REMOVE_IF_HPP
 #define BOOST_HANA_FWD_REMOVE_IF_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Remove all the elements of a monadic structure that satisfy some
     //! predicate.
     //! @relates MonadPlus
@@ -63,6 +64,6 @@ namespace boost { namespace hana {
 
     constexpr remove_if_t remove_if{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_REMOVE_IF_HPP

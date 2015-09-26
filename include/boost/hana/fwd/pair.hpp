@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_PAIR_HPP
 #define BOOST_HANA_FWD_PAIR_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Generic container for two elements.
     //!
@@ -123,6 +124,6 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/pair/make.cpp
     constexpr auto make_pair = make<pair_tag>;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

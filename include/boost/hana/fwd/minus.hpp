@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MINUS_HPP
 #define BOOST_HANA_FWD_MINUS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Subtract two elements of a group.
     //! @relates Group
     //!
@@ -61,6 +62,6 @@ namespace boost { namespace hana {
 
     constexpr minus_t minus{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MINUS_HPP

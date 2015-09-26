@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_TRAITS_HPP
 #define BOOST_HANA_TRAITS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/type.hpp>
 
@@ -18,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana { namespace traits {
+BOOST_HANA_NAMESPACE_BEGIN namespace traits {
     namespace detail {
         template <template <typename ...> class F>
         struct hana_trait {
@@ -211,6 +212,6 @@ namespace boost { namespace hana { namespace traits {
     };
 
     constexpr declval_t declval{};
-}}} // end namespace boost::hana::traits
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_TRAITS_HPP

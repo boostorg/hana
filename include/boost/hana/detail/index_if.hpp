@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_INDEX_IF_HPP
 #define BOOST_HANA_DETAIL_INDEX_IF_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 #include <cstddef>
 #include <utility>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename ...T>
     struct pack {
         static constexpr std::size_t length = sizeof...(T);
@@ -59,6 +60,6 @@ namespace boost { namespace hana { namespace detail {
     struct index_if<Pred, pack<>> {
         static constexpr std::size_t value = 0;
     };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_INDEX_IF_HPP

@@ -10,11 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_ADJUST_IF_HPP
 #define BOOST_HANA_FWD_ADJUST_IF_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
-    //! Apply a function on all the elements of a structure satisfying a `pred`.
+BOOST_HANA_NAMESPACE_BEGIN
+    //! Apply a function on all the elements of a structure satisfying a predicate.
     //! @relates Functor
     //!
     //! Given a Functor, a predicate `pred` and a function `f`, `adjust_if`
@@ -63,6 +64,6 @@ namespace boost { namespace hana {
 
     constexpr adjust_if_t adjust_if{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_ADJUST_IF_HPP

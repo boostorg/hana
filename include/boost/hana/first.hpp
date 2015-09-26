@@ -13,10 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/first.hpp>
 
 #include <boost/hana/concept/product.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Pair>
     constexpr decltype(auto) first_t::operator()(Pair&& pair) const {
@@ -39,6 +40,6 @@ namespace boost { namespace hana {
         template <typename ...Args>
         static constexpr auto apply(Args&& ...) = delete;
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FIRST_HPP
