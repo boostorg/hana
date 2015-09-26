@@ -13,10 +13,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/accessors.hpp>
 
 #include <boost/hana/concept/struct.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename S>
     struct accessors_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -50,6 +51,6 @@ namespace boost { namespace hana {
     >>
         : S::hana_accessors_impl
     { };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ACCESSORS_HPP

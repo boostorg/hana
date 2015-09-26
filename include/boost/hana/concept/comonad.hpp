@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/comonad.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/duplicate.hpp>
@@ -19,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/extract.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename W>
     struct Comonad {
         using Tag = typename tag_of<W>::type;
@@ -27,6 +28,6 @@ namespace boost { namespace hana {
                                       (!is_default<duplicate_impl<Tag>>::value ||
                                        !is_default<extend_impl<Tag>>::value);
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_COMONAD_HPP

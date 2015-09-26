@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/concept/struct.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find.hpp>
@@ -25,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/second.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Key>
     constexpr decltype(auto) at_key_t::operator()(Xs&& xs, Key&& key) const {
@@ -61,6 +62,6 @@ namespace boost { namespace hana {
             return accessor(static_cast<X&&>(x));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_AT_KEY_HPP

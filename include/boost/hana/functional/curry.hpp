@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_CURRY_HPP
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/partial.hpp>
 
@@ -18,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Curry a function up to the given number of arguments.
     //!
@@ -163,6 +164,6 @@ namespace boost { namespace hana {
         { return std::move(f)(); }
     };
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_CURRY_HPP

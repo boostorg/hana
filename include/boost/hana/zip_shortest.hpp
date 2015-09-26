@@ -13,13 +13,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/zip_shortest.hpp>
 
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/zip_shortest_with.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename ...Ys>
     constexpr auto zip_shortest_t::operator()(Xs&& xs, Ys&& ...ys) const {
@@ -45,6 +46,6 @@ namespace boost { namespace hana {
                                            static_cast<Xs&&>(xs)...);
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ZIP_SHORTEST_HPP

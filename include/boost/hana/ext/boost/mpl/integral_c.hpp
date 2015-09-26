@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP
 
 #include <boost/hana/concept/integral_constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
@@ -39,7 +40,8 @@ namespace boost { namespace mpl {
 }}
 #endif
 
-namespace boost { namespace hana {
+
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace boost { namespace mpl {
         template <typename T>
         struct integral_c_tag { using value_type = T; };
@@ -74,6 +76,6 @@ namespace boost { namespace hana {
             return ::boost::mpl::integral_c<T, N::value>{};
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP

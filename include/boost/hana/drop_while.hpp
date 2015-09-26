@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/iterable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/first_unsatisfied_index.hpp>
 #include <boost/hana/drop_front.hpp>
@@ -23,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto drop_while_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -87,6 +88,6 @@ namespace boost { namespace hana {
                                     FirstUnsatisfied{});
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DROP_WHILE_HPP

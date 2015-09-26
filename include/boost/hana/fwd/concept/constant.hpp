@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP
 #define BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
     //! The `Constant` concept represents data that can be manipulated at
     //! compile-time.
@@ -201,6 +204,6 @@ namespace boost { namespace hana {
     //! [1]: http://en.cppreference.com/w/cpp/concept/LiteralType
     template <typename C>
     struct Constant;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP

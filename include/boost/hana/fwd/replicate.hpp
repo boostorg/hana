@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_REPLICATE_HPP
 #define BOOST_HANA_FWD_REPLICATE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Create a monadic structure by combining a lifted value with itself
     //! `n` times.
     //! @relates MonadPlus
@@ -69,6 +70,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr replicate_t<M> replicate{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_REPLICATE_HPP

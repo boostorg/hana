@@ -10,11 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_OPTIONAL_HPP
 #define BOOST_HANA_FWD_OPTIONAL_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Optional value whose optional-ness is known at compile-time.
     //!
@@ -468,6 +469,6 @@ namespace boost { namespace hana {
 
     constexpr is_nothing_t is_nothing{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_OPTIONAL_HPP

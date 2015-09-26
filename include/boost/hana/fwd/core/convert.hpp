@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-core
     //! Converts an object from one data type to another.
     //!
@@ -166,6 +166,6 @@ namespace boost { namespace hana {
     template <typename From, typename To, typename = void>
     struct is_embedded;
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CORE_CONVERT_HPP

@@ -14,12 +14,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/functor.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/transform.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Pred, typename F>
     constexpr auto adjust_if_t::operator()(Xs&& xs, Pred const& pred, F const& f) const {
@@ -72,6 +73,6 @@ namespace boost { namespace hana {
                                    detail::apply_if<Pred, F>{pred, f});
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_ADJUST_IF_HPP

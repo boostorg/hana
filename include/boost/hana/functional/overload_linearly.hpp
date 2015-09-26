@@ -10,11 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP
 #define BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP
 
+#include <boost/hana/config.hpp>
+
 #include <type_traits>
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Call the first function that produces a valid call expression.
     //!
@@ -98,6 +100,6 @@ namespace boost { namespace hana {
 
     constexpr make_overload_linearly_t overload_linearly{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP

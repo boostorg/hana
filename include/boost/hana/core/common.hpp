@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/common.hpp>
 
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/std_common_type.hpp>
@@ -21,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // common
     //////////////////////////////////////////////////////////////////////////
@@ -103,6 +104,6 @@ namespace boost { namespace hana {
     >> {
         using type = typename common<A, typename B::value_type>::type;
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CORE_COMMON_HPP

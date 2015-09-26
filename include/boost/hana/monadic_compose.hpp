@@ -14,11 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/chain.hpp>
 #include <boost/hana/concept/monad.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/partial.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         struct monadic_compose_helper {
             template <typename F, typename G, typename X>
@@ -45,6 +46,6 @@ namespace boost { namespace hana {
         );
     }
     //! @endcond
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_MONADIC_COMPOSE_HPP

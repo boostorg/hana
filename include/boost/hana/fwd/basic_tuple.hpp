@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_BASIC_TUPLE_HPP
 #define BOOST_HANA_FWD_BASIC_TUPLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Stripped down version of `hana::tuple`.
     //!
@@ -61,6 +62,6 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/basic_tuple/make.cpp
     constexpr auto make_basic_tuple = make<basic_tuple_tag>;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_BASIC_TUPLE_HPP

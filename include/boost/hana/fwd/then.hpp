@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_THEN_HPP
 #define BOOST_HANA_FWD_THEN_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Sequentially compose two monadic actions, discarding any value
     //! produced by the first but not its effects.
     //! @relates Monad
@@ -46,6 +47,6 @@ namespace boost { namespace hana {
 
     constexpr then_t then{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_THEN_HPP

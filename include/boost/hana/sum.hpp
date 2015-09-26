@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/monoid.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl
@@ -21,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/zero.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct sum_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -52,6 +53,6 @@ namespace boost { namespace hana {
             return hana::fold_left(static_cast<Xs&&>(xs), hana::zero<M>(), hana::plus);
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_SUM_HPP

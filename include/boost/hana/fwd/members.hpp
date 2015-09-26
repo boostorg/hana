@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_MEMBERS_HPP
 #define BOOST_HANA_FWD_MEMBERS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Sequence` containing the members of a `Struct`.
     //! @relates Struct
     //!
@@ -40,6 +41,6 @@ namespace boost { namespace hana {
 
     constexpr members_t members{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MEMBERS_HPP

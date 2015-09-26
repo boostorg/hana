@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_DIFFERENCE_HPP
 #define BOOST_HANA_FWD_DIFFERENCE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the set-theoretic difference of two sets.
     //! @relates hana::set
     //!
@@ -66,6 +67,6 @@ namespace boost { namespace hana {
 
     constexpr difference_t difference{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_DIFFERENCE_HPP

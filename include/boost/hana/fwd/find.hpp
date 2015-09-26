@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FIND_HPP
 #define BOOST_HANA_FWD_FIND_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Finds the value associated to the given key in a structure.
     //! @relates Searchable
     //!
@@ -54,6 +55,6 @@ namespace boost { namespace hana {
 
     constexpr find_t find{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FIND_HPP

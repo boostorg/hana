@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_EMPTY_HPP
 #define BOOST_HANA_FWD_EMPTY_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Identity of the monadic combination `concat`.
     //! @relates MonadPlus
     //!
@@ -45,6 +46,6 @@ namespace boost { namespace hana {
     template <typename M>
     constexpr empty_t<M> empty{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_EMPTY_HPP

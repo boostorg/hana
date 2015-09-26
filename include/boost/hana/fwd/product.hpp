@@ -10,11 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_PRODUCT_HPP
 #define BOOST_HANA_FWD_PRODUCT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Compute the product of the numbers of a structure.
     //! @relates Foldable
     //!
@@ -72,6 +73,6 @@ namespace boost { namespace hana {
     template <typename R = integral_constant_tag<int>>
     constexpr product_t<R> product{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_PRODUCT_HPP

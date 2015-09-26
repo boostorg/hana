@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP
 #define BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
     //! The `Comparable` concept defines equality and inequality.
     //!
@@ -152,6 +155,6 @@ namespace boost { namespace hana {
     //! [4]: http://en.wikipedia.org/wiki/Injective_function
     template <typename T>
     struct Comparable;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_CONCEPT_COMPARABLE_HPP

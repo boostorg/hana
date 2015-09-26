@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_CONCEPTS_HPP
 #define BOOST_HANA_DETAIL_CONCEPTS_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/std_common_type.hpp>
 #include <boost/hana/detail/void_t.hpp>
 
 #include <type_traits>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //////////////////////////////////////////////////////////////////////////
     // EqualityComparable
     //////////////////////////////////////////////////////////////////////////
@@ -70,6 +71,6 @@ namespace boost { namespace hana { namespace detail {
             LessThanComparable<typename detail::std_common_type<T, U>::type>::value
         >
     { };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_CONCEPTS_HPP

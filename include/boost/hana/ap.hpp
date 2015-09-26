@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/chain.hpp>
 #include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/variadic/foldl1.hpp>
 #include <boost/hana/functional/curry.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/transform.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename A, bool condition>
     struct ap_impl<A, when<condition>> : default_ {
         template <typename ...Args>
@@ -72,6 +73,6 @@ namespace boost { namespace hana {
             );
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_AP_HPP

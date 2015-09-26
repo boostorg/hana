@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/fwd/at.hpp>
@@ -60,7 +61,8 @@ namespace std {
 }
 #endif
 
-namespace boost { namespace hana {
+
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace std { struct integer_sequence_tag; }}
 
     template <typename T, T ...v>
@@ -133,6 +135,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(std::integer_sequence<T, xs...> const&)
         { return hana::bool_c<sizeof...(xs) == 0>; }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_STD_INTEGER_SEQUENCE_HPP

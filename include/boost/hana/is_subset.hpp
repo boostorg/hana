@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/concept/searchable.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto is_subset_t::operator()(Xs&& xs, Ys&& ys) const {
@@ -78,6 +79,6 @@ namespace boost { namespace hana {
                                    hana::to<C>(static_cast<Ys&&>(ys)));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_IS_SUBSET_HPP

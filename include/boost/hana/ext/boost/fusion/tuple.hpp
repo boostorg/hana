@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_TUPLE_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_TUPLE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/ext/boost/fusion/vector.hpp>
 
 
@@ -37,12 +38,12 @@ namespace boost { namespace fusion {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace boost { namespace fusion {
         // In the current version of Boost.Fusion, `boost::fusion::tuple` is
         // basically an alias to `boost::fusion::vector`, hence the alias.
         using tuple_tag = vector_tag;
     }}}
-}}
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_BOOST_FUSION_TUPLE_HPP

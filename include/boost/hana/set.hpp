@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
@@ -46,7 +47,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // set
     //////////////////////////////////////////////////////////////////////////
@@ -309,6 +310,6 @@ namespace boost { namespace hana {
     //! @relates hana::set
     constexpr to_t<set_tag> to_set{};
 
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_SET_HPP

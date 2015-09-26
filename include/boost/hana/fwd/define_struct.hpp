@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_DEFINE_STRUCT_HPP
 #define BOOST_HANA_FWD_DEFINE_STRUCT_HPP
 
-namespace boost { namespace hana {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN
     // Note:
     // The weird definition as a variable seems to exploit a glitch in Doxygen
     // which makes the macro appear in the related objects of Struct (as we
@@ -40,6 +43,6 @@ namespace boost { namespace hana {
 #else
     // defined in <boost/hana/define_struct.hpp>
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_DEFINE_STRUCT_HPP

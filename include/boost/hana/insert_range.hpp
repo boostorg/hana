@@ -15,13 +15,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concat.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
 #include <boost/hana/take.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename N, typename Elements>
     constexpr auto insert_range_t::operator()(Xs&& xs, N&& n, Elements&& elements) const {
@@ -58,6 +59,6 @@ namespace boost { namespace hana {
                 );
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_INSERT_RANGE_HPP

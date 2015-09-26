@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_SIZE_HPP
 #define BOOST_HANA_FWD_SIZE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/length.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Equivalent to `length`; provided for consistency with the
     //! standard library.
     //! @relates Foldable
@@ -27,6 +28,6 @@ namespace boost { namespace hana {
     //! -------
     //! @include example/size.cpp
     constexpr auto size = hana::length;
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SIZE_HPP

@@ -10,11 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_STD_COMMON_TYPE_HPP
 #define BOOST_HANA_DETAIL_STD_COMMON_TYPE_HPP
 
+#include <boost/hana/config.hpp>
+
 #include <type_traits>
 #include <utility>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //! @ingroup group-details
     //! Equivalent to `std::common_type`, except it is SFINAE-friendly and
     //! does not support custom specializations.
@@ -29,6 +31,6 @@ namespace boost { namespace hana { namespace detail {
             decltype(true ? std::declval<T>() : std::declval<U>())
         >::type;
     };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_STD_COMMON_TYPE_HPP

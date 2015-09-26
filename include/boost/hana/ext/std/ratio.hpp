@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/integral_constant.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -59,7 +60,7 @@ namespace std {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace std { struct ratio_tag; }}
 
     template <std::intmax_t num, std::intmax_t den>
@@ -158,6 +159,6 @@ namespace boost { namespace hana {
         static constexpr std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_STD_RATIO_HPP

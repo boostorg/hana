@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integral_constant.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
     //! Compile-time half-open interval of `hana::integral_constant`s.
     //!
@@ -127,6 +127,6 @@ namespace boost { namespace hana {
     template <typename T, T from, T to>
     constexpr range<T, from, to> range_c{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_RANGE_HPP

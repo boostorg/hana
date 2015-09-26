@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/pair.hpp>
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -26,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // pair
     //////////////////////////////////////////////////////////////////////////
@@ -141,6 +142,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(P&& p)
         { return hana::get_impl<1>(static_cast<P&&>(p).storage_); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_PAIR_HPP

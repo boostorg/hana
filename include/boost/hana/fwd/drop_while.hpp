@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_DROP_WHILE_HPP
 #define BOOST_HANA_FWD_DROP_WHILE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Drop elements from an iterable up to, but excluding, the first
     //! element for which the `predicate` is not satisfied.
     //! @relates Iterable
@@ -54,6 +55,6 @@ namespace boost { namespace hana {
 
     constexpr drop_while_t drop_while{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWDDROP_WHILE_HPP

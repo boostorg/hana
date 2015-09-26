@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_STD_ARRAY_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -64,7 +65,8 @@ namespace std {
 }
 #endif
 
-namespace boost { namespace hana {
+
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace std { struct array_tag; }}
 
     template <typename T, std::size_t N>
@@ -156,6 +158,6 @@ namespace boost { namespace hana {
             return detail::lexicographical_compare(&xs[0], &xs[0] + n, &ys[0], &ys[0] + m);
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_STD_ARRAY_HPP

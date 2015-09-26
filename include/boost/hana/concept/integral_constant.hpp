@@ -12,10 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/integral_constant.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename C, typename Tag = typename tag_of<C>::type>
         struct integral_constant_dispatch {
@@ -34,6 +35,6 @@ namespace boost { namespace hana {
         : detail::integral_constant_dispatch<C>
     { };
     //! @endcond
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_INTEGRAL_CONSTANT_HPP

@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FLATTEN_HPP
 #define BOOST_HANA_FWD_FLATTEN_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Collapse two levels of monadic structure into a single level.
     //! @relates Monad
     //!
@@ -57,6 +58,6 @@ namespace boost { namespace hana {
 
     constexpr flatten_t flatten{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FLATTEN_HPP

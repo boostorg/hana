@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/concept/iterable.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
@@ -19,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename It>
     struct Iterable {
         using Tag = typename tag_of<It>::type;
@@ -27,6 +28,6 @@ namespace boost { namespace hana {
                                       !is_default<drop_front_impl<Tag>>::value &&
                                       !is_default<is_empty_impl<Tag>>::value;
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_ITERABLE_HPP

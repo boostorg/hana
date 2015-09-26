@@ -10,12 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_REMOVE_AT_HPP
 #define BOOST_HANA_FWD_REMOVE_AT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 #include <cstddef>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Remove the element at a given index from a sequence.
     //! @relates Sequence
     //!
@@ -76,6 +77,6 @@ namespace boost { namespace hana {
     template <std::size_t n>
     constexpr remove_at_c_t<n> remove_at_c{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_REMOVE_AT_HPP

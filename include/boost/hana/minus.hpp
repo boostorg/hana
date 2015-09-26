@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/group.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
@@ -26,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename X, typename Y>
     constexpr decltype(auto) minus_t::operator()(X&& x, Y&& y) const {
@@ -108,6 +109,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X const&, Y const&)
         { return hana::to<C>(detail::constant_from_minus<C, X, Y>{}); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_MINUS_HPP

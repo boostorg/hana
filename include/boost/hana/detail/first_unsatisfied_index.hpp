@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_FIRST_UNSATISFIED_INDEX_HPP
 #define BOOST_HANA_DETAIL_FIRST_UNSATISFIED_INDEX_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/value.hpp>
 
 #include <utility>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <bool, typename Pred, typename ...Xs>
     struct find_tail_size;
 
@@ -50,6 +51,6 @@ namespace boost { namespace hana { namespace detail {
             >;
         }
     };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_FIRST_UNSATISFIED_INDEX_HPP

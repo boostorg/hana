@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_FOR_EACH_HPP
 #define BOOST_HANA_FWD_FOR_EACH_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Perform an action on each element of a foldable, discarding
     //! the result each time.
     //! @relates Foldable
@@ -49,6 +50,6 @@ namespace boost { namespace hana {
 
     constexpr for_each_t for_each{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FOR_EACH_HPP

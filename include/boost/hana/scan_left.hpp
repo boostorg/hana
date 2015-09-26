@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/scan_left.hpp>
 
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
 #include <boost/hana/empty.hpp>
@@ -24,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/prepend.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename F>
     constexpr auto scan_left_t::operator()(Xs&& xs, F&& f) const {
@@ -105,6 +106,6 @@ namespace boost { namespace hana {
             );
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_SCAN_LEFT_HPP

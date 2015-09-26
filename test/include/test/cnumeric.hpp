@@ -72,6 +72,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(X const&, Y const&)
         { return test::cnumeric<bool, (X::value < Y::value)>; }
     };
-}}
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TEST_TEST_CNUMERIC_HPP

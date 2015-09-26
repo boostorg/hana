@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/unfold_right.hpp>
 
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/first.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/second.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename S>
     struct unfold_right_t {
@@ -65,6 +66,6 @@ namespace boost { namespace hana {
             );
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_UNFOLD_RIGHT_HPP

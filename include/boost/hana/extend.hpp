@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/extend.hpp>
 
 #include <boost/hana/concept/comonad.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/duplicate.hpp>
 #include <boost/hana/transform.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename W_, typename F>
     constexpr decltype(auto) extend_t::operator()(W_&& w, F&& f) const {
@@ -44,6 +45,6 @@ namespace boost { namespace hana {
                                    static_cast<F&&>(f));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXTEND_HPP

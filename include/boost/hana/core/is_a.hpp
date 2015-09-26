@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/is_a.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // is_a
     //////////////////////////////////////////////////////////////////////////
@@ -35,6 +36,6 @@ namespace boost { namespace hana {
         constexpr auto operator()(T const&) const
         { return hana::is_a<DataType, T>; }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CORE_IS_A_HPP

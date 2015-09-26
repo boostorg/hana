@@ -13,12 +13,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/tap.hpp>
 
 #include <boost/hana/concept/monad.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/lift.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct tap_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -53,6 +54,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(F&& f)
         { return hana::partial(detail::tap_helper<M>{}, static_cast<F&&>(f)); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_TAP_HPP

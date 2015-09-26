@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/logical.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/eval.hpp>
 #include <boost/hana/if.hpp>
@@ -22,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Cond, typename Then, typename Else>
     constexpr decltype(auto) eval_if_t::operator()(Cond&& cond, Then&& then, Else&& else_) const {
@@ -87,6 +88,6 @@ namespace boost { namespace hana {
                                   static_cast<Else&&>(e));
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EVAL_IF_HPP

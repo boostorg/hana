@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/at.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -47,7 +48,7 @@ namespace boost { namespace fusion {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace boost { namespace fusion {
         struct deque_tag;
     }}}
@@ -102,6 +103,6 @@ namespace boost { namespace hana {
             return ::boost::fusion::make_deque(static_cast<Xs&&>(xs)...);
         }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP

@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_WHILE_HPP
 #define BOOST_HANA_FWD_WHILE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Apply a function to an initial state while some predicate is satisfied.
     //! @relates Logical
     //!
@@ -65,6 +66,6 @@ namespace boost { namespace hana {
 
     constexpr while_t while_{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_WHILE_HPP

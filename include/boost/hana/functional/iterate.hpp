@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_ITERATE_HPP
 #define BOOST_HANA_FUNCTIONAL_ITERATE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/functional/partial.hpp>
 
 #include <cstddef>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Applies another function `n` times to its argument.
     //!
@@ -195,6 +196,6 @@ namespace boost { namespace hana {
     template <std::size_t n>
     constexpr make_iterate_t<n> iterate{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_ITERATE_HPP

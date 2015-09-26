@@ -10,14 +10,16 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_FAST_AND_HPP
 #define BOOST_HANA_DETAIL_FAST_AND_HPP
 
+#include <boost/hana/config.hpp>
+
 #include <type_traits>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <bool ...b>
     struct fast_and
         : std::is_same<fast_and<b...>, fast_and<(b, true)...>>
     { };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_FAST_AND_HPP

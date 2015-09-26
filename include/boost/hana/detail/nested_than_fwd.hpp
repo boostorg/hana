@@ -10,7 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_NESTED_THAN_FWD_HPP
 #define BOOST_HANA_DETAIL_NESTED_THAN_FWD_HPP
 
-namespace boost { namespace hana { namespace detail {
+#include <boost/hana/config.hpp>
+
+
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename Algorithm>
     struct nested_than_t {
         template <typename X>
@@ -39,6 +42,6 @@ namespace boost { namespace hana { namespace detail {
 
     template <typename Algorithm>
     constexpr nested_than_t<Algorithm> nested_than<Algorithm>::than;
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_NESTED_THAN_FWD_HPP

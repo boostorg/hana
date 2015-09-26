@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/negate.hpp>
 
 #include <boost/hana/concept/group.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/fwd/minus.hpp>
 #include <boost/hana/zero.hpp>
@@ -20,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename X>
     constexpr decltype(auto) negate_t::operator()(X&& x) const {
@@ -55,6 +56,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x)
         { return -static_cast<X&&>(x); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_NEGATE_HPP

@@ -10,13 +10,14 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 #define BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functional/reverse_partial.hpp>
 
 #include <cstddef>
 
 
-namespace boost { namespace hana { namespace detail { namespace variadic {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     template <std::size_t n>
     struct split_at_t {
         template <typename F, typename X1, typename X2, typename X3, typename X4, typename X5, typename X6, typename X7, typename X8, typename ...Xs>
@@ -147,6 +148,6 @@ namespace boost { namespace hana { namespace detail { namespace variadic {
 
     template <std::size_t n>
     constexpr _makesplit_at_t<n> split_at{};
-}}}} // end namespace boost::hana::detail::variadic
+}} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP

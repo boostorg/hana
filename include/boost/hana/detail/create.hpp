@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_DETAIL_CREATE_HPP
 #define BOOST_HANA_DETAIL_CREATE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 
 
-namespace boost { namespace hana { namespace detail {
+BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //! @ingroup group-details
     //! Implementation of the generic `std::make_xxx` pattern for arbitrary
     //! `xxx`s.
@@ -27,6 +28,6 @@ namespace boost { namespace hana { namespace detail {
             };
         }
     };
-}}} // end namespace boost::hana::detail
+} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_CREATE_HPP

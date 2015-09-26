@@ -14,11 +14,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     template <typename A>
     struct lift_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
@@ -48,6 +49,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(X&& x)
         { return hana::make<S>(static_cast<X&&>(x)); }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_LIFT_HPP

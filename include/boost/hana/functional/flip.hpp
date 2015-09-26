@@ -10,12 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_FLIP_HPP
 #define BOOST_HANA_FUNCTIONAL_FLIP_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/detail/create.hpp>
 
 #include <utility>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-functional
     //! Invoke a function with its two first arguments reversed.
     //!
@@ -67,6 +68,6 @@ namespace boost { namespace hana {
 
     constexpr detail::create<flip_t> flip{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUNCTIONAL_FLIP_HPP

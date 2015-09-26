@@ -10,10 +10,11 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FWD_LEXICOGRAPHICAL_COMPARE_HPP
 #define BOOST_HANA_FWD_LEXICOGRAPHICAL_COMPARE_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     //! Short-circuiting lexicographical comparison of two `Iterable`s with
     //! an optional custom predicate, by default `hana::less`.
     //! @relates Iterable
@@ -95,6 +96,6 @@ namespace boost { namespace hana {
 
     constexpr lexicographical_compare_t lexicographical_compare{};
 #endif
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_LEXICOGRAPHICAL_COMPARE_HPP

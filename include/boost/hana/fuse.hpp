@@ -12,12 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/fuse.hpp>
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/unpack.hpp>
 
 #include <type_traits>
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename F>
         struct fused {
@@ -42,6 +43,6 @@ namespace boost { namespace hana {
         return detail::fused<typename std::decay<F>::type>{static_cast<F&&>(f)};
     }
     //! @endcond
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FUSE_HPP

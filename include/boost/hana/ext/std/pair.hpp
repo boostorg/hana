@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_PAIR_HPP
 #define BOOST_HANA_EXT_STD_PAIR_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/first.hpp>
@@ -36,7 +37,7 @@ namespace std {
 #endif
 
 
-namespace boost { namespace hana {
+BOOST_HANA_NAMESPACE_BEGIN
     namespace ext { namespace std { struct pair_tag; }}
 
     template <typename First, typename Second>
@@ -69,6 +70,6 @@ namespace boost { namespace hana {
         static constexpr decltype(auto) apply(P&& p)
         { return static_cast<P&&>(p).second; }
     };
-}} // end namespace boost::hana
+BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_EXT_STD_PAIR_HPP

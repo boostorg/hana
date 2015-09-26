@@ -32,6 +32,6 @@ namespace boost { namespace hana {
         static constexpr auto apply(X x, Y y)
         { return equal(x.equivalence_class, y.equivalence_class); }
     };
-}}
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TEST_TEST_EQUIVALENCE_CLASS_HPP
