@@ -2152,6 +2152,19 @@ understanding can be gained by reading the [advanced section]
 for `Constant` and `IntegralConstant`.
 
 
+@warning
+Hana's algorithms are `constexpr` function objects instead of being template
+functions. This allows passing them to higher-order algorithms, which is very
+useful. However, since those function objects are defined at namespace scope
+in the header files, this causes each translation unit to see a different
+algorithm object. Hence, the address of an algorithm function object is not
+guaranteed to be unique across translation units, which can cause an ODR
+violation if one relies on such an address. So, in short, do not rely on the
+uniqueness of the address of any global object provided by Hana, which does
+not make sense in the general case anyway because such objects are `constexpr`.
+See [issue #76](https://github.com/ldionne/hana/issues/76) for more information.
+
+
 
 
 
