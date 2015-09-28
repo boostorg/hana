@@ -16,7 +16,7 @@ namespace hana = boost::hana;
 // avoid stupid mistakes I could have made when copy/pasting and editing.
 //
 // Oh, and we also make sure they can be used in a constexpr context.
-constexpr int constexpr_context() {
+constexpr bool constexpr_context() {
     int x = 0, y = 1;
     hana::detail::swap(x, y);
 
@@ -50,9 +50,9 @@ constexpr int constexpr_context() {
 
     hana::detail::min_element(first, last);
 
-    return 0;
+    return true;
 }
 
-constexpr int must_be_constexpr = constexpr_context();
+static_assert(constexpr_context(), "");
 
 int main() { }

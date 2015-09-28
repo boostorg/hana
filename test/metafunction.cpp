@@ -40,9 +40,12 @@ namespace tc1 {
     static_assert(!valid_call(metafunction<no_type>), "");
     static_assert(!valid_call(metafunction<no_type>, type_c<x1>), "");
 
-    // Make sure we don't read from a non-constexpr variable
-    auto t = type_c<x1>;
-    constexpr auto r = metafunction<f>(t);
+    void fun() {
+        // Make sure we don't read from a non-constexpr variable
+        auto t = type_c<x1>;
+        constexpr auto r = metafunction<f>(t);
+        (void)r;
+    }
 
     // Make sure we model the Metafunction concept
     static_assert(Metafunction<decltype(metafunction<f>)>::value, "");
@@ -126,9 +129,12 @@ namespace tc2 {
     static_assert(!valid_call(metafunction_class<no_type>), "");
     static_assert(!valid_call(metafunction_class<no_type>, type_c<x1>), "");
 
-    // Make sure we don't read from a non-constexpr variable
-    auto t = type_c<x1>;
-    constexpr auto r = metafunction_class<f>(t);
+    void fun() {
+        // Make sure we don't read from a non-constexpr variable
+        auto t = type_c<x1>;
+        constexpr auto r = metafunction_class<f>(t);
+        (void)r;
+    }
 
     // Make sure we model the Metafunction concept
     static_assert(Metafunction<decltype(metafunction_class<f>)>::value, "");
@@ -262,9 +268,12 @@ namespace tc3 {
     template <typename T> using alias = T;
     static_assert(template_<alias>(type_c<x1>) == type_c<x1>, "");
 
-    // Make sure we don't read from a non-constexpr variable
-    auto t = type_c<x1>;
-    constexpr auto r = template_<f>(t);
+    void fun() {
+        // Make sure we don't read from a non-constexpr variable
+        auto t = type_c<x1>;
+        constexpr auto r = template_<f>(t);
+        (void)r;
+    }
 }
 
 // integral
@@ -313,17 +322,18 @@ namespace tc4 {
         mfc::apply<x1, x2>::type
     >{}, "");
 
-    // make sure we can perform the call; we already made sure the return type was correct
-    constexpr auto a = integral(metafunction<mf>)();
-    constexpr auto b = integral(metafunction<mf>)(type_c<x1>);
-    constexpr auto c = integral(metafunction<mf>)(type_c<x1>, type_c<x2>);
-    constexpr auto d = integral(metafunction<mf>)(type_c<x1>, type_c<x2>, type_c<x3>);
+    void fun() {
+        // Make sure we can perform the call; we already made sure the return type was correct
+        constexpr auto a = integral(metafunction<mf>)(); (void)a;
+        constexpr auto b = integral(metafunction<mf>)(type_c<x1>); (void)b;
+        constexpr auto c = integral(metafunction<mf>)(type_c<x1>, type_c<x2>); (void)c;
+        constexpr auto d = integral(metafunction<mf>)(type_c<x1>, type_c<x2>, type_c<x3>); (void)d;
 
-    // Make sure we don't read from a non-constexpr variable
-    auto t = type_c<x1>;
-    constexpr auto r = integral(metafunction<mf>)(t);
+        // Make sure we don't read from a non-constexpr variable
+        auto t = type_c<x1>;
+        constexpr auto r = integral(metafunction<mf>)(t);
+        (void)r;
+    }
 }
 
-int main() {
-
-}
+int main() { }

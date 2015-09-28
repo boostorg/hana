@@ -25,4 +25,7 @@ BOOST_HANA_ADAPT_STRUCT(Employee, age);
 constexpr auto person_members = hana::accessors<Person>();
 constexpr auto employee_members = hana::accessors<Employee>();
 
-int main() { }
+int main() {
+    (void)person_members;
+    (void)employee_members;
+}
