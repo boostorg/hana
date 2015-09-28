@@ -308,6 +308,8 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> irange = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;0&gt;, hana::int_c&lt;10&gt;); <span class="comment">// [0, 10) int</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(irange == hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;0&gt;, hana::int_c&lt;10&gt;));</div>
+<div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> lrange = hana::make&lt;hana::range_tag&gt;(hana::int_c&lt;0&gt;, hana::long_c&lt;10&gt;); <span class="comment">// [0, 10) long</span></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(lrange == hana::make&lt;hana::range_tag&gt;(hana::long_c&lt;0&gt;, hana::long_c&lt;10&gt;));</div>
 <div class="line"></div>

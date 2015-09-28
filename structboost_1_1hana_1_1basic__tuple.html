@@ -192,12 +192,17 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="basic__tuple_8hpp.html">boost/hana/basic_tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr hana::basic_tuple&lt;int, char, double&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.3};</div>
 <div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::basic_tuple_tag&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line">constexpr <span class="keyword">auto</span> zs = hana::make_basic_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;decltype(ys), decltype(xs)&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(std::is_same&lt;decltype(zs), decltype(xs)&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -233,12 +238,17 @@ template&lt;typename... Xs&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="basic__tuple_8hpp.html">boost/hana/basic_tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr hana::basic_tuple&lt;int, char, double&gt; xs{1, <span class="charliteral">&#39;2&#39;</span>, 3.3};</div>
 <div class="line">constexpr <span class="keyword">auto</span> ys = hana::make&lt;hana::basic_tuple_tag&gt;(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
 <div class="line">constexpr <span class="keyword">auto</span> zs = hana::make_basic_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3);</div>
+<div class="line"></div>
+<div class="line">static_assert(std::is_same&lt;decltype(ys), decltype(xs)&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(std::is_same&lt;decltype(zs), decltype(xs)&gt;::value, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
