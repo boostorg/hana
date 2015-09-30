@@ -159,8 +159,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Given zero or more objects `xs...`, `make<tuple_tag>` returns a new tuple
     //! containing those objects. The elements are held by value inside the
-    //! resulting tuple, and they are hence copied or moved in. This is
-    //! analogous to `std::make_tuple` for creating Hana tuples.
+    //! resulting tuple, and they are hence copied or moved in. However,
+    //! `make<tuple_tag>` supports reference wrappers. When a reference wrapper
+    //! is passed to it, the resulting `hana::tuple` will hold a reference
+    //! to the object enclosed in the reference wrapper instead of the object
+    //! itself.
     //!
     //!
     //! Example
