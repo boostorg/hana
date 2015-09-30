@@ -11,9 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_PARTIAL_HPP
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -53,8 +53,8 @@ namespace boost { namespace hana {
         template <typename F, typename ...X>
         constexpr partial_t<
             std::make_index_sequence<sizeof...(X)>,
-            typename std::decay<F>::type,
-            typename std::decay<X>::type...
+            typename detail::decay<F>::type,
+            typename detail::decay<X>::type...
         >
         operator()(F&& f, X&& ...x) const {
             return {secret{}, static_cast<F&&>(f), static_cast<X&&>(x)...};

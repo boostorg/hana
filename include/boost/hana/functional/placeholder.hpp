@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/detail/create.hpp>
+#include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -105,7 +105,7 @@ namespace boost { namespace hana {
             { return detail::create<subscript>{}(static_cast<X&&>(x)); }
 
             template <typename ...X>
-            constexpr invoke<typename std::decay<X>::type...>
+            constexpr invoke<typename detail::decay<X>::type...>
             operator()(X&& ...x) const {
                 return {secret{}, static_cast<X&&>(x)...};
             }

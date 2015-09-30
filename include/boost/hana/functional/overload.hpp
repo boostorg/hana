@@ -10,7 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_FUNCTIONAL_OVERLOAD_HPP
 #define BOOST_HANA_FUNCTIONAL_OVERLOAD_HPP
 
-#include <type_traits>
+#include <boost/hana/detail/decay.hpp>
 
 
 namespace boost { namespace hana {
@@ -72,7 +72,7 @@ namespace boost { namespace hana {
     struct make_overload_t {
         template <typename ...F,
             typename Overload = typename overload_t<
-                typename std::decay<F>::type...
+                typename detail::decay<F>::type...
             >::type
         >
         constexpr Overload operator()(F&& ...f) const {

@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/basic_tuple.hpp>
 
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -148,9 +149,9 @@ namespace boost { namespace hana {
     template <>
     struct make_impl<basic_tuple_tag> {
         template <typename ...Xn>
-        static constexpr basic_tuple<typename std::decay<Xn>::type...>
+        static constexpr basic_tuple<typename detail::decay<Xn>::type...>
         apply(Xn&& ...xn) {
-            return basic_tuple<typename std::decay<Xn>::type...>{
+            return basic_tuple<typename detail::decay<Xn>::type...>{
                 static_cast<Xn&&>(xn)...
             };
         }

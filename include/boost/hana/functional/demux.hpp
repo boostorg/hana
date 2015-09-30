@@ -11,9 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_DEMUX_HPP
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -172,7 +172,7 @@ namespace boost { namespace hana {
     struct make_pre_demux_t {
         struct secret { };
         template <typename F>
-        constexpr pre_demux_t<typename std::decay<F>::type> operator()(F&& f) const {
+        constexpr pre_demux_t<typename detail::decay<F>::type> operator()(F&& f) const {
             return {static_cast<F&&>(f)};
         }
     };
@@ -186,14 +186,14 @@ namespace boost { namespace hana {
 
         template <typename ...G>
         constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
-                          typename std::decay<G>::type...>
+                          typename detail::decay<G>::type...>
         operator()(G&& ...g) const& {
             return {make_pre_demux_t::secret{}, this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
         constexpr demux_t<std::make_index_sequence<sizeof...(G)>, F,
-                          typename std::decay<G>::type...>
+                          typename detail::decay<G>::type...>
         operator()(G&& ...g) && {
             return {make_pre_demux_t::secret{}, static_cast<F&&>(this->f), static_cast<G&&>(g)...};
         }

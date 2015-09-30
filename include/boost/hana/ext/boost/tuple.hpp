@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_EXT_BOOST_TUPLE_HPP
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -22,7 +23,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/tuple/tuple.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -115,7 +115,7 @@ namespace boost { namespace hana {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
             return boost::tuples::tuple<
-                typename std::decay<Xs>::type...
+                typename detail::decay<Xs>::type...
             >{static_cast<Xs&&>(xs)...};
         }
     };

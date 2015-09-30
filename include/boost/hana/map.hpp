@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/contains.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/index_if.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -109,7 +110,7 @@ namespace boost { namespace hana {
             "Comparable at compile-time");
         #endif
 
-            return map<typename std::decay<Pairs>::type...>{
+            return map<typename detail::decay<Pairs>::type...>{
                 hana::make_tuple(static_cast<Pairs&&>(pairs)...)
             };
         }

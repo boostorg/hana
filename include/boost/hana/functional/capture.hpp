@@ -11,10 +11,10 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_CAPTURE_HPP
 
 #include <boost/hana/basic_tuple.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/functional/partial.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -58,7 +58,7 @@ namespace boost { namespace hana {
     struct make_capture_t {
         struct secret { };
         template <typename ...X>
-        constexpr capture_t<typename std::decay<X>::type...>
+        constexpr capture_t<typename detail::decay<X>::type...>
         operator()(X&& ...x) const {
             return {secret{}, static_cast<X&&>(x)...};
         }
