@@ -3,6 +3,7 @@ var group__group_details =
     [ "array", "structboost_1_1hana_1_1detail_1_1array.html", null ],
     [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
+    [ "decay", "structboost_1_1hana_1_1detail_1_1decay.html", null ],
     [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
     [ "index_if", "structboost_1_1hana_1_1detail_1_1index__if.html", null ],
     [ "nested_by", "structboost_1_1hana_1_1detail_1_1nested__by.html", null ],

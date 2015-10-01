@@ -7,6 +7,7 @@ var dir_11c564ddb00f761cbb011d1e8563665b =
     [ "canonical_constant.hpp", "canonical__constant_8hpp.html", null ],
     [ "concepts.hpp", "concepts_8hpp.html", null ],
     [ "create.hpp", "create_8hpp.html", null ],
+    [ "decay.hpp", "decay_8hpp.html", null ],
     [ "dependent_on.hpp", "dependent__on_8hpp.html", null ],
     [ "dispatch_if.hpp", "dispatch__if_8hpp.html", "dispatch__if_8hpp" ],
     [ "fast_and.hpp", "fast__and_8hpp.html", null ],

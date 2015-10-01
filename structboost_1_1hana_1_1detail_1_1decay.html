@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost/hana/detail/decay.hpp File Reference</title>
+<title>Boost.Hana: boost::hana::detail::decay&lt; T, U &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('decay_8hpp.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1hana_1_1detail_1_1decay.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -130,37 +130,25 @@ $(document).ready(function(){initNavTree('decay_8hpp.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="structboost_1_1hana_1_1detail_1_1decay-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">decay.hpp File Reference</div>  </div>
+<div class="title">boost::hana::detail::decay&lt; T, U &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;typename T, typename U = typename std::remove_reference&lt;T&gt;::type&gt;<br />
+struct boost::hana::detail::decay&lt; T, U &gt;</h3>
 
-<p>Defines a replacement for <code>std::decay</code>, which is sometimes too slow at compile-time.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1detail_1_1decay.html">boost::hana::detail::decay&lt; T, U &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>std::decay</code>, except faster.  <a href="structboost_1_1hana_1_1detail_1_1decay.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespaceboost"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost.html">boost</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Defines a replacement for <code>std::decay</code>, which is sometimes too slow at compile-time. </p>
-<dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2015 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
+<p>Equivalent to <code>std::decay</code>, except faster. </p>
+<p><code>std::decay</code> in libc++ is implemented in a suboptimal way. Since this is used literally everywhere by the <code>make&lt;...&gt;</code> functions, it is very important to keep this as efficient as possible.</p>
+<dl class="section note"><dt>Note</dt><dd><code>std::decay</code> is still being used in some places in the library. Indeed, this is a peephole optimization and it would not be wise to clutter the code with our own implementation of <code>std::decay</code>, except when this actually makes a difference in compile-times. </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8ba7d03e214d8b93f63f7ed9669a8ee5.html">boost</a></li><li class="navelem"><a class="el" href="dir_62ceaa6da6a428bacbefa2ca5daffcb8.html">hana</a></li><li class="navelem"><a class="el" href="dir_11c564ddb00f761cbb011d1e8563665b.html">detail</a></li><li class="navelem"><a class="el" href="decay_8hpp.html">decay.hpp</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><b>detail</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1detail_1_1decay.html">decay</a></li>
   </ul>
 </div>
 </body>
