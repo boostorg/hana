@@ -252,42 +252,59 @@ before_script:
   # Go back to the root of the project and setup the build directory
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
-  - mkdir build && cd build
-  - cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS}
+  - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS})
 
 
 script:
   ############################################################################
   # Only push the documentation when we're on master, otherwise just make sure
-  # it builds properly. When we push, we disable the output to avoid leaking
-  # the GitHub token.
+  # it builds properly.
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" ]]; then
+      (cd build && make doc)
+
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
-        make gh-pages.push &>/dev/null
-      else
-        make doc
+        # Suppress output to avoid leaking the token when the command fails
+        git clone https://ldionne:${GITHUB_TOKEN}@github.com/ldionne/hana --depth 1 --branch=gh-pages doc/gh-pages &>/dev/null
+
+        rm -rf doc/gh-pages/{search,*.png,*.css,*.js,*.html}
+        cp -R build/doc/html/* doc/gh-pages
+
+        pushd doc/gh-pages
+        git add --all .
+        git commit --allow-empty -m "Update to ${TRAVIS_COMMIT:0:7}"
+        # Suppress output to avoid leaking the token
+        travis_retry git push origin gh-pages &>/dev/null
+        popd
       fi
     fi
 
   ############################################################################
   # We only run the full benchmarks on `master` when we're not in a pull
-  # request, because otherwise it takes too much Travis resources.
-  # Otherwise, partial benchmarks are run automatically as part of the
-  # tests to make sure they compile and run properly.
-  #
-  # When we run the full benchmarks, we pre-clone the datasets branch so the
-  # next datasets.clone will just pull, which is pretty quick. This reduces
-  # the risk of push conflicts when these jobs all run at the same time. When
-  # we push, we use travis_retry to try again if we encounter a push conflict,
-  # and we disable the output to avoid leaking the GitHub token.
+  # request, because otherwise it takes too much Travis resources. Otherwise,
+  # partial benchmarks are run automatically as part of the tests to make sure
+  # they compile and run properly.
   ############################################################################
   - |
     if [[ "${BENCHMARKS}" == "true" && "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
-      make benchmarks
-      make datasets.clone
-      travis_retry make datasets.push &>/dev/null
+      (cd build && make benchmarks)
+      compiler_slug=$(cd build && make travis_compiler_slug | grep 'travis_compiler_slug:' | cut -d ' ' -f 2)
+      config_slug=$(cd build && make travis_config_slug | grep 'travis_config_slug:' | cut -d ' ' -f 2)
+
+      # Suppress output to avoid leaking the token when the command fails
+      git clone https://ldionne:${GITHUB_TOKEN}@github.com/ldionne/hana --depth 1 --branch=datasets benchmark/datasets &>/dev/null
+      rm benchmark/datasets/${config_slug}/${compiler_slug}/*.json
+      for benchmark in $(ls build/benchmark/*.json | grep -v ".erb"); do
+        cp ${benchmark} benchmark/datasets/${config_slug}/${compiler_slug}
+      done
+
+      pushd benchmark/datasets
+      git add --all .
+      git commit --allow-empty -m "Update benchmarks to ${TRAVIS_COMMIT:0:7} for build type '${config_slug}' and compiler '${compiler_slug}'"
+      # Suppress output to avoid leaking the token
+      travis_retry git push origin datasets &>/dev/null
+      popd
     fi
 
   ############################################################################
@@ -296,7 +313,7 @@ script:
   - |
     if [[ "${UNIT_TESTS}" == "true" ]]; then
       export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-      make check -j2 -k
+      (cd build && make check -j2 -k)
     fi
 
 
