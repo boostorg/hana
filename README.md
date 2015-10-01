@@ -202,15 +202,15 @@ The project is organized in a couple of subdirectories.
 
 
 ## Related material
-- [Talk on metaprogramming][slides.C++Now.2015] at [C++Now][] 2015
-- [Talk on Hana][video.CppCon.2014] at [CppCon][] 2014 ([slides][slides.CppCon.2014])
+- Talk on metaprogramming and Hana at [CppCon][] 2015 ([slides](http://ldionne.com/hana-cppcon-2015))
+- Talk on metaprogramming and Hana at [C++Now][] 2015 ([slides](http://ldionne.com/hana-cppnow-2015))
+- Talk on Hana at [CppCon][] 2014 ([slides](http://ldionne.com/hana-cppcon-2014)/[video](https://youtu.be/L2SktfaJPuU))
 - The [MPL11][] library, which is how Hana started out
-- [Talk on the MPL11][video.C++Now.2014] at [C++Now][] 2014 ([slides][slides.C++Now.2014])
-
-I also wrote my bachelor's thesis on a formalization of C++ metaprogramming
-through category theory and Hana. It is available [here][thesis], but
-unfortunately it is in french only. I also presented [a talk][slides.thesis]
-on this formalization for my bachelor's thesis (french only).
+- Talk on the MPL11 at [C++Now][] 2014 ([slides](http://ldionne.com/mpl11-cppnow-2014)/[video](https://youtu.be/8c0aWLuEO0Y))
+- My bachelor's thesis was a formalization of C++ metaprogramming through
+  category theory. The thesis is available [here](https://github.com/ldionne/hana-thesis/blob/gh-pages/main.pdf),
+  and the slides of a related presentation are available [here](http://ldionne.com/hana-thesis).
+  Unfortunately, both are in french only.
 
 
 ## Contributing
@@ -232,10 +232,3 @@ Please see [LICENSE.md](LICENSE.md).
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
 [MPL11]: http://github.com/ldionne/mpl11
-[slides.C++Now.2014]: http://ldionne.github.io/mpl11-cppnow-2014
-[slides.C++Now.2015]: http://ldionne.github.io/hana-cppnow-2015
-[slides.CppCon.2014]: http://ldionne.github.io/hana-cppcon-2014
-[slides.thesis]: http://ldionne.github.io/hana-thesis
-[thesis]: http://github.com/ldionne/hana-thesis
-[video.C++Now.2014]: https://youtu.be/8c0aWLuEO0Y
-[video.CppCon.2014]: https://youtu.be/L2SktfaJPuU
