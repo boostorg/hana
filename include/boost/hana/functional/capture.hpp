@@ -22,13 +22,19 @@ namespace boost { namespace hana {
     //! @ingroup group-functional
     //! Create a function capturing the given variables.
     //!
-    //! Given 0 or more variables and a function `f`, `capture` returns a
-    //! function equivalent to `f` except that the first arguments sent to
-    //! `f` are the captured variables. Specifically, `capture(vars...)(f)`
-    //! is a function such that
+    //! Given 0 or more variables, `capture` creates a closure that can be
+    //! used to partially apply a function. This is very similar to `partial`,
+    //! except that `capture` allows the partially applied function to be
+    //! specified later. Specifically, `capture(vars...)` is a function object
+    //! taking a function `f` and returning `f` partially applied to `vars...`.
+    //! In other words,
     //! @code
     //!     capture(vars...)(f)(args...) == f(vars..., args...)
     //! @endcode
+    //!
+    //! @note
+    //! The arity of `f` must match the total number of arguments passed to
+    //! it, i.e. `sizeof...(vars) + sizeof...(args)`.
     //!
     //!
     //! Example
