@@ -127,12 +127,9 @@ endforeach()
 #   release/
 #       ...
 #
-#   default/
-#       ...
-#
-# The `debug`, `release` or `default` are what we call the `BUILD_TYPE_SLUG`
-# below, and it corresponds to the CMake configuration under which the
-# benchmarks were run.
+# The `debug` and `release` are what we call the `BUILD_TYPE_SLUG` below, and
+# it corresponds to the CMake configuration under which the benchmarks were
+# run.
 #
 # The `compilerN` subdirectories are what we call the `COMPILER_SLUG` below,
 # ad it corresponds to the compiler used to compile the benchmarks.
@@ -159,11 +156,7 @@ endif()
 
 set(DATASETS_DIR "${CMAKE_SOURCE_DIR}/benchmark/datasets")
 string(TOLOWER "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}" COMPILER_SLUG)
-if (CMAKE_BUILD_TYPE)
-    string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE_SLUG)
-else()
-    set(BUILD_TYPE_SLUG "default")
-endif()
+string(TOLOWER "${CMAKE_BUILD_TYPE}" BUILD_TYPE_SLUG)
 
 add_custom_target(datasets.clone
     COMMAND ${RUBY_EXECUTABLE}
