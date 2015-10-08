@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/chain.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/optional.hpp>
 namespace hana = boost::hana;
 

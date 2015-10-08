@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_DET_HPP
 #define BOOST_HANA_EXAMPLE_CPPCON_2014_MATRIX_DET_HPP
 
+#include <boost/hana/equal.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/always.hpp>
