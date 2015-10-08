@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/mod.hpp>
 
 #include <boost/hana/concept/constant.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
+#include <boost/hana/concept/euclidean_ring.hpp>
 #include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
@@ -30,21 +30,21 @@ namespace boost { namespace hana {
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Mod = BOOST_HANA_DISPATCH_IF(decltype(mod_impl<T, U>{}),
-            IntegralDomain<T>::value &&
-            IntegralDomain<U>::value &&
+            EuclideanRing<T>::value &&
+            EuclideanRing<U>::value &&
             !is_default<mod_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(IntegralDomain<T>::value,
-        "hana::mod(x, y) requires 'x' to be an IntegralDomain");
+        static_assert(EuclideanRing<T>::value,
+        "hana::mod(x, y) requires 'x' to be an EuclideanRing");
 
-        static_assert(IntegralDomain<U>::value,
-        "hana::mod(x, y) requires 'y' to be an IntegralDomain");
+        static_assert(EuclideanRing<U>::value,
+        "hana::mod(x, y) requires 'y' to be an EuclideanRing");
 
         static_assert(!is_default<mod_impl<T, U>>::value,
         "hana::mod(x, y) requires 'x' and 'y' to be embeddable "
-        "in a common IntegralDomain");
+        "in a common EuclideanRing");
     #endif
 
         return Mod::apply(static_cast<X&&>(x), static_cast<Y&&>(y));
@@ -60,7 +60,7 @@ namespace boost { namespace hana {
     // Cross-type overload
     template <typename T, typename U>
     struct mod_impl<T, U, when<
-        detail::has_nontrivial_common_embedding<IntegralDomain, T, U>::value
+        detail::has_nontrivial_common_embedding<EuclideanRing, T, U>::value
     >> {
         using C = typename common<T, U>::type;
         template <typename X, typename Y>
@@ -82,7 +82,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for Constants over an IntegralDomain
+    // Model for Constants over an EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
         template <typename C, typename X, typename Y>
@@ -95,7 +95,7 @@ namespace boost { namespace hana {
     template <typename C>
     struct mod_impl<C, C, when<
         Constant<C>::value &&
-        IntegralDomain<typename C::value_type>::value
+        EuclideanRing<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X const&, Y const&)

@@ -15,9 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Generalized integer modulus.
-    //! @relates IntegralDomain
+    //! @relates EuclideanRing
     //!
-    //! Given two elements of an IntegralDomain `x` and `y`, with `y`
+    //! Given two elements of an EuclideanRing `x` and `y`, with `y`
     //! nonzero, `mod` returns the modulus of the division of `x` by `y`.
     //! In other words, `mod` can be seen as an equivalent to `%`.
     //!
@@ -28,7 +28,7 @@ namespace boost { namespace hana {
     //! _distinct_ data types `A` and `B` such that
     //! 1. `A` and `B` share a common data type `C`, as determined by the
     //!    `common` metafunction
-    //! 2. `A`, `B` and `C` are all `IntegralDomain`s when taken individually
+    //! 2. `A`, `B` and `C` are all `EuclideanRing`s when taken individually
     //! 3. `to<C> : A -> B` and `to<C> : B -> C` are `Ring`-embeddings, as
     //!    determined by the `is_embedding` metafunction.
     //!

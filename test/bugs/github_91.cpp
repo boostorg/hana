@@ -5,8 +5,8 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/euclidean_ring.hpp>
 #include <boost/hana/concept/group.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/concept/monoid.hpp>
 #include <boost/hana/concept/orderable.hpp>
 #include <boost/hana/concept/ring.hpp>
@@ -21,6 +21,6 @@ static_assert(hana::Orderable<T>::value, "");
 static_assert(hana::Monoid<T>::value, "");
 static_assert(hana::Group<T>::value, "");
 static_assert(hana::Ring<T>::value, "");
-static_assert(hana::IntegralDomain<T>::value, "");
+static_assert(hana::EuclideanRing<T>::value, "");
 
 int main() { }

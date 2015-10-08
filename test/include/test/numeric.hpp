@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 // instances
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/euclidean_ring.hpp>
 #include <boost/hana/concept/group.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/concept/logical.hpp>
 #include <boost/hana/concept/monoid.hpp>
 #include <boost/hana/concept/orderable.hpp>
@@ -153,7 +153,7 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // IntegralDomain
+    // EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct div_impl<test::Numeric, test::Numeric> {

@@ -1,16 +1,16 @@
 /*!
 @file
-Defines `boost::hana::IntegralDomain`.
+Defines `boost::hana::EuclideanRing`.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_CONCEPT_INTEGRAL_DOMAIN_HPP
-#define BOOST_HANA_CONCEPT_INTEGRAL_DOMAIN_HPP
+#ifndef BOOST_HANA_CONCEPT_EUCLIDEAN_RING_HPP
+#define BOOST_HANA_CONCEPT_EUCLIDEAN_RING_HPP
 
-#include <boost/hana/fwd/concept/integral_domain.hpp>
+#include <boost/hana/fwd/concept/euclidean_ring.hpp>
 
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
@@ -19,12 +19,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 namespace boost { namespace hana {
-    template <typename D>
-    struct IntegralDomain {
-        using Tag = typename tag_of<D>::type;
+    template <typename R>
+    struct EuclideanRing {
+        using Tag = typename tag_of<R>::type;
         static constexpr bool value = !is_default<mod_impl<Tag, Tag>>::value &&
                                       !is_default<div_impl<Tag, Tag>>::value;
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_CONCEPT_INTEGRAL_DOMAIN_HPP
+#endif // !BOOST_HANA_CONCEPT_EUCLIDEAN_RING_HPP

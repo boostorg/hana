@@ -14,11 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/comonad.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/euclidean_ring.hpp>
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/concept/functor.hpp>
 #include <boost/hana/concept/group.hpp>
 #include <boost/hana/concept/integral_constant.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/concept/logical.hpp>
 #include <boost/hana/concept/metafunction.hpp>

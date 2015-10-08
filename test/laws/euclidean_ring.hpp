@@ -4,14 +4,14 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_TEST_LAWS_INTEGRAL_DOMAIN_HPP
-#define BOOST_HANA_TEST_LAWS_INTEGRAL_DOMAIN_HPP
+#ifndef BOOST_HANA_TEST_LAWS_EUCLIDEAN_RING_HPP
+#define BOOST_HANA_TEST_LAWS_EUCLIDEAN_RING_HPP
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/euclidean_ring.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/concept/integral_domain.hpp>
 #include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
@@ -19,16 +19,16 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana { namespace test {
     template <typename D, typename = when<true>>
-    struct TestIntegralDomain : TestIntegralDomain<D, laws> {
-        using TestIntegralDomain<D, laws>::TestIntegralDomain;
+    struct TestEuclideanRing : TestEuclideanRing<D, laws> {
+        using TestEuclideanRing<D, laws>::TestEuclideanRing;
     };
 
     template <typename D>
-    struct TestIntegralDomain<D, laws> {
+    struct TestEuclideanRing<D, laws> {
         template <typename Xs>
-        TestIntegralDomain(Xs xs) {
+        TestEuclideanRing(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(IntegralDomain<decltype(x)>::value, "");
+                static_assert(EuclideanRing<decltype(x)>::value, "");
             });
 
             foreach2(xs, [](auto a, auto b) {
@@ -60,11 +60,11 @@ namespace boost { namespace hana { namespace test {
     };
 
     template <typename C>
-    struct TestIntegralDomain<C, when<Constant<C>::value>>
-        : TestIntegralDomain<C, laws>
+    struct TestEuclideanRing<C, when<Constant<C>::value>>
+        : TestEuclideanRing<C, laws>
     {
         template <typename Xs>
-        TestIntegralDomain(Xs xs) : TestIntegralDomain<C, laws>{xs} {
+        TestEuclideanRing(Xs xs) : TestEuclideanRing<C, laws>{xs} {
             foreach2(xs, [](auto x, auto y) {
                 only_when_(hana::not_equal(zero<C>(), y),
                 hana::make_lazy([](auto x, auto y) {
@@ -84,4 +84,4 @@ namespace boost { namespace hana { namespace test {
     };
 }}} // end namespace boost::hana::test
 
-#endif // !BOOST_HANA_TEST_LAWS_INTEGRAL_DOMAIN_HPP
+#endif // !BOOST_HANA_TEST_LAWS_EUCLIDEAN_RING_HPP

@@ -16,8 +16,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
 #include <laws/constant.hpp>
+#include <laws/euclidean_ring.hpp>
 #include <laws/group.hpp>
-#include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
@@ -218,11 +218,11 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 4
     //////////////////////////////////////////////////////////////////////////
-    // Ring, IntegralDomain
+    // Ring, EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestRing<integral_constant_tag<int>>{ints};
-        test::TestIntegralDomain<integral_constant_tag<int>>{ints};
+        test::TestEuclideanRing<integral_constant_tag<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 5

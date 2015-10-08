@@ -17,8 +17,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 #include <laws/comparable.hpp>
 #include <laws/constant.hpp>
+#include <laws/euclidean_ring.hpp>
 #include <laws/group.hpp>
-#include <laws/integral_domain.hpp>
 #include <laws/logical.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
@@ -53,13 +53,13 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // Monoid, Group, Ring, IntegralDomain
+    // Monoid, Group, Ring, EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     {
         test::TestMonoid<test::CNumeric<int>>{ints};
         test::TestGroup<test::CNumeric<int>>{ints};
         test::TestRing<test::CNumeric<int>>{ints};
-        test::TestIntegralDomain<test::CNumeric<int>>{ints};
+        test::TestEuclideanRing<test::CNumeric<int>>{ints};
     }
 
 #elif BOOST_HANA_TEST_PART == 2

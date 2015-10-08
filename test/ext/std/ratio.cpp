@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <laws/comparable.hpp>
+#include <laws/euclidean_ring.hpp>
 #include <laws/group.hpp>
-#include <laws/integral_domain.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
 #include <laws/ring.hpp>
@@ -198,7 +198,7 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
-    // IntegralDomain
+    // EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     {
         // div
@@ -229,7 +229,7 @@ int main() {
         }
 
         // laws
-        test::TestIntegralDomain<ext::std::ratio_tag>{ratios};
+        test::TestEuclideanRing<ext::std::ratio_tag>{ratios};
     }
 #endif
 }

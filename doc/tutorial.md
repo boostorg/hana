@@ -2530,7 +2530,7 @@ of the external adapters that are currently supported:
 - `std::integral_constant`\n
   Model of `Constant`, and all the free models it provides.
 - `std::ratio`\n
-  Model of `Orderable`, `Comparable` and `IntegralDomain`.
+  Model of `Orderable`, `Comparable` and `EuclideanRing`.
 - `std::integer_sequence`\n
   Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
   be using `hana::range` if you want speed, though.

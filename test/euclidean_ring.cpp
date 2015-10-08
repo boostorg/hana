@@ -8,13 +8,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/mod.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <laws/integral_domain.hpp>
+#include <laws/euclidean_ring.hpp>
 namespace hana = boost::hana;
 
 
 int main() {
-    hana::test::TestIntegralDomain<int>{hana::make_tuple(0,1,2,3,4,5)};
-    hana::test::TestIntegralDomain<long>{hana::make_tuple(0l,1l,2l,3l,4l,5l)};
+    hana::test::TestEuclideanRing<int>{hana::make_tuple(0,1,2,3,4,5)};
+    hana::test::TestEuclideanRing<long>{hana::make_tuple(0l,1l,2l,3l,4l,5l)};
 
     // div
     {

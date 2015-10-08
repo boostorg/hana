@@ -101,7 +101,7 @@ namespace boost { namespace hana {
     //!
     //! More specifically, if a `Constant` `C` has an underlying value
     //! (`C::value_type`) which is a model of `Comparable`, `Orderable`,
-    //! `Logical`, or `Monoid` up to `IntegralDomain`, then `C` must also
+    //! `Logical`, or `Monoid` up to `EuclideanRing`, then `C` must also
     //! be a model of those concepts. In other words, when `C::value_type`
     //! models one of the listed concepts, `C` itself must also model that
     //! concept. However, note that free models are provided for all of

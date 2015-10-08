@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 namespace boost { namespace hana {
     //! Generalized integer division.
-    //! @relates IntegralDomain
+    //! @relates EuclideanRing
     //!
     //!
     //! Cross-type version of the method
@@ -25,7 +25,7 @@ namespace boost { namespace hana {
     //! _distinct_ data types `A` and `B` such that
     //! 1. `A` and `B` share a common data type `C`, as determined by the
     //!    `common` metafunction
-    //! 2. `A`, `B` and `C` are all `IntegralDomain`s when taken individually
+    //! 2. `A`, `B` and `C` are all `EuclideanRing`s when taken individually
     //! 3. `to<C> : A -> B` and `to<C> : B -> C` are `Ring`-embeddings, as
     //!    determined by the `is_embedding` metafunction.
     //!
