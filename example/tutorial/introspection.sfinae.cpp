@@ -21,7 +21,7 @@ std::string optionalToString(T const& obj) {
     return x.toString();
   });
 
-  return hana::from_maybe("toString not defined", maybe_toString(obj));
+  return maybe_toString(obj).value_or("toString not defined");
 }
 //! [optionalToString.sfinae]
 

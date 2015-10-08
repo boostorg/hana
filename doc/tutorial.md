@@ -1516,14 +1516,13 @@ implement the `optionalToString` function as follows:
 
 First, we wrap `toString` with the `sfinae` function. Hence, `maybe_toString`
 is a function which either returns `just(x.toString())` if that is well-formed,
-or `nothing` otherwise. Secondly, we use the `from_maybe` function to extract
-the optional value from the container. `from_maybe` takes a default value and
-an optional value. If the optional value is `nothing`, `from_maybe` returns
-the default value; otherwise, it returns the value inside the `just` (here
-`x.toString()`). This way of seeing SFINAE as a special case of computations
-that might fail is very clean and powerful, especially since `sfinae`'d
-functions can be combined through the `hana::optional` `Monad`, which is left
-to the reference documentation.
+or `nothing` otherwise. Secondly, we use the `.value_or()` function to extract
+the optional value from the container. If the optional value is `nothing`,
+`.value_or()` returns the default value given to it; otherwise, it returns the
+value inside the `just` (here `x.toString()`). This way of seeing SFINAE as a
+special case of computations that might fail is very clean and powerful,
+especially since `sfinae`'d functions can be combined through the
+`hana::optional` `Monad`, which is left to the reference documentation.
 
 
 @subsection tutorial-introspection-adapting Introspecting user-defined types
@@ -2966,7 +2965,7 @@ the left) goes as follow:
   Documentation for all the data structures provided with the library. Each
   data structure documents the concept(s) it models, and how it does so. It
   also documents the methods tied to it but not to any concept, for example
-  `from_just` for `optional`.
+  `maybe` for `optional`.
 
 - @ref group-functional\n
   General purpose function objects that are generally useful in a purely

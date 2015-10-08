@@ -8,6 +8,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 namespace hana = boost::hana;
 
+
 constexpr auto just_x = hana::just('x');
 BOOST_HANA_CONSTANT_CHECK(hana::is_just(just_x));
 

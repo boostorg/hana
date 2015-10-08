@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-static_assert(hana::from_maybe('x', hana::just(1)) == 1, "");
-static_assert(hana::from_maybe('x', hana::nothing) == 'x', "");
+static_assert(hana::just(1).value_or('x') == 1, "");
+static_assert(hana::nothing.value_or('x') == 'x', "");
 
 int main() { }

@@ -98,6 +98,7 @@ int main() {
         {
             BOOST_HANA_CONSTANT_CHECK(is_nothing(nothing));
             BOOST_HANA_CONSTANT_CHECK(not_(is_nothing(just(undefined{}))));
+            BOOST_HANA_CONSTANT_CHECK(not_(is_nothing(just(nothing))));
         }
 
         // is_just
@@ -106,77 +107,81 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(is_just(nothing)));
         }
 
-        // from_just
+        // .value()
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(from_just(just(x)), x));
+            auto lvalue = just(test::ct_eq<3>{});
+            test::ct_eq<3>& ref = lvalue.value();
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ref,
+                test::ct_eq<3>{}
+            ));
 
-            {
-                auto lvalue = just(test::ct_eq<3>{});
-                test::ct_eq<3>& ref = *lvalue;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    ref,
-                    test::ct_eq<3>{}
-                ));
+            auto const const_lvalue = just(test::ct_eq<3>{});
+            test::ct_eq<3> const& const_ref = const_lvalue.value();
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                const_ref,
+                test::ct_eq<3>{}
+            ));
 
-                auto const const_lvalue = just(test::ct_eq<3>{});
-                test::ct_eq<3> const& const_ref = *const_lvalue;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    const_ref,
-                    test::ct_eq<3>{}
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    *just(test::ct_eq<3>{}),
-                    test::ct_eq<3>{}
-                ));
-            }
-
-            {
-                struct object {
-                    test::ct_eq<3> member;
-                };
-
-                auto lvalue = just(object{});
-                test::ct_eq<3>& ref = lvalue->member;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    ref,
-                    test::ct_eq<3>{}
-                ));
-
-                auto const const_lvalue = just(object{});
-                test::ct_eq<3> const& const_ref = const_lvalue->member;
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    const_ref,
-                    test::ct_eq<3>{}
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    just(object{})->member,
-                    test::ct_eq<3>{}
-                ));
-            }
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                just(test::ct_eq<3>{}).value(),
+                test::ct_eq<3>{}
+            ));
         }
 
-        // from_maybe
+        // operator*
         {
-            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(x, nothing), x));
-            BOOST_HANA_CONSTANT_CHECK(equal(from_maybe(undefined{}, just(y)), y));
+            auto lvalue = just(test::ct_eq<3>{});
+            test::ct_eq<3>& ref = *lvalue;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                ref,
+                test::ct_eq<3>{}
+            ));
+
+            auto const const_lvalue = just(test::ct_eq<3>{});
+            test::ct_eq<3> const& const_ref = *const_lvalue;
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                const_ref,
+                test::ct_eq<3>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                *just(test::ct_eq<3>{}),
+                test::ct_eq<3>{}
+            ));
+
         }
 
-        // only_when
+        // operator->
         {
+            struct object {
+                test::ct_eq<3> member;
+            };
+
+            auto lvalue = just(object{});
+            test::ct_eq<3>& ref = lvalue->member;
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(true_c), f, x),
-                just(f(x))
+                ref,
+                test::ct_eq<3>{}
             ));
+
+            auto const const_lvalue = just(object{});
+            test::ct_eq<3> const& const_ref = const_lvalue->member;
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(false_c), f, x),
-                nothing
+                const_ref,
+                test::ct_eq<3>{}
             ));
+
             BOOST_HANA_CONSTANT_CHECK(equal(
-                only_when(always(false_c), undefined{}, x),
-                nothing
+                just(object{})->member,
+                test::ct_eq<3>{}
             ));
+        }
+
+        // .value_or()
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(nothing.value_or(x), x));
+            BOOST_HANA_CONSTANT_CHECK(equal(just(y).value_or(undefined{}), y));
         }
 
         // sfinae
@@ -403,7 +408,9 @@ int main() {
     // Monad
     //////////////////////////////////////////////////////////////////////////
     {
-        test::_injection<0> f{};
+        auto f = [](auto x) {
+            return just(test::_injection<0>{}(x));
+        };
 
         BOOST_HANA_CONSTANT_CHECK(equal(
             just(ct_eq<3>{}) | f,

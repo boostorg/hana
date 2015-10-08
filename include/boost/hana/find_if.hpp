@@ -99,18 +99,29 @@ namespace boost { namespace hana {
     };
 
     template <typename It>
-    struct find_if_impl<It, when<
-        Iterable<It>::value &&
-        !Sequence<It>::value
-    >> {
+    struct find_if_impl<It, when<Iterable<It>::value && !Sequence<It>::value>> {
         template <typename Xs, typename Pred>
-        static constexpr decltype(auto) apply(Xs&& xs, Pred&& pred) {
-            return hana::only_when(
-                hana::compose(hana::not_, hana::is_empty),
-                hana::front,
+        static constexpr auto find_if_helper(Xs&& xs, Pred&& pred, hana::true_) {
+            return hana::just(hana::front(
                 hana::drop_while(static_cast<Xs&&>(xs),
-                                 hana::compose(hana::not_, static_cast<Pred&&>(pred)))
-            );
+                    hana::compose(hana::not_, static_cast<Pred&&>(pred)))
+            ));
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto find_if_helper(Xs&&, Pred&&, hana::false_) {
+            return hana::nothing;
+        }
+
+        template <typename Xs, typename Pred>
+        static constexpr auto apply(Xs&& xs, Pred&& pred) {
+            constexpr bool found = !decltype(
+                hana::is_empty(hana::drop_while(static_cast<Xs&&>(xs),
+                    hana::compose(hana::not_, static_cast<Pred&&>(pred))))
+            )::value;
+            return find_if_impl::find_if_helper(static_cast<Xs&&>(xs),
+                                                static_cast<Pred&&>(pred),
+                                                hana::bool_<found>{});
         }
     };
 

@@ -22,7 +22,7 @@ namespace boost { namespace hana {
     //! if no such key exists. This requires the `key` to be compile-time
     //! `Comparable`, exactly like for `find`. `at_key` satisfies the following:
     //! @code
-    //!     at_key(xs, key) == from_just(find(xs, key))
+    //!     at_key(xs, key) == find(xs, key).value()
     //! @endcode
     //!
     //!

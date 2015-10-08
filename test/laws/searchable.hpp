@@ -115,10 +115,10 @@ namespace boost { namespace hana { namespace test {
 
                     only_when_(hana::contains(xs, key),
                         hana::make_lazy([](auto xs, auto key) {
-                            // at_key(xs, key) == from_just(find(xs, key))
+                            // at_key(xs, key) == find(xs, key).value()
                             BOOST_HANA_CHECK(hana::equal(
                                 hana::at_key(xs, key),
-                                hana::from_just(hana::find(xs, key))
+                                hana::find(xs, key).value()
                             ));
                         })(xs, key)
                     );

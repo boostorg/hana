@@ -13,8 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 
-#include <utility>
-
 
 namespace boost { namespace hana {
     //! @ingroup group-datatypes
@@ -133,8 +131,113 @@ namespace boost { namespace hana {
     //! containing `x` for `just(x)` and an empty list for `nothing`.
     //! Example:
     //! @include example/optional/searchable.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...>
+    struct optional {
+        // 5.3.1, Constructors
+
+        //! Default-construct an `optional`. Only exists if the optional
+        //! contains a value, and if that value is DefaultConstructible.
+        constexpr optional() = default;
+
+        //! Copy-construct an `optional`. If the `optional` contains a value,
+        //! this constructor only exists when the value is CopyConstructible.
+        optional(optional const&) = default;
+
+        //! Move-construct an `optional`. If the `optional` contains a value,
+        //! this constructor only exists when the value is MoveConstructible.
+        optional(optional&&) = default;
+
+        //! Construct an `optional` holding a value of type `T` from another
+        //! object of type `T`. The value is copy-constructed.
+        constexpr optional(T const& t)
+            : value_(t)
+        { }
+
+        //! Construct an `optional` holding a value of type `T` from another
+        //! object of type `T`. The value is move-constructed.
+        constexpr optional(T&& t)
+            : value_(static_cast<T&&>(t))
+        { }
+
+        // 5.3.3, Assignment
+
+        //! Copy-assign an `optional`. If the `optional` contains a value,
+        //! this assignment operator only exists when the value is
+        //! CopyAssignable.
+        constexpr optional& operator=(optional const&) = default;
+
+        //! Move-assign an `optional`. If the `optional` contains a value,
+        //! this assignment operator only exists when the value is
+        //! MoveAssignable.
+        constexpr optional& operator=(optional&&) = default;
+
+        // 5.3.5, Observers
+
+        //! Returns a pointer to the contained value, or a `nullptr` if the
+        //! `optional` is empty.
+        //!
+        //!
+        //! @note Overloads of this method are provided for both the `const`
+        //! and the non-`const` cases.
+        //!
+        //!
+        //! Example
+        //! -------
+        //! @include example/optional/value.cpp
+        constexpr T* operator->();
+
+        //! Extract the content of an `optional`, or fail at compile-time.
+        //!
+        //! If `*this` contains a value, that value is returned. Otherwise,
+        //! a static assertion is triggered.
+        //!
+        //! @note
+        //! Overloads of this method are provided for the cases where `*this`
+        //! is a reference, a rvalue-reference and their `const` counterparts.
+        //!
+        //!
+        //! Example
+        //! -------
+        //! @include example/optional/value.cpp
+        constexpr T& value();
+
+        //! Equivalent to `value()`, provided for convenience.
+        //!
+        //! @note
+        //! Overloads of this method are provided for the cases where `*this`
+        //! is a reference, a rvalue-reference and their `const` counterparts.
+        //!
+        //!
+        //! Example
+        //! -------
+        //! @include example/optional/value.cpp
+        constexpr T& operator*();
+
+        //! Return the contents of an `optional`, with a fallback result.
+        //!
+        //! If `*this` contains a value, that value is returned. Otherwise,
+        //! the default value provided is returned.
+        //!
+        //! @note
+        //! Overloads of this method are provided for the cases where `*this`
+        //! is a reference, a rvalue-reference and their `const` counterparts.
+        //!
+        //!
+        //! @param default_
+        //! The default value to return if `*this` does not contain a value.
+        //!
+        //!
+        //! Example
+        //! -------
+        //! @include example/optional/value_or.cpp
+        template <typename U>
+        constexpr decltype(auto) value_or(U&& default_);
+    };
+#else
     template <typename ...>
     struct optional;
+#endif
 
     //! Tag representing a `hana::optional`.
     //! @relates hana::optional
@@ -154,7 +257,7 @@ namespace boost { namespace hana {
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<optional_tag> = []([auto&& x]) {
-        return optional<implementation-defined>{forwarded(x)};
+        return optional<implementation-defined>{implementation-defined};
     };
 #endif
 
@@ -176,7 +279,7 @@ namespace boost { namespace hana {
     //! @include example/optional/just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
-        return optional<implementation-defined>{forwarded(x)};
+        return optional<implementation-defined>{implementation-defined};
     };
 #else
     struct make_just_t {
@@ -199,54 +302,29 @@ namespace boost { namespace hana {
 #else
     template <>
     struct optional<> : detail::operators::adl {
-        static constexpr bool is_just = false;
+        // 5.3.1, Constructors
+        constexpr optional() = default;
+        constexpr optional(optional const&) = default;
+        constexpr optional(optional&&) = default;
+
+        // 5.3.3, Assignment
+        constexpr optional& operator=(optional const&) = default;
+        constexpr optional& operator=(optional&&) = default;
+
+        // 5.3.5, Observers
+        constexpr decltype(nullptr) operator->() const { return nullptr; }
+
+        template <typename ...dummy>
+        constexpr auto value() const;
+
+        template <typename ...dummy>
+        constexpr auto operator*() const;
+
+        template <typename U>
+        constexpr U&& value_or(U&& u) const;
     };
 
     constexpr optional<> nothing{};
-#endif
-
-    //! Create an optional value with the result of a function, but only if a
-    //! predicate is satisfied.
-    //! @relates hana::optional
-    //!
-    //! Specifically, returns `just(f(x))` if `predicate(x)` is a true-valued
-    //! `Logical`, and `nothing` otherwise.
-    //!
-    //!
-    //! @param predicate
-    //! A function called as `predicate(x)` and returning a true-valued
-    //! `Logical` if `just(f(x))` should be the resulting value, and a
-    //! false-valued one if `nothing` should be the resulting value.
-    //! Since the types of `just` and `nothing` differ, the result of
-    //! `predicate` has to be a compile-time `Logical`.
-    //!
-    //! @param f
-    //! A function called as `f(x)` if the `predicate` returns a true-valued
-    //! `Logical`, and not called at all otherwise. If the `predicate` returns
-    //! a false-valued `Logical`, the `f(x)` expression is not even required
-    //! to be well-formed.
-    //!
-    //! @param x
-    //! The value to either transform and put in a `just`, or discard.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/optional/only_when.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto only_when = [](auto&& predicate, auto&& f, auto&& x) -> decltype(auto) {
-        if (forwarded(predicate)(x))
-            return just(forwarded(f)(forwarded(x)));
-        else
-            return nothing;
-    };
-#else
-    struct only_when_t {
-        template <typename Pred, typename F, typename X>
-        constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const;
-    };
-
-    constexpr only_when_t only_when{};
 #endif
 
     //! Apply a function to the contents of an optional, with a fallback
@@ -286,126 +364,22 @@ namespace boost { namespace hana {
     struct maybe_t {
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, optional<T> const& m) const
-        { return static_cast<F&&>(f)(m.val); }
+        { return static_cast<F&&>(f)(m.value_); }
 
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, optional<T>& m) const
-        { return static_cast<F&&>(f)(m.val); }
+        { return static_cast<F&&>(f)(m.value_); }
 
         template <typename Def, typename F, typename T>
         constexpr decltype(auto) operator()(Def&&, F&& f, optional<T>&& m) const
-        { return static_cast<F&&>(f)(std::move(m).val); }
+        { return static_cast<F&&>(f)(static_cast<optional<T>&&>(m).value_); }
 
         template <typename Def, typename F>
-        constexpr Def operator()(Def&& def, F&&, optional<>) const
+        constexpr Def operator()(Def&& def, F&&, optional<> const&) const
         { return static_cast<Def&&>(def); }
     };
 
     constexpr maybe_t maybe{};
-#endif
-
-    //! Return whether an `optional` contains a value.
-    //! @relates hana::optional
-    //!
-    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
-    //! of the form `just(x)` for some `x`, and a false-valued one otherwise.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/optional/is_just.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto is_just = [](auto const& m) {
-        return m is a just(x);
-    };
-#else
-    struct is_just_t {
-        template <typename M>
-        constexpr auto operator()(M const&) const;
-    };
-
-    constexpr is_just_t is_just{};
-#endif
-
-    //! Return whether an `optional` is empty.
-    //! @relates hana::optional
-    //!
-    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
-    //! a `nothing`, and a false-valued one otherwise.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/optional/is_nothing.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto is_nothing = [](auto const& m) {
-        return m is a nothing;
-    };
-#else
-    struct is_nothing_t {
-        template <typename M>
-        constexpr auto operator()(M const&) const;
-    };
-
-    constexpr is_nothing_t is_nothing{};
-#endif
-
-    //! Return the contents of an `optional`, with a fallback result.
-    //! @relates hana::optional
-    //!
-    //! Specifically, returns `x` if `m` is `just(x)`, and `default_`
-    //! otherwise.
-    //!
-    //!
-    //! @param default_
-    //! The default value to return if `m` is `nothing`.
-    //!
-    //! @param m
-    //! The optional value to try to retrieve the value from.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/optional/from_maybe.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto from_maybe = [](auto&& default_, auto&& m) -> decltype(auto) {
-        return maybe(forwarded(default_), id, forwarded(m));
-    };
-#else
-    struct from_maybe_t {
-        template <typename Default, typename M>
-        constexpr decltype(auto) operator()(Default&& default_, M&& m) const;
-    };
-
-    constexpr from_maybe_t from_maybe{};
-#endif
-
-    //! Extract the content of an `optional`, or fail at compile-time.
-    //! @relates hana::optional
-    //!
-    //! Specifically, returns `x` if the optional value is `just(x)`, and
-    //! triggers a static assertion otherwise. For convenience, the pointer
-    //! dereference operators (`*` and `->`)  can be used as an equivalent
-    //! way of calling this method or calling this method and accessing a
-    //! member of the returned object, respectively.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/optional/from_just.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto from_just = [](auto&& m) -> decltype(auto) {
-        static_assert(m is a just(x),
-        "can't use boost::hana::from_just on a boost::hana::nothing");
-        return forwarded(x);
-    };
-#else
-    struct from_just_t {
-        template <typename M>
-        constexpr decltype(auto) operator()(M&& m) const;
-    };
-
-    constexpr from_just_t from_just{};
 #endif
 
     //! Calls a function if the call expression is well-formed.
@@ -447,6 +421,52 @@ namespace boost { namespace hana {
     };
 
     constexpr sfinae_t sfinae{};
+#endif
+
+    //! Return whether an `optional` contains a value.
+    //! @relates hana::optional
+    //!
+    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
+    //! of the form `just(x)` for some `x`, and a false-valued one otherwise.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/optional/is_just.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto is_just = [](auto const& m) {
+        return m is a just(x);
+    };
+#else
+    struct is_just_t {
+        template <typename ...T>
+        constexpr auto operator()(optional<T...> const&) const;
+    };
+
+    constexpr is_just_t is_just{};
+#endif
+
+    //! Return whether an `optional` is empty.
+    //! @relates hana::optional
+    //!
+    //! Specifically, returns a compile-time true-valued `Logical` if `m` is
+    //! a `nothing`, and a false-valued one otherwise.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/optional/is_nothing.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto is_nothing = [](auto const& m) {
+        return m is a nothing;
+    };
+#else
+    struct is_nothing_t {
+        template <typename ...T>
+        constexpr auto operator()(optional<T...> const&) const;
+    };
+
+    constexpr is_nothing_t is_nothing{};
 #endif
 }} // end namespace boost::hana
 

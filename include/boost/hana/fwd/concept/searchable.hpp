@@ -55,11 +55,12 @@ namespace boost { namespace hana {
     //! implemented according to the laws explained below.
     //!
     //! @note
-    //! We could implement `any_of(xs, pred)` as `is_just(find_if(xs, pred))`,
-    //! and then reduce the minimal complete definition to `find_if`. However,
-    //! this is not done because that implementation requires the predicate
-    //! of `any_of` to return a compile-time `Logical`, which is more
-    //! restrictive than what we have right now.
+    //! We could implement `any_of(xs, pred)` by checking whether
+    //! `find_if(xs, pred)` is an empty `optional` or not, and then reduce
+    //! the minimal complete definition to `find_if`. However, this is not
+    //! done because that implementation requires the predicate of `any_of`
+    //! to return a compile-time `Logical`, which is more restrictive than
+    //! what we have right now.
     //!
     //!
     //! Laws

@@ -46,9 +46,8 @@ namespace boost { namespace hana {
     template <typename S, bool condition>
     struct at_key_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Key>
-        static constexpr decltype(auto) apply(Xs&& xs, Key&& key) {
-            return hana::from_just(hana::find(static_cast<Xs&&>(xs),
-                                              static_cast<Key&&>(key)));
+        static constexpr auto apply(Xs&& xs, Key&& key) {
+            return hana::find(static_cast<Xs&&>(xs), static_cast<Key&&>(key)).value();
         }
     };
 
