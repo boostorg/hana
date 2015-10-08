@@ -30,7 +30,7 @@ var searchData=
   ['min',['min',['../structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa',1,'boost::hana::Orderable']]],
   ['minimum',['minimum',['../structboost_1_1hana_1_1Foldable.html#aead74d4a75dd467873fcc9124d06b5f4',1,'boost::hana::Foldable']]],
   ['minus',['minus',['../structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]],
-  ['mod',['mod',['../structboost_1_1hana_1_1IntegralDomain.html#a2b306dc95e8beec0ea943136781fde88',1,'boost::hana::IntegralDomain']]],
+  ['mod',['mod',['../structboost_1_1hana_1_1EuclideanRing.html#a2b306dc95e8beec0ea943136781fde88',1,'boost::hana::EuclideanRing']]],
   ['monadic_5fcompose',['monadic_compose',['../structboost_1_1hana_1_1Monad.html#a0e9320a2061eb61136c4ea0ea74b22ce',1,'boost::hana::Monad']]],
   ['monadic_5ffold_5fleft',['monadic_fold_left',['../structboost_1_1hana_1_1Foldable.html#ab52e67ac8ae8529882650a6d03326f6c',1,'boost::hana::Foldable']]],
   ['monadic_5ffold_5fright',['monadic_fold_right',['../structboost_1_1hana_1_1Foldable.html#a8aab99a990fb0c212456962ffdfe6cff',1,'boost::hana::Foldable']]],

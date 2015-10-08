@@ -51,7 +51,7 @@ var searchData=
   ['minus',['minus',['../structboost_1_1hana_1_1Group.html#a866303b4a7433e5320efc6b961a04238',1,'boost::hana::Group']]],
   ['minus_2ehpp',['minus.hpp',['../minus_8hpp.html',1,'']]],
   ['minus_2ehpp',['minus.hpp',['../fwd_2minus_8hpp.html',1,'']]],
-  ['mod',['mod',['../structboost_1_1hana_1_1IntegralDomain.html#a2b306dc95e8beec0ea943136781fde88',1,'boost::hana::IntegralDomain']]],
+  ['mod',['mod',['../structboost_1_1hana_1_1EuclideanRing.html#a2b306dc95e8beec0ea943136781fde88',1,'boost::hana::EuclideanRing']]],
   ['mod_2ehpp',['mod.hpp',['../fwd_2mod_8hpp.html',1,'']]],
   ['mod_2ehpp',['mod.hpp',['../mod_8hpp.html',1,'']]],
   ['monad',['Monad',['../structboost_1_1hana_1_1Monad.html',1,'boost::hana']]],

@@ -18,6 +18,10 @@ var group__group_concepts =
       [ "value", "structboost_1_1hana_1_1Constant.html#adea9453327ac4d6834a555ae9887d3f5", null ],
       [ "value_of", "structboost_1_1hana_1_1Constant.html#ad06a1ad6dece8a0337c3a9e754067051", null ]
     ] ],
+    [ "EuclideanRing", "structboost_1_1hana_1_1EuclideanRing.html", [
+      [ "div", "structboost_1_1hana_1_1EuclideanRing.html#a640e2ad638a87d78628c463b8c106968", null ],
+      [ "mod", "structboost_1_1hana_1_1EuclideanRing.html#a2b306dc95e8beec0ea943136781fde88", null ]
+    ] ],
     [ "Foldable", "structboost_1_1hana_1_1Foldable.html", [
       [ "count", "structboost_1_1hana_1_1Foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53", null ],
       [ "count_if", "structboost_1_1hana_1_1Foldable.html#a21ca48cce90274a5f54354f9d4622930", null ],
@@ -51,10 +55,6 @@ var group__group_concepts =
     ] ],
     [ "IntegralConstant", "structboost_1_1hana_1_1IntegralConstant.html", [
       [ "repeat", "structboost_1_1hana_1_1IntegralConstant.html#a466c712ea96d2b62065e067d062842b9", null ]
-    ] ],
-    [ "IntegralDomain", "structboost_1_1hana_1_1IntegralDomain.html", [
-      [ "div", "structboost_1_1hana_1_1IntegralDomain.html#a640e2ad638a87d78628c463b8c106968", null ],
-      [ "mod", "structboost_1_1hana_1_1IntegralDomain.html#a2b306dc95e8beec0ea943136781fde88", null ]
     ] ],
     [ "Iterable", "structboost_1_1hana_1_1Iterable.html", [
       [ "at", "structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721", null ],

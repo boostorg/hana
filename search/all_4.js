@@ -17,7 +17,7 @@ var searchData=
   ['difference_2ehpp',['difference.hpp',['../fwd_2difference_8hpp.html',1,'']]],
   ['dispatch_2ehpp',['dispatch.hpp',['../dispatch_8hpp.html',1,'']]],
   ['dispatch_5fif_2ehpp',['dispatch_if.hpp',['../dispatch__if_8hpp.html',1,'']]],
-  ['div',['div',['../structboost_1_1hana_1_1IntegralDomain.html#a640e2ad638a87d78628c463b8c106968',1,'boost::hana::IntegralDomain']]],
+  ['div',['div',['../structboost_1_1hana_1_1EuclideanRing.html#a640e2ad638a87d78628c463b8c106968',1,'boost::hana::EuclideanRing']]],
   ['div_2ehpp',['div.hpp',['../fwd_2div_8hpp.html',1,'']]],
   ['div_2ehpp',['div.hpp',['../div_8hpp.html',1,'']]],
   ['drop_5fback',['drop_back',['../structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef',1,'boost::hana::Sequence']]],
