@@ -202,7 +202,7 @@ The project is organized in a couple of subdirectories.
 
 
 ## Related material
-- Talk on metaprogramming and Hana at [CppCon][] 2015 ([slides](http://ldionne.com/hana-cppcon-2015))
+- Talk on metaprogramming and Hana at [CppCon][] 2015 ([slides](http://ldionne.com/hana-cppcon-2015)/[video](https://youtu.be/cg1wOINjV9U))
 - Talk on metaprogramming and Hana at [C++Now][] 2015 ([slides](http://ldionne.com/hana-cppnow-2015))
 - Talk on Hana at [CppCon][] 2014 ([slides](http://ldionne.com/hana-cppcon-2014)/[video](https://youtu.be/L2SktfaJPuU))
 - The [MPL11][] library, which is how Hana started out
