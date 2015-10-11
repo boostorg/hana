@@ -24,4 +24,5 @@ static_assert(std::is_same<
     hana::integral_constant_tag<int>
 >{}, "");
 
+
 int main() { }
