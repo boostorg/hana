@@ -131,6 +131,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1optional.html',
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1optional-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::optional&lt;... &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -444,27 +445,62 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ac07e15f303806d3e639f1b7237110ba8"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt; implementation-defined &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> {implementation-defined}</td></tr>
 <tr class="memdesc:ac07e15f303806d3e639f1b7237110ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#ac07e15f303806d3e639f1b7237110ba8">More...</a><br /></td></tr>
 <tr class="separator:ac07e15f303806d3e639f1b7237110ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d8246013d58b0809b6f18d894525b6c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a0d8246013d58b0809b6f18d894525b6c">only_when</a></td></tr>
-<tr class="memdesc:a0d8246013d58b0809b6f18d894525b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value with the result of a function, but only if a predicate is satisfied.  <a href="#a0d8246013d58b0809b6f18d894525b6c">More...</a><br /></td></tr>
-<tr class="separator:a0d8246013d58b0809b6f18d894525b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6529e11cb228e99a05e81071752807d5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a></td></tr>
 <tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function to the contents of an optional, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
 <tr class="separator:a6529e11cb228e99a05e81071752807d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a></td></tr>
+<tr class="memdesc:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function if the call expression is well-formed.  <a href="#aa4c8c0b1ef3d8206974734b93646c9fd">More...</a><br /></td></tr>
+<tr class="separator:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1047a69893a62cd36eb0d2934f85e0e7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a1047a69893a62cd36eb0d2934f85e0e7">is_just</a></td></tr>
 <tr class="memdesc:a1047a69893a62cd36eb0d2934f85e0e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether an <code>optional</code> contains a value.  <a href="#a1047a69893a62cd36eb0d2934f85e0e7">More...</a><br /></td></tr>
 <tr class="separator:a1047a69893a62cd36eb0d2934f85e0e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4eb266d123883c23853f7731a6c5953f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a4eb266d123883c23853f7731a6c5953f">is_nothing</a></td></tr>
 <tr class="memdesc:a4eb266d123883c23853f7731a6c5953f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether an <code>optional</code> is empty.  <a href="#a4eb266d123883c23853f7731a6c5953f">More...</a><br /></td></tr>
 <tr class="separator:a4eb266d123883c23853f7731a6c5953f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb98884a58d911687bf2aa64a411d623"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#afb98884a58d911687bf2aa64a411d623">from_maybe</a></td></tr>
-<tr class="memdesc:afb98884a58d911687bf2aa64a411d623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contents of an <code>optional</code>, with a fallback result.  <a href="#afb98884a58d911687bf2aa64a411d623">More...</a><br /></td></tr>
-<tr class="separator:afb98884a58d911687bf2aa64a411d623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebdc9b916940e038e6f2e3043e4f796"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a2ebdc9b916940e038e6f2e3043e4f796">from_just</a></td></tr>
-<tr class="memdesc:a2ebdc9b916940e038e6f2e3043e4f796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of an <code>optional</code>, or fail at compile-time.  <a href="#a2ebdc9b916940e038e6f2e3043e4f796">More...</a><br /></td></tr>
-<tr class="separator:a2ebdc9b916940e038e6f2e3043e4f796"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#aa4c8c0b1ef3d8206974734b93646c9fd">sfinae</a></td></tr>
-<tr class="memdesc:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a function if the call expression is well-formed.  <a href="#aa4c8c0b1ef3d8206974734b93646c9fd">More...</a><br /></td></tr>
-<tr class="separator:aa4c8c0b1ef3d8206974734b93646c9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a4eb5fabd070088c2d4f84bd1c7701d29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4eb5fabd070088c2d4f84bd1c7701d29"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a4eb5fabd070088c2d4f84bd1c7701d29">optional</a> ()=default</td></tr>
+<tr class="memdesc:a4eb5fabd070088c2d4f84bd1c7701d29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default-construct an <code>optional</code>. Only exists if the optional contains a value, and if that value is DefaultConstructible. <br /></td></tr>
+<tr class="separator:a4eb5fabd070088c2d4f84bd1c7701d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27da569f0a998ac135781debca994a0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27da569f0a998ac135781debca994a0b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a27da569f0a998ac135781debca994a0b">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
+<tr class="memdesc:a27da569f0a998ac135781debca994a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct an <code>optional</code>. If the <code>optional</code> contains a value, this constructor only exists when the value is CopyConstructible. <br /></td></tr>
+<tr class="separator:a27da569f0a998ac135781debca994a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3817d3db511f2832d106b61e40127f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3817d3db511f2832d106b61e40127f4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ad3817d3db511f2832d106b61e40127f4">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:ad3817d3db511f2832d106b61e40127f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct an <code>optional</code>. If the <code>optional</code> contains a value, this constructor only exists when the value is MoveConstructible. <br /></td></tr>
+<tr class="separator:ad3817d3db511f2832d106b61e40127f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a961666f1942c1e2f9cbb0e478caf58a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a961666f1942c1e2f9cbb0e478caf58a4"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a961666f1942c1e2f9cbb0e478caf58a4">optional</a> (T const &amp;t)</td></tr>
+<tr class="memdesc:a961666f1942c1e2f9cbb0e478caf58a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is copy-constructed. <br /></td></tr>
+<tr class="separator:a961666f1942c1e2f9cbb0e478caf58a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a4a8fa539ea5aac82e6de5ce9a75c78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a4a8fa539ea5aac82e6de5ce9a75c78"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a9a4a8fa539ea5aac82e6de5ce9a75c78">optional</a> (T &amp;&amp;t)</td></tr>
+<tr class="memdesc:a9a4a8fa539ea5aac82e6de5ce9a75c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is move-constructed. <br /></td></tr>
+<tr class="separator:a9a4a8fa539ea5aac82e6de5ce9a75c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6de973cd833ef29f4a85d1b5af82c6d"></a>
+constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ab6de973cd833ef29f4a85d1b5af82c6d">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
+<tr class="memdesc:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assign an <code>optional</code>. If the <code>optional</code> contains a value, this assignment operator only exists when the value is CopyAssignable. <br /></td></tr>
+<tr class="separator:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dbb46bd53e35d2d8ed55b7adb884b45"></a>
+constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a5dbb46bd53e35d2d8ed55b7adb884b45">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. If the <code>optional</code> contains a value, this assignment operator only exists when the value is MoveAssignable. <br /></td></tr>
+<tr class="separator:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64132dd9925e8ecc47aee4610a3b08e6"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a64132dd9925e8ecc47aee4610a3b08e6">operator-&gt;</a> ()</td></tr>
+<tr class="memdesc:a64132dd9925e8ecc47aee4610a3b08e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#a64132dd9925e8ecc47aee4610a3b08e6">More...</a><br /></td></tr>
+<tr class="separator:a64132dd9925e8ecc47aee4610a3b08e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1c30ef06f6b294c60f1378ae4404e6d"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a> ()</td></tr>
+<tr class="memdesc:ab1c30ef06f6b294c60f1378ae4404e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of an <code>optional</code>, or fail at compile-time.  <a href="#ab1c30ef06f6b294c60f1378ae4404e6d">More...</a><br /></td></tr>
+<tr class="separator:ab1c30ef06f6b294c60f1378ae4404e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9fd5bcfa572717f7d6aa7c8cd4f037c"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ae9fd5bcfa572717f7d6aa7c8cd4f037c">operator*</a> ()</td></tr>
+<tr class="memdesc:ae9fd5bcfa572717f7d6aa7c8cd4f037c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience.  <a href="#ae9fd5bcfa572717f7d6aa7c8cd4f037c">More...</a><br /></td></tr>
+<tr class="separator:ae9fd5bcfa572717f7d6aa7c8cd4f037c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af693c0e822937762129308b8b6aad0ae"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:af693c0e822937762129308b8b6aad0ae"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#af693c0e822937762129308b8b6aad0ae">value_or</a> (U &amp;&amp;<a class="el" href="structboost_1_1hana_1_1default__.html">default_</a>)</td></tr>
+<tr class="memdesc:af693c0e822937762129308b8b6aad0ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contents of an <code>optional</code>, with a fallback result.  <a href="#af693c0e822937762129308b8b6aad0ae">More...</a><br /></td></tr>
+<tr class="separator:af693c0e822937762129308b8b6aad0ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a76a84854b3051af000e698157d63a6a8"></a>
@@ -489,7 +525,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= []([<span class="keyword">auto</span>&amp;&amp; x]) {</div>
-<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation-defined&gt;{forwarded(x)};</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a4eb5fabd070088c2d4f84bd1c7701d29">optional</a>&lt;implementation-defined&gt;{implementation-defined};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value. </p>
@@ -587,7 +623,7 @@ template&lt;typename... &gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
-<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation-defined&gt;{forwarded(x)};</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a4eb5fabd070088c2d4f84bd1c7701d29">optional</a>&lt;implementation-defined&gt;{implementation-defined};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value containing <code>x</code>. </p>
@@ -601,6 +637,7 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> just_x = hana::just(<span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
@@ -644,73 +681,6 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> x = hana::nothing;</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="a0d8246013d58b0809b6f18d894525b6c"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto only_when</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; predicate, <span class="keyword">auto</span>&amp;&amp; f, <span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">if</span> (forwarded(predicate)(x))</div>
-<div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)));</div>
-<div class="line">        <span class="keywordflow">else</span></div>
-<div class="line">            <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>;</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Create an optional value with the result of a function, but only if a predicate is satisfied. </p>
-<p>Specifically, returns <code>just(f(x))</code> if <code>predicate(x)</code> is a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, and <code>nothing</code> otherwise.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x)</code> and returning a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>just(f(x))</code> should be the resulting value, and a false-valued one if <code>nothing</code> should be the resulting value. Since the types of <code>just</code> and <code>nothing</code> differ, the result of <code>predicate</code> has to be a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</td></tr>
-    <tr><td class="paramname">f</td><td>A function called as <code>f(x)</code> if the <code>predicate</code> returns a true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, and not called at all otherwise. If the <code>predicate</code> returns a false-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>, the <code>f(x)</code> expression is not even required to be well-formed.</td></tr>
-    <tr><td class="paramname">x</td><td>The value to either transform and put in a <code>just</code>, or discard.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="div_8hpp.html">boost/hana/div.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="mod_8hpp.html">boost/hana/mod.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> even = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x % hana::int_c&lt;2&gt; == hana::int_c&lt;0&gt;;</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> half = [](<span class="keyword">auto</span> x) {</div>
-<div class="line">    <span class="keywordflow">return</span> x / hana::int_c&lt;2&gt;;</div>
-<div class="line">};</div>
-<div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_c&lt;4&gt;) == hana::just(hana::int_c&lt;2&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::only_when(even, half, hana::int_c&lt;3&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -769,6 +739,64 @@ template&lt;typename... &gt; </div>
 <div class="line">static_assert(hana::maybe(<span class="charliteral">&#39;x&#39;</span>, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1, hana::nothing) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="aa4c8c0b1ef3d8206974734b93646c9fd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto sfinae</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
+<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) {</div>
+<div class="line">            <span class="keywordflow">if</span> (decltype(forwarded(f)(forwarded(x)...)) is well-formed)</div>
+<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)...));</div>
+<div class="line">            <span class="keywordflow">else</span></div>
+<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>;</div>
+<div class="line">        };</div>
+<div class="line">    }</div>
+</div><!-- fragment -->
+<p>Calls a function if the call expression is well-formed. </p>
+<p>Given a function <code>f</code>, <code>sfinae</code> returns a new function applying <code>f</code> to its arguments and returning <code>just</code> the result if the call is well-formed, and <code>nothing</code> otherwise. In other words, <code>sfinae(f)(x...)</code> is <code>just(f(x...))</code> if that expression is well-formed, and <code>nothing</code> otherwise. Note, however, that it is possible for an expression <code>f(x...)</code> to be well-formed as far as SFINAE is concerned, but trying to actually compile <code>f(x...)</code> still fails. In this case, <code>sfinae</code> won't be able to detect it and a hard failure is likely to happen.</p>
+<dl class="section note"><dt>Note</dt><dd>The function given to <code>sfinae</code> must not return <code>void</code>, since <code>just(void)</code> does not make sense. A compilation error is triggered if the function returns void.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> incr = [](<span class="keyword">auto</span> x) -&gt; decltype(x + 1) {</div>
+<div class="line">        <span class="keywordflow">return</span> x + 1;</div>
+<div class="line">    };</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::sfinae(incr)(1) == hana::just(2));</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">struct </span>invalid { };</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::sfinae(incr)(invalid{}) == hana::nothing);</div>
+<div class="line">}</div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -864,84 +892,24 @@ template&lt;typename... &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="afb98884a58d911687bf2aa64a411d623"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a64132dd9925e8ecc47aee4610a3b08e6"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename... &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto from_maybe</td>
+          <td class="memname">constexpr T* <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt;... &gt;::operator-&gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; default_, <span class="keyword">auto</span>&amp;&amp; m) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a>(forwarded(default_), <span class="keywordtype">id</span>, forwarded(m));</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Return the contents of an <code>optional</code>, with a fallback result. </p>
-<p>Specifically, returns <code>x</code> if <code>m</code> is <code>just(x)</code>, and <code><a class="el" href="structboost_1_1hana_1_1default__.html" title="Mark a tag-dispatched method implementation as a default implementation. ">default_</a></code> otherwise.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname"><a class="el" href="structboost_1_1hana_1_1default__.html" title="Mark a tag-dispatched method implementation as a default implementation. ">default_</a></td><td>The default value to return if <code>m</code> is <code>nothing</code>.</td></tr>
-    <tr><td class="paramname">m</td><td>The optional value to try to retrieve the value from.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">static_assert(hana::from_maybe(<span class="charliteral">&#39;x&#39;</span>, hana::just(1)) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::from_maybe(<span class="charliteral">&#39;x&#39;</span>, hana::nothing) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="a2ebdc9b916940e038e6f2e3043e4f796"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto from_just</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; m) -&gt; decltype(<span class="keyword">auto</span>) {</div>
-<div class="line">        static_assert(m is a <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x),</div>
-<div class="line">        <span class="stringliteral">&quot;can&#39;t use boost::hana::from_just on a boost::hana::nothing&quot;</span>);</div>
-<div class="line">        <span class="keywordflow">return</span> forwarded(x);</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Extract the content of an <code>optional</code>, or fail at compile-time. </p>
-<p>Specifically, returns <code>x</code> if the optional value is <code>just(x)</code>, and triggers a static assertion otherwise. For convenience, the pointer dereference operators (<code>*</code> and <code>-&gt;</code>) can be used as an equivalent way of calling this method or calling this method and accessing a member of the returned object, respectively.</p>
+
+<p>Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty. </p>
+<dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for both the <code>const</code> and the non-<code>const</code> cases.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -959,46 +927,33 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    static_assert(hana::from_just(hana::just(<span class="charliteral">&#39;x&#39;</span>)) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
 <div class="line"></div>
-<div class="line">    <span class="comment">// hana::from_just(hana::nothing); // compile-time error</span></div>
+<div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="aa4c8c0b1ef3d8206974734b93646c9fd"></a>
+<a class="anchor" id="ab1c30ef06f6b294c60f1378ae4404e6d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename... &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto sfinae</td>
+          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt;... &gt;::value </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; f) {</div>
-<div class="line">        <span class="keywordflow">return</span> [perfect-<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>](<span class="keyword">auto</span>&amp;&amp; ...x) {</div>
-<div class="line">            <span class="keywordflow">if</span> (decltype(forwarded(f)(forwarded(x)...)) is well-formed)</div>
-<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)...));</div>
-<div class="line">            <span class="keywordflow">else</span></div>
-<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>;</div>
-<div class="line">        };</div>
-<div class="line">    }</div>
-</div><!-- fragment -->
-<p>Calls a function if the call expression is well-formed. </p>
-<p>Given a function <code>f</code>, <code>sfinae</code> returns a new function applying <code>f</code> to its arguments and returning <code>just</code> the result if the call is well-formed, and <code>nothing</code> otherwise. In other words, <code>sfinae(f)(x...)</code> is <code>just(f(x...))</code> if that expression is well-formed, and <code>nothing</code> otherwise. Note, however, that it is possible for an expression <code>f(x...)</code> to be well-formed as far as SFINAE is concerned, but trying to actually compile <code>f(x...)</code> still fails. In this case, <code>sfinae</code> won't be able to detect it and a hard failure is likely to happen.</p>
-<dl class="section note"><dt>Note</dt><dd>The function given to <code>sfinae</code> must not return <code>void</code>, since <code>just(void)</code> does not make sense. A compilation error is triggered if the function returns void.</dd></dl>
+
+<p>Extract the content of an <code>optional</code>, or fail at compile-time. </p>
+<p>If <code>*this</code> contains a value, that value is returned. Otherwise, a static assertion is triggered.</p>
+<dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -1007,22 +962,110 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> incr = [](<span class="keyword">auto</span> x) -&gt; decltype(x + 1) {</div>
-<div class="line">        <span class="keywordflow">return</span> x + 1;</div>
-<div class="line">    };</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::sfinae(incr)(1) == hana::just(2));</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">struct </span>invalid { };</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::sfinae(incr)(invalid{}) == hana::nothing);</div>
+<div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
 <div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="ae9fd5bcfa572717f7d6aa7c8cd4f037c"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt;... &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience. </p>
+<dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line"></div>
+<div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="af693c0e822937762129308b8b6aad0ae"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... &gt; </div>
+<div class="memtemplate">
+template&lt;typename U &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">decltype(auto) constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt;... &gt;::value_or </td>
+          <td>(</td>
+          <td class="paramtype">U &amp;&amp;&#160;</td>
+          <td class="paramname"><em>default_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the contents of an <code>optional</code>, with a fallback result. </p>
+<p>If <code>*this</code> contains a value, that value is returned. Otherwise, the default value provided is returned.</p>
+<dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="structboost_1_1hana_1_1default__.html" title="Mark a tag-dispatched method implementation as a default implementation. ">default_</a></td><td>The default value to return if <code>*this</code> does not contain a value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="optional_8hpp.html">boost/hana/optional.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::just(1).<a class="code" href="structboost_1_1hana_1_1optional.html#af693c0e822937762129308b8b6aad0ae">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::nothing.<a class="code" href="structboost_1_1hana_1_1optional.html#af693c0e822937762129308b8b6aad0ae">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
 </div>
 </div>

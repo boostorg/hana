@@ -1302,9 +1302,9 @@ Taking control of SFINAE</h2>
 <div class="line">    <span class="keywordflow">return</span> x.toString();</div>
 <div class="line">  });</div>
 <div class="line"></div>
-<div class="line">  <span class="keywordflow">return</span> hana::from_maybe(<span class="stringliteral">&quot;toString not defined&quot;</span>, maybe_toString(obj));</div>
+<div class="line">  <span class="keywordflow">return</span> maybe_toString(obj).value_or(<span class="stringliteral">&quot;toString not defined&quot;</span>);</div>
 <div class="line">}</div>
-</div><!-- fragment --><p> First, we wrap <code>toString</code> with the <code>sfinae</code> function. Hence, <code>maybe_toString</code> is a function which either returns <code>just(x.toString())</code> if that is well-formed, or <code>nothing</code> otherwise. Secondly, we use the <code>from_maybe</code> function to extract the optional value from the container. <code>from_maybe</code> takes a default value and an optional value. If the optional value is <code>nothing</code>, <code>from_maybe</code> returns the default value; otherwise, it returns the value inside the <code>just</code> (here <code>x.toString()</code>). This way of seeing SFINAE as a special case of computations that might fail is very clean and powerful, especially since <code>sfinae</code>'d functions can be combined through the <code>hana::optional</code> <code>Monad</code>, which is left to the reference documentation.</p>
+</div><!-- fragment --><p> First, we wrap <code>toString</code> with the <code>sfinae</code> function. Hence, <code>maybe_toString</code> is a function which either returns <code>just(x.toString())</code> if that is well-formed, or <code>nothing</code> otherwise. Secondly, we use the <code>.value_or()</code> function to extract the optional value from the container. If the optional value is <code>nothing</code>, <code>.value_or()</code> returns the default value given to it; otherwise, it returns the value inside the <code>just</code> (here <code>x.toString()</code>). This way of seeing SFINAE as a special case of computations that might fail is very clean and powerful, especially since <code>sfinae</code>'d functions can be combined through the <code>hana::optional</code> <code>Monad</code>, which is left to the reference documentation.</p>
 <h2><a class="anchor" id="tutorial-introspection-adapting"></a>
 Introspecting user-defined types</h2>
 <p>Have you ever wanted to iterate over the members of a user-defined type? The goal of this section is to show you how Hana can be used to do it quite easily. To allow working with user-defined types, Hana defines the <code>Struct</code> concept. Once a user-defined type is a model of that concept, one can iterate over the members of an object of that type and query other useful information. To turn a user-defined type into a <code>Struct</code>, a couple of options are available. First, you may define the members of your user-defined type with the <code>BOOST_HANA_DEFINE_STRUCT</code> macro:</p>
@@ -1972,7 +1972,7 @@ Using the reference</h1>
 </ul>
 </li>
 <li><a class="el" href="group__group-datatypes.html">Data types</a><br />
- Documentation for all the data structures provided with the library. Each data structure documents the concept(s) it models, and how it does so. It also documents the methods tied to it but not to any concept, for example <code>from_just</code> for <code>optional</code>.</li>
+ Documentation for all the data structures provided with the library. Each data structure documents the concept(s) it models, and how it does so. It also documents the methods tied to it but not to any concept, for example <code>maybe</code> for <code>optional</code>.</li>
 <li><a class="el" href="group__group-functional.html">Functional</a><br />
  General purpose function objects that are generally useful in a purely functional setting. These are currently not tied to any concept or container.</li>
 <li><a class="el" href="group__group-ext.html">External adapters</a><br />
