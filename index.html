@@ -2001,7 +2001,7 @@ Function signatures</h2>
 </p>
 <p>which is not really helpful (as it really presents nothing but the implementation), it is instead documented using <code>integral_constant_tag</code>, which acts as the "type" of all <code>integral_constant</code>s. Note that since <code>equal</code> is part of the <code>Comparable</code> concept, it is not <em>actually</em> documented for <code>hana::integral_constant</code> specifically, but the idea is there:</p>
 <p class="formulaDsp">
-\[ \mathtt{equal} : \mathtt{integral_constant_tag&lt;T&gt;} \times \mathtt{integral_constant_tag&lt;T&gt;} \to \mathtt{integral_constant_tag&lt;bool&gt;} \]
+\[ \mathtt{equal} : \mathtt{integral\_constant\_tag&lt;T&gt;} \times \mathtt{integral\_constant\_tag&lt;T&gt;} \to \mathtt{integral\_constant\_tag&lt;bool&gt;} \]
 </p>
 <p>This clearly conveys the intention that comparing two <code>integral_constant</code>s gives back another <code>integral_constant</code> holding a <code>bool</code>. In general, this abstraction of the actual representation of objects makes it possible for us to reason in a high level manner about functions, even though their actual return and argument types are heterogeneous and not helpful. Finally, most functions expect container elements to have some properties. For example, this is the case of the <code>sort</code> algorithm, which obviously requires the container elements to be <code>Orderable</code>. Normally, we would write the signature for the non-predicated version of <code>sort</code> as</p>
 <p class="formulaDsp">
