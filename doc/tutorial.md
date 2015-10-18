@@ -3034,9 +3034,9 @@ is part of the `Comparable` concept, it is not _actually_ documented for
 `hana::integral_constant` specifically, but the idea is there:
 
 @f[
-  \mathtt{equal} : \mathtt{integral_constant_tag<T>} \times
-                   \mathtt{integral_constant_tag<T>}
-                      \to \mathtt{integral_constant_tag<bool>}
+  \mathtt{equal} : \mathtt{integral\_constant\_tag<T>} \times
+                   \mathtt{integral\_constant\_tag<T>}
+                      \to \mathtt{integral\_constant\_tag<bool>}
 @f]
 
 This clearly conveys the intention that comparing two `integral_constant`s
