@@ -2161,7 +2161,7 @@ guaranteed to be unique across translation units, which can cause an ODR
 violation if one relies on such an address. So, in short, do not rely on the
 uniqueness of the address of any global object provided by Hana, which does
 not make sense in the general case anyway because such objects are `constexpr`.
-See [issue #76](https://github.com/ldionne/hana/issues/76) for more information.
+See [issue #76](https://github.com/boostorg/hana/issues/76) for more information.
 
 
 
@@ -3708,7 +3708,7 @@ modified as little as possible to work with this reimplementation.
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.contributing]: https://goo.gl/N8DuJW
-[Hana.issues]: https://github.com/ldionne/hana/issues
+[Hana.issues]: https://github.com/boostorg/hana/issues
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html

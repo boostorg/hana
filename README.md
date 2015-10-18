@@ -1,4 +1,4 @@
-# Boost.Hana <a href="http://semver.org" target="_blank">![Version][badge.version]</a> <a href="https://travis-ci.org/ldionne/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg" target="_blank">![Try it online][badge.wandbox]</a> <a href="https://gitter.im/ldionne/hana" target="_blank">![Gitter Chat][badge.Gitter]</a>
+# Boost.Hana <a href="http://semver.org" target="_blank">![Version][badge.version]</a> <a href="https://travis-ci.org/boostorg/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg" target="_blank">![Try it online][badge.wandbox]</a> <a href="https://gitter.im/boostorg/hana" target="_blank">![Gitter Chat][badge.Gitter]</a>
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -67,12 +67,12 @@ int main() {
 
 
 ## Documentation
-You can browse the documentation online at http://ldionne.github.io/hana.
+You can browse the documentation online at http://boostorg.github.io/hana.
 You can also get an offline version of the documentation by checking out
 the `gh-pages` branch. To avoid overwriting the current directory, you
 can clone the `gh-pages` branch into a subdirectory like `doc/gh-pages`:
 ```shell
-git clone http://github.com/ldionne/hana --branch=gh-pages doc/gh-pages
+git clone http://github.com/boostorg/hana --branch=gh-pages doc/gh-pages
 ```
 
 After issuing this, `doc/gh-pages` will contain exactly the same static
@@ -213,7 +213,7 @@ The project is organized in a couple of subdirectories.
 - Talk on Hana at [CppCon][] 2014 ([slides](http://ldionne.com/hana-cppcon-2014)/[video](https://youtu.be/L2SktfaJPuU))
 - The [MPL11][] library, which is how Hana started out
 - Talk on the MPL11 at [C++Now][] 2014 ([slides](http://ldionne.com/mpl11-cppnow-2014)/[video](https://youtu.be/8c0aWLuEO0Y))
-- My bachelor's thesis was a formalization of C++ metaprogramming through
+- Louis Dionne's bachelor's thesis was a formalization of C++ metaprogramming through
   category theory. The thesis is available [here](https://github.com/ldionne/hana-thesis/blob/gh-pages/main.pdf),
   and the slides of a related presentation are available [here](http://ldionne.com/hana-thesis).
   Unfortunately, both are in french only.
@@ -229,8 +229,8 @@ Please see [LICENSE.md](LICENSE.md).
 
 <!-- Links -->
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
-[badge.Travis]: https://travis-ci.org/ldionne/hana.svg?branch=master
-[badge.version]: https://badge.fury.io/gh/ldionne%2Fhana.svg
+[badge.Travis]: https://travis-ci.org/boostorg/hana.svg?branch=master
+[badge.version]: https://badge.fury.io/gh/boostorg%2Fhana.svg
 [badge.Wandbox]: https://img.shields.io/badge/try%20it-online-blue.svg
 [C++Now]: http://cppnow.org
 [CMake]: http://www.cmake.org

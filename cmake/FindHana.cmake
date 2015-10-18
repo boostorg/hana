@@ -57,7 +57,7 @@ if (NOT EXISTS "${BOOST_HANA_INCLUDE_DIR}" AND DEFINED BOOST_HANA_CLONE_DIR)
         DOWNLOAD_DIR ${_build_dir}/_tmp
 
         # Download step
-        GIT_REPOSITORY https://github.com/ldionne/hana
+        GIT_REPOSITORY https://github.com/boostorg/hana
         GIT_TAG master
         TIMEOUT 20
 

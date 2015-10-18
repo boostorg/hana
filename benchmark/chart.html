@@ -24,7 +24,7 @@
     }
 
     var github = new Github({});
-    var hana = github.getRepo('ldionne', 'hana');
+    var hana = github.getRepo('boostorg', 'hana');
 
     var updateCompilers = function(dataset, configuration) {
       hana.getTree('datasets?recursive=true', function(err, tree) {
@@ -49,7 +49,7 @@
     };
 
     var redrawChart = function(dataset, configuration, compiler, commit) {
-      var path = ["https://cdn.rawgit.com/ldionne/hana", commit, configuration, compiler, dataset].join("/");
+      var path = ["https://cdn.rawgit.com/boostorg/hana", commit, configuration, compiler, dataset].join("/");
       $.getJSON(path, function(options) {
         if ($("#container").highcharts())
           $("#container").highcharts().destroy();

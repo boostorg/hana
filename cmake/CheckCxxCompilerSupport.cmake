@@ -49,7 +49,7 @@ else()
     message(WARNING "
     ### You appear to be using a compiler that is not yet tested with Hana.
     ### Please tell us whether it successfully compiles or if and how it
-    ### fails by opening an issue at https://github.com/ldionne/hana/issues.
+    ### fails by opening an issue at https://github.com/boostorg/hana/issues.
     ### Thanks!
     ")
 endif()

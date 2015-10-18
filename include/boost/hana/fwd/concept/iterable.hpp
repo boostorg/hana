@@ -137,7 +137,7 @@ namespace boost { namespace hana {
     //! `hana::tuple`, `hana::string`, `hana::range`
     //!
     //!
-    //! [1]: https://github.com/ldionne/hana/issues/40
+    //! [1]: https://github.com/boostorg/hana/issues/40
     template <typename It>
     struct Iterable;
 }} // end namespace boost::hana

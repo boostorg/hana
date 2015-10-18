@@ -192,7 +192,7 @@ namespace boost { namespace hana {
         //! -------
         //! @include example/string/literal.cpp
         //!
-        //! [Hana.issue80]: https://github.com/ldionne/hana/issues/80
+        //! [Hana.issue80]: https://github.com/boostorg/hana/issues/80
         template <typename CharT, CharT ...s>
         constexpr auto operator"" _s();
     }
