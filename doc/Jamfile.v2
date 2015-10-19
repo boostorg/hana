@@ -1,0 +1,136 @@
+# Copyright Louis Dionne 2015
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+
+# To generate the list of options from Doxyfile.in, run the following:
+# Note that several manual adjustments must still be done.
+#
+# while read line; do
+#   if echo ${line} | grep -v '^$' | grep -q -v '^\s*#'; then
+#     line=$(echo ${line} | sed s/@Boost.Hana_SOURCE_DIR@/\$\(HANA_SOURCE_DIR\)/g)
+#     echo "<doxygen:param>${line}"
+#   fi
+# done < Doxyfile.in
+
+import os ;
+
+if [ os.environ TRAVIS ] {
+  path-constant HANA_SOURCE_DIR : .. ;
+} else {
+  path-constant HANA_SOURCE_DIR : $(BOOST_ROOT)/libs/hana ;
+}
+
+doxygen hana.html
+    :
+        [ glob ../include/boost/hana/*.hpp ]
+        [ glob ../include/boost/hana/concept/*.hpp ]
+        [ glob ../include/boost/hana/core/*.hpp ]
+        [ glob ../include/boost/hana/detail/*.hpp ]
+        [ glob ../include/boost/hana/detail/operators/*.hpp ]
+        [ glob ../include/boost/hana/detail/variadic/*.hpp ]
+        [ glob ../include/boost/hana/ext/*.hpp ]
+        [ glob ../include/boost/hana/ext/boost/*.hpp ]
+        [ glob ../include/boost/hana/ext/boost/fusion/*.hpp ]
+        [ glob ../include/boost/hana/ext/boost/mpl/*.hpp ]
+        [ glob ../include/boost/hana/ext/std/*.hpp ]
+        [ glob ../include/boost/hana/functional/*.hpp ]
+        [ glob ../include/boost/hana/fwd/*.hpp ]
+        [ glob ../include/boost/hana/fwd/concept/*.hpp ]
+        [ glob ../include/boost/hana/fwd/core/*.hpp ]
+        ../include/boost/hana.hpp
+        ./tutorial.hpp
+    :
+      <doxygen:param>PROJECT_NAME="Boost.Hana"
+      <doxygen:param>PROJECT_BRIEF="Your standard library for metaprogramming"
+      <doxygen:param>PROJECT_LOGO=$(HANA_SOURCE_DIR)/doc/Boost.png
+      <doxygen:param>PROJECT_NUMBER=
+      <doxygen:param>STRIP_FROM_PATH=$(HANA_SOURCE_DIR)/include
+      <doxygen:param>BUILTIN_STL_SUPPORT=YES
+      <doxygen:param>STRIP_FROM_INC_PATH=$(HANA_SOURCE_DIR)/include
+      <doxygen:param>QUIET=YES
+      <doxygen:param>FILE_PATTERNS=*.hpp
+      <doxygen:param>RECURSIVE=YES
+      <doxygen:param>EXCLUDE_PATTERNS=*.erb*
+      <doxygen:param>EXAMPLE_PATH="\"$(HANA_SOURCE_DIR)/example\" \"$(HANA_SOURCE_DIR)/test\""
+      <doxygen:param>EXAMPLE_RECURSIVE=YES
+      <doxygen:param>WARN_IF_UNDOCUMENTED=NO
+      <doxygen:param>SHOW_GROUPED_MEMB_INC=YES
+      <doxygen:param>BRIEF_MEMBER_DESC=YES
+      <doxygen:param>REPEAT_BRIEF=YES
+      <doxygen:param>ALWAYS_DETAILED_SEC=NO
+      <doxygen:param>INLINE_INHERITED_MEMB=NO
+      <doxygen:param>JAVADOC_AUTOBRIEF=YES
+      <doxygen:param>QT_AUTOBRIEF=YES
+      <doxygen:param>MULTILINE_CPP_IS_BRIEF=YES
+      <doxygen:param>INHERIT_DOCS=NO
+      <doxygen:param>SEPARATE_MEMBER_PAGES=NO
+      <doxygen:param>DISTRIBUTE_GROUP_DOC=NO
+      <doxygen:param>SUBGROUPING=NO
+      <doxygen:param>INLINE_GROUPED_CLASSES=NO
+      <doxygen:param>INLINE_SIMPLE_STRUCTS=NO
+      <doxygen:param>GENERATE_HTML=YES
+      <doxygen:param>GENERATE_LATEX=NO
+      <doxygen:param>GENERATE_TODOLIST=YES
+      <doxygen:param>GENERATE_TESTLIST=YES
+      <doxygen:param>GENERATE_BUGLIST=YES
+      <doxygen:param>GENERATE_DEPRECATEDLIST=YES
+      <doxygen:param>SHOW_USED_FILES=NO
+      <doxygen:param>SHOW_FILES=YES
+      <doxygen:param>SHOW_NAMESPACES=YES
+      <doxygen:param>LAYOUT_FILE=$(HANA_SOURCE_DIR)/doc/layout.xml
+      <doxygen:param>CLASS_DIAGRAMS=YES
+      <doxygen:param>HAVE_DOT=NO
+      <doxygen:param>HIDE_UNDOC_RELATIONS=NO
+      <doxygen:param>HIDE_UNDOC_MEMBERS=YES
+      <doxygen:param>HIDE_UNDOC_CLASSES=YES
+      <doxygen:param>HIDE_FRIEND_COMPOUNDS=NO
+      <doxygen:param>HIDE_IN_BODY_DOCS=NO
+      <doxygen:param>INTERNAL_DOCS=YES
+      <doxygen:param>HIDE_SCOPE_NAMES=NO
+      <doxygen:param>SHOW_INCLUDE_FILES=NO
+      <doxygen:param>FORCE_LOCAL_INCLUDES=NO
+      <doxygen:param>INLINE_INFO=NO
+      <doxygen:param>SORT_MEMBER_DOCS=NO
+      <doxygen:param>SORT_BRIEF_DOCS=NO
+      <doxygen:param>SORT_MEMBERS_CTORS_1ST=NO
+      <doxygen:param>SORT_GROUP_NAMES=NO
+      <doxygen:param>SORT_BY_SCOPE_NAME=YES
+      <doxygen:param>ALPHABETICAL_INDEX=NO
+      <doxygen:param>COLS_IN_ALPHA_INDEX=1
+      <doxygen:param>ENABLE_PREPROCESSING=YES
+      <doxygen:param>MACRO_EXPANSION=YES
+      <doxygen:param>EXPAND_ONLY_PREDEF=NO
+      <doxygen:param>SEARCH_INCLUDES=YES
+      <doxygen:param>INCLUDE_PATH=$(HANA_SOURCE_DIR)/include
+      <doxygen:param>PREDEFINED=BOOST_HANA_DOXYGEN_INVOKED
+      <doxygen:param>SKIP_FUNCTION_MACROS=NO
+      <doxygen:param>SOURCE_BROWSER=NO
+      <doxygen:param>INLINE_SOURCES=NO
+      <doxygen:param>STRIP_CODE_COMMENTS=NO
+      <doxygen:param>REFERENCED_BY_RELATION=YES
+      <doxygen:param>REFERENCES_RELATION=YES
+      <doxygen:param>REFERENCES_LINK_SOURCE=YES
+      <doxygen:param>USE_HTAGS=NO
+      <doxygen:param>VERBATIM_HEADERS=NO
+      <doxygen:param>HTML_FILE_EXTENSION=.html
+      <doxygen:param>HTML_HEADER=$(HANA_SOURCE_DIR)/doc/header.html
+      <doxygen:param>HTML_FOOTER=$(HANA_SOURCE_DIR)/doc/footer.html
+      <doxygen:param>HTML_EXTRA_STYLESHEET=
+      <doxygen:param>HTML_EXTRA_FILES=$(HANA_SOURCE_DIR)/benchmark/chart.js
+      <doxygen:param>HTML_COLORSTYLE_HUE=75  # 0 - 359
+      <doxygen:param>HTML_COLORSTYLE_SAT=100 # 0 - 255
+      <doxygen:param>HTML_COLORSTYLE_GAMMA=80
+      <doxygen:param>HTML_TIMESTAMP=NO
+      <doxygen:param>HTML_DYNAMIC_SECTIONS=YES
+      <doxygen:param>HTML_INDEX_NUM_ENTRIES=0 # Fully expand trees in the Indexes by default
+      <doxygen:param>DISABLE_INDEX=YES
+      <doxygen:param>GENERATE_TREEVIEW=YES
+      <doxygen:param>TREEVIEW_WIDTH=270
+      <doxygen:param>EXT_LINKS_IN_WINDOW=NO
+      <doxygen:param>FORMULA_FONTSIZE=10
+      <doxygen:param>FORMULA_TRANSPARENT=YES
+      <doxygen:param>SEARCHENGINE=YES
+      <doxygen:param>USE_MATHJAX=YES
+      <doxygen:param>MATHJAX_FORMAT=HTML-CSS
+      <doxygen:param>MATHJAX_RELPATH=http://cdn.mathjax.org/mathjax/latest
+    ;
