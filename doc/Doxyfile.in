@@ -21,7 +21,6 @@ EXCLUDE_PATTERNS        = *.erb*
 EXAMPLE_PATH            = @Boost.Hana_SOURCE_DIR@/example \
                           @Boost.Hana_SOURCE_DIR@/test
 EXAMPLE_RECURSIVE       = YES
-IMAGE_PATH              = @Boost.Hana_BINARY_DIR@/benchmark
 WARN_IF_UNDOCUMENTED    = NO
 
 SHOW_GROUPED_MEMB_INC   = YES
