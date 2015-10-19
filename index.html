@@ -50,9 +50,9 @@
         .replace(/see-documentation/g, "see-documentation".italics());
     });
     var github = new Github({});
-    var hana = github.getRepo('ldionne', 'hana');
+    var hana = github.getRepo('boostorg', 'hana');
     hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/ldionne/hana/" + sha + "/release/clang-3.6.2/";
+      var repo = "https://cdn.rawgit.com/boostorg/hana/" + sha + "/release/clang-3.6.2/";
       $(".benchmark-chart").each(function(index, div) {
         var dataset = div.getAttribute("data-dataset");
         $.getJSON(repo + dataset, function(options) {
@@ -1661,12 +1661,12 @@ Cross-phase algorithms</h2>
 <div class="line">});</div>
 </div><!-- fragment --><p> Since the predicate returns an <code>IntegralConstant</code>, we know which elements of the heterogeneous sequence we'll be keeping at compile-time. Hence, the compiler is able to figure out the return type of the algorithm. Other algorithms like <code>partition</code> and <code>sort</code> work similarly; special algorithm requirements are always documented, just read the reference documentation of an algorithm before using it to avoid surprises.</p>
 <p>This is the end of the section on algorithms. While this constitutes a fairly complete explanation of phase interaction inside algorithms, a deeper understanding can be gained by reading the <a class="el" href="index.html#tutorial-appendix-constexpr">advanced section</a> on <code>constexpr</code> and the reference for <code>Constant</code> and <code>IntegralConstant</code>.</p>
-<dl class="section warning"><dt>Warning</dt><dd>Hana's algorithms are <code>constexpr</code> function objects instead of being template functions. This allows passing them to higher-order algorithms, which is very useful. However, since those function objects are defined at namespace scope in the header files, this causes each translation unit to see a different algorithm object. Hence, the address of an algorithm function object is not guaranteed to be unique across translation units, which can cause an ODR violation if one relies on such an address. So, in short, do not rely on the uniqueness of the address of any global object provided by Hana, which does not make sense in the general case anyway because such objects are <code>constexpr</code>. See <a href="https://github.com/ldionne/hana/issues/76">issue #76</a> for more information.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Hana's algorithms are <code>constexpr</code> function objects instead of being template functions. This allows passing them to higher-order algorithms, which is very useful. However, since those function objects are defined at namespace scope in the header files, this causes each translation unit to see a different algorithm object. Hence, the address of an algorithm function object is not guaranteed to be unique across translation units, which can cause an ODR violation if one relies on such an address. So, in short, do not rely on the uniqueness of the address of any global object provided by Hana, which does not make sense in the general case anyway because such objects are <code>constexpr</code>. See <a href="https://github.com/boostorg/hana/issues/76">issue #76</a> for more information.</dd></dl>
 <h1><a class="anchor" id="tutorial-performance"></a>
 Performance considerations</h1>
 <hr/>
 <p> C++ programmers love performance, so here's a whole section dedicated to it. Since Hana lives on the frontier between runtime and compile-time computations, we are not only interested in runtime performance, but also compile-time performance. Since both topics are pretty much disjoint, we treat them separately below.</p>
-<dl class="section note"><dt>Note</dt><dd>The benchmarks presented in this section are updated automatically when we push to the repository. If you notice results that do not withstand the claims made here, open a <a href="https://github.com/ldionne/hana/issues">GitHub issue</a>; it could be a performance regression.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The benchmarks presented in this section are updated automatically when we push to the repository. If you notice results that do not withstand the claims made here, open a <a href="https://github.com/boostorg/hana/issues">GitHub issue</a>; it could be a performance regression.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>As of writing this, not all of Hana's containers are optimized. Implementing Hana was a big enough challenge that containers were initially written naively and are now in the process of being rigorously optimized. In particular, the associative containers (<code>hana::map</code> and <code>hana::set</code>) have a pretty bad compile-time behavior because of their naive implementation, and their runtime behavior also seems to be problematic in some cases. Improving this situation is in the TODO list.</dd></dl>
 <h2><a class="anchor" id="tutorial-performance-compile"></a>
 Compile-time performance</h2>
@@ -1700,7 +1700,7 @@ Runtime performance</h2>
 <div class="line"><span class="keyword">auto</span> ys = hana::reverse(std::move(xs));</div>
 </div><!-- fragment --><p>To answer this question, we'll look at the chart generated when benchmarking the above code for strings of about 1k characters. However, note that it does not really make sense to benchmark this for standard library algorithms, because they do not return containers.</p>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.reverse.move.json"> </div><p>As you can see, Hana is faster than Fusion, probably because of a more consistent use of move semantics in the implementation. If we had not provided a temporary container to <code>reverse</code>, no move could have been performed by Hana and both libraries would have performed similarly:</p>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.reverse.nomove.json"> </div><p>This concludes the section on runtime performance. Hopefully you are now convinced that Hana was built for speed. Performance is important to us: if you ever encounter a scenario where Hana causes bad code to be generated (and the fault is not on the compiler), please open an <a href="https://github.com/ldionne/hana/issues">issue</a> so the problem can be addressed.</p>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.reverse.nomove.json"> </div><p>This concludes the section on runtime performance. Hopefully you are now convinced that Hana was built for speed. Performance is important to us: if you ever encounter a scenario where Hana causes bad code to be generated (and the fault is not on the compiler), please open an <a href="https://github.com/boostorg/hana/issues">issue</a> so the problem can be addressed.</p>
 <h1><a class="anchor" id="tutorial-ext"></a>
 Integration with external libraries</h1>
 <hr/>
