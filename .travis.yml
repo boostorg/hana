@@ -70,6 +70,9 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
       addons: *clang37
 
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      addons: *clang37
+
     - os: osx
       env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0 BOOST_BUILD=true
       osx_image: xcode7
@@ -296,6 +299,13 @@ script:
         # Suppress output to avoid leaking the token
         travis_retry git push origin gh-pages &>/dev/null
         popd
+      fi
+
+      if [[ "${BOOST_BUILD}" == "true" ]]; then
+        touch Jamroot
+        echo "import doxygen ;" > project-config.jam
+        echo "using doxygen ;" >> project-config.jam
+        (cd doc && b2)
       fi
     fi
 
