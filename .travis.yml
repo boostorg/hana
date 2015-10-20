@@ -7,6 +7,12 @@ compiler: clang
 os: linux
 sudo: false
 
+# Do not build branches of the form "pr/*". By prefixing pull requests coming
+# from branches inside the repository with pr/, this avoids building both the
+# branch push _and_ the pull request.
+branches:
+  except: /pr\/.*/
+
 
 matrix:
   allow_failures:
