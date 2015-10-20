@@ -65,6 +65,19 @@ matrix:
       osx_image: xcode7
 
     ##########################################################################
+    # Use Boost.Build instead of CMake
+    ##########################################################################
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      addons: *clang37
+
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      addons: *clang37
+
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      osx_image: xcode7
+
+    ##########################################################################
     # Clang trunk (allowed to fail)
     ##########################################################################
     - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
@@ -191,6 +204,15 @@ install:
     fi
 
   ############################################################################
+  # Install Boost.Build
+  ############################################################################
+  - |
+    if [[ "${BOOST_BUILD}" == "true" ]]; then
+      (cd boost/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
+      export PATH=${DEPS_DIR}/b2/bin:${PATH}
+    fi
+
+  ############################################################################
   # Install libc++ and libc++abi (on Linux only; Xcode uses libc++ by default)
   ############################################################################
   - |
@@ -278,6 +300,13 @@ script:
         travis_retry git push origin gh-pages &>/dev/null
         popd
       fi
+
+      if [[ "${BOOST_BUILD}" == "true" ]]; then
+        touch Jamroot
+        echo "import doxygen ;" > project-config.jam
+        echo "using doxygen ;" >> project-config.jam
+        (cd doc && b2)
+      fi
     fi
 
   ############################################################################
@@ -312,8 +341,18 @@ script:
   ############################################################################
   - |
     if [[ "${UNIT_TESTS}" == "true" ]]; then
-      export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-      (cd build && make check -j2 -k)
+      if [[ "${BOOST_BUILD}" != "true" ]]; then
+        export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
+        (cd build && make check -j2 -k)
+      else
+        touch Jamroot
+        echo "using clang : : ${COMPILER} ;" > project-config.jam
+        if [[ "${LDFLAGS}" == "" ]]; then
+          (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${DEPS_DIR}/boost")
+        else
+          (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" linkflags="${LDFLAGS}" include="${DEPS_DIR}/boost")
+        fi
+      fi
     fi
 
 
