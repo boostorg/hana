@@ -10,7 +10,7 @@
       "data": <%= time_execution('execute.hana.tuple.erb.cpp', exec) %>
     }
 
-    <%# Boost.Fusion >= 1.58.0 has a bug in reverse_fold %>
+    <%# Boost.Fusion 1.58.0 has a bug in reverse_fold %>
     <% if cmake_bool("@Boost_FOUND@") && "@Boost_VERSION@" != "105800" %>
     , {
       "name": "fusion::vector",
