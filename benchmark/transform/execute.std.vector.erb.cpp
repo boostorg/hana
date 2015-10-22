@@ -18,7 +18,8 @@ int main () {
                 <%= input_size.times.map { 'std::rand()' }.join(', ') %>
             };
 
-            std::vector<long long> results(<%= input_size %>);
+            std::vector<long long> results;
+            results.reserve(<%= input_size %>);
 
             std::transform(values.begin(), values.end(), results.begin(), [&](auto t) {
                 return result += t;

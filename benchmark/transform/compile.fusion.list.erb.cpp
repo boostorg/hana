@@ -5,29 +5,28 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 <% if input_size > 10 %>
-    #define FUSION_MAX_VECTOR_SIZE <%= ((input_size + 9) / 10) * 10 %>
+    #define FUSION_MAX_LIST_SIZE <%= ((input_size + 9) / 10) * 10 %>
 <% end %>
 
-#include <boost/fusion/include/make_vector.hpp>
-#include <boost/fusion/include/reverse_fold.hpp>
+#include <boost/fusion/include/as_list.hpp>
+#include <boost/fusion/include/make_list.hpp>
+#include <boost/fusion/include/transform.hpp>
 namespace fusion = boost::fusion;
 
 
 struct f {
-    template <typename State, typename X>
-    constexpr X operator()(State, X x) const { return x; }
+    template <typename X>
+    constexpr X operator()(X x) const { return x; }
 };
-
-struct state { };
 
 template <int i>
 struct x { };
 
 int main() {
-    auto xs = fusion::make_vector(
+    auto xs = fusion::make_list(
         <%= (1..input_size).map { |n| "x<#{n}>{}" }.join(', ') %>
     );
 
-    auto result = fusion::reverse_fold(xs, state{}, f{});
+    auto result = fusion::as_list(fusion::transform(xs, f{}));
     (void)result;
 }

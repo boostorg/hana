@@ -2307,9 +2307,9 @@ result of applying the function to each element. The following chart presents
 the compile-time performance of applying `transform` to a sequence of `n`
 elements. The `x` axis represents the number of elements in the sequence, and
 the `y` axis represents the compilation time in seconds. Also note that we're
-using the `transform` equivalent in each library; we're not using the
-`transform` algorithm from Hana through the Boost.Fusion adapters, for
-example, which would probably be less efficient.
+using the `transform` equivalent in each library; we're not using Hana's
+`transform` through the Boost.Fusion adapters, for example, because we really
+want to benchmark their implementation against ours.
 
 <div class="benchmark-chart"
      style="min-width: 310px; height: 400px; margin: 0 auto"
@@ -2320,6 +2320,27 @@ Here, we can see that Hana's tuple performs better than all the other
 alternatives. This is mainly due to the fact that we use C++11 variadic
 parameter pack expansion to implement this algorithm under the hood, which
 is quite efficient.
+
+Before we move on, it is important to mention something regarding the benchmark
+methodology for Fusion algorithms. Some algorithms in Fusion are lazy, which
+means that they don't actually perform anything, but simply return a modified
+view to the original data. This is the case of `fusion::transform`, which
+simply returns a transformed view that applies the function to each element
+of the original sequence as those elements are accessed. If we want to
+benchmark anything at all, we need to force the evaluation of that view, as
+would eventually happen when accessing the elements of the sequence in real
+code. However, for complex computations with multiple layers, a lazy approach
+may yield a substantially different compile-time profile. Of course, this
+difference is poorly represented in micro benchmarks, so keep in mind that
+these benchmarks only give a part of the big picture. For completeness in the
+rest of the section, we will mention when a Fusion algorithm is lazy, so that
+you know when we're _artificially_ forcing the evaluation of the algorithm for
+the purpose of benchmarking.
+
+@note
+We are currently considering adding lazy views to Hana. If this feature is
+important to you, please let us know by commenting
+[this issue](https://github.com/boostorg/hana/issues/193).
 
 The second important class of algorithms are folds. Folds can be used to
 implement many other algorithms like `count_if`, `minimum` and so on.
@@ -2396,6 +2417,15 @@ happen, these factors must be considered even more carefully and any analytical
 approach would probably only comfort us into thinking we're efficient. Instead,
 we want hard data, and pretty charts to display it!
 
+@note
+Like for compile-time performance, we're forcing the evaluation of some Fusion
+algorithms that are normally lazy. Again, depending on the complexity of the
+computation, a lazy algorithm may cause substantially different code to be
+generated or a different design to be used, for better or worse. Keep this
+in mind when you look at these runtime benchmarks. If performance is absolutely
+critical to your application, you should profile _before_ and _after_ switching
+from Fusion to Hana. And let us know if Hana performs worse; we'll fix it!
+
 There are a couple of different aspects we will want to benchmark. First, we
 will obviously want to benchmark the execution time of the algorithms.
 Secondly, because of the by-value semantics used throughout the library, we
@@ -2421,6 +2451,10 @@ different kinds of sequences:
      style="min-width: 310px; height: 400px; margin: 0 auto"
      data-dataset="benchmark.transform.execute.json">
 </div>
+
+@note
+Keep in mind that `fusion::transform` is usually lazy, and we're forcing its
+evaluation for the purpose of benchmarking.
 
 As you can see, Hana and Fusion are pretty much on the same line. `std::array`
 is slightly slower for larger collections data sets, and `std::vector` is
@@ -2476,6 +2510,10 @@ because they do not return containers.
      style="min-width: 310px; height: 400px; margin: 0 auto"
      data-dataset="benchmark.reverse.move.json">
 </div>
+
+@note
+Keep in mind that `fusion::reverse` is usually lazy, and we're forcing its
+evaluation for the purpose of benchmarking.
 
 As you can see, Hana is faster than Fusion, probably because of a more
 consistent use of move semantics in the implementation. If we had not

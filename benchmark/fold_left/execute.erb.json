@@ -23,6 +23,9 @@
     , {
       "name": "fusion::vector",
       "data": <%= time_execution('execute.fusion.vector.erb.cpp', fusion) %>
+    }, {
+      "name": "fusion::list",
+      "data": <%= time_execution('execute.fusion.list.erb.cpp', fusion) %>
     }
     <% end %>
   ]

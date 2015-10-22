@@ -4,11 +4,17 @@ Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#include <boost/hana/count_if.hpp>
+<% if input_size > 10 %>
+    #define FUSION_MAX_LIST_SIZE <%= ((input_size + 9) / 10) * 10 %>
+<% end %>
+
+#include <boost/fusion/include/count_if.hpp>
+#include <boost/fusion/include/make_list.hpp>
+
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/mod.hpp>
-#include <boost/hana/tuple.hpp>
+namespace fusion = boost::fusion;
 namespace hana = boost::hana;
 
 
@@ -20,9 +26,9 @@ struct is_even {
 };
 
 int main() {
-    constexpr auto ints = hana::make_tuple(
+    auto ints = fusion::make_list(
         <%= (1..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
-    constexpr auto result = hana::count_if(ints, is_even{});
+    auto result = fusion::count_if(ints, is_even{});
     (void)result;
 }

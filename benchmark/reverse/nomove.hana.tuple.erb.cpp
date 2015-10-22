@@ -11,17 +11,18 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstdlib>
 #include <string>
 #include <utility>
+namespace hana = boost::hana;
 
 
 int main () {
     std::string s(1000, 'x');
-    boost::hana::benchmark::measure([&] {
+    hana::benchmark::measure([&] {
         for (int iteration = 0; iteration < 1 << 5; ++iteration) {
-            auto values = boost::hana::make_tuple(
+            auto values = hana::make_tuple(
                 <%= input_size.times.map { 's' }.join(', ') %>
             );
 
-            auto result = boost::hana::reverse(values);
+            auto result = hana::reverse(values);
             (void)result;
         }
     });

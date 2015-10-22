@@ -13,19 +13,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/include/make_vector.hpp>
 #include <boost/mpl/integral_c.hpp>
 namespace fusion = boost::fusion;
+namespace mpl = boost::mpl;
 
 
 struct is_even {
     template <typename N>
-    using apply = boost::mpl::integral_c<bool, N::value % 2 == 0>;
+    using apply = mpl::integral_c<bool, N::value % 2 == 0>;
 };
 
 int main() {
-    auto vector = fusion::make_vector(
-        <%= (1..input_size).map { |n|
-            "boost::mpl::integral_c<int, #{n}>{}"
-        }.join(', ') %>
+    auto xs = fusion::make_vector(
+        <%= (1..input_size).map { |n| "mpl::integral_c<int, #{n}>{}" }.join(', ') %>
     );
-    auto result = fusion::as_vector(fusion::filter_if<is_even>(vector));
+
+    auto result = fusion::as_vector(fusion::filter_if<is_even>(xs));
     (void)result;
 }

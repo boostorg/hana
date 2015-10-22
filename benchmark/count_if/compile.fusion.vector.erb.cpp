@@ -14,19 +14,21 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/mod.hpp>
+namespace fusion = boost::fusion;
+namespace hana = boost::hana;
 
 
 struct is_even {
     template <typename N>
     constexpr auto operator()(N n) const {
-        return n % boost::hana::int_c<2> == boost::hana::int_c<0>;
+        return n % hana::int_c<2> == hana::int_c<0>;
     }
 };
 
 int main() {
-    auto vector = boost::fusion::make_vector(
-        <%= (1..input_size).map { |n| "boost::hana::int_c<#{n}>" }.join(', ') %>
+    auto ints = fusion::make_vector(
+        <%= (1..input_size).map { |n| "hana::int_c<#{n}>" }.join(', ') %>
     );
-    auto result = boost::fusion::count_if(vector, is_even{});
+    auto result = fusion::count_if(ints, is_even{});
     (void)result;
 }

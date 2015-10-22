@@ -23,9 +23,10 @@ template <int i>
 struct x { };
 
 int main() {
-    auto vector = fusion::make_vector(
+    auto xs = fusion::make_vector(
         <%= (1..input_size).map { |n| "x<#{n}>{}" }.join(', ') %>
     );
-    auto result = fusion::as_vector(fusion::transform(vector, f{}));
+
+    auto result = fusion::as_vector(fusion::transform(xs, f{}));
     (void)result;
 }

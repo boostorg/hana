@@ -16,19 +16,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstdlib>
 #include <string>
 #include <utility>
+namespace fusion = boost::fusion;
+namespace hana = boost::hana;
 
 
 int main () {
     std::string s(1000, 'x');
-    boost::hana::benchmark::measure([&] {
+    hana::benchmark::measure([&] {
         for (int iteration = 0; iteration < 1 << 5; ++iteration) {
-            auto values = boost::fusion::make_vector(
+            auto values = fusion::make_vector(
                 <%= input_size.times.map { 's' }.join(', ') %>
             );
 
-            auto result = boost::fusion::as_vector(
-                boost::fusion::reverse(values)
-            );
+            auto result = fusion::as_vector(fusion::reverse(values));
             (void)result;
         }
     });

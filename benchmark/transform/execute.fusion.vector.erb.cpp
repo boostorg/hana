@@ -14,21 +14,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include "measure.hpp"
 #include <cstdlib>
+namespace fusion = boost::fusion;
+namespace hana = boost::hana;
 
 
 int main () {
-    boost::hana::benchmark::measure([] {
+    hana::benchmark::measure([] {
         long long result = 0;
         for (int iteration = 0; iteration < 1 << 10; ++iteration) {
-            auto values = boost::fusion::make_vector(
+            auto values = fusion::make_vector(
                 <%= input_size.times.map { 'std::rand()' }.join(', ') %>
             );
 
-            boost::fusion::as_vector(
-                boost::fusion::transform(values, [&](auto t) {
-                    return result += t;
-                })
-            );
+            auto transformed = fusion::as_vector(fusion::transform(values, [&](auto t) {
+                return result += t;
+            }));
+            (void)transformed;
         }
     });
 }

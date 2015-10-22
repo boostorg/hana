@@ -5,11 +5,11 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 <% if input_size > 10 %>
-    #define FUSION_MAX_VECTOR_SIZE <%= ((input_size + 9) / 10) * 10 %>
+    #define FUSION_MAX_LIST_SIZE <%= ((input_size + 9) / 10) * 10 %>
 <% end %>
 
 #include <boost/fusion/include/find_if.hpp>
-#include <boost/fusion/include/make_vector.hpp>
+#include <boost/fusion/include/make_list.hpp>
 #include <boost/mpl/integral_c.hpp>
 namespace fusion = boost::fusion;
 namespace mpl = boost::mpl;
@@ -23,7 +23,7 @@ struct is_last {
 };
 
 int main() {
-    auto ints = fusion::make_vector(
+    auto ints = fusion::make_list(
         <%= (1..input_size).map { |n| "mpl::integral_c<int, #{n}>{}" }.join(', ') %>
     );
 

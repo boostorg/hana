@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/fusion/include/fold.hpp>
 #include <boost/fusion/include/make_vector.hpp>
+namespace fusion = boost::fusion;
 
 
 struct f {
@@ -23,9 +24,10 @@ template <int i>
 struct x { };
 
 int main() {
-    auto vector = boost::fusion::make_vector(
+    auto xs = fusion::make_vector(
         <%= (1..input_size).map { |n| "x<#{n}>{}" }.join(', ') %>
     );
-    auto result = boost::fusion::fold(vector, state{}, f{});
+
+    auto result = fusion::fold(xs, state{}, f{});
     (void)result;
 }

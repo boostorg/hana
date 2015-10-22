@@ -5,28 +5,27 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 <% if input_size > 10 %>
-    #define FUSION_MAX_VECTOR_SIZE <%= ((input_size + 9) / 10) * 10 %>
+    #define FUSION_MAX_LIST_SIZE <%= ((input_size + 9) / 10) * 10 %>
 <% end %>
 
-#include <boost/fusion/include/find_if.hpp>
-#include <boost/fusion/include/make_vector.hpp>
+#include <boost/fusion/include/as_list.hpp>
+#include <boost/fusion/include/filter_if.hpp>
+#include <boost/fusion/include/make_list.hpp>
 #include <boost/mpl/integral_c.hpp>
 namespace fusion = boost::fusion;
 namespace mpl = boost::mpl;
 
 
-struct is_last {
+struct is_even {
     template <typename N>
-    struct apply
-        : mpl::integral_c<bool, N::type::value == <%= input_size %>>
-    { };
+    using apply = mpl::integral_c<bool, N::value % 2 == 0>;
 };
 
 int main() {
-    auto ints = fusion::make_vector(
+    auto xs = fusion::make_list(
         <%= (1..input_size).map { |n| "mpl::integral_c<int, #{n}>{}" }.join(', ') %>
     );
 
-    auto result = fusion::find_if<is_last>(ints);
+    auto result = fusion::as_list(fusion::filter_if<is_even>(xs));
     (void)result;
 }
