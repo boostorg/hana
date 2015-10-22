@@ -29,7 +29,7 @@ namespace boost { namespace hana {
     In contrast, Monads make it possible to wrap raw values into
     a given context with `lift` (from Applicative).
 
-    Second, Comonads make it possible to apply context-sensitive values
+    Secondly, Comonads make it possible to apply context-sensitive values
     to functions accepting those, and to return the result as a
     context-sensitive value using `extend`. In contrast, Monads make
     it possible to apply a monadic value to a function accepting a normal
@@ -58,6 +58,10 @@ namespace boost { namespace hana {
 
     Notice how the "arrows" are reversed. This symmetry is essentially
     what we mean by Comonad being the _dual_ of Monad.
+
+    @note
+    The [Typeclassopedia][1] is a nice Haskell-oriented resource for further
+    reading about Comonads.
 
 
     Minimal complete definition
@@ -92,6 +96,8 @@ namespace boost { namespace hana {
     Concrete models
     ---------------
     `hana::lazy`
+
+    [1]: https://wiki.haskell.org/Typeclassopedia#Comonad
 
     */
     template <typename W>

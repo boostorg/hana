@@ -24,6 +24,9 @@ namespace boost { namespace hana {
     //! very general, which makes it widely useful. A lot of objects can be
     //! made `Functor`s in one way or another, the most obvious example being
     //! sequences with the usual mapping of the function on each element.
+    //! While this documentation will not go into much more details about
+    //! the nature of functors, the [Typeclassopedia][2] is a nice
+    //! Haskell-oriented resource for such information.
     //!
     //! Functors are parametric data types which are parameterized over the
     //! data type of the objects they contain. Like everywhere else in Hana,
@@ -35,9 +38,9 @@ namespace boost { namespace hana {
     //! it different names (usually `map`).
     //!
     //! @note
-    //! The word `Functor` comes from functional programming, where the
+    //! The word _functor_ comes from functional programming, where the
     //! concept has been used for a while, notably in the Haskell programming
-    //! language. Haskell people borrowed the term from [category theory][2],
+    //! language. Haskell people borrowed the term from [category theory][3],
     //! which, broadly speaking, is a field of mathematics dealing with
     //! abstract structures and transformations between those structures.
     //!
@@ -123,7 +126,8 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: http://en.wikipedia.org/wiki/Functor
-    //! [2]: http://en.wikipedia.org/wiki/Category_theory
+    //! [2]: https://wiki.haskell.org/Typeclassopedia#Functor
+    //! [3]: http://en.wikipedia.org/wiki/Category_theory
     template <typename F>
     struct Functor;
 }} // end namespace boost::hana

@@ -31,6 +31,11 @@ namespace boost { namespace hana {
     //! sequences are included with this concept, like `append`, `prepend`
     //! and `filter`.
     //!
+    //! @note
+    //! This documentation does not go into much details about the nature
+    //! of the MonadPlus concept. However, there is a nice Haskell-oriented
+    //! [WikiBook][1] going into further details.
+    //!
     //!
     //! Minimal complete definition
     //! ---------------------------
@@ -71,6 +76,8 @@ namespace boost { namespace hana {
     //! Concrete models
     //! ---------------
     //! `hana::optional`, `hana::tuple`
+    //!
+    //! [1]: https://en.wikibooks.org/wiki/Haskell/MonadPlus
     template <typename M>
     struct MonadPlus;
 }} // end namespace boost::hana

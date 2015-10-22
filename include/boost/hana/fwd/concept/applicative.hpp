@@ -25,6 +25,11 @@ namespace boost { namespace hana {
     //! also possible to apply n-ary functions to n structures containing
     //! values.
     //!
+    //! @note
+    //! This documentation does not go into much details about the nature
+    //! of applicatives. However, the [Typeclassopedia][1] is a nice
+    //! Haskell-oriented resource where such information can be found.
+    //!
     //!
     //! Minimal complete definition
     //! ---------------------------
@@ -99,6 +104,8 @@ namespace boost { namespace hana {
     //!     t(lift<F>(x)) == lift<G>(x)
     //!     t(ap(fs, xs)) == ap(t(fs), t(xs))
     //! @endcode
+    //!
+    //! [1]: https://wiki.haskell.org/Typeclassopedia#Applicative
     template <typename A>
     struct Applicative;
 }} // end namespace boost::hana

@@ -60,6 +60,12 @@ namespace boost { namespace hana {
     //! defined by `Applicative`. This construction is made clearer in the
     //! laws below.
     //!
+    //! @note
+    //! Monads are known to be a big chunk to swallow. However, it is out of
+    //! the scope of this documentation to provide a full-blown explanation
+    //! of the concept. The [Typeclassopedia][2] is a nice Haskell-oriented
+    //! resource where more information about Monads can be found.
+    //!
     //!
     //! Minimal complete definitions
     //! ----------------------------
@@ -180,6 +186,7 @@ namespace boost { namespace hana {
     //!
     //!
     //! [1]: https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/
+    //! [2]: https://wiki.haskell.org/Typeclassopedia#Monad
     template <typename M>
     struct Monad;
 }} // end namespace boost::hana
