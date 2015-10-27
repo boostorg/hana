@@ -134,7 +134,6 @@ namespace boost { namespace hana {
     //! sequence. By default, a model of `Foldable` doing just that is
     //! provided for models of the `Struct` concept.
     //! @include example/struct/foldable.cpp
-    //!
     //! Being a model of `Foldable` makes it possible to turn a `Struct`
     //! into basically any `Sequence`, but also into a `hana::map` by simply
     //! using the `to<...>` function!
