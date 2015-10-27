@@ -24,13 +24,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/contains.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/find.hpp>
 #include <boost/hana/fwd/front.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/less.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
@@ -200,10 +200,23 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<string_tag> {
-        template <char x, char ...xs>
-        static constexpr auto apply(string<x, xs...> const&)
-        { return hana::string_c<xs...>; }
+    struct drop_front_impl<string_tag> {
+        template <std::size_t N, char ...xs, std::size_t ...i>
+        static constexpr auto helper(string<xs...> const&, std::index_sequence<i...>) {
+            constexpr char s[] = {xs...};
+            return hana::string_c<s[i + N]...>;
+        }
+
+        template <char ...xs, typename N>
+        static constexpr auto apply(string<xs...> const& s, N const&) {
+            return helper<N::value>(s, std::make_index_sequence<
+                N::value < sizeof...(xs) ? sizeof...(xs) - N::value : 0
+            >{});
+        }
+
+        template <typename N>
+        static constexpr auto apply(string<> const& s, N const&)
+        { return s; }
     };
 
     template <>

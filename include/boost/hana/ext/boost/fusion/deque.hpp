@@ -10,11 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
 #define BOOST_HANA_EXT_BOOST_FUSION_DEQUE_HPP
 
+#include <boost/hana/at.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
-#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
+#include <boost/hana/length.hpp>
 
 #include <boost/fusion/container/deque.hpp>
 #include <boost/fusion/container/generation/make_deque.hpp>
@@ -53,19 +55,20 @@ namespace boost { namespace hana {
     // Iterable (the rest is in detail/common.hpp)
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tail_impl<ext::boost::fusion::deque_tag> {
-        template <typename Xs, std::size_t ...i>
-        static constexpr auto tail_helper(Xs&& xs, std::index_sequence<0, i...>) {
-            return ::boost::fusion::make_deque(::boost::fusion::at_c<i>(xs)...);
+    struct drop_front_impl<ext::boost::fusion::deque_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+            return hana::make<ext::boost::fusion::deque_tag>(
+                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
+            );
         }
 
-        template <typename Xs>
-        static constexpr auto apply(Xs&& xs) {
-            using Size = typename ::boost::fusion::result_of::size<
-                typename std::remove_reference<Xs>::type
-            >::type;
-            return tail_helper(static_cast<Xs&&>(xs),
-                               std::make_index_sequence<Size::value>{});
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
         }
     };
 

@@ -100,18 +100,6 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<lambda_tuple_tag> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return static_cast<Xs&&>(xs).storage(
-                [](auto&&, auto&& ...rest) -> decltype(auto) {
-                    return lambda_tuple(static_cast<decltype(rest)&&>(rest)...);
-                }
-            );
-        }
-    };
-
-    template <>
     struct is_empty_impl<lambda_tuple_tag> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {

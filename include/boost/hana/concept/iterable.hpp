@@ -15,8 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/is_empty.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -24,7 +24,7 @@ namespace boost { namespace hana {
     struct Iterable {
         using Tag = typename tag_of<It>::type;
         static constexpr bool value = !is_default<at_impl<Tag>>::value &&
-                                      !is_default<tail_impl<Tag>>::value &&
+                                      !is_default<drop_front_impl<Tag>>::value &&
                                       !is_default<is_empty_impl<Tag>>::value;
     };
 }} // end namespace boost::hana

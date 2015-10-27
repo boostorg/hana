@@ -34,7 +34,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/minimum.hpp>
 #include <boost/hana/fwd/product.hpp>
 #include <boost/hana/fwd/sum.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/integral_constant.hpp> // required by fwd decl and below
 #include <boost/hana/optional.hpp>
@@ -247,13 +246,6 @@ namespace boost { namespace hana {
         template <typename T, T from, T to>
         static constexpr auto apply(range<T, from, to> const&)
         { return integral_c<T, from>; }
-    };
-
-    template <>
-    struct tail_impl<range_tag> {
-        template <typename T, T from, T to>
-        static constexpr auto apply(range<T, from, to> const&)
-        { return range<T, from + 1, to>{}; }
     };
 
     template <>

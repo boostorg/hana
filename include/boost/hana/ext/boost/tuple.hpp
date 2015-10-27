@@ -15,9 +15,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 #include <boost/tuple/tuple.hpp>
@@ -57,28 +57,21 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::boost::tuple_tag> {
-        template <typename H>
-        static constexpr auto
-        apply(boost::tuples::cons<H, boost::tuples::null_type> const&)
-        { return boost::tuples::null_type{}; }
+    struct drop_front_impl<ext::boost::tuple_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+            return hana::make<ext::boost::tuple_tag>(
+                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
+            );
+        }
 
-        template <typename H>
-        static constexpr auto
-        apply(boost::tuples::cons<H, boost::tuples::null_type>&)
-        { return boost::tuples::null_type{}; }
-
-        template <typename H, typename T>
-        static constexpr auto const& apply(boost::tuples::cons<H, T> const& xs)
-        { return xs.get_tail(); }
-
-        template <typename H, typename T>
-        static constexpr auto& apply(boost::tuples::cons<H, T>& xs)
-        { return xs.get_tail(); }
-
-        template <typename H, typename T>
-        static constexpr auto apply(boost::tuples::cons<H, T>&& xs)
-        { return std::move(xs).get_tail(); }
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
+        }
     };
 
     template <>

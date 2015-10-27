@@ -12,22 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/drop_front.hpp>
 
-#include <boost/hana/at.hpp>
 #include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
-#include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/core/make.hpp>
-#include <boost/hana/functional/id.hpp>
-#include <boost/hana/functional/iterate.hpp>
-#include <boost/hana/if.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/is_empty.hpp>
-#include <boost/hana/length.hpp>
-#include <boost/hana/tail.hpp>
-
-#include <cstddef>
-#include <utility>
 
 
 namespace boost { namespace hana {
@@ -57,42 +46,10 @@ namespace boost { namespace hana {
     }
     //! @endcond
 
-    namespace detail {
-        struct maybe_tail {
-            template <typename Xs>
-            constexpr auto operator()(Xs&& xs) const {
-                return hana::if_(hana::is_empty(xs), hana::id, hana::tail)(
-                    static_cast<Xs&&>(xs)
-                );
-            }
-        };
-    }
-
     template <typename It, bool condition>
     struct drop_front_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
-        static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = N::value;
-            return hana::iterate<n>(detail::maybe_tail{}, static_cast<Xs&&>(xs));
-        }
-    };
-
-    template <typename It>
-    struct drop_front_impl<It, when<Sequence<It>::value>> {
-        template <std::size_t n, typename Xs, std::size_t ...i>
-        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
-            return hana::make<It>(
-                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
-            );
-        }
-
-        template <typename Xs, typename N>
-        static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr std::size_t n = N::value;
-            constexpr std::size_t len = decltype(hana::length(xs))::value;
-            return drop_front_helper<n>(static_cast<Xs&&>(xs),
-                    std::make_index_sequence<(n < len ? len - n : 0)>{});
-        }
+        static constexpr auto apply(Xs&&, N const&) = delete;
     };
 }} // end namespace boost::hana
 

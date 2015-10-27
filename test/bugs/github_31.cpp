@@ -10,8 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
 namespace hana = boost::hana;
@@ -31,8 +31,9 @@ namespace boost { namespace hana {
     };
 
     template <int i>
-    struct tail_impl<counter<i>> {
-        static constexpr auto apply(counter<i>) { return counter<i + 1>{}; }
+    struct drop_front_impl<counter<i>> {
+        template <typename N>
+        static constexpr auto apply(counter<i>, N) { return counter<i + N::value>{}; }
     };
 
     template <int i>

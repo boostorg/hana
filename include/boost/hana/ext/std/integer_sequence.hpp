@@ -14,9 +14,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/std/integral_constant.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 
 #include <cstddef>
@@ -84,10 +84,22 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::integer_sequence_tag> {
-        template <typename T, T x, T ...xs>
-        static constexpr auto apply(std::integer_sequence<T, x, xs...>)
-        { return std::integer_sequence<T, xs...>{}; }
+    struct drop_front_impl<ext::std::integer_sequence_tag> {
+        template <std::size_t n, typename T, T ...t, std::size_t ...i>
+        static constexpr auto drop_front_helper(std::integer_sequence<T, t...>,
+                                                std::index_sequence<i...>)
+        {
+            constexpr T ts[sizeof...(t)+1] = {t...}; // avoid 0-sized array
+            return std::integer_sequence<T, ts[n + i]...>{};
+        }
+
+        template <typename T, T ...t, typename N>
+        static constexpr auto apply(std::integer_sequence<T, t...> ts, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = sizeof...(t);
+            return drop_front_helper<n>(ts,
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
+        }
     };
 
     template <>

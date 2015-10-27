@@ -8,10 +8,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/core/tag_of.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/not.hpp>
-#include <boost/hana/tail.hpp>
 #include <boost/hana/tuple.hpp>
+
+#include <cstddef>
 namespace hana = boost::hana;
 
 
@@ -54,16 +56,17 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<RefTuple> {
-        template <typename T, typename ...U, std::size_t ...n>
-        static constexpr ref_tuple<U...>
-        helper(ref_tuple<T, U...> xs, std::index_sequence<n...>) {
-            return {{hana::at_c<n+1>(xs.storage_)...}};
+    struct drop_front_impl<RefTuple> {
+        template <std::size_t n, typename T, typename ...U, std::size_t ...i>
+        static constexpr auto helper(ref_tuple<T, U...> xs, std::index_sequence<i...>) {
+            return hana::make<RefTuple>(hana::at_c<n + i>(xs.storage_)...);
         }
 
-        template <typename T, typename ...U>
-        static constexpr ref_tuple<U...> apply(ref_tuple<T, U...> xs) {
-            return helper(xs, std::make_index_sequence<sizeof...(U)>{});
+        template <typename ...T, typename N>
+        static constexpr auto apply(ref_tuple<T...> xs, N const&) {
+            return helper<N::value>(xs, std::make_index_sequence<(
+                N::value < sizeof...(T) ? sizeof...(T) - N::value : 0
+            )>{});
         }
     };
 }}
@@ -78,7 +81,7 @@ int main() {
 
     BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(refs)));
 
-    ref_tuple<int&, int&> tail = hana::tail(refs);
+    ref_tuple<int&, int&> tail = hana::drop_front(refs);
     hana::at_c<0>(tail) = 4;
     BOOST_HANA_RUNTIME_CHECK(j == 4);
 }
