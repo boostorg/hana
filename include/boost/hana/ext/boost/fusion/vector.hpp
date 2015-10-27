@@ -12,9 +12,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/ext/boost/fusion/detail/common.hpp>
+#include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
-#include <boost/hana/fwd/tail.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
+#include <boost/hana/fwd/length.hpp>
 
 #include <boost/fusion/algorithm/transformation/pop_front.hpp>
 #include <boost/fusion/container/generation/make_vector.hpp>
@@ -22,7 +24,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/fusion/container/vector/convert.hpp>
 #include <boost/fusion/support/tag_of.hpp>
 
+#include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -53,11 +57,20 @@ namespace boost { namespace hana {
     // Iterable (the rest is in detail/common.hpp)
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tail_impl<ext::boost::fusion::vector_tag> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return ::boost::fusion::as_vector(
-                ::boost::fusion::pop_front(static_cast<Xs&&>(xs)));
+    struct drop_front_impl<ext::boost::fusion::vector_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+            return hana::make<ext::boost::fusion::vector_tag>(
+                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
+            );
+        }
+
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
         }
     };
 

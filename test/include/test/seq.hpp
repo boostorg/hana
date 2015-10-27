@@ -90,10 +90,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<test::Seq> {
-        template <typename Xs>
-        static constexpr auto apply(Xs xs) {
-            return hana::unpack(hana::tail(xs.storage), test::seq);
+    struct drop_front_impl<test::Seq> {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs xs, N n) {
+            return hana::unpack(hana::drop_front(xs.storage, n), test::seq);
         }
     };
 

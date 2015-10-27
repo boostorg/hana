@@ -14,6 +14,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/drop_front.hpp>
+#include <boost/hana/integral_constant.hpp>
 
 
 namespace boost { namespace hana {
@@ -36,8 +38,10 @@ namespace boost { namespace hana {
 
     template <typename It, bool condition>
     struct tail_impl<It, when<condition>> : default_ {
-        template <typename ...Args>
-        static constexpr auto apply(Args&& ...) = delete;
+        template <typename Xs>
+        static constexpr auto apply(Xs&& xs) {
+            return hana::drop_front(static_cast<Xs&&>(xs), hana::size_c<1>);
+        }
     };
 }} // end namespace boost::hana
 

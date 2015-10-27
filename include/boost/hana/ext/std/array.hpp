@@ -14,11 +14,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/less.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 #include <array>
@@ -59,25 +59,23 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::array_tag> {
-        template <typename T, std::size_t N, typename Xs, std::size_t ...index>
-        static constexpr auto tail_helper(Xs&& xs, std::index_sequence<index...>) {
-            return std::array<T, N - 1>{{
-                static_cast<Xs&&>(xs)[index + 1]...
-            }};
+    struct drop_front_impl<ext::std::array_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+            using T = typename std::remove_reference<Xs>::type::value_type;
+            return std::array<T, sizeof...(i)>{{static_cast<Xs&&>(xs)[n + i]...}};
         }
 
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            using RawArray = typename std::remove_cv<
-                typename std::remove_reference<Xs>::type
-            >::type;
-            constexpr auto N = std::tuple_size<RawArray>::value;
-            using T = typename RawArray::value_type;
-            return tail_helper<T, N>(
-                static_cast<Xs&&>(xs),
-                std::make_index_sequence<N - 1>{}
-            );
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = std::tuple_size<
+                typename std::remove_cv<
+                    typename std::remove_reference<Xs>::type
+                >::type
+            >::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
         }
     };
 

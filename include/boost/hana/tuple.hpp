@@ -25,11 +25,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/find_if.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/optional.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/type.hpp> // required by fwd decl of tuple_t
 
@@ -221,17 +221,18 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<tuple_tag> {
-        template <typename Xs, std::size_t ...i>
-        static constexpr auto tail_helper(Xs&& xs, std::index_sequence<0, i...>) {
-            return hana::make<tuple_tag>(hana::at_c<i>(static_cast<Xs&&>(xs))...);
+    struct drop_front_impl<tuple_tag> {
+        template <std::size_t N, typename Xs, std::size_t ...i>
+        static constexpr auto helper(Xs&& xs, std::index_sequence<i...>) {
+            return hana::make<tuple_tag>(hana::at_c<i+N>(static_cast<Xs&&>(xs))...);
         }
 
-        template <typename Xs>
-        static constexpr auto apply(Xs&& xs) {
-            constexpr std::size_t N = decltype(hana::length(xs))::value;
-            return tail_helper(static_cast<Xs&&>(xs),
-                               std::make_index_sequence<N>{});
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            return helper<N::value>(static_cast<Xs&&>(xs), std::make_index_sequence<
+                N::value < len ? len - N::value : 0
+            >{});
         }
     };
 
