@@ -47,7 +47,7 @@ if (NOT EXISTS "${BOOST_HANA_INCLUDE_DIR}" AND DEFINED BOOST_HANA_CLONE_DIR)
     endif()
 
     include(ExternalProject)
-    ExternalProject_Add(Hana
+    ExternalProject_Add(Hana EXCLUDE_FROM_ALL 1
         PREFIX ${_build_dir}
         STAMP_DIR ${_build_dir}/_stamps
         TMP_DIR ${_build_dir}/_tmp
