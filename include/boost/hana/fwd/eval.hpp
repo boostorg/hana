@@ -31,7 +31,8 @@ namespace boost { namespace hana {
     //! is convenient. The reason for allowing unary callables and calling
     //! them with `hana::id` is because this allows deferring the
     //! compile-time evaluation of selected expressions inside the
-    //! callable. How this can be achieve is documented by `eval_if`.
+    //! callable. How this can be achieve is documented by [eval_if]
+    //! (@ref boost::hana::Logical::eval_if).
     //!
     //!
     //! Example
