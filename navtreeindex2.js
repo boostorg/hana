@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"index.html#tutorial-type-lifting":[0,6,3],
 "index.html#tutorial-type-objects":[0,6,0],
 "index.html#tutorial-type-working":[0,6,2],
 "index__if_8hpp.html":[3,0,0,2,13],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816":[1,0,19,6],
 "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330":[1,0,19,2],
 "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff":[1,0,19,21],
-"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13],
-"structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96":[1,0,19,10]
+"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13]
 };

@@ -135,7 +135,9 @@ $(document).ready(function(){initNavTree('index.html','');});
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#tutorial-description">Description</a></li>
-<li class="level1"><a href="#tutorial-installation">Prerequisites and installation</a></li>
+<li class="level1"><a href="#tutorial-installation">Prerequisites and installation</a><ul><li class="level2"><a href="#tutorial-installation-requirements">Compiler requirements</a></li>
+</ul>
+</li>
 <li class="level1"><a href="#tutorial-introduction">Introduction</a><ul><li class="level2"><a href="#tutorial-introduction-quadrants">C++ computational quadrants</a></li>
 <li class="level2"><a href="#tutorial-quadrants-about">What is this library about?</a></li>
 </ul>
@@ -231,7 +233,17 @@ Description</h1>
 <h1><a class="anchor" id="tutorial-installation"></a>
 Prerequisites and installation</h1>
 <hr/>
-<p> To use Hana in your own project, just add the <code>include</code> directory to your compiler's header search path and you are done. The library relies on a C++14 compiler and standard library, but nothing else is required. Here is a table of the current C++14 compilers/toolchains with comments regarding support for Hana:</p>
+<p> Hana being a header-only library without external dependencies, using Hana in your own project is very easy. Basically, just add the <code>include</code> directory to your compiler's header search path and you are done. If you want to cleanly install Hana on your system, you can download the code from the official GitHub <a href="https://github.com/boostorg/hana">repository</a> and then issue the following commands from the root of the project (requires <a href="http://www.cmake.org">CMake</a>):</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build &amp;&amp; cd build</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cmake ..</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;make install</div>
+</div><!-- fragment --><p>This will install Hana to the default install-directory for your platform (<code>/usr/local</code> for Unix, <code>C:/Program Files</code> for Windows). Note that <code>make install</code> really does nothing more than copy the whole <code>include/</code> directory to the install-directory. If you want to install Hana in a custom location, you can use</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The library should also be available through the Boost distribution starting with Boost 1.61.0, which will be released around Feburary 2016. There are also plans to provide a <a href="http://brew.sh">Homebrew</a> formula for Hana.</dd></dl>
+<p>If you use CMake in a project, you can use the provided <a href="https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake">FindHana.cmake</a> module to setup Hana as an external CMake project. The module also allows installing Hana locally to that project, without needing to install Hana on the system per the above instructions. Finally, if you want to contribute to Hana, you can see how to best setup your environment for development in the <a href="https://goo.gl/RPd0sV">README</a>.</p>
+<h2><a class="anchor" id="tutorial-installation-requirements"></a>
+Compiler requirements</h2>
+<p>The library relies on a C++14 compiler and standard library, but nothing else is required. Here is a table of the current C++14 compilers/toolchains with comments regarding support for Hana:</p>
 <table class="doxtable">
 <tr>
 <th>Compiler/Toolchain </th><th>Status  </th></tr>
