@@ -36,11 +36,46 @@ and the standard library.
 @section tutorial-installation Prerequisites and installation
 
 ------------------------------------------------------------------------------
-To use Hana in your own project, just add the `include` directory to your
-compiler's header search path and you are done. The library relies on a
-C++14 compiler and standard library, but nothing else is required. Here is
-a table of the current C++14 compilers/toolchains with comments regarding
-support for Hana:
+Hana being a header-only library without external dependencies, using Hana in
+your own project is very easy. Basically, just add the `include` directory to
+your compiler's header search path and you are done. If you want to cleanly
+install Hana on your system, you can download the code from the official
+GitHub [repository][Hana.repository] and then issue the following commands
+from the root of the project (requires [CMake][]):
+
+@code{.sh}
+mkdir build && cd build
+cmake ..
+make install
+@endcode
+
+This will install Hana to the default install-directory for your platform
+(`/usr/local` for Unix, `C:/Program Files` for Windows). Note that
+`make install` really does nothing more than copy the whole `include/`
+directory to the install-directory. If you want to install Hana in a
+custom location, you can use
+
+@code{.sh}
+cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
+@endcode
+
+@note
+The library should also be available through the Boost distribution starting
+with Boost 1.61.0, which will be released around Feburary 2016. There are
+also plans to provide a [Homebrew][] formula for Hana.
+
+If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
+module to setup Hana as an external CMake project. The module also allows
+installing Hana locally to that project, without needing to install Hana on
+the system per the above instructions. Finally, if you want to contribute to
+Hana, you can see how to best setup your environment for development in the
+[README][Hana.readme].
+
+@subsection tutorial-installation-requirements Compiler requirements
+
+The library relies on a C++14 compiler and standard library, but nothing else
+is required. Here is a table of the current C++14 compilers/toolchains with
+comments regarding support for Hana:
 
 Compiler/Toolchain | Status
 ------------------ | ------
@@ -3741,12 +3776,17 @@ modified as little as possible to work with this reimplementation.
 [C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
 [C++17.clite]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf
 [C++Now]: http://cppnow.org
+[CMake]: http://www.cmake.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
 [CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
-[Hana.contributing]: https://goo.gl/N8DuJW
+[Hana.contributing]: https://goo.gl/N8DuJW <!-- Original GitHub link can't be resolved by Doxygen -->
+[Hana.findmodule]: https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake
 [Hana.issues]: https://github.com/boostorg/hana/issues
+[Hana.readme]: https://goo.gl/RPd0sV <!-- Original GitHub link can't be resolved by Doxygen -->
+[Hana.repository]: https://github.com/boostorg/hana
+[Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html

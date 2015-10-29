@@ -151,10 +151,11 @@ endmacro()
 ##############################################################################
 # Setup the `check` target to build and then run all the tests and examples.
 ##############################################################################
-add_custom_target(check ALL
+add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "Build and then run all the tests and examples.")
+
 
 ##############################################################################
 # Setup subdirectories
@@ -164,3 +165,11 @@ add_subdirectory(doc)
 add_subdirectory(example)
 add_subdirectory(experimental)
 add_subdirectory(test)
+
+
+##############################################################################
+# Setup the 'install' target.
+# This copies the whole content of include/ to ${CMAKE_INSTALL_PREFIX}.
+##############################################################################
+install(DIRECTORY include/boost DESTINATION include
+        PATTERN ".DS_Store" EXCLUDE)
