@@ -39,9 +39,17 @@ and the standard library.
 Hana being a header-only library without external dependencies, using Hana in
 your own project is very easy. Basically, just add the `include` directory to
 your compiler's header search path and you are done. If you want to cleanly
-install Hana on your system, you can download the code from the official
-GitHub [repository][Hana.repository] and then issue the following commands
-from the root of the project (requires [CMake][]):
+install Hana on your system, you have a couple of options. On OS X, the
+easiest way is to use [Homebrew][]:
+
+@code{.sh}
+brew install --devel homebrew/devel-only/hana
+@endcode
+
+Until the library has a stable release, Hana will only live in [homebrew-devel-only][Homebrew.devel-only].
+If you don't have Homebrew, you can download the code from the official GitHub
+[repository][Hana.repository] and then issue the following commands from the
+root of the project (requires [CMake][]):
 
 @code{.sh}
 mkdir build && cd build
@@ -61,8 +69,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 
 @note
 The library should also be available through the Boost distribution starting
-with Boost 1.61.0, which will be released around Feburary 2016. There are
-also plans to provide a [Homebrew][] formula for Hana.
+with Boost 1.61.0, which will be released around Feburary 2016.
 
 If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
 module to setup Hana as an external CMake project. The module also allows
@@ -3786,6 +3793,7 @@ modified as little as possible to work with this reimplementation.
 [Hana.issues]: https://github.com/boostorg/hana/issues
 [Hana.readme]: https://goo.gl/RPd0sV <!-- Original GitHub link can't be resolved by Doxygen -->
 [Hana.repository]: https://github.com/boostorg/hana
+[Homebrew.devel-only]: https://github.com/Homebrew/homebrew-devel-only
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
