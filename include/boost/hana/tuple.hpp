@@ -50,6 +50,19 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
 
         struct from_index_sequence_t { };
+
+        template <bool, typename Tuple, typename ...Yn>
+        struct enable_tuple_variadic_ctor;
+
+        template <typename ...Xn, typename ...Yn>
+        struct enable_tuple_variadic_ctor<true, hana::tuple<Xn...>, Yn...>
+            : std::enable_if<
+                detail::fast_and<BOOST_HANA_TT_IS_CONSTRUCTIBLE(Xn, Yn&&)...>::value
+            >
+        { };
+
+        template <bool b, typename Yn>
+        struct enable_tuple_variadic_ctor<b, typename detail::decay<Yn>::type, Yn> { };
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -93,8 +106,8 @@ BOOST_HANA_NAMESPACE_BEGIN
             : storage_(xn...)
         { }
 
-        template <typename ...Yn, typename = typename std::enable_if<
-            detail::fast_and<BOOST_HANA_TT_IS_CONSTRUCTIBLE(Xn, Yn&&)...>::value
+        template <typename ...Yn, typename = typename detail::enable_tuple_variadic_ctor<
+            sizeof...(Xn) == sizeof...(Yn), tuple, Yn...
         >::type>
         constexpr tuple(Yn&& ...yn)
             : storage_(static_cast<Yn&&>(yn)...)
