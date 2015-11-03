@@ -232,7 +232,7 @@ namespace boost { namespace hana {
     template <>
     struct any_of_impl<map_tag> {
         template <typename M, typename Pred>
-        static constexpr auto apply(M map, Pred pred)
+        static constexpr auto apply(M const& map, Pred const& pred)
         { return hana::any_of(hana::keys(map), pred); }
     };
 
