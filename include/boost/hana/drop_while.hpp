@@ -16,12 +16,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/first_unsatisfied_index.hpp>
-#include <boost/hana/drop_front_exactly.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/lazy.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -48,7 +47,7 @@ namespace boost { namespace hana {
                 template <typename Xs, typename Pred>
                 constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
                     return hana::drop_while(
-                        hana::tail(static_cast<Xs&&>(xs)),
+                        hana::drop_front(static_cast<Xs&&>(xs)),
                         static_cast<Pred&&>(pred)
                     );
                 }
@@ -84,8 +83,8 @@ namespace boost { namespace hana {
                 hana::unpack(static_cast<Xs&&>(xs),
                              detail::first_unsatisfied_index<Pred&&>{})
             );
-            return hana::drop_front_exactly(static_cast<Xs&&>(xs),
-                                            FirstUnsatisfied{});
+            return hana::drop_front(static_cast<Xs&&>(xs),
+                                    FirstUnsatisfied{});
         }
     };
 }} // end namespace boost::hana

@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #endif
 
 #include <cstddef>

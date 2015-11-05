@@ -72,23 +72,34 @@ int main() {
             BOOST_HANA_CONSTEXPR_CHECK(front(array<0, 1, 2>()) == 0);
         }
 
-        // tail
+        // drop_front_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(array<0>()),
+                drop_front_exactly(array<0>()),
                 array<>()
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                tail(array<0, 1>()),
+                drop_front_exactly(array<0, 1>()),
                 array<1>()
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                tail(array<0, 1, 2>()),
+                drop_front_exactly(array<0, 1, 2>()),
                 array<1, 2>()
             ));
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                tail(array<0, 1, 2, 3>()),
+                drop_front_exactly(array<0, 1, 2, 3>()),
                 array<1, 2, 3>()
+            ));
+
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                drop_front_exactly(array<0, 1, 2, 3>(), size_c<2>),
+                array<2, 3>()
+            ));
+
+            BOOST_HANA_CONSTEXPR_CHECK(equal(
+                drop_front_exactly(array<0, 1, 2, 3>(), size_c<3>),
+                array<3>()
             ));
         }
 

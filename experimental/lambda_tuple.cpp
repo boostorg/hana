@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/front.hpp>
 #include <boost/hana/fwd/prepend.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/take.hpp>
 #include <boost/hana/fwd/transform.hpp>
 #include <boost/hana/fwd/unpack.hpp>

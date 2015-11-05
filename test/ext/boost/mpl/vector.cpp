@@ -188,19 +188,35 @@ int main() {
             ));
         }
 
-        // tail
+        // drop_front_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(mpl::vector<t1>{}),
+                drop_front_exactly(mpl::vector<t1>{}),
                 mpl::vector<>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(mpl::vector<t1, t2>{}),
+                drop_front_exactly(mpl::vector<t1, t2>{}),
                 mpl::vector<t2>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(mpl::vector<t1, t2, t3>{}),
+                drop_front_exactly(mpl::vector<t1, t2, t3>{}),
                 mpl::vector<t2, t3>{}
+            ));
+
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(mpl::vector<t1, t2, t3>{}, size_c<2>),
+                mpl::vector<t3>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(mpl::vector<t1, t2, t3, t4>{}, size_c<2>),
+                mpl::vector<t3, t4>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(mpl::vector<t1, t2, t3, t4>{}, size_c<3>),
+                mpl::vector<t4>{}
             ));
         }
 

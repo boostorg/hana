@@ -45,17 +45,11 @@ namespace boost { namespace hana { namespace test {
                     ));
 
                     BOOST_HANA_CHECK(hana::equal(
-                        hana::to<tuple_tag>(hana::tail(xs)),
-                        hana::tail(hana::to<tuple_tag>(xs))
+                        hana::to<tuple_tag>(hana::drop_front_exactly(xs)),
+                        hana::drop_front_exactly(hana::to<tuple_tag>(xs))
                     ));
 
                     // methods
-                    // drop_front(xs, 1) == tail(xs) unless xs is empty
-                    BOOST_HANA_CHECK(hana::equal(
-                        hana::drop_front(xs, size_c<1>),
-                        hana::tail(xs)
-                    ));
-
                     // back(xs) == at(xs, length(xs)-1)
                     BOOST_HANA_CHECK(hana::equal(
                         hana::back(xs),
@@ -162,30 +156,6 @@ namespace boost { namespace hana { namespace test {
             int i = 0; // non-constexpr
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i))));
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i, i))));
-
-            //////////////////////////////////////////////////////////////////
-            // tail
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(list(invalid<>{}, x<0>{})), list(x<0>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(list(invalid<>{}, x<0>{}, x<1>{})), list(x<0>{}, x<1>{})
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(list(invalid<>{}, x<0>{}, x<1>{}, x<2>{})), list(x<0>{}, x<1>{}, x<2>{})
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(list(1)), list()
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                tail(list(1, '2')), list('2')
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                tail(list(1, '2', 3.3)), list('2', 3.3)
-            ));
-
 
             //////////////////////////////////////////////////////////////////
             // at

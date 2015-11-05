@@ -15,11 +15,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/less.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -61,12 +61,12 @@ namespace boost { namespace hana {
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
         helper2(Xs const& xs, Ys const& ys, Pred const& pred, hana::false_)
-        { return apply(hana::tail(xs), hana::tail(ys), pred); }
+        { return apply(hana::drop_front(xs), hana::drop_front(ys), pred); }
 
         template <typename Xs, typename Ys, typename Pred>
         static constexpr auto
         helper2(Xs const& xs, Ys const& ys, Pred const& pred, bool is_greater)
-        { return is_greater ? false : apply(hana::tail(xs), hana::tail(ys), pred); }
+        { return is_greater ? false : apply(hana::drop_front(xs), hana::drop_front(ys), pred); }
 
 
         template <typename Xs, typename Ys, typename Pred>

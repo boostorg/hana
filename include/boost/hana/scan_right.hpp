@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/front.hpp>
@@ -21,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/lift.hpp>
 #include <boost/hana/prepend.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -65,7 +65,7 @@ namespace boost { namespace hana {
         struct scan_right_helper {
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
-                auto rest = scan_right_impl::apply(hana::tail(xs), state, f);
+                auto rest = scan_right_impl::apply(hana::drop_front(xs), state, f);
                 return hana::prepend(rest, f(hana::front(xs), hana::front(rest)));
             }
         };
@@ -76,7 +76,7 @@ namespace boost { namespace hana {
             return hana::eval_if(done,
                 hana::make_lazy(hana::lift<S>(state)),
                 hana::make_lazy(scan_right_helper{})(static_cast<Xs&&>(xs), state,
-                                                static_cast<F&&>(f))
+                                                     static_cast<F&&>(f))
             );
         }
 
@@ -93,7 +93,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
                 auto y = hana::front(xs);
-                auto ys = hana::tail(xs);
+                auto ys = hana::drop_front(xs);
                 return hana::eval_if(hana::is_empty(ys),
                     hana::make_lazy(hana::lift<S>(y)),
                     hana::make_lazy(scanr1_helper2{})(y, ys, static_cast<F&&>(f))
@@ -107,7 +107,7 @@ namespace boost { namespace hana {
             return hana::eval_if(done,
                 hana::make_lazy(hana::empty<S>()),
                 hana::make_lazy(scanr1_helper1{})(static_cast<Xs&&>(xs),
-                                             static_cast<F&&>(f))
+                                                  static_cast<F&&>(f))
             );
         }
     };

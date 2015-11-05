@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/at.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -17,7 +18,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/length.hpp>
 #include <boost/hana/mult.hpp>
 #include <boost/hana/sum.hpp>
-#include <boost/hana/tail.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
@@ -57,7 +57,7 @@ namespace cppcon {
         auto storage = hana::make_tuple(std::forward<decltype(rows)>(rows)...);
         auto ncolumns = hana::length(hana::front(storage));
         BOOST_HANA_CONSTANT_CHECK(
-            hana::all_of(hana::tail(storage), [&](auto const& row) {
+            hana::all_of(hana::drop_front(storage), [&](auto const& row) {
                 return hana::length(row) == ncolumns;
             })
         );
