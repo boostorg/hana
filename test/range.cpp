@@ -379,26 +379,6 @@ int main() {
             ));
         }
 
-        // tail
-        {
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<1>)),
-                hana::make_range(hana::int_c<1>, hana::int_c<1>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<2>)),
-                hana::make_range(hana::int_c<1>, hana::int_c<2>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_c<0>, hana::int_c<3>)),
-                hana::make_range(hana::int_c<1>, hana::int_c<3>)
-            ));
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::tail(hana::make_range(hana::int_c<4>, hana::int_c<7>)),
-                hana::make_range(hana::int_c<5>, hana::int_c<7>)
-            ));
-        }
-
         // at
         {
             BOOST_HANA_CONSTANT_CHECK(

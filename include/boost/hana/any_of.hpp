@@ -19,13 +19,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/tail.hpp>
 
 #include <cstddef>
 
@@ -108,7 +108,7 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto lazy_any_of_helper(hana::false_, bool prev_cond, Xs&& xs, Pred&& pred) {
             auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
-            decltype(auto) tail = hana::tail(static_cast<Xs&&>(xs));
+            decltype(auto) tail = hana::drop_front(static_cast<Xs&&>(xs));
             constexpr bool done = decltype(hana::is_empty(tail))::value;
             return prev_cond ? hana::true_c
                 : lazy_any_of_helper(hana::bool_c<done>, cond,
@@ -123,9 +123,9 @@ namespace boost { namespace hana {
         template <typename Xs, typename Pred>
         static constexpr auto lazy_any_of_helper(hana::false_, hana::false_, Xs&& xs, Pred&& pred) {
             auto cond = hana::if_(pred(hana::front(xs)), hana::true_c, hana::false_c);
-            constexpr bool done = decltype(hana::is_empty(hana::tail(xs)))::value;
+            constexpr bool done = decltype(hana::is_empty(hana::drop_front(xs)))::value;
             return lazy_any_of_helper(hana::bool_c<done>, cond,
-                                      hana::tail(static_cast<Xs&&>(xs)),
+                                      hana::drop_front(static_cast<Xs&&>(xs)),
                                       static_cast<Pred&&>(pred));
         }
 

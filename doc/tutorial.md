@@ -602,7 +602,6 @@ function                                                                        
 <code>[slice](@ref boost::hana::Sequence::slice)(sequence, indices)</code>                       | Returns a new sequence containing the elements at the given indices of the original sequence.
 <code>[slice_c](@ref boost::hana::Sequence::slice_c)<from, to>(sequence)</code>                  | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
 <code>[sort](@ref boost::hana::Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[tail](@ref boost::hana::Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
 <code>[take](@ref boost::hana::Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
 <code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
 <code>[transform](@ref boost::hana::Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.

@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/front.hpp>
@@ -21,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/lift.hpp>
 #include <boost/hana/prepend.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -67,15 +67,15 @@ namespace boost { namespace hana {
                 //! @todo We need a way to extract the front of an Iterable
                 //! and get its tail at the same time. It would allow us to
                 //! use perfect forwarding here.
-                return hana::scan_left(hana::tail(xs), hana::front(xs),
-                        static_cast<F&&>(f));
+                return hana::scan_left(hana::drop_front(xs), hana::front(xs),
+                                       static_cast<F&&>(f));
             }
 
             template <typename Xs, typename State, typename F>
             constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
                 return hana::prepend(
                     scan_left_impl::apply(
-                        hana::tail(xs),
+                        hana::drop_front(xs),
                         f(state, hana::front(xs)),
                         f
                     ),

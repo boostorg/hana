@@ -152,19 +152,35 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(std::index_sequence<1>{})));
         }
 
-        // tail
+        // drop_front_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(std::index_sequence<0>{}),
+                drop_front_exactly(std::index_sequence<0>{}),
                 std::index_sequence<>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(std::index_sequence<0, 1>{}),
+                drop_front_exactly(std::index_sequence<0, 1>{}),
                 std::index_sequence<1>{}
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(std::index_sequence<0, 1, 2>{}),
+                drop_front_exactly(std::index_sequence<0, 1, 2>{}),
                 std::index_sequence<1, 2>{}
+            ));
+
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(std::index_sequence<0, 1, 2>{}, size_c<2>),
+                std::index_sequence<2>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(std::index_sequence<0, 1, 2, 3>{}, size_c<2>),
+                std::index_sequence<2, 3>{}
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(std::index_sequence<0, 1, 2, 3>{}, size_c<3>),
+                std::index_sequence<3>{}
             ));
         }
 

@@ -6,6 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/core/convert.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/drop_while.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/ext/boost/mpl/vector.hpp>
@@ -16,7 +17,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/not_equal.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/plus.hpp>
-#include <boost/hana/tail.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 
@@ -62,7 +62,7 @@ BOOST_HANA_CONSTANT_CHECK(number_of_floats == hana::int_c<3>);
 BOOST_HANA_CONSTANT_CHECK(hana::front(mpl::vector<int, char, void>{}) == hana::type_c<int>);
 
 BOOST_HANA_CONSTANT_CHECK(hana::equal(
-    hana::tail(mpl::vector<int, char, void>{}),
+    hana::drop_front(mpl::vector<int, char, void>{}),
     mpl::vector<char, void>{}
 ));
 

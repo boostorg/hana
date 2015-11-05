@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/nested_by.hpp> // required by fwd decl
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/eval_if.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/front.hpp>
@@ -27,7 +28,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/partition.hpp>
 #include <boost/hana/prepend.hpp>
 #include <boost/hana/second.hpp>
-#include <boost/hana/tail.hpp>
 
 
 namespace boost { namespace hana {
@@ -70,7 +70,7 @@ namespace boost { namespace hana {
             template <typename Xs, typename Pred>
             constexpr auto operator()(Xs&& xs, Pred&& pred) const {
                 auto pivot = hana::front(xs);
-                auto rest = hana::tail(xs);
+                auto rest = hana::drop_front(xs);
                 auto parts = hana::partition(rest,
                                     hana::partial(hana::flip(pred), pivot));
                 return hana::concat(
@@ -86,7 +86,7 @@ namespace boost { namespace hana {
         struct sort_by_helper1 {
             template <typename Xs, typename Pred>
             constexpr decltype(auto) operator()(Xs&& xs, Pred&& pred) const {
-                return hana::eval_if(hana::is_empty(hana::tail(xs)),
+                return hana::eval_if(hana::is_empty(hana::drop_front(xs)),
                     hana::make_lazy(xs),
                     hana::make_lazy(sort_by_helper2{})(xs, static_cast<Pred&&>(pred))
                 );

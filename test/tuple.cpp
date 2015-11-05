@@ -399,35 +399,35 @@ int main() {
             BOOST_HANA_CONSTANT_CHECK(not_(is_empty(tuple_c<int, 0, 1, 2>)));
         }
 
-        // tail
+        // drop_front_exactly
         {
             // tuple_t
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_t<x0>),
+                drop_front_exactly(tuple_t<x0>),
                 tuple_t<>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_t<x0, x1>),
+                drop_front_exactly(tuple_t<x0, x1>),
                 tuple_t<x1>
             ));
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_t<x0, x1, x2>),
+                drop_front_exactly(tuple_t<x0, x1, x2>),
                 tuple_t<x1, x2>
             ));
 
             // tuple_c
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_c<int, 0>),
+                drop_front_exactly(tuple_c<int, 0>),
                 tuple_c<int>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_c<int, 0, 1>),
+                drop_front_exactly(tuple_c<int, 0, 1>),
                 tuple_c<int, 1>
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(tuple_c<int, 0, 1, 2>),
+                drop_front_exactly(tuple_c<int, 0, 1, 2>),
                 tuple_c<int, 1, 2>
             ));
         }

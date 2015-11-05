@@ -259,26 +259,37 @@ int main() {
             ));
         }
 
-        // tail
+        // drop_front_exactly
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(BOOST_HANA_STRING("a")),
+                drop_front_exactly(BOOST_HANA_STRING("a")),
                 BOOST_HANA_STRING("")
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(BOOST_HANA_STRING("ab")),
+                drop_front_exactly(BOOST_HANA_STRING("ab")),
                 BOOST_HANA_STRING("b")
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(BOOST_HANA_STRING("abc")),
+                drop_front_exactly(BOOST_HANA_STRING("abc")),
                 BOOST_HANA_STRING("bc")
             ));
 
             BOOST_HANA_CONSTANT_CHECK(equal(
-                tail(BOOST_HANA_STRING("abcdefghijk")),
+                drop_front_exactly(BOOST_HANA_STRING("abcdefghijk")),
                 BOOST_HANA_STRING("bcdefghijk")
+            ));
+
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(BOOST_HANA_STRING("abc"), size_c<2>),
+                BOOST_HANA_STRING("c")
+            ));
+
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                drop_front_exactly(BOOST_HANA_STRING("abcdefghijk"), size_c<3>),
+                BOOST_HANA_STRING("defghijk")
             ));
         }
 
