@@ -103,12 +103,4 @@ foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
         COMMENT "Generating benchmarks for ${_target}")
     add_custom_target(${_target} DEPENDS "${_json}")
     add_dependencies(benchmarks ${_target})
-
-    add_test(NAME ${_target}
-        COMMAND ${CMAKE_COMMAND} -E env check.benchmarks=true
-        ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "Tilt::ERBTemplate.new('${_erb_json}').render"
-        WORKING_DIRECTORY ${_dir})
-    set_tests_properties(${_target} PROPERTIES
-        RESOURCE_LOCK ${CMAKE_CURRENT_SOURCE_DIR}/measure.cpp)
 endforeach()

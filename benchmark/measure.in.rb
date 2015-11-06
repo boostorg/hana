@@ -85,7 +85,7 @@ def measure(aspect, template_relative, range)
   template = Pathname.new(template_relative).expand_path
   range = range.to_a
 
-  if ENV["check.benchmarks"] && range.length >= 2
+  if ENV["BOOST_HANA_JUST_CHECK_BENCHMARKS"] && range.length >= 2
     range = [range[0], range[-1]]
   end
 
