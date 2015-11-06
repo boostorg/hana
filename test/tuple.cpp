@@ -466,66 +466,6 @@ int main() {
     // Sequence
     //////////////////////////////////////////////////////////////////////////
     {
-        // cartesian_product
-        {
-            static_assert(
-                cartesian_product(make_tuple(
-                    make_tuple(1),
-                    make_tuple('a', 'b')
-                )) == make_tuple(
-                    make_tuple(1, 'a'),
-                    make_tuple(1, 'b')
-                )
-            , "");
-
-            static_assert(
-                cartesian_product(make_tuple(
-                    make_tuple(1, 2),
-                    make_tuple('a')
-                )) == make_tuple(
-                    make_tuple(1, 'a'),
-                    make_tuple(2, 'a')
-                )
-            , "");
-
-            static_assert(
-                cartesian_product(make_tuple(
-                    make_tuple(1, 2),
-                    make_tuple('a', 'b')
-                )) == make_tuple(
-                    make_tuple(1, 'a'),
-                    make_tuple(1, 'b'),
-                    make_tuple(2, 'a'),
-                    make_tuple(2, 'b')
-                )
-            , "");
-
-            static_assert(
-                cartesian_product(make_tuple(
-                    make_tuple(1),
-                    make_tuple('a'),
-                    make_tuple(1.f),
-                    make_tuple(1l, 2l)
-                )) == make_tuple(
-                    make_tuple(1, 'a', 1.f, 1l),
-                    make_tuple(1, 'a', 1.f, 2l)
-                )
-            , "");
-
-            static_assert(
-                cartesian_product(make_tuple(
-                    make_tuple(1),
-                    make_tuple('a'),
-                    make_tuple(1.f),
-                    make_tuple(1l, 2l),
-                    make_tuple(nullptr)
-                )) == make_tuple(
-                    make_tuple(1, 'a', 1.f, 1l, nullptr),
-                    make_tuple(1, 'a', 1.f, 2l, nullptr)
-                )
-            , "");
-        }
-
         test::TestSequence<tuple_tag>{};
     }
 
