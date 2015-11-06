@@ -12,12 +12,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/drop_front_exactly.hpp>
 
+#include <boost/hana/bool.hpp>
 #include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/concept/iterable.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/functional/iterate.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/tail.hpp>
+#include <boost/hana/is_empty.hpp>
 
 
 namespace boost { namespace hana {
@@ -38,6 +39,9 @@ namespace boost { namespace hana {
         "hana::drop_front_exactly(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 
+        static_assert(N::value >= 0,
+        "hana::drop_front_exactly(xs, n) requires 'n' to be non-negative");
+
         return DropFrontExactly::apply(static_cast<Xs&&>(xs), n);
     }
 
@@ -47,12 +51,32 @@ namespace boost { namespace hana {
     }
     //! @endcond
 
+    namespace detail {
+        template <typename Xs, typename N>
+        constexpr void check_dfe_overflow(Xs const& xs, N const&, hana::true_) {
+            constexpr bool n_overflew_length = decltype(
+                hana::is_empty(hana::drop_front(xs, hana::size_c<N::value - 1>))
+            )::value;
+            static_assert(!n_overflew_length,
+            "hana::drop_front_exactly(xs, n) requires 'n' to be less than or "
+            "equal to the number of elements in 'xs'");
+        }
+
+        template <typename Xs, typename N>
+        constexpr void check_dfe_overflow(Xs const&, N const&, hana::false_) { }
+    }
+
     template <typename It, bool condition>
     struct drop_front_exactly_impl<It, when<condition>> : default_ {
         template <typename Xs, typename N>
-        static constexpr auto apply(Xs&& xs, N const&) {
-            constexpr auto n = N::value;
-            return hana::iterate<n>(hana::tail)(static_cast<Xs&&>(xs));
+        static constexpr auto apply(Xs&& xs, N const& n) {
+            auto result = hana::drop_front(static_cast<Xs&&>(xs), n);
+            constexpr bool check_for_overflow =
+                decltype(hana::is_empty(result))::value && N::value != 0;
+
+            detail::check_dfe_overflow(xs, n, hana::bool_c<check_for_overflow>);
+
+            return result; // NRVO applied
         }
     };
 }} // end namespace boost::hana
