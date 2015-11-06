@@ -61,7 +61,9 @@ namespace boost { namespace hana {
 
         template <typename Xs>
         static constexpr auto apply(Xs&& xs) {
-            using Size = typename ::boost::fusion::result_of::size<Xs>::type;
+            using Size = typename ::boost::fusion::result_of::size<
+                typename std::remove_reference<Xs>::type
+            >::type;
             return tail_helper(static_cast<Xs&&>(xs),
                                std::make_index_sequence<Size::value>{});
         }
