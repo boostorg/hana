@@ -2322,7 +2322,8 @@ For completeness, we also present the compile-time cost of creating a
 `std::array` with `n` elements. However, note that `std::array` can only
 hold elements with a single type, so we're comparing apples and oranges
 here. As you can see, the cost of creating a `std::array` is constant and
-essentially inexistent. Hence, while Hana provides improved compile-times
+essentially inexistent (the non-zero overhead is that of simply including
+the `<array>` header). Hence, while Hana provides improved compile-times
 over other heterogeneous containers, please stick with normal homogeneous
 containers if that's all you need for your application; your compile-times
 will be much faster that way.
