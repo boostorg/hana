@@ -46,8 +46,7 @@ function(boost_hana_add_header_test header)
     endif()
     add_executable(test.header.${_target} EXCLUDE_FROM_ALL
                         "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-    boost_hana_add_test(test.header.${_target}
-                            ${CMAKE_CURRENT_BINARY_DIR}/test.header.${_target})
+    add_test(test.header.${_target} ${CMAKE_CURRENT_BINARY_DIR}/test.header.${_target})
     add_dependencies(test.headers test.header.${_target})
 endfunction()
 
