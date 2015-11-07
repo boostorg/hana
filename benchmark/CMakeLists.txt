@@ -73,34 +73,28 @@ add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
 ##############################################################################
 add_custom_target(benchmarks COMMENT "Generate all the benchmarks.")
 
-# The list of all the benchmark targets; it is filled just below.
-set(BOOST_HANA_BENCHMARKS "")
-file(GLOB_RECURSE BOOST_HANA_JSON_TEMPLATES *.erb.json)
-
 add_custom_target(travis_compiler_slug USES_TERMINAL
     COMMAND ${CMAKE_COMMAND} -E echo "travis_compiler_slug: $<LOWER_CASE:${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}>")
 add_custom_target(travis_config_slug USES_TERMINAL
     COMMAND ${CMAKE_COMMAND} -E echo "travis_config_slug: $<LOWER_CASE:$<CONFIG>>")
 
-foreach(_template IN LISTS BOOST_HANA_JSON_TEMPLATES)
-    boost_hana_target_name_for(_target ${_template} ".erb.json")
-    list(APPEND BOOST_HANA_BENCHMARKS "${_target}")
-    get_filename_component(_dir "${_template}" DIRECTORY)
+file(GLOB_RECURSE BOOST_HANA_BENCHMARKS *.erb.json)
+foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
+    boost_hana_target_name_for(target ${benchmark} ".erb.json")
+    get_filename_component(directory "${benchmark}" DIRECTORY)
+    file(GLOB cpp_files ${directory}/*.erb.cpp)
+    configure_file("${benchmark}" "${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json" @ONLY)
 
-    file(GLOB _cpp_benchmarks ${_dir}/*.erb.cpp)
-
-    set(_erb_json "${CMAKE_CURRENT_BINARY_DIR}/${_target}.erb.json")
-    configure_file("${_template}" "${_erb_json}" @ONLY)
-
-    set(_json "${CMAKE_CURRENT_BINARY_DIR}/${_target}.json")
-    add_custom_command(OUTPUT "${_json}"
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}.json"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
-            -e "json = Tilt::ERBTemplate.new('${_erb_json}').render"
-            -e "File.open('${_json}', 'w') { |f| f.write(json) } "
-        WORKING_DIRECTORY ${_dir}
-        DEPENDS ${_erb_json} ${_cpp_benchmarks}
+            -e "json = Tilt::ERBTemplate.new('${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json').render"
+            -e "File.open('${CMAKE_CURRENT_BINARY_DIR}/${target}.json', 'w') { |f| f.write(json) } "
+        WORKING_DIRECTORY ${directory}
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json ${cpp_files}
         VERBATIM
-        COMMENT "Generating benchmarks for ${_target}")
-    add_custom_target(${_target} DEPENDS "${_json}")
-    add_dependencies(benchmarks ${_target})
+        COMMENT "Generating dataset for ${target}"
+    )
+
+    add_custom_target(${target} DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${target}.json")
+    add_dependencies(benchmarks ${target})
 endforeach()
