@@ -13,21 +13,30 @@ sudo: false
 branches:
   except: /pr\/.*/
 
+env:
+  global:
+    # GitHub token for pushing the documentation, logging in with the
+    # Travis command line utility and so on. The token is stored in the
+    # ${GITHUB_TOKEN} environment variable.
+    - secure: "gikHKTxWGN9FnJ9m+F53Y5j7jWGAOKlL2ylcFM2o0KoXOkoNAK9bJpilNppRwWhgwpC3yTJDN0k7xh9I6Ec8L0G46Q2QZdtJ/NFvWbafpzQcrAg6+872yKlP8h3GHexwEDdAdxCv8g2HeavFrDcqynssI8IoIHyZmsR6Dwym+eo="
+
+  # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
+  matrix:
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
 
 matrix:
-  allow_failures:
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
-    - osx_image: xcode7.2b1
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
   include:
     ##########################################################################
-    # Clang 3.5
+    # Build with the main configuration on all the supported compilers
     #
-    # Note that we use the memory checker only for one Boost version to speed
-    # up builds. There would be little benefit to run the memory checker on
-    # different Boost versions.
+    # Note that we only use the memory checker on the main configuration to
+    # speed up Travis builds.
     ##########################################################################
+    # Clang 3.5
     - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang35
         apt:
@@ -39,105 +48,80 @@ matrix:
             - llvm-toolchain-precise-3.7
             - llvm-toolchain-precise
 
-    ##########################################################################
     # Clang 3.6
-    ##########################################################################
     - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang36
         apt:
           packages: ["clang-3.6", "valgrind"]
           sources: *sources
 
-    ##########################################################################
     # Clang 3.7
-    ##########################################################################
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang37
         apt:
           packages: ["clang-3.7", "valgrind"]
           sources: *sources
 
-    ##########################################################################
     # Xcode 6.4
-    ##########################################################################
     - os: osx
       env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
       osx_image: xcode6.4
 
-    ##########################################################################
     # Xcode 7
-    ##########################################################################
     - os: osx
       env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
       osx_image: xcode7
 
-    ##########################################################################
-    # Xcode 7.2 (beta)
-    ##########################################################################
-    - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
-      osx_image: xcode7.2b1
 
     ##########################################################################
-    # Use Boost.Build instead of CMake
+    # Build with variations in the configuration
     ##########################################################################
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
-      addons: *clang37
-
-    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
-      addons: *clang37
-
-    - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0 BOOST_BUILD=true
-      osx_image: xcode7
-
-    ##########################################################################
-    # Clang trunk (allowed to fail)
-    ##########################################################################
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
-      addons:
-        apt:
-          packages: ["clang-3.8"]
-          sources: *sources
-
-    ##########################################################################
-    # Build without concept checks
-    ##########################################################################
+    # Without concept checks
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
       addons: *clang37
 
-    ##########################################################################
+    # Without exceptions
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
+      addons: *clang37
+
     # Build with libstdc++ instead of libc++
-    ##########################################################################
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 STDLIB=libstdc++
       addons:
         apt:
           packages: ["clang-3.7", "g++-5"]
           sources: *sources
 
-    ##########################################################################
-    # Build without exceptions
-    ##########################################################################
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
-      addons: *clang37
-
-    ##########################################################################
-    # Build with Boost 1.57.0, 1.58.0 and trunk
-    ##########################################################################
+    # With Boost 1.57
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.57.0
       addons: *clang37
 
+    # With Boost 1.58
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.58.0
       addons: *clang37
 
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
-      addons: *clang37
-
-    ##########################################################################
-    # Build without Boost
-    ##########################################################################
+    # Without Boost (make sure we don't depend on it)
     - env: UNIT_TESTS=true COMPILER=clang++-3.7
       addons: *clang37
+
+    # With Boost.Build instead of CMake (on Linux)
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      addons: *clang37
+
+    # With Boost.Build instead of CMake (on OS X)
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      osx_image: xcode7
+
+
+    ##########################################################################
+    # Generate the documentation
+    ##########################################################################
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0
+      addons: *clang37
+
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      addons: *clang37
+
 
     ##########################################################################
     # Benchmarks
@@ -160,25 +144,30 @@ matrix:
       addons: *clang37
 
 
-env:
-  global:
-    # GitHub token for pushing the documentation, logging in with the
-    # Travis command line utility and so on. The token is stored in the
-    # ${GITHUB_TOKEN} environment variable.
-    - secure: "gikHKTxWGN9FnJ9m+F53Y5j7jWGAOKlL2ylcFM2o0KoXOkoNAK9bJpilNppRwWhgwpC3yTJDN0k7xh9I6Ec8L0G46Q2QZdtJ/NFvWbafpzQcrAg6+872yKlP8h3GHexwEDdAdxCv8g2HeavFrDcqynssI8IoIHyZmsR6Dwym+eo="
+    ##########################################################################
+    # Jobs that are allowed to fail
+    ##########################################################################
+    # Clang trunk
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+      addons:
+        apt:
+          packages: ["clang-3.8"]
+          sources: *sources
 
-  ##########################################################################
-  # Documentation
-  #
-  # The Documentation job must be defined here instead of in matrix.include,
-  # because we otherwise end up with a job that has no environment variables
-  # at all in the matrix.
-  ##########################################################################
-  matrix:
-    - DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0
+    # Boost trunk
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
+      addons: *clang37
 
-# Those addons apply only to the documentation job.
-addons: *clang37
+    # Xcode 7.2 beta 1
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      osx_image: xcode7.2b1
+
+
+  allow_failures:
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+    - osx_image: xcode7.2b1
 
 
 install:
