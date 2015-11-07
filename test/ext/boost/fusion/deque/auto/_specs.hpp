@@ -9,12 +9,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/ext/boost/fusion/deque.hpp>
 
-#include <boost/fusion/container/generation/make_deque.hpp>
 #include <boost/fusion/container/deque.hpp>
+#include <boost/fusion/container/generation/make_deque.hpp>
+#include <boost/version.hpp>
 
 
 #define MAKE_TUPLE(...) ::boost::fusion::make_deque(__VA_ARGS__)
 #define TUPLE_TYPE(...) ::boost::fusion::deque<__VA_ARGS__>
 #define TUPLE_TAG ::boost::hana::ext::boost::fusion::deque_tag
+
+#if BOOST_VERSION <= 105700
+#   define MAKE_TUPLE_NO_CONSTEXPR
+#endif
 
 #endif // !BOOST_HANA_TEST_EXT_BOOST_FUSION_DEQUE_AUTO_SPECS_HPP
