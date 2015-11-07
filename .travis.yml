@@ -350,7 +350,7 @@ script:
         popd
       else
         export BOOST_HANA_JUST_CHECK_BENCHMARKS=true
-        (cd build && make benchmarks)
+        (cd build && make benchmarks -j2)
       fi
     fi
 

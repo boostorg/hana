@@ -36,6 +36,8 @@ if (Meta_FOUND)
     include_directories(${Meta_INCLUDE_DIR})
 endif()
 
+boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_DEPTH -ftemplate-depth=-1)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 ##############################################################################
 # Configure the measure.rb script
@@ -43,30 +45,6 @@ endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/measure.in.rb #input
                ${CMAKE_CURRENT_BINARY_DIR}/measure.rb    #output
                @ONLY)
-
-
-##############################################################################
-# Add the special measure file and targets
-#
-# The compile.benchmark.measure target is a special target that compiles
-# the measure.cpp file and outputs compilation statistics.
-#
-# Similarly, the run.benchmark.measure target is a special target that
-# compiles the measure.cpp file, runs the resulting program and then
-# outputs execution time statistics.
-#
-# The measure.cpp file should always be left empty. The intended usage is to
-# put some code in the file, benchmark it and then put that code somewhere
-# else. In particular, note that the benchmarks added below use the measure
-# file to perform their benchmarking, and launching the benchmarks will wipe
-# anything from the `measure.cpp` file.
-##############################################################################
-boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_DEPTH -ftemplate-depth=-1)
-add_executable(compile.benchmark.measure EXCLUDE_FROM_ALL measure.cpp)
-set_target_properties(compile.benchmark.measure
-    PROPERTIES RULE_LAUNCH_COMPILE "${CMAKE_CURRENT_BINARY_DIR}/measure.rb")
-add_custom_target(run.benchmark.measure COMMAND compile.benchmark.measure)
-
 
 ##############################################################################
 # Add the benchmarks
@@ -85,8 +63,15 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     file(GLOB cpp_files ${directory}/*.erb.cpp)
     configure_file("${benchmark}" "${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json" @ONLY)
 
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp "")
+    add_executable(${target}.measure EXCLUDE_FROM_ALL ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp)
+    set_target_properties(${target}.measure PROPERTIES RULE_LAUNCH_COMPILE "${CMAKE_CURRENT_BINARY_DIR}/measure.rb")
+    add_custom_target(${target}.measure.run COMMAND ${target}.measure)
+
     add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}.json"
         COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
+            -e "MEASURE_FILE = '${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp'"
+            -e "MEASURE_TARGET = '${target}.measure'"
             -e "json = Tilt::ERBTemplate.new('${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json').render"
             -e "File.open('${CMAKE_CURRENT_BINARY_DIR}/${target}.json', 'w') { |f| f.write(json) } "
         WORKING_DIRECTORY ${directory}
