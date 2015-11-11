@@ -7,6 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/assert.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/drop_front.hpp>
 #include <boost/hana/eval.hpp>
 #include <boost/hana/front.hpp>
 #include <boost/hana/functional/fix.hpp>
@@ -18,7 +19,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/lazy.hpp>
 #include <boost/hana/not.hpp>
-#include <boost/hana/tail.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
@@ -53,26 +53,39 @@ namespace boost { namespace hana {
     template <>
     struct at_impl<LazyList> {
         template <typename Xs, typename N>
-        static constexpr auto apply(Xs&& lcons, N const&) {
-            constexpr std::size_t n = N::value;
-            return hana::iterate<n>(hana::tail, lcons).x;
+        static constexpr auto apply(Xs&& lcons, N const& n) {
+            return hana::drop_front(lcons, n).x;
         }
     };
 
+    namespace detail {
+        struct eval_tail {
+            template <typename Xs>
+            constexpr auto operator()(Xs const& lcons) const {
+                return hana::eval(lcons.xs);
+            }
+
+            constexpr auto operator()(lazy_nil_type const&) const {
+                return lazy_nil;
+            }
+        };
+    }
+
     template <>
-    struct tail_impl<LazyList> {
-        template <typename Xs>
-        static constexpr auto apply(Xs lcons)
-        { return hana::eval(lcons.xs); }
+    struct drop_front_impl<LazyList> {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& lcons, N const&) {
+            return hana::iterate<N::value>(detail::eval_tail{}, lcons);
+        }
     };
 
     template <>
     struct is_empty_impl<LazyList> {
         template <typename Xs>
-        static constexpr auto apply(Xs)
+        static constexpr auto apply(Xs const&)
         { return hana::false_c; }
 
-        static constexpr auto apply(lazy_nil_type)
+        static constexpr auto apply(lazy_nil_type const&)
         { return hana::true_c; }
     };
 

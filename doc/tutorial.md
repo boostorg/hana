@@ -602,7 +602,6 @@ function                                                                        
 <code>[slice](@ref boost::hana::Sequence::slice)(sequence, indices)</code>                       | Returns a new sequence containing the elements at the given indices of the original sequence.
 <code>[slice_c](@ref boost::hana::Sequence::slice_c)<from, to>(sequence)</code>                  | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
 <code>[sort](@ref boost::hana::Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[tail](@ref boost::hana::Iterable::tail)(sequence)</code>                                  | Returns all the elements except the first one. Analogous to `pop_front`.
 <code>[take](@ref boost::hana::Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
 <code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
 <code>[transform](@ref boost::hana::Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
@@ -3414,7 +3413,7 @@ requirements of the concept are respected to the user. Secondly, when checking
 whether a type is a model of some concept, we basically check that some key
 functions are implemented. In particular, we check that the functions from the
 minimal complete definition of that concept are implemented. For example,
-`Iterable<T>` checks whether the `is_empty`, `at` and `tail` functions
+`Iterable<T>` checks whether the `is_empty`, `at` and `drop_front` functions
 implemented for `T`. However, the only way to detect this without
 tag-dispatching is to basically check whether the following expressions
 are valid in a SFINAE-able context:
@@ -3422,14 +3421,14 @@ are valid in a SFINAE-able context:
 @code{cpp}
 implementation_of_at(std::declval<T>(), std::declval<N>())
 implementation_of_is_empty(std::declval<T>())
-implementation_of_tail(std::declval<T>())
+implementation_of_drop_front(std::declval<T>())
 @endcode
 
 Unfortunately, this requires actually doing the algorithms, which might either
 trigger a hard compile-time error or hurt compile-time performance. Also, this
 requires picking an arbitrary index `N` to call `at` with: what if the `Iterable`
 is empty? With tag dispatching, we can just ask whether `at_impl<T>`,
-`is_empty_impl<T>` and `tail_impl<T>` are defined, and nothing happens
+`is_empty_impl<T>` and `drop_front_impl<T>` are defined, and nothing happens
 until we actually call their nested `::%apply` function.
 
 

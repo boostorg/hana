@@ -16,18 +16,18 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/less.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
+#include <boost/hana/length.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/unpack.hpp>
 
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/equal.hpp>
-#include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/push_front.hpp>
 #include <boost/mpl/sequence_tag.hpp>
 #include <boost/mpl/size.hpp>
@@ -35,6 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <cstddef>
 #include <type_traits>
+#include <utility>
 
 
 namespace boost { namespace hana {
@@ -138,10 +139,21 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::boost::mpl::vector_tag> {
-        template <typename xs>
-        static constexpr auto apply(xs)
-        { return typename ::boost::mpl::pop_front<xs>::type{}; }
+    struct drop_front_impl<ext::boost::mpl::vector_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs const&, std::index_sequence<i...>) {
+            return boost::mpl::vector<
+                typename boost::mpl::at_c<Xs, n + i>::type...
+            >{};
+        }
+
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
+            constexpr std::size_t n = N::value;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
+        }
     };
 
     template <>

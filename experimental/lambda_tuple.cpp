@@ -22,7 +22,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/front.hpp>
 #include <boost/hana/fwd/prepend.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/fwd/take.hpp>
 #include <boost/hana/fwd/transform.hpp>
 #include <boost/hana/fwd/unpack.hpp>
@@ -94,18 +93,6 @@ namespace boost { namespace hana {
             return static_cast<Xs&&>(xs).storage(
                 [](auto&& x, auto&& ...) -> decltype(auto) {
                     return id(static_cast<decltype(x)&&>(x));
-                }
-            );
-        }
-    };
-
-    template <>
-    struct tail_impl<lambda_tuple_tag> {
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
-            return static_cast<Xs&&>(xs).storage(
-                [](auto&&, auto&& ...rest) -> decltype(auto) {
-                    return lambda_tuple(static_cast<decltype(rest)&&>(rest)...);
                 }
             );
         }

@@ -10,12 +10,12 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/at.hpp>
 #include <boost/hana/concept/sequence.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/drop_front_exactly.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/not.hpp>
-#include <boost/hana/tail.hpp>
 
 #include <laws/base.hpp>
 
@@ -56,27 +56,43 @@ int main() {
     }
 
     //////////////////////////////////////////////////////////////////////////
-    // tail
+    // drop_front_exactly
     //////////////////////////////////////////////////////////////////////////
     {
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::tail(fusion::make_deque(ct_eq<0>{})),
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{})),
             fusion::make_deque()
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::tail(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{})),
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{})),
             fusion::make_deque(ct_eq<1>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::tail(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})),
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})),
             fusion::make_deque(ct_eq<1>{}, ct_eq<2>{})
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::tail(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})),
             fusion::make_deque(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+        ));
+
+
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), hana::size_c<2>),
+            fusion::make_deque(ct_eq<2>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), hana::size_c<2>),
+            fusion::make_deque(ct_eq<2>{}, ct_eq<3>{})
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(
+            hana::drop_front_exactly(fusion::make_deque(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), hana::size_c<3>),
+            fusion::make_deque(ct_eq<3>{})
         ));
     }
 

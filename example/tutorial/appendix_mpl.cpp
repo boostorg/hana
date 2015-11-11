@@ -143,7 +143,7 @@ struct pop_back {
 
 template <typename Sequence>
 struct pop_front {
-    using type = decltype(hana::tail(Sequence{}));
+    using type = decltype(hana::drop_front(Sequence{}));
 };
 
 template <typename Sequence, typename T>

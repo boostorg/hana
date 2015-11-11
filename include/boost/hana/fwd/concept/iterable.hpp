@@ -31,7 +31,7 @@ namespace boost { namespace hana {
     //!
     //! Minimal complete definition
     //! ---------------------------
-    //! `at`, `tail` and `is_empty`
+    //! `at`, `drop_front` and `is_empty`
     //!
     //!
     //! @anchor Iterable-lin
@@ -48,9 +48,9 @@ namespace boost { namespace hana {
     //! accessed with the `at` function. In other words, `at(xs, n) == xn`.
     //!
     //! Note that this notion is precisely the extension of the [linearization]
-    //! (@ref Foldable-lin) notion of `Foldable`s to the infinite case.
-    //! This notion is useful for expressing various properties of
-    //! `Iterable`s, and is used for that throughout the documentation.
+    //! (@ref Foldable-lin) notion of `Foldable`s to the infinite case. This
+    //! notion is useful for expressing various properties of `Iterable`s,
+    //! and is used for that elsewhere in the documentation.
     //!
     //!
     //! Compile-time `Iterable`s

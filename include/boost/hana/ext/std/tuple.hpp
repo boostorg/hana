@@ -14,18 +14,19 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/flatten.hpp>
 #include <boost/hana/fwd/front.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/lift.hpp>
-#include <boost/hana/fwd/tail.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 #include <cstddef>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 
 
 #ifdef BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
@@ -111,23 +112,21 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct tail_impl<ext::std::tuple_tag> {
-        template <typename Xs, std::size_t ...index>
-        static constexpr decltype(auto)
-        tail_helper(Xs&& xs, std::index_sequence<index...>) {
+    struct drop_front_impl<ext::std::tuple_tag> {
+        template <std::size_t n, typename Xs, std::size_t ...i>
+        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
             return std::make_tuple(
-                std::get<index + 1>(static_cast<Xs&&>(xs))...
+                hana::at_c<n + i>(static_cast<Xs&&>(xs))...
             );
         }
 
-        template <typename Xs>
-        static constexpr decltype(auto) apply(Xs&& xs) {
+        template <typename Xs, typename N>
+        static constexpr auto apply(Xs&& xs, N const&) {
             using Raw = typename std::remove_reference<Xs>::type;
-            constexpr auto N = std::tuple_size<Raw>::value;
-            return tail_helper(
-                static_cast<Xs&&>(xs),
-                std::make_index_sequence<N - 1>{}
-            );
+            constexpr std::size_t n = N::value;
+            constexpr auto len = std::tuple_size<Raw>::value;
+            return drop_front_helper<n>(static_cast<Xs&&>(xs),
+                    std::make_index_sequence<(n < len ? len - n : 0)>{});
         }
     };
 
