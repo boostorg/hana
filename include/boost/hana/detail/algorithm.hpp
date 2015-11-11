@@ -60,7 +60,7 @@ namespace boost { namespace hana { namespace detail {
 
     template <typename BidirIter>
     constexpr bool next_permutation(BidirIter first, BidirIter last)
-    { return next_permutation(first, last, _ < _); }
+    { return detail::next_permutation(first, last, hana::_ < hana::_); }
 
 
     template <typename InputIter1, typename InputIter2, typename BinaryPred>
@@ -80,7 +80,7 @@ namespace boost { namespace hana { namespace detail {
     template <typename InputIter1, typename InputIter2>
     constexpr bool lexicographical_compare(InputIter1 first1, InputIter1 last1,
                                            InputIter2 first2, InputIter2 last2)
-    { return lexicographical_compare(first1, last1, first2, last2, _ < _); }
+    { return detail::lexicographical_compare(first1, last1, first2, last2, hana::_ < hana::_); }
 
 
     template <typename InputIter1, typename InputIter2, typename BinaryPred>
@@ -97,7 +97,7 @@ namespace boost { namespace hana { namespace detail {
     template <typename InputIter1, typename InputIter2>
     constexpr bool equal(InputIter1 first1, InputIter1 last1,
                          InputIter2 first2, InputIter2 last2)
-    { return equal(first1, last1, first2, last2, _ == _); }
+    { return detail::equal(first1, last1, first2, last2, hana::_ == hana::_); }
 
 
     template <typename BidirIter, typename BinaryPred>
@@ -116,7 +116,7 @@ namespace boost { namespace hana { namespace detail {
 
     template <typename BidirIter>
     constexpr void sort(BidirIter first, BidirIter last)
-    { sort(first, last, _ < _); }
+    { detail::sort(first, last, hana::_ < hana::_); }
 
 
     template <typename InputIter, typename T>
@@ -162,7 +162,7 @@ namespace boost { namespace hana { namespace detail {
 
     template <typename InputIt, typename T>
     constexpr T accumulate(InputIt first, InputIt last, T init) {
-        return accumulate(first, last, init, _ + _);
+        return detail::accumulate(first, last, init, hana::_ + hana::_);
     }
 
     template <typename ForwardIt>
