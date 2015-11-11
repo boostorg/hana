@@ -8,28 +8,37 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
+//
+// We disable this test when the compiler does not support the empty base
+// class optimization (EBO). Compilers normally support it, but Clang for
+// Windows emulates the broken behaviour of MSVC, and does not support the
+// EBO for more than one base class. See https://goo.gl/5FE3R6 for more info.
+//
+
+template <typename T>
+struct holder { T value; };
+
+template <typename ...T>
+struct inherit : T... { };
+
 struct A { };
 struct B { };
+static constexpr bool EBO_is_supported = sizeof(inherit<A, holder<int>>) == sizeof(int);
 
-int main() {
-    {
-        using T = hana::tuple<int, A>;
-        static_assert((sizeof(T) == sizeof(int)), "");
-    }
-    {
-        using T = hana::tuple<A, int>;
-        static_assert((sizeof(T) == sizeof(int)), "");
-    }
-    {
-        using T = hana::tuple<A, int, B>;
-        static_assert((sizeof(T) == sizeof(int)), "");
-    }
-    {
-        using T = hana::tuple<A, B, int>;
-        static_assert((sizeof(T) == sizeof(int)), "");
-    }
-    {
-        using T = hana::tuple<int, A, B>;
-        static_assert((sizeof(T) == sizeof(int)), "");
-    }
-}
+template <bool = EBO_is_supported, typename EmptyA = A, typename EmptyB = B>
+struct test {
+    static_assert((sizeof(hana::tuple<int, EmptyA>) == sizeof(int)), "");
+    static_assert((sizeof(hana::tuple<EmptyA, int>) == sizeof(int)), "");
+    static_assert((sizeof(hana::tuple<EmptyA, int, EmptyB>) == sizeof(int)), "");
+    static_assert((sizeof(hana::tuple<EmptyA, EmptyB, int>) == sizeof(int)), "");
+    static_assert((sizeof(hana::tuple<int, EmptyA, EmptyB>) == sizeof(int)), "");
+};
+
+template <>
+struct test<false> {
+    // Nothing to test
+};
+
+template struct test<>;
+
+int main() { }
