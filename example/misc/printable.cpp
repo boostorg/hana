@@ -6,9 +6,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana.hpp>
 
-#include <cxxabi.h>
+#include <boost/core/demangle.hpp>
+
 #include <iostream>
-#include <memory>
 #include <sstream>
 #include <string>
 #include <typeinfo>
@@ -141,17 +141,9 @@ struct print_impl<hana::set_tag> {
 // model for hana::types
 template <>
 struct print_impl<hana::type_tag> {
-    static std::string demangle(char const* mangled) {
-        int status;
-        std::unique_ptr<char[], void(*)(void*)> result(
-            abi::__cxa_demangle(mangled, 0, 0, &status), std::free
-        );
-        return result.get() ? result.get() : mangled;
-    }
-
     template <typename T>
     static auto apply(T const&) {
-        return "type<" + demangle(typeid(typename T::type).name()) + '>';
+        return "type<" + boost::core::demangle(typeid(typename T::type).name()) + '>';
     }
 };
 
