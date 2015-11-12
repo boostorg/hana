@@ -2912,7 +2912,8 @@ the headers provided by the library is also available in the panel on the left
 - `boost/hana.hpp`\n
   This is the master header of the library. It includes the whole public
   interface of the library except adapters for external libraries, which
-  must be included separately.
+  must be included separately. This is because external adapters are optional
+  features that drag additional dependencies, and we can't force that on users.
 
 - `boost/hana/`\n
   This is the main directory of the library containing the definitions of
