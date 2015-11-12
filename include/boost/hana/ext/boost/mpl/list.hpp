@@ -1,14 +1,14 @@
 /*!
 @file
-Adapts `boost::mpl::vector` for use with Hana.
+Adapts `boost::mpl::list` for use with Hana.
 
 @copyright Louis Dionne 2015
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
-#define BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
+#ifndef BOOST_HANA_EXT_BOOST_MPL_LIST_HPP
+#define BOOST_HANA_EXT_BOOST_MPL_LIST_HPP
 
 #include <boost/hana/concept/foldable.hpp>
 #include <boost/hana/core/when.hpp>
@@ -28,9 +28,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/equal.hpp>
+#include <boost/mpl/list.hpp>
 #include <boost/mpl/sequence_tag.hpp>
 #include <boost/mpl/size.hpp>
-#include <boost/mpl/vector.hpp>
 
 #include <cstddef>
 #include <type_traits>
@@ -40,55 +40,55 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
         //! @ingroup group-ext
-        //! Adapter for Boost.MPL vectors.
+        //! Adapter for Boost.MPL lists.
         //!
         //!
         //! Modeled concepts
         //! ----------------
-        //! It is possible for MPL vectors to model a couple of concepts.
+        //! It is possible for MPL lists to model a couple of concepts.
         //! However, because they are only able to hold types, they lack
         //! the generality required to model concepts like `Functor`,
         //! `Sequence` and other related concepts.
         //!
         //! 1. `Comparable`\n
-        //! Two MPL vectors are equal if and only if they contain the same
+        //! Two MPL lists are equal if and only if they contain the same
         //! number of types, and if all those types are equal.
-        //! @snippet example/ext/boost/mpl/vector.cpp Comparable
+        //! @snippet example/ext/boost/mpl/list.cpp Comparable
         //!
         //! 2. `Foldable`\n
-        //! Folding a MPL vector is equivalent to folding it as a `Sequence`.
-        //! @snippet example/ext/boost/mpl/vector.cpp Foldable
+        //! Folding a MPL list is equivalent to folding it as a `Sequence`.
+        //! @snippet example/ext/boost/mpl/list.cpp Foldable
         //!
         //! 3. `Iterable`\n
-        //! Iterating over a MPL vector is just iterating over each of the
+        //! Iterating over a MPL list is just iterating over each of the
         //! types it contains, as if it were a `Sequence`.
-        //! @snippet example/ext/boost/mpl/vector.cpp Iterable
+        //! @snippet example/ext/boost/mpl/list.cpp Iterable
         //!
         //! 4. `Searchable`\n
-        //! A MPL vector can be searched as if it were a tuple containing
+        //! A MPL list can be searched as if it were a tuple containing
         //! `hana::type`s.
-        //! @snippet example/ext/boost/mpl/vector.cpp Searchable
+        //! @snippet example/ext/boost/mpl/list.cpp Searchable
         //!
         //!
         //! Conversion from any `Foldable`
         //! ------------------------------
-        //! A MPL vector can be created from any `Foldable`. More precisely,
+        //! A MPL list can be created from any `Foldable`. More precisely,
         //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
         //! @code
-        //!     to<ext::boost::mpl::vector_tag>(xs) == mpl::vector<t1, ..., tn>
+        //!     to<ext::boost::mpl::list_tag>(xs) == mpl::list<t1, ..., tn>{}
         //! @endcode
         //! where `tk` is the type of `xk`, or the type contained in `xk` if
         //! `xk` is a `hana::type`.
         //! @warning
-        //! The limitations on the size of `mpl::vector`s are inherited by
+        //! The limitations on the size of `mpl::list`s are inherited by
         //! this conversion utility, and hence trying to convert a `Foldable`
-        //! containing more than `BOOST_MPL_MAX_VECTOR_SIZE` elements is an
+        //! containing more than `BOOST_MPL_MAX_LIST_SIZE` elements is an
         //! error.
-        //! @snippet example/ext/boost/mpl/vector.cpp from_Foldable
+        //! @snippet example/ext/boost/mpl/list.cpp from_Foldable
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-        struct vector_tag { };
+        struct list_tag { };
 #else
-        using vector_tag = ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type;
+        using list_tag = ::boost::mpl::sequence_tag< ::boost::mpl::list<>>::type;
 #endif
     }}}
 
@@ -96,17 +96,17 @@ namespace boost { namespace hana {
     struct tag_of<T, when<
         std::is_same<
             typename ::boost::mpl::sequence_tag<T>::type,
-            ::boost::mpl::sequence_tag< ::boost::mpl::vector<>>::type
+            ::boost::mpl::sequence_tag< ::boost::mpl::list<>>::type
         >::value
     >> {
-        using type = ext::boost::mpl::vector_tag;
+        using type = ext::boost::mpl::list_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<ext::boost::mpl::vector_tag, ext::boost::mpl::vector_tag> {
+    struct equal_impl<ext::boost::mpl::list_tag, ext::boost::mpl::list_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const&, Ys const&) {
             return typename ::boost::mpl::equal<Xs, Ys>::type{};
@@ -117,7 +117,7 @@ namespace boost { namespace hana {
     // Foldable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct length_impl<ext::boost::mpl::vector_tag> {
+    struct length_impl<ext::boost::mpl::list_tag> {
         template <typename Xs>
         static constexpr auto apply(Xs const&) {
             return hana::size_c< ::boost::mpl::size<Xs>::type::value>;
@@ -128,7 +128,7 @@ namespace boost { namespace hana {
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct at_impl<ext::boost::mpl::vector_tag> {
+    struct at_impl<ext::boost::mpl::list_tag> {
         template <typename Ts, typename N>
         static constexpr auto apply(Ts const&, N const&) {
             constexpr std::size_t n = N::value;
@@ -138,10 +138,10 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct drop_front_impl<ext::boost::mpl::vector_tag> {
+    struct drop_front_impl<ext::boost::mpl::list_tag> {
         template <std::size_t n, typename Xs, std::size_t ...i>
         static constexpr auto drop_front_helper(Xs const&, std::index_sequence<i...>) {
-            return boost::mpl::vector<
+            return boost::mpl::list<
                 typename boost::mpl::at_c<Xs, n + i>::type...
             >{};
         }
@@ -156,24 +156,24 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct is_empty_impl<ext::boost::mpl::vector_tag> {
-        template <typename xs>
-        static constexpr auto apply(xs)
-        { return typename ::boost::mpl::empty<xs>::type{}; }
+    struct is_empty_impl<ext::boost::mpl::list_tag> {
+        template <typename Xs>
+        static constexpr auto apply(Xs const&)
+        { return typename ::boost::mpl::empty<Xs>::type{}; }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Conversion from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<ext::boost::mpl::vector_tag, F, when<Foldable<F>::value>> {
+    struct to_impl<ext::boost::mpl::list_tag, F, when<Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
-            auto vector_type = hana::unpack(static_cast<Xs&&>(xs),
-                                    hana::template_<::boost::mpl::vector>);
-            return typename decltype(vector_type)::type{};
+            auto list_type = hana::unpack(static_cast<Xs&&>(xs),
+                                          hana::template_<::boost::mpl::list>);
+            return typename decltype(list_type)::type{};
         }
     };
 }} // end namespace boost::hana
 
-#endif // !BOOST_HANA_EXT_BOOST_MPL_VECTOR_HPP
+#endif // !BOOST_HANA_EXT_BOOST_MPL_LIST_HPP
