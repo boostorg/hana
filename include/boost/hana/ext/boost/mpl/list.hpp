@@ -82,9 +82,11 @@ namespace boost { namespace hana {
         //! @warning
         //! The limitations on the size of `mpl::list`s are inherited by
         //! this conversion utility, and hence trying to convert a `Foldable`
-        //! containing more than `BOOST_MPL_MAX_LIST_SIZE` elements is an
-        //! error.
+        //! containing more than [BOOST_MPL_LIMIT_LIST_SIZE][1] elements is
+        //! an error.
         //! @snippet example/ext/boost/mpl/list.cpp from_Foldable
+        //!
+        //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-list-size.html
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
         struct list_tag { };
 #else
