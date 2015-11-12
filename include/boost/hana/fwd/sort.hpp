@@ -35,9 +35,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Signature
     //! ---------
-    //! Given a `Sequence` `S(T)`, a `Logical` `Bool` and a binary predicate
-    //! \f$ T \times T \to Bool \f$, `sort` has the following signatures.
-    //! For the variant with a provided predicate,
+    //! Given a `Sequence` `S(T)`, a boolean `IntegralConstant` `Bool` and a
+    //! binary predicate \f$ T \times T \to Bool \f$, `sort` has the following
+    //! signatures. For the variant with a provided predicate,
     //! \f[
     //!     \mathtt{sort} : S(T) \times (T \times T \to Bool) \to S(T)
     //! \f]
@@ -53,13 +53,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! @param predicate
     //! A function called as `predicate(x, y)` for two elements `x` and `y` of
-    //! the sequence, and returning a `Logical` representing whether `x` is to
-    //! be considered _less_ than `y`, i.e. whether `x` should appear _before_
-    //! `y` in the resulting sequence. More specifically, `predicate` must
-    //! define a [strict weak ordering][1] on the elements of the sequence.
-    //! In the current version of the library, also note that `predicate` must
-    //! return a `Constant Logical` when called with any two elements of the
-    //! sequence. When the predicate is not specified, this defaults to `less`.
+    //! the sequence, and returning a boolean `IntegralConstant` representing
+    //! whether `x` is to be considered _less_ than `y`, i.e. whether `x` should
+    //! appear _before_ `y` in the resulting sequence. More specifically,
+    //! `predicate` must define a [strict weak ordering][1] on the elements
+    //! of the sequence. When the predicate is not specified, this defaults
+    //! to `less`. In the current version of the library, the predicate has
+    //! to return an `IntegralConstant` holding a value convertible to a `bool`.
     //!
     //!
     //! Syntactic sugar (`sort.by`)
