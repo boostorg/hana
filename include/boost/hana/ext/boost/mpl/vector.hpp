@@ -82,9 +82,11 @@ namespace boost { namespace hana {
         //! @warning
         //! The limitations on the size of `mpl::vector`s are inherited by
         //! this conversion utility, and hence trying to convert a `Foldable`
-        //! containing more than `BOOST_MPL_MAX_VECTOR_SIZE` elements is an
-        //! error.
+        //! containing more than [BOOST_MPL_LIMIT_VECTOR_SIZE][1] elements
+        //! is an error.
         //! @snippet example/ext/boost/mpl/vector.cpp from_Foldable
+        //!
+        //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-vector-size.html
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
         struct vector_tag { };
 #else
