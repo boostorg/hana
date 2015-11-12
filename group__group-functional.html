@@ -861,7 +861,6 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tail_8hpp.html">boost/hana/tail.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
@@ -870,7 +869,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">static_assert(next_10(3) == 13, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
-<div class="line">static_assert(hana::iterate&lt;5&gt;(hana::tail, xs) == hana::make_tuple(6, 7, 8, 9, 10), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::iterate&lt;3&gt;(hana::make_tuple, xs) ==</div>
+<div class="line">              hana::make_tuple(hana::make_tuple(hana::make_tuple(xs))), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

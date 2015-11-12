@@ -64,8 +64,7 @@ var group__group_concepts =
       [ "drop_while", "structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8", null ],
       [ "front", "structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571", null ],
       [ "is_empty", "structboost_1_1hana_1_1Iterable.html#a4193ecf811f29479c60022564afa512a", null ],
-      [ "lexicographical_compare", "structboost_1_1hana_1_1Iterable.html#a3ad76a9f80fe5095d43be85c519f9a20", null ],
-      [ "tail", "structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96", null ]
+      [ "lexicographical_compare", "structboost_1_1hana_1_1Iterable.html#a3ad76a9f80fe5095d43be85c519f9a20", null ]
     ] ],
     [ "Logical", "structboost_1_1hana_1_1Logical.html", [
       [ "and_", "structboost_1_1hana_1_1Logical.html#a8d0365b860f1383b8077ea86eee79a23", null ],

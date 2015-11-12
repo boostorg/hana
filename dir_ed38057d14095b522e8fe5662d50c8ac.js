@@ -134,7 +134,6 @@ var dir_ed38057d14095b522e8fe5662d50c8ac =
     [ "suffix.hpp", "suffix_8hpp.html", null ],
     [ "sum.hpp", "sum_8hpp.html", null ],
     [ "symmetric_difference.hpp", "symmetric__difference_8hpp.html", null ],
-    [ "tail.hpp", "tail_8hpp.html", null ],
     [ "take.hpp", "take_8hpp.html", null ],
     [ "take_while.hpp", "take__while_8hpp.html", null ],
     [ "tap.hpp", "tap_8hpp.html", null ],

@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"index.html#tutorial-type-lifting":[0,6,3],
 "index.html#tutorial-type-objects":[0,6,0],
 "index.html#tutorial-type-working":[0,6,2],
 "index__if_8hpp.html":[3,0,0,2,13],
@@ -163,7 +162,6 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Iterable.html#a94000a394f176d5055e3877534c7a008":[1,0,9,3],
 "structboost_1_1hana_1_1Iterable.html#aa9cb52d0c5c6dac2f10ab70bd3863df5":[1,0,9,2],
 "structboost_1_1hana_1_1Iterable.html#aab3e80f4ae219afb61b12201738d28b8":[1,0,9,4],
-"structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96":[1,0,9,8],
 "structboost_1_1hana_1_1Iterable.html#ab1730f0d9051da9757a5d3956136c571":[1,0,9,5],
 "structboost_1_1hana_1_1Iterable.html#af4e91486be10ef3a19495cb3d3652721":[1,0,9,0],
 "structboost_1_1hana_1_1Logical.html":[1,0,10],
@@ -249,5 +247,7 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816":[1,0,19,6],
 "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330":[1,0,19,2],
 "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff":[1,0,19,21],
-"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13]
+"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13],
+"structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96":[1,0,19,10],
+"structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec":[1,0,19,9]
 };

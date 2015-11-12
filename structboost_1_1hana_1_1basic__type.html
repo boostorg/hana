@@ -149,21 +149,13 @@ struct boost::hana::basic_type&lt; T &gt;</h3>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
 <div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/core/demangle.hpp&gt;</span></div>
+<div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;cxxabi.h&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;memory&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
-<div class="line"></div>
-<div class="line">std::string demangle(<span class="keywordtype">char</span> <span class="keyword">const</span>* mangled) {</div>
-<div class="line">    <span class="keywordtype">int</span> status;</div>
-<div class="line">    std::unique_ptr&lt;char[], void(*)(void*)&gt; result(</div>
-<div class="line">        abi::__cxa_demangle(mangled, 0, 0, &amp;status), std::free</div>
-<div class="line">    );</div>
-<div class="line">    <span class="keywordflow">return</span> result.get() ? result.get() : mangled;</div>
-<div class="line">}</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// Using hana::type&lt;T&gt; as a parameter type wouldn&#39;t work, since it may be</span></div>
 <div class="line"><span class="comment">// a dependent type, in which case template argument deduction will fail.</span></div>
@@ -171,7 +163,7 @@ struct boost::hana::basic_type&lt; T &gt;</h3>
 <div class="line"><span class="comment">// a non dependent base of hana::type&lt;T&gt;.</span></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
 <div class="line">std::string <span class="keyword">const</span>&amp; name_of(hana::basic_type&lt;T&gt;) {</div>
-<div class="line">    <span class="keyword">static</span> std::string name = demangle(<span class="keyword">typeid</span>(T).name());</div>
+<div class="line">    <span class="keyword">static</span> std::string name = boost::core::demangle(<span class="keyword">typeid</span>(T).name());</div>
 <div class="line">    <span class="keywordflow">return</span> name;</div>
 <div class="line">}</div>
 <div class="line"></div>

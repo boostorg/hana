@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['tail',['tail',['../structboost_1_1hana_1_1Iterable.html#ab15783aae10d4373e2399abe728f3f96',1,'boost::hana::Iterable']]],
   ['take',['take',['../structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1',1,'boost::hana::Sequence']]],
   ['take_5fc',['take_c',['../structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b',1,'boost::hana::Sequence']]],
   ['take_5fwhile',['take_while',['../structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff',1,'boost::hana::Sequence']]],

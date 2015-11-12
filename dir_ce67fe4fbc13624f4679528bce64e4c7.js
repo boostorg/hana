@@ -140,7 +140,6 @@ var dir_ce67fe4fbc13624f4679528bce64e4c7 =
     [ "suffix.hpp", "fwd_2suffix_8hpp.html", null ],
     [ "sum.hpp", "fwd_2sum_8hpp.html", null ],
     [ "symmetric_difference.hpp", "fwd_2symmetric__difference_8hpp.html", null ],
-    [ "tail.hpp", "fwd_2tail_8hpp.html", null ],
     [ "take.hpp", "fwd_2take_8hpp.html", null ],
     [ "take_while.hpp", "fwd_2take__while_8hpp.html", null ],
     [ "tap.hpp", "fwd_2tap_8hpp.html", null ],
