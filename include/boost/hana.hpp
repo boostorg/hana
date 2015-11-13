@@ -190,6 +190,7 @@ namespace boost { namespace hana {
 #include <boost/hana/unique.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
+#include <boost/hana/version.hpp>
 #include <boost/hana/while.hpp>
 #include <boost/hana/zero.hpp>
 #include <boost/hana/zip.hpp>
