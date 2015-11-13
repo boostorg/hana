@@ -301,7 +301,7 @@ namespace boost { namespace hana {
     constexpr optional<implementation-defined> nothing{implementation-defined};
 #else
     template <>
-    struct optional<> : detail::operators::adl {
+    struct optional<> : detail::operators::adl<optional<>> {
         // 5.3.1, Constructors
         constexpr optional() = default;
         constexpr optional(optional const&) = default;

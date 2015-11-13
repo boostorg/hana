@@ -70,7 +70,10 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename ...Pairs>
-    struct map : detail::searchable_operators<map<Pairs...>>, detail::operators::adl {
+    struct map
+        : detail::searchable_operators<map<Pairs...>>
+        , detail::operators::adl<map<Pairs...>>
+    {
         tuple<Pairs...> storage;
         using hana_tag = map_tag;
         static constexpr std::size_t size = sizeof...(Pairs);

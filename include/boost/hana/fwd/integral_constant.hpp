@@ -171,7 +171,10 @@ namespace boost { namespace hana {
     };
 #else
     template <typename T, T v>
-    struct integral_constant : std::integral_constant<T, v>, detail::operators::adl {
+    struct integral_constant
+        : std::integral_constant<T, v>
+        , detail::operators::adl<integral_constant<T, v>>
+    {
         using type = integral_constant; // override std::integral_constant::type
         static constexpr ic_detail::times_t<T, v> times{};
         using hana_tag = integral_constant_tag<T>;

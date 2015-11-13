@@ -52,7 +52,7 @@ namespace boost { namespace hana {
     }
 
     template <typename T>
-    struct optional<T> : detail::operators::adl, detail::nested_type<T> {
+    struct optional<T> : detail::operators::adl<>, detail::nested_type<T> {
         // 5.3.1, Constructors
         constexpr optional() = default;
         constexpr optional(optional const&) = default;

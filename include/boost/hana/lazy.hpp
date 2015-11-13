@@ -44,7 +44,9 @@ namespace boost { namespace hana {
     namespace detail { struct lazy_secret { }; }
 
     template <std::size_t ...n, typename F, typename ...Args>
-    struct lazy_apply_t<std::index_sequence<n...>, F, Args...> : detail::operators::adl {
+    struct lazy_apply_t<std::index_sequence<n...>, F, Args...>
+        : detail::operators::adl<>
+    {
         template <typename ...T>
         constexpr lazy_apply_t(detail::lazy_secret, T&& ...t)
             : storage_{static_cast<T&&>(t)...}
@@ -55,7 +57,7 @@ namespace boost { namespace hana {
     };
 
     template <typename X>
-    struct lazy_value_t : detail::operators::adl {
+    struct lazy_value_t : detail::operators::adl<> {
         template <typename Y>
         constexpr lazy_value_t(detail::lazy_secret, Y&& y)
             : storage_{static_cast<Y&&>(y)}
