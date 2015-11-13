@@ -10,13 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_CONFIG_HPP
 #define BOOST_HANA_CONFIG_HPP
 
-//! @internal
-//! Transforms a (version, revision, patchlevel) triple into a number of the
-//! form 0xVVRRPPPP to allow comparing versions in a normalized way.
-//!
-//! See http://sourceforge.net/p/predef/wiki/VersionNormalization.
-#define BOOST_HANA_CONFIG_VERSION(version, revision, patch) \
-    (((version) << 24) + ((revision) << 16) + (patch))
+#include <boost/hana/version.hpp>
+
 
 // Check the compiler for general C++14 capabilities
 #if (__cplusplus < 201400)
