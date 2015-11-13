@@ -148,6 +148,7 @@ var dir_ed38057d14095b522e8fe5662d50c8ac =
     [ "unique.hpp", "unique_8hpp.html", null ],
     [ "unpack.hpp", "unpack_8hpp.html", null ],
     [ "value.hpp", "value_8hpp.html", null ],
+    [ "version.hpp", "version_8hpp.html", "version_8hpp" ],
     [ "while.hpp", "while_8hpp.html", null ],
     [ "zero.hpp", "zero_8hpp.html", null ],
     [ "zip.hpp", "zip_8hpp.html", null ],

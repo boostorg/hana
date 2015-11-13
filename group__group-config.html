@@ -149,6 +149,21 @@ Macros</h2></td></tr>
 <tr class="memitem:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10">BOOST_HANA_CONFIG_ENABLE_STRING_UDL</a></td></tr>
 <tr class="memdesc:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables usage of the "string literal operator template" GNU extension.  <a href="#ga81de60f5bea16e6ff4a38c94e3022f10">More...</a><br /></td></tr>
 <tr class="separator:ga81de60f5bea16e6ff4a38c94e3022f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac1f8e58978bf4fe02f68ca4646124aee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gac1f8e58978bf4fe02f68ca4646124aee"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#gac1f8e58978bf4fe02f68ca4646124aee">BOOST_HANA_MAJOR_VERSION</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:gac1f8e58978bf4fe02f68ca4646124aee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the major version of the library, i.e. the <code>x</code> in <code>x.y.z</code>. <br /></td></tr>
+<tr class="separator:gac1f8e58978bf4fe02f68ca4646124aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafd6a702442b280083efe2690da5621bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gafd6a702442b280083efe2690da5621bd"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#gafd6a702442b280083efe2690da5621bd">BOOST_HANA_MINOR_VERSION</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memdesc:gafd6a702442b280083efe2690da5621bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the minor version of the library, i.e. the <code>y</code> in <code>x.y.z</code>. <br /></td></tr>
+<tr class="separator:gafd6a702442b280083efe2690da5621bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga50940f9267eacd0da0d4d8ccbfac8817"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga50940f9267eacd0da0d4d8ccbfac8817"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga50940f9267eacd0da0d4d8ccbfac8817">BOOST_HANA_PATCH_VERSION</a>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ga50940f9267eacd0da0d4d8ccbfac8817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the patch level of the library, i.e. the <code>z</code> in <code>x.y.z</code>. <br /></td></tr>
+<tr class="separator:ga50940f9267eacd0da0d4d8ccbfac8817"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2fb384037c12a706e1a1cac053065648"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-config.html#ga2fb384037c12a706e1a1cac053065648">BOOST_HANA_VERSION</a></td></tr>
+<tr class="memdesc:ga2fb384037c12a706e1a1cac053065648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the full version of the library, in hexadecimal representation.  <a href="#ga2fb384037c12a706e1a1cac053065648">More...</a><br /></td></tr>
+<tr class="separator:ga2fb384037c12a706e1a1cac053065648"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a class="anchor" id="ga08dcc32bef198420e646244e851d1995"></a>
@@ -201,6 +216,38 @@ Macros</h2></td></tr>
 <p>Enables usage of the "string literal operator template" GNU extension. </p>
 <p>That operator is not part of the language yet, but it is supported by both Clang and GCC. This operator allows Hana to provide the nice <code>_s</code> user-defined literal for creating compile-time strings.</p>
 <p>When this macro is not defined, the GNU extension will be not used by Hana. Because this is a non-standard extension, the macro is not defined by default. </p>
+
+</div>
+</div>
+<a class="anchor" id="ga2fb384037c12a706e1a1cac053065648"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_VERSION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="version_8hpp.html">boost/hana/version.hpp</a>&gt;</code></p>
+<b>Value:</b><div class="fragment"><div class="line"><a class="code" href="version_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7">BOOST_HANA_CONFIG_VERSION</a>(<a class="code" href="group__group-config.html#gac1f8e58978bf4fe02f68ca4646124aee">BOOST_HANA_MAJOR_VERSION</a>,                     \</div>
+<div class="line">                              <a class="code" href="group__group-config.html#gafd6a702442b280083efe2690da5621bd">BOOST_HANA_MINOR_VERSION</a>,                     \</div>
+<div class="line">                              <a class="code" href="group__group-config.html#ga50940f9267eacd0da0d4d8ccbfac8817">BOOST_HANA_PATCH_VERSION</a>)                     \</div>
+<div class="ttc" id="group__group-config_html_ga50940f9267eacd0da0d4d8ccbfac8817"><div class="ttname"><a href="group__group-config.html#ga50940f9267eacd0da0d4d8ccbfac8817">BOOST_HANA_PATCH_VERSION</a></div><div class="ttdeci">#define BOOST_HANA_PATCH_VERSION</div><div class="ttdoc">Macro expanding to the patch level of the library, i.e. the z in x.y.z. </div><div class="ttdef"><b>Definition:</b> version.hpp:31</div></div>
+<div class="ttc" id="group__group-config_html_gafd6a702442b280083efe2690da5621bd"><div class="ttname"><a href="group__group-config.html#gafd6a702442b280083efe2690da5621bd">BOOST_HANA_MINOR_VERSION</a></div><div class="ttdeci">#define BOOST_HANA_MINOR_VERSION</div><div class="ttdoc">Macro expanding to the minor version of the library, i.e. the y in x.y.z. </div><div class="ttdef"><b>Definition:</b> version.hpp:27</div></div>
+<div class="ttc" id="version_8hpp_html_a36988ad8e4f82e0bfb7ff8e4808143a7"><div class="ttname"><a href="version_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7">BOOST_HANA_CONFIG_VERSION</a></div><div class="ttdeci">#define BOOST_HANA_CONFIG_VERSION(version, revision, patch)</div><div class="ttdef"><b>Definition:</b> version.hpp:18</div></div>
+<div class="ttc" id="group__group-config_html_gac1f8e58978bf4fe02f68ca4646124aee"><div class="ttname"><a href="group__group-config.html#gac1f8e58978bf4fe02f68ca4646124aee">BOOST_HANA_MAJOR_VERSION</a></div><div class="ttdeci">#define BOOST_HANA_MAJOR_VERSION</div><div class="ttdoc">Macro expanding to the major version of the library, i.e. the x in x.y.z. </div><div class="ttdef"><b>Definition:</b> version.hpp:23</div></div>
+</div><!-- fragment -->
+<p>Macro expanding to the full version of the library, in hexadecimal representation. </p>
+<p>Specifically, <code>BOOST_HANA_VERSION</code> expands to an hexadecimal number of the form 0xVVRRPPPP, where <code>VV</code> is the major version of the library, <code>RR</code> is the minor version and <code>PPPP</code> is the patch level. This allows the version of the library to be compared: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="version_8hpp.html">boost/hana/version.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#if BOOST_HANA_VERSION &lt; 0x01020003</span></div>
+<div class="line">    <span class="comment">// Hana&#39;s version is &lt; 1.2.3</span></div>
+<div class="line"><span class="preprocessor">#else</span></div>
+<div class="line">    <span class="comment">// Hana&#39;s version is &gt;= 1.2.3</span></div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The major, minor and patch versions of the library are also available individually with the <code>BOOST_HANA_{MAJOR,MINOR,PATCH}_VERSION</code> macros. </dd></dl>
 
 </div>
 </div>

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::detail::operators::adl Struct Reference</title>
+<title>Boost.Hana: boost::hana::detail::operators::adl&lt;... &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -130,15 +130,17 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1detail_1_1opera
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::detail::operators::adl Struct Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
+<div class="title">boost::hana::detail::operators::adl&lt;... &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-details.html">Details</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Enables <a href="http://en.cppreference.com/w/cpp/language/adl">ADL</a> in the <code>hana::detail::operators</code> namespace. </p>
-<p>This is used by containers in Hana as a quick way to automatically define the operators associated to some concepts, in conjunction with the <code>detail::xxx_operators</code> family of metafunctions. </p>
-</div>
-<p>Inherited by boost::hana::lazy_apply_t&lt; std::index_sequence&lt; n... &gt;, F, Args... &gt;, boost::hana::lazy_value_t&lt; X &gt;, and boost::hana::optional&lt; T &gt;.</p>
-</div><!-- contents -->
+<div class="textblock"><h3>template&lt;typename...&gt;<br />
+struct boost::hana::detail::operators::adl&lt;... &gt;</h3>
+
+<p>Enables <a href="http://en.cppreference.com/w/cpp/language/adl">ADL</a> in the <code>hana::detail::operators</code> namespace. </p>
+<p>This is used by containers in Hana as a quick way to automatically define the operators associated to some concepts, in conjunction with the <code>detail::xxx_operators</code> family of metafunctions.</p>
+<p>Note that <code>adl</code> can be passed template arguments to make it unique amongst a set of derived classes. This allows a set of derived classes not to possess a common base class, which would disable the EBO when many of these derived classes are stored in a Hana container. If EBO is not a concern, <code>adl&lt;&gt;</code> can simply be used. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->

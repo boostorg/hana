@@ -1,5 +1,12 @@
 var NAVTREEINDEX2 =
 {
+"index.html#tutorial-rationales-why_Hana":[0,18,3],
+"index.html#tutorial-rationales-zip_longest":[0,18,8],
+"index.html#tutorial-reference":[0,15],
+"index.html#tutorial-reference-signatures":[0,15,0],
+"index.html#tutorial-tutorial-appendix-constexpr-preservation":[0,19,1],
+"index.html#tutorial-type":[0,6],
+"index.html#tutorial-type-benefits":[0,6,1],
 "index.html#tutorial-type-lifting":[0,6,3],
 "index.html#tutorial-type-objects":[0,6,0],
 "index.html#tutorial-type-working":[0,6,2],
@@ -242,12 +249,5 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,19,14],
 "structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,0,19,3],
 "structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,17],
-"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,28],
-"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b":[1,0,19,20],
-"structboost_1_1hana_1_1Sequence.html#a65295edabe2029007e7ecf640ae7bb0b":[1,0,19,8],
-"structboost_1_1hana_1_1Sequence.html#a788b65dd69bb016d647801718e840816":[1,0,19,6],
-"structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330":[1,0,19,2],
-"structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff":[1,0,19,21],
-"structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13],
-"structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96":[1,0,19,10]
+"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,28]
 };

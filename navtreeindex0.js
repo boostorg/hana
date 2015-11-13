@@ -65,7 +65,6 @@ var NAVTREEINDEX0 =
 "concept_8hpp.html":[3,0,0,28],
 "concepts_8hpp.html":[3,0,0,2,5],
 "config_8hpp.html":[3,0,0,29],
-"config_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7":[3,0,0,29,0],
 "contains_8hpp.html":[3,0,0,30],
 "core_2common_8hpp.html":[3,0,0,1,0],
 "core_2convert_8hpp.html":[3,0,0,1,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "fwd_2fold_8hpp.html":[3,0,0,5,49],
 "fwd_2fold__left_8hpp.html":[3,0,0,5,50],
 "fwd_2fold__right_8hpp.html":[3,0,0,5,51],
-"fwd_2for__each_8hpp.html":[3,0,0,5,52]
+"fwd_2for__each_8hpp.html":[3,0,0,5,52],
+"fwd_2front_8hpp.html":[3,0,0,5,53]
 };
