@@ -1936,7 +1936,7 @@ Header organization</h1>
 <p> The library is designed to be modular while keeping the number of headers that must be included to get basic functionality reasonably low. The structure of the library was also intentionally kept simple, because we all love simplicity. What follows is a general overview of the header organization. A list of all the headers provided by the library is also available in the panel on the left (under the <a href="files.html">Headers</a> label) in case you need more details.</p>
 <ul>
 <li><code><a class="el" href="hana_8hpp.html" title="Includes all the library components except the adapters for external libraries. ">boost/hana.hpp</a></code><br />
- This is the master header of the library. It includes the whole public interface of the library except adapters for external libraries, which must be included separately.</li>
+ This is the master header of the library. It includes the whole public interface of the library except adapters for external libraries, which must be included separately. This is because external adapters are optional features that drag additional dependencies, and we can't force that on users.</li>
 <li><code>boost/hana/</code><br />
  This is the main directory of the library containing the definitions of everything provided by the library. Each algorithm and container provided by the library has its own header. For a container or an algorithm named <code>XXX</code>, the corresponding header is <code>boost/hana/XXX.hpp</code>.<ul>
 <li><code>boost/hana/concept/</code><br />

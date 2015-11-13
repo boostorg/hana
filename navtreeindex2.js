@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"index.html#tutorial-type-lifting":[0,6,3],
 "index.html#tutorial-type-objects":[0,6,0],
 "index.html#tutorial-type-working":[0,6,2],
 "index__if_8hpp.html":[3,0,0,2,13],
@@ -25,7 +26,6 @@ var NAVTREEINDEX2 =
 "less__equal_8hpp.html":[3,0,0,79],
 "lexicographical__compare_8hpp.html":[3,0,0,80],
 "lift_8hpp.html":[3,0,0,81],
-"list_8hpp.html":[3,0,0,3,0,0,2],
 "lockstep_8hpp.html":[3,0,0,4,12],
 "lockstep_8hpp.html#gafca60c09e1f7a32a2b52baaf6515c279":[3,0,0,4,12,0],
 "map_8hpp.html":[3,0,0,82],
@@ -41,6 +41,7 @@ var NAVTREEINDEX2 =
 "monadic__compose_8hpp.html":[3,0,0,90],
 "monadic__fold__left_8hpp.html":[3,0,0,91],
 "monadic__fold__right_8hpp.html":[3,0,0,92],
+"mpl_2list_8hpp.html":[3,0,0,3,0,1,1],
 "mpl_8hpp.html":[3,0,0,3,0,3],
 "mult_8hpp.html":[3,0,0,93],
 "negate_8hpp.html":[3,0,0,94],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a83d9b8f0f293c6fe7cfccd2359dec330":[1,0,19,2],
 "structboost_1_1hana_1_1Sequence.html#a86916c5c62a42f01f85450b366ef6eff":[1,0,19,21],
 "structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423":[1,0,19,13],
-"structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96":[1,0,19,10],
-"structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec":[1,0,19,9]
+"structboost_1_1hana_1_1Sequence.html#aa1b84e0e0a256620d98ed5062b456c96":[1,0,19,10]
 };

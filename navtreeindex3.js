@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structboost_1_1hana_1_1Sequence.html#aa597b243b348503860e1179065c508ec":[1,0,19,9],
 "structboost_1_1hana_1_1Sequence.html#aaee87c07664e57a8ffbfdceed39265ef":[1,0,19,1],
 "structboost_1_1hana_1_1Sequence.html#ab663fc84c23656a41d4dfcb586f0085c":[1,0,19,18],
 "structboost_1_1hana_1_1Sequence.html#ab6e88c5dd3f638a60c0a451ad6db95ec":[1,0,19,5],
@@ -32,7 +33,8 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1detail_1_1std__common__type.html":[1,7,10],
 "structboost_1_1hana_1_1embedding.html":[1,3,3],
 "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html":[1,4,0],
-"structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1vector__tag.html":[1,4,1],
+"structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1list__tag.html":[1,4,1],
+"structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1vector__tag.html":[1,4,2],
 "structboost_1_1hana_1_1has__common.html":[1,3,1],
 "structboost_1_1hana_1_1integral__constant.html":[1,1,1],
 "structboost_1_1hana_1_1integral__constant.html#a022e29dcd19f546f3ac35254f11e56de":[1,1,1,12],

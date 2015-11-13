@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"fwd_2front_8hpp.html":[3,0,0,5,53],
 "fwd_2fuse_8hpp.html":[3,0,0,5,54],
 "fwd_2greater_8hpp.html":[3,0,0,5,55],
 "fwd_2greater__equal_8hpp.html":[3,0,0,5,56],
@@ -105,20 +106,20 @@ var NAVTREEINDEX1 =
 "group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101":[3,0,0,18,7],
 "group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2":[3,0,0,18,0],
 "group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2":[1,6,0],
-"group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77":[1,6,1],
 "group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77":[3,0,0,18,1],
-"group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139":[3,0,0,18,4],
+"group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77":[1,6,1],
 "group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139":[1,6,4],
+"group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139":[3,0,0,18,4],
 "group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a":[3,0,0,18,5],
 "group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a":[1,6,5],
-"group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89":[1,6,2],
 "group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89":[3,0,0,18,2],
+"group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89":[1,6,2],
 "group__group-concepts.html":[1,0],
 "group__group-config.html":[1,5],
-"group__group-config.html#ga08dcc32bef198420e646244e851d1995":[1,5,0],
 "group__group-config.html#ga08dcc32bef198420e646244e851d1995":[3,0,0,29,1],
-"group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10":[3,0,0,29,3],
+"group__group-config.html#ga08dcc32bef198420e646244e851d1995":[1,5,0],
 "group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10":[1,5,2],
+"group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10":[3,0,0,29,3],
 "group__group-config.html#gad2b44f7cf8a6ba1002437a1a89e62acd":[3,0,0,29,2],
 "group__group-config.html#gad2b44f7cf8a6ba1002437a1a89e62acd":[1,5,1],
 "group__group-core.html":[1,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "index.html#tutorial-reference-signatures":[0,15,0],
 "index.html#tutorial-tutorial-appendix-constexpr-preservation":[0,19,1],
 "index.html#tutorial-type":[0,6],
-"index.html#tutorial-type-benefits":[0,6,1],
-"index.html#tutorial-type-lifting":[0,6,3]
+"index.html#tutorial-type-benefits":[0,6,1]
 };
