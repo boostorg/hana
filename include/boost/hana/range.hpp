@@ -50,7 +50,7 @@ namespace boost { namespace hana {
     //! @cond
     template <typename T, T From, T To>
     struct range
-        : detail::operators::adl
+        : detail::operators::adl<range<T, From, To>>
         , detail::iterable_operators<range<T, From, To>>
     {
         static_assert(From <= To,

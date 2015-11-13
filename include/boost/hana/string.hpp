@@ -48,7 +48,7 @@ namespace boost { namespace hana {
     //! @cond
     template <char ...s>
     struct string
-        : detail::operators::adl
+        : detail::operators::adl<string<s...>>
         , detail::iterable_operators<string<s...>>
     { };
     //! @endcond

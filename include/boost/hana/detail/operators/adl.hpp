@@ -18,6 +18,13 @@ namespace boost { namespace hana { namespace detail { namespace operators {
     //! This is used by containers in Hana as a quick way to automatically
     //! define the operators associated to some concepts, in conjunction
     //! with the `detail::xxx_operators` family of metafunctions.
+    //!
+    //! Note that `adl` can be passed template arguments to make it unique
+    //! amongst a set of derived classes. This allows a set of derived classes
+    //! not to possess a common base class, which would disable the EBO when
+    //! many of these derived classes are stored in a Hana container. If EBO
+    //! is not a concern, `adl<>` can simply be used.
+    template <typename ...>
     struct adl { };
 }}}} // end namespace boost::hana::detail::operators
 
