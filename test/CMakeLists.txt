@@ -3,7 +3,7 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 ##############################################################################
-# Setup custom functions, master targets and file lists for the unit tests
+# Setup custom functions and master targets for the unit tests
 ##############################################################################
 add_custom_target(tests COMMENT "Build all the unit tests.")
 add_dependencies(check tests)
@@ -22,12 +22,6 @@ function(boost_hana_add_unit_test name)
     endif()
 endfunction()
 
-# A list of all the test files
-#
-# Source files that are not available due to caveats are removed
-# from this list below.
-file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
-
 
 ##############################################################################
 # Include directories
@@ -41,13 +35,10 @@ endif()
 
 
 ##############################################################################
-# Caveats
+# Caveats: Take note of public headers and tests that are not supported.
 ##############################################################################
-# If Boost is not found, remove the headers that require Boost from the list
-# of public headers and the tests that require Boost from the list of tests.
 if (NOT Boost_FOUND)
-    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
-        "ext/boost/*.cpp")
+    list(APPEND EXCLUDED_UNIT_TESTS "ext/boost/*.cpp")
 
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
@@ -59,12 +50,12 @@ endif()
 # The std::tuple adapter is not supported with Clang < 3.7.0
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
+
+    list(APPEND EXCLUDED_UNIT_TESTS "ext/std/tuple.cpp")
+
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/std/tuple.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
-
-    boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
-        "ext/std/tuple.cpp")
 endif()
 
 
@@ -94,32 +85,33 @@ add_dependencies(tests test.headers)
 # Check for ODR violations when linking several translation units
 # (GitHub issue 75)
 ##############################################################################
-boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB
-    "bugs/github_75.cpp"
-    "bugs/github_75_other_tu.cpp")
+list(APPEND EXCLUDED_UNIT_TESTS "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
 boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp")
-add_executable(${github_75} EXCLUDE_FROM_ALL
-                    "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
+add_executable(${github_75} EXCLUDE_FROM_ALL "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
 boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 
 
 ##############################################################################
-# Add all the unit tests
+# Add all the remaining unit tests
 ##############################################################################
-foreach(_file IN LISTS BOOST_HANA_TEST_SOURCES)
-    file(READ "${_file}" _contents)
+file(GLOB_RECURSE UNIT_TESTS "*.cpp")
+file(GLOB_RECURSE EXCLUDED_UNIT_TESTS ${EXCLUDED_UNIT_TESTS})
+list(REMOVE_ITEM UNIT_TESTS ${EXCLUDED_UNIT_TESTS})
+
+foreach(_file IN LISTS UNIT_TESTS)
     boost_hana_target_name_for(_target "${_file}")
+    file(STRINGS "${_file}" _subparts REGEX "BOOST_HANA_TEST_PART == ([0-9]+)")
 
     # If the file contains the special BOOST_HANA_TEST_PART marker, we split
     # it into several subparts. This is done to avoid long compile-times and
     # other inconveniences.
-    if ("${_contents}" MATCHES "BOOST_HANA_TEST_PART == ([0-9]+)")
-        string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _parts "${_contents}")
-        string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _parts "${_parts}")
-        list(REMOVE_DUPLICATES _parts)
+    if (_subparts)
+        string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _subparts "${_subparts}")
+        string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _subparts "${_subparts}")
+        list(REMOVE_DUPLICATES _subparts)
         add_custom_target(${_target})
 
-        foreach(n IN LISTS _parts)
+        foreach(n IN LISTS _subparts)
             add_executable("${_target}.part${n}" EXCLUDE_FROM_ALL "${_file}")
             set_target_properties("${_target}.part${n}" PROPERTIES
                 COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${n}")
