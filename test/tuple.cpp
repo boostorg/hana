@@ -658,9 +658,9 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
 	{
 		BOOST_HANA_CONSTANT_CHECK(
-			hana::to<hana::tuple_tag>(hana::tuple_t<int, char, void, int(float)>)
+			to<tuple_tag>(tuple_t<int, char, void, int(float)>)
 			==
-			hana::to_tuple(hana::tuple_t<int, char, void, int(float)>)
+			to_tuple(tuple_t<int, char, void, int(float)>)
 			);
 	}
 
