@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/find_if.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
@@ -305,7 +306,7 @@ namespace boost { namespace hana {
     //! Equivalent to `to<tuple_tag>`; provided for convenience.
     //! @relates hana::tuple
     constexpr to_t<tuple_tag> to_tuple{};
-    
+
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TUPLE_HPP

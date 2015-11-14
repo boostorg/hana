@@ -654,15 +654,15 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 10
     //////////////////////////////////////////////////////////////////////////
-    //to_tuple
+    //to_tuple == to<tuple_tag>
     //////////////////////////////////////////////////////////////////////////
-	{
-		BOOST_HANA_CONSTANT_CHECK(
-			to<tuple_tag>(tuple_t<int, char, void, int(float)>)
-			==
-			to_tuple(tuple_t<int, char, void, int(float)>)
-			);
-	}
+    {
+        BOOST_HANA_CONSTANT_CHECK(
+            to<tuple_tag>(tuple_t<int, char, void, int(float)>)
+            ==
+            to_tuple(tuple_t<int, char, void, int(float)>)
+        );
+    }
 
 #endif
 }
