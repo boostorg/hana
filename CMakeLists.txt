@@ -138,15 +138,6 @@ function(boost_hana_add_test name)
     endif()
 endfunction()
 
-#   boost_hana_list_remove_glob(<list> <GLOB|GLOB_RECURSE> [globbing expressions]...)
-#
-# Generates a list of files matching the given glob expressions, and remove
-# the matched elements from the given <list>.
-macro(boost_hana_list_remove_glob list glob)
-    file(${glob} _bhlrg10321023_avoid_macro_clash_matches ${ARGN})
-    list(REMOVE_ITEM ${list} ${_bhlrg10321023_avoid_macro_clash_matches})
-endmacro()
-
 
 ##############################################################################
 # Setup the `check` target to build and then run all the tests and examples.
