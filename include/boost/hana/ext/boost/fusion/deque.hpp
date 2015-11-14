@@ -27,6 +27,26 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost { namespace fusion {
+    //! @ingroup group-ext-fusion
+    //! Adapter for Boost.Fusion deques.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! A Fusion deque is a model of the `Sequence` concept, and all the
+    //! concepts it refines. That makes it essentially the same as a Hana
+    //! tuple, although the complexity of some operations might differ from
+    //! that of a tuple.
+    //!
+    //! @include example/ext/boost/fusion/deque.cpp
+    template <typename ...T>
+    struct deque { };
+}}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
         struct deque_tag;
