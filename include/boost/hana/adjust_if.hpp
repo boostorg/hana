@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/functor.hpp>
 #include <boost/hana/core/dispatch.hpp>
-#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/transform.hpp>
 
@@ -23,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred, typename F>
-    constexpr auto adjust_if_t::operator()(Xs&& xs, Pred&& pred, F&& f) const {
+    constexpr auto adjust_if_t::operator()(Xs&& xs, Pred const& pred, F const& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using AdjustIf = BOOST_HANA_DISPATCH_IF(adjust_if_impl<S>,
             Functor<S>::value
@@ -34,35 +33,33 @@ namespace boost { namespace hana {
         "hana::adjust_if(xs, pred, f) requires 'xs' to be a Functor");
     #endif
 
-        return AdjustIf::apply(static_cast<Xs&&>(xs),
-                               static_cast<Pred&&>(pred),
-                               static_cast<F&&>(f));
+        return AdjustIf::apply(static_cast<Xs&&>(xs), pred, f);
     }
     //! @endcond
 
     namespace detail {
-        struct adjust_if_helper {
-            template <typename F, typename X>
-            static constexpr decltype(auto) helper(hana::true_, F&& f, X&& x)
-            { return static_cast<F&&>(f)(static_cast<X&&>(x)); }
+        template <typename Pred, typename F>
+        struct apply_if {
+            Pred const& pred;
+            F const& f;
 
-            template <typename F, typename X>
-            static constexpr X helper(hana::false_, F&&, X&& x)
+            template <typename X>
+            constexpr decltype(auto) helper(bool cond, X&& x) const
+            { return cond ? f(static_cast<X&&>(x)) : static_cast<X&&>(x); }
+
+            template <typename X>
+            constexpr decltype(auto) helper(hana::true_, X&& x) const
+            { return f(static_cast<X&&>(x)); }
+
+            template <typename X>
+            constexpr decltype(auto) helper(hana::false_, X&& x) const
             { return static_cast<X&&>(x); }
 
-            template <typename F, typename X>
-            static constexpr decltype(auto) helper(bool cond, F&& f, X&& x) {
-                return cond ? static_cast<F&&>(f)(static_cast<X&&>(x))
-                            : static_cast<X&&>(x);
-            }
 
-            template <typename Pred, typename F, typename X>
-            constexpr decltype(auto) operator()(Pred&& pred, F&& f, X&& x) const {
-                auto cond = hana::if_(static_cast<Pred&&>(pred)(x),
-                    hana::true_c, hana::false_c
-                );
-                return adjust_if_helper::helper(cond, static_cast<F&&>(f),
-                                                      static_cast<X&&>(x));
+            template <typename X>
+            constexpr decltype(auto) operator()(X&& x) const {
+                auto cond = hana::if_(pred(x), hana::true_c, hana::false_c);
+                return this->helper(cond, static_cast<X&&>(x));
             }
         };
     }
@@ -70,11 +67,9 @@ namespace boost { namespace hana {
     template <typename Fun, bool condition>
     struct adjust_if_impl<Fun, when<condition>> : default_ {
         template <typename Xs, typename Pred, typename F>
-        static constexpr auto apply(Xs&& xs, Pred&& pred, F&& f) {
+        static constexpr auto apply(Xs&& xs, Pred const& pred, F const& f) {
             return hana::transform(static_cast<Xs&&>(xs),
-                hana::partial(detail::adjust_if_helper{},
-                              static_cast<Pred&&>(pred),
-                              static_cast<F&&>(f)));
+                                   detail::apply_if<Pred, F>{pred, f});
         }
     };
 }} // end namespace boost::hana
