@@ -37,61 +37,65 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost { namespace mpl {
+    //! @ingroup group-ext-mpl
+    //! Adapter for Boost.MPL lists.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! It is possible for MPL lists to model a couple of concepts.
+    //! However, because they are only able to hold types, they lack
+    //! the generality required to model concepts like `Functor`,
+    //! `Sequence` and other related concepts.
+    //!
+    //! 1. `Comparable`\n
+    //! Two MPL lists are equal if and only if they contain the same
+    //! number of types, and if all those types are equal.
+    //! @include example/ext/boost/mpl/list/comparable.cpp
+    //!
+    //! 2. `Foldable`\n
+    //! Folding a MPL list is equivalent to folding it as a `Sequence`.
+    //! @include example/ext/boost/mpl/list/foldable.cpp
+    //!
+    //! 3. `Iterable`\n
+    //! Iterating over a MPL list is just iterating over each of the
+    //! types it contains, as if it were a `Sequence`.
+    //! @include example/ext/boost/mpl/list/iterable.cpp
+    //!
+    //! 4. `Searchable`\n
+    //! A MPL list can be searched as if it were a tuple containing
+    //! `hana::type`s.
+    //! @include example/ext/boost/mpl/list/searchable.cpp
+    //!
+    //!
+    //! Conversion from any `Foldable`
+    //! ------------------------------
+    //! A MPL list can be created from any `Foldable`. More precisely,
+    //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
+    //! @code
+    //!     to<ext::boost::mpl::list_tag>(xs) == mpl::list<t1, ..., tn>{}
+    //! @endcode
+    //! where `tk` is the type of `xk`, or the type contained in `xk` if
+    //! `xk` is a `hana::type`.
+    //! @warning
+    //! The limitations on the size of `mpl::list`s are inherited by
+    //! this conversion utility, and hence trying to convert a `Foldable`
+    //! containing more than [BOOST_MPL_LIMIT_LIST_SIZE][1] elements is
+    //! an error.
+    //! @include example/ext/boost/mpl/list/conversion.cpp
+    //!
+    //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-list-size.html
+    template <typename ...T>
+    struct list { };
+}}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
-        //! @ingroup group-ext
-        //! Adapter for Boost.MPL lists.
-        //!
-        //!
-        //! Modeled concepts
-        //! ----------------
-        //! It is possible for MPL lists to model a couple of concepts.
-        //! However, because they are only able to hold types, they lack
-        //! the generality required to model concepts like `Functor`,
-        //! `Sequence` and other related concepts.
-        //!
-        //! 1. `Comparable`\n
-        //! Two MPL lists are equal if and only if they contain the same
-        //! number of types, and if all those types are equal.
-        //! @snippet example/ext/boost/mpl/list.cpp Comparable
-        //!
-        //! 2. `Foldable`\n
-        //! Folding a MPL list is equivalent to folding it as a `Sequence`.
-        //! @snippet example/ext/boost/mpl/list.cpp Foldable
-        //!
-        //! 3. `Iterable`\n
-        //! Iterating over a MPL list is just iterating over each of the
-        //! types it contains, as if it were a `Sequence`.
-        //! @snippet example/ext/boost/mpl/list.cpp Iterable
-        //!
-        //! 4. `Searchable`\n
-        //! A MPL list can be searched as if it were a tuple containing
-        //! `hana::type`s.
-        //! @snippet example/ext/boost/mpl/list.cpp Searchable
-        //!
-        //!
-        //! Conversion from any `Foldable`
-        //! ------------------------------
-        //! A MPL list can be created from any `Foldable`. More precisely,
-        //! for a `Foldable` `xs` whose linearization is `[x1, ..., xn]`,
-        //! @code
-        //!     to<ext::boost::mpl::list_tag>(xs) == mpl::list<t1, ..., tn>{}
-        //! @endcode
-        //! where `tk` is the type of `xk`, or the type contained in `xk` if
-        //! `xk` is a `hana::type`.
-        //! @warning
-        //! The limitations on the size of `mpl::list`s are inherited by
-        //! this conversion utility, and hence trying to convert a `Foldable`
-        //! containing more than [BOOST_MPL_LIMIT_LIST_SIZE][1] elements is
-        //! an error.
-        //! @snippet example/ext/boost/mpl/list.cpp from_Foldable
-        //!
-        //! [1]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-list-size.html
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-        struct list_tag { };
-#else
         using list_tag = ::boost::mpl::sequence_tag< ::boost::mpl::list<>>::type;
-#endif
     }}}
 
     template <typename T>
