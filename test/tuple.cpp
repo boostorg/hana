@@ -651,5 +651,18 @@ int main() {
         // laws
         test::TestMonadPlus<tuple_tag>{eq_tuples, predicates, eq_values};
     }
+
+#elif BOOST_HANA_TEST_PART == 10
+    //////////////////////////////////////////////////////////////////////////
+    //to_tuple
+    //////////////////////////////////////////////////////////////////////////
+	{
+		BOOST_HANA_CONSTANT_CHECK(
+			hana::to<hana::tuple_tag>(hana::tuple_t<int, char, void, int(float)>)
+			==
+			hana::to_tuple(hana::tuple_t<int, char, void, int(float)>)
+			);
+	}
+
 #endif
 }

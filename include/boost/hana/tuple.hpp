@@ -301,6 +301,11 @@ namespace boost { namespace hana {
             return helper<index>(static_cast<Xs&&>(xs), hana::bool_c<index == len>);
         }
     };
+
+    //! Equivalent to `to<tuple_tag>`; provided for convenience.
+    //! @relates hana::tuple
+    constexpr to_t<tuple_tag> to_tuple{};
+    
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TUPLE_HPP

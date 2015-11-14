@@ -294,6 +294,11 @@ namespace boost { namespace hana {
             );
         }
     };
+
+    //! Equivalent to `to<map_tag>`; provided for convenience.
+    //! @relates hana::map
+    constexpr to_t<map_tag> to_map{};
+
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_MAP_HPP
