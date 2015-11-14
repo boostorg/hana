@@ -483,6 +483,14 @@ int main() {
                 make_set(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
             ));
         }
+
+        // to_set == to<set_tag>
+        {
+            BOOST_HANA_CONSTANT_CHECK(equal(
+                to_set(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{})),
+                to<set_tag>(foldable(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<2>{}, ct_eq<1>{}))
+            ));
+        }
     }
 
 #elif BOOST_HANA_TEST_PART == 2
