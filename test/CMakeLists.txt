@@ -10,10 +10,6 @@ add_dependencies(check tests)
 
 add_custom_target(tests.quick COMMENT "Build a subset of all the unit tests to finish faster.")
 
-add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
-add_dependencies(tests.quick test.headers)
-add_dependencies(tests test.headers)
-
 #   boost_hana_add_unit_test(<name> ...)
 #
 # Equivalent to `boost_hana_add_test`, except the test is also added as a
@@ -26,44 +22,11 @@ function(boost_hana_add_unit_test name)
     endif()
 endfunction()
 
-#   boost_hana_add_header_test(<header-name>)
-#
-# Add a unit test for the public header file `header-name`, which must be a
-# relative path from Hana's include directory, e.g. `boost/hana/tuple.hpp`.
-#
-# This function creates an executable named `header.header-name` and a test
-# of the same name. The only source file of the executable contains an empty
-# `main` and it includes the `header-name` file. This is used to make sure
-# that including any public header works properly. Also, the
-# `header.header-name` target is made a dependency of the `headers` target.
-function(boost_hana_add_header_test header)
-    string(REGEX REPLACE "/" "." _target "${header}")
-    if (NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-        file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp" "
-            #include <${header}>
-            int main() { }
-        ")
-    endif()
-    add_executable(test.header.${_target} EXCLUDE_FROM_ALL
-                        "${CMAKE_CURRENT_BINARY_DIR}/header/${header}.cpp")
-    add_test(test.header.${_target} ${CMAKE_CURRENT_BINARY_DIR}/test.header.${_target})
-    add_dependencies(test.headers test.header.${_target})
-endfunction()
-
 # A list of all the test files
 #
 # Source files that are not available due to caveats are removed
 # from this list below.
 file(GLOB_RECURSE BOOST_HANA_TEST_SOURCES "*.cpp")
-
-# A list of all the public headers
-#
-# Header files that are not available due to caveats are removed
-# from this list below.
-file(GLOB_RECURSE BOOST_HANA_PUBLIC_HEADERS "${Boost.Hana_SOURCE_DIR}/include/*.hpp")
-boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB_RECURSE
-    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/detail/*.hpp"
-    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/detail/*.hpp")
 
 
 ##############################################################################
@@ -86,7 +49,7 @@ if (NOT Boost_FOUND)
     boost_hana_list_remove_glob(BOOST_HANA_TEST_SOURCES GLOB_RECURSE
         "ext/boost/*.cpp")
 
-    boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB_RECURSE
+    list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
@@ -96,7 +59,7 @@ endif()
 # The std::tuple adapter is not supported with Clang < 3.7.0
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-    boost_hana_list_remove_glob(BOOST_HANA_PUBLIC_HEADERS GLOB
+    list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/std/tuple.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
 
@@ -106,12 +69,25 @@ endif()
 
 
 ##############################################################################
-# Generate tests that include each public header
+# Generate tests that include each public header.
+# The headers that were excluded above due to caveats are ignored here.
 ##############################################################################
-foreach(_header IN LISTS BOOST_HANA_PUBLIC_HEADERS)
-    file(RELATIVE_PATH _relative "${Boost.Hana_SOURCE_DIR}/include" "${_header}")
-    boost_hana_add_header_test("${_relative}")
-endforeach()
+file(GLOB_RECURSE PUBLIC_HEADERS
+    RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
+    "${Boost.Hana_SOURCE_DIR}/include/*.hpp"
+)
+
+file(GLOB_RECURSE EXCLUDED_PUBLIC_HEADERS
+    RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
+    ${EXCLUDED_PUBLIC_HEADERS}
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/detail/*.hpp"
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/detail/*.hpp"
+)
+
+list(REMOVE_ITEM PUBLIC_HEADERS ${EXCLUDED_PUBLIC_HEADERS})
+include(TestHeaders)
+add_dependencies(tests.quick test.headers)
+add_dependencies(tests test.headers)
 
 
 ##############################################################################
