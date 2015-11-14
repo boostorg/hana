@@ -267,7 +267,7 @@ int main() {
         {
 			BOOST_HANA_CONSTANT_CHECK(equal(
                 to<map_tag>(foldable(p<1, 1>(), p<2, 2>(), p<1, 99>(), p<2, 99>(), p<3, 3>())),
-                to_map(foldable(p<1, 1>(), p<2, 2>(), p<1, 99>(), p<2, 99>(), p<3, 3>())),
+                to_map(foldable(p<1, 1>(), p<2, 2>(), p<1, 99>(), p<2, 99>(), p<3, 3>()))
             ));
         }
     }
