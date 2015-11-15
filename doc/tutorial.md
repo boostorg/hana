@@ -2589,49 +2589,97 @@ so the problem can be addressed.
 Hana provides out-of-the-box integration with some existing libraries.
 Specifically, this means that you can use some containers from these
 libraries in Hana's algorithms by simply including the appropriate header
-making the bridge between Hana and the external component.
+making the bridge between Hana and the external component. This can be
+very useful for porting existing code from e.g. Fusion/MPL to Hana:
 
-For a component named `xxx` in a namespace `ns`, the external adapter lives
-in the `boost/hana/ext/ns/xxx.hpp` header. For example, the external adapter
-for `std::tuple` lives in the `boost/hana/ext/std/tuple.hpp` header, while
-the external adapter for `boost::mpl::vector` is in
-`boost/hana/ext/boost/mpl/vector.hpp`.
+@snippet example/tutorial/ext/fusion_to_hana.cpp main
 
-@todo
-This section has not been written yet for lack of time. Also note that
-the reference documentation for external adapters is currently incomplete.
-However, for reference and until the documentation is updated, here is a list
-of the external adapters that are currently supported:
-- `std::tuple`\n
-  Models `Sequence`. It can basically be used like a `hana::tuple`. However,
-  please be aware that libc++'s tuple has a couple of bugs (they were
-  reported) that make this adapter buggy.
-- `std::integral_constant`\n
-  Model of `Constant`, and all the free models it provides.
-- `std::ratio`\n
-  Model of `Orderable`, `Comparable` and `EuclideanRing`.
-- `std::integer_sequence`\n
-  Model of `Comparable`, `Foldable`, `Iterable` and `Searchable`. You should
-  be using `hana::range` if you want speed, though.
-- `std::pair`\n
-  Model of `Product`. This is essentially equivalent to `hana::pair`.
-- `boost::mpl::vector`\n
-  See `boost::hana::ext::boost::mpl::vector_tag`.
-- `boost::mpl::integral_c`\n
-  See `boost::hana::ext::boost::mpl::integral_c_tag`.
-- `boost::fusion::{deque,list,tuple,vector}`\n
-  They are models of `Sequence`, and hence can be used like `hana::tuple`
-  in algorithms. However, Fusion has several bugs that make these adapters
-  slightly explosive to use (sometimes things may fail without apparent reason).
-- `boost::tuple`\n
-  Model of `Sequence`. It can be used like `hana::tuple` in algorithms.
+@note
+At this time, only adapters to use data types from other libraries inside Hana
+are provided; adapters for the other way around (using Hana containers inside
+other libraries) are not provided.
 
+However, using external adapters has a couple of pitfalls. For example, after
+a while using Hana, you might become used to comparing Hana tuples using the
+normal comparison operators, or doing arithmetic with Hana `integral_constant`s.
+Of course, nothing guarantees that these operators are defined for external
+adapters too (and in general they won't be). Hence, you'll have to stick to
+the functions provided by Hana that implement these operators. For example:
 
-@subsection tutorial-ext-std The standard library
+@code{cpp}
+auto r = std::ratio<3, 4>{} + std::ratio<4, 5>{}; // error, the operator is not defined!
+@endcode
 
-@subsection tutorial-ext-fusion Boost.Fusion
+Instead, you should use the following:
 
-@subsection tutorial-ext-mpl Boost.MPL
+@snippet example/tutorial/ext/ratio_plus.cpp main
+
+But sometimes, it's much worse. Some external components define operators, but
+they don't necessarily have the same semantics as those from Hana. For example,
+comparing two `std::tuple`s of different lengths will give an error when using
+`operator==`:
+
+@code{cpp}
+std::make_tuple(1, 2, 3) == std::make_tuple(1, 2); // compiler error
+@endcode
+
+On the other hand, comparing Hana tuples of different lengths will just return
+a false `IntegralConstant`:
+
+@code{cpp}
+hana::make_tuple(1, 2, 3) == hana::make_tuple(1, 2); // hana::false_c
+@endcode
+
+This is because `std::tuple` defines its own operators, and their semantics
+are different from that of Hana's operators. The solution is to stick with
+Hana's named functions instead of using operators when you know you'll have
+to work with other libraries:
+
+@code{cpp}
+hana::equal(std::make_tuple(1, 2, 3), std::make_tuple(1, 2)); // hana::false_c
+@endcode
+
+When using external adapters, one should also be careful not to forget
+including the proper bridge headers. For example, suppose I want to use
+a Boost.MPL vector with Hana. I include the appropriate bridge header:
+
+@snippet example/tutorial/ext/mpl_vector.cpp front
+
+@note
+The exact layout of these bridge headers is documented in the section about
+[Header organization](@ref tutorial-header_organization).
+
+Now, however, suppose that I use `mpl::size` to query the size of the vector
+and then compare it to some value. I could also use `hana::length` and
+everything would be fine, but bear with me for the sake of the example:
+
+@snippet example/tutorial/ext/mpl_vector.cpp size
+
+The reason why this breaks is that `mpl::size` returns a MPL IntegralConstant,
+and Hana has no way of knowing about these unless you include the proper
+bridge header. Hence, you should do the following instead:
+
+@snippet example/tutorial/ext/mpl_vector.cpp size-fixed
+
+The morale is that when working with external libraries, you have to be a bit
+careful about what objects you are manipulating. The final pitfall is about
+implementation limits in external libraries. Many older libraries have limits
+regarding the maximum size of the heterogeneous containers that can be created
+with them. For example, one may not create a Fusion list of more than
+`FUSION_MAX_LIST_SIZE` elements in it. Obviously, these limits are inherited
+by Hana and for example, trying to compute the permutations of a `fusion::list`
+containing 5 elements (the resulting list would contain 120 elements) will
+fail in a gruesome way:
+
+@code{cpp}
+auto list = fusion::make_list(1, 2, 3, 4, 5);
+auto oh_jeez = hana::permutations(list); // probably won't make it
+@endcode
+
+Apart from the pitfalls explained in this section, using external adapters
+should be just as straightforward as using normal Hana containers. Of course,
+whenever possible, you should try to stick with Hana's containers because they
+are usually more friendly to work with and are often more optimized.
 
 
 
@@ -2948,11 +2996,17 @@ the headers provided by the library is also available in the panel on the left
     but that do not necessarily belong to a concept.
 
   - `boost/hana/ext/`\n
-    This directory contains adapters for external libraries. Only the strict
-    minimum required to adapt the external components is included in these
-    headers (e.g. a forward declaration). This means that the definition of
-    the external component should still be included when one wants to use it.
-    For example:
+    This directory contains adapters for external libraries. For a component
+    named `xxx` in a namespace `ns`, the external adapter lives in the
+    `boost/hana/ext/ns/xxx.hpp` header. For example, the external adapter
+    for `std::tuple` lives in the `boost/hana/ext/std/tuple.hpp` header,
+    while the external adapter for `boost::mpl::vector` is in
+    `boost/hana/ext/boost/mpl/vector.hpp`.
+
+    Note that only the strict minimum required to adapt the external components
+    is included in these headers (e.g. a forward declaration). This means that
+    the definition of the external component should still be included when one
+    wants to use it. For example:
     @snippet example/tutorial/include_ext.cpp main
 
   - `boost/hana/detail/`\n
@@ -3053,9 +3107,9 @@ the left) goes as follow:
   functional setting. These are currently not tied to any concept or container.
 
 - @ref group-ext\n
-  Documentation for all the adapters for external libraries. Basically, we
-  assign a tag to some objects in external libraries and we document them as
-  if they were normal data types provided by Hana.
+  Documentation for all the adapters for external libraries. These adapters
+  are documented as if they were native types provided by Hana, but obviously
+  Hana only provides the compatibility layer between them and the library.
 
 - @ref group-config\n
   Macros that can be used to tweak the global behavior of the library.

@@ -32,6 +32,8 @@ if (NOT Boost_FOUND)
         "ext/boost/*.cpp"
         "misc/printable.cpp"
         "tutorial/appendix_mpl.cpp"
+        "tutorial/ext/fusion_to_hana.cpp"
+        "tutorial/ext/mpl_vector.cpp"
         "tutorial/integral.cpp"
         "tutorial/introduction.cpp"
         "tutorial/mpl_cheatsheet.cpp"
