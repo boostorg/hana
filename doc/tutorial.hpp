@@ -1,3 +1,5 @@
+/*!
+
 @mainpage User Manual
 
 @tableofcontents
@@ -3862,3 +3864,5 @@ modified as little as possible to work with this reimplementation.
 [SO.sfinae]: http://stackoverflow.com/a/257382/627587
 [Sprout]: https://github.com/bolero-MURAKAMI/Sprout
 [video.inst_must_go]: https://www.youtube.com/watch?v=x7UmrRzKAXU
+
+*/

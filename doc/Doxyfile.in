@@ -13,7 +13,7 @@ QUIET                   = YES
 # Resources
 OUTPUT_DIRECTORY        =
 INPUT                   = @Boost.Hana_SOURCE_DIR@/include \
-                          @Boost.Hana_SOURCE_DIR@/doc/tutorial.md
+                          @Boost.Hana_SOURCE_DIR@/doc/tutorial.hpp
 FILE_PATTERNS           = *.hpp
 RECURSIVE               = YES
 EXCLUDE                 =
