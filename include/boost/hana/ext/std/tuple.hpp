@@ -35,6 +35,27 @@ Distributed under the Boost Software License, Version 1.0.
           in the tuple implementation.
 #endif
 
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace std {
+    //! @ingroup group-ext-std
+    //! Adapter for `std::tuple`s.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! A `std::tuple` is a model of the `Sequence` concept, and all the
+    //! concepts it refines. That makes it essentially the same as a Hana
+    //! tuple, although the complexity of some operations might differ from
+    //! that of Hana's tuple.
+    //!
+    //! @include example/ext/std/tuple.cpp
+    template <typename ...T>
+    struct tuple { };
+}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace std { struct tuple_tag; }}
 
