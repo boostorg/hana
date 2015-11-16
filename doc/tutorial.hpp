@@ -100,7 +100,7 @@ following C++14 features (non-exhaustively):
 - Automatically deduced return type
 - All the C++14 type traits from the `<type_traits>` header
 
-
+More information for specific platforms is available on [the wiki][Hana.wiki].
 
 
 
@@ -3850,6 +3850,7 @@ modified as little as possible to work with this reimplementation.
 [Hana.issues]: https://github.com/boostorg/hana/issues
 [Hana.readme]: https://goo.gl/RPd0sV <!-- Original GitHub link can't be resolved by Doxygen -->
 [Hana.repository]: https://github.com/boostorg/hana
+[Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew.devel-only]: https://github.com/Homebrew/homebrew-devel-only
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
