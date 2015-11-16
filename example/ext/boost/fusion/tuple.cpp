@@ -23,7 +23,7 @@ struct Cat  { std::string name; };
 struct Dog  { std::string name; };
 
 int main() {
-    fusion::tuple<Fish, Cat, Dog> animals{{"Nemo"}, {"Garfield"}, {"Snoopy"}};
+    fusion::tuple<Fish, Cat, Dog> animals{Fish{"Nemo"}, Cat{"Garfield"}, Dog{"Snoopy"}};
     hana::front(animals).name = "Moby Dick";
 
     auto names = hana::transform(animals, [](auto a) {
