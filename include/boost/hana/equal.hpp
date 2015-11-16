@@ -32,7 +32,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/nested_to.hpp> // required by fwd decl
 #include <boost/hana/first.hpp>
-#include <boost/hana/functional/partial.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/second.hpp>
@@ -55,7 +54,7 @@ namespace boost { namespace hana {
     template <typename T, typename U, bool condition>
     struct equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&&, Y&&) {
+        static constexpr auto apply(X const&, Y const&) {
             using T_ = detail::dependent_on_t<sizeof(X) == 1, T>;
             static_assert(!hana::is_convertible<T_, U>::value &&
                           !hana::is_convertible<U, T_>::value,
@@ -77,7 +76,7 @@ namespace boost { namespace hana {
     >> {
         using C = typename hana::common<T, U>::type;
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+        static constexpr auto apply(X&& x, Y&& y) {
             return hana::equal(hana::to<C>(static_cast<X&&>(x)),
                                hana::to<C>(static_cast<Y&&>(y)));
         }
@@ -89,7 +88,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct equal_impl<T, U, when<detail::EqualityComparable<T, U>::value>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y)
+        static constexpr auto apply(X&& x, Y&& y)
         { return static_cast<X&&>(x) == static_cast<Y&&>(y); }
     };
 
@@ -115,7 +114,7 @@ namespace boost { namespace hana {
     template <typename T, typename U>
     struct equal_impl<T, U, when<Product<T>::value && Product<U>::value>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X const& x, Y const& y) {
+        static constexpr auto apply(X const& x, Y const& y) {
             return hana::and_(
                 hana::equal(hana::first(x), hana::first(y)),
                 hana::equal(hana::second(x), hana::second(y))
@@ -172,13 +171,16 @@ namespace boost { namespace hana {
         }
     };
 
-    namespace struct_detail {
-        struct compare_members_of {
-            template <typename X, typename Y, typename Member>
-            constexpr decltype(auto) operator()(X&& x, Y&& y, Member&& member) const {
+    namespace detail {
+        template <typename X, typename Y>
+        struct compare_struct_members {
+            X const& x;
+            Y const& y;
+
+            template <typename Member>
+            constexpr auto operator()(Member&& member) const {
                 auto accessor = hana::second(static_cast<Member&&>(member));
-                return hana::equal(accessor(static_cast<X&&>(x)),
-                                   accessor(static_cast<Y&&>(y)));
+                return hana::equal(accessor(x), accessor(y));
             }
         };
     }
@@ -186,11 +188,9 @@ namespace boost { namespace hana {
     template <typename S>
     struct equal_impl<S, S, when<Struct<S>::value>> {
         template <typename X, typename Y>
-        static constexpr decltype(auto) apply(X&& x, Y&& y) {
+        static constexpr auto apply(X const& x, Y const& y) {
             return hana::all_of(hana::accessors<S>(),
-                hana::partial(struct_detail::compare_members_of{},
-                              static_cast<X&&>(x),
-                              static_cast<Y&&>(y)));
+                detail::compare_struct_members<X, Y>{x, y});
         }
     };
 }} // end namespace boost::hana

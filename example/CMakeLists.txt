@@ -3,7 +3,7 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 ##############################################################################
-# Setup custom functions, master targets and file lists for the examples
+# Setup custom functions and master targets for the examples
 ##############################################################################
 add_custom_target(examples COMMENT "Build all the examples.")
 add_dependencies(check examples)
@@ -13,21 +13,6 @@ add_dependencies(check examples)
 # presented. We don't want to generate warnings for that or need to comment
 # out all unused parameter names.
 boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter)
-
-#   boost_hana_add_example(<name> ...)
-#
-# Equivalent to `boost_hana_add_test`, except the created test is also added
-# as a dependency of the `examples` target.
-function(boost_hana_add_example name)
-    boost_hana_add_test(${ARGV})
-    add_dependencies(examples ${name})
-endfunction()
-
-# A list of all the example files
-#
-# Examples that are not available due to caveats are removed
-# from this list below.
-file(GLOB_RECURSE BOOST_HANA_EXAMPLE_SOURCES "*.cpp")
 
 
 ##############################################################################
@@ -40,13 +25,15 @@ endif()
 
 
 ##############################################################################
-# Caveats
+# Caveats: Take note of examples that are not supported.
 ##############################################################################
 if (NOT Boost_FOUND)
-    boost_hana_list_remove_glob(BOOST_HANA_EXAMPLE_SOURCES GLOB_RECURSE
+    list(APPEND EXCLUDED_EXAMPLES
         "ext/boost/*.cpp"
         "misc/printable.cpp"
         "tutorial/appendix_mpl.cpp"
+        "tutorial/ext/fusion_to_hana.cpp"
+        "tutorial/ext/mpl_vector.cpp"
         "tutorial/integral.cpp"
         "tutorial/introduction.cpp"
         "tutorial/mpl_cheatsheet.cpp"
@@ -57,6 +44,21 @@ if (NOT Boost_FOUND)
         "type/basic_type.cpp"
     )
 endif()
+
+
+##############################################################################
+# Add all the examples
+##############################################################################
+file(GLOB_RECURSE EXAMPLES "*.cpp")
+file(GLOB_RECURSE EXCLUDED_EXAMPLES ${EXCLUDED_EXAMPLES})
+list(REMOVE_ITEM EXAMPLES "" ${EXCLUDED_EXAMPLES})
+
+foreach(_file IN LISTS EXAMPLES)
+    boost_hana_target_name_for(_target "${_file}")
+    add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    boost_hana_add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    add_dependencies(examples ${_target})
+endforeach()
 
 
 ##############################################################################
@@ -72,13 +74,3 @@ if (PYTHONINTERP_FOUND)
         SOURCES ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
                 ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp)
 endif()
-
-
-##############################################################################
-# Add all the examples
-##############################################################################
-foreach(_file IN LISTS BOOST_HANA_EXAMPLE_SOURCES)
-    boost_hana_target_name_for(_target "${_file}")
-    add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-    boost_hana_add_example(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
-endforeach()

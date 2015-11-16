@@ -70,6 +70,7 @@ endif()
 boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
 boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
 boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
+boost_hana_append_flag(BOOST_HANA_HAS_QUNUSED_ARGUMENTS          -Qunused-arguments)
 boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
 boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
 boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
@@ -137,15 +138,6 @@ function(boost_hana_add_test name)
         add_test(${name} ${ARGN})
     endif()
 endfunction()
-
-#   boost_hana_list_remove_glob(<list> <GLOB|GLOB_RECURSE> [globbing expressions]...)
-#
-# Generates a list of files matching the given glob expressions, and remove
-# the matched elements from the given <list>.
-macro(boost_hana_list_remove_glob list glob)
-    file(${glob} _bhlrg10321023_avoid_macro_clash_matches ${ARGN})
-    list(REMOVE_ITEM ${list} ${_bhlrg10321023_avoid_macro_clash_matches})
-endmacro()
 
 
 ##############################################################################

@@ -4,7 +4,7 @@ PROJECT_LOGO            = @Boost.Hana_SOURCE_DIR@/doc/Boost.png
 PROJECT_NUMBER          =
 
 STRIP_FROM_PATH         = @Boost.Hana_SOURCE_DIR@/include
-BUILTIN_STL_SUPPORT     = YES
+BUILTIN_STL_SUPPORT     = NO # Allows us to document std:: classes ourselves
 STRIP_FROM_INC_PATH     = @Boost.Hana_SOURCE_DIR@/include
 ALIASES                 =
 ENABLED_SECTIONS        =
@@ -13,7 +13,7 @@ QUIET                   = YES
 # Resources
 OUTPUT_DIRECTORY        =
 INPUT                   = @Boost.Hana_SOURCE_DIR@/include \
-                          @Boost.Hana_SOURCE_DIR@/doc/tutorial.md
+                          @Boost.Hana_SOURCE_DIR@/doc/tutorial.hpp
 FILE_PATTERNS           = *.hpp
 RECURSIVE               = YES
 EXCLUDE                 =

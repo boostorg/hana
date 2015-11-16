@@ -13,14 +13,27 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/version.hpp>
 
 
+//////////////////////////////////////////////////////////////////////////////
+// Detect the compiler
+//////////////////////////////////////////////////////////////////////////////
+
+// MSVC must be first check, otherwise it might fail the build at the first #warning
+#if defined(_MSC_VER)
+
+#   if _MSC_VER < 1900
+#       pragma message("Visual Studio 2015 or above is required. Your version is not supported.")
+#   endif
+
+#   if !defined(__clang__)
+#       pragma message("Note: Visual Studio 2015 is only supported with the LLVM/Clang platform toolset.")
+#   endif
+
+#endif
+
 // Check the compiler for general C++14 capabilities
 #if (__cplusplus < 201400)
 #   warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
 #endif
-
-//////////////////////////////////////////////////////////////////////////////
-// Detect the compiler
-//////////////////////////////////////////////////////////////////////////////
 
 #if defined(__clang__) && defined(__apple_build_version__) // Apple's Clang
 
@@ -82,6 +95,10 @@ Distributed under the Boost Software License, Version 1.0.
 #   endif
 
 #   define BOOST_HANA_CONFIG_LIBSTDCXX
+
+#elif defined(_MSC_VER)
+
+#   define BOOST_HANA_CONFIG_LIBMSVCCXX
 
 #else
 

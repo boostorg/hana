@@ -18,6 +18,24 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace std {
+    //! @ingroup group-ext-std
+    //! Adaptation of `std::pair` for Hana.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! A `std::pair` models exactly the same concepts as a `hana::pair`.
+    //! Please refer to the documentation of `hana::pair` for details.
+    //!
+    //! @include example/ext/std/pair.cpp
+    template <typename First, typename Second>
+    struct pair { };
+}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace std { struct pair_tag; }}
 

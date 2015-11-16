@@ -10,6 +10,10 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXT_STD_HPP
 #define BOOST_HANA_EXT_STD_HPP
 
+//! @ingroup group-ext
+//! @defgroup group-ext-std Standard library adapters
+//! Adapters for components in the standard library.
+
 #include <boost/hana/config.hpp>
 
 #ifndef BOOST_HANA_CONFIG_HAS_NO_STD_TUPLE_ADAPTER
