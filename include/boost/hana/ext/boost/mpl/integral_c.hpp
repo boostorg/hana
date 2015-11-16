@@ -21,18 +21,26 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost { namespace mpl {
+    //! @ingroup group-ext-mpl
+    //! Adapter for IntegralConstants from the Boost.MPL.
+    //!
+    //! Provided models
+    //! ---------------
+    //! 1. `Constant` and `IntegralConstant`\n
+    //! A Boost.MPL IntegralConstant is a model of the `IntegralConstant`
+    //! and `Constant` concepts just like `hana::integral_constant`s are.
+    //! As a consequence, they are also implicitly a model of the concepts
+    //! provided for all models of `Constant`.
+    //! @include example/ext/boost/mpl/integral_c/integral_constant.cpp
+    template <typename T, T v>
+    struct integral_c { };
+}}
+#endif
+
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
-        //! @ingroup group-ext
-        //! Adapter for IntegralConstants from the Boost.MPL.
-        //!
-        //! Provided models
-        //! ---------------
-        //! 1. `Constant`\n
-        //! As Constants holding an integral type, `mpl::integral_c`s are
-        //! models not only of Constant, but also all the other concepts
-        //! that are provided for Constants of an integral type.
-        //! @snippet example/ext/boost/mpl/integral_c.cpp constant
         template <typename T>
         struct integral_c_tag { using value_type = T; };
     }}}

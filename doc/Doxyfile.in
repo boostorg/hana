@@ -4,7 +4,7 @@ PROJECT_LOGO            = @Boost.Hana_SOURCE_DIR@/doc/Boost.png
 PROJECT_NUMBER          =
 
 STRIP_FROM_PATH         = @Boost.Hana_SOURCE_DIR@/include
-BUILTIN_STL_SUPPORT     = YES
+BUILTIN_STL_SUPPORT     = NO # Allows us to document std:: classes ourselves
 STRIP_FROM_INC_PATH     = @Boost.Hana_SOURCE_DIR@/include
 ALIASES                 =
 ENABLED_SECTIONS        =

@@ -28,10 +28,12 @@ namespace boost { namespace hana {
         };
     }
 
+    //! @cond
     template <typename C>
     struct IntegralConstant
         : detail::integral_constant_dispatch<C>
     { };
+    //! @endcond
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_INTEGRAL_CONSTANT_HPP

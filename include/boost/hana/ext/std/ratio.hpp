@@ -30,6 +30,35 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace std {
+    //! @ingroup group-ext-std
+    //! Adaptation of `std::ratio` for Hana.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! 1. `Comparable`\n
+    //! `std::ratio`s are compared for equality using `std::ratio_equal`.
+    //! @include example/ext/std/ratio/comparable.cpp
+    //!
+    //! 2. `Orderable`\n
+    //! `std::ratio`s are ordered using `std::ratio_less`.
+    //! @include example/ext/std/ratio/orderable.cpp
+    //!
+    //! 3. `Monoid`, `Group`, `Ring`, and `EuclideanRing`\n
+    //! `std::ratio`s are added, subtracted, multiplied and divided using
+    //! `std::ratio_add`, `std::ratio_subtract`, `std::ratio_multiply` and
+    //! `std::ratio_divide`, respectively. Furthermore, the neutral element
+    //! for the additive operation is `std::ratio<0, 1>{}`, and the neutral
+    //! element for the multiplicative operation is `std::ratio<1, 1>{}`.
+    //! @include example/ext/std/ratio/arithmetic.cpp
+    template <std::intmax_t Num, std::intmax_t Denom>
+    class ratio { };
+}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace std { struct ratio_tag; }}
 

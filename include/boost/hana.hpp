@@ -25,11 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! @defgroup group-ext External adapters
 //! Adapters for external libraries.
-//!
-//! @warning
-//! This section of the reference documentation is not finished yet. Please
-//! refer to the section of the tutorial on [external adapters](@ref tutorial-ext)
-//! for a summary of what's supported right now.
 
 //! @defgroup group-config Configuration options
 //! Configurable options to tweak the global behavior of the library.

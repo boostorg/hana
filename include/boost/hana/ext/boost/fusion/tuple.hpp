@@ -17,6 +17,26 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/ext/boost/fusion/vector.hpp>
 
 
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost { namespace fusion {
+    //! @ingroup group-ext-fusion
+    //! Adapter for Boost.Fusion tuples.
+    //!
+    //!
+    //! Modeled concepts
+    //! ----------------
+    //! A Fusion tuple is a model of the `Sequence` concept, and all the
+    //! concepts it refines. That makes it essentially the same as a Hana
+    //! tuple, although the complexity of some operations might differ from
+    //! that of a tuple.
+    //!
+    //! @include example/ext/boost/fusion/tuple.cpp
+    template <typename ...T>
+    struct tuple { };
+}}
+#endif
+
+
 namespace boost { namespace hana {
     namespace ext { namespace boost { namespace fusion {
         // In the current version of Boost.Fusion, `boost::fusion::tuple` is
