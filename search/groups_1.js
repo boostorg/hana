@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['concepts',['Concepts',['../group__group-concepts.html',1,'']]],
-  ['configuration_20options',['Configuration options',['../group__group-config.html',1,'']]],
-  ['core',['Core',['../group__group-core.html',1,'']]]
+  ['boost_2efusion_20adapters',['Boost.Fusion adapters',['../group__group-ext-fusion.html',1,'']]],
+  ['boost_2empl_20adapters',['Boost.MPL adapters',['../group__group-ext-mpl.html',1,'']]]
 ];

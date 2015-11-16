@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: Member List</title>
+<title>Boost.Hana: std::tuple&lt; T &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html','');});
+$(document).ready(function(){initNavTree('structstd_1_1tuple.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -130,18 +130,57 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::hana::ext::boost::mpl::integral_c_tag&lt; T &gt; Member List</div>  </div>
+<div class="title">std::tuple&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a> &raquo; <a class="el" href="group__group-ext-std.html">Standard library adapters</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;typename... T&gt;<br />
+struct std::tuple&lt; T &gt;</h3>
 
-<p>This is the complete list of members for <a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html">boost::hana::ext::boost::mpl::integral_c_tag&lt; T &gt;</a>, including all inherited members.</p>
-<table class="directory">
-</table></div><!-- contents -->
+<p>Adapter for <code><a class="el" href="structstd_1_1tuple.html" title="Adapter for std::tuples. ">std::tuple</a></code>s. </p>
+<h2>Modeled concepts </h2>
+<p>A <code><a class="el" href="structstd_1_1tuple.html" title="Adapter for std::tuples. ">std::tuple</a></code> is a model of the <code>Sequence</code> concept, and all the concepts it refines. That makes it essentially the same as a Hana tuple, although the complexity of some operations might differ from that of Hana's tuple.</p>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2tuple_8hpp.html">boost/hana/ext/std/tuple.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    <a class="code" href="structstd_1_1tuple.html">std::tuple&lt;Fish, Cat, Dog&gt;</a> animals{{<span class="stringliteral">&quot;Nemo&quot;</span>}, {<span class="stringliteral">&quot;Garfield&quot;</span>}, {<span class="stringliteral">&quot;Snoopy&quot;</span>}};</div>
+<div class="line">    hana::front(animals).name = <span class="stringliteral">&quot;Moby Dick&quot;</span>;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> names = hana::transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">      <span class="keywordflow">return</span> a.name;</div>
+<div class="line">    });</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::equal(</div>
+<div class="line">        names,</div>
+<div class="line">        std::make_tuple(<span class="stringliteral">&quot;Moby Dick&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Snoopy&quot;</span>)</div>
+<div class="line">    ));</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><b>std</b></li><li class="navelem"><a class="el" href="structstd_1_1tuple.html">tuple</a></li>
   </ul>
 </div>
 </body>

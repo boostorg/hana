@@ -55,11 +55,7 @@ var NAVTREE =
         [ "Compile-time performance", "index.html#tutorial-performance-compile", null ],
         [ "Runtime performance", "index.html#tutorial-performance-runtime", null ]
       ] ],
-      [ "Integration with external libraries", "index.html#tutorial-ext", [
-        [ "The standard library", "index.html#tutorial-ext-std", null ],
-        [ "Boost.Fusion", "index.html#tutorial-ext-fusion", null ],
-        [ "Boost.MPL", "index.html#tutorial-ext-mpl", null ]
-      ] ],
+      [ "Integration with external libraries", "index.html#tutorial-ext", null ],
       [ "Hana's core", "index.html#tutorial-core", [
         [ "Tags", "index.html#tutorial-core-tags", null ],
         [ "Tag dispatching", "index.html#tutorial-core-tag_dispatching", null ],
@@ -96,7 +92,6 @@ var NAVTREE =
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Alphabetical index", "functions.html", null ],
     [ "Headers", "files.html", "files" ],
-    [ "tutorial", "md__home_travis_build_boostorg_hana_doc_tutorial.html", null ],
     [ "Todo List", "todo.html", null ],
     [ "Bug List", "bug.html", null ]
   ] ]
@@ -105,9 +100,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2fuse_8hpp.html",
-"index.html#tutorial-rationales-why_Hana",
-"structboost_1_1hana_1_1Sequence.html#a63f9ab281c8e979adfd7f6678383c46b"
+"fwd_2front_8hpp.html",
+"index.html#tutorial-rationales-tag_dispatching",
+"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

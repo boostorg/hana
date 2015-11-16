@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::ext::boost::mpl::integral_c_tag&lt; T &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::fusion::list&lt; T &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1fusion_1_1list.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -129,34 +129,61 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1ext_1_1boost_1_
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::ext::boost::mpl::integral_c_tag&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a></div></div>  </div>
+<div class="title">boost::fusion::list&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a> &raquo; <a class="el" href="group__group-ext-fusion.html">Boost.Fusion adapters</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename T&gt;<br />
-struct boost::hana::ext::boost::mpl::integral_c_tag&lt; T &gt;</h3>
+<div class="textblock"><h3>template&lt;typename... T&gt;<br />
+struct boost::fusion::list&lt; T &gt;</h3>
 
-<p>Adapter for IntegralConstants from the Boost.MPL. </p>
-<h2>Provided models </h2>
-<ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a></code><br />
-As Constants holding an integral type, <code>mpl::integral_c</code>s are models not only of <a class="el" href="structboost_1_1hana_1_1Constant.html" title="The Constant concept represents data that can be manipulated at compile-time. ">Constant</a>, but also all the other concepts that are provided for Constants of an integral type. <div class="fragment"><div class="line">static_assert(hana::value(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<p>Adapter for Boost.Fusion lists. </p>
+<h2>Modeled concepts </h2>
+<p>A Fusion list is a model of the <code>Sequence</code> concept, and all the concepts it refines. That makes it essentially the same as a Hana tuple, although the complexity of some operations might differ from that of a tuple.</p>
+<div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;3&gt;{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::long_&lt;3&gt;{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;0&gt;{}));</div>
-</div><!-- fragment --></li>
-</ol>
-</div></div><!-- contents -->
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="fusion_2list_8hpp.html">boost/hana/ext/boost/fusion/list.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/fusion/include/make_list.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;boost/fusion/include/list.hpp&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>fusion = <a class="code" href="namespaceboost_1_1fusion.html">boost::fusion</a>;</div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
+<div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line">    fusion::list&lt;Fish, Cat, Dog&gt; animals{{<span class="stringliteral">&quot;Nemo&quot;</span>}, {<span class="stringliteral">&quot;Garfield&quot;</span>}, {<span class="stringliteral">&quot;Snoopy&quot;</span>}};</div>
+<div class="line">    hana::front(animals).name = <span class="stringliteral">&quot;Moby Dick&quot;</span>;</div>
+<div class="line"></div>
+<div class="line">    <span class="keyword">auto</span> names = hana::transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">      <span class="keywordflow">return</span> a.name;</div>
+<div class="line">    });</div>
+<div class="line"></div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::equal(</div>
+<div class="line">        names,</div>
+<div class="line">        fusion::make_list(<span class="stringliteral">&quot;Moby Dick&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Snoopy&quot;</span>)</div>
+<div class="line">    ));</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><b>ext</b></li><li class="navelem"><b>boost</b></li><li class="navelem"><b>mpl</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html">integral_c_tag</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>fusion</b></li><li class="navelem"><a class="el" href="structboost_1_1fusion_1_1list.html">list</a></li>
   </ul>
 </div>
 </body>

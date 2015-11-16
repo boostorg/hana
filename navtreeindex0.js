@@ -31,12 +31,13 @@ var NAVTREEINDEX0 =
 "boost_2fusion_2vector_8hpp.html":[3,0,0,3,0,0,4],
 "boost_2mpl_2vector_8hpp.html":[3,0,0,3,0,1,2],
 "boost_8hpp.html":[3,0,0,3,2],
-"bug.html":[6],
+"bug.html":[5],
 "canonical__constant_8hpp.html":[3,0,0,2,4],
 "capture_8hpp.html":[3,0,0,4,3],
 "capture_8hpp.html#ga41ada6b336e9d5bcb101ff0c737acbd0":[3,0,0,4,3,0],
 "cartesian__product_8hpp.html":[3,0,0,24],
 "chain_8hpp.html":[3,0,0,25],
+"classstd_1_1ratio.html":[1,4,3,4],
 "comparing_8hpp.html":[3,0,0,26],
 "compose_8hpp.html":[3,0,0,4,4],
 "compose_8hpp.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b":[3,0,0,4,4,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "fwd_2fold_8hpp.html":[3,0,0,5,49],
 "fwd_2fold__left_8hpp.html":[3,0,0,5,50],
 "fwd_2fold__right_8hpp.html":[3,0,0,5,51],
-"fwd_2for__each_8hpp.html":[3,0,0,5,52],
-"fwd_2front_8hpp.html":[3,0,0,5,53]
+"fwd_2for__each_8hpp.html":[3,0,0,5,52]
 };

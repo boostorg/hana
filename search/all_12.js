@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['standard_20library_20adapters',['Standard library adapters',['../group__group-ext-std.html',1,'']]],
   ['scan_5fleft',['scan_left',['../structboost_1_1hana_1_1Sequence.html#a8a82d04d19ba3ce7dcb6aaef0dbd0423',1,'boost::hana::Sequence']]],
   ['scan_5fleft_2ehpp',['scan_left.hpp',['../fwd_2scan__left_8hpp.html',1,'']]],
   ['scan_5fleft_2ehpp',['scan_left.hpp',['../scan__left_8hpp.html',1,'']]],

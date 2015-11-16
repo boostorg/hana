@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['data_20types',['Data types',['../group__group-datatypes.html',1,'']]],
-  ['details',['Details',['../group__group-details.html',1,'']]]
+  ['concepts',['Concepts',['../group__group-concepts.html',1,'']]],
+  ['configuration_20options',['Configuration options',['../group__group-config.html',1,'']]],
+  ['core',['Core',['../group__group-core.html',1,'']]]
 ];

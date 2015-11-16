@@ -45,5 +45,7 @@ var searchData=
   ['boost_5fhana_5fstring',['BOOST_HANA_STRING',['../structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84',1,'boost::hana::string']]],
   ['boost_5fhana_5fversion',['BOOST_HANA_VERSION',['../group__group-config.html#ga2fb384037c12a706e1a1cac053065648',1,'version.hpp']]],
   ['bug_20list',['Bug List',['../bug.html',1,'']]],
+  ['boost_2efusion_20adapters',['Boost.Fusion adapters',['../group__group-ext-fusion.html',1,'']]],
+  ['boost_2empl_20adapters',['Boost.MPL adapters',['../group__group-ext-mpl.html',1,'']]],
   ['literals',['literals',['../namespaceboost_1_1hana_1_1literals.html',1,'boost::hana']]]
 ];

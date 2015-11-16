@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"index.html#tutorial-rationales-tag_dispatching":[0,18,7],
+"index.html#tutorial-rationales-tuple":[0,18,4],
 "index.html#tutorial-rationales-why_Hana":[0,18,3],
 "index.html#tutorial-rationales-zip_longest":[0,18,8],
 "index.html#tutorial-reference":[0,15],
@@ -38,7 +40,6 @@ var NAVTREEINDEX2 =
 "map_8hpp.html":[3,0,0,82],
 "max_8hpp.html":[3,0,0,83],
 "maximum_8hpp.html":[3,0,0,84],
-"md__home_travis_build_boostorg_hana_doc_tutorial.html":[4],
 "members_8hpp.html":[3,0,0,85],
 "min_8hpp.html":[3,0,0,86],
 "minimum_8hpp.html":[3,0,0,87],
@@ -116,6 +117,10 @@ var NAVTREEINDEX2 =
 "string_8hpp.html":[3,0,0,130],
 "string_8hpp.html#a325859c7db2c3f8e6a4bfab5a81a6dcb":[3,0,0,130,0],
 "struct__macros_8hpp.html":[3,0,0,2,23],
+"structboost_1_1fusion_1_1deque.html":[1,4,0,0],
+"structboost_1_1fusion_1_1list.html":[1,4,0,1],
+"structboost_1_1fusion_1_1tuple.html":[1,4,0,2],
+"structboost_1_1fusion_1_1vector.html":[1,4,0,3],
 "structboost_1_1hana_1_1Applicative.html":[1,0,0],
 "structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a":[1,0,0,0],
 "structboost_1_1hana_1_1Applicative.html#adc481a8251a7f47f526ad84186d35087":[1,0,0,1],
@@ -244,10 +249,5 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,19],
 "structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea":[1,0,19,4],
 "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,19,22],
-"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,12],
-"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,7],
-"structboost_1_1hana_1_1Sequence.html#a4fdf082af400671e43a4035e14ae7f82":[1,0,19,14],
-"structboost_1_1hana_1_1Sequence.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,0,19,3],
-"structboost_1_1hana_1_1Sequence.html#a58c1454689bf6d2264bc428dc1d039db":[1,0,19,17],
-"structboost_1_1hana_1_1Sequence.html#a5eadaf63535ebb8cdd8d9e4c16b9bacd":[1,0,19,28]
+"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,12]
 };

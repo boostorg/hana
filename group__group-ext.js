@@ -1,6 +1,7 @@
 var group__group_ext =
 [
-    [ "integral_c_tag", "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1integral__c__tag.html", null ],
-    [ "list_tag", "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1list__tag.html", null ],
-    [ "vector_tag", "structboost_1_1hana_1_1ext_1_1boost_1_1mpl_1_1vector__tag.html", null ]
+    [ "Boost.Fusion adapters", "group__group-ext-fusion.html", "group__group-ext-fusion" ],
+    [ "Boost.MPL adapters", "group__group-ext-mpl.html", "group__group-ext-mpl" ],
+    [ "Other Boost adapters", "group__group-ext-boost.html", "group__group-ext-boost" ],
+    [ "Standard library adapters", "group__group-ext-std.html", "group__group-ext-std" ]
 ];

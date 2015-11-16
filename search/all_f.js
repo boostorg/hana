@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['other_20boost_20adapters',['Other Boost adapters',['../group__group-ext-boost.html',1,'']]],
   ['on',['on',['../group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1',1,'boost::hana']]],
   ['on_2ehpp',['on.hpp',['../on_8hpp.html',1,'']]],
   ['one',['one',['../structboost_1_1hana_1_1Ring.html#aa8a06890fcf8b2d996e95c9a3e5c33c1',1,'boost::hana::Ring']]],
@@ -15,8 +16,8 @@ var searchData=
   ['optional_2ehpp',['optional.hpp',['../fwd_2optional_8hpp.html',1,'']]],
   ['optional_2ehpp',['optional.hpp',['../optional_8hpp.html',1,'']]],
   ['optional_5ftag',['optional_tag',['../structboost_1_1hana_1_1optional__tag.html',1,'boost::hana']]],
-  ['or_2ehpp',['or.hpp',['../fwd_2or_8hpp.html',1,'']]],
   ['or_2ehpp',['or.hpp',['../or_8hpp.html',1,'']]],
+  ['or_2ehpp',['or.hpp',['../fwd_2or_8hpp.html',1,'']]],
   ['or_5f',['or_',['../structboost_1_1hana_1_1Logical.html#ac5683e17dd3318d3be74e5defb1e7252',1,'boost::hana::Logical']]],
   ['orderable',['Orderable',['../structboost_1_1hana_1_1Orderable.html',1,'boost::hana']]],
   ['orderable_2ehpp',['orderable.hpp',['../fwd_2concept_2orderable_8hpp.html',1,'']]],

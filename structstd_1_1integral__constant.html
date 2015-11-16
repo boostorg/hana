@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: tutorial</title>
+<title>Boost.Hana: std::integral_constant&lt; T, v &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -111,7 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('md__home_travis_build_boostorg_hana_doc_tutorial.html','');});
+$(document).ready(function(){initNavTree('structstd_1_1integral__constant.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -130,15 +130,50 @@ $(document).ready(function(){initNavTree('md__home_travis_build_boostorg_hana_do
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tutorial </div>  </div>
+<div class="title">std::integral_constant&lt; T, v &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a> &raquo; <a class="el" href="group__group-ext-std.html">Standard library adapters</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
+<div class="textblock"><h3>template&lt;typename T, T v&gt;<br />
+struct std::integral_constant&lt; T, v &gt;</h3>
+
+<p>Adapter for <code><a class="el" href="structstd_1_1integral__constant.html" title="Adapter for std::integral_constants. ">std::integral_constant</a></code>s. </p>
+<h2>Provided models </h2>
+<ol type="1">
+<li><code>Constant</code> and <code>IntegralConstant</code><br />
+A <code><a class="el" href="structstd_1_1integral__constant.html" title="Adapter for std::integral_constants. ">std::integral_constant</a></code> is a model of the <code>IntegralConstant</code> and <code>Constant</code> concepts, just like <code>hana::integral_constant</code>s are. As a consequence, they are also implicitly a model of the concepts provided for all models of <code>Constant</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"><span class="comment"> */</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not__equal_8hpp.html">boost/hana/not_equal.hpp</a>&gt;</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">static_assert(hana::value(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;</a>{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;::value</a> == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;</a>{}, hana::int_c&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;</a>{}, hana::long_c&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;</a>{}, hana::int_c&lt;0&gt;));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --> </li>
+</ol>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><b>std</b></li><li class="navelem"><a class="el" href="structstd_1_1integral__constant.html">integral_constant</a></li>
   </ul>
 </div>
 </body>

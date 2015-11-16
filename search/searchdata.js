@@ -9,7 +9,7 @@ var indexSectionsWithContent =
   6: "bcfhilstuw",
   7: "b",
   8: "b",
-  9: "acdef",
+  9: "abcdefos",
   10: "btu"
 };
 
