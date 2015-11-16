@@ -20,15 +20,6 @@ if [ os.environ TRAVIS ] {
   path-constant HANA_SOURCE_DIR : $(BOOST_ROOT)/libs/hana ;
 }
 
-# This hack is required because Boost.Build can't feed .md files to Doxygen.
-make tutorial.hpp : tutorial.md : make_tutorial_hpp ;
-actions make_tutorial_hpp
-{
-  echo '/*!' > tutorial.hpp
-  cat tutorial.md >> tutorial.hpp
-  echo '*/' >> tutorial.hpp
-}
-
 doxygen hana.html
     :
         [ glob ../include/boost/hana/*.hpp ]
@@ -49,8 +40,6 @@ doxygen hana.html
         ../include/boost/hana.hpp
         tutorial.hpp
     :
-      <dependency>tutorial.hpp
-
       <doxygen:param>PROJECT_NAME="Boost.Hana"
       <doxygen:param>PROJECT_BRIEF="Your standard library for metaprogramming"
       <doxygen:param>PROJECT_LOGO=$(HANA_SOURCE_DIR)/doc/Boost.png
