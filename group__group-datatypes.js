@@ -42,11 +42,11 @@ var group__group_datatypes =
     [ "map", "structboost_1_1hana_1_1map.html", [
       [ "make< map_tag >", "structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30", null ],
       [ "make_map", "structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04", null ],
+      [ "to_map", "structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57", null ],
       [ "keys", "structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "values", "structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ],
       [ "insert", "structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
-      [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
-      [ "to_map", "structboost_1_1hana_1_1map.html#ab57d759ad0ea18b6b75a9325af828cf7", null ]
+      [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
     ] ],
     [ "optional", "structboost_1_1hana_1_1optional.html", [
       [ "make< optional_tag >", "structboost_1_1hana_1_1optional.html#a76a84854b3051af000e698157d63a6a8", null ],
@@ -92,9 +92,9 @@ var group__group_datatypes =
       [ "make_set", "structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43", null ],
       [ "insert", "structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
       [ "erase_key", "structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
+      [ "to_set", "structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933", null ],
       [ "symmetric_difference", "structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e", null ],
-      [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ],
-      [ "to_set", "structboost_1_1hana_1_1set.html#af1566660669a266096bf8cab62095266", null ]
+      [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ]
     ] ],
     [ "string", "structboost_1_1hana_1_1string.html", [
       [ "make< string_tag >", "structboost_1_1hana_1_1string.html#a75de1ad7b14dc576a98d759dc3176ae9", null ],
@@ -106,9 +106,9 @@ var group__group_datatypes =
     [ "tuple", "structboost_1_1hana_1_1tuple.html", [
       [ "make< tuple_tag >", "structboost_1_1hana_1_1tuple.html#ad9d8c7efa77e573eba2dfc48b3343e66", null ],
       [ "make_tuple", "structboost_1_1hana_1_1tuple.html#af3c175cfb83276339f91e867d738a2e6", null ],
+      [ "to_tuple", "structboost_1_1hana_1_1tuple.html#a749b564c8f115957837761d75191beac", null ],
       [ "tuple_t", "structboost_1_1hana_1_1tuple.html#aea7b637fbc34b451bd1cef82f1b64b6a", null ],
       [ "tuple_c", "structboost_1_1hana_1_1tuple.html#a2362e94b752cbd15155c65ed3f9de0a0", null ],
-      [ "to_tuple", "structboost_1_1hana_1_1tuple.html#a777b424f853227472a2210d6bb3eda25", null ],
       [ "operator=", "structboost_1_1hana_1_1tuple.html#acddfa6d631c249ae667d52dd63c0aeaf", null ],
       [ "operator=", "structboost_1_1hana_1_1tuple.html#ad3f0fe520974a22cc12a978f4b061caa", null ],
       [ "tuple", "structboost_1_1hana_1_1tuple.html#a8e10223983bfb3873c285be85f7ab273", null ],

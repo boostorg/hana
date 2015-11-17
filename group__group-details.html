@@ -178,9 +178,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga2146bcdd5d899bf7c3d20fb15d2e25e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga2146bcdd5d899bf7c3d20fb15d2e25e5">BOOST_HANA_DISPATCH_IF</a>(IMPL, ...)                                                          </td></tr>
-<tr class="memdesc:ga2146bcdd5d899bf7c3d20fb15d2e25e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch to the given implementation method only when a condition is satisfied.  <a href="#ga2146bcdd5d899bf7c3d20fb15d2e25e5">More...</a><br /></td></tr>
-<tr class="separator:ga2146bcdd5d899bf7c3d20fb15d2e25e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e">BOOST_HANA_DISPATCH_IF</a>(IMPL, ...)&#160;&#160;&#160;IMPL</td></tr>
+<tr class="memdesc:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dispatch to the given implementation method only when a condition is satisfied.  <a href="#ga5de7a0132a80e37c73d544ece1e6dd4e">More...</a><br /></td></tr>
+<tr class="separator:ga5de7a0132a80e37c73d544ece1e6dd4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga62fe3327023c37706c827cc82624998b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_NARG_IMPL(__VA_ARGS__, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,)</td></tr>
 <tr class="memdesc:ga62fe3327023c37706c827cc82624998b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the number of arguments it is passed.  <a href="#ga62fe3327023c37706c827cc82624998b">More...</a><br /></td></tr>
 <tr class="separator:ga62fe3327023c37706c827cc82624998b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -218,7 +218,7 @@ Typedefs</h2></td></tr>
 <tr class="separator:ga9acac3c4609cff5f0957572744c61ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ga2146bcdd5d899bf7c3d20fb15d2e25e5"></a>
+<a class="anchor" id="ga5de7a0132a80e37c73d544ece1e6dd4e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -237,18 +237,13 @@ Typedefs</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td>&#160;&#160;&#160;IMPL</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p><code>#include &lt;<a class="el" href="dispatch__if_8hpp.html">boost/hana/detail/dispatch_if.hpp</a>&gt;</code></p>
-<b>Value:</b><div class="fragment"><div class="line">::std::conditional_t&lt;                                               \</div>
-<div class="line">            (__VA_ARGS__),                                                  \</div>
-<div class="line">            IMPL,                                                           \</div>
-<div class="line">            ::boost::hana::deleted_implementation                           \</div>
-<div class="line">        &gt;                                                                   \</div>
-</div><!-- fragment -->
+
 <p>Dispatch to the given implementation method only when a condition is satisfied. </p>
 <p>If the condition is satisfied, this macro is equivalent to the type <code>IMPL</code>. Otherwise, it is equivalent to a type with a deleted static function named <code>apply</code>. When a tag-dispatching error happens, the condition should be false and the deleted static function <code>apply</code> will prevent the compiler from generating too much garbage.</p>
 <dl class="section note"><dt>Note</dt><dd>When <code>BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS</code> is defined, the condition is always ignored and this macro expands to the implementation only.</dd></dl>

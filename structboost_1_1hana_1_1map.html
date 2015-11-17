@@ -302,6 +302,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td></tr>
 <tr class="memdesc:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#ae73cf43ee56352e4c25984b0fe3c3d04">More...</a><br /></td></tr>
 <tr class="separator:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4feb32bd0a065a0732908716d4855b57"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57">to_map</a> = to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td></tr>
+<tr class="memdesc:a4feb32bd0a065a0732908716d4855b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#a4feb32bd0a065a0732908716d4855b57">More...</a><br /></td></tr>
+<tr class="separator:a4feb32bd0a065a0732908716d4855b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f32260f859b2510dd16235b7bc011ac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac">keys</a></td></tr>
 <tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
 <tr class="separator:a0f32260f859b2510dd16235b7bc011ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -314,9 +317,6 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key/value pair from a map.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab57d759ad0ea18b6b75a9325af828cf7"><td class="memItemLeft" align="right" valign="top">constexpr to_t&lt; <a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ab57d759ad0ea18b6b75a9325af828cf7">to_map</a> {}</td></tr>
-<tr class="memdesc:ab57d759ad0ea18b6b75a9325af828cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#ab57d759ad0ea18b6b75a9325af828cf7">More...</a><br /></td></tr>
-<tr class="separator:ab57d759ad0ea18b6b75a9325af828cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a409d52de54cc7e55eca1a7b5dda4ce30"></a>
@@ -435,6 +435,30 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a4feb32bd0a065a0732908716d4855b57"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Pairs&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto to_map = to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience. </p>
+
 </div>
 </div>
 <a class="anchor" id="a0f32260f859b2510dd16235b7bc011ac"></a>
@@ -696,30 +720,6 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::erase_key(m, hana::type_c&lt;char&gt;) == m);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="ab57d759ad0ea18b6b75a9325af828cf7"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename... Pairs&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr to_t&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt; to_map {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience. </p>
-
 </div>
 </div>
 </div><!-- contents -->
