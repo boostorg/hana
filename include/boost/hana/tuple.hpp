@@ -25,7 +25,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/find_if.hpp>
@@ -303,11 +302,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return helper<index>(static_cast<Xs&&>(xs), hana::bool_c<index == len>);
         }
     };
-
-    //! Equivalent to `to<tuple_tag>`; provided for convenience.
-    //! @relates hana::tuple
-    constexpr to_t<tuple_tag> to_tuple{};
-
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_TUPLE_HPP

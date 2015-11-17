@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 #include <boost/hana/fwd/type.hpp>
 
@@ -142,6 +143,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Alias to `make<tuple_tag>`; provided for convenience.
     //! @relates hana::tuple
     constexpr auto make_tuple = make<tuple_tag>;
+
+    //! Equivalent to `to<tuple_tag>`; provided for convenience.
+    //! @relates hana::tuple
+    constexpr auto to_tuple = to<tuple_tag>;
 
     //! Create a tuple specialized for holding `hana::type`s.
     //! @relates hana::tuple

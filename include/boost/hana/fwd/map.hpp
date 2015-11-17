@@ -11,10 +11,11 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MAP_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/fwd/keys.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/insert.hpp>
+#include <boost/hana/fwd/keys.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -94,6 +95,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/map/make.cpp
     constexpr auto make_map = make<map_tag>;
+
+    //! Equivalent to `to<map_tag>`; provided for convenience.
+    //! @relates hana::map
+    constexpr auto to_map = to<map_tag>;
 
     //! Returns a `Sequence` of the keys of the map, in unspecified order.
     //! @relates hana::map

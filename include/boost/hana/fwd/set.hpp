@@ -11,8 +11,9 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SET_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/fwd/erase_key.hpp>
+#include <boost/hana/fwd/core/convert.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/erase_key.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -157,6 +158,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         return tag-dispatched;
     };
 #endif
+
+    //! Equivalent to `to<set_tag>`; provided for convenience.
+    //! @relates hana::set
+    constexpr auto to_set = to<set_tag>;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SET_HPP
