@@ -9,7 +9,7 @@ you contribute:
 2. Create a new branch based on the `develop` branch (`git checkout -b your_branch develop`).
    If your contribution is a bug fix, you should name your branch `bugfix/xxx`;
    for a feature, it should be `feature/xxx`. Otherwise, just use your good
-   judgement. Consistent naming of branches is appreciated since it makes the
+   judgment. Consistent naming of branches is appreciated since it makes the
    output of `git branch` easier to understand with a single glance.
 3. Do your modifications on that branch. Except for special cases, your
    contribution should include proper unit tests and documentation. Also,
@@ -55,4 +55,6 @@ points you should watch out for:
 - Indent using 4 spaces.
 - Do not leave trailing white spaces at the end of lines, and no more than a
   single newline at the end of a source file.
-- Use your own judgement and stick to the style of the surrounding code.
+- Hana's `#include`s go first, then a blank line and system headers.
+  `#include`s within each block should be sorted in alphabetical order.
+- Use your own judgment and stick to the style of the surrounding code.
