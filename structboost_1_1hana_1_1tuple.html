@@ -208,6 +208,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a2362e94b752cbd15155c65ed3f9de0a0"><td class="memTemplItemLeft" align="right" valign="top">constexpr implementation defined&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#a2362e94b752cbd15155c65ed3f9de0a0">tuple_c</a> {}</td></tr>
 <tr class="memdesc:a2362e94b752cbd15155c65ed3f9de0a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a tuple specialized for holding <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s.  <a href="#a2362e94b752cbd15155c65ed3f9de0a0">More...</a><br /></td></tr>
 <tr class="separator:a2362e94b752cbd15155c65ed3f9de0a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a777b424f853227472a2210d6bb3eda25"><td class="memItemLeft" align="right" valign="top">constexpr to_t&lt; <a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#a777b424f853227472a2210d6bb3eda25">to_tuple</a> {}</td></tr>
+<tr class="memdesc:a777b424f853227472a2210d6bb3eda25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">tuple_tag</a>&gt;</code>; provided for convenience.  <a href="#a777b424f853227472a2210d6bb3eda25">More...</a><br /></td></tr>
+<tr class="separator:a777b424f853227472a2210d6bb3eda25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -419,6 +422,30 @@ template&lt;typename T , T... v&gt; </div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(hana::tuple_c&lt;int, 0, 1, 2&gt;) == hana::int_c&lt;0&gt;);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a777b424f853227472a2210d6bb3eda25"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Xn&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr to_t&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt; to_tuple {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">tuple_tag</a>&gt;</code>; provided for convenience. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
