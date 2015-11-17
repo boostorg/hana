@@ -304,6 +304,11 @@ namespace boost { namespace hana {
                                    hana::erase_key);
         }
     };
+
+    //! Equivalent to `to<set_tag>`; provided for convenience.
+    //! @relates hana::set
+    constexpr to_t<set_tag> to_set{};
+
 }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SET_HPP
