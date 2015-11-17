@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
@@ -295,11 +296,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             );
         }
     };
-
-    //! Equivalent to `to<map_tag>`; provided for convenience.
-    //! @relates hana::map
-    constexpr to_t<map_tag> to_map{};
-
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_MAP_HPP

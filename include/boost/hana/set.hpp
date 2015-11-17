@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
+#include <boost/hana/core/convert.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
@@ -305,11 +306,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                    hana::erase_key);
         }
     };
-
-    //! Equivalent to `to<set_tag>`; provided for convenience.
-    //! @relates hana::set
-    constexpr to_t<set_tag> to_set{};
-
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_SET_HPP
