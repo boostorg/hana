@@ -102,7 +102,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct to_impl;
 
     template <typename To>
-    struct to_t;
+    struct to_t {
+        template <typename X>
+        constexpr decltype(auto) operator()(X&& x) const;
+    };
 
     template <typename To>
     constexpr to_t<To> to{};
