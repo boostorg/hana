@@ -58,6 +58,15 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
 endif()
 
+# On Windows, Clang-cl emulates a MSVC bug that causes EBO not to be applied
+# properly. We disable the tests that check for EBO.
+if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    list(APPEND EXCLUDED_UNIT_TESTS
+        "tuple/empty_member.cpp"
+        "bugs/github_202.cpp"
+    )
+endif()
+
 
 ##############################################################################
 # Generate tests that include each public header.
