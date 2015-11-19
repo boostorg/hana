@@ -146,6 +146,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             else {
                 result = static_cast<int>(c) - static_cast<int>('0');
             }
+            
             return result;
         }
 
@@ -162,7 +163,7 @@ BOOST_HANA_NAMESPACE_BEGIN
                 if(is_hex) {
                     //0xDEADBEEF (hexadecimal)
                     base = 16;
-                   offset = 2;
+                    offset = 2;
                 }
                 else if(is_binary) {
                     //0b101011101 (binary)
