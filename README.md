@@ -97,41 +97,9 @@ cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
 Usually, this will work just fine. However, on some systems, the standard
-library provided by default does not support C++14. In this case, you
-basically have two choices. The first one is to install a more recent standard
-library system-wide, which might or might not be possible. The second choice
-is to install a more recent standard library locally, and to tell Hana to use
-this standard library instead of the system one. To do so, you must specify
-
-1. A custom header search path. This instructs the compiler to look for
-   headers in the `/path/to/std-includes` directory. This way, when you
-   `#include <type_traits>`, for example, it will look for that header in
-   the `/path/to/std-includes` directory.
-   ```shell
-   export CXXFLAGS="-I /path/to/std-includes"
-   ```
-
-2. A custom library search path and library to link against. This instructs
-   the linker to search for libraries in the `/path/to/std-library` directory,
-   and to link against the `std-library` library, which should be present in
-   the directory you provided.
-   ```shell
-   export LDFLAGS="-L /path/to/std-library -l std-library"
-   ```
-
-3. A custom search path for loading shared libraries at runtime. This will be
-   looked up by your program at startup time.
-   ```shell
-  export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/path/to/std-library"
-  ```
-
-For example, using a custom libc++ on my Linux box looks like:
-```shell
-export CXXFLAGS="-I ${HOME}/code/llvm36/build/include/c++/v1"
-export LDFLAGS="-L ${HOME}/code/llvm36/build/lib -l c++ -l c++abi"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${HOME}/code/llvm36/build/lib"
-cmake .. -DCMAKE_CXX_COMPILER=clang++-3.6
-```
+library and/or compiler provided by default does not support C++14. If
+this is your case, the [wiki][Hana.wiki] has more information about
+setting you up on different systems.
 
 Normally, Hana tries to find Boost headers if you have them on your system.
 It's also fine if you don't have them; a few tests requiring the Boost headers
@@ -237,4 +205,5 @@ Please see [LICENSE.md](LICENSE.md).
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
+[Hana.wiki]: https://github.com/boostorg/hana/wiki
 [MPL11]: http://github.com/ldionne/mpl11
