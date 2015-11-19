@@ -473,24 +473,27 @@ template&lt;typename M &gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="chain_8hpp.html">boost/hana/chain.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tap_8hpp.html">boost/hana/tap.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;set&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    std::stringstream before, after;</div>
+<div class="line">    <span class="comment">// We use a sorted container because the order in which the functions</span></div>
+<div class="line">    <span class="comment">// are called is unspecified.</span></div>
+<div class="line">    std::set&lt;int&gt; before, after;</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> xs = hana::make_tuple(1, 2, 3)</div>
-<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keyword">auto</span> x) { before &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; })</div>
+<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keywordtype">int</span> x) { before.insert(x); })</div>
 <div class="line">        | [](<span class="keyword">auto</span> x) { <span class="keywordflow">return</span> hana::make_tuple(x, -x); }</div>
-<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keyword">auto</span> x) { after &lt;&lt; x &lt;&lt; <span class="charliteral">&#39; &#39;</span>; });</div>
+<div class="line">        | hana::tap&lt;hana::tuple_tag&gt;([&amp;](<span class="keywordtype">int</span> x) { after.insert(x); });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before.str() == <span class="stringliteral">&quot;1 2 3 &quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after.str() == <span class="stringliteral">&quot;1 -1 2 -2 3 -3 &quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(before == std::set&lt;int&gt;{1, 2, 3});</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(after == std::set&lt;int&gt;{1, -1, 2, -2, 3, -3});</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(xs == hana::make_tuple(1, -1, 2, -2, 3, -3));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
