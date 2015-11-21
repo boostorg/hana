@@ -78,7 +78,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Finally, also note that `tag_of<T>` is always equivalent to `tag_of<U>`,
     //! where `U` is the type `T` after being stripped of all references and
     //! cv-qualifiers. This makes it unnecessary to specialize `tag_of` for
-    //! all reference and cv combinations, which would be a real pain.
+    //! all reference and cv combinations, which would be a real pain. Also,
+    //! `tag_of` is required to be idempotent. In other words, it must always
+    //! be the case that `tag_of<tag_of<T>::%type>::%type` is equivalent to
+    //! `tag_of<T>::%type`.
     //!
     //! > __Tip 1__\n
     //! > If compile-time performance is a serious concern, consider

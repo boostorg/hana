@@ -68,12 +68,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return static_cast<X&&>(x); }
     };
 
+    //! @cond
     template <typename To>
     template <typename X>
     constexpr decltype(auto) to_t<To>::operator()(X&& x) const {
         using From = typename hana::tag_of<X>::type;
         return to_impl<To, From>::apply(static_cast<X&&>(x));
     }
+    //! @endcond
 
 #define BOOST_HANA_DEFINE_EMBEDDING_IMPL(TO, FROM)                          \
     template <>                                                             \
