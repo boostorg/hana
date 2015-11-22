@@ -170,6 +170,10 @@ matrix:
     - osx_image: xcode7.2b1
 
 
+before_install:
+  - set -e # Fail the whole script whenever any command fails
+
+
 install:
   ############################################################################
   # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
