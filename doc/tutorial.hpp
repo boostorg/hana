@@ -2863,7 +2863,7 @@ struct Concept {
 @endcode
 
 Then, one can test whether a type `T` is a model of `Concept` by looking at
-`Concept<T>::value`. Simple enough, right? Now, while the way one might
+`Concept<T>::%value`. Simple enough, right? Now, while the way one might
 implement the check does not have to be anything specific as far as Hana
 is concerned, the rest of this section will explain how it is usually done
 in Hana, and how it interacts with tag dispatching. You should then be able
@@ -2899,7 +2899,7 @@ inherit from that `special_base_class` type:
 
 @snippet example/tutorial/concepts.cpp special_base_class_customize
 
-As you can see, `Printable<T>::value` really only checks whether the
+As you can see, `Printable<T>::%value` really only checks whether the
 `print_impl<T>` struct was specialized by a custom type. In particular,
 it does not even check whether the nested `::%apply` function is defined
 or if it is syntactically valid. It is assumed that if one specializes
