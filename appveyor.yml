@@ -1,0 +1,82 @@
+# Copyright Louis Dionne 2015
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
+
+shallow_clone: true
+
+os:
+  - Visual Studio 2015
+  # - Visual Studio 2015 CTP
+  # - Visual Studio 2015 CTP 6
+  # - Visual Studio 2015 Preview
+  # - Visual Studio 2015 RC
+  # - MinGW
+
+build:
+  verbosity: detailed
+
+configuration:
+  - Debug
+
+
+environment:
+  matrix:
+    - TESTS_ONLY: true
+    - EXAMPLES_ONLY: true
+
+
+install:
+  ############################################################################
+  # All external dependencies are installed in C:\projects\deps
+  ############################################################################
+  - mkdir C:\projects\deps
+  - cd C:\projects\deps
+
+  ############################################################################
+  # Install Ninja
+  ############################################################################
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.6.0/ninja-win.zip"
+  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+  - 7z x ninja.zip -oC:\projects\deps\ninja > nul
+  - set PATH=C:\projects\deps\ninja;%PATH%
+  - ninja --version
+
+  ############################################################################
+  # Install a recent CMake
+  ############################################################################
+  - set CMAKE_URL="https://cmake.org/files/v3.4/cmake-3.4.0-win32-x86.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps\cmake > nul
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+  - cmake --version
+
+  ############################################################################
+  # Install Boost headers (for now, we use Boost 1.59.0 provided by Appveyor)
+  ############################################################################
+  - mklink /D boost C:\Libraries\boost_1_59_0
+  # - set BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.zip"
+  # - appveyor DownloadFile %BOOST_URL% -FileName boost.zip
+  # - 7z x boost.zip > nul
+  # - move boost_1_59_0 boost
+
+  ############################################################################
+  # Install a pre-built Clang-cl
+  ############################################################################
+  - set LLVM_URL="https://www.dropbox.com/s/caol8ihddfwqs31/LLVM-3.7.0-win64.zip?dl=1"
+  - appveyor DownloadFile %LLVM_URL% -FileName llvm.zip
+  - 7z x llvm.zip -oC:\projects\deps\llvm > nul
+  - set PATH=C:\projects\deps\llvm\bin;%PATH%
+  - clang-cl -v
+
+
+before_build:
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+  - cd C:\projects\hana
+
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_CXX_FLAGS="-fms-compatibility-version=19" # -DBOOST_ROOT="C:\projects\deps\boost"
+  - if "%TESTS_ONLY%" == "true" (ninja tests.quick && ctest -R --output-on-failure "test.+")
+  - if "%EXAMPLES_ONLY%" == "true" (ninja examples && ctest -R --output-on-failure "example.+")
