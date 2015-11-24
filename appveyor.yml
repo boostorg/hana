@@ -18,6 +18,9 @@ build:
 configuration:
   - Debug
 
+branches:
+  except:
+    - /pr\/.+/
 
 environment:
   matrix:
