@@ -30,7 +30,7 @@ endif()
 
 if (NOT EXISTS "${MPL11_INCLUDE_DIR}" AND MPL11_CLONE_IF_MISSING)
     include(ExternalProject)
-    ExternalProject_Add(MPL11
+    ExternalProject_Add(MPL11 EXCLUDE_FROM_ALL 1
         GIT_REPOSITORY https://github.com/ldionne/mpl11
         TIMEOUT 5
         CMAKE_ARGS -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
