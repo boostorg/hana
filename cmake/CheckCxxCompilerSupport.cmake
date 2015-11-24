@@ -18,33 +18,21 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     ###     cmake .. -DCMAKE_CXX_COMPILER=/path/to/clang
         ")
     endif()
+
     if (MSVC)
         if(${MSVC_VERSION} LESS 1900)
             message(WARNING "
-    ### Your version of Visual Studio is not supported.
-    ### Please upgrade to Visual Studio 2015 or above.
-            ")
-        endif()
-        if(${CMAKE_GENERATOR_TOOLSET} MATCHES "LLVM-*")
-            message(STATUS "Visual Studio platform toolset is ${CMAKE_GENERATOR_TOOLSET}")
-        else()
-            message(WARNING "
-    ### You haven't specified the platform toolset option to cmake.
-    ### Please run cmake for a Windows 32bit solution with
-    ###     cmake -TLLVM-vs2014 ..
-    ### and for a Windows 64bit solution with
-    ###     cmake -TLLVM-vs2014 -G\"Visual Studio 14 2015 Win64\" ..
-    ### which should choose the correct platform toolset automatically.
-            ")
-        endif()
-        if(NOT ${CMAKE_GENERATOR} MATCHES "Visual Studio 14 2015*")
-            message(WARNING "
-    ### You're not using a Visual Studio 2015 generator. Please run cmake
-    ### for a Windows 32bit solution with
-    ###     cmake -TLLVM-vs2014 ..
-    ### and for a Windows 64bit solution with
-    ###     cmake -TLLVM-vs2014 -G\"Visual Studio 14 2015 Win64\" ..
-    ### which should choose the correct platform toolset automatically.
+    ###
+    ### We detected that you were using Clang for Windows with a
+    ### -fms-compatibility-version parameter lower than 19. Only
+    ### -fms-compatibility-version=19 and above are supported by
+    ### Hana for lack of proper C++14 support prior for versions
+    ### below that.
+    ###
+    ### If this diagnostic is wrong and you are not using
+    ### -fms-compatibility-version, please file an issue at
+    ### https://github.com/boostorg/hana/issues.
+    ###
             ")
         endif()
     endif()
@@ -77,13 +65,13 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     ")
 elseif (MSVC)
     message(WARNING "
-    ### Native Visual Studio is not supported. Please install pre-built windows
-    ### LLVM/Clang binaries with Visual Studio 2015 integration and run cmake
-    ### for a Windows 32bit solution with
-    ###     cmake -TLLVM-vs2014 ..
-    ### and for a Windows 64bit solution with
-    ###     cmake -TLLVM-vs2014 -G\"Visual Studio 14 2015 Win64\" ..
-    ### which should choose the correct platform toolset automatically.
+    ### Using the native Microsoft compiler (MSVC) is not supported for lack
+    ### of proper C++14 support. However, you can install pre-built Clang for
+    ### Windows binaries (with Visual Studio integration if desired) at
+    ### http://llvm.org/releases/download.html.
+    ###
+    ### More information about how to set up Hana with Clang for Windows is
+    ### available on Hana's wiki at http://git.io/vBYIp.
     ")
 else()
     message(WARNING "
