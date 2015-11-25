@@ -17,25 +17,25 @@ Distributed under the Boost Software License, Version 1.0.
 // Detect the compiler
 //////////////////////////////////////////////////////////////////////////////
 
-// MSVC must be first check, otherwise it might fail the build at the first #warning
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && !defined(__clang__) // MSVC
+    // This must be checked first, because otherwise it produces a fatal
+    // error due to unrecognized #warning directives used below.
+#   pragma message("Warning: the native Microsoft compiler is not supported due to lack of proper C++14 support.")
+
+#elif defined(__clang__) && defined(_MSC_VER) // Clang-cl (Clang for Windows)
+
+#   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
+                    __clang_major__, __clang_minor__, __clang_patchlevel__)
+
+#   if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(3, 5, 0)
+#       warning "Versions of Clang prior to 3.5.0 are not supported by Hana."
+#   endif
 
 #   if _MSC_VER < 1900
-#       pragma message("Visual Studio 2015 or above is required. Your version is not supported.")
+#       warning "Clang-cl is only supported with the -fms-compatibility-version parameter set to 19 and above."
 #   endif
 
-#   if !defined(__clang__)
-#       pragma message("Note: Visual Studio 2015 is only supported with the LLVM/Clang platform toolset.")
-#   endif
-
-#endif
-
-// Check the compiler for general C++14 capabilities
-#if (__cplusplus < 201400)
-#   warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
-#endif
-
-#if defined(__clang__) && defined(__apple_build_version__) // Apple's Clang
+#elif defined(__clang__) && defined(__apple_build_version__) // Apple's Clang
 
 #   if __apple_build_version__ >= 6020049
 #       define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 6, 0)
@@ -43,7 +43,7 @@ Distributed under the Boost Software License, Version 1.0.
 #       warning "Versions of Apple's Clang prior to the one shipped with Xcode 6.3 are not supported by Hana."
 #   endif
 
-#elif defined(__clang__) // genuine Clang (not Apple's)
+#elif defined(__clang__) // genuine Clang
 
 #   define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(               \
                 __clang_major__, __clang_minor__, __clang_patchlevel__)
@@ -63,6 +63,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 #   warning "Your compiler is not officially supported by Hana or it was not detected properly."
 
+#endif
+
+//////////////////////////////////////////////////////////////////////////////
+// Check the compiler for general C++14 capabilities
+//////////////////////////////////////////////////////////////////////////////
+#if (__cplusplus < 201400)
+#   warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
