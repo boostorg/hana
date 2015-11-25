@@ -109,16 +109,10 @@ installation of Boost, you can specify the path to this custom installation:
 cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
 ```
 
-You can now build and run the unit tests and the examples. Assuming you
-used the Makefile generator with CMake, you can issue
+You can now build and run the unit tests and the examples:
 ```shell
-make check
+cmake --build . --target check
 ```
-
-> #### Tip
-> There is a Makefile at the root of the project which forwards everything
-> to the `build` directory. This way, you can also issue those commands from
-> the root of the project instead of the `build` directory.
 
 You should be aware that compiling the unit tests is pretty time and RAM
 consuming, especially the tests for external adapters. This is due to the
@@ -142,8 +136,9 @@ root of the project to the new source file is `path/to/file.cpp`. When you
 re-run the CMake generation step, a new target named `path.to.file` will be
 created, and a test of the same name will also be created. Hence,
 ```shell
-make path.to.file # Compiles the unit test associated to path/to/file.cpp
-cd build && ctest path.to.file # Runs the corresponding unit test
+cd build # Go back to the build directory
+cmake --build . --target path.to.file # Builds the program associated to path/to/file.cpp
+ctest -R path.to.file # Runs the program as a test
 ```
 
 > #### Tip for Sublime Text users
