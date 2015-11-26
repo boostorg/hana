@@ -298,7 +298,7 @@ script:
         git clone https://ldionne:${GITHUB_TOKEN}@github.com/boostorg/hana --depth 1 --branch=gh-pages doc/gh-pages &>/dev/null
 
         rm -rf doc/gh-pages/{search,*.png,*.css,*.js,*.html}
-        cp -R build/doc/html/* doc/gh-pages
+        cp -R build/doc/html/* doc/gh-pages/
 
         pushd doc/gh-pages
         git add --all .
@@ -330,9 +330,10 @@ script:
 
         # Suppress output to avoid leaking the token when the command fails
         git clone https://ldionne:${GITHUB_TOKEN}@github.com/boostorg/hana --depth 1 --branch=datasets benchmark/datasets &>/dev/null
-        rm benchmark/datasets/${config_slug}/${compiler_slug}/*.json
+        rm -rf benchmark/datasets/${config_slug}/${compiler_slug}/
+        mkdir -p benchmark/datasets/${config_slug}/${compiler_slug}/
         for benchmark in $(ls build/benchmark/*.json | grep -v ".erb"); do
-          cp ${benchmark} benchmark/datasets/${config_slug}/${compiler_slug}
+          cp ${benchmark} benchmark/datasets/${config_slug}/${compiler_slug}/
         done
 
         pushd benchmark/datasets
