@@ -22,16 +22,20 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! An `optional` either contains a value (represented as `just(x)`), or
     //! it is empty (represented as `nothing`). In essence, `hana::optional`
     //! is pretty much like a `boost::optional` or the upcoming `std::optional`,
-    //! except the fact that a `hana::optional` is empty or not is known at
-    //! compile-time. This can be particularly useful for returning from a
-    //! function that might fail, when the reason of failure is unimportant.
-    //! However, there is an important distinction to make between
-    //! `hana::optional` and `std::optional`: `just(x)` and `nothing` do
-    //! not share the same type. Hence, whether a `just` or a `nothing` will
-    //! be returned from a function has to be known at compile-time for the
-    //! return type to be computable by the compiler. This makes
-    //! `hana::optional` well suited for static metaprogramming
-    //! tasks but very poor for anything dynamic.
+    //! except for the fact that whether a `hana::optional` is empty or not is
+    //! known at compile-time. This can be particularly useful for returning
+    //! from a function that might fail, but whose reason for failing is not
+    //! important. Of course, whether the function will fail has to be known
+    //! at compile-time.
+    //!
+    //! This is really an important difference between `hana::optional` and
+    //! `std::optional`. Unlike `std::optional<T>{}` and `std::optional<T>{value}`
+    //! who share the same type (`std::optional<T>`), `just(x)` and `nothing`
+    //! do not share the same type. Hence, whether a `just` or a `nothing`
+    //! will be returned from a function has to be known at compile-time for
+    //! the return type to be computable by the compiler. This makes
+    //! `hana::optional` well suited for static metaprogramming tasks,
+    //! but very poor for anything dynamic.
     //!
     //!
     //! @note
@@ -141,12 +145,20 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! contains a value, and if that value is DefaultConstructible.
         constexpr optional() = default;
 
-        //! Copy-construct an `optional`. If the `optional` contains a value,
-        //! this constructor only exists when the value is CopyConstructible.
+        //! Copy-construct an `optional`.
+        //! An empty optional may only be copy-constructed from another
+        //! empty `optional`, and an `optional` with a value may only be
+        //! copy-constructed from another `optional` with a value.
+        //! Furthermore, this constructor only exists if the value
+        //! held in the `optional` is CopyConstructible.
         optional(optional const&) = default;
 
-        //! Move-construct an `optional`. If the `optional` contains a value,
-        //! this constructor only exists when the value is MoveConstructible.
+        //! Move-construct an `optional`.
+        //! An empty optional may only be move-constructed from another
+        //! empty `optional`, and an `optional` with a value may only be
+        //! move-constructed from another `optional` with a value.
+        //! Furthermore, this constructor only exists if the value
+        //! held in the `optional` is MoveConstructible.
         optional(optional&&) = default;
 
         //! Construct an `optional` holding a value of type `T` from another
@@ -163,13 +175,19 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         // 5.3.3, Assignment
 
-        //! Copy-assign an `optional`. If the `optional` contains a value,
-        //! this assignment operator only exists when the value is
+        //! Copy-assign an `optional`.
+        //! An empty optional may only be copy-assigned from another empty
+        //! `optional`, and an `optional` with a value may only be copy-assigned
+        //! from another `optional` with a value. Furthermore, this assignment
+        //! operator only exists if the value held in the `optional` is
         //! CopyAssignable.
         constexpr optional& operator=(optional const&) = default;
 
-        //! Move-assign an `optional`. If the `optional` contains a value,
-        //! this assignment operator only exists when the value is
+        //! Move-assign an `optional`.
+        //! An empty optional may only be move-assigned from another empty
+        //! `optional`, and an `optional` with a value may only be move-assigned
+        //! from another `optional` with a value. Furthermore, this assignment
+        //! operator only exists if the value held in the `optional` is
         //! MoveAssignable.
         constexpr optional& operator=(optional&&) = default;
 
