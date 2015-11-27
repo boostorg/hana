@@ -31,9 +31,9 @@
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
-<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
@@ -142,7 +142,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1optional.html',
 struct boost::hana::optional&lt;... &gt;</h3>
 
 <p>Optional value whose optional-ness is known at compile-time. </p>
-<p>An <code>optional</code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). In essence, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is pretty much like a <code>boost::optional</code> or the upcoming <code>std::optional</code>, except the fact that a <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is empty or not is known at compile-time. This can be particularly useful for returning from a function that might fail, when the reason of failure is unimportant. However, there is an important distinction to make between <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> and <code>std::optional</code>: <code>just(x)</code> and <code>nothing</code> do not share the same type. Hence, whether a <code>just</code> or a <code>nothing</code> will be returned from a function has to be known at compile-time for the return type to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> well suited for static metaprogramming tasks but very poor for anything dynamic.</p>
+<p>An <code>optional</code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). In essence, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is pretty much like a <code>boost::optional</code> or the upcoming <code>std::optional</code>, except for the fact that whether a <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is empty or not is known at compile-time. This can be particularly useful for returning from a function that might fail, but whose reason for failing is not important. Of course, whether the function will fail has to be known at compile-time.</p>
+<p>This is really an important difference between <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> and <code>std::optional</code>. Unlike <code>std::optional&lt;T&gt;{}</code> and <code>std::optional&lt;T&gt;{value}</code> who share the same type (<code>std::optional&lt;T&gt;</code>), <code>just(x)</code> and <code>nothing</code> do not share the same type. Hence, whether a <code>just</code> or a <code>nothing</code> will be returned from a function has to be known at compile-time for the return type to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> well suited for static metaprogramming tasks, but very poor for anything dynamic.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is implementation-defined. In particular, one should not take for granted any particular representation for <code>hana::just(...)</code> and <code>hana::nothing</code>, or the presence of any constructor/assignment operator. The proper way to create an <code>optional</code> is through <code>hana::just</code> and <code>hana::nothing</code>, and one should use <code>hana::is_just</code> and <code>hana::is_nothing</code> to determine the status of an <code>optional</code> instead of relying on a particular representation.</dd></dl>
 <h2>Interoperation with <code>type</code>s </h2>
 <p>When a <code>just</code> contains an object of type <code>T</code> which is a <code>type</code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code>type</code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -186,7 +187,7 @@ struct boost::hana::optional&lt;... &gt;</h3>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two <code>optional</code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -207,7 +208,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -230,7 +231,7 @@ Optional values can be ordered by considering the value they are holding, if any
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 An optional value can be seen as a list containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an optional value is equivalent to applying it to its value if there is one, and to <code>nothing</code> otherwise: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>, f) == nothing</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -252,7 +253,7 @@ An optional value can be seen as a list containing either one element (<code>jus
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise: <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">ap(nothing, <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == nothing</div>
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), nothing) == nothing</div>
@@ -330,8 +331,8 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">    static_assert(hana::lift&lt;hana::optional_tag&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> model makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of optionality removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> model makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of optionality removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -357,8 +358,8 @@ The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Mona
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::flatten(hana::just(hana::just(2))) == hana::just(2));</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> model allows choosing the first valid value out of two optional values with <code>concat</code>. If both optional values are <code>nothing</code>s, <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> model allows choosing the first valid value out of two optional values with <code>concat</code>. If both optional values are <code>nothing</code>s, <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -379,7 +380,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The 
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding an optional value is equivalent to folding a list containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -397,7 +398,7 @@ Folding an optional value is equivalent to folding a list containing either no e
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching an optional value is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -466,11 +467,11 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="separator:a4eb5fabd070088c2d4f84bd1c7701d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27da569f0a998ac135781debca994a0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27da569f0a998ac135781debca994a0b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a27da569f0a998ac135781debca994a0b">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
-<tr class="memdesc:a27da569f0a998ac135781debca994a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct an <code>optional</code>. If the <code>optional</code> contains a value, this constructor only exists when the value is CopyConstructible. <br /></td></tr>
+<tr class="memdesc:a27da569f0a998ac135781debca994a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct an <code>optional</code>. An empty optional may only be copy-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is CopyConstructible. <br /></td></tr>
 <tr class="separator:a27da569f0a998ac135781debca994a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3817d3db511f2832d106b61e40127f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3817d3db511f2832d106b61e40127f4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ad3817d3db511f2832d106b61e40127f4">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
-<tr class="memdesc:ad3817d3db511f2832d106b61e40127f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct an <code>optional</code>. If the <code>optional</code> contains a value, this constructor only exists when the value is MoveConstructible. <br /></td></tr>
+<tr class="memdesc:ad3817d3db511f2832d106b61e40127f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct an <code>optional</code>. An empty optional may only be move-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is MoveConstructible. <br /></td></tr>
 <tr class="separator:ad3817d3db511f2832d106b61e40127f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a961666f1942c1e2f9cbb0e478caf58a4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a961666f1942c1e2f9cbb0e478caf58a4"></a>
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a961666f1942c1e2f9cbb0e478caf58a4">optional</a> (T const &amp;t)</td></tr>
@@ -482,11 +483,11 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 <tr class="separator:a9a4a8fa539ea5aac82e6de5ce9a75c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6de973cd833ef29f4a85d1b5af82c6d"></a>
 constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ab6de973cd833ef29f4a85d1b5af82c6d">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
-<tr class="memdesc:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assign an <code>optional</code>. If the <code>optional</code> contains a value, this assignment operator only exists when the value is CopyAssignable. <br /></td></tr>
+<tr class="memdesc:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assign an <code>optional</code>. An empty optional may only be copy-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is CopyAssignable. <br /></td></tr>
 <tr class="separator:ab6de973cd833ef29f4a85d1b5af82c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dbb46bd53e35d2d8ed55b7adb884b45"></a>
 constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a5dbb46bd53e35d2d8ed55b7adb884b45">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
-<tr class="memdesc:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. If the <code>optional</code> contains a value, this assignment operator only exists when the value is MoveAssignable. <br /></td></tr>
+<tr class="memdesc:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. An empty optional may only be move-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is MoveAssignable. <br /></td></tr>
 <tr class="separator:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64132dd9925e8ecc47aee4610a3b08e6"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a64132dd9925e8ecc47aee4610a3b08e6">operator-&gt;</a> ()</td></tr>
 <tr class="memdesc:a64132dd9925e8ecc47aee4610a3b08e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#a64132dd9925e8ecc47aee4610a3b08e6">More...</a><br /></td></tr>
@@ -824,7 +825,7 @@ template&lt;typename... &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> contains a value. </p>
-<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
+<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -870,7 +871,7 @@ template&lt;typename... &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> is empty. </p>
-<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
+<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

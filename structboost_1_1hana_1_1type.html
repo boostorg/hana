@@ -31,9 +31,9 @@
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
-<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
@@ -155,7 +155,7 @@ struct boost::hana::type&lt; T &gt;</h3>
 <div class="line"><span class="keyword">using</span> T = decltype(+ts[0_c])::type; <span class="comment">// ok: &#39;+ts[0_c]&#39; is an rvalue</span></div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two types are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -506,7 +506,7 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment -->
 <p>Checks whether a SFINAE-friendly expression is valid. </p>
 <p>Given a SFINAE-friendly function, <code>is_valid</code> returns whether the function call is valid with the given arguments. Specifically, given a function <code>f</code> and arguments <code>args...</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f, args...) == whether f(args...) is valid</div>
-</div><!-- fragment --><p>The result is returned as a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
+</div><!-- fragment --><p>The result is returned as a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
 </div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
 <dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
 <h2>Example </h2>

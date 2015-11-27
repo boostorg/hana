@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['negate',['negate',['../structboost_1_1hana_1_1Group.html#a69e56a0004a93e0745ee178ce0b80e65',1,'boost::hana::Group']]],
+  ['negate',['negate',['../structboost_1_1hana_1_1_group.html#a69e56a0004a93e0745ee178ce0b80e65',1,'boost::hana::Group']]],
   ['negate_2ehpp',['negate.hpp',['../fwd_2negate_8hpp.html',1,'']]],
   ['negate_2ehpp',['negate.hpp',['../negate_8hpp.html',1,'']]],
   ['nested_5fby',['nested_by',['../structboost_1_1hana_1_1detail_1_1nested__by.html',1,'boost::hana::detail']]],
@@ -12,16 +12,16 @@ var searchData=
   ['nested_5fto',['nested_to',['../structboost_1_1hana_1_1detail_1_1nested__to.html',1,'boost::hana::detail']]],
   ['nested_5fto_2ehpp',['nested_to.hpp',['../nested__to_8hpp.html',1,'']]],
   ['nested_5fto_5ffwd_2ehpp',['nested_to_fwd.hpp',['../nested__to__fwd_8hpp.html',1,'']]],
-  ['none',['none',['../structboost_1_1hana_1_1Searchable.html#a9365b793fe547271e48fa719a7f4854d',1,'boost::hana::Searchable']]],
+  ['none',['none',['../structboost_1_1hana_1_1_searchable.html#a9365b793fe547271e48fa719a7f4854d',1,'boost::hana::Searchable']]],
   ['none_2ehpp',['none.hpp',['../fwd_2none_8hpp.html',1,'']]],
   ['none_2ehpp',['none.hpp',['../none_8hpp.html',1,'']]],
-  ['none_5fof',['none_of',['../structboost_1_1hana_1_1Searchable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Searchable']]],
+  ['none_5fof',['none_of',['../structboost_1_1hana_1_1_searchable.html#abf1dbf83a1d98c62994e207ea18eea8a',1,'boost::hana::Searchable']]],
   ['none_5fof_2ehpp',['none_of.hpp',['../none__of_8hpp.html',1,'']]],
   ['none_5fof_2ehpp',['none_of.hpp',['../fwd_2none__of_8hpp.html',1,'']]],
   ['not_2ehpp',['not.hpp',['../fwd_2not_8hpp.html',1,'']]],
   ['not_2ehpp',['not.hpp',['../not_8hpp.html',1,'']]],
-  ['not_5f',['not_',['../structboost_1_1hana_1_1Logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],
-  ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1Comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
+  ['not_5f',['not_',['../structboost_1_1hana_1_1_logical.html#a3c5a578f274b7513e5008eab698fa5bc',1,'boost::hana::Logical']]],
+  ['not_5fequal',['not_equal',['../structboost_1_1hana_1_1_comparable.html#a6983538356aab75eddf1a7aace6c7925',1,'boost::hana::Comparable']]],
   ['not_5fequal_2ehpp',['not_equal.hpp',['../not__equal_8hpp.html',1,'']]],
   ['not_5fequal_2ehpp',['not_equal.hpp',['../fwd_2not__equal_8hpp.html',1,'']]],
   ['nothing',['nothing',['../structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8',1,'boost::hana::optional']]]

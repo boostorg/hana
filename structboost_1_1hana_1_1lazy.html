@@ -31,9 +31,9 @@
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
-<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
@@ -145,7 +145,7 @@ struct boost::hana::lazy&lt;... &gt;</h3>
 <dl class="section note"><dt>Note</dt><dd>The actual representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code> is completely implementation-defined. Lazy values may only be created through <code>hana::make_lazy</code>, and they can be stored in variables using <code>auto</code>, but any other assumption about the representation of <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> should be avoided. In particular, one should not rely on the fact that <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a>&lt;...&gt;</code> can be pattern-matched on, because it may be a dependent type.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -166,9 +166,9 @@ Applying a function over a lazy value with <code>transform</code> returns the re
 <div class="line">    hana::transform(hana::make_lazy(4 / <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a>)(0), <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">_</a> * 3); <span class="comment">// never evaluated</span></div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
 The <code>lazy</code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -219,7 +219,7 @@ The <code>lazy</code> monad allows combining lazy computations into larger lazy 
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(eout == (in + 1) / 2);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code><br />
 The <code>lazy</code> comonad allows evaluating a lazy computation to get its result and lazily applying functions taking lazy inputs to lazy values. This <a href="http://ldionne.com/2015/03/16/laziness-as-a-comonad">blog post</a> goes into more details about lazy evaluation and comonads. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -295,7 +295,7 @@ template&lt;typename... &gt; </div>
 </div><!-- fragment -->
 <p>Evaluate a lazy value and return it. </p>
 <p>Given a lazy expression <code>expr</code>, <code>eval</code> evaluates <code>expr</code> and returns the result as a normal value. However, for convenience, <code>eval</code> can also be used with nullary and unary function objects. Specifically, if <code>expr</code> is not a <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code>, it is called with no arguments at all and the result of that call (<code>expr()</code>) is returned. Otherwise, if <code>expr()</code> is ill-formed, then <code>expr(hana::id)</code> is returned instead. If that expression is ill-formed, then a compile-time error is triggered.</p>
-<p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code>hana::id</code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieve is documented by <a class="el" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>.</p>
+<p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code>hana::id</code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieve is documented by <a class="el" href="structboost_1_1hana_1_1_logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

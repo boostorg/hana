@@ -31,9 +31,9 @@
 </script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
-<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/data.js"></script>
-<script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
+<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
@@ -140,12 +140,12 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1map.html','');}
 <div class="textblock"><h3>template&lt;typename... Pairs&gt;<br />
 struct boost::hana::map&lt; Pairs &gt;</h3>
 
-<p>Basic associative container requiring unique and <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys. </p>
-<p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</p>
+<p>Basic associative container requiring unique and <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys. </p>
+<p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</p>
 <dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any constructor or assignment operator. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -177,8 +177,8 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
-A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Also note that <code>operator[]</code> can be used instead of <code>at_key</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+A map can be searched by its keys with a predicate yielding a compile-time <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Also note that <code>operator[]</code> can be used instead of <code>at_key</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -211,7 +211,7 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a map is equivalent to folding a list of the key/value pairs it contains. In particular, since that list is not guaranteed to be in any specific order, folding a map with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -257,8 +257,8 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 </ol>
 <h2>Provided constructions </h2>
 <ol type="1">
-<li>From any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. If the structure contains duplicate keys, only the value associated to the first occurence of each key is kept. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li>From any <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+Converts a <code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. If the structure contains duplicate keys, only the value associated to the first occurence of each key is kept. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -306,10 +306,10 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memdesc:a4feb32bd0a065a0732908716d4855b57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#a4feb32bd0a065a0732908716d4855b57">More...</a><br /></td></tr>
 <tr class="separator:a4feb32bd0a065a0732908716d4855b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f32260f859b2510dd16235b7bc011ac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac">keys</a></td></tr>
-<tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
+<tr class="memdesc:a0f32260f859b2510dd16235b7bc011ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order.  <a href="#a0f32260f859b2510dd16235b7bc011ac">More...</a><br /></td></tr>
 <tr class="separator:a0f32260f859b2510dd16235b7bc011ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e016a68e3ec6eb25868fadb7ce80132"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132">values</a></td></tr>
-<tr class="memdesc:a2e016a68e3ec6eb25868fadb7ce80132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the values of the map, in unspecified order.  <a href="#a2e016a68e3ec6eb25868fadb7ce80132">More...</a><br /></td></tr>
+<tr class="memdesc:a2e016a68e3ec6eb25868fadb7ce80132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the values of the map, in unspecified order.  <a href="#a2e016a68e3ec6eb25868fadb7ce80132">More...</a><br /></td></tr>
 <tr class="separator:a2e016a68e3ec6eb25868fadb7ce80132"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
 <tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a new key/value pair in a map.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
@@ -345,7 +345,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. </p>
-<p>Given zero or more <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
+<p>Given zero or more <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -484,7 +484,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> implementation-defined;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order. </p>
+<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the keys of the map, in unspecified order. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -544,7 +544,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> implementation-defined;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the values of the map, in unspecified order. </p>
+<p>Returns a <code><a class="el" href="structboost_1_1hana_1_1_sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code> of the values of the map, in unspecified order. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -608,7 +608,7 @@ template&lt;typename... Pairs&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">map</td><td>The map in which to insert a <code>(key,value)</code> pair.</td></tr>
-    <tr><td class="paramname">pair</td><td>An arbitrary <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> representing a <code>(key, value)</code> pair to insert in the map. The <code>key</code> must be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
+    <tr><td class="paramname">pair</td><td>An arbitrary <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> representing a <code>(key, value)</code> pair to insert in the map. The <code>key</code> must be compile-time <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -679,7 +679,7 @@ template&lt;typename... Pairs&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">map</td><td>The map in which to erase a <code>key</code>.</td></tr>
-    <tr><td class="paramname">key</td><td>A key to remove from the map. It must be compile-time <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
+    <tr><td class="paramname">key</td><td>A key to remove from the map. It must be compile-time <code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code>.</td></tr>
   </table>
   </dd>
 </dl>
