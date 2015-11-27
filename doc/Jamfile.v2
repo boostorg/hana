@@ -132,5 +132,5 @@ doxygen hana.html
       <doxygen:param>SEARCHENGINE=YES
       <doxygen:param>USE_MATHJAX=YES
       <doxygen:param>MATHJAX_FORMAT=HTML-CSS
-      <doxygen:param>MATHJAX_RELPATH=http://cdn.mathjax.org/mathjax/latest
+      <doxygen:param>MATHJAX_RELPATH=https://cdn.mathjax.org/mathjax/latest
     ;

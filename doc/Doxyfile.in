@@ -122,6 +122,6 @@ SEARCHENGINE            = YES
 # Mathjax (HTML only)
 USE_MATHJAX             = YES
 MATHJAX_FORMAT          = HTML-CSS
-MATHJAX_RELPATH         = //cdn.mathjax.org/mathjax/latest
+MATHJAX_RELPATH         = https://cdn.mathjax.org/mathjax/latest
 MATHJAX_EXTENSIONS      =
 MATHJAX_CODEFILE        =
