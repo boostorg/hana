@@ -76,7 +76,7 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
             -e "File.open('${CMAKE_CURRENT_BINARY_DIR}/${target}.json', 'w') { |f| f.write(json) } "
         WORKING_DIRECTORY ${directory}
         DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json ${cpp_files}
-        VERBATIM
+        VERBATIM USES_TERMINAL
         COMMENT "Generating dataset for ${target}"
     )
 
