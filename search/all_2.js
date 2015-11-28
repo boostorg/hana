@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['back',['back',['../structboost_1_1hana_1_1_iterable.html#a506a9445ba4459cf38668e9662f76895',1,'boost::hana::Iterable']]],
+  ['back',['back',['../structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895',1,'boost::hana::Iterable']]],
   ['back_2ehpp',['back.hpp',['../fwd_2back_8hpp.html',1,'']]],
   ['back_2ehpp',['back.hpp',['../back_8hpp.html',1,'']]],
   ['basic_5ftuple',['basic_tuple',['../structboost_1_1hana_1_1basic__tuple.html',1,'boost::hana']]],
@@ -16,8 +16,8 @@ var searchData=
   ['bool_5fc',['bool_c',['../structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3',1,'boost::hana::integral_constant']]],
   ['boost',['boost',['../namespaceboost.html',1,'']]],
   ['boost_2ehpp',['boost.hpp',['../boost_8hpp.html',1,'']]],
-  ['boost_5fhana_5fadapt_5fadt',['BOOST_HANA_ADAPT_ADT',['../structboost_1_1hana_1_1_struct.html#aac04636bb22fdfb729855f39d0eb0892',1,'boost::hana::Struct']]],
-  ['boost_5fhana_5fadapt_5fstruct',['BOOST_HANA_ADAPT_STRUCT',['../structboost_1_1hana_1_1_struct.html#a41037f470ac6ca2f7135802592ef5977',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fadapt_5fadt',['BOOST_HANA_ADAPT_ADT',['../structboost_1_1hana_1_1Struct.html#aac04636bb22fdfb729855f39d0eb0892',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fadapt_5fstruct',['BOOST_HANA_ADAPT_STRUCT',['../structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977',1,'boost::hana::Struct']]],
   ['boost_5fhana_5fassert',['BOOST_HANA_ASSERT',['../group__group-assertions.html#ga3aef20746c9e8ad15ad10179f9b01397',1,'assert.hpp']]],
   ['boost_5fhana_5fcheck',['BOOST_HANA_CHECK',['../group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139',1,'assert.hpp']]],
   ['boost_5fhana_5fconfig_5fdisable_5fassertions',['BOOST_HANA_CONFIG_DISABLE_ASSERTIONS',['../group__group-config.html#ga08dcc32bef198420e646244e851d1995',1,'config.hpp']]],
@@ -28,7 +28,7 @@ var searchData=
   ['boost_5fhana_5fconstant_5fcheck',['BOOST_HANA_CONSTANT_CHECK',['../group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fassert',['BOOST_HANA_CONSTEXPR_ASSERT',['../group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fcheck',['BOOST_HANA_CONSTEXPR_CHECK',['../group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a',1,'assert.hpp']]],
-  ['boost_5fhana_5fdefine_5fstruct',['BOOST_HANA_DEFINE_STRUCT',['../structboost_1_1hana_1_1_struct.html#a733de713ae2407331983c60186b215ca',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fdefine_5fstruct',['BOOST_HANA_DEFINE_STRUCT',['../structboost_1_1hana_1_1Struct.html#a733de713ae2407331983c60186b215ca',1,'boost::hana::Struct']]],
   ['boost_5fhana_5fdispatch_5fif',['BOOST_HANA_DISPATCH_IF',['../group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e',1,'dispatch_if.hpp']]],
   ['boost_5fhana_5fmajor_5fversion',['BOOST_HANA_MAJOR_VERSION',['../group__group-config.html#gac1f8e58978bf4fe02f68ca4646124aee',1,'version.hpp']]],
   ['boost_5fhana_5fminor_5fversion',['BOOST_HANA_MINOR_VERSION',['../group__group-config.html#gafd6a702442b280083efe2690da5621bd',1,'version.hpp']]],

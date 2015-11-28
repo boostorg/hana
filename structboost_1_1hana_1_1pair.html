@@ -145,7 +145,7 @@ struct boost::hana::pair&lt; First, Second &gt;</h3>
 <p><code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code> is conceptually the same as <code><a class="el" href="structstd_1_1pair.html" title="Adaptation of std::pair for Hana. ">std::pair</a></code>. However, <code><a class="el" href="structboost_1_1hana_1_1pair.html" title="Generic container for two elements. ">hana::pair</a></code> automatically compresses the storage of empty types, and as a result it does not have the <code>.first</code> and <code>.second</code> members. Instead, one must use the <code>hana::first</code> and <code>hana::second</code> free functions to access the elements of a pair.</p>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two pairs <code>(x, y)</code> and `(x', y')<code>are equal if and only if both </code>x == x'<code>and</code>y == y'`. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -164,7 +164,7 @@ Two pairs <code>(x, y)</code> and `(x', y')<code>are equal if and only if both <
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 Pairs are ordered as-if they were 2-element tuples, using a lexicographical ordering. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -182,7 +182,7 @@ Pairs are ordered as-if they were 2-element tuples, using a lexicographical orde
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a pair is equivalent to folding a 2-element tuple. In other words: <div class="fragment"><div class="line">fold_left(<a class="code" href="structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(x, y), s, f) == f(f(s, x), y)</div>
 <div class="line">fold_right(<a class="code" href="structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045">make_pair</a>(x, y), s, f) == f(x, f(y, s))</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -204,8 +204,8 @@ Folding a pair is equivalent to folding a 2-element tuple. In other words: <div 
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code><br />
-The model of <code><a class="el" href="structboost_1_1hana_1_1_product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> is the simplest one possible; the first element of a pair <code>(x, y)</code> is <code>x</code>, and its second element is <code>y</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code><br />
+The model of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code> is the simplest one possible; the first element of a pair <code>(x, y)</code> is <code>x</code>, and its second element is <code>y</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>

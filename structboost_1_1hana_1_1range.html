@@ -146,7 +146,7 @@ struct boost::hana::range&lt; T, from, to &gt;</h3>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is implementation defined. In particular, one should not take for granted the number and types of template parameters. The proper way to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is to use <code>hana::range_c</code> or <code>hana::make_range</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two ranges are equal if and only if they are both empty or they both span the same interval. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -170,7 +170,7 @@ Two ranges are equal if and only if they are both empty or they both span the sa
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding a <code>range</code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -199,7 +199,7 @@ Folding a <code>range</code> is equivalent to folding a list of the <code><a cla
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Iterable.html" title="The Iterable concept represents data structures supporting external iteration. ">Iterable</a></code><br />
 Iterating over a <code>range</code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. Also note that <code>operator[]</code> can be used in place of the <code>at</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -227,7 +227,7 @@ Iterating over a <code>range</code> is equivalent to iterating over a list of th
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching a <code>range</code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -291,7 +291,7 @@ template&lt;&gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s. </p>
-<p>Given two <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s <code>from</code> and <code>to</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s <code>[from, to)</code>. <code>from</code> and <code>to</code> must form a valid interval, which means that <code>from &lt;= to</code> must be true. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1_integral_constant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s whose underlying type is their common type.</p>
+<p>Given two <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s <code>from</code> and <code>to</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s <code>[from, to)</code>. <code>from</code> and <code>to</code> must form a valid interval, which means that <code>from &lt;= to</code> must be true. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s whose underlying type is their common type.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>

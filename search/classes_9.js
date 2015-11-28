@@ -4,5 +4,5 @@ var searchData=
   ['lazy_5ftag',['lazy_tag',['../structboost_1_1hana_1_1lazy__tag.html',1,'boost::hana']]],
   ['list',['list',['../structboost_1_1fusion_1_1list.html',1,'boost::fusion']]],
   ['list',['list',['../structboost_1_1mpl_1_1list.html',1,'boost::mpl']]],
-  ['logical',['Logical',['../structboost_1_1hana_1_1_logical.html',1,'boost::hana']]]
+  ['logical',['Logical',['../structboost_1_1hana_1_1Logical.html',1,'boost::hana']]]
 ];

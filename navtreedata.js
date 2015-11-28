@@ -102,7 +102,7 @@ var NAVTREEINDEX =
 "accessors_8hpp.html",
 "fwd_2front_8hpp.html",
 "index.html#tutorial-rationales-tag_dispatching",
-"structboost_1_1hana_1_1_sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1"
+"structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

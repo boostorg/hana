@@ -187,7 +187,7 @@ struct boost::hana::optional&lt;... &gt;</h3>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1_comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two <code>optional</code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -208,7 +208,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Orderable.html" title="The Orderable concept represents totally ordered data types. ">Orderable</a></code><br />
 Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -231,7 +231,7 @@ Optional values can be ordered by considering the value they are holding, if any
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 An optional value can be seen as a list containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an optional value is equivalent to applying it to its value if there is one, and to <code>nothing</code> otherwise: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>, f) == nothing</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -253,7 +253,7 @@ An optional value can be seen as a list containing either one element (<code>jus
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Applicative.html" title="The Applicative concept represents Functors with the ability to lift values and combine computations...">Applicative</a></code><br />
 First, a value can be made optional with <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>, which is equivalent to <code>just</code>. Second, one can feed an optional value to an optional function with <code>ap</code>, which will return <code>just(f(x))</code> if there is both a function <em>and</em> a value, and <code>nothing</code> otherwise: <div class="fragment"><div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">ap(nothing, <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x)) == nothing</div>
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), nothing) == nothing</div>
@@ -331,8 +331,8 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">    static_assert(hana::lift&lt;hana::optional_tag&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> model makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of optionality removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> model makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of optionality removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -358,8 +358,8 @@ The <code><a class="el" href="structboost_1_1hana_1_1_monad.html" title="The Mon
 <div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::flatten(hana::just(hana::just(2))) == hana::just(2));</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
-The <code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> model allows choosing the first valid value out of two optional values with <code>concat</code>. If both optional values are <code>nothing</code>s, <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
+The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> model allows choosing the first valid value out of two optional values with <code>concat</code>. If both optional values are <code>nothing</code>s, <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -380,7 +380,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1_monad_plus.html" title="Th
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding an optional value is equivalent to folding a list containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -398,7 +398,7 @@ Folding an optional value is equivalent to folding a list containing either no e
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
-<li><code><a class="el" href="structboost_1_1hana_1_1_searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
+<li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching an optional value is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -825,7 +825,7 @@ template&lt;typename... &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> contains a value. </p>
-<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
+<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
@@ -871,7 +871,7 @@ template&lt;typename... &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> is empty. </p>
-<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1_logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
+<p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
