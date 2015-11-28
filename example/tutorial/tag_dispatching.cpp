@@ -87,6 +87,18 @@ struct print_impl<vector_tag> {
 };
 //! [customize]
 
+#if 0
+//! [customize-when]
+template <typename Tag>
+struct print_impl<Tag, hana::when<Tag represents some kind of sequence>> {
+  template <typename Seq>
+  static void apply(std::ostream& os, Seq xs) {
+    // Some implementation for any sequence
+  }
+};
+//! [customize-when]
+#endif
+
 int main() {
   {
     std::stringstream ss;

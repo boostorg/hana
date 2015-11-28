@@ -2848,6 +2848,41 @@ ability to be used in higher order algorithms or as variables:
 
 @snippet example/tutorial/tag_dispatching.cpp function_objects
 
+As you are probably aware of, being able to implement an algorithm for many
+types at the same time is tremendously useful (that's precisely the goal of
+C++ templates!). However, even more useful is the ability to implement an
+algorithm for many types _that satisfy some condition_. C++ templates are
+currently missing this ability to constrain their template parameters, but a
+language feature called [concepts][C++17.clite] is being rolled out with the
+goal of addressing this issue.
+
+With something similar in mind, Hana's algorithms support an additional layer
+of tag-dispatching to what was explained above. This layer allows us to
+"specialize" an algorithm for all types that satisfy some predicate. For
+example, let's say we wanted to implement the `print` function above for all
+types that represent some kind of sequence. Right now, we wouldn't have an
+easy way to do this. However, the tag dispatching for Hana's algorithms is
+set up slightly differently than what was shown above, and we could hence
+write the following:
+
+@snippet example/tutorial/tag_dispatching.cpp customize-when
+
+where `Tag represents some kind of sequence` would only need to be a boolean
+expression representing whether `Tag` is a sequence. We'll see how such
+predicates can be created in the next section, but for now let's assume that
+it _just works_. Without going into the details of how this tag-dispatching is
+set up, the above specialization will only be picked up when the predicate is
+satisfied, and if no better match can be found. Hence, for example, if our
+`vector_tag` was to satisfy the predicate, our initial implementation for
+`vector_tag` would still be preferred over the `hana::when`-based specialization,
+because it represents a better match. In general, any specialization (whether
+explicit or partial) _not_ using `hana::when` will be preferred over a
+specialization using `hana::when`, which was designed to be as unsurprising
+as possible from a user point of view. This covers pretty much all there's
+to say about tag-dispatching in Hana. The next section will explain how we
+can create C++ concepts for metaprogramming, which could then be used in
+conjunction with `hana::when` to achieve a great deal of expressiveness.
+
 
 @subsection tutorial-core-concepts Emulation of C++ concepts
 
