@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto none_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using None = BOOST_HANA_DISPATCH_IF(none_impl<S>,
-            Searchable<S>::value
+            hana::Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Searchable<S>::value,
+        static_assert(hana::Searchable<S>::value,
         "hana::none(xs) requires 'xs' to be a Searchable");
     #endif
 

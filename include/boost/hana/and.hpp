@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) and_t::operator()(X&& x, Y&& y) const {
         using Bool = typename hana::tag_of<X>::type;
         using And = BOOST_HANA_DISPATCH_IF(and_impl<Bool>,
-            Logical<Bool>::value
+            hana::Logical<Bool>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Logical<Bool>::value,
+        static_assert(hana::Logical<Bool>::value,
         "hana::and_(x, y) requires 'x' to be a Logical");
     #endif
 

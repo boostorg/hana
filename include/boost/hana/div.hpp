@@ -31,16 +31,16 @@ BOOST_HANA_NAMESPACE_BEGIN
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Div = BOOST_HANA_DISPATCH_IF(decltype(div_impl<T, U>{}),
-            EuclideanRing<T>::value &&
-            EuclideanRing<U>::value &&
+            hana::EuclideanRing<T>::value &&
+            hana::EuclideanRing<U>::value &&
             !is_default<div_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(EuclideanRing<T>::value,
+        static_assert(hana::EuclideanRing<T>::value,
         "hana::div(x, y) requires 'x' to be an EuclideanRing");
 
-        static_assert(EuclideanRing<U>::value,
+        static_assert(hana::EuclideanRing<U>::value,
         "hana::div(x, y) requires 'y' to be an EuclideanRing");
 
         static_assert(!is_default<div_impl<T, U>>::value,
@@ -95,7 +95,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct div_impl<C, C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         EuclideanRing<typename C::value_type>::value
     >> {
         template <typename X, typename Y>

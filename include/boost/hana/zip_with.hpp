@@ -30,7 +30,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto zip_with_t::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(detail::fast_and<
-            Sequence<Xs>::value, Sequence<Ys>::value...
+            hana::Sequence<Xs>::value, hana::Sequence<Ys>::value...
         >::value,
         "hana::zip_with(f, xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif

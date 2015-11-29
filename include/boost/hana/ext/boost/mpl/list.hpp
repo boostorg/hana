@@ -173,7 +173,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Conversion from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<ext::boost::mpl::list_tag, F, when<Foldable<F>::value>> {
+    struct to_impl<ext::boost::mpl::list_tag, F, when<hana::Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             auto list_type = hana::unpack(static_cast<Xs&&>(xs),

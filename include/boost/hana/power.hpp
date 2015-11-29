@@ -30,15 +30,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) power_t::operator()(X&& x, N const& n) const {
         using R = typename hana::tag_of<X>::type;
         using Power = BOOST_HANA_DISPATCH_IF(power_impl<R>,
-            Ring<R>::value &&
-            IntegralConstant<N>::value
+            hana::Ring<R>::value &&
+            hana::IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Ring<R>::value,
+        static_assert(hana::Ring<R>::value,
         "hana::power(x, n) requires 'x' to be in a Ring");
 
-        static_assert(IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<N>::value,
         "hana::power(x, n) requires 'n' to be an IntegralConstant");
     #endif
 

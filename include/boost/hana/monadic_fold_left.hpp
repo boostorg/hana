@@ -29,7 +29,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct monadic_fold_left_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monad<M>::value,
+        static_assert(hana::Monad<M>::value,
         "hana::monadic_fold_left<M> requires 'M' to be a Monad");
     #endif
 
@@ -37,11 +37,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const {
             using S = typename hana::tag_of<Xs>::type;
             using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(monadic_fold_left_impl<S>,
-                Foldable<S>::value
+                hana::Foldable<S>::value
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(Foldable<S>::value,
+            static_assert(hana::Foldable<S>::value,
             "hana::monadic_fold_left<M>(xs, state, f) requires 'xs' to be Foldable");
         #endif
 
@@ -54,11 +54,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const {
             using S = typename hana::tag_of<Xs>::type;
             using MonadicFoldLeft = BOOST_HANA_DISPATCH_IF(monadic_fold_left_impl<S>,
-                Foldable<S>::value
+                hana::Foldable<S>::value
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(Foldable<S>::value,
+            static_assert(hana::Foldable<S>::value,
             "hana::monadic_fold_left<M>(xs, f) requires 'xs' to be Foldable");
         #endif
 

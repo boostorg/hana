@@ -26,15 +26,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto drop_front_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using DropFront = BOOST_HANA_DISPATCH_IF(drop_front_impl<It>,
-            Iterable<It>::value &&
-            IntegralConstant<N>::value
+            hana::Iterable<It>::value &&
+            hana::IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Iterable<It>::value,
+        static_assert(hana::Iterable<It>::value,
         "hana::drop_front(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<N>::value,
         "hana::drop_front(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

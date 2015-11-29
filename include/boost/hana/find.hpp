@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto find_t::operator()(Xs&& xs, Key&& key) const {
         using S = typename hana::tag_of<Xs>::type;
         using Find = BOOST_HANA_DISPATCH_IF(find_impl<S>,
-            Searchable<S>::value
+            hana::Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Searchable<S>::value,
+        static_assert(hana::Searchable<S>::value,
         "hana::find(xs, key) requires 'xs' to be Searchable");
     #endif
 

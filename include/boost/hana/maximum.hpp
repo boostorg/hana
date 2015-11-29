@@ -27,11 +27,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) maximum_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Maximum = BOOST_HANA_DISPATCH_IF(maximum_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::maximum(xs) requires 'xs' to be Foldable");
     #endif
 
@@ -42,11 +42,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) maximum_t::operator()(Xs&& xs, Predicate&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using Maximum = BOOST_HANA_DISPATCH_IF(maximum_pred_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::maximum(xs, predicate) requires 'xs' to be Foldable");
     #endif
 

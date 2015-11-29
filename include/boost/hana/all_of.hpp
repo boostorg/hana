@@ -26,11 +26,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto all_of_t::operator()(Xs&& xs, Pred&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using AllOf = BOOST_HANA_DISPATCH_IF(all_of_impl<S>,
-            Searchable<S>::value
+            hana::Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Searchable<S>::value,
+        static_assert(hana::Searchable<S>::value,
         "hana::all_of(xs, pred) requires 'xs' to be a Searchable");
     #endif
 

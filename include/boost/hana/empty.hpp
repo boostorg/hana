@@ -23,13 +23,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct empty_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(MonadPlus<M>::value,
+        static_assert(hana::MonadPlus<M>::value,
         "hana::empty<M>() requires 'M' to be a MonadPlus");
     #endif
 
         constexpr auto operator()() const {
             using Empty = BOOST_HANA_DISPATCH_IF(empty_impl<M>,
-                MonadPlus<M>::value
+                hana::MonadPlus<M>::value
             );
 
             return Empty::apply();

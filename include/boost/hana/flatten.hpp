@@ -35,11 +35,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto flatten_t::operator()(Xs&& xs) const {
         using M = typename hana::tag_of<Xs>::type;
         using Flatten = BOOST_HANA_DISPATCH_IF(flatten_impl<M>,
-            Monad<M>::value
+            hana::Monad<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monad<M>::value,
+        static_assert(hana::Monad<M>::value,
         "hana::flatten(xs) requires 'xs' to be a Monad");
     #endif
 

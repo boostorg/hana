@@ -23,14 +23,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename A>
     struct lift_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Applicative<A>::value,
+        static_assert(hana::Applicative<A>::value,
         "hana::lift<A> requires 'A' to be an Applicative");
     #endif
 
         template <typename X>
         constexpr auto operator()(X&& x) const {
             using Lift = BOOST_HANA_DISPATCH_IF(lift_impl<A>,
-                Applicative<A>::value
+                hana::Applicative<A>::value
             );
 
             return Lift::apply(static_cast<X&&>(x));

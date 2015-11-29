@@ -27,14 +27,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) at_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
         using At = BOOST_HANA_DISPATCH_IF(at_impl<It>,
-            Iterable<It>::value
+            hana::Iterable<It>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Iterable<It>::value,
+        static_assert(hana::Iterable<It>::value,
         "hana::at(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<N>::value,
         "hana::at(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

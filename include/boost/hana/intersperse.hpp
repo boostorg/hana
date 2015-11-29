@@ -30,11 +30,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto intersperse_t::operator()(Xs&& xs, Z&& z) const {
         using S = typename hana::tag_of<Xs>::type;
         using Intersperse = BOOST_HANA_DISPATCH_IF(intersperse_impl<S>,
-            Sequence<S>::value
+            hana::Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::intersperse(xs, z) requires 'xs' to be a Sequence");
     #endif
 

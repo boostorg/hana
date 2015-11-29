@@ -31,15 +31,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto remove_at_t::operator()(Xs&& xs, N const& n) const {
         using S = typename hana::tag_of<Xs>::type;
         using RemoveAt = BOOST_HANA_DISPATCH_IF(remove_at_impl<S>,
-            Sequence<S>::value &&
-            IntegralConstant<N>::value
+            hana::Sequence<S>::value &&
+            hana::IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::remove_at(xs, n) requires 'xs' to be a Sequence");
 
-        static_assert(IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<N>::value,
         "hana::remove_at(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

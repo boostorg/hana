@@ -139,7 +139,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <typename To, typename From>
     struct to_impl<To, From, when<
-        Constant<From>::value &&
+        hana::Constant<From>::value &&
         is_convertible<typename From::value_type, To>::value
     >> : embedding<is_embedded<typename From::value_type, To>::value> {
         template <typename X>
@@ -152,8 +152,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <typename S, typename F>
     struct to_impl<S, F, when<
-        Sequence<S>::value &&
-        Foldable<F>::value
+        hana::Sequence<S>::value &&
+        hana::Foldable<F>::value
     >> : embedding<Sequence<F>::value> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs)

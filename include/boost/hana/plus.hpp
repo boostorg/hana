@@ -31,16 +31,16 @@ BOOST_HANA_NAMESPACE_BEGIN
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Plus = BOOST_HANA_DISPATCH_IF(decltype(plus_impl<T, U>{}),
-            Monoid<T>::value &&
-            Monoid<U>::value &&
+            hana::Monoid<T>::value &&
+            hana::Monoid<U>::value &&
             !is_default<plus_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monoid<T>::value,
+        static_assert(hana::Monoid<T>::value,
         "hana::plus(x, y) requires 'x' to be a Monoid");
 
-        static_assert(Monoid<U>::value,
+        static_assert(hana::Monoid<U>::value,
         "hana::plus(x, y) requires 'y' to be a Monoid");
 
         static_assert(!is_default<plus_impl<T, U>>::value,
@@ -97,7 +97,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct plus_impl<C, C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Monoid<typename C::value_type>::value
     >> {
         template <typename X, typename Y>

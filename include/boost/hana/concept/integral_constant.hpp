@@ -20,7 +20,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename C, typename Tag = typename tag_of<C>::type>
         struct integral_constant_dispatch {
-            static constexpr bool value = IntegralConstant<Tag>::value;
+            static constexpr bool value = hana::IntegralConstant<Tag>::value;
         };
 
         template <typename C>

@@ -29,11 +29,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto reverse_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Reverse = BOOST_HANA_DISPATCH_IF(reverse_impl<S>,
-            Sequence<S>::value
+            hana::Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::reverse(xs) requires 'xs' to be a Sequence");
     #endif
 

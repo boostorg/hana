@@ -31,15 +31,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto slice_t::operator()(Xs&& xs, Indices&& indices) const {
         using S = typename hana::tag_of<Xs>::type;
         using Slice = BOOST_HANA_DISPATCH_IF(slice_impl<S>,
-            Sequence<S>::value &&
-            Foldable<Indices>::value
+            hana::Sequence<S>::value &&
+            hana::Foldable<Indices>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::slice(xs, indices) requires 'xs' to be a Sequence");
 
-        static_assert(Foldable<Indices>::value,
+        static_assert(hana::Foldable<Indices>::value,
         "hana::slice(xs, indices) requires 'indices' to be Foldable");
     #endif
 

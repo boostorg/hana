@@ -27,15 +27,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         using S2 = typename hana::tag_of<Ys>::type;
         using IsDisjoint = BOOST_HANA_DISPATCH_IF(
             decltype(is_disjoint_impl<S1, S2>{}),
-            Searchable<S1>::value &&
-            Searchable<S2>::value
+            hana::Searchable<S1>::value &&
+            hana::Searchable<S2>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Searchable<S1>::value,
+        static_assert(hana::Searchable<S1>::value,
         "hana::is_disjoint(xs, ys) requires 'xs' to be Searchable");
 
-        static_assert(Searchable<S2>::value,
+        static_assert(hana::Searchable<S2>::value,
         "hana::is_disjoint(xs, ys) requires 'ys' to be Searchable");
     #endif
 

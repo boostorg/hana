@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <typename C>
     struct equal_impl<C, C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Comparable<typename C::value_type>::value
     >> {
         template <typename X, typename Y>
@@ -113,7 +113,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Comparable for Products
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U>
-    struct equal_impl<T, U, when<Product<T>::value && Product<U>::value>> {
+    struct equal_impl<T, U, when<hana::Product<T>::value && hana::Product<U>::value>> {
         template <typename X, typename Y>
         static constexpr auto apply(X const& x, Y const& y) {
             return hana::and_(
@@ -161,7 +161,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
 
     template <typename T, typename U>
-    struct equal_impl<T, U, when<Sequence<T>::value && Sequence<U>::value>> {
+    struct equal_impl<T, U, when<Sequence<T>::value && hana::Sequence<U>::value>> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs const& xs, Ys const& ys) {
             constexpr std::size_t xs_size = decltype(hana::length(xs))::value;
@@ -187,7 +187,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
 
     template <typename S>
-    struct equal_impl<S, S, when<Struct<S>::value>> {
+    struct equal_impl<S, S, when<hana::Struct<S>::value>> {
         template <typename X, typename Y>
         static constexpr auto apply(X const& x, Y const& y) {
             return hana::all_of(hana::accessors<S>(),

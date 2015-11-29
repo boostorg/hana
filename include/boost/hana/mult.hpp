@@ -31,16 +31,16 @@ BOOST_HANA_NAMESPACE_BEGIN
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Mult = BOOST_HANA_DISPATCH_IF(decltype(mult_impl<T, U>{}),
-            Ring<T>::value &&
-            Ring<U>::value &&
+            hana::Ring<T>::value &&
+            hana::Ring<U>::value &&
             !is_default<mult_impl<T, U>>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Ring<T>::value,
+        static_assert(hana::Ring<T>::value,
         "hana::mult(x, y) requires 'x' to be in a Ring");
 
-        static_assert(Ring<U>::value,
+        static_assert(hana::Ring<U>::value,
         "hana::mult(x, y) requires 'y' to be in a Ring");
 
         static_assert(!is_default<mult_impl<T, U>>::value,
@@ -95,7 +95,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct mult_impl<C, C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Ring<typename C::value_type>::value
     >> {
         template <typename X, typename Y>

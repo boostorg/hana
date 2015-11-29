@@ -36,14 +36,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         using Function = typename hana::tag_of<F>::type;
         using Value = typename hana::tag_of<X>::type;
         using Ap = BOOST_HANA_DISPATCH_IF(ap_impl<Function>,
-            Applicative<Function>::value && Applicative<Value>::value
+            hana::Applicative<Function>::value && hana::Applicative<Value>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Applicative<Function>::value,
+        static_assert(hana::Applicative<Function>::value,
         "hana::ap(f, x) requires 'f' to be an Applicative");
 
-        static_assert(Applicative<Value>::value,
+        static_assert(hana::Applicative<Value>::value,
         "hana::ap(f, x) requires 'x' to be an Applicative");
     #endif
 

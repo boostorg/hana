@@ -76,8 +76,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename A, typename B>
     struct common<A, B, when<
-        Constant<A>::value &&
-        Constant<B>::value &&
+        hana::Constant<A>::value &&
+        hana::Constant<B>::value &&
         has_common<typename A::value_type, typename B::value_type>::value
     >> {
         using type = typename constant_detail::which<
@@ -89,8 +89,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename A, typename B>
     struct common<A, B, when<
-        Constant<A>::value &&
-        !Constant<B>::value &&
+        hana::Constant<A>::value &&
+        !hana::Constant<B>::value &&
         has_common<typename A::value_type, B>::value
     >> {
         using type = typename common<typename A::value_type, B>::type;
@@ -98,8 +98,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename A, typename B>
     struct common<A, B, when<
-        !Constant<A>::value &&
-        Constant<B>::value &&
+        !hana::Constant<A>::value &&
+        hana::Constant<B>::value &&
         has_common<A, typename B::value_type>::value
     >> {
         using type = typename common<A, typename B::value_type>::type;

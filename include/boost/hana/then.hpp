@@ -25,15 +25,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) then_t::operator()(Before&& before, Xs&& xs) const {
         using M = typename hana::tag_of<Before>::type;
         using Then = BOOST_HANA_DISPATCH_IF(then_impl<M>,
-            Monad<M>::value &&
-            Monad<Xs>::value
+            hana::Monad<M>::value &&
+            hana::Monad<Xs>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monad<M>::value,
+        static_assert(hana::Monad<M>::value,
         "hana::then(before, xs) requires 'before' to be a Monad");
 
-        static_assert(Monad<Xs>::value,
+        static_assert(hana::Monad<Xs>::value,
         "hana::then(before, xs) requires 'xs' to be a Monad");
     #endif
 

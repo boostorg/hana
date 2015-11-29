@@ -42,11 +42,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto find_if_t::operator()(Xs&& xs, Pred&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using FindIf = BOOST_HANA_DISPATCH_IF(find_if_impl<S>,
-            Searchable<S>::value
+            hana::Searchable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Searchable<S>::value,
+        static_assert(hana::Searchable<S>::value,
         "hana::find_if(xs, pred) requires 'xs' to be a Searchable");
     #endif
 
@@ -100,7 +100,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename It>
-    struct find_if_impl<It, when<Iterable<It>::value && !Sequence<It>::value>> {
+    struct find_if_impl<It, when<hana::Iterable<It>::value && !Sequence<It>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto find_if_helper(Xs&& xs, Pred&& pred, hana::true_) {
             return hana::just(hana::front(
@@ -160,7 +160,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
 
     template <typename S>
-    struct find_if_impl<S, when<Struct<S>::value>> {
+    struct find_if_impl<S, when<hana::Struct<S>::value>> {
         template <typename X, typename Pred>
         static constexpr decltype(auto) apply(X&& x, Pred&& pred) {
             return hana::transform(

@@ -31,7 +31,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto concat_t::operator()(Xs&& xs, Ys&& ys) const {
         using M = typename hana::tag_of<Xs>::type;
         using Concat = BOOST_HANA_DISPATCH_IF(concat_impl<M>,
-            MonadPlus<M>::value &&
+            hana::MonadPlus<M>::value &&
             std::is_same<typename hana::tag_of<Ys>::type, M>::value
         );
 
@@ -39,7 +39,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static_assert(std::is_same<typename hana::tag_of<Ys>::type, M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to have the same tag");
 
-        static_assert(MonadPlus<M>::value,
+        static_assert(hana::MonadPlus<M>::value,
         "hana::concat(xs, ys) requires 'xs' and 'ys' to be MonadPlus");
     #endif
 

@@ -26,11 +26,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto members_t::operator()(Object&& object) const {
         using S = typename hana::tag_of<Object>::type;
         using Members = BOOST_HANA_DISPATCH_IF(members_impl<S>,
-            Struct<S>::value
+            hana::Struct<S>::value
         );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(Struct<S>::value,
+            static_assert(hana::Struct<S>::value,
             "hana::members(object) requires 'object' to be a Struct");
         #endif
 

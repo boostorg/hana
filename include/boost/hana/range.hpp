@@ -77,10 +77,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(From const&, To const&) {
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(IntegralConstant<From>::value,
+            static_assert(hana::IntegralConstant<From>::value,
             "hana::make_range(from, to) requires 'from' to be an IntegralConstant");
 
-            static_assert(IntegralConstant<To>::value,
+            static_assert(hana::IntegralConstant<To>::value,
             "hana::make_range(from, to) requires 'to' to be an IntegralConstant");
         #endif
 

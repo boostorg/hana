@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) extend_t::operator()(W_&& w, F&& f) const {
         using W = typename hana::tag_of<W_>::type;
         using Extend = BOOST_HANA_DISPATCH_IF(extend_impl<W>,
-            Comonad<W>::value
+            hana::Comonad<W>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Comonad<W>::value,
+        static_assert(hana::Comonad<W>::value,
         "hana::extend(w, f) requires 'w' to be a Comonad");
     #endif
 

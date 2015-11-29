@@ -19,9 +19,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
-        template <typename S, typename Tag = typename tag_of<S>::type>
+        template <typename S, typename Tag = typename hana::tag_of<S>::type>
         struct sequence_dispatch {
-            static constexpr bool value = Sequence<Tag>::value;
+            static constexpr bool value = hana::Sequence<Tag>::value;
         };
 
         template <typename S>

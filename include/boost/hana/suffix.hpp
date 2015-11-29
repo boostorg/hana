@@ -27,11 +27,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto suffix_t::operator()(Xs&& xs, Sfx&& sfx) const {
         using M = typename hana::tag_of<Xs>::type;
         using Suffix = BOOST_HANA_DISPATCH_IF(suffix_impl<M>,
-            MonadPlus<M>::value
+            hana::MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(MonadPlus<M>::value,
+        static_assert(hana::MonadPlus<M>::value,
         "hana::suffix(xs, sfx) requires 'xs' to be a MonadPlus");
     #endif
 

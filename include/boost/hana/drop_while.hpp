@@ -30,11 +30,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto drop_while_t::operator()(Xs&& xs, Pred&& pred) const {
         using It = typename hana::tag_of<Xs>::type;
         using DropWhile = BOOST_HANA_DISPATCH_IF(drop_while_impl<It>,
-            Iterable<It>::value
+            hana::Iterable<It>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Iterable<It>::value,
+        static_assert(hana::Iterable<It>::value,
         "hana::drop_while(xs, pred) requires 'xs' to be an Iterable");
     #endif
 
@@ -77,7 +77,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename S>
-    struct drop_while_impl<S, when<Foldable<S>::value>> {
+    struct drop_while_impl<S, when<hana::Foldable<S>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs&& xs, Pred&&) {
             using FirstUnsatisfied = decltype(

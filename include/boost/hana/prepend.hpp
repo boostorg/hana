@@ -32,11 +32,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto prepend_t::operator()(Xs&& xs, X&& x) const {
         using M = typename hana::tag_of<Xs>::type;
         using Prepend = BOOST_HANA_DISPATCH_IF(prepend_impl<M>,
-            MonadPlus<M>::value
+            hana::MonadPlus<M>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(MonadPlus<M>::value,
+        static_assert(hana::MonadPlus<M>::value,
         "hana::prepend(xs, x) requires 'xs' to be a MonadPlus");
     #endif
 

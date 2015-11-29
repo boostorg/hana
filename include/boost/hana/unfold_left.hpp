@@ -28,7 +28,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename S>
     struct unfold_left_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::unfold_left<S> requires 'S' to be a Sequence");
     #endif
 

@@ -205,7 +205,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename T, typename C>
-    struct to_impl<integral_constant_tag<T>, C, when<IntegralConstant<C>::value>>
+    struct to_impl<integral_constant_tag<T>, C, when<hana::IntegralConstant<C>::value>>
         : embedding<is_embedded<typename C::value_type, T>::value>
     {
         template <typename N>

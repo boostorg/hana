@@ -42,11 +42,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr void repeat_t::operator()(N const& n, F&& f) const {
         using I = typename hana::tag_of<N>::type;
         using Repeat = BOOST_HANA_DISPATCH_IF(repeat_impl<I>,
-            IntegralConstant<I>::value
+            hana::IntegralConstant<I>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(IntegralConstant<I>::value,
+        static_assert(hana::IntegralConstant<I>::value,
         "hana::repeat(n, f) requires 'n' to be an IntegralConstant");
     #endif
 

@@ -90,7 +90,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::fast_and<Comparable<Xs>::value...>::value,
+            static_assert(detail::fast_and<hana::Comparable<Xs>::value...>::value,
             "hana::make_set(xs...) requires all the 'xs' to be Comparable");
 
             static_assert(detail::fast_and<
@@ -194,7 +194,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Conversions
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<set_tag, F, when<Foldable<F>::value>> {
+    struct to_impl<set_tag, F, when<hana::Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(static_cast<Xs&&>(xs),

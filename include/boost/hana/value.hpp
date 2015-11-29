@@ -34,11 +34,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         >::type;
         using C = typename hana::tag_of<RawT>::type;
         using Value = BOOST_HANA_DISPATCH_IF(
-            value_impl<C>, Constant<C>::value
+            value_impl<C>, hana::Constant<C>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Constant<C>::value,
+        static_assert(hana::Constant<C>::value,
         "hana::value<T>() requires 'T' to be a Constant");
     #endif
 
@@ -46,7 +46,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
 
     template <typename I>
-    struct value_impl<I, when<IntegralConstant<I>::value>> {
+    struct value_impl<I, when<hana::IntegralConstant<I>::value>> {
         template <typename C>
         static constexpr auto apply()
         { return C::value; }

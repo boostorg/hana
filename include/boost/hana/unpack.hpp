@@ -36,11 +36,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) unpack_t::operator()(Xs&& xs, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using Unpack = BOOST_HANA_DISPATCH_IF(unpack_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::unpack(xs, f) requires 'xs' to be Foldable");
     #endif
 
@@ -60,7 +60,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename It>
     struct unpack_impl<It, when<
-        Iterable<It>::value && !is_default<length_impl<It>>::value
+        hana::Iterable<It>::value && !is_default<length_impl<It>>::value
     >> {
         template <typename Xs, typename F, std::size_t ...i>
         static constexpr decltype(auto)
@@ -96,7 +96,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Model for Products
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
-    struct unpack_impl<T, when<Product<T>::value>> {
+    struct unpack_impl<T, when<hana::Product<T>::value>> {
         template <typename P, typename F>
         static constexpr decltype(auto) apply(P&& p, F&& f) {
             return static_cast<F&&>(f)(
@@ -127,7 +127,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
 
     template <typename S>
-    struct unpack_impl<S, when<Struct<S>::value>> {
+    struct unpack_impl<S, when<hana::Struct<S>::value>> {
         template <typename Udt, typename F>
         static constexpr decltype(auto) apply(Udt&& udt, F&& f) {
             return hana::unpack(hana::accessors<S>(),

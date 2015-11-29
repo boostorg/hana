@@ -23,14 +23,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct tap_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monad<M>::value,
+        static_assert(hana::Monad<M>::value,
         "hana::tap<M> requires 'M' to be a Monad");
     #endif
 
         template <typename F>
         constexpr auto operator()(F&& f) const {
             using Tap = BOOST_HANA_DISPATCH_IF(tap_impl<M>,
-                Monad<M>::value
+                hana::Monad<M>::value
             );
 
             return Tap::apply(static_cast<F&&>(f));

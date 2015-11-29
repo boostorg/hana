@@ -34,15 +34,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Minus = BOOST_HANA_DISPATCH_IF(decltype(minus_impl<T, U>{}),
-            Group<T>::value &&
-            Group<U>::value
+            hana::Group<T>::value &&
+            hana::Group<U>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Group<T>::value,
+        static_assert(hana::Group<T>::value,
         "hana::minus(x, y) requires 'x' to be in a Group");
 
-        static_assert(Group<U>::value,
+        static_assert(hana::Group<U>::value,
         "hana::minus(x, y) requires 'y' to be in a Group");
     #endif
 
@@ -102,7 +102,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct minus_impl<C, C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Group<typename C::value_type>::value
     >> {
         template <typename X, typename Y>

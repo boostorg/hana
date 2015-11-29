@@ -27,11 +27,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::minimum(xs) requires 'xs' to be Foldable");
     #endif
 
@@ -42,11 +42,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) minimum_t::operator()(Xs&& xs, Predicate&& pred) const {
         using S = typename hana::tag_of<Xs>::type;
         using Minimum = BOOST_HANA_DISPATCH_IF(minimum_pred_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::minimum(xs, predicate) requires 'xs' to be Foldable");
     #endif
 

@@ -31,15 +31,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto take_t::operator()(Xs&& xs, N const& n) const {
         using S = typename hana::tag_of<Xs>::type;
         using Take = BOOST_HANA_DISPATCH_IF(take_impl<S>,
-            Sequence<S>::value &&
-            IntegralConstant<N>::value
+            hana::Sequence<S>::value &&
+            hana::IntegralConstant<N>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::take(xs, n) requires 'xs' to be a Sequence");
 
-        static_assert(IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<N>::value,
         "hana::take(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

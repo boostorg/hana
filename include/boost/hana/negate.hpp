@@ -27,11 +27,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) negate_t::operator()(X&& x) const {
         using G = typename hana::tag_of<X>::type;
         using Negate = BOOST_HANA_DISPATCH_IF(negate_impl<G>,
-            Group<G>::value
+            hana::Group<G>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Group<G>::value,
+        static_assert(hana::Group<G>::value,
         "hana::negate(x) requires 'x' to be in a Group");
     #endif
 

@@ -28,11 +28,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto fill_t::operator()(Xs&& xs, Value&& value) const {
         using S = typename hana::tag_of<Xs>::type;
         using Fill = BOOST_HANA_DISPATCH_IF(fill_impl<S>,
-            Functor<S>::value
+            hana::Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Functor<S>::value,
+        static_assert(hana::Functor<S>::value,
         "hana::fill(xs, value) requires 'xs' to be a Functor");
     #endif
 

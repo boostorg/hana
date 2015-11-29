@@ -26,13 +26,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct zero_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monoid<M>::value,
+        static_assert(hana::Monoid<M>::value,
         "hana::zero<M>() requires 'M' to be a Monoid");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using Zero = BOOST_HANA_DISPATCH_IF(zero_impl<M>,
-                Monoid<M>::value
+                hana::Monoid<M>::value
             );
 
             return Zero::apply();
@@ -70,7 +70,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct zero_impl<C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Monoid<typename C::value_type>::value
     >> {
         static constexpr decltype(auto) apply()

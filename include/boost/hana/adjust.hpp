@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto adjust_t::operator()(Xs&& xs, Value&& value, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using Adjust = BOOST_HANA_DISPATCH_IF(adjust_impl<S>,
-            Functor<S>::value
+            hana::Functor<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Functor<S>::value,
+        static_assert(hana::Functor<S>::value,
         "hana::adjust(xs, value, f) requires 'xs' to be a Functor");
     #endif
 

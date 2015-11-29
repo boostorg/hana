@@ -36,15 +36,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         using It2 = typename hana::tag_of<Ys>::type;
         using LexicographicalCompare = BOOST_HANA_DISPATCH_IF(
             lexicographical_compare_impl<It1>,
-            Iterable<It1>::value &&
-            Iterable<It2>::value
+            hana::Iterable<It1>::value &&
+            hana::Iterable<It2>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Iterable<It1>::value,
+        static_assert(hana::Iterable<It1>::value,
         "hana::lexicographical_compare(xs, ys, pred) requires 'xs' to be Iterable");
 
-        static_assert(Iterable<It2>::value,
+        static_assert(hana::Iterable<It2>::value,
         "hana::lexicographical_compare(xs, ys, pred) requires 'ys' to be Iterable");
     #endif
 

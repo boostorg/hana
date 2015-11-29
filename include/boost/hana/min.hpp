@@ -26,15 +26,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         using T = typename hana::tag_of<X>::type;
         using U = typename hana::tag_of<Y>::type;
         using Min = BOOST_HANA_DISPATCH_IF(decltype(min_impl<T, U>{}),
-            Orderable<T>::value &&
-            Orderable<U>::value
+            hana::Orderable<T>::value &&
+            hana::Orderable<U>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Orderable<T>::value,
+        static_assert(hana::Orderable<T>::value,
         "hana::min(x, y) requires 'x' to be Orderable");
 
-        static_assert(Orderable<U>::value,
+        static_assert(hana::Orderable<U>::value,
         "hana::min(x, y) requires 'y' to be Orderable");
     #endif
 

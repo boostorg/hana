@@ -26,13 +26,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename R>
     struct one_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Ring<R>::value,
+        static_assert(hana::Ring<R>::value,
         "hana::one<R>() requires 'R' to be a Ring");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using One = BOOST_HANA_DISPATCH_IF(one_impl<R>,
-                Ring<R>::value
+                hana::Ring<R>::value
             );
 
             return One::apply();
@@ -68,7 +68,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename C>
     struct one_impl<C, when<
-        Constant<C>::value &&
+        hana::Constant<C>::value &&
         Ring<typename C::value_type>::value
     >> {
         static constexpr decltype(auto) apply()

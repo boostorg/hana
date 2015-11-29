@@ -31,19 +31,19 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto remove_range_t::operator()(Xs&& xs, From const& from, To const& to) const {
         using S = typename hana::tag_of<Xs>::type;
         using RemoveRange = BOOST_HANA_DISPATCH_IF(remove_range_impl<S>,
-            Sequence<S>::value &&
-            IntegralConstant<From>::value &&
-            IntegralConstant<To>::value
+            hana::Sequence<S>::value &&
+            hana::IntegralConstant<From>::value &&
+            hana::IntegralConstant<To>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::remove_range(xs, from, to) requires 'xs' to be a Sequence");
 
-        static_assert(IntegralConstant<From>::value,
+        static_assert(hana::IntegralConstant<From>::value,
         "hana::remove_range(xs, from, to) requires 'from' to be an IntegralConstant");
 
-        static_assert(IntegralConstant<To>::value,
+        static_assert(hana::IntegralConstant<To>::value,
         "hana::remove_range(xs, from, to) requires 'to' to be an IntegralConstant");
     #endif
 

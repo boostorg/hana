@@ -23,11 +23,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) second_t::operator()(Pair&& pair) const {
         using P = typename hana::tag_of<Pair>::type;
         using Second = BOOST_HANA_DISPATCH_IF(second_impl<P>,
-            Product<P>::value
+            hana::Product<P>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Product<P>::value,
+        static_assert(hana::Product<P>::value,
         "hana::second(pair) requires 'pair' to be a Product");
     #endif
 

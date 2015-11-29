@@ -25,11 +25,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto length_t::operator()(Xs const& xs) const {
         using S = typename hana::tag_of<Xs>::type;
         using Length = BOOST_HANA_DISPATCH_IF(length_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::length(xs) requires 'xs' to be Foldable");
     #endif
 

@@ -26,11 +26,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) fold_right_t::operator()(Xs&& xs, State&& state, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::fold_right(xs, state, f) requires 'xs' to be Foldable");
     #endif
 
@@ -43,11 +43,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr decltype(auto) fold_right_t::operator()(Xs&& xs, F&& f) const {
         using S = typename hana::tag_of<Xs>::type;
         using FoldRight = BOOST_HANA_DISPATCH_IF(fold_right_impl<S>,
-            Foldable<S>::value
+            hana::Foldable<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Foldable<S>::value,
+        static_assert(hana::Foldable<S>::value,
         "hana::fold_right(xs, f) requires 'xs' to be Foldable");
     #endif
 

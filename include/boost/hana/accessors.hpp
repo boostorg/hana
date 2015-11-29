@@ -21,13 +21,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename S>
     struct accessors_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Struct<S>::value,
+        static_assert(hana::Struct<S>::value,
         "hana::accessors<S> requires 'S' to be a Struct");
     #endif
 
         constexpr decltype(auto) operator()() const {
             using Accessors = BOOST_HANA_DISPATCH_IF(accessors_impl<S>,
-                Struct<S>::value
+                hana::Struct<S>::value
             );
 
             return Accessors::apply();

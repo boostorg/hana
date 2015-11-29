@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct sum_t {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Monoid<M>::value,
+        static_assert(hana::Monoid<M>::value,
         "hana::sum<M> requires 'M' to be a Monoid");
     #endif
 
@@ -34,11 +34,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs) const {
             using S = typename hana::tag_of<Xs>::type;
             using Sum = BOOST_HANA_DISPATCH_IF(sum_impl<S>,
-                Foldable<S>::value
+                hana::Foldable<S>::value
             );
 
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(Foldable<S>::value,
+            static_assert(hana::Foldable<S>::value,
             "hana::sum<M>(xs) requires 'xs' to be Foldable");
         #endif
 

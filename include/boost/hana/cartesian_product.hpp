@@ -33,11 +33,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         using S = typename hana::tag_of<Xs>::type;
         using CartesianProduct = BOOST_HANA_DISPATCH_IF(
             cartesian_product_impl<S>,
-            Sequence<S>::value
+            hana::Sequence<S>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(Sequence<S>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::cartesian_product(xs) requires 'xs' to be a Sequence");
     #endif
 

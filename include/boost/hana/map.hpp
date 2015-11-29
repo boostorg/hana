@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
         #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-            static_assert(detail::fast_and<Product<Pairs>::value...>::value,
+            static_assert(detail::fast_and<hana::Product<Pairs>::value...>::value,
             "hana::make_map(pairs...) requires all the 'pairs' to be Products");
 
             static_assert(detail::fast_and<
@@ -288,7 +288,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Construction from a Foldable
     //////////////////////////////////////////////////////////////////////////
     template <typename F>
-    struct to_impl<map_tag, F, when<Foldable<F>::value>> {
+    struct to_impl<map_tag, F, when<hana::Foldable<F>::value>> {
         template <typename Xs>
         static constexpr decltype(auto) apply(Xs&& xs) {
             return hana::fold_left(
