@@ -1,4 +1,11 @@
-# Boost.Hana <a href="http://semver.org" target="_blank">![Version][badge.version]</a> <a href="https://travis-ci.org/boostorg/hana" target="_blank">![Build Status][badge.Travis]</a> <a href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg" target="_blank">![Try it online][badge.wandbox]</a> <a href="https://gitter.im/boostorg/hana" target="_blank">![Gitter Chat][badge.Gitter]</a>
+<h1> Boost.Hana
+  <a target="_blank" href="http://semver.org">![Version][badge.version]</a>
+  <a target="_blank" href="https://travis-ci.org/boostorg/hana">![Travis status][badge.Travis]</a>
+  <a target="_blank" href="https://ci.appveyor.com/project/ldionne/hana">![Appveyor status][badge.Appveyor]</a>
+  <a target="_blank" href="http://melpon.org/wandbox/permlink/MZqKhMF7tiaNZdJg">![Try it online][badge.wandbox]</a>
+  <a target="_blank" href="https://gitter.im/boostorg/hana">![Gitter Chat][badge.Gitter]</a>
+</h1>
+
 > Your standard library for metaprogramming
 
 ## Disclaimers
@@ -10,7 +17,8 @@ filing an [issue](https://github.com/boostorg/hana/issues).
 
 __This is now an official Boost library!__ The results of the formal review
 can be seen [here](http://thread.gmane.org/gmane.comp.lib.boost.devel/261740).
-However, the library is still not included in a Boost release, and API stability is still not assured.
+However, the library is still not included in a Boost release, and API stability
+is still not assured.
 
 
 ## Overview
@@ -191,6 +199,7 @@ Please see [LICENSE.md](LICENSE.md).
 
 
 <!-- Links -->
+[badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/boostorg/hana?svg=true&branch=master
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
 [badge.Travis]: https://travis-ci.org/boostorg/hana.svg?branch=master
 [badge.version]: https://badge.fury.io/gh/boostorg%2Fhana.svg
