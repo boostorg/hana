@@ -29,9 +29,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @note
     //! The actual representation of a `hana::map` is implementation-defined.
     //! In particular, one should not take for granted the order of the
-    //! template parameters and the presence of any constructor or assignment
-    //! operator. The canonical way of creating a `hana::map` is through
-    //! `hana::make_map`.
+    //! template parameters and the presence of any additional constructors
+    //! or assignment operators than what is documented. The canonical way of
+    //! creating a `hana::map` is through `hana::make_map`.
     //!
     //!
     //! Modeled concepts
@@ -55,15 +55,28 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/map/foldable.cpp
     //!
     //!
-    //! Provided constructions
-    //! ----------------------
-    //! 1. From any `Foldable`\n
-    //! Converts a `Foldable` of `Product`s to a `hana::map`. If the structure
-    //! contains duplicate keys, only the value associated to the first
-    //! occurence of each key is kept.
+    //! Conversion from any `Foldable`
+    //! ------------------------------
+    //! Any `Foldable` of `Product`s can be converted to a `hana::map` with
+    //! `hana::to<hana::map_tag>` or, equivalently, `hana::to_map`. If the
+    //! `Foldable` contains duplicate keys, only the value associated to the
+    //! first occurence of each key is kept.
     //! @include example/map/convert.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...Pairs>
+    struct map {
+        //! Copy-construct a map from another map. This constructor only
+        //! exists when all the elements of the map are copy-constructible.
+        constexpr map(map const& other) = default;
+
+        //! Move-construct a map from another map. This constructor only
+        //! exists when all the elements of the map are move-constructible.
+        constexpr map(map&& other) = default;
+    };
+#else
     template <typename ...Pairs>
     struct map;
+#endif
 
     //! Tag representing `hana::map`s.
     //! @relates hana::map

@@ -87,6 +87,9 @@ BOOST_HANA_NAMESPACE_BEGIN
         explicit constexpr map(tuple<Pairs...>&& ps)
             : storage(static_cast<tuple<Pairs...>&&>(ps))
         { }
+
+        constexpr map(map const& other) = default;
+        constexpr map(map&& other) = default;
     };
     //! @endcond
 

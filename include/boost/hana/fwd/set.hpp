@@ -26,9 +26,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @note
     //! The actual representation of a `hana::set` is implementation-defined.
     //! In particular, one should not take for granted the order of the
-    //! template parameters and the presence of any constructor or assignment
-    //! operator. The canonical way of creating a `hana::set` is through
-    //! `hana::make_set`.
+    //! template parameters and the presence of any additional constructors
+    //! or assignment operators than what is documented. The canonical way of
+    //! creating a `hana::set` is through `hana::make_set`.
     //!
     //!
     //! Modeled concepts
@@ -67,8 +67,21 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! __Example__
     //! @include example/set/convert.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <typename ...Xs>
+    struct set {
+        //! Copy-construct a set from another set. This constructor only
+        //! exists when all the elements of the set are copy-constructible.
+        constexpr set(set const& other) = default;
+
+        //! Move-construct a set from another set. This constructor only
+        //! exists when all the elements of the set are move-constructible.
+        constexpr set(set&& other) = default;
+    };
+#else
     template <typename ...Xs>
     struct set;
+#endif
 
     //! Tag representing the `hana::set` container.
     //! @relates hana::set
