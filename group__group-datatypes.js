@@ -46,7 +46,9 @@ var group__group_datatypes =
       [ "keys", "structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac", null ],
       [ "values", "structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132", null ],
       [ "insert", "structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f", null ],
-      [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ]
+      [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
+      [ "map", "structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8", null ],
+      [ "map", "structboost_1_1hana_1_1map.html#a675bb30af155b40f72cbe8607eefbe4e", null ]
     ] ],
     [ "optional", "structboost_1_1hana_1_1optional.html", [
       [ "make< optional_tag >", "structboost_1_1hana_1_1optional.html#a76a84854b3051af000e698157d63a6a8", null ],
@@ -94,7 +96,9 @@ var group__group_datatypes =
       [ "erase_key", "structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
       [ "to_set", "structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933", null ],
       [ "symmetric_difference", "structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e", null ],
-      [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ]
+      [ "union_", "structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8", null ],
+      [ "set", "structboost_1_1hana_1_1set.html#a19a57d273a4fca28cc8393ed479cc9ef", null ],
+      [ "set", "structboost_1_1hana_1_1set.html#a183731b785302f44b29412812d6c4e70", null ]
     ] ],
     [ "string", "structboost_1_1hana_1_1string.html", [
       [ "make< string_tag >", "structboost_1_1hana_1_1string.html#a75de1ad7b14dc576a98d759dc3176ae9", null ],

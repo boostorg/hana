@@ -131,6 +131,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1map.html','');}
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1map-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::map&lt; Pairs &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -142,7 +143,7 @@ struct boost::hana::map&lt; Pairs &gt;</h3>
 
 <p>Basic associative container requiring unique and <code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code> keys. </p>
 <p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>.</p>
-<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any constructor or assignment operator. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any additional constructors or assignment operators than what is documented. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
@@ -233,9 +234,9 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <span class="comment">// Given a map of (key, value) pairs, returns a map of (value, key) pairs.</span></div>
 <div class="line">    <span class="comment">// This requires both the keys and the values to be compile-time Comparable.</span></div>
-<div class="line">    <span class="keyword">auto</span> invert = [](<span class="keyword">auto</span> map) {</div>
-<div class="line">        <span class="keywordflow">return</span> hana::fold_left(map, hana::make_map(), [](<span class="keyword">auto</span> map, <span class="keyword">auto</span> pair) {</div>
-<div class="line">            <span class="keywordflow">return</span> hana::insert(map, hana::make_pair(hana::second(pair), hana::first(pair)));</div>
+<div class="line">    <span class="keyword">auto</span> invert = [](<span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>) {</div>
+<div class="line">        <span class="keywordflow">return</span> hana::fold_left(<a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>, hana::make_map(), [](<span class="keyword">auto</span> <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>, <span class="keyword">auto</span> pair) {</div>
+<div class="line">            <span class="keywordflow">return</span> hana::insert(<a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>, hana::make_pair(hana::second(pair), hana::first(pair)));</div>
 <div class="line">        });</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -255,10 +256,8 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line">}</div>
 </div><!-- fragment --></li>
 </ol>
-<h2>Provided constructions </h2>
-<ol type="1">
-<li>From any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
-Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. If the structure contains duplicate keys, only the value associated to the first occurence of each key is kept. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
+<h2>Conversion from any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> </h2>
+<p>Any <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> of <code><a class="el" href="structboost_1_1hana_1_1Product.html" title="Represents types that are generic containers of two elements. ">Product</a></code>s can be converted to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> with <code>hana::to&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">hana::map_tag</a>&gt;</code> or, equivalently, <code>hana::to_map</code>. If the <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code> contains duplicate keys, only the value associated to the first occurence of each key is kept. </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -290,9 +289,7 @@ Converts a <code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --> </li>
-</ol>
-</div><table class="memberdecls">
+</div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
@@ -317,6 +314,17 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key/value pair from a map.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a943219d1c9692938167639d8ad2525b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a943219d1c9692938167639d8ad2525b8"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a> (<a class="el" href="structboost_1_1hana_1_1map.html">map</a> const &amp;other)=default</td></tr>
+<tr class="memdesc:a943219d1c9692938167639d8ad2525b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct a map from another map. This constructor only exists when all the elements of the map are copy-constructible. <br /></td></tr>
+<tr class="separator:a943219d1c9692938167639d8ad2525b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a675bb30af155b40f72cbe8607eefbe4e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a675bb30af155b40f72cbe8607eefbe4e"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a675bb30af155b40f72cbe8607eefbe4e">map</a> (<a class="el" href="structboost_1_1hana_1_1map.html">map</a> &amp;&amp;other)=default</td></tr>
+<tr class="memdesc:a675bb30af155b40f72cbe8607eefbe4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct a map from another map. This constructor only exists when all the elements of the map are move-constructible. <br /></td></tr>
+<tr class="separator:a675bb30af155b40f72cbe8607eefbe4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a409d52de54cc7e55eca1a7b5dda4ce30"></a>
@@ -341,7 +349,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...pairs) {</div>
-<div class="line">        <span class="keywordflow">return</span> map&lt;implementation-defined...&gt;{forwarded(pairs)...};</div>
+<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>&lt;implementation-defined...&gt;{forwarded(pairs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. </p>
@@ -480,7 +488,7 @@ template&lt;typename... Pairs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>) {</div>
 <div class="line">        <span class="keywordflow">return</span> implementation-defined;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -540,7 +548,7 @@ template&lt;typename... Pairs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map) -&gt; decltype(<span class="keyword">auto</span>) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> implementation-defined;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -599,7 +607,7 @@ template&lt;typename... Pairs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map, <span class="keyword">auto</span>&amp;&amp; pair) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>, <span class="keyword">auto</span>&amp;&amp; pair) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -670,7 +678,7 @@ template&lt;typename... Pairs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; map, <span class="keyword">auto</span>&amp;&amp; key) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8">map</a>, <span class="keyword">auto</span>&amp;&amp; key) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
