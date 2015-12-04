@@ -133,4 +133,5 @@ doxygen hana.html
       <doxygen:param>USE_MATHJAX=YES
       <doxygen:param>MATHJAX_FORMAT=HTML-CSS
       <doxygen:param>MATHJAX_RELPATH=https://cdn.mathjax.org/mathjax/latest
+      <doxygen:param>MATHJAX_CODEFILE=$(HANA_SOURCE_DIR)/doc/mathjax-config.js
     ;

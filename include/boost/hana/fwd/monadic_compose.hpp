@@ -38,7 +38,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Given a `Monad` `M` and two functions @f$ f : B \to M(C) @f$ and
     //! @f$ g : A \to M(B) @f$, the signature is
     //! @f$
-    //!     \mathtt{monadic_compose}
+    //!     \mathtt{monadic\_compose}
     //!         : (B \to M(C)) \times (A \to M(B)) \to (A \to M(C))
     //! @f$.
     //!

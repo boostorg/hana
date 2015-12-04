@@ -124,4 +124,4 @@ USE_MATHJAX             = YES
 MATHJAX_FORMAT          = HTML-CSS
 MATHJAX_RELPATH         = https://cdn.mathjax.org/mathjax/latest
 MATHJAX_EXTENSIONS      =
-MATHJAX_CODEFILE        =
+MATHJAX_CODEFILE        = @Boost.Hana_SOURCE_DIR@/doc/mathjax-config.js

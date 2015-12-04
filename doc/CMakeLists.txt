@@ -12,7 +12,7 @@ endif()
 
 configure_file(Doxyfile.in Doxyfile @ONLY)
 add_custom_target(doc
-    COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep "warning"
+    COMMAND ! ${DOXYGEN_EXECUTABLE} Doxyfile 2>&1 | grep -E "warning|error"
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM
 )
