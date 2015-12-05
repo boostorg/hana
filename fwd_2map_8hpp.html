@@ -28,6 +28,14 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
+MathJax.Hub.Config({
+    "HTML-CSS": {
+        linebreaks: {
+            automatic: true,
+            width: "75% container"
+        }
+    }
+});
 </script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
