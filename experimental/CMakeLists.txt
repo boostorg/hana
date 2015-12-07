@@ -8,9 +8,24 @@ add_dependencies(check experimental)
 
 # Include directories
 include_directories(${Boost.Hana_SOURCE_DIR}/include)
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
+
+# Caveats: Take note of experimental features that are not supported.
+if (NOT Boost_FOUND)
+    list(APPEND EXCLUDED_EXPERIMENTAL
+        "printable/*.cpp"
+    )
+endif()
+
 
 # Add all the experimental targets
 file(GLOB_RECURSE BOOST_HANA_EXPERIMENTAL_SOURCES "*.cpp")
+file(GLOB_RECURSE EXCLUDED_EXPERIMENTAL ${EXCLUDED_EXPERIMENTAL})
+list(REMOVE_ITEM BOOST_HANA_EXPERIMENTAL_SOURCES "" ${EXCLUDED_EXPERIMENTAL})
+
 foreach(file IN LISTS BOOST_HANA_EXPERIMENTAL_SOURCES)
     boost_hana_target_name_for(target "${file}")
     add_executable(${target} EXCLUDE_FROM_ALL ${file})
