@@ -19,6 +19,7 @@ include(CheckCxxCompilerSupport)
 ##############################################################################
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
+option(BOOST_HANA_ENABLE_COVERAGE "Enable code coverage measurement in the unit tests. Requires CMAKE_BUILD_TYPE=Debug" OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 
 option(BOOST_HANA_ENABLE_STRING_UDL
@@ -50,6 +51,15 @@ endif()
 
 if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
     add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
+endif()
+
+if (BOOST_HANA_ENABLE_COVERAGE)
+    include(CodeCoverage)
+    setup_coverage_target(coverage
+        "${CMAKE_CURRENT_BINARY_DIR}/coverage"
+        "${CMAKE_CURRENT_BINARY_DIR}"
+        "${Boost.Hana_SOURCE_DIR}/include"
+    )
 endif()
 
 if (BOOST_HANA_ENABLE_STRING_UDL)
