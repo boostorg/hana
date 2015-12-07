@@ -30,7 +30,6 @@ endif()
 if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_EXAMPLES
         "ext/boost/*.cpp"
-        "misc/printable.cpp"
         "tutorial/appendix_mpl.cpp"
         "tutorial/ext/fusion_to_hana.cpp"
         "tutorial/ext/mpl_vector.cpp"

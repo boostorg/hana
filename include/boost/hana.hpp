@@ -23,6 +23,10 @@ Distributed under the Boost Software License, Version 1.0.
 //! @defgroup group-core Core
 //! Core utilities of the library.
 
+//! @defgroup group-experimental Experimental features
+//! Experimental features that may or may not make it into the library.
+//! These features should not expected to be stable.
+
 //! @defgroup group-ext External adapters
 //! Adapters for external libraries.
 
@@ -33,7 +37,8 @@ Distributed under the Boost Software License, Version 1.0.
 //! Macros to perform different kinds of assertions.
 
 //! @defgroup group-details Details
-//! Implementation details.
+//! Implementation details. Do not rely on anything here, even if it is
+//! documented.
 
 // Include config.hpp first, so that warning messages about compiler support
 // appear as soon as possible, and the version namespace macros are defined.

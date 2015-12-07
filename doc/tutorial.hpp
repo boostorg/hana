@@ -2995,10 +2995,10 @@ the headers provided by the library is also available in the panel on the left
 (under the [Headers](files.html) label) in case you need more details.
 
 - `boost/hana.hpp`\n
-  This is the master header of the library. It includes the whole public
-  interface of the library except adapters for external libraries, which
-  must be included separately. This is because external adapters are optional
-  features that drag additional dependencies, and we can't force that on users.
+  This is the master header of the library, which includes the whole public
+  interface of the library. Note that external adapters, experimental features
+  and implementation details are not included by this header, however, since
+  some of them require additional dependencies.
 
 - `boost/hana/`\n
   This is the main directory of the library containing the definitions of
@@ -3045,6 +3045,18 @@ the headers provided by the library is also available in the panel on the left
     the definition of the external component should still be included when one
     wants to use it. For example:
     @snippet example/tutorial/include_ext.cpp main
+
+  - `boost/hana/experimental/`\n
+    This directory contains experimental features that may or may not make it
+    into the library at some point, but that were deemed useful enough to be
+    made available to the public. Features in this subdirectory reside in the
+    `hana::experimental` namespace. Also, do not expect these features to be
+    stable; they may be moved, renamed, changed or removed between releases of
+    the library. These features may also require additional external dependencies;
+    each feature documents the additional dependencies it requires, if any.
+
+    Because of the potential additional dependencies, these headers are also
+    not included by the master header of the library.
 
   - `boost/hana/detail/`\n
     This directory contains utilities required internally. Nothing in `detail/`
