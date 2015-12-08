@@ -38,6 +38,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
+// See below; this is used to get the exact demangled type with cv-qualifiers.
+template <typename T>
+struct __hana_type { };
+
 BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     //! @cond
     template <typename T, typename = void>
@@ -186,9 +190,21 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <>
     struct print_impl<hana::type_tag> {
         template <typename T>
-        static auto apply(T const&) {
+        static std::string apply(T const&) {
+            // In order to get the exact demangled type with cv-qualifiers
+            // and references, we demangle __hana_type<T> instead. Then, we
+            // just remove the trailing "__hana_" prefix in the demangled
+            // result, which corresponds to "type<T>".
+            //
+            // @bug
+            // On some platforms, boost::core::demangle may _not_ demangle
+            // at all, in which case we'll screw things up by removing a
+            // prefix. Is there no way to cleanly print cv-qualified types
+            // in C++?
             using Type = typename T::type;
-            return "type<" + boost::core::demangle(typeid(Type).name()) + '>';
+            std::string s = boost::core::demangle(typeid(::__hana_type<Type>).name());
+            s.erase(0, 7);
+            return s;
         }
     };
 } BOOST_HANA_NAMESPACE_END

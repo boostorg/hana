@@ -43,8 +43,32 @@ int main() {
     {
         std::ostringstream ss;
         ss << hana::experimental::print(
+            hana::type_c<int&>
+        );
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "type<int&>");
+    }
+
+    {
+        std::ostringstream ss;
+        ss << hana::experimental::print(
+            hana::type_c<int const&>
+        );
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "type<int const&>");
+    }
+
+    {
+        std::ostringstream ss;
+        ss << hana::experimental::print(
+            hana::type_c<int(&)[]>
+        );
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "type<int (&) []>");
+    }
+
+    {
+        std::ostringstream ss;
+        ss << hana::experimental::print(
             hana::type_c<Template<void, char const*>>
         );
-        BOOST_HANA_RUNTIME_CHECK(ss.str() == "type<Template<void, char const*>>");
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "type<Template<void, char const*> >");
     }
 }
