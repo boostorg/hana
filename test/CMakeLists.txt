@@ -44,7 +44,8 @@ if (NOT Boost_FOUND)
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp")
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp"
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/printable.hpp")
 endif()
 
 # The std::tuple adapter is not supported with Clang < 3.7.0
