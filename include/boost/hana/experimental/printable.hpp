@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 // models for different containers
 #include <boost/hana/fwd/map.hpp>
+#include <boost/hana/fwd/optional.hpp>
 #include <boost/hana/fwd/set.hpp>
 #include <boost/hana/fwd/string.hpp>
 #include <boost/hana/fwd/type.hpp>
@@ -67,7 +68,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
 #else
     struct print_t {
         template <typename T>
-        constexpr auto operator()(T const& t) const {
+        std::string operator()(T const& t) const {
             using Print = print_impl<typename hana::tag_of<T>::type>;
             return Print::apply(t);
         }
@@ -87,7 +88,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <typename S>
     struct print_impl<S, hana::when<hana::Sequence<S>::value>> {
         template <typename Xs>
-        static auto apply(Xs const& xs) {
+        static std::string apply(Xs const& xs) {
             std::string result = "(";
             auto comma_separated = hana::intersperse(xs, ", ");
             hana::for_each(comma_separated, [&result](auto const& x) {
@@ -104,10 +105,22 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
         std::declval<std::ostringstream&>() << std::declval<S const&>()
     )>> {
         template <typename T>
-        static auto apply(T const& t) {
+        static std::string apply(T const& t) {
             std::ostringstream os;
             os << t;
             return os.str();
+        }
+    };
+
+    // model for hana::optional
+    template <>
+    struct print_impl<hana::optional_tag> {
+        template <typename O>
+        static std::string apply(O const& optional) {
+            return hana::maybe("nothing",
+                [](auto const& x) {
+                    return "just(" + hana::experimental::print(x) + ")";
+                }, optional);
         }
     };
 
@@ -115,7 +128,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <>
     struct print_impl<hana::map_tag> {
         template <typename M>
-        static auto apply(M const& map) {
+        static std::string apply(M const& map) {
             std::string result = "{";
             auto pairs = hana::transform(hana::to_tuple(map),
                 [](auto const& pair) {
@@ -139,7 +152,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
         Printable<typename C::value_type>::value
     >> {
         template <typename T>
-        static auto apply(T const&) {
+        static std::string apply(T const&) {
             constexpr auto value = hana::value<T>();
             return hana::experimental::print(value);
         }
@@ -149,7 +162,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <typename P>
     struct print_impl<P, hana::when<hana::Product<P>::value>> {
         template <typename T>
-        static auto apply(T const& t) {
+        static std::string apply(T const& t) {
             return '(' + hana::experimental::print(hana::first(t))
                     + ", "
                     + hana::experimental::print(hana::second(t)) + ')';
@@ -160,7 +173,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <>
     struct print_impl<hana::string_tag> {
         template <typename S>
-        static auto apply(S const& s) {
+        static std::string apply(S const& s) {
             return '"' + std::string{hana::to<char const*>(s)} + '"';
         }
     };
@@ -169,7 +182,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     template <>
     struct print_impl<hana::set_tag> {
         template <typename S>
-        static auto apply(S const& set) {
+        static std::string apply(S const& set) {
             std::string result = "{";
             auto as_tuple = hana::transform(hana::to_tuple(set),
                                 hana::experimental::print);
