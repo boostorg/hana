@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"index.html#tutorial-rationales-naming":[0,18,5],
+"index.html#tutorial-rationales-parameters":[0,18,6],
 "index.html#tutorial-rationales-tag_dispatching":[0,18,7],
 "index.html#tutorial-rationales-tuple":[0,18,4],
 "index.html#tutorial-rationales-why_Hana":[0,18,3],
@@ -117,10 +119,10 @@ var NAVTREEINDEX2 =
 "string_8hpp.html":[3,0,0,130],
 "string_8hpp.html#a325859c7db2c3f8e6a4bfab5a81a6dcb":[3,0,0,130,0],
 "struct__macros_8hpp.html":[3,0,0,2,23],
-"structboost_1_1fusion_1_1deque.html":[1,4,0,0],
-"structboost_1_1fusion_1_1list.html":[1,4,0,1],
-"structboost_1_1fusion_1_1tuple.html":[1,4,0,2],
-"structboost_1_1fusion_1_1vector.html":[1,4,0,3],
+"structboost_1_1fusion_1_1deque.html":[1,5,0,0],
+"structboost_1_1fusion_1_1list.html":[1,5,0,1],
+"structboost_1_1fusion_1_1tuple.html":[1,5,0,2],
+"structboost_1_1fusion_1_1vector.html":[1,5,0,3],
 "structboost_1_1hana_1_1Applicative.html":[1,0,0],
 "structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a":[1,0,0,0],
 "structboost_1_1hana_1_1Applicative.html#adc481a8251a7f47f526ad84186d35087":[1,0,0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX2 =
 "structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95":[1,0,19,0],
 "structboost_1_1hana_1_1Sequence.html#a23b6ac9e78577d70b9108a80e6b1534c":[1,0,19,25],
 "structboost_1_1hana_1_1Sequence.html#a2c20028c5115dcf38063d322f27b4ee1":[1,0,19,19],
-"structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea":[1,0,19,4],
-"structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,19,22],
-"structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,12]
+"structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea":[1,0,19,4]
 };

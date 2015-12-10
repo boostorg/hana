@@ -37,7 +37,7 @@ var NAVTREEINDEX0 =
 "capture_8hpp.html#ga41ada6b336e9d5bcb101ff0c737acbd0":[3,0,0,4,3,0],
 "cartesian__product_8hpp.html":[3,0,0,24],
 "chain_8hpp.html":[3,0,0,25],
-"classstd_1_1ratio.html":[1,4,3,4],
+"classstd_1_1ratio.html":[1,5,3,4],
 "comparing_8hpp.html":[3,0,0,26],
 "compose_8hpp.html":[3,0,0,4,4],
 "compose_8hpp.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b":[3,0,0,4,4,0],

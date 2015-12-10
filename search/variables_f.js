@@ -7,5 +7,6 @@ var searchData=
   ['power',['power',['../structboost_1_1hana_1_1Ring.html#af31c2ce5c41696358e7ee10a8b57340e',1,'boost::hana::Ring']]],
   ['prefix',['prefix',['../structboost_1_1hana_1_1MonadPlus.html#a85ba602a660bdb3bbeb43cc600de3008',1,'boost::hana::MonadPlus']]],
   ['prepend',['prepend',['../structboost_1_1hana_1_1MonadPlus.html#a3e173a5524274624703353bb3ac4c129',1,'boost::hana::MonadPlus']]],
+  ['print',['print',['../group__group-experimental.html#gac6b1e25805275a819c5456ca974254af',1,'boost::hana::experimental']]],
   ['product',['product',['../structboost_1_1hana_1_1Foldable.html#aa37fd8d56461f749d49423c711e4c67a',1,'boost::hana::Foldable']]]
 ];

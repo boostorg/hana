@@ -174,7 +174,7 @@ implemented" is acceptable.</p>
 <div class="line">    { out &lt;&lt; x; }</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> print = [](<span class="keyword">auto</span>&amp; stream, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
+<div class="line"><span class="keyword">auto</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a> = [](<span class="keyword">auto</span>&amp; stream, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; x) {</div>
 <div class="line">    <span class="keywordflow">return</span> print_impl&lt;hana::tag_of_t&lt;decltype(x)&gt;&gt;<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">::apply</a>(stream, x);</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -195,13 +195,13 @@ implemented" is acceptable.</p>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    {</div>
 <div class="line">        std::stringstream s;</div>
-<div class="line">        print(s, std::vector&lt;int&gt;{1, 2, 3});</div>
+<div class="line">        <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(s, std::vector&lt;int&gt;{1, 2, 3});</div>
 <div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s.str() == <span class="stringliteral">&quot;[1, 2, 3, ]&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    {</div>
 <div class="line">        std::stringstream s;</div>
-<div class="line">        print(s, <span class="stringliteral">&quot;abcd&quot;</span>);</div>
+<div class="line">        <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(s, <span class="stringliteral">&quot;abcd&quot;</span>);</div>
 <div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(s.str() == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line">}</div>

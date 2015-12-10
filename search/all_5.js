@@ -28,5 +28,6 @@ var searchData=
   ['extract',['extract',['../structboost_1_1hana_1_1Comonad.html#a5b42ad77d8de0ba34a0d7cafef951d75',1,'boost::hana::Comonad']]],
   ['extract_2ehpp',['extract.hpp',['../extract_8hpp.html',1,'']]],
   ['extract_2ehpp',['extract.hpp',['../fwd_2extract_8hpp.html',1,'']]],
+  ['experimental_20features',['Experimental features',['../group__group-experimental.html',1,'']]],
   ['external_20adapters',['External adapters',['../group__group-ext.html',1,'']]]
 ];
