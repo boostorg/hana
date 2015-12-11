@@ -1808,7 +1808,7 @@ Tag dispatching</h2>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(std::ostream&amp; os, X x) {</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>(std::ostream&amp; os, X x) {</div>
 <div class="line">  <span class="keyword">using</span> Tag = <span class="keyword">typename</span> hana::tag_of&lt;X&gt;::type;</div>
 <div class="line">  <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">}</div>
@@ -1848,15 +1848,15 @@ Tag dispatching</h2>
 <div class="line"></div>
 <div class="line"><span class="comment">// and so on...</span></div>
 </div><!-- fragment --><p> The nested <code>using hana_tag = vector_tag;</code> part is a terse way of controling the result of the <code>tag_of</code> metafunction, and hence the tag of the <code>vectorN</code> type. This is explained in the reference for <code>tag_of</code>. Finally, if you wanted to customize the behavior of the <code>print</code> function for all the <code>vectorN</code> types, you would normally have to write something along the lines of</p>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(std::ostream&amp; os, vector0)</div>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>(std::ostream&amp; os, vector0)</div>
 <div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[]&quot;</span>; }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1&gt;</div>
-<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(std::ostream&amp; os, vector1&lt;T1&gt; v)</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>(std::ostream&amp; os, vector1&lt;T1&gt; v)</div>
 <div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; v.t1 &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>; }</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</div>
-<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(std::ostream&amp; os, vector2&lt;T1, T2&gt; v)</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>(std::ostream&amp; os, vector2&lt;T1, T2&gt; v)</div>
 <div class="line">{ os &lt;&lt; <span class="stringliteral">&quot;[&quot;</span> &lt;&lt; v.t1 &lt;&lt; <span class="stringliteral">&quot;, &quot;</span> &lt;&lt; v.t2 &lt;&lt; <span class="stringliteral">&quot;]&quot;</span>; }</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// and so on...</span></div>
@@ -1877,7 +1877,7 @@ Tag dispatching</h2>
 <div class="line">};</div>
 </div><!-- fragment --><p> One upside is that all <code>vectorN</code>s can now be treated uniformly by the <code>print</code> function, at the cost of some boilerplate when creating the data structure (to specify the tag of each <code>vectorN</code>) and when creating the initial <code>print</code> function (to setup the tag dispatching system with <code>print_impl</code>). There are also other advantages to this technique, like the ability to check for preconditions in the interface function without having to do it in each custom implementation, which would be tedious:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> X&gt;</div>
-<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>(std::ostream&amp; os, X x) {</div>
+<div class="line"><span class="keywordtype">void</span> <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>(std::ostream&amp; os, X x) {</div>
 <div class="line">  <span class="comment">// **** check some precondition ****</span></div>
 <div class="line"></div>
 <div class="line">  <span class="comment">// The precondition only has to be checked here; implementations</span></div>
@@ -1897,7 +1897,7 @@ Tag dispatching</h2>
 <div class="line">    <a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">print_impl&lt;Tag&gt;::apply</a>(os, x);</div>
 <div class="line">  }</div>
 <div class="line">};</div>
-<div class="line">constexpr print_t <a class="code" href="group__group-experimental.html#gac6b1e25805275a819c5456ca974254af">print</a>{};</div>
+<div class="line">constexpr print_t <a class="code" href="group__group-experimental.html#ga660c0769106006a86948b5b355fad050">print</a>{};</div>
 </div><!-- fragment --><p> As you are probably aware of, being able to implement an algorithm for many types at the same time is tremendously useful (that's precisely the goal of C++ templates!). However, even more useful is the ability to implement an algorithm for many types <em>that satisfy some condition</em>. C++ templates are currently missing this ability to constrain their template parameters, but a language feature called <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf">concepts</a> is being rolled out with the goal of addressing this issue.</p>
 <p>With something similar in mind, Hana's algorithms support an additional layer of tag-dispatching to what was explained above. This layer allows us to "specialize" an algorithm for all types that satisfy some predicate. For example, let's say we wanted to implement the <code>print</code> function above for all types that represent some kind of sequence. Right now, we wouldn't have an easy way to do this. However, the tag dispatching for Hana's algorithms is set up slightly differently than what was shown above, and we could hence write the following:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tag&gt;</div>
