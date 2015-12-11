@@ -62,7 +62,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     //! This function requires (the rest of) Boost to be available on the
     //! system. It also requires RTTI to be enabled.
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto print = [](auto const& x) -> std::string {
+    auto print = [](auto const& x) -> std::string {
         return tag-dispatched;
     };
 #else
