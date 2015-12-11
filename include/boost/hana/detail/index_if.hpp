@@ -39,20 +39,24 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //! @ingroup group-details
     //! Returns the index of the first element of the `pack<>` that satisfies
     //! the predicate, or the size of the pack if there is no such element.
+    //!
+    //! @note
+    //! The predicate must return an `IntegralConstant` that can be explicitly
+    //! converted to `bool`.
     template <typename Pred, typename Ts, typename = when<true>>
     struct index_if;
 
     template <typename Pred, typename T, typename ...Ts>
-    struct index_if<Pred, pack<T, Ts...>, when<decltype(
+    struct index_if<Pred, pack<T, Ts...>, when<static_cast<bool>(decltype(
         std::declval<Pred>()(std::declval<T>())
-    )::value>> {
+    )::value)>> {
         static constexpr std::size_t value = 0;
     };
 
     template <typename Pred, typename T, typename ...Ts>
-    struct index_if<Pred, pack<T, Ts...>, when<!decltype(
+    struct index_if<Pred, pack<T, Ts...>, when<!static_cast<bool>(decltype(
         std::declval<Pred>()(std::declval<T>())
-    )::value>> {
+    )::value)>> {
         static constexpr std::size_t value = 1 + index_if<Pred, pack<Ts...>>::value;
     };
 
