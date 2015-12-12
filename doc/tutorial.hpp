@@ -109,6 +109,28 @@ More information for specific platforms is available on [the wiki][Hana.wiki].
 
 
 
+
+
+@section tutorial-support Support
+
+------------------------------------------------------------------------------
+
+If you have a problem, please review the [FAQ](@ref tutorial-rationales) and
+[the wiki][Hana.wiki]. Searching [the issues][Hana.issues] for your problem is
+also a good idea. If that doesn't help, feel free to chat with us in [Gitter][Hana.chat],
+or open a new issue. [StackOverflow][] with the [boost-hana][Hana.StackOverflow]
+tag is the preferred place to ask questions on usage. If you are encountering
+what you think is a bug, please open an issue.
+
+
+
+
+
+
+
+
+
+
 @section tutorial-introduction Introduction
 
 ------------------------------------------------------------------------------
@@ -3892,11 +3914,13 @@ modified as little as possible to work with this reimplementation.
 [CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
+[Hana.chat]: https://gitter.im/boostorg/hana
 [Hana.contributing]: https://goo.gl/N8DuJW <!-- Original GitHub link can't be resolved by Doxygen -->
 [Hana.findmodule]: https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake
 [Hana.issues]: https://github.com/boostorg/hana/issues
 [Hana.readme]: https://goo.gl/RPd0sV <!-- Original GitHub link can't be resolved by Doxygen -->
 [Hana.repository]: https://github.com/boostorg/hana
+[Hana.StackOverflow]: http://stackoverflow.com/questions/tagged/boost-hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew.devel-only]: https://github.com/Homebrew/homebrew-devel-only
 [Homebrew]: http://brew.sh
@@ -3911,6 +3935,7 @@ modified as little as possible to work with this reimplementation.
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
 [SO.sfinae]: http://stackoverflow.com/a/257382/627587
 [Sprout]: https://github.com/bolero-MURAKAMI/Sprout
+[StackOverflow]: http://stackoverflow.com
 [video.inst_must_go]: https://www.youtube.com/watch?v=x7UmrRzKAXU
 
 */
