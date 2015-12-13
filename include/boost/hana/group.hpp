@@ -119,10 +119,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename Pred, std::size_t ...i>
         static constexpr auto
         group_helper(Xs&& xs, Pred&& pred, std::index_sequence<0, i...>) {
-            using info = detail::group_indices<decltype(
+            using info = detail::group_indices<static_cast<bool>(decltype(
                 pred(hana::at_c<i - 1>(static_cast<Xs&&>(xs)),
                      hana::at_c<i>(static_cast<Xs&&>(xs)))
-            )::value...>;
+            )::value)...>;
             return info::template finish<S>(static_cast<Xs&&>(xs),
                 std::make_index_sequence<info::n_groups>{}
             );
