@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/array.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/empty.hpp>
 #include <boost/hana/lift.hpp>
 #include <boost/hana/unpack.hpp>
@@ -100,7 +101,9 @@ BOOST_HANA_NAMESPACE_BEGIN
             Pred const& pred;
             template <typename ...X>
             auto operator()(X&& ...x) const -> filter_indices<
-                decltype(pred(static_cast<X&&>(x)))::value...
+                static_cast<bool>(detail::decay<
+                    decltype(pred(static_cast<X&&>(x)))
+                >::type::value)...
             > { return {}; }
         };
     }
