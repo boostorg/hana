@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea":[1,0,19,4],
 "structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2":[1,0,19,22],
 "structboost_1_1hana_1_1Sequence.html#a4471413ccc3835db5e48658683b8aba0":[1,0,19,12],
 "structboost_1_1hana_1_1Sequence.html#a45ec7767d19eb7eaabb71ead3796a7f1":[1,0,19,7],

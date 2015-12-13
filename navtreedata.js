@@ -6,6 +6,7 @@ var NAVTREE =
       [ "Prerequisites and installation", "index.html#tutorial-installation", [
         [ "Compiler requirements", "index.html#tutorial-installation-requirements", null ]
       ] ],
+      [ "Support", "index.html#tutorial-support", null ],
       [ "Introduction", "index.html#tutorial-introduction", [
         [ "C++ computational quadrants", "index.html#tutorial-introduction-quadrants", null ],
         [ "What is this library about?", "index.html#tutorial-quadrants-about", null ]
@@ -102,7 +103,7 @@ var NAVTREEINDEX =
 "accessors_8hpp.html",
 "fwd_2front_8hpp.html",
 "index.html#tutorial-rationales-naming",
-"structboost_1_1hana_1_1Sequence.html#a435bb610ac90db4df48bd3fce876b8a2"
+"structboost_1_1hana_1_1Sequence.html#a3c12b49d0683af43f766a0093e413cea"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
