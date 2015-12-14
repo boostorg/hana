@@ -37,6 +37,13 @@ Distributed under the Boost Software License, Version 1.0.
     _GLIBCXX_END_NAMESPACE_VERSION
     }
 
+#elif defined(BOOST_HANA_CONFIG_LIBMSVCCXX)
+
+    namespace std {
+        template<class _Ty>
+        class reference_wrapper;
+    }
+
 #else
 
 #   error "Hana must be taught how to forward declare std::reference_wrapper for your standard library"
