@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/array.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/nested_by.hpp> // required by fwd decl
 #include <boost/hana/pair.hpp>
 #include <boost/hana/unpack.hpp>
@@ -89,7 +90,9 @@ BOOST_HANA_NAMESPACE_BEGIN
         struct deduce_partition_indices {
             template <typename ...Xs>
             auto operator()(Xs&& ...xs) const -> detail::partition_indices<
-                decltype(std::declval<Pred>()(static_cast<Xs&&>(xs)))::value...
+                static_cast<bool>(detail::decay<
+                    decltype(std::declval<Pred>()(static_cast<Xs&&>(xs)))
+                >::type::value)...
             > { return {}; }
         };
     }

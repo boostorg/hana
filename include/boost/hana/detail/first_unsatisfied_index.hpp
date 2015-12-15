@@ -24,7 +24,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename Pred, typename X, typename ...Xs>
     struct find_tail_size<true, Pred, X, Xs...> {
         static constexpr int value = find_tail_size<
-            hana::value<decltype(std::declval<Pred>()(std::declval<X>()))>(),
+            static_cast<bool>(hana::value<decltype(std::declval<Pred>()(std::declval<X>()))>()),
             Pred, Xs...
         >::value;
     };

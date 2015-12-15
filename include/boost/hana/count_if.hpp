@@ -55,7 +55,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             >::type>
             constexpr auto operator()(Xs&& ...xs) const {
                 constexpr bool results[] = {false, // <-- avoid empty array
-                    hana::value<decltype((*pred)(static_cast<Xs&&>(xs)))>()...
+                    static_cast<bool>(hana::value<decltype((*pred)(static_cast<Xs&&>(xs)))>())...
                 };
                 constexpr std::size_t total = detail::count(
                     results, results + sizeof(results), true
