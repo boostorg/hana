@@ -80,7 +80,7 @@ namespace boost { namespace hana { namespace test {
         struct undefined { };
 
         TestSequence() {
-            constexpr auto list = make<S>;
+            constexpr auto list = make<S>; (void)list;
             constexpr auto foldable = seq; (void)foldable;
 
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
@@ -603,101 +603,6 @@ namespace boost { namespace hana { namespace test {
                 ));
             }
 
-#endif
-#if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 3
-            //////////////////////////////////////////////////////////////////
-            // group (without a custom predicate)
-            //////////////////////////////////////////////////////////////////
-            {
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list()),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{})),
-                    list(list(eq<0>{}))
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<0>{})),
-                    list(list(eq<0>{}, eq<0>{}))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<1>{})),
-                    list(list(eq<0>{}), list(eq<1>{}))
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<0>{}, eq<0>{})),
-                    list(list(eq<0>{}, eq<0>{}, eq<0>{}))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<0>{}, eq<1>{})),
-                    list(list(eq<0>{}, eq<0>{}), list(eq<1>{}))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<1>{}, eq<0>{})),
-                    list(list(eq<0>{}),
-                         list(eq<1>{}),
-                         list(eq<0>{}))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<1>{}, eq<0>{}, eq<0>{})),
-                    list(list(eq<1>{}),
-                         list(eq<0>{}, eq<0>{}))
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<0>{}, eq<1>{}, eq<1>{})),
-                    list(list(eq<0>{}, eq<0>{}),
-                         list(eq<1>{}, eq<1>{}))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(eq<0>{}, eq<0>{}, eq<1>{}, eq<1>{}, eq<2>{}, eq<2>{}, eq<2>{})),
-                    list(list(eq<0>{}, eq<0>{}),
-                         list(eq<1>{}, eq<1>{}),
-                         list(eq<2>{}, eq<2>{}, eq<2>{}))
-                ));
-            }
-
-            //////////////////////////////////////////////////////////////////
-            // group (with a custom predicate)
-            //////////////////////////////////////////////////////////////////
-            {
-                auto a = [](auto z) { return test::tag(eq<999>{}, z); };
-                auto b = [](auto z) { return test::tag(eq<888>{}, z); };
-
-                BOOST_HANA_CONSTEXPR_LAMBDA auto pred = [](auto x, auto y) {
-                    return equal(x.unwrap, y.unwrap);
-                };
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(), undefined{}),
-                    list()
-                ));
-
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(a(eq<0>{})), pred),
-                    list(list(a(eq<0>{})))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(a(eq<0>{}), b(eq<0>{})), pred),
-                    list(list(a(eq<0>{}), b(eq<0>{})))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(a(eq<0>{}), b(eq<0>{}), a(eq<1>{})), pred),
-                    list(list(a(eq<0>{}), b(eq<0>{})), list(a(eq<1>{})))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(a(eq<0>{}), b(eq<0>{}), a(eq<1>{}), b(eq<1>{})), pred),
-                    list(list(a(eq<0>{}), b(eq<0>{})), list(a(eq<1>{}), b(eq<1>{})))
-                ));
-                BOOST_HANA_CONSTANT_CHECK(equal(
-                    group(list(a(eq<0>{}), b(eq<0>{}), a(eq<1>{}), b(eq<1>{}), b(eq<0>{})), pred),
-                    list(list(a(eq<0>{}), b(eq<0>{})), list(a(eq<1>{}), b(eq<1>{})), list(b(eq<0>{})))
-                ));
-            }
 #endif
         }
     };
