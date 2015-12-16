@@ -20,8 +20,7 @@
       "data": <%= measure(:bloat, 'execute.hana.tuple.erb.cpp', exec) %>
     }
 
-    <%# Boost.Fusion 1.58.0 has a bug in reverse_fold %>
-    <% if cmake_bool("@Boost_FOUND@") && "@Boost_VERSION@" != "105800" %>
+    <% if cmake_bool("@Boost_FOUND@") %>
     , {
       "name": "fusion::vector",
       "data": <%= measure(:bloat, 'execute.fusion.vector.erb.cpp', exec) %>

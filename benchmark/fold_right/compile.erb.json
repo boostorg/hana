@@ -20,15 +20,10 @@
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
-      <%# Boost.Fusion 1.58.0 has a bug in reverse_fold %>
-      <% if "@Boost_VERSION@" != "105800" %>
-      , {
-        "name": "fusion::vector",
-        "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
-      }
-      <% end %>
-
     , {
+      "name": "fusion::vector",
+      "data": <%= time_compilation('compile.fusion.vector.erb.cpp', fusion) %>
+    }, {
       "name": "mpl::vector ",
       "data": <%= time_compilation('compile.mpl.vector.erb.cpp', mpl) %>
     }
