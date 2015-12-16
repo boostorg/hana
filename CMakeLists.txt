@@ -84,7 +84,7 @@ boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings
 # Behavior when the package is found or not is customized at the
 # point where the package is required.
 ##############################################################################
-find_package(Boost)
+find_package(Boost 1.57)
 find_package(Doxygen)
 find_package(Meta)
 find_package(MPL11)
