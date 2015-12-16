@@ -16,7 +16,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/eval_if.hpp>
-#include <boost/hana/functional/always.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -39,15 +38,21 @@ BOOST_HANA_NAMESPACE_BEGIN
     }
     //! @endcond
 
+    namespace detail {
+        template <typename T>
+        struct hold {
+            T value;
+            constexpr T&& operator()() && { return static_cast<T&&>(value); }
+        };
+    }
+
     template <typename L, bool condition>
     struct if_impl<L, when<condition>> : default_ {
-        //! @todo By using `always` here, we create a copy of both `t`
-        //! and `e`, which is not very smart.
         template <typename C, typename T, typename E>
         static constexpr decltype(auto) apply(C&& c, T&& t, E&& e) {
             return hana::eval_if(static_cast<C&&>(c),
-                hana::always(static_cast<T&&>(t)),
-                hana::always(static_cast<E&&>(e))
+                detail::hold<T&&>{static_cast<T&&>(t)},
+                detail::hold<E&&>{static_cast<E&&>(e)}
             );
         }
     };
