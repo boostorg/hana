@@ -70,8 +70,9 @@ namespace boost { namespace hana {
     template <>
     struct eval_if_impl<test::Numeric> {
         template <typename C, typename T, typename E>
-        static constexpr auto apply(C c, T t, E e) {
-            return c.value ? hana::eval(t) : hana::eval(e);
+        static constexpr auto apply(C const& c, T&& t, E&& e) {
+            return c.value ? hana::eval(static_cast<T&&>(t))
+                           : hana::eval(static_cast<E&&>(e));
         }
     };
 
