@@ -118,12 +118,6 @@ Distributed under the Boost Software License, Version 1.0.
 // Caveats and other compiler-dependent options
 //////////////////////////////////////////////////////////////////////////////
 
-// Enables some optimizations based on C++1z fold-expressions.
-// Currently always disabled.
-#if 0
-#   define BOOST_HANA_CONFIG_HAS_CXX1Z_FOLD_EXPRESSIONS
-#endif
-
 // BOOST_HANA_CONFIG_HAS_CONSTEXPR_LAMBDA enables some constructs requiring
 // `constexpr` lambdas, which are not in the language (yet).
 // Currently always disabled.
