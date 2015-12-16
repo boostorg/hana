@@ -31,6 +31,13 @@ matrix:
 
   include:
     ##########################################################################
+    # Check for code formatting errors
+    ##########################################################################
+    - os: osx
+      env: CHECK_FORMATTING=true COMPILER=clang++
+      osx_image: xcode7
+
+    ##########################################################################
     # Build with the main configuration on all the supported compilers
     #
     # Note that we only use the memory checker on the main configuration to
@@ -270,6 +277,11 @@ install:
   - rvm use 2.1 --install --binary --fuzzy
   - gem install ruby-progressbar tilt
 
+  ############################################################################
+  # Install vera++ to check for code formatting errors (run on OS X only)
+  ############################################################################
+  - if [[ "${CHECK_FORMATTING}" == "true" ]]; then brew install vera++; fi
+
 
 before_script:
   ############################################################################
@@ -285,6 +297,17 @@ before_script:
 
 
 script:
+  ############################################################################
+  # Use vera++ to check for common formatting errors.
+  ############################################################################
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+      # F001: Source files should not use the '\r' (CR) character
+      # L001: No trailing whitespace at the end of lines
+      # L002: Don't use tab characters
+      find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
+    fi
+
   ############################################################################
   # Only push the documentation when we're on master, otherwise just make sure
   # it builds properly.
