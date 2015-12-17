@@ -889,6 +889,11 @@ words, this is equivalent to writing
 f(); f(); ... f(); // 10 times
 @endcode
 
+@note
+Always [be careful][Chandler.MeetingC++] about manually unrolling loops or
+doing other such optimizations manually. In most cases, your compiler is
+probably better than you at optimizing. When in doubt, benchmark.
+
 Another nice use of `IntegralConstant`s is to define good-looking operators
 for indexing heterogeneous sequences. Whereas `std::tuple` must be accessed
 with `std::get`, `hana::tuple` can be accessed using the familiar `operator[]`
@@ -3909,6 +3914,7 @@ modified as little as possible to work with this reimplementation.
 [C++14]: http://en.wikipedia.org/wiki/C%2B%2B14
 [C++17.clite]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3580.pdf
 [C++Now]: http://cppnow.org
+[Chandler.MeetingC++]: https://youtu.be/qkzaZumt_uk?t=4478
 [CMake]: http://www.cmake.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
 [CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
