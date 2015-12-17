@@ -2227,7 +2227,7 @@ Constexpr preservation</h2>
 <div class="line"><span class="keyword">auto</span> f(<span class="keywordtype">int</span> i) -&gt; foo&lt;i&gt;; <span class="comment">// obviously won&#39;t work</span></div>
 </div><!-- fragment --><p>In fact, the return type of a function may only depend on the types of its arguments, and <code>constexpr</code> can't change this fact. This is of utmost importance to us, because we're interested in manipulating heterogeneous objects, which eventually means returning objects with different types depending on the argument of the function. For example, a function might want to return an object of type <code>T</code> in one case and an object of type <code>U</code> in the other; from our analysis, we now know that these "cases" will have to depend on information encoded in the <em>types</em> of the arguments, not in their <em>values</em>.</p>
 <p>To preserve <code>constexpr</code>-ness through argument passing, we have to encode the <code>constexpr</code> value into a type, and then pass a not-necessarily-<code>constexpr</code> object of that type to the function. The function, which must be a template, may then access the <code>constexpr</code> value encoded inside that type.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Improve this explanation and talk about non-integral constant expressions wrapped into types.</dd></dl>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-effects"></a>
 Side effects</h2>
 <p>Let me ask a tricky question. Is the following code valid?</p>
@@ -2275,7 +2275,7 @@ Side effects</h2>
 <div class="line">note: read of non-<span class="keyword">const</span> variable <span class="charliteral">&#39;n&#39;</span> is not allowed <a class="code" href="structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074">in</a> a constant expression</div>
 <div class="line">constexpr <span class="keywordtype">int</span> i = f(n);</div>
 <div class="line">                    ^</div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
 Apendix II: A minimal MPL</h1>
 <hr/>
