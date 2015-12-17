@@ -49,7 +49,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename L, bool condition>
     struct if_impl<L, when<condition>> : default_ {
         template <typename C, typename T, typename E>
-        static constexpr decltype(auto) apply(C&& c, T&& t, E&& e) {
+        static constexpr auto apply(C&& c, T&& t, E&& e) {
             return hana::eval_if(static_cast<C&&>(c),
                 detail::hold<T&&>{static_cast<T&&>(t)},
                 detail::hold<E&&>{static_cast<E&&>(e)}
