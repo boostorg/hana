@@ -27,8 +27,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! @ingroup group-details
 //! Expands to the stringized version of its argument.
-#define BOOST_HANA_PP_STRINGIZE(x) BOOST_HANA_PP_STRINGIZE_PRIMITIVE(x)
-#define BOOST_HANA_PP_STRINGIZE_PRIMITIVE(x) #x
+#define BOOST_HANA_PP_STRINGIZE(...) BOOST_HANA_PP_STRINGIZE_PRIMITIVE(__VA_ARGS__)
+#define BOOST_HANA_PP_STRINGIZE_PRIMITIVE(...) #__VA_ARGS__
 
 //! @ingroup group-details
 //! Expands to its last argument.

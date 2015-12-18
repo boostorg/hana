@@ -107,6 +107,12 @@ int main() {
     {
         constexpr char const* xyz = BOOST_HANA_PP_STRINGIZE(xyz);
         BOOST_HANA_RUNTIME_CHECK(std::string{xyz} == "xyz");
+    }{
+        constexpr char const* xyz = BOOST_HANA_PP_STRINGIZE(foo{bar, baz});
+        BOOST_HANA_RUNTIME_CHECK(std::string{xyz} == "foo{bar, baz}");
+    }{
+        constexpr char const* xyz = BOOST_HANA_PP_STRINGIZE(foo, bar, baz);
+        BOOST_HANA_RUNTIME_CHECK(std::string{xyz} == "foo, bar, baz");
     }
 
     //////////////////////////////////////////////////////////////////////////
