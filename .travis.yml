@@ -108,6 +108,10 @@ matrix:
           packages: ["clang-3.7", "g++-5"]
           sources: *sources
 
+    # With Boost 1.59
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0
+      addons: *clang37
+
     # Without Boost (make sure we don't depend on it)
     - env: UNIT_TESTS=true COMPILER=clang++-3.7
       addons: *clang37
@@ -193,8 +197,9 @@ install:
   ############################################################################
   # Install Boost headers
   ############################################################################
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION="1.59.0"; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION="1.60.0"; fi
   - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
+  - if [[ "${BOOST_VERSION}" == "1.60.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.gz"; fi
   - if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
 
   - |
