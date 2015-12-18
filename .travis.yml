@@ -44,7 +44,7 @@ matrix:
     # speed up Travis builds.
     ##########################################################################
     # Clang 3.5
-    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang35
         apt:
           packages: ["clang-3.5", "valgrind"]
@@ -56,14 +56,14 @@ matrix:
             - llvm-toolchain-precise
 
     # Clang 3.6
-    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang36
         apt:
           packages: ["clang-3.6", "valgrind"]
           sources: *sources
 
     # Clang 3.7
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       addons: &clang37
         apt:
           packages: ["clang-3.7", "valgrind"]
@@ -71,22 +71,22 @@ matrix:
 
     # Xcode 6.3
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: beta-xcode6.3
 
     # Xcode 6.4
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: xcode6.4
 
     # Xcode 7
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: xcode7
 
     # Xcode 7.1
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: xcode7.1
 
 
@@ -94,15 +94,15 @@ matrix:
     # Build with variations in the configuration
     ##########################################################################
     # Without concept checks
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
       addons: *clang37
 
     # Without exceptions
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       addons: *clang37
 
     # Build with libstdc++ instead of libc++
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 STDLIB=libstdc++
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default STDLIB=libstdc++
       addons:
         apt:
           packages: ["clang-3.7", "g++-5"]
@@ -113,43 +113,43 @@ matrix:
       addons: *clang37
 
     # With Boost.Build instead of CMake (on Linux)
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default BOOST_BUILD=true
       addons: *clang37
 
     # With Boost.Build instead of CMake (on OS X)
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0 BOOST_BUILD=true
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default BOOST_BUILD=true
       osx_image: xcode7
 
 
     ##########################################################################
     # Generate the documentation
     ##########################################################################
-    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=default
       addons: *clang37
 
-    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 BOOST_BUILD=true
+    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=default BOOST_BUILD=true
       addons: *clang37
 
 
     ##########################################################################
     # Benchmarks
     ##########################################################################
-    - env: BENCHMARKS=true COMPILER=clang++-3.5 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true COMPILER=clang++-3.5 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang35
 
     # Clang 3.5 does not support debug info for `auto`, so we don't benchmark in 'Debug' mode.
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang36
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
+    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
       addons: *clang36
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang37
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=1.59.0 CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
+    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
       addons: *clang37
 
 
@@ -157,7 +157,7 @@ matrix:
     # Jobs that are allowed to fail
     ##########################################################################
     # Clang trunk
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default
       addons:
         apt:
           packages: ["clang-3.8"]
@@ -169,13 +169,13 @@ matrix:
 
     # Xcode 7.2 beta 1
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=1.59.0
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: xcode7.2b1
 
 
   allow_failures:
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default
     - osx_image: xcode7.2b1
 
 
@@ -193,6 +193,7 @@ install:
   ############################################################################
   # Install Boost headers
   ############################################################################
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION="1.59.0"; fi
   - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
   - if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
 
