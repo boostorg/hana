@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/count_if.hpp>
 #include <boost/hana/drop_while.hpp>
 #include <boost/hana/equal.hpp>
+#include <boost/hana/ext/std/tuple.hpp>
 #include <boost/hana/filter.hpp>
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/functional/id.hpp>
@@ -155,6 +156,23 @@ int main() {
         // test with lvalue
         constexpr auto z = hana::find_if(hana::tuple_c<int, 3>, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(z, hana::just(hana::int_c<3>)));
+    }
+    {
+        // test with std::tuple (for default implementation of find_if)
+        constexpr auto x = hana::find_if(std::make_tuple(hana::int_c<0>), hana::id);
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(x, hana::nothing));
+
+        constexpr auto y = hana::find_if(std::make_tuple(hana::int_c<1>), hana::id);
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(y, hana::just(hana::int_c<1>)));
+
+        constexpr auto z = hana::find_if(std::make_tuple(hana::int_c<3>), hana::id);
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(z, hana::just(hana::int_c<3>)));
+    }
+    {
+        // test with lvalue
+        constexpr auto seq = std::make_tuple(hana::int_c<3>);
+        constexpr auto x = hana::find_if(seq, hana::id);
+        BOOST_HANA_CONSTANT_CHECK(hana::equal(x, hana::just(hana::int_c<3>)));
     }
 
     // group

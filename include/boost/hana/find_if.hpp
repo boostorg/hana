@@ -21,6 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/drop_while.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/front.hpp>
@@ -66,9 +67,9 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename Xs, typename Pred, std::size_t i, std::size_t N>
         struct advance_until<Xs, Pred, i, N, false>
-            : advance_until<Xs, Pred, i + 1, N, decltype(
+            : advance_until<Xs, Pred, i + 1, N, static_cast<bool>(detail::decay<decltype(
                 std::declval<Pred>()(hana::at_c<i>(std::declval<Xs>()))
-            )::value>
+            )>::type::value)>
         { };
 
         template <typename Xs, typename Pred, std::size_t N>
