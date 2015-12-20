@@ -350,6 +350,9 @@ script:
   # We only run the full benchmarks on `master` when we're not in a pull
   # request, because otherwise it takes too much Travis resources. Otherwise,
   # we only run partial benchmarks to make sure they compile and run properly.
+  #
+  # Note: The benchmarks associated to a version of the documentation are
+  #       stored in `doc/gh-pages/benchmarks/`.
   ############################################################################
   - |
     if [[ "${BENCHMARKS}" == "true" ]]; then
@@ -359,18 +362,18 @@ script:
         config_slug=$(cd build && make travis_config_slug | grep 'travis_config_slug:' | cut -d ' ' -f 2)
 
         # Suppress output to avoid leaking the token when the command fails
-        git clone https://ldionne:${GITHUB_TOKEN}@github.com/boostorg/hana --depth 1 --branch=datasets benchmark/datasets &>/dev/null
-        rm -rf benchmark/datasets/${config_slug}/${compiler_slug}/
-        mkdir -p benchmark/datasets/${config_slug}/${compiler_slug}/
+        git clone https://ldionne:${GITHUB_TOKEN}@github.com/boostorg/hana --depth 1 --branch=gh-pages doc/gh-pages &>/dev/null
+        rm -rf doc/gh-pages/benchmarks/${config_slug}/${compiler_slug}/
+        mkdir -p doc/gh-pages/benchmarks/${config_slug}/${compiler_slug}/
         for benchmark in $(ls build/benchmark/*.json | grep -v ".erb"); do
-          cp ${benchmark} benchmark/datasets/${config_slug}/${compiler_slug}/
+          cp ${benchmark} doc/gh-pages/benchmarks/${config_slug}/${compiler_slug}/
         done
 
-        pushd benchmark/datasets
+        pushd doc/gh-pages
         git add --all .
         git commit --allow-empty -m "Update benchmarks to ${TRAVIS_COMMIT:0:7} for build type '${config_slug}' and compiler '${compiler_slug}'"
         # Suppress output to avoid leaking the token
-        travis_retry git push origin datasets &>/dev/null
+        travis_retry git push origin gh-pages &>/dev/null
         popd
       else
         export BOOST_HANA_JUST_CHECK_BENCHMARKS=true
