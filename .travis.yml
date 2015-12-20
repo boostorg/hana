@@ -313,7 +313,7 @@ script:
   # it builds properly.
   ############################################################################
   - |
-    if [[ "${DOCUMENTATION}" == "true" ]]; then
+    if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
       (cd build && make doc)
 
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
@@ -330,13 +330,14 @@ script:
         travis_retry git push origin gh-pages &>/dev/null
         popd
       fi
+    fi
 
-      if [[ "${BOOST_BUILD}" == "true" ]]; then
-        touch Jamroot
-        echo "import doxygen ;" > project-config.jam
-        echo "using doxygen ;" >> project-config.jam
-        (cd doc && b2)
-      fi
+  - |
+    if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
+      touch Jamroot
+      echo "import doxygen ;" > project-config.jam
+      echo "using doxygen ;" >> project-config.jam
+      (cd doc && b2)
     fi
 
   ############################################################################
@@ -375,18 +376,19 @@ script:
   # Build and run the unit tests and examples.
   ############################################################################
   - |
-    if [[ "${UNIT_TESTS}" == "true" ]]; then
-      if [[ "${BOOST_BUILD}" != "true" ]]; then
-        export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-        (cd build && make check -j2 -k)
+    if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
+      export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
+      (cd build && make check -j2 -k)
+    fi
+
+  - |
+    if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
+      touch Jamroot
+      echo "using clang : : ${COMPILER} ;" > project-config.jam
+      if [[ "${LDFLAGS}" == "" ]]; then
+        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${DEPS_DIR}/boost")
       else
-        touch Jamroot
-        echo "using clang : : ${COMPILER} ;" > project-config.jam
-        if [[ "${LDFLAGS}" == "" ]]; then
-          (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${DEPS_DIR}/boost")
-        else
-          (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" linkflags="${LDFLAGS}" include="${DEPS_DIR}/boost")
-        fi
+        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" linkflags="${LDFLAGS}" include="${DEPS_DIR}/boost")
       fi
     fi
 
