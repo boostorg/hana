@@ -17,6 +17,10 @@
       "name": "hana::set",
       "data": <%= time_compilation('compile.hana.set.erb.cpp', hana) %>
     }
+    }, {
+      "name": "hana::map",
+      "data": <%= time_compilation('compile.hana.map.erb.cpp', hana) %>
+    }
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {

@@ -1,0 +1,30 @@
+<%
+  hana = (1...50).step(5).to_a + (50..400).step(25).to_a
+  fusion = (1..50).step(5)
+  mpl = fusion
+%>
+
+{
+  "title": {
+    "text": "Compile-time behavior of at_key"
+  },
+  "series": [
+    {
+      "name": "hana::tuple",
+      "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
+    }, {
+      "name": "hana::map",
+      "data": <%= time_compilation('compile.hana.map.erb.cpp', hana) %>
+    }
+
+    <% if cmake_bool("@Boost_FOUND@") %>
+    , {
+      "name": "fusion::map",
+      "data": <%= time_compilation('compile.fusion.map.erb.cpp', fusion) %>
+    }, {
+      "name": "mpl::map",
+      "data": <%= time_compilation('compile.mpl.map.erb.cpp', mpl) %>
+    }
+    <% end %>
+  ]
+}
