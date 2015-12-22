@@ -43,7 +43,6 @@ MathJax.Hub.Config({
 <script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
 <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
-<script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
 <script type="text/javascript">
   window.onload = function() {
     // We parse the code snippets and italicize the words from the pseudo-code
@@ -57,15 +56,10 @@ MathJax.Hub.Config({
         .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
         .replace(/see-documentation/g, "see-documentation".italics());
     });
-    var github = new Github({});
-    var hana = github.getRepo('boostorg', 'hana');
-    hana.getRef('heads/datasets', function(err, sha) {
-      var repo = "https://cdn.rawgit.com/boostorg/hana/" + sha + "/release/clang-3.6.2/";
-      $(".benchmark-chart").each(function(index, div) {
-        var dataset = div.getAttribute("data-dataset");
-        $.getJSON(repo + dataset, function(options) {
-          Hana.initChart($(div), options);
-        });
+    $(".benchmark-chart").each(function(index, div) {
+      var dataset = div.getAttribute("data-dataset");
+      $.getJSON("benchmarks/release/clang-3.6.2/" + dataset, function(options) {
+        Hana.initChart($(div), options);
       });
     });
   };
