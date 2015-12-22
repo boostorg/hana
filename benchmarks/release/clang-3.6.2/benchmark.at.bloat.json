@@ -1,0 +1,36 @@
+
+
+{
+  "title": {
+    "text": "Executable size for at"
+  },
+  "yAxis": {
+    "title": {
+      "text": "Executable size (kb)"
+    },
+    "floor": 0
+  },
+  "tooltip": {
+    "valueSuffix": "kb"
+  },
+  "series": [
+    {
+      "name": "hana::tuple",
+      "data": [[1, 14.726], [11, 14.726], [21, 14.726], [31, 14.726], [41, 14.726]]
+    }
+
+    
+    , {
+      "name": "std::tuple",
+      "data": [[1, 14.726], [11, 14.726], [21, 14.726], [31, 14.726], [41, 14.726]]
+    }
+    
+
+    
+    , {
+      "name": "fusion::vector",
+      "data": [[1, 14.726], [11, 14.726], [21, 14.726], [31, 14.726], [41, 14.726]]
+    }
+    
+  ]
+}
