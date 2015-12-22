@@ -182,9 +182,9 @@ template&lt;char... c&gt; </div>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="keyword">using namespace </span>hana::literals; <span class="comment">// contains the _c suffix</span></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == hana::llong_c&lt;1234&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == hana::llong_c&lt;-1234&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == hana::llong_c&lt;1 + (3 * 4)&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(1234_c == hana::llong_c&lt;1234&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(-1234_c == hana::llong_c&lt;-1234&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(1_c + (3_c * 4_c) == hana::llong_c&lt;1 + (3 * 4)&gt;);</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -229,11 +229,11 @@ template&lt;typename CharT , CharT... s&gt; </div>
 <div class="line"><span class="preprocessor">#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL</span></div>
 <div class="line"></div>
 <div class="line">    constexpr <span class="keyword">auto</span> str = <span class="stringliteral">&quot;Hello world!&quot;</span>_s;</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;<span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39; &#39;</span>,</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;<span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39; &#39;</span>,</div>
 <div class="line">                                                    <span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;d&#39;</span>, <span class="charliteral">&#39;!&#39;</span>&gt;);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(str) == hana::size_c&lt;12&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(str) == hana::size_c&lt;12&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"></div>

@@ -148,33 +148,66 @@ $(document).ready(function(){initNavTree('group__group-assertions.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga7ad5b8e5cb988d185dffa511b50cebd2">BOOST_HANA_RUNTIME_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a runtime assertion.  <a href="#ga7ad5b8e5cb988d185dffa511b50cebd2">More...</a><br /></td></tr>
-<tr class="separator:ga7ad5b8e5cb988d185dffa511b50cebd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77">BOOST_HANA_CONSTANT_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time assertion for <code>Constant</code>s.  <a href="#ga90927e0cc2d4f09fd9f7e17ecead6f77">More...</a><br /></td></tr>
-<tr class="separator:ga90927e0cc2d4f09fd9f7e17ecead6f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf87274a2e99e7f63831553535de99d89"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#gaf87274a2e99e7f63831553535de99d89">BOOST_HANA_CONSTEXPR_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:gaf87274a2e99e7f63831553535de99d89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported.  <a href="#gaf87274a2e99e7f63831553535de99d89">More...</a><br /></td></tr>
-<tr class="separator:gaf87274a2e99e7f63831553535de99d89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3aef20746c9e8ad15ad10179f9b01397"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga3aef20746c9e8ad15ad10179f9b01397">BOOST_HANA_ASSERT</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga3aef20746c9e8ad15ad10179f9b01397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to an assertion that might be static or runtime, depending on whether the expression is a <code>Constant</code>.  <a href="#ga3aef20746c9e8ad15ad10179f9b01397">More...</a><br /></td></tr>
-<tr class="separator:ga3aef20746c9e8ad15ad10179f9b01397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga932876152d7f87b6b24077322a2e4139"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga932876152d7f87b6b24077322a2e4139">BOOST_HANA_CHECK</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga932876152d7f87b6b24077322a2e4139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_ASSERT</code>, to be used in unit tests.  <a href="#ga932876152d7f87b6b24077322a2e4139">More...</a><br /></td></tr>
-<tr class="separator:ga932876152d7f87b6b24077322a2e4139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac7aafc41e4dcc7d1f1929fb00f010d2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:gac7aafc41e4dcc7d1f1929fb00f010d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT</code>, to be used in unit tests.  <a href="#gac7aafc41e4dcc7d1f1929fb00f010d2a">More...</a><br /></td></tr>
-<tr class="separator:gac7aafc41e4dcc7d1f1929fb00f010d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2c5006540936d9f8880e3a39f4fcc035"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga2c5006540936d9f8880e3a39f4fcc035"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, to be used in unit tests.  <a href="#ga2c5006540936d9f8880e3a39f4fcc035">More...</a><br /></td></tr>
-<tr class="separator:ga2c5006540936d9f8880e3a39f4fcc035"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4796ae107d58b67e0bbccd5ae6f70101"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(...)&#160;&#160;&#160;unspecified</td></tr>
-<tr class="memdesc:ga4796ae107d58b67e0bbccd5ae6f70101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, to be used in unit tests.  <a href="#ga4796ae107d58b67e0bbccd5ae6f70101">More...</a><br /></td></tr>
-<tr class="separator:ga4796ae107d58b67e0bbccd5ae6f70101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae4eb14a3b31e44f433b080d9bc2d14fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#gae4eb14a3b31e44f433b080d9bc2d14fd">BOOST_HANA_RUNTIME_ASSERT</a>(condition)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:gae4eb14a3b31e44f433b080d9bc2d14fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a runtime assertion.  <a href="#gae4eb14a3b31e44f433b080d9bc2d14fd">More...</a><br /></td></tr>
+<tr class="separator:gae4eb14a3b31e44f433b080d9bc2d14fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e25bbdeefb0e5fbf45ffa9227ddb8d2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga2e25bbdeefb0e5fbf45ffa9227ddb8d2">BOOST_HANA_RUNTIME_ASSERT_MSG</a>(condition,  message)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga2e25bbdeefb0e5fbf45ffa9227ddb8d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, but allows providing a custom failure message.  <a href="#ga2e25bbdeefb0e5fbf45ffa9227ddb8d2">More...</a><br /></td></tr>
+<tr class="separator:ga2e25bbdeefb0e5fbf45ffa9227ddb8d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2626fa0c92b308cee62ac423ae2dba41"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga2626fa0c92b308cee62ac423ae2dba41">BOOST_HANA_CONSTANT_ASSERT</a>(condition)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga2626fa0c92b308cee62ac423ae2dba41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compile-time assertion for <code>Constant</code>s.  <a href="#ga2626fa0c92b308cee62ac423ae2dba41">More...</a><br /></td></tr>
+<tr class="separator:ga2626fa0c92b308cee62ac423ae2dba41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9961218055c571b279bb6e07befbba4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga9961218055c571b279bb6e07befbba4d">BOOST_HANA_CONSTANT_ASSERT_MSG</a>(condition,  message)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga9961218055c571b279bb6e07befbba4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, but allows providing a custom failure message.  <a href="#ga9961218055c571b279bb6e07befbba4d">More...</a><br /></td></tr>
+<tr class="separator:ga9961218055c571b279bb6e07befbba4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90c1df2cb8eb67e8e0c822eac180b7bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga90c1df2cb8eb67e8e0c822eac180b7bc">BOOST_HANA_ASSERT</a>(condition)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga90c1df2cb8eb67e8e0c822eac180b7bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to the strongest form of assertion possible for the given condition.  <a href="#ga90c1df2cb8eb67e8e0c822eac180b7bc">More...</a><br /></td></tr>
+<tr class="separator:ga90c1df2cb8eb67e8e0c822eac180b7bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa7690973ea7b2ba5b6a72a6293fce873"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#gaa7690973ea7b2ba5b6a72a6293fce873">BOOST_HANA_ASSERT_MSG</a>(condition,  message)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:gaa7690973ea7b2ba5b6a72a6293fce873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_ASSERT</code>, but allows providing a custom failure message.  <a href="#gaa7690973ea7b2ba5b6a72a6293fce873">More...</a><br /></td></tr>
+<tr class="separator:gaa7690973ea7b2ba5b6a72a6293fce873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga046d7ee458de8da63812fe2f059c0a4d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga046d7ee458de8da63812fe2f059c0a4d">BOOST_HANA_CONSTEXPR_ASSERT</a>(condition)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga046d7ee458de8da63812fe2f059c0a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported.  <a href="#ga046d7ee458de8da63812fe2f059c0a4d">More...</a><br /></td></tr>
+<tr class="separator:ga046d7ee458de8da63812fe2f059c0a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a1327b758604bf330efeba450dd4a95"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga0a1327b758604bf330efeba450dd4a95"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga0a1327b758604bf330efeba450dd4a95">BOOST_HANA_CONSTEXPR_ASSERT_MSG</a>(condition,  message)&#160;&#160;&#160;unspecified</td></tr>
+<tr class="memdesc:ga0a1327b758604bf330efeba450dd4a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT</code>, but allows providing a custom failure message. <br /></td></tr>
+<tr class="separator:ga0a1327b758604bf330efeba450dd4a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cd7a2be93e2bf4e9a18c7043276373e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga1cd7a2be93e2bf4e9a18c7043276373e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga1cd7a2be93e2bf4e9a18c7043276373e">BOOST_HANA_RUNTIME_CHECK_MSG</a>(condition,  message)                              </td></tr>
+<tr class="memdesc:ga1cd7a2be93e2bf4e9a18c7043276373e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT_MSG</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga1cd7a2be93e2bf4e9a18c7043276373e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29b2b21ffa5513e5b706c50ffee980af"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga29b2b21ffa5513e5b706c50ffee980af"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(...)                                                                    </td></tr>
+<tr class="memdesc:ga29b2b21ffa5513e5b706c50ffee980af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga29b2b21ffa5513e5b706c50ffee980af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41a7490fd94005e6b6a3b6a900207063"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga41a7490fd94005e6b6a3b6a900207063"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga41a7490fd94005e6b6a3b6a900207063">BOOST_HANA_CONSTANT_CHECK_MSG</a>(condition,  message)                            </td></tr>
+<tr class="memdesc:ga41a7490fd94005e6b6a3b6a900207063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT_MSG</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga41a7490fd94005e6b6a3b6a900207063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4bf9e0c46c44e21fbe5c5fbb3ace8356"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga4bf9e0c46c44e21fbe5c5fbb3ace8356"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(...)                                                                  </td></tr>
+<tr class="memdesc:ga4bf9e0c46c44e21fbe5c5fbb3ace8356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga4bf9e0c46c44e21fbe5c5fbb3ace8356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7af67ae500a237fe350f1bfceb4a5afa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga7af67ae500a237fe350f1bfceb4a5afa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga7af67ae500a237fe350f1bfceb4a5afa">BOOST_HANA_CHECK_MSG</a>(condition,  message)                                              </td></tr>
+<tr class="memdesc:ga7af67ae500a237fe350f1bfceb4a5afa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_ASSERT_MSG</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga7af67ae500a237fe350f1bfceb4a5afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga512de1fcd31e8a34931ffb2c891afd36"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga512de1fcd31e8a34931ffb2c891afd36"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga512de1fcd31e8a34931ffb2c891afd36">BOOST_HANA_CHECK</a>(...)                                                                                    </td></tr>
+<tr class="memdesc:ga512de1fcd31e8a34931ffb2c891afd36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA__ASSERT</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga512de1fcd31e8a34931ffb2c891afd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa76ba567944adfec0dce60cc20be35bc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaa76ba567944adfec0dce60cc20be35bc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#gaa76ba567944adfec0dce60cc20be35bc">BOOST_HANA_CONSTEXPR_CHECK_MSG</a>(condition,  message)                          &#160;&#160;&#160;<a class="el" href="group__group-assertions.html#ga1cd7a2be93e2bf4e9a18c7043276373e">BOOST_HANA_RUNTIME_CHECK_MSG</a>(condition, message)                    \</td></tr>
+<tr class="memdesc:gaa76ba567944adfec0dce60cc20be35bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT_MSG</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:gaa76ba567944adfec0dce60cc20be35bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5150cd7df438a22056a39529d21562d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga5150cd7df438a22056a39529d21562d2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(...)                                                                </td></tr>
+<tr class="memdesc:ga5150cd7df438a22056a39529d21562d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT</code>, but not influenced by the <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> config macro. For internal use only. <br /></td></tr>
+<tr class="separator:ga5150cd7df438a22056a39529d21562d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="ga7ad5b8e5cb988d185dffa511b50cebd2"></a>
+<a class="anchor" id="gae4eb14a3b31e44f433b080d9bc2d14fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -182,7 +215,7 @@ Macros</h2></td></tr>
           <td class="memname">#define BOOST_HANA_RUNTIME_ASSERT</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
+          <td class="paramname">condition</td><td>)</td>
           <td>&#160;&#160;&#160;unspecified</td>
         </tr>
       </table>
@@ -191,11 +224,43 @@ Macros</h2></td></tr>
 <p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
 
 <p>Expands to a runtime assertion. </p>
-<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and it must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
+<p>Given a condition known at runtime, this macro expands to a runtime assertion similar to the <code>assert</code> macro. The provided condition must be explicitly convertible to a <code>bool</code>, and it must not be a model of the <code>Constant</code> concept. If the condition is a <code>Constant</code>, a static assertion will be triggered, asking you to use the <code>BOOST_HANA_CONSTANT_ASSERT</code> macro instead.</p>
+<dl class="section note"><dt>Note</dt><dd>This macro may only be used at function scope. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga90927e0cc2d4f09fd9f7e17ecead6f77"></a>
+<a class="anchor" id="ga2e25bbdeefb0e5fbf45ffa9227ddb8d2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_RUNTIME_ASSERT_MSG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
+
+<p>Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, but allows providing a custom failure message. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Conditions that contain multiple comma-separated elements should be parenthesized. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga2626fa0c92b308cee62ac423ae2dba41"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -203,7 +268,7 @@ Macros</h2></td></tr>
           <td class="memname">#define BOOST_HANA_CONSTANT_ASSERT</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
+          <td class="paramname">condition</td><td>)</td>
           <td>&#160;&#160;&#160;unspecified</td>
         </tr>
       </table>
@@ -212,14 +277,97 @@ Macros</h2></td></tr>
 <p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
 
 <p>Compile-time assertion for <code>Constant</code>s. </p>
-<p>This macro may be used at global or function scope. Its argument must be a <code>Constant</code>, or else a compile-time assertion is triggered. If the argument is a <code>Constant</code>, its <code>value</code> is retrieved, it is converted to a boolean and <code>static_assert</code>ed upon. This kind of assertion is even stronger than a <code>static_assert</code>, since a <code>Constant</code> can yield a constant expression in any context.</p>
-<p>When the expression is a Constant, <code><a class="el" href="group__group-assertions.html#ga90927e0cc2d4f09fd9f7e17ecead6f77" title="Compile-time assertion for Constants. ">BOOST_HANA_CONSTANT_ASSERT(expr)</a></code> is essentially equivalent to </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;auto temporary = expr;</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;static_assert(value(expr), &quot;...&quot;);</div>
-</div><!-- fragment --><p>To understand why this is sometimes needed, especially when the expression contains a lambda, see the advanced section on <a class="el" href="index.html#tutorial-appendix-constexpr-effects">constexpr and side-effects</a>. </p>
+<p>Given a condition known at compile-time in the form of a <code>Constant</code>, this macro expands to a compile-time assertion similar to a <code>static_assert</code>. The provided condition must be a model of the <code>Constant</code> concept, in which case its value is retrieved using <code>hana::value</code> and then converted to a <code>bool</code>. If the condition is not a <code>Constant</code>, a static assertion will be triggered, asking you to use the <code>BOOST_HANA_RUNTIME_ASSERT</code> macro instead.</p>
+<p>This macro may be used at global/namespace scope and function scope only; it may not be used at class scope. Note that the condition may never be evaluated at runtime. Hence, any side effect may not take place (but you shouldn't rely on side effects inside assertions anyway). </p>
 
 </div>
 </div>
-<a class="anchor" id="gaf87274a2e99e7f63831553535de99d89"></a>
+<a class="anchor" id="ga9961218055c571b279bb6e07befbba4d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_CONSTANT_ASSERT_MSG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
+
+<p>Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, but allows providing a custom failure message. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Conditions that contain multiple comma-separated elements should be parenthesized. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga90c1df2cb8eb67e8e0c822eac180b7bc"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_ASSERT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition</td><td>)</td>
+          <td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
+
+<p>Expands to the strongest form of assertion possible for the given condition. </p>
+<p>Given a condition, <code>BOOST_HANA_ASSERT</code> expands either to a compile-time or to a runtime assertion, depending on whether the value of the condition is known at compile-time or at runtime. Compile-time assertions are always preferred over runtime assertions. If the condition is a model of the <code>Constant</code> concept, its value (retrievable with <code>hana::value</code>) is assumed to be explicitly convertible to <code>bool</code>, and a compile-time assertion is performed on it. Otherwise, the condition itself is assumed to be explicitly convertible to <code>bool</code>, and a runtime assertion is performed on it.</p>
+<p>If the assertion can be carried out at compile-time, the condition is not guaranteed to be evaluated at runtime at all (but it may). Hence, in general, you shouldn't rely on side effects that take place inside an assertion.</p>
+<dl class="section note"><dt>Note</dt><dd>This macro may only be used at function scope. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaa7690973ea7b2ba5b6a72a6293fce873"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BOOST_HANA_ASSERT_MSG</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">condition, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">message&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;unspecified</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
+
+<p>Equivalent to <code>BOOST_HANA_ASSERT</code>, but allows providing a custom failure message. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Conditions that contain multiple comma-separated elements should be parenthesized. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga046d7ee458de8da63812fe2f059c0a4d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -227,7 +375,7 @@ Macros</h2></td></tr>
           <td class="memname">#define BOOST_HANA_CONSTEXPR_ASSERT</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
+          <td class="paramname">condition</td><td>)</td>
           <td>&#160;&#160;&#160;unspecified</td>
         </tr>
       </table>
@@ -236,113 +384,7 @@ Macros</h2></td></tr>
 <p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
 
 <p>Expands to a static assertion or a runtime assertion, depending on whether <code>constexpr</code> lambdas are supported. </p>
-<p>This macro is used to assert on a condition that would be a constant expression if constexpr lambdas were supported.</p>
-<p>This macro may only be used at function scope. Its argument must be explicitly convertible to a boolean and it must not be a <code>Constant</code>. If the expression is a <code>Constant</code>, a static assertion is triggered; use <code>BOOST_HANA_CONSTANT_ASSERT</code> instead. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga3aef20746c9e8ad15ad10179f9b01397"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_ASSERT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
-
-<p>Expands to an assertion that might be static or runtime, depending on whether the expression is a <code>Constant</code>. </p>
-<p>Specifically, if the expression is a <code>Constant</code>, this is equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>. Otherwise, this is equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga932876152d7f87b6b24077322a2e4139"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_CHECK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
-
-<p>Equivalent to <code>BOOST_HANA_ASSERT</code>, to be used in unit tests. </p>
-<p>This macro is equivalent to <code>BOOST_HANA_ASSERT</code>, but the assertion is always performed, even when <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> is defined. </p>
-
-</div>
-</div>
-<a class="anchor" id="gac7aafc41e4dcc7d1f1929fb00f010d2a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_CONSTEXPR_CHECK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
-
-<p>Equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT</code>, to be used in unit tests. </p>
-<p>This macro is equivalent to <code>BOOST_HANA_CONSTEXPR_ASSERT</code>, but the assertion is always performed, even when <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> is defined. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga2c5006540936d9f8880e3a39f4fcc035"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_CONSTANT_CHECK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
-
-<p>Equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, to be used in unit tests. </p>
-<p>This macro is equivalent to <code>BOOST_HANA_CONSTANT_ASSERT</code>, but the assertion is always performed, even when <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> is defined. </p>
-
-</div>
-</div>
-<a class="anchor" id="ga4796ae107d58b67e0bbccd5ae6f70101"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BOOST_HANA_RUNTIME_CHECK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td>&#160;&#160;&#160;unspecified</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><code>#include &lt;<a class="el" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</code></p>
-
-<p>Equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, to be used in unit tests. </p>
-<p>This macro is equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>, but the assertion is always performed, even when <code>BOOST_HANA_CONFIG_DISABLE_ASSERTIONS</code> is defined. </p>
+<p>This macro is used to assert on a condition that would be a constant expression if constexpr lambdas were supported. Right now, constexpr lambdas are not supported, and this is always a runtime assertion. Specifically, this is equivalent to <code>BOOST_HANA_RUNTIME_ASSERT</code>. </p>
 
 </div>
 </div>

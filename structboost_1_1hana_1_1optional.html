@@ -209,10 +209,10 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing == hana::nothing);</div>
 <div class="line">static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>) != hana::just(<span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(<span class="charliteral">&#39;x&#39;</span>) != hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(<span class="charliteral">&#39;x&#39;</span>) != hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -232,8 +232,8 @@ Optional values can be ordered by considering the value they are holding, if any
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing &lt; hana::just(3));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(0) &gt; hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::nothing &lt; hana::just(3));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::just(0) &gt; hana::nothing);</div>
 <div class="line">static_assert(hana::just(1) &lt; hana::just(3), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::just(3) &gt; hana::just(2), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
@@ -256,7 +256,7 @@ An optional value can be seen as a list containing either one element (<code>jus
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::transform(hana::nothing, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::transform(hana::nothing, <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1) == hana::nothing);</div>
 <div class="line">static_assert(hana::transform(hana::just(1), <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + 1) == hana::just(2), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -282,9 +282,9 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">constexpr <span class="keywordtype">char</span> next(<span class="keywordtype">char</span> c) { <span class="keywordflow">return</span> c + 1; }</div>
 <div class="line"></div>
 <div class="line">static_assert(hana::ap(hana::just(next), hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::just(<span class="charliteral">&#39;y&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::just(next), hana::nothing) == hana::nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::nothing) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::just(next), hana::nothing) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::ap(hana::nothing, hana::nothing) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> A more complex example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
@@ -329,12 +329,12 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> evaluate = hana::ap(function&lt;op&gt;, digit&lt;x&gt;, digit&lt;y&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::just(1 + 2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::just(1 + 2));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;+&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;?&#39;, &#39;2&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;1&#39;, &#39;+&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(evaluate&lt;&#39;?&#39;, &#39;?&#39;, &#39;?&#39;&gt; == hana::nothing);</div>
 <div class="line"></div>
 <div class="line">    static_assert(hana::lift&lt;hana::optional_tag&gt;(123) == hana::just(123), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
@@ -360,10 +360,10 @@ The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Mona
 <div class="line">        <span class="keywordflow">return</span> hana::just(x + 1);</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::chain(hana::just(1), inc) == hana::just(2));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::chain(hana::nothing, inc) == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::chain(hana::just(1), inc) == hana::just(2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::chain(hana::nothing, inc) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::flatten(hana::just(hana::just(2))) == hana::just(2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::flatten(hana::just(hana::just(2))) == hana::just(2));</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
@@ -382,9 +382,9 @@ The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The 
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">static_assert(hana::concat(hana::nothing, hana::just(<span class="charliteral">&#39;x&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::concat(hana::nothing, hana::nothing) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::concat(hana::nothing, hana::nothing) == hana::nothing);</div>
 <div class="line">static_assert(hana::concat(hana::just(<span class="charliteral">&#39;x&#39;</span>), hana::just(<span class="charliteral">&#39;y&#39;</span>)) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::optional_tag&gt;() == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::empty&lt;hana::optional_tag&gt;() == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -428,12 +428,12 @@ Searching an optional value is equivalent to searching a list containing <code>x
 <div class="line">    <span class="keywordflow">return</span> x % hana::int_c&lt;2&gt; != hana::int_c&lt;0&gt;;</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;3&gt;), odd) == hana::just(hana::int_c&lt;3&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;2&gt;), odd) == hana::nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::nothing, odd) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;3&gt;), odd) == hana::just(hana::int_c&lt;3&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::just(hana::int_c&lt;2&gt;), odd) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::find_if(hana::nothing, odd) == hana::nothing);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::just(hana::int_c&lt;3&gt;), odd));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::nothing, odd));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::just(hana::int_c&lt;3&gt;), odd));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::all_of(hana::nothing, odd));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>
@@ -555,12 +555,12 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::optional_tag&gt;();</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
 <div class="line"></div>
 <div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -602,12 +602,12 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    constexpr <span class="keyword">auto</span> x = hana::make&lt;hana::optional_tag&gt;();</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(x == hana::make_optional());</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
 <div class="line"></div>
 <div class="line">    constexpr <span class="keyword">auto</span> just_x = hana::make&lt;hana::optional_tag&gt;(<span class="charliteral">&#39;x&#39;</span>);</div>
 <div class="line">    static_assert(just_x == hana::make_optional(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -649,7 +649,7 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> just_x = hana::just(<span class="charliteral">&#39;x&#39;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_just(just_x));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -689,7 +689,7 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> x = hana::nothing;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_nothing(x));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -801,10 +801,10 @@ template&lt;typename... &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::sfinae(incr)(1) == hana::just(2));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::sfinae(incr)(1) == hana::just(2));</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">struct </span>invalid { };</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::sfinae(incr)(invalid{}) == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::sfinae(incr)(invalid{}) == hana::nothing);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -847,9 +847,9 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(hana::nothing)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_just(hana::nothing));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_just(hana::just(hana::nothing)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_just(hana::nothing));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -893,9 +893,9 @@ template&lt;typename... &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_nothing(hana::nothing));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(hana::nothing)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>( hana::is_nothing(hana::nothing));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(<span class="charliteral">&#39;x&#39;</span>)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_nothing(hana::just(hana::nothing)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -937,8 +937,8 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
 <div class="line">}</div>
@@ -981,8 +981,8 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
 <div class="line">}</div>
@@ -1024,8 +1024,8 @@ template&lt;typename... &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;size() == 4);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// hana::nothing.value(); // compile-time error</span></div>
 <div class="line">}</div>

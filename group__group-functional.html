@@ -388,8 +388,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2, 3)(sum)() == 6);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2)(sum)(3) == 6);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2, 3)(sum)() == 6);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">hana::capture</a>(1, 2)(sum)(3) == 6);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -450,7 +450,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">hana::compose</a>(to_char, increment)(3) == <span class="charliteral">&#39;4&#39;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">hana::compose</a>(to_char, increment)(3) == <span class="charliteral">&#39;4&#39;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -510,16 +510,16 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1, 2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2)(3) == 1 + 2 + 3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1)(2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;3&gt;(add)(1, 2, 3) == hana::curry&lt;3&gt;(add)(1)(2)(3));</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// curry with a nullary function</span></div>
 <div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> two = []() {</div>
 <div class="line">        <span class="keywordflow">return</span> 2;</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;0&gt;(two)() == two());</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::curry&lt;0&gt;(two)() == two());</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -672,7 +672,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(factorial(5) == 120);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(factorial(5) == 120);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -715,11 +715,11 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0) == 3 - 0);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0) == 0 - 3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0) == 3 - 0);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0) == 0 - 3);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0, 1) == 3 - 0 - 1);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0, 1) == 0 - 3 - 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0, 1) == 3 - 0 - 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0, 1) == 0 - 3 - 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -813,7 +813,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">});</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>((42 ^divmod^ 23) == hana::make_pair(1, 19));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>((42 ^divmod^ 23) == hana::make_pair(1, 19));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -1052,10 +1052,10 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <span class="comment">// prints &quot;matched int: 1&quot;</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 1);</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// prints &quot;matched std::string: abcdef&quot;</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abcdef&quot;</span>) == std::string{<span class="stringliteral">&quot;abcdef&quot;</span>});</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abcdef&quot;</span>) == std::string{<span class="stringliteral">&quot;abcdef&quot;</span>});</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -1098,13 +1098,13 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">auto</span> f = <a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">hana::overload_linearly</a>(</div>
 <div class="line">    [](<span class="keywordtype">int</span> i) { <span class="keywordflow">return</span> i + 1; },</div>
 <div class="line">    [](std::string s) { <span class="keywordflow">return</span> s + <span class="stringliteral">&quot;d&quot;</span>; },</div>
-<div class="line">    [](double) { <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(<span class="keyword">false</span> &amp;&amp; <span class="stringliteral">&quot;never called&quot;</span>); }</div>
+<div class="line">    [](double) { <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(<span class="keyword">false</span> &amp;&amp; <span class="stringliteral">&quot;never called&quot;</span>); }</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 2);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abc&quot;</span>) == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(f(2.2) == static_cast&lt;int&gt;(2.2) + 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(f(1) == 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(f(<span class="stringliteral">&quot;abc&quot;</span>) == <span class="stringliteral">&quot;abcd&quot;</span>);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(f(2.2) == static_cast&lt;int&gt;(2.2) + 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

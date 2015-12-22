@@ -179,8 +179,8 @@ Two types are equal if and only if they represent the same C++ type. Hence, equa
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>T;</div>
 <div class="line"><span class="keyword">struct </span>U;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::type_c&lt;T&gt; == hana::type_c&lt;T&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::type_c&lt;T&gt; != hana::type_c&lt;U&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::type_c&lt;T&gt; == hana::type_c&lt;T&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::type_c&lt;T&gt; != hana::type_c&lt;U&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>
@@ -281,13 +281,13 @@ template&lt;typename T &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(X{}) == hana::type_c&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(1) == hana::type_c&lt;int&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(1) == hana::type_c&lt;int&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">static</span> <span class="keywordtype">int</span> <span class="keyword">const</span>&amp; i = 1;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(i) == hana::type_c&lt;int const&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::decltype_(i) == hana::type_c&lt;int const&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -331,11 +331,11 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -377,11 +377,11 @@ template&lt;typename T &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">struct </span>X { };</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make&lt;hana::type_tag&gt;(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(X{}) == hana::type_c&lt;X&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::make_type(hana::type_c&lt;X&gt;) == hana::type_c&lt;X&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

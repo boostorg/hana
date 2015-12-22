@@ -168,9 +168,9 @@ Two <code><a class="el" href="structstd_1_1integer__sequence.html" title="Adapta
 <div class="line">constexpr <a class="code" href="structstd_1_1integer__sequence.html">std::integer_sequence&lt;long, 1, 2, 3, 4&gt;</a> ys{};</div>
 <div class="line">constexpr <a class="code" href="structstd_1_1integer__sequence.html">std::integer_sequence&lt;long, 1, 2, 3, 4, 5&gt;</a> zs{};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(xs, ys));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(xs, zs));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(ys, zs));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(xs, ys));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(xs, zs));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(ys, zs));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -200,7 +200,7 @@ Folding an <code><a class="el" href="structstd_1_1integer__sequence.html" title=
 <div class="line">        <span class="keywordflow">return</span> add(std::get&lt;decltype(i)::value&gt;(tuple)...);</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(sum == 6.3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(sum == 6.3);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />
@@ -223,7 +223,7 @@ Iterating over an <code><a class="el" href="structstd_1_1integer__sequence.html"
 <div class="line"></div>
 <div class="line">constexpr <a class="code" href="structstd_1_1integer__sequence.html">std::integer_sequence&lt;int, 0, 1, 2, 3, 4&gt;</a> indices{};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::at_c&lt;2&gt;(indices),</div>
 <div class="line">    <a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 2&gt;</a>{}</div>
 <div class="line">));</div>
@@ -252,7 +252,7 @@ Searching through an <code><a class="el" href="structstd_1_1integer__sequence.ht
 <div class="line"></div>
 <div class="line">constexpr <a class="code" href="structstd_1_1integer__sequence.html">std::integer_sequence&lt;int, 1, 2, 3, 4&gt;</a> xs{};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::find(xs, hana::int_c&lt;3&gt;),</div>
 <div class="line">    hana::just(<a class="code" href="structstd_1_1integral__constant.html">std::integral_constant&lt;int, 3&gt;</a>{})</div>
 <div class="line">));</div>

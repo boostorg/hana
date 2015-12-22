@@ -173,7 +173,7 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::char_c&lt;&#39;a&#39;&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&amp;&amp;&gt;, <span class="keyword">nullptr</span>)</div>
@@ -211,8 +211,8 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line">);</div>
 <div class="line">static_assert(hana::find(m, hana::type_c&lt;int&gt;) == hana::just(<span class="charliteral">&#39;i&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(hana::find(m, hana::type_c&lt;float&gt;) == hana::just(<span class="charliteral">&#39;f&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(m, hana::type_c&lt;void&gt;) == hana::nothing);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(m, hana::int_c&lt;3&gt;) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(m, hana::type_c&lt;void&gt;) == hana::nothing);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::find(m, hana::int_c&lt;3&gt;) == hana::nothing);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// operator[] is equivalent to at_key</span></div>
 <div class="line">static_assert(m[hana::type_c&lt;int&gt;] == <span class="charliteral">&#39;i&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
@@ -254,7 +254,7 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line">        hana::make_pair(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(invert(m) ==</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(invert(m) ==</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, hana::type_c&lt;int&gt;),</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;2&gt;, hana::type_c&lt;float&gt;),</div>
@@ -290,7 +290,7 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 <div class="line">        hana::make_pair(hana::type_c&lt;int&gt;, <span class="keyword">nullptr</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::to&lt;hana::map_tag&gt;(xs) == hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
@@ -382,7 +382,7 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
@@ -438,7 +438,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::int_c&lt;1&gt;, <span class="stringliteral">&quot;foobar&quot;</span>s),</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
@@ -530,7 +530,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// The order of the keys is unspecified.</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        hana::keys(m) ^hana::in^ hana::permutations(hana::make_tuple(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;))</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -589,7 +589,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">    );</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// The order of the values is unspecified.</span></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::values(m) ^hana::in^ hana::permutations(hana::make_tuple(<span class="stringliteral">&quot;foobar&quot;</span>s, 1234))</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -652,7 +652,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        hana::make_pair(hana::type_c&lt;void&gt;, 1234)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::insert(m, hana::make_pair(hana::type_c&lt;float&gt;, <span class="charliteral">&#39;x&#39;</span>)) ==</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
@@ -661,7 +661,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::insert(m, hana::make_pair(hana::type_c&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::insert(m, hana::make_pair(hana::type_c&lt;void&gt;, <span class="charliteral">&#39;x&#39;</span>)) == m);</div>
 <div class="line">}</div>
 </div><!-- fragment --><h2>Benchmarks </h2>
 <div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.insert.compile.json"> </div> 
@@ -725,7 +725,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        hana::make_pair(BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>), hana::type_c&lt;char&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::erase_key(m, BOOST_HANA_STRING(<span class="stringliteral">&quot;foobar!&quot;</span>)) ==</div>
 <div class="line">        hana::make_map(</div>
 <div class="line">            hana::make_pair(hana::type_c&lt;int&gt;, <span class="stringliteral">&quot;abcd&quot;</span>s),</div>
@@ -733,7 +733,7 @@ template&lt;typename... Pairs&gt; </div>
 <div class="line">        )</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::erase_key(m, hana::type_c&lt;char&gt;) == m);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::erase_key(m, hana::type_c&lt;char&gt;) == m);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

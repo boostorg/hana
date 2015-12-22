@@ -408,7 +408,7 @@ template&lt;typename To &gt; </div>
 <div class="line">}}</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        hana::to&lt;hana::tuple_tag&gt;(triple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)) == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -494,11 +494,11 @@ template&lt;typename Tag &gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    hana::tuple&lt;int, char, double, std::string&gt; ts{1, <span class="charliteral">&#39;2&#39;</span>, 3.3, <span class="stringliteral">&quot;abcd&quot;</span>};</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ts == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(ts == hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.3, std::string{<span class="stringliteral">&quot;abcd&quot;</span>}));</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// std::string has no notion of tag, but it still works with make&lt;&gt;</span></div>
 <div class="line">    std::string foo{<span class="stringliteral">&quot;foo&quot;</span>};</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::make&lt;std::string&gt;(<span class="stringliteral">&quot;foo&quot;</span>) == foo);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>

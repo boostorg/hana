@@ -170,11 +170,11 @@ Two strings are equal if and only if they have the same number of characters and
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>) == <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>) != <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abef&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -194,11 +194,11 @@ The total order implemented for <code><a class="el" href="structboost_1_1hana_1_
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>) &lt; <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;bcd&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>) &gt; <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abc&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -228,7 +228,7 @@ Folding a string is equivalent to folding the sequence of its characters. <div c
 <div class="line">        });</div>
 <div class="line">    };</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        sum_string(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;1234&quot;</span>)) == hana::int_c&lt;1 + 2 + 3 + 4&gt;</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -250,15 +250,15 @@ Iterating over a string is equivalent to iterating over the sequence of its char
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_empty(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_empty(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;&quot;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!hana::is_empty(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_empty(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;&quot;</span>)));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)[hana::size_c&lt;2&gt;] == hana::char_c&lt;&#39;c&#39;&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcd&quot;</span>)[hana::size_c&lt;2&gt;] == hana::char_c&lt;&#39;c&#39;&gt;);</div>
 <div class="line"></div>
 <div class="line">    <span class="keyword">auto</span> is_vowel = [](<span class="keyword">auto</span> c) {</div>
 <div class="line">        <span class="keywordflow">return</span> c ^hana::in^ <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;aeiouy&quot;</span>);</div>
 <div class="line">    };</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        hana::drop_while(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;aioubcd&quot;</span>), is_vowel) == <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;bcd&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -280,10 +280,10 @@ Searching through a string is equivalent to searching through the sequence of it
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::char_c&lt;&#39;c&#39;&gt; ^hana::in^ <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcde&quot;</span>));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!(hana::char_c&lt;&#39;z&#39;&gt; ^hana::in^ <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcde&quot;</span>)));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::char_c&lt;&#39;c&#39;&gt; ^hana::in^ <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcde&quot;</span>));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!(hana::char_c&lt;&#39;z&#39;&gt; ^hana::in^ <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcde&quot;</span>)));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        hana::find(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcxefg&quot;</span>), hana::char_c&lt;&#39;x&#39;&gt;) == hana::just(hana::char_c&lt;&#39;x&#39;&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
@@ -378,7 +378,7 @@ template&lt;&gt; </div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> vowels = hana::tuple_c&lt;char, &#39;a&#39;, &#39;e&#39;, &#39;i&#39;, &#39;o&#39;, &#39;u&#39;, &#39;y&#39;&gt;;</div>
 <div class="line">constexpr <span class="keyword">auto</span> str = hana::unpack(vowels, hana::make&lt;hana::string_tag&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(str == <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;aeiouy&quot;</span>));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(str == <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;aeiouy&quot;</span>));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -445,7 +445,7 @@ template&lt;char... s&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> str = hana::string_c&lt;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;&gt;;</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -494,8 +494,8 @@ template&lt;char... s&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> str = <a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;&gt;);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -549,11 +549,11 @@ template&lt;typename CharT , CharT... s&gt; </div>
 <div class="line"><span class="preprocessor">#ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL</span></div>
 <div class="line"></div>
 <div class="line">    constexpr <span class="keyword">auto</span> str = <span class="stringliteral">&quot;Hello world!&quot;</span>_s;</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;<span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39; &#39;</span>,</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(str == hana::string_c&lt;<span class="charliteral">&#39;H&#39;</span>, <span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39; &#39;</span>,</div>
 <div class="line">                                                    <span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;d&#39;</span>, <span class="charliteral">&#39;!&#39;</span>&gt;);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(str) == hana::size_c&lt;12&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(str) == hana::size_c&lt;12&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"></div>

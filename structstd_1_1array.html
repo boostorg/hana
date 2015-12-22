@@ -171,7 +171,7 @@ struct std::array&lt; T, N &gt;</h3>
 <div class="line">static_assert(hana::equal(xs, xs), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// arrays have different lengths; result is an integral_constant</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(xs, ys));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(xs, ys));</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -225,7 +225,7 @@ Folding an array from the left is equivalent to calling <code>std::accumulate</c
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structstd_1_1array.html">std::array</a>&lt;int, <span class="keyword">sizeof</span>...(i)&gt;{{(i + 10)...}};</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(b == <a class="code" href="structstd_1_1array.html">std::array&lt;int, 5&gt;</a>{{10, 11, 12, 13, 14}});</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(b == <a class="code" href="structstd_1_1array.html">std::array&lt;int, 5&gt;</a>{{10, 11, 12, 13, 14}});</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />

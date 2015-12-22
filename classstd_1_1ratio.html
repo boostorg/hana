@@ -164,8 +164,8 @@ class std::ratio&lt; Num, Denom &gt;</h3>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 4&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;15, 20&gt;</a>{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 4&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 5&gt;</a>{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 4&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;15, 20&gt;</a>{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 4&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 5&gt;</a>{}));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -185,8 +185,8 @@ class std::ratio&lt; Num, Denom &gt;</h3>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::less(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 12&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 12&gt;</a>{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::less_equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;6, 12&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;4, 8&gt;</a>{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::less(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 12&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 12&gt;</a>{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::less_equal(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;6, 12&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;4, 8&gt;</a>{}));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -212,39 +212,39 @@ class std::ratio&lt; Num, Denom &gt;</h3>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::plus(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 3&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 12&gt;</a>{}),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;23, 12&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::minus(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 3&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 13&gt;</a>{}),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;56, 39&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::mult(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 3&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 13&gt;</a>{}),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;15, 39&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::div(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 3&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 13&gt;</a>{}),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;65, 9&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// The mod of two ratios is always 0, because they can always be</span></div>
 <div class="line"><span class="comment">// divided without remainder.</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::mod(<a class="code" href="classstd_1_1ratio.html">std::ratio&lt;5, 3&gt;</a>{}, <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;3, 13&gt;</a>{}),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;0&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::zero&lt;hana::ext::std::ratio_tag&gt;(),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;0&gt;</a>{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
 <div class="line">    hana::one&lt;hana::ext::std::ratio_tag&gt;(),</div>
 <div class="line">    <a class="code" href="classstd_1_1ratio.html">std::ratio&lt;1&gt;</a>{}</div>
 <div class="line">));</div>

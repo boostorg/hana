@@ -237,12 +237,12 @@ template&lt;template&lt; typename... &gt; class F&gt; </div>
 <div class="line"><span class="keyword">struct </span>x;</div>
 <div class="line"><span class="keyword">struct </span>y;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;() == hana::type_c&lt;f&lt;&gt;&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f&lt;x&gt;&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f&lt;x, y&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;() == hana::type_c&lt;f&lt;&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f&lt;x&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f&lt;x, y&gt;&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// calling `hana::template_` on non-types</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(1) == hana::type_c&lt;f&lt;int&gt;&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::template_&lt;f&gt;(1) == hana::type_c&lt;f&lt;int&gt;&gt;);</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::template_&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
@@ -300,12 +300,12 @@ template&lt;template&lt; typename... &gt; class F&gt; </div>
 <div class="line"><span class="keyword">struct </span>x;</div>
 <div class="line"><span class="keyword">struct </span>y;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;() == hana::type_c&lt;f&lt;&gt;::type&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f&lt;x&gt;::type&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f&lt;x, y&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;() == hana::type_c&lt;f&lt;&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f&lt;x&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f&lt;x, y&gt;::type&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// calling `metafunction` on non-types</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(1) == hana::type_c&lt;f&lt;int&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction&lt;f&gt;(1) == hana::type_c&lt;f&lt;int&gt;::type&gt;);</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::metafunction&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
@@ -363,12 +363,12 @@ template&lt;typename F &gt; </div>
 <div class="line"><span class="keyword">struct </span>x;</div>
 <div class="line"><span class="keyword">struct </span>y;</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;() == hana::type_c&lt;f::apply&lt;&gt;::type&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f::apply&lt;x&gt;::type&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f::apply&lt;x, y&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;() == hana::type_c&lt;f::apply&lt;&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(hana::type_c&lt;x&gt;) == hana::type_c&lt;f::apply&lt;x&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(hana::type_c&lt;x&gt;, hana::type_c&lt;y&gt;) == hana::type_c&lt;f::apply&lt;x, y&gt;::type&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// calling `hana::metafunction_class` on non-types</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(1) == hana::type_c&lt;f::apply&lt;int&gt;::type&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::metafunction_class&lt;f&gt;(1) == hana::type_c&lt;f::apply&lt;int&gt;::type&gt;);</div>
 <div class="line"></div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::metafunction_class&lt;f&gt;)::apply&lt;x, y&gt;::type,</div>
@@ -429,8 +429,8 @@ template&lt;typename F &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> is_void = hana::integral(hana::metafunction&lt;std::is_void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(is_void(hana::type_c&lt;void&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(is_void(hana::type_c&lt;int&gt;)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(is_void(hana::type_c&lt;void&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(is_void(hana::type_c&lt;int&gt;)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -475,8 +475,8 @@ template&lt;template&lt; typename... &gt; class F&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::trait&lt;std::is_integral&gt;(hana::type_c&lt;int&gt;));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(hana::trait&lt;std::is_integral&gt;(hana::type_c&lt;float&gt;)));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::trait&lt;std::is_integral&gt;(hana::type_c&lt;int&gt;));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(hana::trait&lt;std::is_integral&gt;(hana::type_c&lt;float&gt;)));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

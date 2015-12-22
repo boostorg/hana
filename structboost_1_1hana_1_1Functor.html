@@ -258,7 +258,7 @@ template&lt;typename F &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        hana::adjust(hana::make_tuple(1, 4, 9, 2, 3, 4), 4, negate)</div>
 <div class="line">        ==</div>
 <div class="line">        hana::make_tuple(1, -4, 9, 2, 3, -4)</div>
@@ -326,7 +326,7 @@ template&lt;typename F &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        hana::adjust_if(hana::make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, negate)</div>
 <div class="line">                ==</div>
 <div class="line">        hana::make_tuple(3, 2, 1, 0, 1, 2, 3)</div>
@@ -390,7 +390,7 @@ template&lt;typename F &gt; </div>
 <div class="line">        hana::make_tuple(<span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>, <span class="charliteral">&#39;x&#39;</span>)</div>
 <div class="line">    , <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::fill(hana::nothing, <span class="charliteral">&#39;x&#39;</span>) == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::fill(hana::nothing, <span class="charliteral">&#39;x&#39;</span>) == hana::nothing);</div>
 <div class="line">    static_assert(hana::fill(hana::just(<span class="charliteral">&#39;y&#39;</span>), <span class="charliteral">&#39;x&#39;</span>) == hana::just(<span class="charliteral">&#39;x&#39;</span>), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -507,7 +507,7 @@ template&lt;typename F &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(</div>
 <div class="line">        hana::replace_if(hana::make_tuple(-3, -2, -1, 0, 1, 2, 3), negative, 0)</div>
 <div class="line">                ==</div>
 <div class="line">        hana::make_tuple(0, 0, 0, 0, 1, 2, 3)</div>
@@ -577,16 +577,16 @@ template&lt;typename F &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(</div>
 <div class="line">        hana::transform(hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, <span class="stringliteral">&quot;345&quot;</span>, std::string{<span class="stringliteral">&quot;67&quot;</span>}), to_string)</div>
 <div class="line">                ==</div>
 <div class="line">        hana::make_tuple(<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;345&quot;</span>, <span class="stringliteral">&quot;67&quot;</span>)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::transform(hana::nothing, to_string) == hana::nothing);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::transform(hana::just(123), to_string) == hana::just(<span class="stringliteral">&quot;123&quot;</span>s));</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::transform(hana::nothing, to_string) == hana::nothing);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::transform(hana::just(123), to_string) == hana::just(<span class="stringliteral">&quot;123&quot;</span>s));</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
 <div class="line">        hana::transform(hana::tuple_t&lt;<span class="keywordtype">void</span>, <span class="keywordtype">int</span>(), <span class="keywordtype">char</span>[10]&gt;, hana::template_&lt;std::add_pointer_t&gt;)</div>
 <div class="line">                ==</div>
 <div class="line">        hana::tuple_t&lt;<span class="keywordtype">void</span>*, <span class="keywordtype">int</span>(*)(), <span class="keywordtype">char</span>(*)[10]&gt;</div>

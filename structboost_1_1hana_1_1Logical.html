@@ -267,7 +267,7 @@ template&lt;typename L &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::and_(hana::true_c, hana::true_c, hana::true_c, hana::true_c));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::and_(hana::true_c, hana::true_c, hana::true_c, hana::true_c));</div>
 <div class="line">static_assert(!hana::and_(hana::true_c, <span class="keyword">false</span>, hana::true_c, hana::true_c), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -373,8 +373,8 @@ template&lt;typename L &gt; </div>
 <div class="line">    );</div>
 <div class="line">};</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;void&gt;) == hana::type_c&lt;void&gt;);</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;int&gt;) == hana::type_c&lt;unsigned int&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;void&gt;) == hana::type_c&lt;void&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(safe_make_unsigned(hana::type_c&lt;int&gt;) == hana::type_c&lt;unsigned int&gt;);</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// eval_if with homogeneous branches and a constexpr or runtime condition</span></div>
@@ -386,8 +386,8 @@ template&lt;typename L &gt; </div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(safe_divide(6, 3) == 2);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(safe_divide(6, 0) == 0);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(safe_divide(6, 3) == 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(safe_divide(6, 0) == 0);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -494,7 +494,7 @@ template&lt;typename L &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(hana::true_c) == hana::false_c);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_(hana::true_c) == hana::false_c);</div>
 <div class="line">static_assert(hana::not_(<span class="keyword">false</span>) == <span class="keyword">true</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -541,8 +541,8 @@ template&lt;typename L &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(hana::or_(hana::false_c, hana::false_c, hana::true_c));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(!hana::or_(hana::false_c, hana::false_c, hana::false_c));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::or_(hana::false_c, hana::false_c, hana::true_c));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!hana::or_(hana::false_c, hana::false_c, hana::false_c));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -612,9 +612,9 @@ template&lt;typename L &gt; </div>
 <div class="line">        });</div>
 <div class="line"></div>
 <div class="line">        <span class="comment">// The state is known at compile-time</span></div>
-<div class="line">        <a class="code" href="group__group-assertions.html#ga2c5006540936d9f8880e3a39f4fcc035">BOOST_HANA_CONSTANT_CHECK</a>(final_state == 10_c);</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(final_state == 10_c);</div>
 <div class="line"></div>
-<div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ints == std::vector&lt;int&gt;{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(ints == std::vector&lt;int&gt;{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});</div>
 <div class="line">    }</div>
 <div class="line"></div>
 <div class="line">    <span class="comment">// while_ with a constexpr or runtime condition (loop is not unrolled)</span></div>
@@ -626,9 +626,9 @@ template&lt;typename L &gt; </div>
 <div class="line">        });</div>
 <div class="line"></div>
 <div class="line">        <span class="comment">// The state is known only at runtime, or at compile-time if constexpr</span></div>
-<div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(final_state == 10);</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(final_state == 10);</div>
 <div class="line"></div>
-<div class="line">        <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(ints == std::vector&lt;int&gt;{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});</div>
+<div class="line">        <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(ints == std::vector&lt;int&gt;{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});</div>
 <div class="line">    }</div>
 <div class="line">}</div>
 </div><!-- fragment --> 

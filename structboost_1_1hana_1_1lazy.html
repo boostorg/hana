@@ -224,7 +224,7 @@ The <code>lazy</code> monad allows combining lazy computations into larger lazy 
 <div class="line">    <span class="keyword">auto</span> eout = hana::eval(out);</div>
 <div class="line"></div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;the result of the monadic chain is &quot;</span> &lt;&lt; eout &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(eout == (in + 1) / 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(eout == (in + 1) / 2);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code><br />
@@ -256,9 +256,9 @@ The <code>lazy</code> comonad allows evaluating a lazy computation to get its re
 <div class="line">        <span class="keywordflow">return</span> hana::eval(lazy_int) + 1;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 2);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 3);</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4796ae107d58b67e0bbccd5ae6f70101">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 4);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 2);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 3);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::extract(i_plus_one) == 4);</div>
 <div class="line">}</div>
 </div><!-- fragment --></li>
 </ol>
@@ -377,7 +377,7 @@ template&lt;&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::eval(hana::if_(hana::false_c, f(0), g(0))) == 0 + 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::eval(hana::if_(hana::false_c, f(0), g(0))) == 0 + 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -428,7 +428,7 @@ template&lt;typename... &gt; </div>
 <div class="line">        <span class="keywordflow">return</span> x + 1;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#gac7aafc41e4dcc7d1f1929fb00f010d2a">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::eval(hana::if_(hana::false_c, f(0), g(0))) == 0 + 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(hana::eval(hana::if_(hana::false_c, f(0), g(0))) == 0 + 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
