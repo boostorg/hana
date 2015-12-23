@@ -116,7 +116,7 @@ doxygen hana.html
       <doxygen:param>HTML_HEADER=$(HANA_SOURCE_DIR)/doc/header.html
       <doxygen:param>HTML_FOOTER=$(HANA_SOURCE_DIR)/doc/footer.html
       <doxygen:param>HTML_EXTRA_STYLESHEET=
-      <doxygen:param>HTML_EXTRA_FILES=$(HANA_SOURCE_DIR)/benchmark/chart.js
+      <doxygen:param>HTML_EXTRA_FILES=$(HANA_SOURCE_DIR)/doc/chart.js
       <doxygen:param>HTML_COLORSTYLE_HUE=75  # 0 - 359
       <doxygen:param>HTML_COLORSTYLE_SAT=100 # 0 - 255
       <doxygen:param>HTML_COLORSTYLE_GAMMA=80

@@ -7,49 +7,11 @@
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/data.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
-  <script type="text/javascript" src="https://cdn.rawgit.com/michael/github/9029554299b379bd015d102ecdcc5ff455469b6b/github.js"></script>
-  <script src="chart.js"></script>
+  <script src="../doc/chart.js"></script>
 
   <script type="text/javascript">
-    if (!String.prototype.format) {
-      String.prototype.format = function() {
-        var args = arguments;
-        return this.replace(/{(\d+)}/g, function(match, number) {
-          return typeof args[number] != 'undefined'
-            ? args[number]
-            : match
-          ;
-        });
-      };
-    }
-
-    var github = new Github({});
-    var hana = github.getRepo('boostorg', 'hana');
-
-    var updateCompilers = function(dataset, configuration) {
-      hana.getTree('datasets?recursive=true', function(err, tree) {
-        var compilers = $("#compilers")[0];
-        compilers.options.length = 0; // clear all existing options
-
-        tree.forEach(function(file) {
-          var re = new RegExp([configuration, "(.+)", dataset].join("/"));
-          var match = file.path.match(re);
-          if (file.type == "blob" && match) {
-            var compiler = document.createElement('option');
-            compiler.value = compiler.text = match[1];
-            compilers.add(compiler);
-          }
-        });
-
-        $("#compilers").html($("#compilers option").sort(function (a, b) {
-            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-        }));
-        compilers.onchange();
-      });
-    };
-
-    var redrawChart = function(dataset, configuration, compiler, commit) {
-      var path = ["https://cdn.rawgit.com/boostorg/hana", commit, configuration, compiler, dataset].join("/");
+    var redrawChart = function(dataset) {
+      var path = "../build/benchmark/benchmark." + dataset + ".json";
       $.getJSON(path, function(options) {
         if ($("#container").highcharts())
           $("#container").highcharts().destroy();
@@ -58,53 +20,13 @@
         $('#container').highcharts().redraw();
       });
     };
-
-    // Load the list of commits on 'master' that have an associated commit
-    // on the 'datasets' branch. Not all commits on 'master' have one,
-    // because we can push multiple commits at once on Travis.
-    var updateCommits = function(configuration, compiler) {
-      hana.getCommits({sha: 'heads/master'}, function(err, commits_on_master) {
-        hana.getCommits({sha: 'heads/datasets'}, function(err, commits_on_datasets) {
-          var commits = $("#commits")[0];
-          commits.options.length = 0; // clear all existing options
-
-          commits_on_master.forEach(function(commit_on_master, index) {
-            var SHA = commit_on_master.sha.slice(0, 7);
-            var commit_string = "Update benchmarks to {0} for build type '{1}' and compiler '{2}'".format(SHA, configuration, compiler);
-            var commit_on_datasets = commits_on_datasets.find(function(c) {
-              return c.commit.message == commit_string;
-            });
-
-            if (commit_on_datasets) {
-              var option = document.createElement('option');
-              option.value = commit_on_datasets.sha;
-              option.text = "master~{0} ({1})".format(index, SHA);
-              commits.add(option);
-            }
-          });
-
-          commits.onchange();
-        });
-      });
-    };
   </script>
 </head>
 
 <body>
   <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-  <input type="text" size=100 id="dataset" class="enter" value="" onchange="updateCompilers(this.value, $('#configurations')[0].value)"/>
-
-  <select id="configurations" onchange="updateCompilers($('#dataset')[0].value, this.value)">
-    <option value="release" selected>Release</option>
-    <option value="debug">Debug</option>
-  </select>
-
-  <select id="compilers" onchange="updateCommits($('#configurations')[0].value, this.value)">
-  </select>
-
-  <select id="commits" onchange="redrawChart($('#dataset')[0].value, $('#configurations')[0].value, $('#compilers')[0].value, this.value)">
-  </select>
+  <input type="text" size=100 id="dataset" class="enter" value="" onchange="redrawChart(this.value)"/>
 </body>
 
 </html>
