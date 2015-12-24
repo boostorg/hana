@@ -22,12 +22,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/to.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/has_duplicates.hpp>
 #include <boost/hana/detail/index_if.hpp>
+#include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
@@ -45,7 +47,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_subset.hpp>
 #include <boost/hana/keys.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/remove_if.hpp>
+#include <boost/hana/remove.hpp>
 #include <boost/hana/second.hpp>
 #include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
@@ -66,27 +68,106 @@ BOOST_HANA_NAMESPACE_BEGIN
         struct comparable_operators<map_tag> {
             static constexpr bool value = true;
         };
+
+        template <std::size_t index, typename Pair>
+        struct map_elt { Pair storage_; };
+
+        template <typename Indices, typename ...Pairs>
+        struct map_impl;
+
+        template <std::size_t ...index, typename ...Pair>
+        struct map_impl<std::index_sequence<index...>, Pair...>
+            : map_elt<index, Pair>...
+        {
+            template<typename ...Xn>
+            explicit constexpr map_impl(Xn&& ...xn)
+                : map_elt<index, Pair>{static_cast<Xn&&>(xn)}...
+            { }
+        };
+
+        template<std::size_t index, typename Pair>
+        constexpr auto get_map_elt_type(detail::map_elt<index, Pair>) {
+            return hana::type_c<detail::map_elt<index, Pair>>;
+        }
+
+        template <std::size_t index, typename Map>
+        static constexpr auto&& map_get_helper(Map&& m) {
+            using Element = typename decltype(detail::get_map_elt_type<index>(m))::type;
+            return static_cast<Element&&>(m).storage_;
+        }
+
+        template <std::size_t index, typename Map>
+        static constexpr auto& map_get_helper(Map& m) {
+            using Element = typename decltype(detail::get_map_elt_type<index>(m))::type;
+            return static_cast<Element&>(m).storage_;
+        }
+
+        template <std::size_t index, typename Map>
+        static constexpr auto const& map_get_helper(Map const& m) {
+            using Element = typename decltype(detail::get_map_elt_type<index>(m))::type;
+            return static_cast<Element const&>(m).storage_;
+        }
+
+        template <typename Pred>
+        constexpr int find_index_eager(hana::basic_type<hana::map<>>) {
+            return -1;
+        }
+
+        template <typename Pred, typename ...T>
+        constexpr int find_index_eager(hana::basic_type<hana::map<T...>>) {
+            bool results[] = {
+                static_cast<bool>(detail::decay<
+                    decltype(std::declval<Pred const&>()(hana::first(std::declval<T const&>())))
+                >::type::value)...
+            };
+
+            // Find first satisfied index
+            for (int index = 0; index < static_cast<int>(sizeof...(T)); ++index) {
+                if (results[index])
+                    return index;
+            }
+
+            return -1;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////
     // map
     //////////////////////////////////////////////////////////////////////////
     //! @cond
+    template <>
+    struct map<>
+        : detail::map_impl<std::index_sequence<>>
+        , detail::searchable_operators<map<>>
+    {
+        constexpr map() { }
+        using hana_tag = map_tag;
+        static constexpr std::size_t size = 0;
+    };
+
     template <typename ...Pairs>
     struct map
-        : detail::searchable_operators<map<Pairs...>>
+        : detail::map_impl<std::make_index_sequence<sizeof...(Pairs)>, Pairs...>
+        , detail::searchable_operators<map<Pairs...>>
         , detail::operators::adl<map<Pairs...>>
     {
-        tuple<Pairs...> storage;
         using hana_tag = map_tag;
         static constexpr std::size_t size = sizeof...(Pairs);
 
-        explicit constexpr map(tuple<Pairs...> const& ps)
-            : storage(ps)
+        constexpr map()
+            : detail::map_impl<
+                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(Pairs{}...)
         { }
 
-        explicit constexpr map(tuple<Pairs...>&& ps)
-            : storage(static_cast<tuple<Pairs...>&&>(ps))
+        constexpr map(Pairs const& ...xn)
+            : detail::map_impl<
+                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(xn...)
+        { }
+
+        constexpr map(Pairs&& ...xn)
+            : detail::map_impl<
+                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(
+                    static_cast<Pairs&&>(xn)...)
         { }
 
         constexpr map(map const& other) = default;
@@ -122,9 +203,9 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map(pairs...) requires all the keys to be unique");
 #endif
 
-            return map<typename detail::decay<Pairs>::type...>{
-                hana::make_tuple(static_cast<Pairs&&>(pairs)...)
-            };
+            return map<typename detail::decay<Pairs>::type...>(
+                static_cast<Pairs&&>(pairs)...
+            );
         }
     };
 
@@ -134,8 +215,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <>
     struct keys_impl<map_tag> {
         template <typename Map>
-        static constexpr decltype(auto) apply(Map&& map) {
-            return hana::transform(static_cast<Map&&>(map).storage, hana::first);
+        static constexpr decltype(auto) apply(Map&& m) {
+            return hana::unpack(static_cast<Map&&>(m),
+                    hana::on(hana::make_tuple, hana::first));
         }
     };
 
@@ -144,8 +226,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename Map>
-    constexpr decltype(auto) values_t::operator()(Map&& map) const {
-        return hana::transform(static_cast<Map&&>(map).storage, hana::second);
+    constexpr decltype(auto) values_t::operator()(Map&& m) const {
+        return hana::transform(
+            hana::unpack(static_cast<Map&&>(m), hana::make_tuple),
+            hana::second
+        );
     }
     //! @endcond
 
@@ -163,9 +248,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename Pair, std::size_t ...n>
         static constexpr auto
         insert_helper(Xs&& xs, Pair&& pair, hana::false_, std::index_sequence<n...>) {
-            return hana::make_map(
-                hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<Pair&&>(pair)
-            );
+            return hana::unpack(static_cast<Xs&&>(xs),
+                hana::partial(hana::make_map, static_cast<Pair&&>(pair)));
         }
 
         template <typename Xs, typename Pair>
@@ -182,19 +266,31 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // erase_key
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template<typename Map>
+        struct copy_map_by_keys {
+            Map const& old;
+            template<typename ...Key>
+            auto operator()(Key&& ...key) {
+                constexpr auto map_type = hana::basic_type<typename detail::decay<Map>::type>{};
+                return hana::make_map(
+                    detail::map_get_helper<
+                        detail::find_index_eager<decltype(hana::equal.to(key))>(map_type)
+                    >(old)...
+                );
+            }
+        };
+    }
     template <>
     struct erase_key_impl<map_tag> {
         template <typename M, typename Key>
-        static constexpr decltype(auto) apply(M&& map, Key&& key) {
+        static constexpr decltype(auto) apply(M&& m, Key&& key) {
             return hana::unpack(
-                hana::remove_if(
-                    static_cast<M&&>(map).storage,
-                    hana::compose(
-                        hana::equal.to(static_cast<Key&&>(key)),
-                        hana::first
-                    )
+                hana::remove(
+                    hana::keys(m),
+                    static_cast<Key&&>(key)
                 ),
-                hana::make_map
+                detail::copy_map_by_keys<M>{static_cast<M&&>(m)}
             );
         }
     };
@@ -220,8 +316,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
             return equal_impl::equal_helper(m1, m2, hana::bool_c<
-                decltype(hana::length(m1.storage))::value ==
-                decltype(hana::length(m2.storage))::value
+                decltype(hana::length(m1))::value ==
+                decltype(hana::length(m2))::value
             >);
         }
     };
@@ -229,15 +325,25 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template<int index, typename Map, typename = typename std::enable_if<(index >= 0)>::type>
+        constexpr auto map_find_helper(hana::int_<index>, Map&& m) {
+            return hana::just(hana::second(detail::map_get_helper<index>(static_cast<Map&&>(m))));
+        }
+
+        template<typename T>
+        constexpr auto map_find_helper(hana::int_<-1>, T) {
+            return hana::nothing;
+        }
+    }
+
     template <>
     struct find_if_impl<map_tag> {
-        template <typename M, typename Pred>
-        static constexpr auto apply(M&& map, Pred&& pred) {
-            return hana::transform(
-                hana::find_if(static_cast<M&&>(map).storage,
-                    hana::compose(static_cast<Pred&&>(pred), hana::first)),
-                hana::second
-            );
+        template <typename Map, typename Pred>
+        static constexpr auto apply(Map&& m, Pred const&) {
+            constexpr auto map_type = hana::basic_type<typename detail::decay<Map>::type>{};
+            constexpr int index = detail::find_index_eager<Pred>(map_type);
+            return map_find_helper(hana::int_<index>{}, static_cast<Map&&>(m));
         }
     };
 
@@ -270,12 +376,21 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <>
     struct at_key_impl<map_tag> {
-        template <typename Xs, typename Key>
-        static constexpr decltype(auto) apply(Xs&& xs, Key const& key) {
-            using Pack = typename detail::make_pack<Xs>::type;
-            using Pred = decltype(hana::compose(hana::equal.to(key), hana::first));
-            constexpr std::size_t index = detail::index_if<Pred, Pack>::value;
-            return hana::second(hana::at_c<index>(static_cast<Xs&&>(xs).storage));
+        template <typename Map, typename Key>
+        static constexpr decltype(auto) apply(Map&& m, Key&& key) {
+            constexpr auto map_type = hana::basic_type<typename detail::decay<Map>::type>{};
+            constexpr std::size_t index = detail::find_index_eager<
+                decltype(hana::equal.to(key))>(map_type);
+            return hana::second(
+                    detail::map_get_helper<index>(static_cast<Map&&>(m)));
+        }
+
+        template <std::size_t index, typename Pair, typename Key,
+            typename = typename std::enable_if<hana::is_a<type_tag, Key>>::type>
+        static constexpr decltype(auto) apply(
+            detail::map_elt<index, Pair> const& element, Key)
+        {
+            return hana::second(element.storage_);
         }
     };
 
@@ -284,10 +399,46 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct unpack_impl<map_tag> {
-        template <typename M, typename F>
-        static constexpr decltype(auto) apply(M&& map, F&& f) {
-            return hana::unpack(static_cast<M&&>(map).storage,
-                                static_cast<F&&>(f));
+        template <std::size_t ...i, typename ...Pair, typename F>
+        static constexpr decltype(auto)
+        helper(std::index_sequence<i...>, map<Pair...> const& m, F&& f) {
+            return static_cast<F&&>(f)(
+                static_cast<detail::map_elt<i, Pair> const&>(m).storage_...
+            );
+        }
+
+        template <std::size_t ...i, typename ...Pair, typename F>
+        static constexpr decltype(auto)
+        helper(std::index_sequence<i...>, map<Pair...>& m, F&& f) {
+            return static_cast<F&&>(f)(
+                static_cast<detail::map_elt<i, Pair>&>(m).storage_...
+            );
+        }
+
+        template <std::size_t ...i, typename ...Pair, typename F>
+        static constexpr decltype(auto)
+        helper(std::index_sequence<i...>, map<Pair...>&& m, F&& f) {
+            return static_cast<F&&>(f)(
+                static_cast<detail::map_elt<i, Pair>&&>(m).storage_...
+            );
+        }
+
+        template <typename Map, typename F>
+        static constexpr decltype(auto)
+        apply(Map&& m, F&& f) {
+            return helper(
+                std::make_index_sequence<decltype(hana::length(m))::value>{},
+                static_cast<Map&&>(m),
+                static_cast<F&&>(f)
+            );
+        }
+    };
+
+    template<>
+    struct length_impl<map_tag> {
+        template <typename ...Pairs>
+        static constexpr auto apply(map<Pairs...>) {
+            return hana::size_c<sizeof...(Pairs)>;
         }
     };
 
