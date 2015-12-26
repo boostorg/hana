@@ -99,7 +99,7 @@ def main():
     response = upload({
         'code': open(cpp).read(),
         'codes': [{
-            'file': os.path.relpath(header, directory),
+            'file': os.path.relpath(header, directory).replace('\\', '/'),
             'code': strip_comments(open(header).read())
         } for header in headers(directory)],
         'options': 'warning,c++14',
