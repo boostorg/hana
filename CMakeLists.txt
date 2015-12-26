@@ -85,6 +85,7 @@ if (NOT BOOST_HANA_ENABLE_EXCEPTIONS)
 endif()
 
 # Other compiler flags
+boost_hana_append_flag(BOOST_HANA_HAS_FDIAGNOSTICS_COLOR         -fdiagnostics-color)
 boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
 boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
 boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
