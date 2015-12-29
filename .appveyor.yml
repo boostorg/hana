@@ -54,15 +54,6 @@ install:
   - cmake --version
 
   ############################################################################
-  # Install Boost headers (for now, we use Boost 1.59.0 provided by Appveyor)
-  ############################################################################
-  - mklink /D boost C:\Libraries\boost_1_59_0
-  # - set BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.zip"
-  # - appveyor DownloadFile %BOOST_URL% -FileName boost.zip
-  # - 7z x boost.zip > nul
-  # - move boost_1_59_0 boost
-
-  ############################################################################
   # Install a pre-built Clang-cl
   ############################################################################
   - set LLVM_URL="https://www.dropbox.com/s/caol8ihddfwqs31/LLVM-3.7.0-win64.zip?dl=1"
@@ -80,6 +71,6 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_CXX_FLAGS="-fms-compatibility-version=19" # -DBOOST_ROOT="C:\projects\deps\boost"
+  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_CXX_FLAGS="-fms-compatibility-version=19"
   - if "%TESTS_ONLY%" == "true" (ninja tests.quick && ctest -R --output-on-failure "test.+")
   - if "%EXAMPLES_ONLY%" == "true" (ninja examples && ctest -R --output-on-failure "example.+")
