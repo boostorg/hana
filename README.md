@@ -72,14 +72,14 @@ int main() {
 You can browse the documentation online at http://boostorg.github.io/hana.
 You can also get an offline version of the documentation by checking out
 the `gh-pages` branch. To avoid overwriting the current directory, you
-can clone the `gh-pages` branch into a subdirectory like `doc/gh-pages`:
+can clone the `gh-pages` branch into a subdirectory like `doc/html`:
 ```shell
-git clone http://github.com/boostorg/hana --branch=gh-pages doc/gh-pages
+git clone http://github.com/boostorg/hana --branch=gh-pages doc/html
 ```
 
-After issuing this, `doc/gh-pages` will contain exactly the same static
-website that's available online. Note that `doc/gh-pages` is automatically
-ignored by git so updating the documentation won't pollute your index.
+After issuing this, `doc/html` will contain exactly the same static website
+that's [available online][Hana.docs]. Note that `doc/html` is automatically
+ignored by Git so updating the documentation won't pollute your index.
 
 
 ## Hacking on Hana
@@ -160,9 +160,9 @@ The project is organized in a couple of subdirectories.
 - The [cmake](cmake) directory contains various CMake modules and other
   scripts needed by the build system.
 - The [doc](doc) directory contains configuration files needed to generate
-  the documentation. The `doc/gh-pages` subdirectory is automatically ignored
-  by git; you can conveniently store a local copy of the documentation by
-  cloning the gh-pages branch into that directory, as explained above.
+  the documentation. The `doc/html` subdirectory is automatically ignored
+  by Git; you can conveniently store a local copy of the documentation by
+  cloning the `gh-pages` branch into that directory, as explained above.
 - The [example](example) directory contains the source code for all the
   examples of both the tutorial and the reference documentation.
 - The [experimental](experimental) directory contains various experiments that
@@ -203,5 +203,6 @@ Please see [LICENSE.md](LICENSE.md).
 [CppCon]: http://cppcon.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
+[Hana.docs]: http://boostorg.github.io/hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [MPL11]: http://github.com/ldionne/mpl11
