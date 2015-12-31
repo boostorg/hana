@@ -13,7 +13,7 @@ namespace fusion = boost::fusion;
 template <int>
 struct x { };
 
-struct undefined {};
+struct undefined { };
 
 int main() {
     constexpr auto map = fusion::make_map<

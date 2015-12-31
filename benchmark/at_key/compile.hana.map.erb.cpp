@@ -10,12 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 namespace hana = boost::hana;
 
 
-struct undefined {};
+struct undefined { };
 
 int main() {
     constexpr auto map = hana::make_map(
-        <%= (0...input_size).map { |n| "hana::make_pair(hana::int_c<#{n}>, undefined{})" }
-          .join(', ') %>
+        <%= (0...input_size).map { |n|
+            "hana::make_pair(hana::int_c<#{n}>, undefined{})"
+        }.join(', ') %>
     );
     constexpr auto result = hana::at_key(map, hana::int_c<<%= input_size-1 %>>);
     (void)result;

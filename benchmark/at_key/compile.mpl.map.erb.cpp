@@ -17,11 +17,12 @@ namespace mpl = boost::mpl;
 template <int>
 struct x { };
 
-struct undefined {};
+struct undefined { };
 
 using map = mpl::map<
-    <%= (0...input_size).map { |n| "mpl::pair<x<#{n}>, undefined>" }
-      .join(', ') %>
+    <%= (0...input_size).map { |n|
+        "mpl::pair<x<#{n}>, undefined>"
+    }.join(', ') %>
 >;
 using result = typename mpl::at<map, x<<%= input_size-1 %>>>::type;
 

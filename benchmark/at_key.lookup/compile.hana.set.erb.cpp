@@ -13,12 +13,11 @@ namespace hana = boost::hana;
 template <int>
 struct x { };
 
-struct undefined {};
+struct undefined { };
 
 int main() {
     constexpr auto set = hana::make_set(
-        <%= (0...200).map { |n| "hana::type_c<x<#{n}>>" }
-          .join(', ') %>
+        <%= (0...200).map { |n| "hana::type_c<x<#{n}>>" }.join(', ') %>
     );
     constexpr auto result = hana::at_key(set, hana::type_c<x<<%= input_size-1 %>>>);
     (void)result;
