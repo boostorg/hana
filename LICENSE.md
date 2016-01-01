@@ -1,4 +1,4 @@
-Copyright 2013-2015 Louis Dionne
+Copyright 2013-2016 Louis Dionne
 
 Boost Software License - Version 1.0 - August 17th, 2003
 
