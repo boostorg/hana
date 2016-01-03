@@ -341,8 +341,6 @@ script:
   - |
     if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
       touch Jamroot
-      echo "import doxygen ;" > project-config.jam
-      echo "using doxygen ;" >> project-config.jam
       (cd doc && b2)
     fi
 
