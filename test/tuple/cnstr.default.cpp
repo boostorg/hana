@@ -125,4 +125,13 @@ int main() {
             hana::tuple<NoDefault> t3 = {v};
         }
     }
+
+    // Make sure a tuple_t can be default-constructed
+    {
+        struct T;
+        struct U;
+
+        using Types = decltype(hana::tuple_t<T, U>);
+        Types t{}; (void)t;
+    }
 }
