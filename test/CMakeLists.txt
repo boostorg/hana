@@ -17,7 +17,7 @@ add_custom_target(tests.quick COMMENT "Build a subset of all the unit tests to f
 function(boost_hana_add_unit_test name)
     boost_hana_add_test(${ARGV})
     add_dependencies(tests ${name})
-    if ((NOT "${name}" MATCHES "\\.ext\\.") AND (NOT "${name}" MATCHES "_mcd"))
+    if (NOT "${name}" MATCHES "\\.ext\\.|_mcd|\\.auto\\.")
         add_dependencies(tests.quick ${name})
     endif()
 endfunction()
