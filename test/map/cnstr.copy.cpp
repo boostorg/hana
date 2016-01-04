@@ -10,6 +10,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/map.hpp>
 #include <boost/hana/type.hpp>
 
+#include <laws/base.hpp>
+
 #include <string>
 namespace hana = boost::hana;
 
@@ -67,5 +69,15 @@ int main() {
         BOOST_HANA_RUNTIME_CHECK(
             copy == hana::make_map(hana::make_pair(hana::int_c<2>, std::string{"abcdef"}))
         );
+    }
+
+    // Make sure we do not instantiate rogue constructors when doing copies
+    {
+        auto expr = hana::make_map(
+            hana::make_pair(hana::test::trap_construct{},
+                            hana::test::trap_construct{})
+        );
+        auto implicit_copy = expr;          (void)implicit_copy;
+        decltype(expr) explicit_copy(expr); (void)explicit_copy;
     }
 }

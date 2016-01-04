@@ -266,7 +266,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct find_impl<string_tag> {
         template <char ...s, typename Char>
         static constexpr auto apply(string<s...> const& str, Char const& c) {
-            return hana::if_(hana::contains(str, c),
+            return hana::if_(contains_impl<string_tag>::apply(str, c),
                 hana::just(c),
                 hana::nothing
             );

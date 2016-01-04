@@ -7,8 +7,7 @@ import regex ;
 
 project boost/hana :
     requirements
-        <include>.
-        <include>./include
+        <include>./_support
         <include>../include
 ;
 
@@ -20,9 +19,9 @@ rule hana-all-tests {
 
     local result ;
 
-    result += [ run bugs/github_75.cpp bugs/github_75_other_tu.cpp : : : $(toolset) : test.bugs.github_75 ] ;
+    result += [ run bugs/github_75/tu1.cpp bugs/github_75/tu2.cpp : : : $(toolset) : test.bugs.github_75 ] ;
 
-    local sources = [ glob-tree *.cpp : *github_75*.cpp ] ;
+    local sources = [ glob-tree *.cpp : *github_75* ] ;
     for local source in $(sources)
     {
         local target = [ regex.replace $(source) "\.cpp" "" ] ;
