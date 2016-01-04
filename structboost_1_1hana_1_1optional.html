@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2015
+Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -33,7 +33,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2015
+// Copyright Louis Dionne 2013-2016
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -157,7 +157,7 @@ struct boost::hana::optional&lt;... &gt;</h3>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is implementation-defined. In particular, one should not take for granted any particular representation for <code>hana::just(...)</code> and <code>hana::nothing</code>, or the presence of any constructor/assignment operator. The proper way to create an <code>optional</code> is through <code>hana::just</code> and <code>hana::nothing</code>, and one should use <code>hana::is_just</code> and <code>hana::is_nothing</code> to determine the status of an <code>optional</code> instead of relying on a particular representation.</dd></dl>
 <h2>Interoperation with <code>type</code>s </h2>
 <p>When a <code>just</code> contains an object of type <code>T</code> which is a <code>type</code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code>type</code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -199,7 +199,7 @@ struct boost::hana::optional&lt;... &gt;</h3>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
 Two <code>optional</code>s are equal if and only if they are both empty or they both contain a value and those values are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -222,7 +222,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -245,7 +245,7 @@ Optional values can be ordered by considering the value they are holding, if any
 An optional value can be seen as a list containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an optional value is equivalent to applying it to its value if there is one, and to <code>nothing</code> otherwise: <div class="fragment"><div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
 <div class="line">transform(<a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>, f) == nothing</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -269,7 +269,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line">ap(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f), nothing) == nothing</div>
 <div class="line">ap(nothing, nothing) == nothing</div>
 </div><!-- fragment --> A simple example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -290,7 +290,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> A more complex example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -343,7 +343,7 @@ First, a value can be made optional with <code>lift&lt;<a class="el" href="struc
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
 The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code> model makes it easy to compose actions that might fail. One can feed an optional value if there is one into a function with <code>chain</code>, which will return <code>nothing</code> if there is no value. Finally, optional-optional values can have their redundant level of optionality removed with <code>flatten</code>. Also note that the <code>|</code> operator can be used in place of the <code>chain</code> function. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -370,7 +370,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Mona
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code><br />
 The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The MonadPlus concept represents Monads with a monoidal structure. ">MonadPlus</a></code> model allows choosing the first valid value out of two optional values with <code>concat</code>. If both optional values are <code>nothing</code>s, <code>concat</code> will return <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -392,7 +392,7 @@ The <code><a class="el" href="structboost_1_1hana_1_1MonadPlus.html" title="The 
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Foldable.html" title="The Foldable concept represents data structures that can be reduced to a single value. ">Foldable</a></code><br />
 Folding an optional value is equivalent to folding a list containing either no elements (for <code>nothing</code>) or <code>x</code> (for <code>just(x)</code>). Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -410,7 +410,7 @@ Folding an optional value is equivalent to folding a list containing either no e
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Searchable.html" title="The Searchable concept represents structures that can be searched. ">Searchable</a></code><br />
 Searching an optional value is equivalent to searching a list containing <code>x</code> for <code>just(x)</code> and an empty list for <code>nothing</code>. Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -543,7 +543,7 @@ template&lt;&gt; </div>
 <p>Specifically, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;()</code> is equivalent to <code>nothing</code>, and <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;(x)</code> is equivalent to <code>just(x)</code>. This is provided for consistency with the other <code>make&lt;...&gt;</code> functions.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -590,7 +590,7 @@ template&lt;typename... &gt; </div>
 <p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1optional__tag.html" title="Tag representing a hana::optional. ">optional_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -640,7 +640,7 @@ template&lt;typename... &gt; </div>
 <p>Create an optional value containing <code>x</code>. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -680,7 +680,7 @@ template&lt;typename... &gt; </div>
 <p>An empty optional value. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -736,7 +736,7 @@ template&lt;typename... &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -786,7 +786,7 @@ template&lt;typename... &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>The function given to <code>sfinae</code> must not return <code>void</code>, since <code>just(void)</code> does not make sense. A compilation error is triggered if the function returns void.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -838,7 +838,7 @@ template&lt;typename... &gt; </div>
 <p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is of the form <code>just(x)</code> for some <code>x</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -884,7 +884,7 @@ template&lt;typename... &gt; </div>
 <p>Specifically, returns a compile-time true-valued <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code> if <code>m</code> is a <code>nothing</code>, and a false-valued one otherwise.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -923,7 +923,7 @@ template&lt;typename... &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for both the <code>const</code> and the non-<code>const</code> cases.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -967,7 +967,7 @@ template&lt;typename... &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -1010,7 +1010,7 @@ template&lt;typename... &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -1063,7 +1063,7 @@ template&lt;typename U &gt; </div>
 </dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -1083,7 +1083,7 @@ template&lt;typename U &gt; </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2015
+Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->

@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2015
+Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -33,7 +33,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2015
+// Copyright Louis Dionne 2013-2016
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -157,7 +157,7 @@ struct boost::hana::lazy&lt;... &gt;</h3>
 <ol type="1">
 <li><code><a class="el" href="structboost_1_1hana_1_1Functor.html" title="The Functor concept represents types that can be mapped over. ">Functor</a></code><br />
 Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -180,7 +180,7 @@ Applying a function over a lazy value with <code>transform</code> returns the re
 A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Monad.html" title="The Monad concept represents Applicatives with the ability to flatten nested levels of structure...">Monad</a></code><br />
 The <code>lazy</code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -231,7 +231,7 @@ The <code>lazy</code> monad allows combining lazy computations into larger lazy 
 </div><!-- fragment --></li>
 <li><code><a class="el" href="structboost_1_1hana_1_1Comonad.html" title="The Comonad concept represents context-sensitive computations and data. ">Comonad</a></code><br />
 The <code>lazy</code> comonad allows evaluating a lazy computation to get its result and lazily applying functions taking lazy inputs to lazy values. This <a href="http://ldionne.com/2015/03/16/laziness-as-a-comonad">blog post</a> goes into more details about lazy evaluation and comonads. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -308,7 +308,7 @@ template&lt;typename... &gt; </div>
 <p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code>hana::id</code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieve is documented by <a class="el" href="structboost_1_1hana_1_1Logical.html#a97f92ff5d73f8ebd7e9eb61142b2e68e">eval_if</a>.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -356,7 +356,7 @@ template&lt;&gt; </div>
 </div><!-- fragment --> which in turn is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f(x1, ..., xN))</code>, except for the fact that the inner call to <code>f</code> is evaluated lazily.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -407,7 +407,7 @@ template&lt;typename... &gt; </div>
 <p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2015</span></div>
+<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
@@ -438,7 +438,7 @@ template&lt;typename... &gt; </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2015
+Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
