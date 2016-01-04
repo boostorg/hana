@@ -5,6 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include "_specs.hpp"
-#include "../../auto/remove_range.hpp"
+#include <auto/remove_range.hpp>
 
 int main() { }

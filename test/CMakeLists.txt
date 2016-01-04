@@ -27,8 +27,7 @@ endfunction()
 # Include directories
 ##############################################################################
 include_directories(${Boost.Hana_SOURCE_DIR}/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
-include_directories(${CMAKE_CURRENT_LIST_DIR})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/_support)
 if (Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 endif()

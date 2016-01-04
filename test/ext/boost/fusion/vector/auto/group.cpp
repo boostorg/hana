@@ -5,6 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include "_specs.hpp"
-#include "../../../../../auto/group.hpp"
+#include <auto/group.hpp>
 
 int main() { }

@@ -5,6 +5,6 @@ Distributed under the Boost Software License, Version 1.0.
  */
 
 #include "_specs.hpp"
-#include "../../auto/permutations.hpp"
+#include <auto/permutations.hpp>
 
 int main() { }

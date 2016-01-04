@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #if 0
 #include "_specs.hpp"
-#include "../../../../../auto/cartesian_product.hpp"
+#include <auto/cartesian_product.hpp>
 #endif
 
 int main() { }
