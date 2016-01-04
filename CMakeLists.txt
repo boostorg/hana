@@ -79,23 +79,14 @@ boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings
 
 
 ##############################################################################
-# Search for packages.
-#
-# Behavior when the package is found or not is customized at the
-# point where the package is required.
+# Setup include paths. More include paths can be added in subdirectories.
 ##############################################################################
+include_directories(${Boost.Hana_SOURCE_DIR}/include)
+
 find_package(Boost 1.59)
-find_package(Doxygen)
-find_package(Meta)
-find_package(MPL11)
-find_package(PythonInterp 2.7)
-find_package(Ruby 2.1)
-
-if (BOOST_HANA_ENABLE_MEMCHECK)
-    find_package(Valgrind REQUIRED)
-endif()
-
-if (NOT ${Boost_FOUND})
+if (Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+else()
     message(WARNING
         "The Boost library headers were not found; targets depending "
         "on Boost won't be available.")
@@ -131,13 +122,16 @@ endfunction()
 # Creates a test called `name`, which runs the given `command` with the given
 # `arg`uments. However, if `BOOST_HANA_ENABLE_MEMCHECK` is set to `ON`, the
 # test will run the provided command under the memory checker.
-function(boost_hana_add_test name)
-    if (BOOST_HANA_ENABLE_MEMCHECK)
+if (BOOST_HANA_ENABLE_MEMCHECK)
+    find_package(Valgrind REQUIRED)
+    function(boost_hana_add_test name)
         add_test(${name} ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
-    else()
+    endfunction()
+else()
+    function(boost_hana_add_test name)
         add_test(${name} ${ARGN})
-    endif()
-endfunction()
+    endfunction()
+endif()
 
 
 ##############################################################################

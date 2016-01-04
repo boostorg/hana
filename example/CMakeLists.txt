@@ -16,15 +16,6 @@ boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter
 
 
 ##############################################################################
-# Include directories
-##############################################################################
-include_directories(${Boost.Hana_SOURCE_DIR}/include)
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
-
-
-##############################################################################
 # Caveats: Take note of examples that are not supported.
 ##############################################################################
 if (NOT Boost_FOUND)
@@ -65,6 +56,7 @@ endforeach()
 # example/wandbox.cpp example to http://melpon.org/wandbox, and prints a
 # permlink to it.
 ##############################################################################
+find_package(PythonInterp 2.7)
 if (PYTHONINTERP_FOUND)
     add_custom_target(wandbox COMMAND
         ${PYTHON_EXECUTABLE} ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
@@ -72,4 +64,7 @@ if (PYTHONINTERP_FOUND)
                              ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp
         SOURCES ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
                 ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp)
+else()
+    message(WARNING "A suitable version of the Python interpreter could not "
+                    "be found; the 'wandbox' target will not be available.")
 endif()

@@ -5,6 +5,7 @@
 ##############################################################################
 # Required packages, gems and caveats
 ##############################################################################
+find_package(Ruby 2.1)
 if(NOT ${RUBY_FOUND})
     message(WARNING "Ruby >= 2.1 was not found; the benchmarks will be unavailable.")
     return()
@@ -22,16 +23,14 @@ if(${__BOOST_HANA_MISSING_GEMS})
     return()
 endif()
 
-include_directories(${Boost.Hana_SOURCE_DIR}/include)
-
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
-
+# Check for the MPL11 library, which can be measured in some benchmarks
+find_package(MPL11)
 if (MPL11_FOUND)
     include_directories(${MPL11_INCLUDE_DIR})
 endif()
 
+# Check for the Meta library, which can be measured in some benchmarks
+find_package(Meta)
 if (Meta_FOUND)
     include_directories(${Meta_INCLUDE_DIR})
 endif()

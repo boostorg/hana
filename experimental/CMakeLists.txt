@@ -6,13 +6,6 @@
 add_custom_target(experimental COMMENT "Build all the experimental code.")
 add_dependencies(check experimental)
 
-# Include directories
-include_directories(${Boost.Hana_SOURCE_DIR}/include)
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-endif()
-
-
 # Add all the experimental targets
 file(GLOB_RECURSE BOOST_HANA_EXPERIMENTAL_SOURCES "*.cpp")
 file(GLOB_RECURSE EXCLUDED_EXPERIMENTAL ${EXCLUDED_EXPERIMENTAL})
