@@ -97,9 +97,9 @@ add_dependencies(tests test.headers)
 # Check for ODR violations when linking several translation units
 # (GitHub issue 75)
 ##############################################################################
-list(APPEND EXCLUDED_UNIT_TESTS "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
-boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75.cpp")
-add_executable(${github_75} EXCLUDE_FROM_ALL "bugs/github_75.cpp" "bugs/github_75_other_tu.cpp")
+list(APPEND EXCLUDED_UNIT_TESTS "bugs/github_75/*.cpp")
+boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/bugs/github_75")
+add_executable(${github_75} EXCLUDE_FROM_ALL "bugs/github_75/tu1.cpp" "bugs/github_75/tu2.cpp")
 boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 
 
