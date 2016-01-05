@@ -197,4 +197,17 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_ENABLE_STRING_UDL
 #endif
 
+#if defined(BOOST_HANA_DOXYGEN_INVOKED)
+    //! @ingroup group-config
+    //! Enables additional assertions and sanity checks to be done by Hana.
+    //!
+    //! When this macro is defined (it is __not defined__ by default),
+    //! additional sanity checks may be done by Hana. These checks may
+    //! be costly to perform, either in terms of compilation time or in
+    //! terms of execution time. These checks may help debugging an
+    //! application during its initial development, but they should not
+    //! be enabled as part of the normal configuration.
+#   define BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE
+#endif
+
 #endif // !BOOST_HANA_CONFIG_HPP

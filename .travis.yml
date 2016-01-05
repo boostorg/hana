@@ -97,6 +97,10 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
       addons: *clang37
 
+    # With debug mode
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_DEBUG_MODE=ON"
+      addons: *clang37
+
     # Without exceptions
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       addons: *clang37

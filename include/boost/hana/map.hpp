@@ -26,6 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/detail/has_duplicates.hpp>
 #include <boost/hana/detail/index_if.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
@@ -100,7 +101,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_impl<map_tag> {
         template <typename ...Pairs>
         static constexpr auto apply(Pairs&& ...pairs) {
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+#if defined(BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
             static_assert(detail::fast_and<hana::Product<Pairs>::value...>::value,
             "hana::make_map(pairs...) requires all the 'pairs' to be Products");
 
@@ -116,7 +117,10 @@ BOOST_HANA_NAMESPACE_BEGIN
             >::value,
             "hana::make_map(pairs...) requires all the keys to be "
             "Comparable at compile-time");
-        #endif
+
+            static_assert(!detail::has_duplicates<decltype(hana::first(pairs))...>::value,
+            "hana::make_map(pairs...) requires all the keys to be unique");
+#endif
 
             return map<typename detail::decay<Pairs>::type...>{
                 hana::make_tuple(static_cast<Pairs&&>(pairs)...)

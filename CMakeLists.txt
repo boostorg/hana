@@ -20,6 +20,7 @@ include(CheckCxxCompilerSupport)
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
 option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
+option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
 
 option(BOOST_HANA_ENABLE_STRING_UDL
 "Enable the GNU extension allowing the special string literal operator\
@@ -50,6 +51,10 @@ endif()
 
 if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
     add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
+endif()
+
+if (BOOST_HANA_ENABLE_DEBUG_MODE)
+    add_definitions(-DBOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
 endif()
 
 if (BOOST_HANA_ENABLE_STRING_UDL)

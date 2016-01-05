@@ -27,9 +27,17 @@ int main() {
     {
         std::ostringstream ss;
         ss << hana::experimental::print(
-            hana::make_set(hana::int_c<1>, hana::char_c<'x'>, BOOST_HANA_STRING("3456"))
+            hana::make_set(hana::int_c<1>, BOOST_HANA_STRING("3456"))
         );
-        BOOST_HANA_RUNTIME_CHECK(ss.str() == "{1, x, \"3456\"}");
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "{1, \"3456\"}");
+    }
+
+    {
+        std::ostringstream ss;
+        ss << hana::experimental::print(
+            hana::make_set(hana::char_c<'x'>, BOOST_HANA_STRING("3456"))
+        );
+        BOOST_HANA_RUNTIME_CHECK(ss.str() == "{x, \"3456\"}");
     }
 
     {

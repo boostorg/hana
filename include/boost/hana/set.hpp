@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
+#include <boost/hana/detail/has_duplicates.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
@@ -92,7 +93,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_impl<set_tag> {
         template <typename ...Xs>
         static constexpr auto apply(Xs&& ...xs) {
-        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+#if defined(BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
             static_assert(detail::fast_and<hana::Comparable<Xs>::value...>::value,
             "hana::make_set(xs...) requires all the 'xs' to be Comparable");
 
@@ -101,7 +102,10 @@ BOOST_HANA_NAMESPACE_BEGIN
             >::value,
             "hana::make_set(xs...) requires all the 'xs' to be "
             "Comparable at compile-time");
-        #endif
+
+            static_assert(!detail::has_duplicates<Xs&&...>::value,
+            "hana::make_set(xs...) requires all the 'xs' to be unique");
+#endif
 
             return set<typename detail::decay<Xs>::type...>{
                 hana::make_tuple(static_cast<Xs&&>(xs)...)
