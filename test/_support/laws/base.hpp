@@ -100,13 +100,6 @@ namespace boost { namespace hana {
                 static_assert(detail::wrong<X>{},
                 "this constructor must not be instantiated");
             }
-
-            // This type is stored inside a hana::set, which requires
-            // compile-time Comparable keys.
-            constexpr auto operator==(trap_construct const&) const
-            { return false_c; }
-            constexpr auto operator!=(trap_construct const&) const
-            { return true_c; }
         };
 
         // A move-only type. Useful for testing containers.

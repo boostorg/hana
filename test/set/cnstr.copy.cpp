@@ -7,8 +7,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/set.hpp>
 #include <boost/hana/type.hpp>
-
-#include <laws/base.hpp>
 namespace hana = boost::hana;
 
 
@@ -52,12 +50,5 @@ int main() {
 
         (void)t_implicit;
         (void)t_explicit;
-    }
-
-    // Make sure we do not instantiate rogue constructors when doing copies
-    {
-        auto expr = hana::make_set(hana::test::trap_construct{});
-        auto implicit_copy = expr;          (void)implicit_copy;
-        decltype(expr) explicit_copy(expr); (void)explicit_copy;
     }
 }
