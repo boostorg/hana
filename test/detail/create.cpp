@@ -9,11 +9,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <utility>
 #include <tuple>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
-constexpr detail::create<std::tuple> make_tuple{};
-constexpr detail::create<std::pair> make_pair{};
+constexpr hana::detail::create<std::tuple> make_tuple{};
+constexpr hana::detail::create<std::pair> make_pair{};
 
 template <typename ...>
 struct empty { };
@@ -32,14 +32,14 @@ int main() {
     static_assert(make_pair(1, '2') == std::make_pair(1, '2'), "");
 
     // should work
-    detail::create<empty>{}();
-    detail::create<single_holder>{}(1);
-    detail::create<single_holder>{}([]{});
-    detail::create<identity_t>{}(1);
+    hana::detail::create<empty>{}();
+    hana::detail::create<single_holder>{}(1);
+    hana::detail::create<single_holder>{}([]{});
+    hana::detail::create<identity_t>{}(1);
 
     // Clang < 3.7.0 fails this test
 #if !defined(BOOST_HANA_CONFIG_CLANG) || \
     BOOST_HANA_CONFIG_CLANG >= BOOST_HANA_CONFIG_VERSION(3, 7, 0)
-    detail::create<identity_t>{}([]{});
+    hana::detail::create<identity_t>{}([]{});
 #endif
 }
