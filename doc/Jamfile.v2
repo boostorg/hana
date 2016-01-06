@@ -22,3 +22,10 @@ actions make-hana-doc {
   gh_pages_ref=$(git log --branches=gh-pages -n 1 --grep=${master_ref} --format="format:%H")
   git checkout ${gh_pages_ref}
 }
+
+# Since Hana does not use BoostBook, it does not integrate into the global
+# book containing the documentation of all Boost libraries. Per [1], we need
+# to define this empty target to accommodate the build scripts.
+#
+# [1]: http://www.boost.org/development/requirements.html#Requirements
+alias boostdoc ;
