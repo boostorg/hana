@@ -24,6 +24,7 @@ var searchData=
   ['boost_5fhana_5fcheck_5fmsg',['BOOST_HANA_CHECK_MSG',['../group__group-assertions.html#ga7af67ae500a237fe350f1bfceb4a5afa',1,'assert.hpp']]],
   ['boost_5fhana_5fconfig_5fdisable_5fassertions',['BOOST_HANA_CONFIG_DISABLE_ASSERTIONS',['../group__group-config.html#ga08dcc32bef198420e646244e851d1995',1,'config.hpp']]],
   ['boost_5fhana_5fconfig_5fdisable_5fconcept_5fchecks',['BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS',['../group__group-config.html#gad2b44f7cf8a6ba1002437a1a89e62acd',1,'config.hpp']]],
+  ['boost_5fhana_5fconfig_5fenable_5fdebug_5fmode',['BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE',['../group__group-config.html#ga95603295cd6cc840c0dbc50b75e02ee9',1,'config.hpp']]],
   ['boost_5fhana_5fconfig_5fenable_5fstring_5fudl',['BOOST_HANA_CONFIG_ENABLE_STRING_UDL',['../group__group-config.html#ga81de60f5bea16e6ff4a38c94e3022f10',1,'config.hpp']]],
   ['boost_5fhana_5fconfig_5fversion',['BOOST_HANA_CONFIG_VERSION',['../version_8hpp.html#a36988ad8e4f82e0bfb7ff8e4808143a7',1,'version.hpp']]],
   ['boost_5fhana_5fconstant_5fassert',['BOOST_HANA_CONSTANT_ASSERT',['../group__group-assertions.html#ga2626fa0c92b308cee62ac423ae2dba41',1,'assert.hpp']]],
