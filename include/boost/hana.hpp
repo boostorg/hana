@@ -41,13 +41,19 @@ Distributed under the Boost Software License, Version 1.0.
 //! documented.
 
 // Include config.hpp first, so that warning messages about compiler support
-// appear as soon as possible, and the version namespace macros are defined.
+// appear as soon as possible.
 #include <boost/hana/config.hpp>
 
-BOOST_HANA_NAMESPACE_BEGIN
-    //! Namespace containing C++14 user-defined literals provided by Hana.
-    namespace literals { }
-BOOST_HANA_NAMESPACE_END
+
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+namespace boost {
+    //! Namespace containing everything in the library.
+    namespace hana {
+        //! Namespace containing C++14 user-defined literals provided by Hana.
+        namespace literals {}
+    }
+}
+#endif
 
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/adapt_adt.hpp>
