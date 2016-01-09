@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Monadic right-fold of a structure with a binary operation and an
     //! optional initial reduction state.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! @note
     //! This assumes the reader to be accustomed to non-monadic right-folds as

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Comonadic application of a function to a comonadic value.
-    //! @relates Comonad
+    //! @ingroup group-Comonad
     //!
     //! Given a comonadic value and a function accepting a comonadic input,
     //! `extend` returns the result of applying the function to that input

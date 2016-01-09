@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Add an extra layer of comonadic context to a comonadic value.
-    //! @relates Comonad
+    //! @ingroup group-Comonad
     //!
     //! Given a value already in a comonadic context, `duplicate` wraps this
     //! value with an additional layer of comonadic context. This can be seen

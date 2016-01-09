@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Product` containing the longest prefix of a sequence
     //! satisfying a predicate, and the rest of the sequence.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! The first component of the returned `Product` is a sequence for which
     //! all elements satisfy the given predicate. The second component of the

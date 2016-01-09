@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether none of the keys of the structure satisfy the
     //! `predicate`.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! If the structure is not finite, `predicate` has to return a true-
     //! valued `Logical` after looking at a finite number of keys for this

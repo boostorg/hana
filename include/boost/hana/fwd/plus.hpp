@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Associative binary operation on a `Monoid`.
-    //! @relates Monoid
+    //! @ingroup group-Monoid
     //!
     //! @param x, y
     //! Two objects to combine with the `Monoid`'s binary operation.

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Lifted application.
-    //! @relates Applicative
+    //! @ingroup group-Applicative
     //!
     //! Specifically, `ap` applies a structure containing functions to a
     //! structure containing values, and returns a new structure containing

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Map a function over a `Functor`.
-    //! @relates Functor
+    //! @ingroup group-Functor
     //!
     //!
     //! Signature

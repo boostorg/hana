@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the last `n` elements of a sequence, or the whole sequence
     //! if the sequence has less than `n` elements.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a `Sequence` `xs` and an `IntegralConstant` `n`, `take_back(xs, n)`
     //! is a new sequence containing the last `n` elements of `xs`, in the

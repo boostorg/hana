@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether all the keys of the structure are true-valued.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! The keys of the structure must be `Logical`s. If the structure is not
     //! finite, a false-valued key must appear at a finite "index" in order

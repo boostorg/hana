@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Take elements from a sequence while the `predicate` is satisfied.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Specifically, `take_while` returns a new sequence containing the
     //! longest prefix of `xs` in which all the elements satisfy the given

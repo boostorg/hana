@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Invoke a function with the elements of a Foldable as arguments.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! Given a function and a foldable structure whose length can be known at
     //! compile-time, `unpack` invokes the function with the contents of that

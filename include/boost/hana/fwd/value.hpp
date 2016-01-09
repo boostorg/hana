@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return the compile-time value associated to a constant.
-    //! @relates Constant
+    //! @ingroup group-Constant
     //!
     //! This function returns the value associated to a `Constant`. That
     //! value is always a constant expression. The normal way of using
@@ -62,7 +62,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Equivalent to `value`, but can be passed to higher-order algorithms.
-    //! @relates Constant
+    //! @ingroup group-Constant
     //!
     //! This function object is equivalent to `value`, except it can be passed
     //! to higher order algorithms because it is a function object. `value`

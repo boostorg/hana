@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Transform a function taking multiple arguments into a function that
     //! can be called with a compile-time `Foldable`.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //!
     //! This function is provided for convenience as a different way of

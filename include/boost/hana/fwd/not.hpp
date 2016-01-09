@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Negates a `Logical`.
-    //! @relates Logical
+    //! @ingroup group-Logical
     //!
     //! This method returns a `Logical` with the same tag, but whose
     //! truth-value is negated. Specifically, `not_(x)` returns a false-valued

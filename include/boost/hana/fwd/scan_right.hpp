@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Fold a Sequence to the right and return a list containing the
     //! successive reduction states.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Like `fold_right`, `scan_right` reduces a sequence to a single value
     //! using a binary operation. However, unlike `fold_right`, it builds up

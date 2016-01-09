@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Ring Ring
     //! The `Ring` concept represents `Group`s that also form a `Monoid`
     //! under a second binary operation that distributes over the first.
     //!

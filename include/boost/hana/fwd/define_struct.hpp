@@ -21,7 +21,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! Defines members of a structure, while at the same time
     //! modeling `Struct`.
-    //! @relates Struct
+    //! @ingroup group-Struct
     //!
     //! Using this macro in the body of a user-defined type will define the
     //! given members inside that type, and will also provide a model of the

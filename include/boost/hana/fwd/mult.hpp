@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Associative operation of a `Ring`.
-    //! @relates Ring
+    //! @ingroup group-Ring
     //!
     //! @param x, y
     //! Two `Ring` elements to combine with the `Ring` binary operation.

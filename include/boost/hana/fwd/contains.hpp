@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether the key occurs in the structure.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! Given a `Searchable` structure `xs` and a `key`, `contains` returns
     //! whether any of the keys of the structure is equal to the given `key`.
@@ -55,7 +55,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Return whether the key occurs in the structure.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! Specifically, this is equivalent to `contains`, except `in` takes its
     //! arguments in reverse order. Like `contains`, `in` can also be applied

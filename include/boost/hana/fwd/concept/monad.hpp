@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Monad Monad
     //! The `Monad` concept represents `Applicative`s with the ability to
     //! flatten nested levels of structure.
     //!

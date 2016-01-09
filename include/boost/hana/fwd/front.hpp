@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the first element of a non-empty iterable.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
     //!
     //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
     //! `front(xs)` is equal to `x1`. If `xs` is empty, it is an error to

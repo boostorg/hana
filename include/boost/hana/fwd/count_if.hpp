@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return the number of elements in the structure for which the
     //! `predicate` is satisfied.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! Specifically, returns an object of an unsigned integral type, or
     //! a `Constant` holding such an object, which represents the number

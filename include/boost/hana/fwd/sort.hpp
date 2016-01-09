@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Sort a sequence, optionally based on a custom `predicate`.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a Sequence and an optional predicate (by default `less`), `sort`
     //! returns a new sequence containing the same elements as the original,

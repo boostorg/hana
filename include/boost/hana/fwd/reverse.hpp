@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Reverse a sequence.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Specifically, `reverse(xs)` is a new sequence containing the same
     //! elements as `xs`, except in reverse order.

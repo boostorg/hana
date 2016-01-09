@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Prepend an element to a monadic structure.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given a monadic structure `xs` and an element `x`, `prepend` returns
     //! a new monadic structure which is the result of lifting `x` into the

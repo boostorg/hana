@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a function performing `equal` after applying a transformation
     //! to both arguments.
-    //! @relates Comparable
+    //! @ingroup group-Comparable
     //!
     //! `comparing` creates an equivalence relation based on the result of
     //! applying a function to some objects, which is especially useful in

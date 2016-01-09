@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Monoid Monoid
     //! The `Monoid` concept represents data types with an associative
     //! binary operation that has an identity.
     //!

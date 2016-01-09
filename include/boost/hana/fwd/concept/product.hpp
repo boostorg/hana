@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Product Product
     //! Represents types that are generic containers of two elements.
     //!
     //! This concept basically represents types that are like `std::pair`.

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Tap inside a monadic chain.
-    //! @relates Monad
+    //! @ingroup group-Monad
     //!
     //! Given a function `f`, `tap<M>` returns a new function which performs
     //! `f` on its argument and then returns the argument lifted in the `M`

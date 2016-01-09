@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Equivalent to `length`; provided for consistency with the
     //! standard library.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! This method is an alias to `length` provided for convenience and
     //! consistency with the standard library. As an alias, `size` is not

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Extract a value in a given comonadic context.
-    //! @relates Comonad
+    //! @ingroup group-Comonad
     //!
     //! Given a value inside a comonadic context, extract it from that
     //! context, performing whatever effects are mandated by that context.

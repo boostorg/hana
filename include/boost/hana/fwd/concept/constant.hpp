@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Constant Constant
     //! The `Constant` concept represents data that can be manipulated at
     //! compile-time.
     //!

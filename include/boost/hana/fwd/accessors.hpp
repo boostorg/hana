@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Sequence` of pairs representing the accessors of the
     //! data structure.
-    //! @relates Struct
+    //! @ingroup group-Struct
     //!
     //! Given a `Struct` `S`, `accessors<S>()` is a `Sequence` of `Product`s
     //! where the first element of each pair is the "name" of a member of

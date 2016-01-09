@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Orderable Orderable
     //! The `Orderable` concept represents totally ordered data types.
     //!
     //! Intuitively, `Orderable` objects must define a binary predicate named

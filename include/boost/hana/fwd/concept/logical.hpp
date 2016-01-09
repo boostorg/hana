@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Logical Logical
     //! The `Logical` concept represents types with a truth value.
     //!
     //! Intuitively, a `Logical` is just a `bool`, or something that can act
@@ -135,7 +136,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Free model for arithmetic data types
     //! ------------------------------------
-    //! A data type `T` is arithmetic if `std::is_arithmetic<T>::value` is
+    //! A data type `T` is arithmetic if `std::is_arithmetic<T>::%value` is
     //! true. For an arithmetic data type `T`, a model of `Logical` is
     //! provided automatically by using the result of the builtin implicit
     //! conversion to `bool` as a truth value. Specifically, the minimal

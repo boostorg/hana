@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Group adjacent elements of a sequence that all respect a binary
     //! predicate, by default equality.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a _finite_ Sequence and an optional predicate (by default
     //! `equal`), `group` returns a sequence of subsequences representing

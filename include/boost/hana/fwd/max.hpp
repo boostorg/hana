@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the greatest of its arguments according to the `less` ordering.
-    //! @relates Orderable
+    //! @ingroup group-Orderable
     //!
     //!
     //! @todo Can't specify the signature here either. See `min` for details.

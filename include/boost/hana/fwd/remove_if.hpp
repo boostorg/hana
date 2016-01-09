@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Remove all the elements of a monadic structure that satisfy some
     //! predicate.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given a monadic structure `xs` and a unary predicate, `remove_if`
     //! returns a new monadic structure equal to `xs` without all its elements

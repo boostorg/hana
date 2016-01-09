@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Combine a monadic structure with itself `n` times.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given a monadic structure `xs` and a non-negative number `n`,
     //! `cycle` returns a new monadic structure which is the result of

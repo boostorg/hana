@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Equivalent to `fold_left`; provided for convenience.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! `fold` is equivalent to `fold_left`. However, it is not tag-dispatched
     //! on its own because it is just an alias to `fold_left`. Also note that

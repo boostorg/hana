@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Elevate a ring element to its `n`th power.
-    //! @relates Ring
+    //! @ingroup group-Ring
     //!
     //! Specifically, `power(x, n)`, is equivalent to multiplying `x` with
     //! itself `n` times using the Ring's multiplication. If the power is

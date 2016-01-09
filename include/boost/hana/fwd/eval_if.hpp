@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Conditionally execute one of two branches based on a condition.
-    //! @relates Logical
+    //! @ingroup group-Logical
     //!
     //! Given a condition and two branches in the form of lambdas or
     //! `hana::lazy`s, `eval_if` will evaluate the branch selected by the

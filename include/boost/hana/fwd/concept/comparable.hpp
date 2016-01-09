@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Comparable Comparable
     //! The `Comparable` concept defines equality and inequality.
     //!
     //! Intuitively, `Comparable` objects must define a binary predicate named

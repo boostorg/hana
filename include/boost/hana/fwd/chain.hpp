@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Feed a monadic value into a monadic computation.
-    //! @relates Monad
+    //! @ingroup group-Monad
     //!
     //! Given a monadic value and a monadic function, `chain` feeds the
     //! monadic value into the function, thus performing some Monad-specific

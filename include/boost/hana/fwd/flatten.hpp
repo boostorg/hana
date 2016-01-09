@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Collapse two levels of monadic structure into a single level.
-    //! @relates Monad
+    //! @ingroup group-Monad
     //!
     //! Given a monadic value wrapped into two levels of monad, `flatten`
     //! removes one such level. An implementation of `flatten` must satisfy

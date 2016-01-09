@@ -20,7 +20,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // want it to).
 
     //! Defines a model of `Struct` with the given accessors.
-    //! @relates Struct
+    //! @ingroup group-Struct
     //!
     //! Using this macro at _global scope_ will define a model of the `Struct`
     //! concept for the given type. This can be used to easily adapt existing

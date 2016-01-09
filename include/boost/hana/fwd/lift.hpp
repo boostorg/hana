@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Lift a value into an `Applicative` structure.
-    //! @relates Applicative
+    //! @ingroup group-Applicative
     //!
     //! `lift<A>` takes a normal value and embeds it into a structure whose
     //! shape is represented by the `A` `Applicative`. Note that the value

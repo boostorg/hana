@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Filter a monadic structure using a custom predicate.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given a monadic structure and a predicate, `filter` returns a new
     //! monadic structure containing only those elements that satisfy the

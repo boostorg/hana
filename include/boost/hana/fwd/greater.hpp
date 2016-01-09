@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Logical` representing whether `x` is greater than `y`.
-    //! @relates Orderable
+    //! @ingroup group-Orderable
     //!
     //!
     //! Signature

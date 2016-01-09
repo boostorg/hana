@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Group Group
     //! The `Group` concept represents `Monoid`s where all objects have
     //! an inverse w.r.t. the `Monoid`'s binary operation.
     //!

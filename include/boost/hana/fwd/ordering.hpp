@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a function performing `less` after applying a transformation
     //! to both arguments.
-    //! @relates Orderable
+    //! @ingroup group-Orderable
     //!
     //! `ordering` creates a total order based on the result of applying a
     //! function to some objects, which is especially useful in conjunction

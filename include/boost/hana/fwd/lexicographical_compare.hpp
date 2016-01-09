@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Short-circuiting lexicographical comparison of two `Iterable`s with
     //! an optional custom predicate, by default `hana::less`.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
     //!
     //! Given two `Iterable`s `xs` and `ys` and a binary predicate `pred`,
     //! `lexicographical_compare` returns whether `xs` is to be considered

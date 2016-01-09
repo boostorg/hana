@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Composition of monadic functions.
-    //! @relates Monad
+    //! @ingroup group-Monad
     //!
     //! Given two monadic functions `f` and `g`, `monadic_compose` returns
     //! a new function equivalent to the composition of `f` with `g`, except

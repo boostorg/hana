@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return the greatest element of a non-empty structure with respect to
     //! a `predicate`, by default `less`.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! Given a non-empty structure and an optional binary predicate
     //! (`less` by default), `maximum` returns the greatest element of

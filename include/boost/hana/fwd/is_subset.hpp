@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether a structure contains a subset of the keys of
     //! another structure.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! Given two `Searchable`s `xs` and `ys`, `is_subset` returns a `Logical`
     //! representing whether `xs` is a subset of `ys`. In other words, it

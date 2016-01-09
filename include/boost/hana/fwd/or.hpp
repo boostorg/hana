@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return whether any of the arguments is true-valued.
-    //! @relates Logical
+    //! @ingroup group-Logical
     //!
     //! `or_` can be called with one argument or more. When called with
     //! two arguments, `or_` uses tag-dispatching to find the right

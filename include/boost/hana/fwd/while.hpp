@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Apply a function to an initial state while some predicate is satisfied.
-    //! @relates Logical
+    //! @ingroup group-Logical
     //!
     //! This method is a natural extension of the `while` language construct
     //! to manipulate a state whose type may change from one iteration to

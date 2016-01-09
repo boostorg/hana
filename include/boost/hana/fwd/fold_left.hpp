@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Left-fold of a structure using a binary operation and an optional
     //! initial reduction state.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! `fold_left` is a left-associative fold using a binary operation.
     //! Given a structure containing `x1, ..., xn`, a function `f` and

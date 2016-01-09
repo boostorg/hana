@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Generalized integer modulus.
-    //! @relates EuclideanRing
+    //! @ingroup group-EuclideanRing
     //!
     //! Given two elements of an EuclideanRing `x` and `y`, with `y`
     //! nonzero, `mod` returns the modulus of the division of `x` by `y`.

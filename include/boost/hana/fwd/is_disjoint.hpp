@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether two `Searchable`s are disjoint.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! Given two `Searchable`s `xs` and `ys`, `is_disjoint` returns a
     //! `Logical` representing whether the keys in `xs` are disjoint from

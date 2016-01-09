@@ -30,7 +30,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! Returns a `Sequence` containing the name of the members of
     //! the data structure.
-    //! @relates Struct
+    //! @ingroup group-Struct
     //!
     //! Given a `Struct` object, `keys` returns a `Sequence` containing the
     //! name of all the members of the `Struct`, in the same order as they

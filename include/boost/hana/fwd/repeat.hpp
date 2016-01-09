@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Invokes a nullary function `n` times.
-    //! @relates IntegralConstant
+    //! @ingroup group-IntegralConstant
     //!
     //! Given an `IntegralConstant` `n` and a nullary function `f`,
     //! `repeat(n, f)` will call `f` `n` times. In particular, any

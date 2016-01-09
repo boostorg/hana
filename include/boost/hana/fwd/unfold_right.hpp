@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Dual operation to `fold_right` for sequences.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! While `fold_right` reduces a structure to a summary value from the
     //! right, `unfold_right` builds a sequence from a seed value and a

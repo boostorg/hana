@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the `n`th element of an iterable.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
     //!
     //! Given an `Iterable` and an `IntegralConstant` index, `at` returns the
     //! element located at the index in the linearization of the iterable.
@@ -64,17 +64,23 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Equivalent to `at`; provided for convenience.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
+    //!
+    //!
+    //! @note
+    //! `hana::at_c<n>` is an overloaded function, not a function object.
+    //! Hence, it can't be passed to higher-order algorithms. This is done
+    //! for compile-time performance reasons.
     //!
     //!
     //! Example
     //! -------
     //! @include example/at_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <std::size_t n, typename Xs>
-    constexpr decltype(auto) at_c(Xs&& xs) {
+    template <std::size_t n>
+    constexpr auto at_c = [](auto&& xs) {
         return hana::at(forwarded(xs), hana::size_c<n>);
-    }
+    };
 #else
     template <std::size_t n, typename Xs>
     constexpr decltype(auto) at_c(Xs&& xs);

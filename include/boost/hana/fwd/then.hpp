@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Sequentially compose two monadic actions, discarding any value
     //! produced by the first but not its effects.
-    //! @relates Monad
+    //! @ingroup group-Monad
     //!
     //!
     //! @param before

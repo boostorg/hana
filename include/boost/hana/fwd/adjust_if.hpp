@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Apply a function on all the elements of a structure satisfying a predicate.
-    //! @relates Functor
+    //! @ingroup group-Functor
     //!
     //! Given a Functor, a predicate `pred` and a function `f`, `adjust_if`
     //! will _adjust_ the elements of the Functor that satisfy the predicate

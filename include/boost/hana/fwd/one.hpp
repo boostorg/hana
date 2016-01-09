@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Identity of the `Ring` multiplication.
-    //! @relates Ring
+    //! @ingroup group-Ring
     //!
     //! @tparam R
     //! The tag (must be a model of `Ring`) of the returned identity.

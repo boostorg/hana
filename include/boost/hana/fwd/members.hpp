@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns a `Sequence` containing the members of a `Struct`.
-    //! @relates Struct
+    //! @ingroup group-Struct
     //!
     //! Given a `Struct` object, `members` returns a `Sequence` containing
     //! all the members of the `Struct`, in the same order as their respective

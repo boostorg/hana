@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Replace all the elements of a structure with a fixed value.
-    //! @relates Functor
+    //! @ingroup group-Functor
     //!
     //!
     //! Signature

@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Searchable Searchable
     //! The `Searchable` concept represents structures that can be searched.
     //!
     //! Intuitively, a `Searchable` is any structure, finite or infinite,

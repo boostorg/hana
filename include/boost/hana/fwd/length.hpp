@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return the number of elements in a foldable structure.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! Given a `Foldable` `xs`, `length(xs)` must return an object of an
     //! unsigned integral type, or an `IntegralConstant` holding such an

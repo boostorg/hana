@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Extract the elements of a `Sequence` at the given indices.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given an arbitrary sequence of `indices`, `slice` returns a new
     //! sequence of the elements of the original sequence that appear at
@@ -66,7 +66,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Shorthand to `slice` a contiguous range of elements.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! `slice_c` is simply a shorthand to slice a contiguous range of
     //! elements. In particular, `slice_c<from, to>(xs)` is equivalent to

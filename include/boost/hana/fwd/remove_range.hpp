@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Remove the elements inside a given range of indices from a sequence.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! `remove_range` returns a new sequence identical to the original,
     //! except that elements at indices in the provided range are removed.
@@ -62,7 +62,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Equivalent to `remove_range`; provided for convenience.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //!
     //! Example

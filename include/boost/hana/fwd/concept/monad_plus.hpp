@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-MonadPlus MonadPlus
     //! The `MonadPlus` concept represents Monads with a monoidal structure.
     //!
     //! Intuitively, whereas a Monad can be seen as some kind of container

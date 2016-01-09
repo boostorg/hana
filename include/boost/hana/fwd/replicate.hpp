@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Create a monadic structure by combining a lifted value with itself
     //! `n` times.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given a value `x`, a non-negative `IntegralConstant` `n` and the tag
     //! of a monadic structure `M`, `replicate` creates a new monadic structure

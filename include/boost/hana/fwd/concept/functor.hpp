@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-Functor Functor
     //! The `Functor` concept represents types that can be mapped over.
     //!
     //! Intuitively, a [Functor][1] is some kind of box that can hold generic

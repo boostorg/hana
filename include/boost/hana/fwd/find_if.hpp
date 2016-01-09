@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Finds the value associated to the first key satisfying a predicate.
-    //! @relates Searchable
+    //! @ingroup group-Searchable
     //!
     //! Given a `Searchable` structure `xs` and a predicate `pred`,
     //! `find_if(xs, pred)` returns `just` the first element whose key

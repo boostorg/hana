@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Return the number of elements in the structure that compare equal to
     //! a given value.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! Given a Foldable structure `xs` and a value `value`, `count` returns
     //! an unsigned integral, or a Constant thereof, representing the number

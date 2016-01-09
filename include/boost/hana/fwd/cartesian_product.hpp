@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Computes the cartesian product of a sequence of sequences.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a sequence of sequences, `cartesian_product` returns a new
     //! sequence of sequences containing the cartesian product of the

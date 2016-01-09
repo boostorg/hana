@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Subtract two elements of a group.
-    //! @relates Group
+    //! @ingroup group-Group
     //!
     //! Specifically, this performs the `Monoid` operation on the first
     //! argument and on the inverse of the second argument, thus being

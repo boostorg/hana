@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Apply a function on all the elements of a structure that compare
     //! equal to some value.
-    //! @relates Functor
+    //! @ingroup group-Functor
     //!
     //!
     //! Signature

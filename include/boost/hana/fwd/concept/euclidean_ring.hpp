@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-concepts
+    //! @defgroup group-EuclideanRing Euclidean Ring
     //! The `EuclideanRing` concept represents a commutative `Ring` that
     //! can also be endowed with a division algorithm.
     //!

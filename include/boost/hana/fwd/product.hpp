@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Compute the product of the numbers of a structure.
-    //! @relates Foldable
+    //! @ingroup group-Foldable
     //!
     //! More generally, `product` will take any foldable structure containing
     //! objects forming a Ring and reduce them using the Ring's binary

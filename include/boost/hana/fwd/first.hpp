@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the first element of a pair.
-    //! @relates Product
+    //! @ingroup group-Product
     //!
     //!
     //! Example

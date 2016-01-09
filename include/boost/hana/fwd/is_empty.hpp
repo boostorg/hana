@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Returns whether the iterable is empty.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
     //!
     //! Given an `Iterable` `xs`, `is_empty` returns whether `xs` contains
     //! no more elements. In other words, it returns whether trying to

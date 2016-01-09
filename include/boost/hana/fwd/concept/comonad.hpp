@@ -21,6 +21,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     /*!
     @ingroup group-concepts
+    @defgroup group-Comonad Comonad
     The `Comonad` concept represents context-sensitive computations and
     data.
 

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Conditionally return one of two values based on a condition.
-    //! @relates Logical
+    //! @ingroup group-Logical
     //!
     //! Specifically, `then` is returned iff `cond` is true-valued, and
     //! `else_` is returned otherwise. Note that some `Logical` models may

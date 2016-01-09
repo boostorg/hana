@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Insert a value between each pair of elements in a finite sequence.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a finite `Sequence` `xs` with a linearization of
     //! `[x1, x2, ..., xn]`, `intersperse(xs, z)` is a new sequence with a

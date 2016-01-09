@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! Drop elements from an iterable up to, but excluding, the first
     //! element for which the `predicate` is not satisfied.
-    //! @relates Iterable
+    //! @ingroup group-Iterable
     //!
     //! Specifically, `drop_while` returns an iterable containing all the
     //! elements of the original iterable except for those in the range

@@ -21,7 +21,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //! stuff like `Monoid`, `Group`, etc. To create a `CanonicalConstant`,
     //! simply create an object with a nested `hana_tag` equal to the proper
     //! specialization of `CanonicalConstant<T>`, and then also provide a
-    //! `constexpr` static member `::value` holding the value of the constant.
+    //! `constexpr` static member `::%value` holding the value of the constant.
     template <typename T>
     struct CanonicalConstant {
         using value_type = T;

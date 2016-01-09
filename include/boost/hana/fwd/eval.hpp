@@ -31,9 +31,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! allows using nullary lambdas as lazy branches to `eval_if`, which
     //! is convenient. The reason for allowing unary callables and calling
     //! them with `hana::id` is because this allows deferring the
-    //! compile-time evaluation of selected expressions inside the
-    //! callable. How this can be achieve is documented by [eval_if]
-    //! (@ref boost::hana::Logical::eval_if).
+    //! compile-time evaluation of selected expressions inside the callable.
+    //! How this can be achieved is documented by `hana::eval_if`.
     //!
     //!
     //! Example

@@ -309,7 +309,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Lift a template to a Metafunction.
-    //! @relates Metafunction
+    //! @ingroup group-Metafunction
     //!
     //! Given a template class or template alias `f`, `template_<f>` is a
     //! `Metafunction` satisfying
@@ -342,7 +342,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Lift a MPL-style metafunction to a Metafunction.
-    //! @relates Metafunction
+    //! @ingroup group-Metafunction
     //!
     //! Given a MPL-style metafunction, `metafunction<f>` is a `Metafunction`
     //! satisfying
@@ -369,7 +369,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Lift a MPL-style metafunction class to a Metafunction.
-    //! @relates Metafunction
+    //! @ingroup group-Metafunction
     //!
     //! Given a MPL-style metafunction class, `metafunction_class<f>` is a
     //! `Metafunction` satisfying
@@ -399,7 +399,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! Turn a `Metafunction` into a function taking `type`s and returning a
     //! default-constructed object.
-    //! @relates Metafunction
+    //! @ingroup group-Metafunction
     //!
     //! Given a `Metafunction` `f`, `integral` returns a new `Metafunction`
     //! that default-constructs an object of the type returned by `f`. More
@@ -447,7 +447,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #endif
 
     //! Alias to `integral(metafunction<F>)`, provided for convenience.
-    //! @relates Metafunction
+    //! @ingroup group-Metafunction
     //!
     //!
     //! Example

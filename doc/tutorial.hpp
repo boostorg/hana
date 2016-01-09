@@ -581,65 +581,65 @@ container          | description
 <code>[basic_tuple](@ref boost::hana::basic_tuple)</code>             | Stripped-down version of `hana::tuple`. Not standards conforming, but more compile-time efficient.
 
 
-function                                                                                         | description
-:------------------------------------------                                                      | :----------
-<code>[adjust](@ref boost::hana::Functor::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
-<code>[adjust_if](@ref boost::hana::Functor::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
-<code>{[all](@ref boost::hana::Searchable::all),[any](@ref boost::hana::Searchable::any),[none](@ref boost::hana::Searchable::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
-<code>{[all](@ref boost::hana::Searchable::all_of),[any](@ref boost::hana::Searchable::any_of),[none](@ref boost::hana::Searchable::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
-<code>[append](@ref boost::hana::MonadPlus::append)(sequence, value)</code>                      | Append an element to a sequence.
-<code>[at](@ref boost::hana::Iterable::at)(sequence, index)</code>                               | Returns the n-th element of a sequence. The index must be an `IntegralConstant`.
-<code>[back](@ref boost::hana::Iterable::back)(sequence)</code>                                  | Returns the last element of a non-empty sequence.
-<code>[concat](@ref boost::hana::MonadPlus::concat)(sequence1, sequence2)</code>                 | Concatenate two sequences.
-<code>[contains](@ref boost::hana::Searchable::contains)(sequence, value)</code>                 | Returns whether a sequence contains the given object.
-<code>[count](@ref boost::hana::Foldable::count)(sequence, value)</code>                         | Returns the number of elements that compare equal to the given value.
-<code>[count_if](@ref boost::hana::Foldable::count_if)(sequence, predicate)</code>               | Returns the number of elements that satisfy the predicate.
-<code>[drop_front](@ref boost::hana::Iterable::drop_front)(sequence[, n])</code>                 | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an `IntegralConstant`. When not provided, `n` defaults to 1.
-<code>[drop_front_exactly](@ref boost::hana::Iterable::drop_front_exactly)(sequence[, n])</code> | Drop the first `n` elements from a sequence. `n` must be an `IntegralConstant` and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
-<code>[drop_back](@ref boost::hana::Sequence::drop_back)(sequence[, n])</code>                   | Drop the last `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an `IntegralConstant`. When not provided, `n` defaults to 1.
-<code>[drop_while](@ref boost::hana::Iterable::drop_while)(sequence, predicate)</code>           | Drops elements from a sequence while a predicate is satisfied. The predicate must return an `IntegralConstant`.
-<code>[fill](@ref boost::hana::Functor::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
-<code>[filter](@ref boost::hana::MonadPlus::filter)(sequence, predicate)</code>                  | Remove all the elements that do not satisfy a predicate. The predicate must return an `IntegralConstant`.
-<code>[find](@ref boost::hana::Searchable::find)(sequence, value)</code>                         | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `hana::optional`.
-<code>[find_if](@ref boost::hana::Searchable::find_if)(sequence, predicate)</code>               | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `hana::optional`.
-<code>[flatten](@ref boost::hana::Monad::flatten)(sequence)</code>                               | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
-<code>[fold_left](@ref boost::hana::Foldable::fold_left)(sequence[, state], f)</code>            | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
-<code>[fold_right](@ref boost::hana::Foldable::fold_right)(sequence[, state], f)</code>          | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
-<code>[fold](@ref boost::hana::Foldable::fold)(sequence[, state], f)</code>                      | Equivalent to `fold_left`; provided for consistency with Boost.MPL and Boost.Fusion.
-<code>[for_each](@ref boost::hana::Foldable::for_each)(sequence, f)</code>                       | Call a function on each element of a sequence. Returns `void`.
-<code>[front](@ref boost::hana::Iterable::front)(sequence)</code>                                | Returns the first element of a non-empty sequence.
-<code>[group](@ref boost::hana::Sequence::group)(sequence[, predicate])</code>                   | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be `Comparable`.
-<code>[insert](@ref boost::hana::Sequence::insert)(sequence, index, element)</code>              | Insert an element at a given index. The index must be an `IntegralConstant`.
-<code>[insert_range](@ref boost::hana::Sequence::insert_range)(sequence, index, elements)</code> | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
-<code>[is_empty](@ref boost::hana::Iterable::is_empty)(sequence)</code>                          | Returns whether a sequence is empty as an `IntegralConstant`.
-<code>[length](@ref boost::hana::Foldable::length)(sequence)</code>                              | Returns the length of a sequence as an `IntegralConstant`.
-<code>[lexicographical_compare](@ref boost::hana::Iterable::lexicographical_compare)(sequence1, sequence2[, predicate])</code> | Performs a lexicographical comparison of two sequences, optionally with a custom predicate, by default with `hana::less`.
-<code>[maximum](@ref boost::hana::Foldable::maximum)(sequence[, predicate])</code>               | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[minimum](@ref boost::hana::Foldable::minimum)(sequence[, predicate])</code>               | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[partition](@ref boost::hana::Sequence::partition)(sequence, predicate)</code>             | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
-<code>[prepend](@ref boost::hana::MonadPlus::prepend)(sequence, value)</code>                    | Prepend an element to a sequence.
-<code>[remove](@ref boost::hana::MonadPlus::remove)(sequence, value)</code>                      | Remove all the elements that are equal to a given value.
-<code>[remove_at](@ref boost::hana::Sequence::remove_at)(sequence, index)</code>                 | Remove the element at the given index. The index must be an `IntegralConstant`.
-<code>[remove_if](@ref boost::hana::MonadPlus::remove_if)(sequence, predicate)</code>            | Remove all the elements that satisfy a predicate. The predicate must return an `IntegralConstant`.
-<code>[remove_range](@ref boost::hana::Sequence::remove_range)(sequence, from, to)</code>        | Remove the elements at indices in the given `[from, to)` half-open interval. The indices must be `IntegralConstant`s.
-<code>[replace](@ref boost::hana::Functor::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
-<code>[replace_if](@ref boost::hana::Functor::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
-<code>[reverse](@ref boost::hana::Sequence::reverse)(sequence)</code>                            | Reverse the order of the elements in a sequence.
-<code>[reverse_fold](@ref boost::hana::Foldable::reverse_fold)(sequence[, state], f)</code>      | Equivalent to `fold_right`; provided for consistency with Boost.MPL and Boost.Fusion.
-<code>[size](@ref boost::hana::Foldable::size)(sequence)</code>                                  | Equivalent to `length`; provided for consistency with the C++ standard library.
-<code>[slice](@ref boost::hana::Sequence::slice)(sequence, indices)</code>                       | Returns a new sequence containing the elements at the given indices of the original sequence.
-<code>[slice_c](@ref boost::hana::Sequence::slice_c)<from, to>(sequence)</code>                  | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
-<code>[sort](@ref boost::hana::Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
-<code>[take_back](@ref boost::hana::Sequence::take_back)(sequence, number)</code>                | Take the last n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
-<code>[take_front](@ref boost::hana::Sequence::take_front)(sequence, number)</code>              | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
-<code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
-<code>[transform](@ref boost::hana::Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
-<code>[unique](@ref boost::hana::Sequence::unique)(sequence[, predicate])</code>                 | Removes all consecutive duplicates from a sequence. The predicate defaults to equality, in which case the elements must be `Comparable`.
-<code>[unpack](@ref boost::hana::Foldable::unpack)(sequence, f)</code>                           | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
-<code>[zip](@ref boost::hana::Sequence::zip)(s1, ..., sN)</code>                                 | Zip `N` sequences into a sequence of tuples. All the sequences must have the same length.
-<code>[zip_shortest](@ref boost::hana::Sequence::zip_shortest)(s1, ..., sN)</code>               | Zip `N` sequences into a sequence of tuples. The resulting sequence has the length of the shortest input sequence.
-<code>[zip_with](@ref boost::hana::Sequence::zip_with)(f, s1, ..., sN)</code>                    | Zip `N` sequences with a `N`-ary function. All the sequences must have the same length.
-<code>[zip_shortest_with](@ref boost::hana::Sequence::zip_shortest_with)(f, s1, ..., sN)</code>  | Zip `N` sequences with a `N`-ary function. The resulting sequence has the length of the shortest input sequence.
+function                                                                                  | description
+:------------------------------------------                                               | :----------
+<code>[adjust](@ref ::boost::hana::adjust)(sequence, value, f)</code>                     | Apply a function to each element of a sequence that compares equal to some value and return the result.
+<code>[adjust_if](@ref ::boost::hana::adjust_if)(sequence, predicate, f)</code>           | Apply a function to each element of a sequence satisfying some predicate and return the result.
+<code>{[all](@ref ::boost::hana::all),[any](@ref ::boost::hana::any),[none](@ref ::boost::hana::none)}(sequence)</code> | Returns whether all/any/none of the elements of a sequence are true-valued.
+<code>{[all](@ref ::boost::hana::all_of),[any](@ref ::boost::hana::any_of),[none](@ref ::boost::hana::none_of)}_of(sequence, predicate)</code> | Returns whether all/any/none of the elements of the sequence satisfy some predicate.
+<code>[append](@ref ::boost::hana::append)(sequence, value)</code>                        | Append an element to a sequence.
+<code>[at](@ref ::boost::hana::at)(sequence, index)</code>                                | Returns the n-th element of a sequence. The index must be an `IntegralConstant`.
+<code>[back](@ref ::boost::hana::back)(sequence)</code>                                   | Returns the last element of a non-empty sequence.
+<code>[concat](@ref ::boost::hana::concat)(sequence1, sequence2)</code>                   | Concatenate two sequences.
+<code>[contains](@ref ::boost::hana::contains)(sequence, value)</code>                    | Returns whether a sequence contains the given object.
+<code>[count](@ref ::boost::hana::count)(sequence, value)</code>                          | Returns the number of elements that compare equal to the given value.
+<code>[count_if](@ref ::boost::hana::count_if)(sequence, predicate)</code>                | Returns the number of elements that satisfy the predicate.
+<code>[drop_front](@ref ::boost::hana::drop_front)(sequence[, n])</code>                  | Drop the first `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an `IntegralConstant`. When not provided, `n` defaults to 1.
+<code>[drop_front_exactly](@ref ::boost::hana::drop_front_exactly)(sequence[, n])</code>  | Drop the first `n` elements from a sequence. `n` must be an `IntegralConstant` and the sequence must have at least `n` elements. When not provided, `n` defaults to 1.
+<code>[drop_back](@ref ::boost::hana::drop_back)(sequence[, n])</code>                    | Drop the last `n` elements from a sequence, or the whole sequence if `length(sequence) <= n`. `n` must be an `IntegralConstant`. When not provided, `n` defaults to 1.
+<code>[drop_while](@ref ::boost::hana::drop_while)(sequence, predicate)</code>            | Drops elements from a sequence while a predicate is satisfied. The predicate must return an `IntegralConstant`.
+<code>[fill](@ref ::boost::hana::fill)(sequence, value)</code>                            | Replace all the elements of a sequence with some value.
+<code>[filter](@ref ::boost::hana::filter)(sequence, predicate)</code>                    | Remove all the elements that do not satisfy a predicate. The predicate must return an `IntegralConstant`.
+<code>[find](@ref ::boost::hana::find)(sequence, value)</code>                            | Find the first element of a sequence which compares equal to some value and return `just` it, or return `nothing`. See `hana::optional`.
+<code>[find_if](@ref ::boost::hana::find_if)(sequence, predicate)</code>                  | Find the first element of a sequence satisfying the predicate and return `just` it, or return `nothing`. See `hana::optional`.
+<code>[flatten](@ref ::boost::hana::flatten)(sequence)</code>                             | Flatten a sequence of sequences, a bit like `std::tuple_cat`.
+<code>[fold_left](@ref ::boost::hana::fold_left)(sequence[, state], f)</code>             | Accumulates the elements of a sequence from the left, optionally with a provided initial state.
+<code>[fold_right](@ref ::boost::hana::fold_right)(sequence[, state], f)</code>           | Accumulates the elements of a sequence from the right, optionally with a provided initial state.
+<code>[fold](@ref ::boost::hana::fold)(sequence[, state], f)</code>                       | Equivalent to `fold_left`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[for_each](@ref ::boost::hana::for_each)(sequence, f)</code>                        | Call a function on each element of a sequence. Returns `void`.
+<code>[front](@ref ::boost::hana::front)(sequence)</code>                                 | Returns the first element of a non-empty sequence.
+<code>[group](@ref ::boost::hana::group)(sequence[, predicate])</code>                    | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be `Comparable`.
+<code>[insert](@ref ::boost::hana::insert)(sequence, index, element)</code>               | Insert an element at a given index. The index must be an `IntegralConstant`.
+<code>[insert_range](@ref ::boost::hana::insert_range)(sequence, index, elements)</code>  | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
+<code>[is_empty](@ref ::boost::hana::is_empty)(sequence)</code>                           | Returns whether a sequence is empty as an `IntegralConstant`.
+<code>[length](@ref ::boost::hana::length)(sequence)</code>                               | Returns the length of a sequence as an `IntegralConstant`.
+<code>[lexicographical_compare](@ref ::boost::hana::lexicographical_compare)(sequence1, sequence2[, predicate])</code> | Performs a lexicographical comparison of two sequences, optionally with a custom predicate, by default with `hana::less`.
+<code>[maximum](@ref ::boost::hana::maximum)(sequence[, predicate])</code>                | Returns the greatest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
+<code>[minimum](@ref ::boost::hana::minimum)(sequence[, predicate])</code>                | Returns the smallest element of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
+<code>[partition](@ref ::boost::hana::partition)(sequence, predicate)</code>              | Partition a sequence into a pair of elements that satisfy some predicate, and elements that do not satisfy it.
+<code>[prepend](@ref ::boost::hana::prepend)(sequence, value)</code>                      | Prepend an element to a sequence.
+<code>[remove](@ref ::boost::hana::remove)(sequence, value)</code>                        | Remove all the elements that are equal to a given value.
+<code>[remove_at](@ref ::boost::hana::remove_at)(sequence, index)</code>                  | Remove the element at the given index. The index must be an `IntegralConstant`.
+<code>[remove_if](@ref ::boost::hana::remove_if)(sequence, predicate)</code>              | Remove all the elements that satisfy a predicate. The predicate must return an `IntegralConstant`.
+<code>[remove_range](@ref ::boost::hana::remove_range)(sequence, from, to)</code>         | Remove the elements at indices in the given `[from, to)` half-open interval. The indices must be `IntegralConstant`s.
+<code>[replace](@ref ::boost::hana::replace)(sequence, oldval, newval)</code>             | Replace the elements of a sequence that compare equal to some value by some other value.
+<code>[replace_if](@ref ::boost::hana::replace_if)(sequence, predicate, newval)</code>    | Replace the elements of a sequence that satisfy some predicate by some value.
+<code>[reverse](@ref ::boost::hana::reverse)(sequence)</code>                             | Reverse the order of the elements in a sequence.
+<code>[reverse_fold](@ref ::boost::hana::reverse_fold)(sequence[, state], f)</code>       | Equivalent to `fold_right`; provided for consistency with Boost.MPL and Boost.Fusion.
+<code>[size](@ref ::boost::hana::size)(sequence)</code>                                   | Equivalent to `length`; provided for consistency with the C++ standard library.
+<code>[slice](@ref ::boost::hana::slice)(sequence, indices)</code>                        | Returns a new sequence containing the elements at the given indices of the original sequence.
+<code>[slice_c](@ref ::boost::hana::slice_c)<from, to>(sequence)</code>                   | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
+<code>[sort](@ref ::boost::hana::sort)(sequence[, predicate])</code>                      | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
+<code>[take_back](@ref ::boost::hana::take_back)(sequence, number)</code>                 | Take the last n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
+<code>[take_front](@ref ::boost::hana::take_front)(sequence, number)</code>               | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
+<code>[take_while](@ref ::boost::hana::take_while)(sequence, predicate)</code>            | Take elements of a sequence while some predicate is satisfied, and return that.
+<code>[transform](@ref ::boost::hana::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
+<code>[unique](@ref ::boost::hana::unique)(sequence[, predicate])</code>                  | Removes all consecutive duplicates from a sequence. The predicate defaults to equality, in which case the elements must be `Comparable`.
+<code>[unpack](@ref ::boost::hana::unpack)(sequence, f)</code>                            | Calls a function with the contents of a sequence. Equivalent to `f(x1, ..., xN)`.
+<code>[zip](@ref ::boost::hana::zip)(s1, ..., sN)</code>                                  | Zip `N` sequences into a sequence of tuples. All the sequences must have the same length.
+<code>[zip_shortest](@ref ::boost::hana::zip_shortest)(s1, ..., sN)</code>                | Zip `N` sequences into a sequence of tuples. The resulting sequence has the length of the shortest input sequence.
+<code>[zip_with](@ref ::boost::hana::zip_with)(f, s1, ..., sN)</code>                     | Zip `N` sequences with a `N`-ary function. All the sequences must have the same length.
+<code>[zip_shortest_with](@ref ::boost::hana::zip_shortest_with)(f, s1, ..., sN)</code>   | Zip `N` sequences with a `N`-ary function. The resulting sequence has the length of the shortest input sequence.
 
 
 

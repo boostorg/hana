@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Insert several values at a given index in a sequence.
-    //! @relates Sequence
+    //! @ingroup group-Sequence
     //!
     //! Given a sequence, an index and any `Foldable` containing elements to
     //! insert, `insert_range` inserts the elements in the `Foldable` at the

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Combine two monadic structures together.
-    //! @relates MonadPlus
+    //! @ingroup group-MonadPlus
     //!
     //! Given two monadic structures, `concat` combines them together and
     //! returns a new monadic structure. The exact definition of `concat`
