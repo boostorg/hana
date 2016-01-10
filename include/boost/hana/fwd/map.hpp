@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_MAP_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/insert.hpp>
@@ -61,7 +61,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `hana::to<hana::map_tag>` or, equivalently, `hana::to_map`. If the
     //! `Foldable` contains duplicate keys, only the value associated to the
     //! first occurence of each key is kept.
-    //! @include example/map/convert.cpp
+    //! @include example/map/to.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...Pairs>
     struct map {

@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/integral_constant.hpp>
 

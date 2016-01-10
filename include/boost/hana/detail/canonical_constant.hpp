@@ -31,7 +31,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/integral_constant.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/when.hpp>
 
 #include <type_traits>

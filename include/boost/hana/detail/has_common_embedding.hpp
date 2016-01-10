@@ -12,7 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/detail/void_t.hpp>
 
 #include <type_traits>

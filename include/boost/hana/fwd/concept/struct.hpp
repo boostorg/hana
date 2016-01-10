@@ -140,7 +140,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Being a model of `Foldable` makes it possible to turn a `Struct`
     //! into basically any `Sequence`, but also into a `hana::map` by simply
     //! using the `to<...>` function!
-    //! @include example/struct/convert.cpp
+    //! @include example/struct/to.cpp
     //!
     //! 3. `Searchable` (free model)\n
     //! A `Struct` can be searched by considering it as a map where the keys

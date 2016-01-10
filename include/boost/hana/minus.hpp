@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/group.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>

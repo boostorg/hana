@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/common.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>

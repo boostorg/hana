@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
@@ -31,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/fwd/any_of.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/difference.hpp>
 #include <boost/hana/fwd/intersection.hpp>
 #include <boost/hana/fwd/union.hpp>

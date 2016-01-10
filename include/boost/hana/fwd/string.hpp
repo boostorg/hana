@@ -80,7 +80,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! it easy to turn a compile-time string into a runtime string. However,
     //! note that this conversion is not an embedding, because `char const*`
     //! does not model the same concepts as `hana::string` does.
-    //! @include example/string/convert.cpp
+    //! @include example/string/to.cpp
     //!
     //!
     //! > #### Rationale for `hana::string` not being a `Constant`

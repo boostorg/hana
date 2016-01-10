@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/make.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/at_key.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/is_subset.hpp>
 #include <boost/hana/keys.hpp>

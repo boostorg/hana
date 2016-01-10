@@ -7,7 +7,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/all_of.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/functional/demux.hpp>
 #include <boost/hana/integral_constant.hpp>

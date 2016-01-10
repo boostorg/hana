@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/assert.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/define_struct.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find.hpp>

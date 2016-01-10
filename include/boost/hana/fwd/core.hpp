@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_CORE_HPP
 
 #include <boost/hana/fwd/core/common.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/core/default.hpp>
 #include <boost/hana/fwd/core/is_a.hpp>
 #include <boost/hana/fwd/core/make.hpp>

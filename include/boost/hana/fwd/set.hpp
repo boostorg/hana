@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FWD_SET_HPP
 
 #include <boost/hana/config.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 
@@ -66,7 +66,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @endcode
     //!
     //! __Example__
-    //! @include example/set/convert.cpp
+    //! @include example/set/to.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...Xs>
     struct set {

@@ -9,7 +9,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/core/when.hpp>
-#include <boost/hana/fwd/core/convert.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/value.hpp>
 
 

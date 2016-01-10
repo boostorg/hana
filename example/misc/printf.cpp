@@ -6,7 +6,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/adjust_if.hpp>
 #include <boost/hana/at_key.hpp>
-#include <boost/hana/core/convert.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/is_a.hpp>
 #include <boost/hana/filter.hpp>
 #include <boost/hana/fold_left.hpp>
