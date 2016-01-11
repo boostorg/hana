@@ -42,11 +42,11 @@ and the standard library.
 @section tutorial-installation Prerequisites and installation
 
 ------------------------------------------------------------------------------
-Hana being a header-only library without external dependencies, using Hana in
-your own project is very easy. Basically, just add the `include` directory to
-your compiler's header search path and you are done. If you want to cleanly
-install Hana on your system, you have a couple of options. On OS X, the
-easiest way is to use [Homebrew][]:
+Hana is a header-only library without external dependencies (not even the rest
+of Boost). Hence, using Hana in your own project is very easy. Basically, just
+add the `include/` directory to your compiler's header search path and you are
+done. If you want to cleanly install Hana on your system, you have a couple of
+options. On OS X, the easiest way is to use [Homebrew][]:
 
 @code{.sh}
 brew install --devel homebrew/devel-only/hana
