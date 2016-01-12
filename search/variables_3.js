@@ -1,15 +1,15 @@
 var searchData=
 [
   ['capture',['capture',['../group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0',1,'boost::hana']]],
-  ['cartesian_5fproduct',['cartesian_product',['../structboost_1_1hana_1_1Sequence.html#a211a6ce41e4972cd7642b77a1afa8e95',1,'boost::hana::Sequence']]],
-  ['chain',['chain',['../structboost_1_1hana_1_1Monad.html#ae8749eb63880a6a84ddee9ada5c1466c',1,'boost::hana::Monad']]],
+  ['cartesian_5fproduct',['cartesian_product',['../group__group-Sequence.html#ga66599f0e1f0749daba759dc661946bdc',1,'boost::hana']]],
+  ['chain',['chain',['../group__group-Monad.html#ga05fdc2f887cb9967357487a432ace98b',1,'boost::hana']]],
   ['char_5fc',['char_c',['../structboost_1_1hana_1_1integral__constant.html#aca22320011be96155645b79fe53dd8c2',1,'boost::hana::integral_constant']]],
-  ['comparing',['comparing',['../structboost_1_1hana_1_1Comparable.html#a350ae6cc37fa971f203065bb628a7948',1,'boost::hana::Comparable']]],
+  ['comparing',['comparing',['../group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc',1,'boost::hana']]],
   ['compose',['compose',['../group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b',1,'boost::hana']]],
-  ['concat',['concat',['../structboost_1_1hana_1_1MonadPlus.html#a30a6926751dfcafbe2bb67738e2da3c4',1,'boost::hana::MonadPlus']]],
-  ['contains',['contains',['../structboost_1_1hana_1_1Searchable.html#a1b4a67c4fd522de62b101ed99bb423e3',1,'boost::hana::Searchable']]],
-  ['count',['count',['../structboost_1_1hana_1_1Foldable.html#ae0a55dd7eb4bd4f587f51ffd8c923e53',1,'boost::hana::Foldable']]],
-  ['count_5fif',['count_if',['../structboost_1_1hana_1_1Foldable.html#a21ca48cce90274a5f54354f9d4622930',1,'boost::hana::Foldable']]],
+  ['concat',['concat',['../group__group-MonadPlus.html#ga1946e96c3b4c178c7ae8703724c29c37',1,'boost::hana']]],
+  ['contains',['contains',['../group__group-Searchable.html#ga38e7748956cbc9f3d9bb035ac8577906',1,'boost::hana']]],
+  ['count',['count',['../group__group-Foldable.html#ga3159cfa41be18a396926741b0a3fdefd',1,'boost::hana']]],
+  ['count_5fif',['count_if',['../group__group-Foldable.html#ga39d71be65d5b98e7d035a3e5c607e1b4',1,'boost::hana']]],
   ['curry',['curry',['../group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89',1,'boost::hana']]],
-  ['cycle',['cycle',['../structboost_1_1hana_1_1MonadPlus.html#a15cd26f8259bdd4306cd0907ef578b47',1,'boost::hana::MonadPlus']]]
+  ['cycle',['cycle',['../group__group-MonadPlus.html#gaaf46c168f721da9effcc7336a997f5d6',1,'boost::hana']]]
 ];

@@ -215,12 +215,14 @@ template&lt;typename CharT , CharT... s&gt; </div>
 <div class="line">                                                    <span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;d&#39;</span>, <span class="charliteral">&#39;!&#39;</span>&gt;);</div>
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::is_a&lt;hana::string_tag&gt;(str));</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::length(str) == hana::size_c&lt;12&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Foldable.html#gaf0f8f717245620dc28cd7d7fa44d7475">hana::length</a>(str) == hana::size_c&lt;12&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
+<p>References <a class="el" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388">boost::hana::value</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->
@@ -234,7 +236,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana_1_1literals.html">literals</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana_1_1literals.html">literals</a></li>
   </ul>
 </div>
 </body>

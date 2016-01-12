@@ -101,9 +101,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2front_8hpp.html",
-"index.html#tutorial-introspection-is_valid",
-"structboost_1_1hana_1_1Searchable.html#a234e4ee0bd5e0e9e604d6140fde24074"
+"fwd_2define__struct_8hpp.html#gab9efb238a82207d91643994c5295cf8c",
+"group__group-EuclideanRing.html#ga9b47b223d5b02db933b3c93b5bd1a062",
+"has__duplicates_8hpp.html",
+"structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

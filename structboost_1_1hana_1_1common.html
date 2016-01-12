@@ -135,7 +135,7 @@ struct boost::hana::common&lt; T, U, enabler &gt;</h3>
 <li>Otherwise, if <code>true ? std::declval&lt;T&gt;() : std::declval&lt;U&gt;()</code> is well-formed, then <code>C</code> is the type of this expression after using <code>std::decay</code> on it. This is exactly the type that would have been returned by <code>std::common_type</code>, except that custom specializations of <code>std::common_type</code> are not taken into account.</li>
 <li>Otherwise, no common data type is detected and <code>common&lt;T, U&gt;</code> does not have a nested <code>type</code> alias, unless it is specialized explicitly.</li>
 </ol>
-<p>As point 3 suggests, it is also possible (and sometimes necessary) to specialize <code>common</code> in the <code>boost::hana</code> namespace for pairs of custom data types when the default behavior of <code>common</code> is not sufficient. Note that <code>when</code>-based specialization is supported when specializing <code>common</code> in the <code>boost::hana</code> namespace.</p>
+<p>As point 3 suggests, it is also possible (and sometimes necessary) to specialize <code>common</code> in the <code><a class="el" href="namespaceboost_1_1hana.html" title="Namespace containing everything in the library. ">boost::hana</a></code> namespace for pairs of custom data types when the default behavior of <code>common</code> is not sufficient. Note that <code>when</code>-based specialization is supported when specializing <code>common</code> in the <code><a class="el" href="namespaceboost_1_1hana.html" title="Namespace containing everything in the library. ">boost::hana</a></code> namespace.</p>
 <blockquote class="doxtable">
 <h4>Rationale for requiring the conversion to be equality-preserving</h4>
 <p>This decision is aligned with a proposed concept design for the standard library (<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3351.pdf">N3351</a>). Also, if we did not require this, then all data types would trivially share the common data type <code>void</code>, since all objects can be converted to it. </p>
@@ -171,7 +171,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1common.html">common</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1common.html">common</a></li>
   </ul>
 </div>
 </body>

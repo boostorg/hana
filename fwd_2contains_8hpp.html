@@ -120,22 +120,35 @@ $(document).ready(function(){initNavTree('fwd_2contains_8hpp.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">contains.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Forward declares <code>boost::hana::contains</code> and <code>boost::hana::in</code>.  
+<p>Forward declares <code><a class="el" href="group__group-Searchable.html#ga38e7748956cbc9f3d9bb035ac8577906" title="Returns whether the key occurs in the structure.Given a Searchable structure xs and a key...">boost::hana::contains</a></code> and <code><a class="el" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7" title="Return whether the key occurs in the structure.Specifically, this is equivalent to contains...">boost::hana::in</a></code>.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceboost"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost.html">boost</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceboost_1_1hana"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost_1_1hana.html">boost::hana</a></td></tr>
+<tr class="memdesc:namespaceboost_1_1hana"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace containing everything in the library. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ga38e7748956cbc9f3d9bb035ac8577906"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Searchable.html#ga38e7748956cbc9f3d9bb035ac8577906">boost::hana::contains</a></td></tr>
+<tr class="memdesc:ga38e7748956cbc9f3d9bb035ac8577906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the key occurs in the structure.Given a <code>Searchable</code> structure <code>xs</code> and a <code>key</code>, <code>contains</code> returns whether any of the keys of the structure is equal to the given <code>key</code>. If the structure is not finite, an equal key has to appear at a finite position in the structure for this method to finish. For convenience, <code>contains</code> can also be applied in infix notation.  <a href="group__group-Searchable.html#ga38e7748956cbc9f3d9bb035ac8577906">More...</a><br /></td></tr>
+<tr class="separator:ga38e7748956cbc9f3d9bb035ac8577906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d9456ceda38b6ca664998e79d7c45b7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">boost::hana::in</a> = hana::infix(hana::flip(hana::contains))</td></tr>
+<tr class="memdesc:ga0d9456ceda38b6ca664998e79d7c45b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the key occurs in the structure.Specifically, this is equivalent to <code>contains</code>, except <code>in</code> takes its arguments in reverse order. Like <code>contains</code>, <code>in</code> can also be applied in infix notation for increased expressiveness. This function is not a method that can be overriden; it is just a convenience function provided with the concept.  <a href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">More...</a><br /></td></tr>
+<tr class="separator:ga0d9456ceda38b6ca664998e79d7c45b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Forward declares <code>boost::hana::contains</code> and <code>boost::hana::in</code>. </p>
+<div class="textblock"><p>Forward declares <code><a class="el" href="group__group-Searchable.html#ga38e7748956cbc9f3d9bb035ac8577906" title="Returns whether the key occurs in the structure.Given a Searchable structure xs and a key...">boost::hana::contains</a></code> and <code><a class="el" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7" title="Return whether the key occurs in the structure.Specifically, this is equivalent to contains...">boost::hana::in</a></code>. </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2013-2016 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

@@ -131,7 +131,7 @@ struct boost::hana::tag_of&lt; T, enabler &gt;</h3>
 <p>There are several ways to specify the tag of a C++ type. If it's a user-defined type, one can define a nested <code>hana_tag</code> alias: </p><div class="fragment"><div class="line"><span class="keyword">struct </span>MyUserDefinedType {</div>
 <div class="line">    <span class="keyword">using</span> hana_tag = MyTag;</div>
 <div class="line">};</div>
-</div><!-- fragment --><p>Sometimes, however, the C++ type can't be modified (if it's in a foreign library) or simply can't have nested types (if it's not a struct or class). In those cases, using a nested alias is impossible and so ad-hoc customization is also supported by specializing <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code> in the <code>boost::hana</code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">struct </span>i_cant_modify_this;</div>
+</div><!-- fragment --><p>Sometimes, however, the C++ type can't be modified (if it's in a foreign library) or simply can't have nested types (if it's not a struct or class). In those cases, using a nested alias is impossible and so ad-hoc customization is also supported by specializing <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code> in the <code><a class="el" href="namespaceboost_1_1hana.html" title="Namespace containing everything in the library. ">boost::hana</a></code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">struct </span>i_cant_modify_this;</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceboost.html">boost</a> { <span class="keyword">namespace </span>hana {</div>
 <div class="line">    <span class="keyword">template</span> &lt;&gt;</div>
@@ -196,7 +196,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1tag__of.html">tag_of</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1tag__of.html">tag_of</a></li>
   </ul>
 </div>
 </body>

@@ -124,10 +124,10 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="structboost_1_1hana_1_1Applicative.html#a5a974a72d39f90af2626d167d4efe29a">ap</a>  </dt>
-<dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000001"></a>Namespace <a class="el" href="namespaceboost.html">boost</a>  </dt>
 <dd>Until we strip down headers, this includes too much  </dd>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="group__group-Applicative.html#ga6176a32953dbbdee96e3ab3c73e4c890">boost::hana::ap</a>  </dt>
+<dd>Consider giving access to all the arguments to the tag-dispatched implementation for performance purposes.  </dd>
 <dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structboost_1_1hana_1_1constant__detail_1_1which.html">boost::hana::constant_detail::which&lt; A, B, C &gt;</a>  </dt>
 <dd>This is an awful hack to avoid having <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;common&lt;integral_constant_tag&lt;int&gt;, integral_constant_tag&lt;long&gt;&gt;</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    ==</div>
@@ -135,9 +135,9 @@ $(document).ready(function(){initNavTree('todo.html','');});
 </div><!-- fragment -->  </dd>
 <dt><a class="anchor" id="_todo000004"></a>Class <a class="el" href="structboost_1_1hana_1_1detail_1_1has__duplicates.html">boost::hana::detail::has_duplicates&lt; T &gt;</a>  </dt>
 <dd>This implementation is O(n^2). We could do it in O(n), but that would require a more elaborate setup including storage with O(1) lookup (which could be based on a compile-time hash). If we implement such storage for associative sequences, we could use it to optimize this.  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#a9fb8718f43756efef3953635f34fd67e">max</a>  </dt>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="group__group-Orderable.html#ga999eee8ca8750f9b1afa0d7a1db28030">boost::hana::max</a>  </dt>
 <dd>Can't specify the signature here either. See <code>min</code> for details. </dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="structboost_1_1hana_1_1Orderable.html#af10ea2fee24c0a780758f67721bb5bfa">min</a>  </dt>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="group__group-Orderable.html#ga2d54f189ea6f57fb2c0d772169440c5c">boost::hana::min</a>  </dt>
 <dd>We can't specify the signature right now, because the tag of the returned object depends on whether <code>x &lt; y</code> or not. If we wanted to be mathematically correct, we should probably ask that <code>if_(cond, x, y)</code> returns a common data type of <code>x</code> and <code>y</code>, and then the behavior of <code>min</code> would follow naturally. However, I'm unsure whether this is desirable because that's a big requirement. </dd>
 <dt><a class="anchor" id="_todo000011"></a>page <a class="el" href="index.html">User Manual</a>  </dt>
 <dd><p class="startdd">Improve this explanation and talk about non-integral constant expressions wrapped into types.</p>

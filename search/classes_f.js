@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['searchable',['Searchable',['../structboost_1_1hana_1_1Searchable.html',1,'boost::hana']]],
-  ['sequence',['Sequence',['../structboost_1_1hana_1_1Sequence.html',1,'boost::hana']]],
-  ['set',['set',['../structboost_1_1hana_1_1set.html',1,'boost::hana']]],
-  ['set_5ftag',['set_tag',['../structboost_1_1hana_1_1set__tag.html',1,'boost::hana']]],
-  ['std_5fcommon_5ftype',['std_common_type',['../structboost_1_1hana_1_1detail_1_1std__common__type.html',1,'boost::hana::detail']]],
-  ['std_5fcommon_5ftype_3c_20t_2c_20u_20_3e',['std_common_type&lt; T, U &gt;',['../structboost_1_1hana_1_1detail_1_1std__common__type.html',1,'boost::hana::detail']]],
-  ['string',['string',['../structboost_1_1hana_1_1string.html',1,'boost::hana']]],
-  ['string_5ftag',['string_tag',['../structboost_1_1hana_1_1string__tag.html',1,'boost::hana']]],
-  ['struct',['Struct',['../structboost_1_1hana_1_1Struct.html',1,'boost::hana']]]
+  ['tag_5fof',['tag_of',['../structboost_1_1hana_1_1tag__of.html',1,'boost::hana']]],
+  ['tag_5fof_3c_20t_20_3e',['tag_of&lt; T &gt;',['../structboost_1_1hana_1_1tag__of.html',1,'boost::hana']]],
+  ['tuple',['tuple',['../structstd_1_1tuple.html',1,'std']]],
+  ['tuple',['tuple',['../structboost_1_1tuple.html',1,'boost']]],
+  ['tuple',['tuple',['../structboost_1_1fusion_1_1tuple.html',1,'boost::fusion']]],
+  ['tuple',['tuple',['../structboost_1_1hana_1_1tuple.html',1,'boost::hana']]],
+  ['tuple_5ftag',['tuple_tag',['../structboost_1_1hana_1_1tuple__tag.html',1,'boost::hana']]],
+  ['type',['type',['../structboost_1_1hana_1_1type.html',1,'boost::hana']]],
+  ['type_5ftag',['type_tag',['../structboost_1_1hana_1_1type__tag.html',1,'boost::hana']]]
 ];

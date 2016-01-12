@@ -153,13 +153,13 @@ struct std::tuple&lt; T &gt;</h3>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="structstd_1_1tuple.html">std::tuple&lt;Fish, Cat, Dog&gt;</a> animals{{<span class="stringliteral">&quot;Nemo&quot;</span>}, {<span class="stringliteral">&quot;Garfield&quot;</span>}, {<span class="stringliteral">&quot;Snoopy&quot;</span>}};</div>
-<div class="line">    hana::front(animals).name = <span class="stringliteral">&quot;Moby Dick&quot;</span>;</div>
+<div class="line">    <a class="code" href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">hana::front</a>(animals).name = <span class="stringliteral">&quot;Moby Dick&quot;</span>;</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> names = hana::transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">    <span class="keyword">auto</span> names = <a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">hana::transform</a>(animals, [](<span class="keyword">auto</span> a) {</div>
 <div class="line">      <span class="keywordflow">return</span> a.name;</div>
 <div class="line">    });</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::equal(</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
 <div class="line">        names,</div>
 <div class="line">        std::make_tuple(<span class="stringliteral">&quot;Moby Dick&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Snoopy&quot;</span>)</div>
 <div class="line">    ));</div>

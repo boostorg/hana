@@ -7,7 +7,7 @@ var searchData=
   ['which',['which',['../structboost_1_1hana_1_1constant__detail_1_1which.html',1,'boost::hana::constant_detail']]],
   ['while_2ehpp',['while.hpp',['../while_8hpp.html',1,'']]],
   ['while_2ehpp',['while.hpp',['../fwd_2while_8hpp.html',1,'']]],
-  ['while_5f',['while_',['../structboost_1_1hana_1_1Logical.html#abd199c2e8d8947decc01a5e43b1f4489',1,'boost::hana::Logical']]],
+  ['while_5f',['while_',['../group__group-Logical.html#ga08a767b86c330cac67daa891406d2730',1,'boost::hana']]],
   ['wrong',['wrong',['../structboost_1_1hana_1_1detail_1_1wrong.html',1,'boost::hana::detail']]],
   ['wrong_2ehpp',['wrong.hpp',['../wrong_8hpp.html',1,'']]]
 ];

@@ -7,5 +7,5 @@ var dir_df53726b2161ddded5e3732eaa4745e0 =
     [ "foldr1.hpp", "foldr1_8hpp.html", null ],
     [ "reverse_apply.hpp", "reverse__apply_8hpp.html", null ],
     [ "split_at.hpp", "split__at_8hpp.html", null ],
-    [ "take.hpp", "detail_2variadic_2take_8hpp.html", null ]
+    [ "take.hpp", "take_8hpp.html", null ]
 ];

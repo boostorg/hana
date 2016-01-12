@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['pair',['pair',['../structboost_1_1hana_1_1pair.html',1,'boost::hana']]],
-  ['pair',['pair',['../structstd_1_1pair.html',1,'std']]],
-  ['pair_5ftag',['pair_tag',['../structboost_1_1hana_1_1pair__tag.html',1,'boost::hana']]],
-  ['product',['Product',['../structboost_1_1hana_1_1Product.html',1,'boost::hana']]]
+  ['range',['range',['../structboost_1_1hana_1_1range.html',1,'boost::hana']]],
+  ['range_5ftag',['range_tag',['../structboost_1_1hana_1_1range__tag.html',1,'boost::hana']]],
+  ['ratio',['ratio',['../classstd_1_1ratio.html',1,'std']]]
 ];

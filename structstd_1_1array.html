@@ -150,10 +150,10 @@ struct std::array&lt; T, N &gt;</h3>
 <div class="line">constexpr <a class="code" href="structstd_1_1array.html">std::array&lt;int, 5&gt;</a> ys = {{1, 2, 3, 4, 5}};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// arrays have different constexpr contents; result is a constexpr bool</span></div>
-<div class="line">static_assert(hana::equal(xs, xs), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(xs, xs), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// arrays have different lengths; result is an integral_constant</span></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(xs, ys));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">hana::not_equal</a>(xs, ys));</div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -178,10 +178,10 @@ struct std::array&lt; T, N &gt;</h3>
 <div class="line">constexpr <a class="code" href="structstd_1_1array.html">std::array&lt;int, 5&gt;</a> up_to_5 = {{1, 2, 3, 4, 5}};</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// arrays with same length</span></div>
-<div class="line">static_assert(hana::less(odds, evens), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9">hana::less</a>(odds, evens), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="comment">// arrays with different lenghts</span></div>
-<div class="line">static_assert(hana::less(up_to_5, odds), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9">hana::less</a>(up_to_5, odds), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
@@ -203,7 +203,7 @@ Folding an array from the left is equivalent to calling <code>std::accumulate</c
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="structstd_1_1array.html">std::array&lt;int, 5&gt;</a> a = {{0, 1, 2, 3, 4}};</div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> b = hana::unpack(a, [](<span class="keyword">auto</span> ...i) {</div>
+<div class="line">    <span class="keyword">auto</span> b = <a class="code" href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170">hana::unpack</a>(a, [](<span class="keyword">auto</span> ...i) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="structstd_1_1array.html">std::array</a>&lt;int, <span class="keyword">sizeof</span>...(i)&gt;{{(i + 10)...}};</div>
 <div class="line">    });</div>
 <div class="line"></div>
@@ -230,7 +230,7 @@ Iterating over a <code><a class="el" href="structstd_1_1array.html" title="Adapt
 <div class="line"></div>
 <div class="line">static_assert(hana::at_c&lt;2&gt;(a) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line">static_assert(hana::equal(hana::drop_front(a), <a class="code" href="structstd_1_1array.html">std::array&lt;int, 4&gt;</a>{{1, 2, 3, 4}}), <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(<a class="code" href="group__group-Iterable.html#gad23ce0a4906e2bb0a52f38837b134757">hana::drop_front</a>(a), <a class="code" href="structstd_1_1array.html">std::array&lt;int, 4&gt;</a>{{1, 2, 3, 4}}), <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>

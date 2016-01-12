@@ -149,10 +149,10 @@ Two MPL lists are equal if and only if they contain the same number of types, an
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::equal(mpl::list2&lt;int, char&gt;{}, mpl::list&lt;int, char&gt;{})</div>
+<div class="line">    <a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(mpl::list2&lt;int, char&gt;{}, mpl::list&lt;int, char&gt;{})</div>
 <div class="line">);</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::not_equal(mpl::list2&lt;int, char&gt;{}, mpl::list&lt;int, char, float&gt;{})</div>
+<div class="line">    <a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">hana::not_equal</a>(mpl::list2&lt;int, char&gt;{}, mpl::list&lt;int, char, float&gt;{})</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -181,10 +181,10 @@ Folding a MPL list is equivalent to folding it as a <code>Sequence</code>. <div 
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> types = mpl::list&lt;long, float, short, float, long, long double&gt;{};</div>
-<div class="line"><span class="keyword">auto</span> number_of_floats = hana::fold_left(types, hana::int_c&lt;0&gt;, [](<span class="keyword">auto</span> count, <span class="keyword">auto</span> t) {</div>
-<div class="line">    <span class="keywordflow">return</span> hana::if_(hana::trait&lt;std::is_floating_point&gt;(t),</div>
-<div class="line">        count + hana::int_c&lt;1&gt;,</div>
-<div class="line">        count</div>
+<div class="line"><span class="keyword">auto</span> number_of_floats = <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">hana::fold_left</a>(types, hana::int_c&lt;0&gt;, [](<span class="keyword">auto</span> <a class="code" href="group__group-Foldable.html#ga3159cfa41be18a396926741b0a3fdefd">count</a>, <span class="keyword">auto</span> t) {</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code" href="group__group-Logical.html#gafd655d2222367131e7a63616e93dd080">hana::if_</a>(hana::trait&lt;std::is_floating_point&gt;(t),</div>
+<div class="line">        <a class="code" href="group__group-Foldable.html#ga3159cfa41be18a396926741b0a3fdefd">count</a> + hana::int_c&lt;1&gt;,</div>
+<div class="line">        <a class="code" href="group__group-Foldable.html#ga3159cfa41be18a396926741b0a3fdefd">count</a></div>
 <div class="line">    );</div>
 <div class="line">});</div>
 <div class="line"></div>
@@ -214,15 +214,15 @@ Iterating over a MPL list is just iterating over each of the types it contains, 
 <div class="line"><span class="keyword">namespace </span>mpl = <a class="code" href="namespaceboost_1_1mpl.html">boost::mpl</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(mpl::list&lt;int, char, void&gt;{}) == hana::type_c&lt;int&gt;);</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">hana::front</a>(mpl::list&lt;int, char, void&gt;{}) == hana::type_c&lt;int&gt;);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
-<div class="line">    hana::drop_front(mpl::list&lt;int, char, void&gt;{}),</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
+<div class="line">    <a class="code" href="group__group-Iterable.html#gad23ce0a4906e2bb0a52f38837b134757">hana::drop_front</a>(mpl::list&lt;int, char, void&gt;{}),</div>
 <div class="line">    mpl::list&lt;char, void&gt;{}</div>
 <div class="line">));</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(</div>
-<div class="line">    hana::drop_while(mpl::list&lt;float, double const, int, float&amp;&gt;{},</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
+<div class="line">    <a class="code" href="group__group-Iterable.html#ga9f1d02c74a6bdc1db260e0d6a8f1ee56">hana::drop_while</a>(mpl::list&lt;float, double const, int, float&amp;&gt;{},</div>
 <div class="line">                     hana::trait&lt;std::is_floating_point&gt;),</div>
 <div class="line">    mpl::list&lt;int, float&amp;&gt;{}</div>
 <div class="line">));</div>
@@ -250,13 +250,13 @@ A MPL list can be searched as if it were a tuple containing <code><a class="el" 
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::find_if(mpl::list&lt;int, float, char const*&gt;{}, hana::equal.to(hana::type_c&lt;float&gt;))</div>
+<div class="line">    <a class="code" href="group__group-Searchable.html#ga7f99b80672aa80a7eb8b223955ce546f">hana::find_if</a>(mpl::list&lt;int, float, char const*&gt;{}, <a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>.to(hana::type_c&lt;float&gt;))</div>
 <div class="line">    ==</div>
 <div class="line">    hana::just(hana::type_c&lt;float&gt;)</div>
 <div class="line">);</div>
 <div class="line"></div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">    hana::find(mpl::list&lt;int, float, char const*&gt;{}, hana::type_c&lt;void&gt;)</div>
+<div class="line">    <a class="code" href="group__group-Searchable.html#ga6b6cdd69942b0fe3bf5254247f9c861e">hana::find</a>(mpl::list&lt;int, float, char const*&gt;{}, hana::type_c&lt;void&gt;)</div>
 <div class="line">    ==</div>
 <div class="line">    hana::nothing</div>
 <div class="line">);</div>
@@ -272,7 +272,7 @@ A MPL list can be searched as if it were a tuple containing <code><a class="el" 
 <div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="mpl_2list_8hpp.html">boost/hana/ext/boost/mpl/list.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>

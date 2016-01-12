@@ -267,7 +267,7 @@ Variables</h2></td></tr>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">hana::apply</a>(hana::plus, 1, 2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">hana::apply</a>(<a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">hana::plus</a>, 1, 2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -366,7 +366,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> sum = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
+<div class="line">    BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-Foldable.html#ga650def4b2e98f4273d8b9b7aa5a2fc28">sum</a> = [](<span class="keyword">auto</span> x, <span class="keyword">auto</span> y, <span class="keyword">auto</span> z) {</div>
 <div class="line">        <span class="keywordflow">return</span> x + y + z;</div>
 <div class="line">    };</div>
 <div class="line"></div>
@@ -560,7 +560,7 @@ template&lt;std::size_t n&gt; </div>
 <p>which uncurries to </p><p class="formulaDsp">
 \[ \mathtt{compose(compose(compose, compose), compose)} : (B \to C) \times (A_1 \times A_2 \times A_3 \to B) \to (A_1 \times A_2 \times A_3 \to C) \]
 </p>
-<p>This signature is exactly the same as that of <code>demux</code> when given a single ternary function. Hence, for a single n-ary function <code>g</code>, <code>demux(f)(g)</code> is equivalent to the n-times composition of <code>compose</code> with itself, applied to <code>g</code> and <code>f</code>: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g) == fold_left([<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>, ..., <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>], <span class="keywordtype">id</span>, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>)(g, f)</div>
+<p>This signature is exactly the same as that of <code>demux</code> when given a single ternary function. Hence, for a single n-ary function <code>g</code>, <code>demux(f)(g)</code> is equivalent to the n-times composition of <code>compose</code> with itself, applied to <code>g</code> and <code>f</code>: </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga3a8316acd5efa22c3d1861b62d5df3c2">demux</a>(f)(g) == <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">fold_left</a>([<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>, ..., <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>], <span class="keywordtype">id</span>, <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>)(g, f)</div>
 <div class="line">                      <span class="comment">//  ^^^^^^^^^^^^^^^^^^^^^ n times</span></div>
 </div><!-- fragment --><p>More information on this insight can be seen <a href="http://stackoverflow.com/q/5821089/627587">here</a>. Also, I'm not sure how this insight could be generalized to more than one function <code>g</code>, or if that is even possible.</p>
 <h2>Proof of associativity in the binary case </h2>
@@ -692,15 +692,15 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> minus = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
+<div class="line">BOOST_HANA_CONSTEXPR_LAMBDA <span class="keyword">auto</span> <a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">minus</a> = [](<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> z = 0) {</div>
 <div class="line">    <span class="keywordflow">return</span> x - y - z;</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0) == 3 - 0);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">minus</a>(3, 0) == 3 - 0);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0) == 0 - 3);</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(minus(3, 0, 1) == 3 - 0 - 1);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">minus</a>(3, 0, 1) == 3 - 0 - 1);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">hana::flip</a>(minus)(3, 0, 1) == 0 - 3 - 1);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -907,7 +907,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">    <span class="keywordflow">return</span> i + 1;</div>
 <div class="line">}</div>
 <div class="line"></div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">hana::lockstep</a>(hana::plus)(to_int, increment)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">hana::lockstep</a>(<a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">hana::plus</a>)(to_int, increment)(<span class="charliteral">&#39;3&#39;</span>, 4) == 3 + 5, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -962,7 +962,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// infix application</span></div>
-<div class="line">constexpr <span class="keyword">auto</span> sorted = hana::sort.by(hana::less ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>^ hana::first, hana::make_tuple(</div>
+<div class="line">constexpr <span class="keyword">auto</span> sorted = <a class="code" href="group__group-Sequence.html#gac000a79eb7b9d44ecc8982c93daa40e5">hana::sort</a>.by(<a class="code" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9">hana::less</a> ^<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>^ <a class="code" href="group__group-Product.html#ga34bbf4281de06dc3540441e8b2bd24f4">hana::first</a>, hana::make_tuple(</div>
 <div class="line">    hana::make_pair(hana::int_c&lt;3&gt;, <span class="charliteral">&#39;x&#39;</span>),</div>
 <div class="line">    hana::make_pair(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;),</div>
 <div class="line">    hana::make_pair(hana::int_c&lt;2&gt;, 9876)</div>
@@ -978,7 +978,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="comment">// function call syntax</span></div>
 <div class="line">constexpr <span class="keyword">auto</span> x = hana::make_pair(1, 2);</div>
 <div class="line">constexpr <span class="keyword">auto</span> y = hana::make_pair(10, 20);</div>
-<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>(hana::plus, hana::first)(x, y) == 1 + 10, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">hana::on</a>(<a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">hana::plus</a>, hana::first)(x, y) == 1 + 10, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 
@@ -1124,7 +1124,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">hana::partial</a>(hana::plus, 1);</div>
+<div class="line">constexpr <span class="keyword">auto</span> increment = <a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">hana::partial</a>(<a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">hana::plus</a>, 1);</div>
 <div class="line">static_assert(increment(2) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
@@ -1170,8 +1170,8 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> plus = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>;</div>
-<div class="line">static_assert(plus(1, 2) == 1 + 2, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">constexpr <span class="keyword">auto</span> <a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">plus</a> = <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a> + <a class="code" href="group__group-functional.html#gaefe9fd152cba94be71c2b5b9de689d23">hana::_</a>;</div>
+<div class="line">static_assert(<a class="code" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c">plus</a>(1, 2) == 1 + 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line">constexpr <span class="keyword">auto</span> increment = hana::_ + 1;</div>
 <div class="line">static_assert(increment(1) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
@@ -1219,7 +1219,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">hana::reverse_partial</a>(hana::div, 2);</div>
+<div class="line">constexpr <span class="keyword">auto</span> half = <a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">hana::reverse_partial</a>(<a class="code" href="group__group-EuclideanRing.html#ga4225a7988ce98903228913dde53762df">hana::div</a>, 2);</div>
 <div class="line">static_assert(half(4) == 2, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">static_assert(half(8) == 4, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>

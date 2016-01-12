@@ -149,12 +149,12 @@ A Boost.MPL IntegralConstant is a model of the <code>IntegralConstant</code> and
 <div class="line"><span class="keyword">namespace </span>mpl = <a class="code" href="namespaceboost_1_1mpl.html">boost::mpl</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::value(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(mpl::integral_c&lt;int, 3&gt;::value == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388">hana::value</a>(mpl::integral_c&lt;int, 3&gt;{}) == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(<a class="code" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388">mpl::integral_c&lt;int, 3&gt;::value</a> == 3, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;3&gt;{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::long_&lt;3&gt;{}));</div>
-<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::not_equal(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;0&gt;{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;3&gt;{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(mpl::integral_c&lt;int, 3&gt;{}, mpl::long_&lt;3&gt;{}));</div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">hana::not_equal</a>(mpl::integral_c&lt;int, 3&gt;{}, mpl::int_&lt;0&gt;{}));</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>

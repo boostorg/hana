@@ -135,19 +135,19 @@ struct boost::hana::tuple&lt; Xn &gt;</h3>
 <p>The tuple is the bread and butter for static metaprogramming. Conceptually, it is like a <code><a class="el" href="structstd_1_1tuple.html" title="Adapter for std::tuples. ">std::tuple</a></code>; it is a container able of holding objects of different types and whose size is fixed at compile-time. However, Hana's tuple provides much more functionality than its <code>std</code> counterpart, and it is also much more efficient than all standard library implementations tested so far.</p>
 <p>Tuples are index-based sequences. If you need an associative sequence with a key-based access, then you should consider <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> or <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> instead.</p>
 <h2>Modeled concepts </h2>
-<p><code><a class="el" href="structboost_1_1hana_1_1Sequence.html" title="The Sequence concept represents generic index-based sequences. ">Sequence</a></code>, and all the concepts it refines</p>
+<p><code>Sequence</code>, and all the concepts it refines</p>
 <h2>Provided operators </h2>
-<p>For convenience, the following operators are provided: </p><div class="fragment"><div class="line">xs == ys        -&gt;          equal(xs, ys)</div>
-<div class="line">xs != ys        -&gt;          not_equal(xs, ys)</div>
+<p>For convenience, the following operators are provided: </p><div class="fragment"><div class="line">xs == ys        -&gt;          <a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">equal</a>(xs, ys)</div>
+<div class="line">xs != ys        -&gt;          <a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">not_equal</a>(xs, ys)</div>
 <div class="line"></div>
-<div class="line">xs &lt; ys         -&gt;          less(xs, ys)</div>
-<div class="line">xs &lt;= ys        -&gt;          less_equal(xs, ys)</div>
-<div class="line">xs &gt; ys         -&gt;          greater(xs, ys)</div>
-<div class="line">xs &gt;= ys        -&gt;          greater_equal(xs, ys)</div>
+<div class="line">xs &lt; ys         -&gt;          <a class="code" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9">less</a>(xs, ys)</div>
+<div class="line">xs &lt;= ys        -&gt;          <a class="code" href="group__group-Orderable.html#ga9917dd82beb67151bf5657245d37b851">less_equal</a>(xs, ys)</div>
+<div class="line">xs &gt; ys         -&gt;          <a class="code" href="group__group-Orderable.html#gaf9a073eafebbe514fb19dff82318f198">greater</a>(xs, ys)</div>
+<div class="line">xs &gt;= ys        -&gt;          <a class="code" href="group__group-Orderable.html#ga6023631e7d0a01e16dc3fa4221fbd703">greater_equal</a>(xs, ys)</div>
 <div class="line"></div>
-<div class="line">xs | f          -&gt;          chain(xs, f)</div>
+<div class="line">xs | f          -&gt;          <a class="code" href="group__group-Monad.html#ga05fdc2f887cb9967357487a432ace98b">chain</a>(xs, f)</div>
 <div class="line"></div>
-<div class="line">xs[n]           -&gt;          at(xs, n)</div>
+<div class="line">xs[n]           -&gt;          <a class="code" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">at</a>(xs, n)</div>
 </div><!-- fragment --><h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
@@ -174,7 +174,7 @@ struct boost::hana::tuple&lt; Xn &gt;</h3>
 <div class="line">    hana::tuple&lt;Fish, Cat, Dog&gt; animals{{<span class="stringliteral">&quot;Nemo&quot;</span>}, {<span class="stringliteral">&quot;Garfield&quot;</span>}, {<span class="stringliteral">&quot;Snoopy&quot;</span>}};</div>
 <div class="line">    animals[0_c].name = <span class="stringliteral">&quot;Moby Dick&quot;</span>; <span class="comment">// can modify elements in place, like std::tuple</span></div>
 <div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> names = hana::transform(animals, [](<span class="keyword">auto</span> a) {</div>
+<div class="line">    <span class="keyword">auto</span> names = <a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">hana::transform</a>(animals, [](<span class="keyword">auto</span> a) {</div>
 <div class="line">      <span class="keywordflow">return</span> a.name;</div>
 <div class="line">    });</div>
 <div class="line"></div>
@@ -187,10 +187,10 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ad9d8c7efa77e573eba2dfc48b3343e66"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#ad9d8c7efa77e573eba2dfc48b3343e66">make&lt; tuple_tag &gt;</a></td></tr>
 <tr class="memdesc:ad9d8c7efa77e573eba2dfc48b3343e66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code>tuple</code>.  <a href="#ad9d8c7efa77e573eba2dfc48b3343e66">More...</a><br /></td></tr>
 <tr class="separator:ad9d8c7efa77e573eba2dfc48b3343e66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3c175cfb83276339f91e867d738a2e6"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a> = make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td></tr>
+<tr class="memitem:af3c175cfb83276339f91e867d738a2e6"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#af3c175cfb83276339f91e867d738a2e6">make_tuple</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td></tr>
 <tr class="memdesc:af3c175cfb83276339f91e867d738a2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">tuple_tag</a>&gt;</code>; provided for convenience.  <a href="#af3c175cfb83276339f91e867d738a2e6">More...</a><br /></td></tr>
 <tr class="separator:af3c175cfb83276339f91e867d738a2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a749b564c8f115957837761d75191beac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#a749b564c8f115957837761d75191beac">to_tuple</a> = to&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td></tr>
+<tr class="memitem:a749b564c8f115957837761d75191beac"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1tuple.html#a749b564c8f115957837761d75191beac">to_tuple</a> = <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td></tr>
 <tr class="memdesc:a749b564c8f115957837761d75191beac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html" title="Tag representing hana::tuples. ">tuple_tag</a>&gt;</code>; provided for convenience.  <a href="#a749b564c8f115957837761d75191beac">More...</a><br /></td></tr>
 <tr class="separator:a749b564c8f115957837761d75191beac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea7b637fbc34b451bd1cef82f1b64b6a"><td class="memTemplParams" colspan="2">template&lt;typename... T&gt; </td></tr>
@@ -249,7 +249,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a> &gt;</td>
+          <td class="memname">constexpr auto <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt; <a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a> &gt;</td>
         </tr>
       </table>
   </td>
@@ -299,7 +299,7 @@ template&lt;typename... Xn&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_tuple = make&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td>
+          <td class="memname">constexpr auto make_tuple = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -323,7 +323,7 @@ template&lt;typename... Xn&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto to_tuple = to&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td>
+          <td class="memname">constexpr auto to_tuple = <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;<a class="el" href="structboost_1_1hana_1_1tuple__tag.html">tuple_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -369,7 +369,7 @@ template&lt;typename... T&gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
@@ -418,7 +418,7 @@ template&lt;typename T , T... v&gt; </div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2convert_8hpp.html">boost/hana/core/convert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="front_8hpp.html">boost/hana/front.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
@@ -433,7 +433,7 @@ template&lt;typename T , T... v&gt; </div>
 <div class="line">        hana::make_tuple(hana::int_c&lt;0&gt;, hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;)</div>
 <div class="line">    );</div>
 <div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::front(hana::tuple_c&lt;int, 0, 1, 2&gt;) == hana::int_c&lt;0&gt;);</div>
+<div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">hana::front</a>(hana::tuple_c&lt;int, 0, 1, 2&gt;) == hana::int_c&lt;0&gt;);</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
 </div>
@@ -494,7 +494,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1tuple.html">tuple</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1tuple.html">tuple</a></li>
   </ul>
 </div>
 </body>

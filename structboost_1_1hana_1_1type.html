@@ -145,7 +145,7 @@ struct boost::hana::type&lt; T &gt;</h3>
 <div class="line"><span class="keyword">using</span> T = decltype(+ts[0_c])::type; <span class="comment">// ok: &#39;+ts[0_c]&#39; is an rvalue</span></div>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
-<li><code><a class="el" href="structboost_1_1hana_1_1Comparable.html" title="The Comparable concept defines equality and inequality. ">Comparable</a></code><br />
+<li><code>Comparable</code><br />
 Two types are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -181,7 +181,7 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a66f97c1903dcb6f227b29f3e35e68a56"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a66f97c1903dcb6f227b29f3e35e68a56">make&lt; type_tag &gt;</a> = hana::decltype_</td></tr>
 <tr class="memdesc:a66f97c1903dcb6f227b29f3e35e68a56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>decltype_</code>, provided for convenience.  <a href="#a66f97c1903dcb6f227b29f3e35e68a56">More...</a><br /></td></tr>
 <tr class="separator:a66f97c1903dcb6f227b29f3e35e68a56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c">make_type</a> = hana::make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td></tr>
+<tr class="memitem:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c">make_type</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">hana::make</a>&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td></tr>
 <tr class="memdesc:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a>&gt;</code>, provided for convenience.  <a href="#a0c0e00c0ffe63703f3a04960d13c7b1c">More...</a><br /></td></tr>
 <tr class="separator:a0c0e00c0ffe63703f3a04960d13c7b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b702b280ca02f118affaaca9112a8c"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a></td></tr>
@@ -287,7 +287,7 @@ template&lt;&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make&lt; <a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a> &gt; = hana::decltype_</td>
+          <td class="memname">constexpr auto <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt; <a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a> &gt; = hana::decltype_</td>
         </tr>
       </table>
   </td>
@@ -333,7 +333,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr auto make_type = hana::make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td>
+          <td class="memname">constexpr auto make_type = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">hana::make</a>&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html">type_tag</a>&gt;</td>
         </tr>
       </table>
   </td>
@@ -496,7 +496,7 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment -->
 <p>Checks whether a SFINAE-friendly expression is valid. </p>
 <p>Given a SFINAE-friendly function, <code>is_valid</code> returns whether the function call is valid with the given arguments. Specifically, given a function <code>f</code> and arguments <code>args...</code>, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f, args...) == whether f(args...) is valid</div>
-</div><!-- fragment --><p>The result is returned as a compile-time <code><a class="el" href="structboost_1_1hana_1_1Logical.html" title="The Logical concept represents types with a truth value. ">Logical</a></code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
+</div><!-- fragment --><p>The result is returned as a compile-time <code>Logical</code>. Furthermore, <code>is_valid</code> can be used in curried form as follows: </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a>(f)(args...)</div>
 </div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
 <dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
 <h2>Example </h2>
@@ -547,7 +547,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><b>hana</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1type.html">type</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1type.html">type</a></li>
   </ul>
 </div>
 </body>

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['back',['back',['../structboost_1_1hana_1_1Iterable.html#a506a9445ba4459cf38668e9662f76895',1,'boost::hana::Iterable']]],
-  ['back_2ehpp',['back.hpp',['../fwd_2back_8hpp.html',1,'']]],
+  ['back',['back',['../group__group-Iterable.html#gab3f4d0035345a453284e46303862d463',1,'boost::hana']]],
   ['back_2ehpp',['back.hpp',['../back_8hpp.html',1,'']]],
+  ['back_2ehpp',['back.hpp',['../fwd_2back_8hpp.html',1,'']]],
   ['basic_5ftuple',['basic_tuple',['../structboost_1_1hana_1_1basic__tuple.html',1,'boost::hana']]],
   ['basic_5ftuple_2ehpp',['basic_tuple.hpp',['../basic__tuple_8hpp.html',1,'']]],
   ['basic_5ftuple_2ehpp',['basic_tuple.hpp',['../fwd_2basic__tuple_8hpp.html',1,'']]],
@@ -16,8 +16,8 @@ var searchData=
   ['bool_5fc',['bool_c',['../structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3',1,'boost::hana::integral_constant']]],
   ['boost',['boost',['../namespaceboost.html',1,'']]],
   ['boost_2ehpp',['boost.hpp',['../boost_8hpp.html',1,'']]],
-  ['boost_5fhana_5fadapt_5fadt',['BOOST_HANA_ADAPT_ADT',['../structboost_1_1hana_1_1Struct.html#aac04636bb22fdfb729855f39d0eb0892',1,'boost::hana::Struct']]],
-  ['boost_5fhana_5fadapt_5fstruct',['BOOST_HANA_ADAPT_STRUCT',['../structboost_1_1hana_1_1Struct.html#a41037f470ac6ca2f7135802592ef5977',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fadapt_5fadt',['BOOST_HANA_ADAPT_ADT',['../group__group-Struct.html#ga141761435a7826b3cbe646b4f59eaf0a',1,'boost::hana']]],
+  ['boost_5fhana_5fadapt_5fstruct',['BOOST_HANA_ADAPT_STRUCT',['../group__group-Struct.html#gaba3b4d2cf342bfca773e90fc20bfae91',1,'boost::hana']]],
   ['boost_5fhana_5fassert',['BOOST_HANA_ASSERT',['../group__group-assertions.html#ga90c1df2cb8eb67e8e0c822eac180b7bc',1,'assert.hpp']]],
   ['boost_5fhana_5fassert_5fmsg',['BOOST_HANA_ASSERT_MSG',['../group__group-assertions.html#gaa7690973ea7b2ba5b6a72a6293fce873',1,'assert.hpp']]],
   ['boost_5fhana_5fcheck',['BOOST_HANA_CHECK',['../group__group-assertions.html#ga512de1fcd31e8a34931ffb2c891afd36',1,'assert.hpp']]],
@@ -35,7 +35,7 @@ var searchData=
   ['boost_5fhana_5fconstexpr_5fassert_5fmsg',['BOOST_HANA_CONSTEXPR_ASSERT_MSG',['../group__group-assertions.html#ga0a1327b758604bf330efeba450dd4a95',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fcheck',['BOOST_HANA_CONSTEXPR_CHECK',['../group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2',1,'assert.hpp']]],
   ['boost_5fhana_5fconstexpr_5fcheck_5fmsg',['BOOST_HANA_CONSTEXPR_CHECK_MSG',['../group__group-assertions.html#gaa76ba567944adfec0dce60cc20be35bc',1,'assert.hpp']]],
-  ['boost_5fhana_5fdefine_5fstruct',['BOOST_HANA_DEFINE_STRUCT',['../structboost_1_1hana_1_1Struct.html#a733de713ae2407331983c60186b215ca',1,'boost::hana::Struct']]],
+  ['boost_5fhana_5fdefine_5fstruct',['BOOST_HANA_DEFINE_STRUCT',['../group__group-Struct.html#gab9efb238a82207d91643994c5295cf8c',1,'boost::hana']]],
   ['boost_5fhana_5fdispatch_5fif',['BOOST_HANA_DISPATCH_IF',['../group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e',1,'dispatch_if.hpp']]],
   ['boost_5fhana_5fmajor_5fversion',['BOOST_HANA_MAJOR_VERSION',['../group__group-config.html#gac1f8e58978bf4fe02f68ca4646124aee',1,'version.hpp']]],
   ['boost_5fhana_5fminor_5fversion',['BOOST_HANA_MINOR_VERSION',['../group__group-config.html#gafd6a702442b280083efe2690da5621bd',1,'version.hpp']]],
@@ -56,5 +56,6 @@ var searchData=
   ['bug_20list',['Bug List',['../bug.html',1,'']]],
   ['boost_2efusion_20adapters',['Boost.Fusion adapters',['../group__group-ext-fusion.html',1,'']]],
   ['boost_2empl_20adapters',['Boost.MPL adapters',['../group__group-ext-mpl.html',1,'']]],
+  ['hana',['hana',['../namespaceboost_1_1hana.html',1,'boost']]],
   ['literals',['literals',['../namespaceboost_1_1hana_1_1literals.html',1,'boost::hana']]]
 ];
