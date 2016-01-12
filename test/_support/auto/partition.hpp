@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/minimal_product.hpp>
 
 
-TestCase test_drop_back{[]{
+TestCase test_partition{[]{
     namespace hana = boost::hana;
     using hana::test::ct_eq;
 

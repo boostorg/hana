@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <laws/base.hpp>
 
 
-TestCase test_reverse{[]{
+TestCase test_insert{[]{
     namespace hana = boost::hana;
     using hana::test::ct_eq;
 

@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <test/equivalence_class.hpp>
 
 
-TestCase test_cartesian_product{[]{
+TestCase test_sort{[]{
     namespace hana = boost::hana;
     using hana::test::ct_eq;
     using hana::test::ct_ord;
