@@ -33,6 +33,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/core/demangle.hpp>
 
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include <string>
 #include <typeinfo>
@@ -83,6 +84,12 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
         using Tag = typename hana::tag_of<T>::type;
         static constexpr bool value = !hana::is_default<print_impl<Tag>>::value;
     };
+
+    namespace print_detail {
+        std::string strip_type_junk(std::string const& str) {
+            return std::regex_replace(str, std::regex("^([a-z_]+::)*([a-z_]*)_t<"), "$2<");
+        }
+    }
 
     // model for Sequences
     template <typename S>
@@ -145,6 +152,24 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
         }
     };
 
+    // model for hana::metafunctions
+    template <template <typename ...> class F>
+    struct print_impl<hana::metafunction_t<F>> {
+        template <typename T>
+        static std::string apply(T const&) {
+            return print_detail::strip_type_junk(boost::core::demangle(typeid(T).name()));
+        }
+    };
+
+    // model for hana::metafunction_classes
+    template <typename F>
+    struct print_impl<hana::metafunction_class_t<F>> {
+        template <typename T>
+        static std::string apply(T const&) {
+            return print_detail::strip_type_junk(boost::core::demangle(typeid(T).name()));
+        }
+    };
+
     // model for Constants holding a `Printable`
     template <typename C>
     struct print_impl<C, hana::when<
@@ -192,6 +217,15 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
             });
             result += "}";
             return result;
+        }
+    };
+
+    // model for hana::templates
+    template <template <typename ...> class F>
+    struct print_impl<template_t<F>> {
+        template <typename T>
+        static std::string apply(T const&) {
+            return print_detail::strip_type_junk(boost::core::demangle(typeid(T).name()));
         }
     };
 
