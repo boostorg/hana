@@ -9,7 +9,7 @@
     "text": "Compile-time behavior of at_key"
   },
   "xAxis": {
-    "title": { "text": "Number of keys accessed" }
+    "title": { "text": "Number of elements in the map" }
   },
   "series": [
     {

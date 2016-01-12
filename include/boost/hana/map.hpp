@@ -35,6 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/first.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/demux.hpp>
+#include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/any_of.hpp>
 #include <boost/hana/fwd/at_key.hpp>
@@ -202,28 +203,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct keys_impl<map_tag> {
-        template <std::size_t ...i, typename ...Pair>
-        static constexpr auto
-        apply(detail::map_impl<std::index_sequence<i...>, Pair...> const& m) {
-            return hana::make_tuple(
-                hana::first(static_cast<detail::map_elt<i, Pair> const&>(m).storage_)...
-            );
-        }
-
-        template <std::size_t ...i, typename ...Pair>
-        static constexpr auto
-        apply(detail::map_impl<std::index_sequence<i...>, Pair...>& m) {
-            return hana::make_tuple(
-                hana::first(static_cast<detail::map_elt<i, Pair>&>(m).storage_)...
-            );
-        }
-
-        template <std::size_t ...i, typename ...Pair>
-        static constexpr auto
-        apply(detail::map_impl<std::index_sequence<i...>, Pair...>&& m) {
-            return hana::make_tuple(
-                hana::first(static_cast<detail::map_elt<i, Pair>&&>(m).storage_)...
-            );
+        template <typename Map>
+        static constexpr auto apply(Map&& m) {
+            return hana::unpack(static_cast<Map&&>(m),
+                                hana::on(hana::make_tuple, hana::first));
         }
     };
 
@@ -231,35 +214,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     // values
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    namespace detail {
-        template <std::size_t ...i, typename ...Pair>
-        constexpr auto
-        values_impl(detail::map_impl<std::index_sequence<i...>, Pair...> const& m) {
-            return hana::make_tuple(
-                hana::second(static_cast<detail::map_elt<i, Pair> const&>(m).storage_)...
-            );
-        }
-
-        template <std::size_t ...i, typename ...Pair>
-        constexpr auto
-        values_impl(detail::map_impl<std::index_sequence<i...>, Pair...>& m) {
-            return hana::make_tuple(
-                hana::second(static_cast<detail::map_elt<i, Pair>&>(m).storage_)...
-            );
-        }
-
-        template <std::size_t ...i, typename ...Pair>
-        constexpr auto
-        values_impl(detail::map_impl<std::index_sequence<i...>, Pair...>&& m) {
-            return hana::make_tuple(
-                hana::second(static_cast<detail::map_elt<i, Pair>&&>(m).storage_)...
-            );
-        }
-    }
-
     template <typename Map>
     constexpr decltype(auto) values_t::operator()(Map&& m) const {
-        return detail::values_impl(static_cast<Map&&>(m));
+        return hana::unpack(static_cast<Map&&>(m),
+                            hana::on(hana::make_tuple, hana::second));
     }
     //! @endcond
 
