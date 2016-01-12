@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/to.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
-#include <boost/hana/take.hpp>
+#include <boost/hana/take_front.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -52,7 +52,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(Xs&& xs, N const& n, Elements&& e) {
             return hana::concat(
                     hana::concat(
-                        hana::take(xs, n),
+                        hana::take_front(xs, n),
                         hana::to<S>(static_cast<Elements&&>(e))
                     ),
                     hana::drop_front(xs, n)

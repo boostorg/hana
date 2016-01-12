@@ -23,6 +23,6 @@ int main() {
     auto n = boost::hana::int_c< <%= input_size / 2 %> >;
 
     boost::hana::benchmark::measure([=] {
-        boost::hana::take(n, list);
+        boost::hana::take_front(n, list);
     });
 }

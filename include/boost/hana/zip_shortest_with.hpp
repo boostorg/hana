@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/length.hpp>
-#include <boost/hana/take.hpp>
+#include <boost/hana/take_front.hpp>
 #include <boost/hana/zip_with.hpp>
 
 #include <cstddef>
@@ -54,7 +54,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             };
             constexpr std::size_t min = *detail::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),
-                hana::take(static_cast<Xs&&>(xs), hana::size_c<min>)...
+                hana::take_front(static_cast<Xs&&>(xs), hana::size_c<min>)...
             );
         }
     };

@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/empty.hpp>
 #include <boost/hana/fwd/front.hpp>
 #include <boost/hana/fwd/prepend.hpp>
-#include <boost/hana/fwd/take.hpp>
+#include <boost/hana/fwd/take_front.hpp>
 #include <boost/hana/fwd/transform.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 #include <boost/hana/fwd/zip_shortest_with.hpp>
@@ -202,7 +202,7 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct take_impl<lambda_tuple_tag> {
+    struct take_front_impl<lambda_tuple_tag> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
             auto m = min(n, length(xs));

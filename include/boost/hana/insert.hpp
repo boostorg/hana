@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/drop_front.hpp>
-#include <boost/hana/take.hpp>
+#include <boost/hana/take_front.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -42,7 +42,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct insert_impl<S, when<Sequence<S>::value>> {
         template <typename Xs, typename N, typename Element>
         static constexpr auto apply(Xs&& xs, N const& n, Element&& e) {
-            return hana::concat(hana::append(hana::take(xs, n),
+            return hana::concat(hana::append(hana::take_front(xs, n),
                                              static_cast<Element&&>(e)),
                                 hana::drop_front(xs, n));
         }

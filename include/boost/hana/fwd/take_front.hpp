@@ -1,14 +1,14 @@
 /*!
 @file
-Forward declares `boost::hana::take` and `boost::hana::take_c`.
+Forward declares `boost::hana::take_front` and `boost::hana::take_front_c`.
 
 @copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef BOOST_HANA_FWD_TAKE_HPP
-#define BOOST_HANA_FWD_TAKE_HPP
+#ifndef BOOST_HANA_FWD_TAKE_FRONT_HPP
+#define BOOST_HANA_FWD_TAKE_FRONT_HPP
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
@@ -21,7 +21,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! if the sequence has less than `n` elements.
     //! @relates Sequence
     //!
-    //! Given a `Sequence` `xs` and an `IntegralConstant` `n`, `take(xs, n)`
+    //! Given a `Sequence` `xs` and an `IntegralConstant` `n`, `take_front(xs, n)`
     //! is a new sequence containing the first `n` elements of `xs`, in the
     //! same order. If `length(xs) <= n`, the whole sequence is returned and
     //! no error is triggered.
@@ -37,42 +37,42 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Example
     //! -------
-    //! @include example/take.cpp
+    //! @include example/take_front.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto take = [](auto&& xs, auto const& n) {
+    constexpr auto take_front = [](auto&& xs, auto const& n) {
         return tag-dispatched;
     };
 #else
     template <typename S, typename = void>
-    struct take_impl : take_impl<S, when<true>> { };
+    struct take_front_impl : take_front_impl<S, when<true>> { };
 
-    struct take_t {
+    struct take_front_t {
         template <typename Xs, typename N>
         constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
-    constexpr take_t take{};
+    constexpr take_front_t take_front{};
 #endif
 
-    //! Equivalent to `take`; provided for convenience.
+    //! Equivalent to `take_front`; provided for convenience.
     //! @relates Sequence
     //!
     //!
     //! Example
     //! -------
-    //! @include example/take_c.cpp
+    //! @include example/take_front_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <std::size_t n>
-    constexpr auto take_c = [](auto&& xs) {
-        return hana::take(forwarded(xs), hana::size_c<n>);
+    constexpr auto take_front_c = [](auto&& xs) {
+        return hana::take_front(forwarded(xs), hana::size_c<n>);
     };
 #else
     template <std::size_t n>
-    struct take_c_t;
+    struct take_front_c_t;
 
     template <std::size_t n>
-    constexpr take_c_t<n> take_c{};
+    constexpr take_front_c_t<n> take_front_c{};
 #endif
 BOOST_HANA_NAMESPACE_END
 
-#endif // !BOOST_HANA_FWD_TAKE_HPP
+#endif // !BOOST_HANA_FWD_TAKE_FRONT_HPP

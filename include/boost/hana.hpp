@@ -182,8 +182,8 @@ namespace boost {
 #include <boost/hana/suffix.hpp>
 #include <boost/hana/sum.hpp>
 #include <boost/hana/symmetric_difference.hpp>
-#include <boost/hana/take.hpp>
 #include <boost/hana/take_back.hpp>
+#include <boost/hana/take_front.hpp>
 #include <boost/hana/take_while.hpp>
 #include <boost/hana/tap.hpp>
 #include <boost/hana/then.hpp>

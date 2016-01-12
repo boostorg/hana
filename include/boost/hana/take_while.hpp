@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/detail/first_unsatisfied_index.hpp>
-#include <boost/hana/take.hpp>
+#include <boost/hana/take_front.hpp>
 #include <boost/hana/unpack.hpp>
 
 
@@ -47,7 +47,7 @@ BOOST_HANA_NAMESPACE_BEGIN
                 hana::unpack(static_cast<Xs&&>(xs),
                              detail::first_unsatisfied_index<Pred&&>{})
             );
-            return hana::take(static_cast<Xs&&>(xs), FirstUnsatisfied{});
+            return hana::take_front(static_cast<Xs&&>(xs), FirstUnsatisfied{});
         }
     };
 BOOST_HANA_NAMESPACE_END
