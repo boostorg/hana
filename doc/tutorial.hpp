@@ -631,6 +631,7 @@ function                                                                        
 <code>[slice_c](@ref boost::hana::Sequence::slice_c)<from, to>(sequence)</code>                  | Returns a new sequence containing the elements at indices contained in `[from, to)` of the original sequence.
 <code>[sort](@ref boost::hana::Sequence::sort)(sequence[, predicate])</code>                     | Sort (stably) the elements of a sequence, optionally according to a predicate. The elements must be `Orderable` if no predicate is provided.
 <code>[take](@ref boost::hana::Sequence::take)(sequence, number)</code>                          | Take the first n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
+<code>[take_back](@ref boost::hana::Sequence::take_back)(sequence, number)</code>                | Take the last n elements of a sequence, or the whole sequence if `length(sequence) <= n`. n must be an `IntegralConstant`.
 <code>[take_while](@ref boost::hana::Sequence::take_while)(sequence, predicate)</code>           | Take elements of a sequence while some predicate is satisfied, and return that.
 <code>[transform](@ref boost::hana::Functor::transform)(sequence, f)</code>                      | Apply a function to each element of a sequence and return the result.
 <code>[unique](@ref boost::hana::Sequence::unique)(sequence[, predicate])</code>                 | Removes all consecutive duplicates from a sequence. The predicate defaults to equality, in which case the elements must be `Comparable`.
