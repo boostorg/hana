@@ -1,6 +1,6 @@
 /*!
 @file
-Defines a SFINAE-friendly version of `std::common_type`.
+Defines a SFINAE-friendly version of `std::common_type`.
 
 @copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.

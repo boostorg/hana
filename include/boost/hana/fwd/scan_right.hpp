@@ -76,7 +76,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! A binary function called as `f(x, state)`, where `state` is the
     //! result accumulated so far and `x` is an element in the sequence.
     //! When no initial state is provided, `f` is called as `f(x1, x2)`,
-    //! where `x1` and `x2` are elements of the sequence.
+    //! where `x1` and `x2` are elements of the sequence.
     //!
     //!
     //! Example

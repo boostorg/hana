@@ -300,7 +300,7 @@ hence the `using` directive.
 
 Notice how we pass a [C++14 generic lambda][C++14.glambda] to `transform`;
 this is required because the lambda will first be called with a `Fish`, then
-a `Cat`, and finally a `Dog`, which all have different types. Hana provides
+a `Cat`, and finally a `Dog`, which all have different types. Hana provides
 most of the algorithms provided by the C++ standard library, except they work
 on tuples and related heterogeneous containers instead of `std::vector` &
 friends. In addition to working with heterogeneous values, Hana makes it

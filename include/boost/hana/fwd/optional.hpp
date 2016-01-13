@@ -194,7 +194,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         // 5.3.5, Observers
 
         //! Returns a pointer to the contained value, or a `nullptr` if the
-        //! `optional` is empty.
+        //! `optional` is empty.
         //!
         //!
         //! @note Overloads of this method are provided for both the `const`

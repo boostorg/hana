@@ -233,7 +233,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! and returns its alignment as an `integral_constant`. Like `sizeof`
     //! which works for expressions and type-ids, `alignof_` can also be
     //! called on an arbitrary expression. Specifically, given an expression
-    //! `expr` and a C++ type `T`, `alignof_` satisfies
+    //! `expr` and a C++ type `T`, `alignof_` satisfies
     //! @code
     //!   alignof_(expr) == size_t<alignof(decltype(expr) with references stripped)>
     //!   alignof_(type_c<T>) == size_t<alignof(T)>

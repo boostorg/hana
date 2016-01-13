@@ -47,7 +47,7 @@ int main() {
 
     // When accessed through the indices sequence, the tuple appears to be
     // ordered as the `types` above. However, as can be seen in the
-    // static_assert below, the tuple is actually ordered differently.
+    // static_assert below, the tuple is actually ordered differently.
     Tup tup;
     char const(&a)[4] = tup[indices[0_c]];
     char const(&b)[2] = tup[indices[1_c]];

@@ -35,7 +35,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! has no nested `type` and can be used in dependent contexts to exploit
     //! SFINAE. By default, the exact steps followed by `common` to determine
     //! the common type `C` of `T` and `U` are
-    //! 1. If `T` and `U` are the same, then `C` is `T`.
+    //! 1. If `T` and `U` are the same, then `C` is `T`.
     //! 2. Otherwise, if `true ? std::declval<T>() : std::declval<U>()` is
     //!    well-formed, then `C` is the type of this expression after using
     //!    `std::decay` on it. This is exactly the type that would have been

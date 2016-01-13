@@ -58,7 +58,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-Searchable
     //!
     //! Specifically, this is equivalent to `contains`, except `in` takes its
-    //! arguments in reverse order. Like `contains`, `in` can also be applied
+    //! arguments in reverse order. Like `contains`, `in` can also be applied
     //! in infix notation for increased expressiveness. This function is not a
     //! method that can be overriden; it is just a convenience function
     //! provided with the concept.

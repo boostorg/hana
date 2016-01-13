@@ -23,7 +23,7 @@ using test::ct_eq;
 using test::ct_ord;
 
 int main() {
-    // make sure `first` and `second` are "accessors"
+    // make sure `first` and `second` are "accessors"
     auto prod = test::minimal_product(test::Tracked{1}, test::Tracked{2});
     first(std::move(prod));
     second(std::move(prod));
