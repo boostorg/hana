@@ -308,13 +308,15 @@ before_script:
 
 script:
   ############################################################################
-  # Use vera++ to check for common formatting errors.
+  # Check for common formatting errors.
   ############################################################################
   - |
     if [[ "${CHECK_FORMATTING}" == "true" ]]; then
       # Find non-ASCII characters in headers
+      set +e
       pcregrep --color='auto' -n "[\x80-\xFF]" $(find include -name \*\.hpp)
       if [[ $? -ne 1 ]]; then exit 1; fi
+      set -e
 
       # F001: Source files should not use the '\r' (CR) character
       # L001: No trailing whitespace at the end of lines
