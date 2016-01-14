@@ -480,7 +480,7 @@ constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>
 <tr class="memdesc:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. An empty optional may only be move-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is MoveAssignable. <br /></td></tr>
 <tr class="separator:a5dbb46bd53e35d2d8ed55b7adb884b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64132dd9925e8ecc47aee4610a3b08e6"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a64132dd9925e8ecc47aee4610a3b08e6">operator-&gt;</a> ()</td></tr>
-<tr class="memdesc:a64132dd9925e8ecc47aee4610a3b08e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#a64132dd9925e8ecc47aee4610a3b08e6">More...</a><br /></td></tr>
+<tr class="memdesc:a64132dd9925e8ecc47aee4610a3b08e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#a64132dd9925e8ecc47aee4610a3b08e6">More...</a><br /></td></tr>
 <tr class="separator:a64132dd9925e8ecc47aee4610a3b08e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1c30ef06f6b294c60f1378ae4404e6d"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ab1c30ef06f6b294c60f1378ae4404e6d">value</a> ()</td></tr>
 <tr class="memdesc:ab1c30ef06f6b294c60f1378ae4404e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of an <code>optional</code>, or fail at compile-time.  <a href="#ab1c30ef06f6b294c60f1378ae4404e6d">More...</a><br /></td></tr>
@@ -899,7 +899,7 @@ template&lt;typename... &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty. </p>
+<p>Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty. </p>
 <dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for both the <code>const</code> and the non-<code>const</code> cases.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">/*</span></div>
