@@ -1505,7 +1505,7 @@ a `type` (which is an object, but still represents a type). We then use the
 `hana::traits::declval` _lifted metafunction_ from the `<boost/hana/traits.hpp>`
 header to create an rvalue of the type represented by `t`, which we can then
 use to check for a non-static member. Finally, instead of passing an actual
-object to `has_member` (like `Foo{}` or `Bar{}`), we now pass a `type_c<...>`.
+object to `has_member` (like `Foo{}` or `Bar{}`), we now pass a `type_c<...>`.
 This implementation is ideal for when no object is lying around.
 
 

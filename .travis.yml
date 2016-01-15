@@ -314,7 +314,8 @@ script:
     if [[ "${CHECK_FORMATTING}" == "true" ]]; then
       # Find non-ASCII characters in headers
       set +e
-      pcregrep --color='auto' -n "[\x80-\xFF]" $(find include -name \*\.hpp)
+      pcregrep --color='auto' -n "[\x80-\xFF]" $(find include doc -name \*\.hpp) \
+                                               $(find test example experimental -name \*\.cpp)
       if [[ $? -ne 1 ]]; then exit 1; fi
       set -e
 
