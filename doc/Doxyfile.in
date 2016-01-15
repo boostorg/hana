@@ -109,7 +109,11 @@ HTML_HEADER             = @Boost.Hana_SOURCE_DIR@/doc/header.html
 HTML_FOOTER             = @Boost.Hana_SOURCE_DIR@/doc/footer.html
 HTML_EXTRA_STYLESHEET   =
 HTML_EXTRA_FILES        = @Boost.Hana_SOURCE_DIR@/doc/js/chart.js \
-                          @Boost.Hana_SOURCE_DIR@/doc/js/hana.js
+                          @Boost.Hana_SOURCE_DIR@/doc/js/hana.js \
+                          @Boost.Hana_SOURCE_DIR@/doc/js/highcharts-data.js \
+                          @Boost.Hana_SOURCE_DIR@/doc/js/highcharts-exporting.js \
+                          @Boost.Hana_SOURCE_DIR@/doc/js/highcharts.js
+
 HTML_COLORSTYLE_HUE     = 75  # 0 - 359
 HTML_COLORSTYLE_SAT     = 100 # 0 - 255
 HTML_COLORSTYLE_GAMMA   = 80
