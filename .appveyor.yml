@@ -72,5 +72,5 @@ build_script:
   - mkdir build
   - cd build
   - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_CXX_FLAGS="-fms-compatibility-version=19"
-  - if "%TESTS_ONLY%" == "true" (ninja tests.quick && ctest -R --output-on-failure "test.+")
+  - if "%TESTS_ONLY%" == "true" (ninja tests && ctest -R --output-on-failure "test.+")
   - if "%EXAMPLES_ONLY%" == "true" (ninja examples && ctest -R --output-on-failure "example.+")
