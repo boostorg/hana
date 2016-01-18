@@ -14,8 +14,8 @@ namespace hana = boost::hana;
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to<hana::tuple_tag>(hana::tuple_t<int, char, void, int(float)>)
+        hana::to_tuple(hana::tuple_t<int, char, void, int(float)>)
             ==
-        hana::make<hana::tuple_tag>(hana::type_c<int>, hana::type_c<char>, hana::type_c<void>, hana::type_c<int(float)>)
+        hana::make_tuple(hana::type_c<int>, hana::type_c<char>, hana::type_c<void>, hana::type_c<int(float)>)
     );
 }

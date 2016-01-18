@@ -137,7 +137,7 @@ struct front
 template <typename Sequence>
 struct pop_back {
     using type = decltype(hana::drop_back(
-        hana::to<hana::tuple_tag>(Sequence{}), hana::size_c<1>
+        hana::to_tuple(Sequence{}), hana::size_c<1>
     ));
 };
 
@@ -243,8 +243,8 @@ struct equal
     : decltype( // inefficient but whatever
         hana::length(S1{}) == hana::length(S2{}) &&
         hana::all(hana::zip_shortest_with(detail::mpl_predicate<Pred>,
-                hana::to<hana::tuple_tag>(S1{}),
-                hana::to<hana::tuple_tag>(S2{})))
+                hana::to_tuple(S1{}),
+                hana::to_tuple(S2{})))
     )
 { };
 
@@ -259,13 +259,13 @@ struct equal
 //////////////////////////////////////////////////////////////////////////////
 template <typename Sequence>
 struct copy {
-    using type = decltype(hana::to<hana::tuple_tag>(Sequence{}));
+    using type = decltype(hana::to_tuple(Sequence{}));
 };
 
 template <typename Sequence, typename Pred>
 struct copy_if {
     using type = decltype(hana::filter(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
 };
@@ -276,7 +276,7 @@ struct transform;
 template <typename Sequence, typename Op>
 struct transform<Sequence, Op> {
     using type = decltype(hana::transform(
-        hana::to<hana::tuple_tag>(Sequence{}), detail::mpl_metafunction<Op>
+        hana::to_tuple(Sequence{}), detail::mpl_metafunction<Op>
     ));
 };
 
@@ -284,15 +284,15 @@ template <typename S1, typename S2, typename Op>
 struct transform {
     using type = decltype(hana::zip_with(
         detail::mpl_metafunction<Op>,
-        hana::to<hana::tuple_tag>(S1{}),
-        hana::to<hana::tuple_tag>(S2{})
+        hana::to_tuple(S1{}),
+        hana::to_tuple(S2{})
     ));
 };
 
 template <typename Sequence, typename OldType, typename NewType>
 struct replace {
     using type = decltype(hana::replace(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         hana::type_c<OldType>,
         hana::type_c<NewType>
     ));
@@ -301,7 +301,7 @@ struct replace {
 template <typename Sequence, typename Pred, typename NewType>
 struct replace_if {
     using type = decltype(hana::replace_if(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         detail::mpl_predicate<Pred>,
         hana::type_c<NewType>
     ));
@@ -310,7 +310,7 @@ struct replace_if {
 template <typename Sequence, typename T>
 struct remove {
     using type = decltype(hana::filter(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         hana::not_equal.to(hana::type_c<T>)
     ));
 };
@@ -318,7 +318,7 @@ struct remove {
 template <typename Sequence, typename Pred>
 struct remove_if {
     using type = decltype(hana::filter(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         hana::compose(hana::not_, detail::mpl_predicate<Pred>)
     ));
 };
@@ -326,7 +326,7 @@ struct remove_if {
 template <typename Sequence, typename Pred>
 struct unique {
     using type = decltype(hana::unique(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
 };
@@ -334,7 +334,7 @@ struct unique {
 template <typename Sequence, typename Pred>
 struct partition {
     using hana_pair = decltype(hana::partition(
-        hana::to<hana::tuple_tag>(Sequence{}),
+        hana::to_tuple(Sequence{}),
         detail::mpl_predicate<Pred>
     ));
     using type = pair<
@@ -346,13 +346,13 @@ struct partition {
 template <typename Sequence, typename Pred = mpl::quote2<less>>
 struct sort {
     using type = decltype(hana::sort(
-        hana::to<hana::tuple_tag>(Sequence{}), detail::mpl_predicate<Pred>
+        hana::to_tuple(Sequence{}), detail::mpl_predicate<Pred>
     ));
 };
 
 template <typename Sequence>
 struct reverse {
-    using type = decltype(hana::reverse(hana::to<hana::tuple_tag>(Sequence{})));
+    using type = decltype(hana::reverse(hana::to_tuple(Sequence{})));
 };
 
 

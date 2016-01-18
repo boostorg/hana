@@ -64,12 +64,12 @@ int main() {
     BOOST_HANA_RUNTIME_CHECK(hana::find(john, age) == hana::just(30));
     BOOST_HANA_CONSTANT_CHECK(hana::find(john, BOOST_HANA_STRING("foo")) == hana::nothing);
 
-    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::tuple_tag>(john) == hana::make_tuple(
+    BOOST_HANA_RUNTIME_CHECK(hana::to_tuple(john) == hana::make_tuple(
         hana::make_pair(name, "John"),
         hana::make_pair(age, 30)
     ));
 
-    BOOST_HANA_RUNTIME_CHECK(hana::to<hana::map_tag>(john) == hana::make_map(
+    BOOST_HANA_RUNTIME_CHECK(hana::to_map(john) == hana::make_map(
         hana::make_pair(name, "John"),
         hana::make_pair(age, 30)
     ));

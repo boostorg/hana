@@ -20,17 +20,17 @@ namespace hana = boost::hana;
 
 int main() {
     static_assert(
-        hana::to<hana::tuple_tag>(std::make_tuple(1, '2', 3.3)) == hana::make_tuple(1, '2', 3.3)
+        hana::to_tuple(std::make_tuple(1, '2', 3.3)) == hana::make_tuple(1, '2', 3.3)
     , "");
 
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to<hana::tuple_tag>(hana::make_range(hana::int_c<1>, hana::int_c<4>))
+        hana::to_tuple(hana::make_range(hana::int_c<1>, hana::int_c<4>))
             ==
         hana::make_tuple(hana::int_c<1>, hana::int_c<2>, hana::int_c<3>)
     );
 
     // std::array's operator[] is not constexpr, so we can't use static_assert
     BOOST_HANA_CONSTEXPR_CHECK(
-        hana::to<hana::tuple_tag>(std::array<int, 3>{{1, 2, 3}}) == hana::make_tuple(1, 2, 3)
+        hana::to_tuple(std::array<int, 3>{{1, 2, 3}}) == hana::make_tuple(1, 2, 3)
     );
 }

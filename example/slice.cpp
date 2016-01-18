@@ -29,8 +29,8 @@ static_assert(
 
 
 // A more complex example with a non-contiguous range
-constexpr auto letters = hana::to<hana::tuple_tag>(hana::range_c<char, 'a', 'z'>);
-constexpr auto indices = hana::to<hana::tuple_tag>(hana::make_range(hana::size_c<0>, hana::length(letters)));
+constexpr auto letters = hana::to_tuple(hana::range_c<char, 'a', 'z'>);
+constexpr auto indices = hana::to_tuple(hana::make_range(hana::size_c<0>, hana::length(letters)));
 
 auto even_indices = hana::filter(indices, [](auto n) {
     return n % hana::size_c<2> == hana::size_c<0>;

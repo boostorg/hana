@@ -66,7 +66,7 @@ constexpr auto codomain(Function f)
 template <typename Function>
 constexpr auto range(Function f) {
     // We must convert to hana::tuple first because hana::set is not a Functor
-    return hana::to<hana::set_tag>(hana::transform(hana::to<hana::tuple_tag>(domain(f)), f));
+    return hana::to_set(hana::transform(hana::to_tuple(domain(f)), f));
 }
 
 namespace boost { namespace hana {
