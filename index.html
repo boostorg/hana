@@ -47,9 +47,9 @@ MathJax.Hub.Config({
 </script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <!-- Additional javascript for drawing charts. -->
-<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
-<script type="text/javascript" src="https://code.highcharts.com/modules/data.js"></script>
-<script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="highcharts.js"></script>
+<script type="text/javascript" src="highcharts-data.js"></script>
+<script type="text/javascript" src="highcharts-exporting.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <script type="text/javascript" src="hana.js"></script>
 </head>
@@ -1238,7 +1238,7 @@ Non-static members</h3>
 <div class="line"><span class="keyword">struct </span>Bar { };</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(has_member(hana::type_c&lt;Foo&gt;));</div>
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(!has_member(hana::type_c&lt;Bar&gt;));</div>
-</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>type</code> (which is an object, but still represents a type). We then use the <code>hana::traits::declval</code> <em>lifted metafunction</em> from the <code>&lt;<a class="el" href="traits_8hpp.html" title="Defines function-like equivalents to the standard <type_traits>, and also to some utilities like std:...">boost/hana/traits.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type_c&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
+</div><!-- fragment --><p> This validity checker is different from what we saw earlier because the generic lambda is not expecting an usual object anymore; it is now expecting a <code>type</code> (which is an object, but still represents a type). We then use the <code>hana::traits::declval</code> <em>lifted metafunction</em> from the <code>&lt;<a class="el" href="traits_8hpp.html" title="Defines function-like equivalents to the standard <type_traits>, and also to some utilities like std:...">boost/hana/traits.hpp</a>&gt;</code> header to create an rvalue of the type represented by <code>t</code>, which we can then use to check for a non-static member. Finally, instead of passing an actual object to <code>has_member</code> (like <code>Foo{}</code> or <code>Bar{}</code>), we now pass a <code>type_c&lt;...&gt;</code>. This implementation is ideal for when no object is lying around.</p>
 <h3><a class="anchor" id="tutorial-introspection-is_valid-static"></a>
 Static members</h3>
 <p>Checking for a static member is easy, and it is provided for completeness:</p>
