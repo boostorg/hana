@@ -93,16 +93,20 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `hana::integral_constant`
     //!
     //!
-    //! Free model for non-boolean integral data types
-    //! ----------------------------------------------
-    //! A data type `T` is integral if `std::is_integral<T>::%value` is true.
-    //! For a non-boolean integral data type `T`, a model of `EuclideanRing`
+    //! Free model for non-boolean signed integral data types
+    //! -----------------------------------------------------
+    //! A data type `T` is integral if `std::is_integral<T>::%value` is true,
+    //! and it is signed if `std::is_signed<T>::%value` is true. For a
+    //! non-boolean signed integral data type `T`, a model of `EuclideanRing`
     //! is automatically defined by using the `Ring` model provided for
     //! arithmetic data types and setting
     //! @code
     //!     div(x, y) = (x / y)
     //!     mod(x, y)  = (x % y)
     //! @endcode
+    //!
+    //! Such a model cannot be provided for unsigned integral types, because
+    //! the fact that overflow wraps breaks the laws of `EuclideanRing`.
     //!
     //! @note
     //! The rationale for not providing an EuclideanRing model for `bool` is

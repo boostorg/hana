@@ -112,9 +112,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!     value<integral_constant<T, v>>() == v // of type T
     //! @endcode
     //!
-    //! 2. `Comparable`, `Orderable`, `Logical`, `Monoid`, `Group`, `Ring`, and `EuclideanRing`, `Hashable`\n
+    //! 2. `Comparable`, `Orderable`, `Logical`, `Monoid`, `Group`, `Ring`, and `Hashable`\n
     //! Those models are exactly those provided for `Constant`s, which are
     //! documented in their respective concepts.
+    //!
+    //! 3. `EuclideanRing` for signed types
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T v>
     struct integral_constant {

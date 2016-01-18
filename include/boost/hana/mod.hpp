@@ -72,10 +72,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for integral data types
+    // Model for signed integral data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct mod_impl<T, T, when<std::is_integral<T>::value &&
+                               std::is_signed<T>::value &&
                                !std::is_same<T, bool>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
