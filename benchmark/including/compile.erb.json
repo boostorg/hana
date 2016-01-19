@@ -38,6 +38,9 @@
     "colorByPoint": true,
     "data": [
       {
+        "name": "Baseline (no includes)",
+        "y": <%= amortize('baseline.erb.cpp') %>
+      }, {
         "name": "Boost.Hana",
         "y": <%= amortize('hana.erb.cpp') %>
       }
