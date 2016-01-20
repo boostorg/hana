@@ -25,6 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/has_duplicates.hpp>
+#include <boost/hana/detail/hash_table.hpp>
 #include <boost/hana/detail/index_if.hpp>
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
@@ -42,11 +43,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/is_subset.hpp>
 #include <boost/hana/fwd/keys.hpp>
+#include <boost/hana/hash.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/keys.hpp>
 #include <boost/hana/length.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/remove.hpp>
 #include <boost/hana/second.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>
@@ -66,58 +69,16 @@ BOOST_HANA_NAMESPACE_BEGIN
             static constexpr bool value = true;
         };
 
-        template <std::size_t index, typename Pair>
-        struct map_elt { Pair storage_; };
-
-        template <typename Indices, typename ...Pairs>
-        struct map_impl;
-
-        template <std::size_t ...index, typename ...Pair>
-        struct map_impl<std::index_sequence<index...>, Pair...>
-            : map_elt<index, Pair>...
+        template<typename ...Pair>
+        struct map_hash_table
+            : detail::bucket<Pair, decltype(hana::hash(hana::first(std::declval<Pair>())))>...
         {
             template <typename ...Xn>
-            explicit constexpr map_impl(Xn&& ...xn)
-                : map_elt<index, Pair>{static_cast<Xn&&>(xn)}...
+            explicit constexpr map_hash_table(Xn&& ...xn)
+                : detail::bucket<Pair,
+                    decltype(hana::hash(hana::first(std::declval<Pair>())))>{static_cast<Xn&&>(xn)}...
             { }
         };
-
-        template <std::size_t index, typename Pair>
-        static constexpr Pair&& map_get_helper(detail::map_elt<index, Pair>&& m) {
-            return static_cast<Pair&&>(m.storage_);
-        }
-
-        template <std::size_t index, typename Pair>
-        static constexpr Pair& map_get_helper(detail::map_elt<index, Pair>& m) {
-            return m.storage_;
-        }
-
-        template <std::size_t index, typename Pair>
-        static constexpr Pair const& map_get_helper(detail::map_elt<index, Pair> const& m) {
-            return m.storage_;
-        }
-
-        template <typename Pred>
-        constexpr int find_index_eager(hana::basic_type<hana::map<>>) {
-            return -1;
-        }
-
-        template <typename Pred, typename ...T>
-        constexpr int find_index_eager(hana::basic_type<hana::map<T...>>) {
-            bool results[] = {
-                static_cast<bool>(detail::decay<
-                    decltype(std::declval<Pred const&>()(hana::first(std::declval<T const&>())))
-                >::type::value)...
-            };
-
-            // Find first satisfied index
-            for (int index = 0; index < static_cast<int>(sizeof...(T)); ++index) {
-                if (results[index])
-                    return index;
-            }
-
-            return -1;
-        }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -126,7 +87,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <>
     struct map<>
-        : detail::map_impl<std::index_sequence<>>
+        : detail::map_hash_table<>
         , detail::searchable_operators<map<>>
     {
         constexpr map() { }
@@ -136,7 +97,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename ...Pairs>
     struct map
-        : detail::map_impl<std::make_index_sequence<sizeof...(Pairs)>, Pairs...>
+        : detail::map_hash_table<Pairs...>
         , detail::searchable_operators<map<Pairs...>>
         , detail::operators::adl<map<Pairs...>>
     {
@@ -144,18 +105,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr std::size_t size = sizeof...(Pairs);
 
         constexpr map()
-            : detail::map_impl<
-                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(Pairs{}...)
+            : detail::map_hash_table<Pairs...>(Pairs{}...)
         { }
 
         explicit constexpr map(Pairs const& ...xn)
-            : detail::map_impl<
-                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(xn...)
+            : detail::map_hash_table<Pairs...>(xn...)
         { }
 
         explicit constexpr map(Pairs&& ...xn)
-            : detail::map_impl<
-                std::make_index_sequence<sizeof...(Pairs)>, Pairs...>(
+            : detail::map_hash_table<Pairs...>(
                     static_cast<Pairs&&>(xn)...)
         { }
 
@@ -188,7 +146,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map(pairs...) requires all the keys to be "
             "Comparable at compile-time");
 
-            static_assert(!detail::has_duplicates<decltype(hana::first(pairs))...>::value,
+            static_assert(!detail::has_duplicates<decltype(hana::hash(hana::first(pairs)))...>::value,
             "hana::make_map(pairs...) requires all the keys to be unique");
 #endif
 
@@ -226,24 +184,24 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<map_tag> {
-        template <std::size_t ...i, typename ...Pairs, typename Pair>
+        template <typename ...Pairs, typename Pair>
         static constexpr auto
-        insert_helper(detail::map_impl<std::index_sequence<i...>, Pairs...> const& m,
+        insert_helper(hana::map<Pairs...> const& m,
                       Pair&& pair, hana::false_)
         {
             return hana::make_map(
-                static_cast<detail::map_elt<i, Pairs> const&>(m).storage_...,
+                detail::bucket_get(m, decltype(hana::hash(hana::first(std::declval<Pairs>()))){})...,
                 static_cast<Pair&&>(pair)
             );
         }
 
-        template <std::size_t ...i, typename ...Pairs, typename Pair>
+        template <typename ...Pairs, typename Pair>
         static constexpr auto
-        insert_helper(detail::map_impl<std::index_sequence<i...>, Pairs...>&& m,
+        insert_helper(hana::map<Pairs...>&& m,
                       Pair&& pair, hana::false_)
         {
             return hana::make_map(
-                static_cast<detail::map_elt<i, Pairs>&&>(m).storage_...,
+                detail::bucket_get(m, decltype(hana::hash(hana::first(std::declval<Pairs>()))){})...,
                 static_cast<Pair&&>(pair)
             );
         }
@@ -269,34 +227,21 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct erase_key_impl<map_tag> {
-        template <typename M, int i, std::size_t ...before, std::size_t ...after>
-        static constexpr auto
-        erase_key_helper2(M&& m, hana::int_<i>, std::index_sequence<before...>,
-                                                std::index_sequence<after...>)
-        {
-            return hana::make_map(
-                detail::map_get_helper<before>(static_cast<M&&>(m))...,
-                detail::map_get_helper<i+after+1>(static_cast<M&&>(m))...
-            );
-        }
-
-        template <typename M>
-        static constexpr auto erase_key_helper(M&& m, hana::int_<-1>) {
-            return static_cast<M&&>(m);
-        }
-
-        template <typename M, int i>
-        static constexpr auto erase_key_helper(M&& m, hana::int_<i>) {
-            return erase_key_helper2(static_cast<M&&>(m), hana::int_c<i>,
-                std::make_index_sequence<i>{},
-                std::make_index_sequence<detail::decay<M>::type::size-i-1>{});
-        }
+        template<typename Map>
+        struct copy_map_by_keys {
+            Map const& old;
+            template<typename ...Key>
+            constexpr auto operator()(Key&& ...key) {
+                return hana::make_map(detail::bucket_get(old, hana::hash(static_cast<Key&&>(key)))...);
+            }
+        };
 
         template <typename M, typename Key>
-        static constexpr auto apply(M&& m, Key&& key) {
-            constexpr auto map_type = hana::basic_type<typename detail::decay<M>::type>{};
-            constexpr int to_remove = detail::find_index_eager<decltype(hana::equal.to(key))>(map_type);
-            return erase_key_helper(static_cast<M&&>(m), hana::int_c<to_remove>);
+        static constexpr auto apply(M const& m, Key&& key) {
+            return hana::unpack(
+                hana::remove(hana::keys(m), static_cast<Key&&>(key)),
+                copy_map_by_keys<M>{m}
+            );
         }
     };
 
@@ -330,25 +275,25 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
-    namespace detail {
-        template <int index, typename Map, typename = typename std::enable_if<(index >= 0)>::type>
-        constexpr auto map_find_helper(hana::int_<index>, Map&& m) {
-            return hana::just(hana::second(detail::map_get_helper<index>(static_cast<Map&&>(m))));
-        }
-
-        template <typename T>
-        constexpr auto map_find_helper(hana::int_<-1>, T) {
-            return hana::nothing;
-        }
-    }
-
     template <>
     struct find_if_impl<map_tag> {
+        template<typename Map>
+        struct just_at_key {
+            Map const& m;
+            template<typename Key>
+            constexpr auto operator()(Key&& key) {
+                return hana::just(
+                    hana::second( 
+                        detail::bucket_get(m, hana::hash(static_cast<Key&&>(key)))
+                    )
+                );
+            }
+        };
+
         template <typename Map, typename Pred>
-        static constexpr auto apply(Map&& m, Pred const&) {
-            constexpr auto map_type = hana::basic_type<typename detail::decay<Map>::type>{};
-            constexpr int index = detail::find_index_eager<Pred>(map_type);
-            return map_find_helper(hana::int_<index>{}, static_cast<Map&&>(m));
+        static constexpr auto apply(Map const& m, Pred&& pred) {
+            return hana::maybe(hana::nothing, just_at_key<Map>{m},
+                hana::find_if(hana::keys(m), static_cast<Pred&&>(pred)));
         }
     };
 
@@ -383,14 +328,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct at_key_impl<map_tag> {
         template <typename Map, typename Key>
         static constexpr decltype(auto) apply(Map&& m, Key&& key) {
-            constexpr auto map_type = hana::basic_type<typename detail::decay<Map>::type>{};
-            constexpr int index = detail::find_index_eager<
-                                            decltype(hana::equal.to(key))>(map_type);
-            static_assert(index != -1,
-            "hana::at_key(map, key) requires the key to be in the map");
-
             return hana::second(
-                    detail::map_get_helper<index>(static_cast<Map&&>(m)));
+                detail::bucket_get(static_cast<Map&&>(m), hana::hash(static_cast<Key&&>(key)))
+            );
         }
     };
 
@@ -399,37 +339,30 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct unpack_impl<map_tag> {
-        template <std::size_t ...i, typename ...Pair, typename F>
+        template <typename ...Pair, typename F>
         static constexpr decltype(auto)
-        helper(std::index_sequence<i...>, map<Pair...> const& m, F&& f) {
+        apply(hana::map<Pair...> const& m, F&& f) {
             return static_cast<F&&>(f)(
-                static_cast<detail::map_elt<i, Pair> const&>(m).storage_...
+                detail::bucket_get(m, decltype(hana::hash(hana::first(std::declval<Pair>()))){})...
             );
         }
 
-        template <std::size_t ...i, typename ...Pair, typename F>
+        template <typename ...Pair, typename F>
         static constexpr decltype(auto)
-        helper(std::index_sequence<i...>, map<Pair...>& m, F&& f) {
+        apply(hana::map<Pair...>& m, F&& f) {
             return static_cast<F&&>(f)(
-                static_cast<detail::map_elt<i, Pair>&>(m).storage_...
+                detail::bucket_get(m, decltype(hana::hash(hana::first(std::declval<Pair>()))){})...
             );
         }
 
-        template <std::size_t ...i, typename ...Pair, typename F>
+        template <typename ...Pair, typename F>
         static constexpr decltype(auto)
-        helper(std::index_sequence<i...>, map<Pair...>&& m, F&& f) {
+        apply(hana::map<Pair...>&& m, F&& f) {
             return static_cast<F&&>(f)(
-                static_cast<detail::map_elt<i, Pair>&&>(m).storage_...
-            );
-        }
-
-        template <typename Map, typename F>
-        static constexpr decltype(auto)
-        apply(Map&& m, F&& f) {
-            return helper(
-                std::make_index_sequence<decltype(hana::length(m))::value>{},
-                static_cast<Map&&>(m),
-                static_cast<F&&>(f)
+                detail::bucket_get(
+                    static_cast<hana::map<Pair...>&&>(m),
+                    decltype(hana::hash(hana::first(std::declval<Pair>()))){}
+                )...
             );
         }
     };
