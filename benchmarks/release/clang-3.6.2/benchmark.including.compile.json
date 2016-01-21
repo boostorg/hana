@@ -27,17 +27,20 @@
     "colorByPoint": true,
     "data": [
       {
+        "name": "Baseline (no includes)",
+        "y": 0.022539289400000002
+      }, {
         "name": "Boost.Hana",
-        "y": 0.33184203219999997
+        "y": 0.3274195152
       }
 
       
       , {
         "name": "Boost.MPL",
-        "y": 1.2268259762000002
+        "y": 1.2429546842
       }, {
         "name": "Boost.Fusion",
-        "y": 1.3505918676
+        "y": 1.3493811502
       }
       
 
