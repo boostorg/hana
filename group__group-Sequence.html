@@ -1528,8 +1528,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="comment">// A more complex example with a non-contiguous range</span></div>
-<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to&lt;hana::tuple_tag&gt;(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
-<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to&lt;hana::tuple_tag&gt;(hana::make_range(hana::size_c&lt;0&gt;, <a class="code" href="group__group-Foldable.html#gaf0f8f717245620dc28cd7d7fa44d7475">hana::length</a>(letters)));</div>
+<div class="line">constexpr <span class="keyword">auto</span> letters = hana::to_tuple(hana::range_c&lt;char, &#39;a&#39;, &#39;z&#39;&gt;);</div>
+<div class="line">constexpr <span class="keyword">auto</span> indices = hana::to_tuple(hana::make_range(hana::size_c&lt;0&gt;, <a class="code" href="group__group-Foldable.html#gaf0f8f717245620dc28cd7d7fa44d7475">hana::length</a>(letters)));</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">auto</span> even_indices = <a class="code" href="group__group-MonadPlus.html#ga65cc6d9f522fb9e8e3b28d80ee5c822a">hana::filter</a>(indices, [](<span class="keyword">auto</span> n) {</div>
 <div class="line">    <span class="keywordflow">return</span> n % hana::size_c&lt;2&gt; == hana::size_c&lt;0&gt;;</div>

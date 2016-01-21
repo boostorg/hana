@@ -378,9 +378,9 @@ template&lt;typename... T&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(hana::tuple_t&lt;<span class="keywordtype">int</span>, <span class="keywordtype">char</span>, <span class="keywordtype">void</span>, <span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
+<div class="line">        hana::to_tuple(hana::tuple_t&lt;<span class="keywordtype">int</span>, <span class="keywordtype">char</span>, <span class="keywordtype">void</span>, <span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
 <div class="line">            ==</div>
-<div class="line">        hana::make&lt;hana::tuple_tag&gt;(hana::type_c&lt;int&gt;, hana::type_c&lt;char&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
+<div class="line">        hana::make_tuple(hana::type_c&lt;int&gt;, hana::type_c&lt;char&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;<span class="keywordtype">int</span>(<span class="keywordtype">float</span>)&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
 </div><!-- fragment --> 
@@ -428,7 +428,7 @@ template&lt;typename T , T... v&gt; </div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(hana::tuple_c&lt;int, 0, 1, 2&gt;)</div>
+<div class="line">        hana::to_tuple(hana::tuple_c&lt;int, 0, 1, 2&gt;)</div>
 <div class="line">            ==</div>
 <div class="line">        hana::make_tuple(hana::int_c&lt;0&gt;, hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;)</div>
 <div class="line">    );</div>

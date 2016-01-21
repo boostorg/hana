@@ -2405,7 +2405,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>pop_back {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#gac10231310abc86b056585ea0d0e96ef7">hana::drop_back</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), hana::size_c&lt;1&gt;</div>
+<div class="line">        hana::to_tuple(Sequence{}), hana::size_c&lt;1&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -2511,8 +2511,8 @@ Apendix II: A minimal MPL</h1>
 <div class="line">    : decltype( <span class="comment">// inefficient but whatever</span></div>
 <div class="line">        hana::length(S1{}) == hana::length(S2{}) &amp;&amp;</div>
 <div class="line">        hana::all(hana::zip_shortest_with(detail::mpl_predicate&lt;Pred&gt;,</div>
-<div class="line">                hana::to&lt;hana::tuple_tag&gt;(S1{}),</div>
-<div class="line">                hana::to&lt;hana::tuple_tag&gt;(S2{})))</div>
+<div class="line">                hana::to_tuple(S1{}),</div>
+<div class="line">                hana::to_tuple(S2{})))</div>
 <div class="line">    )</div>
 <div class="line">{ };</div>
 <div class="line"><span class="comment"></span></div>
@@ -2527,13 +2527,13 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="comment">//////////////////////////////////////////////////////////////////////////////</span></div>
 <div class="line"><span class="comment"></span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span>copy {</div>
-<div class="line">    <span class="keyword">using</span> type = decltype(hana::to&lt;hana::tuple_tag&gt;(Sequence{}));</div>
+<div class="line">    <span class="keyword">using</span> type = decltype(hana::to_tuple(Sequence{}));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span>copy_if {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-MonadPlus.html#ga65cc6d9f522fb9e8e3b28d80ee5c822a">hana::filter</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2544,7 +2544,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Op&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>&lt;Sequence, Op&gt; {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">hana::transform</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), detail::mpl_metafunction&lt;Op&gt;</div>
+<div class="line">        hana::to_tuple(Sequence{}), detail::mpl_metafunction&lt;Op&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
@@ -2552,15 +2552,15 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#ga6a4bf8549ce69b5b5b7377aec225a0e3">hana::zip_with</a>(</div>
 <div class="line">        detail::mpl_metafunction&lt;Op&gt;,</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(S1{}),</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(S2{})</div>
+<div class="line">        hana::to_tuple(S1{}),</div>
+<div class="line">        hana::to_tuple(S2{})</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> OldType, <span class="keyword">typename</span> NewType&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Functor.html#ga94cd3a75d59d70d77cfce144c4acf8ab">replace</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Functor.html#ga94cd3a75d59d70d77cfce144c4acf8ab">hana::replace</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        hana::type_c&lt;OldType&gt;,</div>
 <div class="line">        hana::type_c&lt;NewType&gt;</div>
 <div class="line">    ));</div>
@@ -2569,7 +2569,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred, <span class="keyword">typename</span> NewType&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Functor.html#ga1d21b4bccd16367d164fbe0d9ef52150">replace_if</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Functor.html#ga1d21b4bccd16367d164fbe0d9ef52150">hana::replace_if</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;,</div>
 <div class="line">        hana::type_c&lt;NewType&gt;</div>
 <div class="line">    ));</div>
@@ -2578,7 +2578,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> T&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-MonadPlus.html#gae3cc0d6e0d8feb3d677bd1da64da6f43">remove</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-MonadPlus.html#ga65cc6d9f522fb9e8e3b28d80ee5c822a">hana::filter</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        <a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">hana::not_equal</a>.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(hana::type_c&lt;T&gt;)</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2586,7 +2586,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-MonadPlus.html#ga9700169a45664d50377c1be9d58accd3">remove_if</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-MonadPlus.html#ga65cc6d9f522fb9e8e3b28d80ee5c822a">hana::filter</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">hana::compose</a>(<a class="code" href="group__group-Logical.html#ga4a7c9d7037601d5e553fd20777958980">hana::not_</a>, detail::mpl_predicate&lt;Pred&gt;)</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2594,7 +2594,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Sequence.html#ga35349be79e646c4f5bdd74ec96a846ab">unique</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#ga35349be79e646c4f5bdd74ec96a846ab">hana::unique</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
@@ -2602,7 +2602,7 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Sequence.html#ga5e84ac3f1eb09c637b6b38ef42dccd8d">partition</a> {</div>
 <div class="line">    <span class="keyword">using</span> hana_pair = decltype(<a class="code" href="group__group-Sequence.html#ga5e84ac3f1eb09c637b6b38ef42dccd8d">hana::partition</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}),</div>
+<div class="line">        hana::to_tuple(Sequence{}),</div>
 <div class="line">        detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">    <span class="keyword">using</span> type = pair&lt;</div>
@@ -2614,13 +2614,13 @@ Apendix II: A minimal MPL</h1>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence, <span class="keyword">typename</span> Pred = mpl::quote2&lt;less&gt;&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Sequence.html#gac000a79eb7b9d44ecc8982c93daa40e5">sort</a> {</div>
 <div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#gac000a79eb7b9d44ecc8982c93daa40e5">hana::sort</a>(</div>
-<div class="line">        hana::to&lt;hana::tuple_tag&gt;(Sequence{}), detail::mpl_predicate&lt;Pred&gt;</div>
+<div class="line">        hana::to_tuple(Sequence{}), detail::mpl_predicate&lt;Pred&gt;</div>
 <div class="line">    ));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Sequence&gt;</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="group__group-Sequence.html#ga28037560e8f224c53cf6ac168d03a067">reverse</a> {</div>
-<div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#ga28037560e8f224c53cf6ac168d03a067">hana::reverse</a>(hana::to&lt;hana::tuple_tag&gt;(Sequence{})));</div>
+<div class="line">    <span class="keyword">using</span> type = decltype(<a class="code" href="group__group-Sequence.html#ga28037560e8f224c53cf6ac168d03a067">hana::reverse</a>(hana::to_tuple(Sequence{})));</div>
 <div class="line">};</div>
 <div class="line"></div>
 <div class="line"><span class="comment"></span></div>
