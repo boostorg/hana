@@ -870,10 +870,186 @@ __Without changing any code__, we can use our `distance` function on runtime
 values and everything just works. Now that's DRY.
 
 
+@subsection tutorial-integral-branching Compile-time branching
+
+Once we have compile-time arithmetic, the next thing that might come to mind
+is compile-time branching. When metaprogramming, it is often useful to have
+one piece of code be compiled if some condition is true, and a different one
+otherwise. If you have heard of [static_if][N4461], this should sound very
+familiar, and indeed it is exactly what we are talking about. Otherwise, if
+you don't know why we might want to branch at compile-time, consider the
+following code (adapted from [N4461][]):
+
+@code{cpp}
+template <typename T, typename ...Args>
+  std::enable_if_t<std::is_constructible<T, Args...>::value,
+std::unique_ptr<T>> make_unique(Args&&... args) {
+  return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+
+template <typename T, typename ...Args>
+  std::enable_if_t<!std::is_constructible<T, Args...>::value,
+std::unique_ptr<T>> make_unique(Args&&... args) {
+  return std::unique_ptr<T>(new T{std::forward<Args>(args)...});
+}
+@endcode
+
+This code creates a `std::unique_ptr` using the correct form of syntax for the
+constructor. To achieve this, it uses [SFINAE][] and requires two different
+overloads. Now, anyone sane seeing this for the first time would ask why it
+is not possible to simply write:
+
+@code{cpp}
+template <typename T, typename ...Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+  if (std::is_constructible<T, Args...>::value)
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+  else
+    return std::unique_ptr<T>(new T{std::forward<Args>(args)...});
+}
+@endcode
+
+The reason is that the compiler is required to compile both branches of the
+`if` statement, regardless of the condition (even though it is known at
+compile-time). But when `T` is _not_ constructible from `Args...`, the second
+branch will fail to compile, which will cause a hard compilation error. What
+we need really is a way to tell the compiler __not to compile__ the second
+branch when the condition is true, and the first branch when the condition is
+false.
+
+To emulate this, Hana provides an `if_` function that works a bit like a
+normal `if` statement, except except it takes a condition that can be an
+`IntegralConstant` and returns the one of two values (which may have
+different types) chosen by the condition. If the condition is true, the
+first value is returned, and otherwise the second value is returned. A
+somewhat vain example is the following:
+
+@code{cpp}
+auto one_two_three = hana::if_(hana::true_c, 123, "hello");
+auto hello = hana::if_(hana::false_c, 123, "hello");
+@endcode
+
+@note
+`hana::true_c` and `hana::false_c` are just boolean `IntegralConstant`s
+representing a compile-time true value and a compile-time false value,
+respectively.
+
+Here, `one_two_three` is equal to `123`, and `hello` is equal to `"hello"`.
+In other words, `if_` is a little bit like the ternary conditional operator
+`? :`, except that both sides of the `:` can have different types:
+
+@code{cpp}
+// fails in both cases because both branches have incompatible types
+auto one_two_three = hana::true_c ? 123 : "hello";
+auto hello = hana::false_c ? 123 : "hello";
+@endcode
+
+Ok, so this is neat, but how can it actually help us write complete branches
+that are lazily instantiated by the compiler? The answer is to represent both
+branches of the `if` statement we'd like to write as generic lambdas, and to
+use `hana::if_` to return the branch that we'd like to execute. Here's how we
+could rewrite `make_unique`:
+
+@snippet example/tutorial/integral-branching.cpp make_unique.if_
+
+Here, the first value given to `hana::if_` is a generic lambda representing
+the branch we want to execute if the condition is true, and the second value
+is the branch we want to execute otherwise. `hana::if_` simply returns the
+branch chosen by the condition, and we call that branch (which is a generic
+lambda) immediately with `std::forward<Args>(args)...`. Hence, the proper
+generic lambda ends up being called, with `x...` being `args...`, and we
+return the result of that call.
+
+The reason why this approach works is because the body of each branch can only
+be instantiated when the types of all `x...` are known. Indeed, since the
+branch is a generic lambda, the type of the argument is not known until the
+lambda is called, and the compiler must wait for the types of `x...` to be
+known before type-checking the lambda's body. Since the erroneous lambda is
+never called when the condition is not satisfied (`hana::if_` takes care of
+that), the body of the lambda that would fail is never type-checked and no
+compilation error happens.
+
+@note
+The branches inside the `if_` are lambdas. As such, they really are different
+functions from the `make_unique` function. The variables appearing inside
+those branches have to be either captured by the lambdas or passed to them as
+arguments, and so they are affected by the way they are captured or passed
+(by value, by reference, etc..).
+
+Since this pattern of expressing branches as lambdas and then calling them
+is very common, Hana provides a `eval_if` function whose purpose is to make
+compile-time branching easier. `eval_if` comes from the fact that in a lambda,
+one can either receive input data as arguments or capture it from the context.
+However, for the purpose of emulating a language level `if` statement,
+implicitly capturing variables from the enclosing scope is usually more
+natural. Hence, what we would prefer writing is
+
+@code{cpp}
+template <typename T, typename ...Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+  return hana::if_(std::is_constructible<T, Args...>{},
+    [&] { return std::unique_ptr<T>(new T(std::forward<Args>(args)...)); },
+    [&] { return std::unique_ptr<T>(new T{std::forward<Args>(args)...}); }
+  );
+}
+@endcode
+
+Here, we're capturing the `args...` variables from the enclosing scope, which
+prevents us from having to introduce the new `x...` variables and passing them
+as arguments to the branches. However, this has two problems. First, this will
+not achieve the right result, since `hana::if_` will end up returning a lambda
+instead of returning the result of calling that lambda. To fix this, we can use
+`hana::eval_if` instead of `hana::if_`:
+
+@code{cpp}
+template <typename T, typename ...Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+  return hana::eval_if(std::is_constructible<T, Args...>{},
+    [&] { return std::unique_ptr<T>(new T(std::forward<Args>(args)...)); },
+    [&] { return std::unique_ptr<T>(new T{std::forward<Args>(args)...}); }
+  );
+}
+@endcode
+
+Here, we capture the enclosing `args...` by reference using `[&]`, and we do
+not need to receive any arguments. Also, `hana::eval_if` assumes that its
+arguments are branches that can be called, and it will take care of calling
+the branch that is selected by the condition. However, this will still cause
+a compilation failure, because the bodies of the lambdas are not dependent
+anymore, and semantic analysis will be done for both branches even though
+only one would end up being used. The solution to this problem is to make
+the bodies of the lambdas artificially dependent on something, to prevent the
+compiler from being able to perform semantic analysis before the lambda is
+actually used. To make this possible, `hana::eval_if` will call the selected
+branch with an identity function (a function that returns its argument
+unchanged), if the branch accepts such an argument:
+
+@snippet example/tutorial/integral-branching.cpp make_unique.eval_if
+
+Here, the bodies of the branches take an additional argument called `_` by
+convention. This argument will be provided by `hana::eval_if` to the branch
+that was selected. Then, we use `_` as a function on the variables that we
+want to make dependent within the body of each branch. What happens is that
+`_` will always be a function that returns its argument unchanged. However,
+the compiler can't possibly know it before the lambda has actually been called,
+so it can't know the type of `_(args)`. This prevents the compiler from being
+able to perform semantic analysis, and no compilation error happens. Plus,
+since `_(x)` is guaranteed to be equivalent to `x`, we know that we're not
+actually changing the semantics of the branches by using this trick.
+
+While using this trick may seem cumbersome, it can be very useful when dealing
+with many variables inside a branch. Furthermore, it is not required to wrap
+all variables with `_`; only variables that are involved in an expression whose
+type-checking has to be delayed must be wrapped, but the other ones are not
+required. There are still a few things to know about compile-time branching
+in Hana, but you can dig deeper by looking at the reference for `hana::eval_if`,
+`hana::if_` and `hana::lazy`.
+
+
 @subsection tutorial-integral-more Why stop here?
 
-Why should we limit ourselves to arithmetic operations? When you start
-considering `IntegralConstant`s as objects, it becomes sensible to augment
+Why should we limit ourselves to arithmetic operations and branching? When you
+start considering `IntegralConstant`s as objects, it becomes sensible to augment
 their interface with more functions that are generally useful. For example,
 Hana's `IntegralConstant`s define a `times` member function that can be used
 to invoke a function a certain number of times, which is especially useful
@@ -883,7 +1059,7 @@ for loop unrolling:
 __attribute__((noinline)) void f() { }
 
 int main() {
-    hana::int_c<10>.times(f);
+  hana::int_c<10>.times(f);
 }
 @endcode
 
@@ -1441,50 +1617,25 @@ section on [advanced constexpr](@ref tutorial-appendix-constexpr)).
 
 While this implementation is perfectly valid, it is still pretty cumbersome
 because it requires writing two different functions and going through the
-hoops of SFINAE explicitly by using `std::enable_if`. Since this pattern of
-branching at compile-time is so widely used, Hana provides an `if_` function
-that can be used to emulate a `static_if` functionality. Here is how we could
-write `optionalToString` with Hana's `if_`:
+hoops of SFINAE explicitly by using `std::enable_if`. However, as you might
+remember from the section on [compile-time branching](@ref tutorial-integral-branching),
+Hana provides an `if_` function that can be used to emulate the functionality
+of [static_if][N4461]. Here is how we could write `optionalToString` with
+`hana::if_`:
 
 @snippet example/tutorial/introspection.cpp optionalToString
 
-`if_` works a bit like a normal `if` statement, except it takes a condition
-that can be an `IntegralConstant` and returns the one of two values (which may
-have different types) chosen by the condition. If the condition is true, the
-first value is returned, and otherwise the second value is returned. In our
-case, the first value is a generic lambda representing the branch we want to
-execute if `obj` has a `toString` method, and the second one is the branch we
-want to execute otherwise. `if_` therefore returns the branch chosen by the
-condition, and we call that branch (which is a generic lambda) immediately
-with `obj`. The reason why this approach works is because the body of the
-first branch (where we call `x.toString()`) can only be compiled when the
-type of `x` is known. Indeed, since the branch is a generic lambda, the type
-of the argument is not known until the lambda is called, and the compiler must
-wait for `x`'s type to be known before type-checking the lambda's body. Since
-the lambda is never called when the condition is not satisfied (Hana's `if_`
-takes care of that), the body of the lambda is never type-checked and no
-compilation error happens. There are many different ways of branching in
-Hana; you may take a look at `eval_if` and `lazy` for details.
-
-@note
-The branches inside the `if_` are lambdas. As such, they really are different
-functions from the `optionalToString` function. The variables appearing inside
-those branches have to be either captured by the lambdas or passed to them as
-arguments, and so they are affected by the way they are captured or passed
-(by value, by reference, etc..).
-
 Now, the previous example covered only the specific case of checking for the
 presence of a non-static member function. However, `is_valid` can be used to
-detect the validity of almost any kind of expression. We now present a list
-of common use cases for validity checking along with how to use `is_valid` to
-implement them.
+detect the validity of almost any kind of expression. For completeness, we
+now present a list of common use cases for validity checking along with how
+to use `is_valid` to implement them.
 
 
 @subsubsection tutorial-introspection-is_valid-non_static Non-static members
 
-The previous example presented the case of a non-static member function. For
-completeness, we show how to check the presence of a non-static member. First,
-we can do it in a similar way as we did for the previous example:
+The first idiom we'll look at is checking for the presence of a non-static
+member. We can do it in a similar way as we did for the previous example:
 
 @snippet example/tutorial/introspection.cpp non_static_member_from_object
 
@@ -3940,8 +4091,10 @@ modified as little as possible to work with this reimplementation.
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
 [MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
 [MPL11]: http://github.com/ldionne/mpl11
+[N4461]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4461.html
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType
+[SFINAE]: http://en.cppreference.com/w/cpp/language/sfinae
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
 [SO.sfinae]: http://stackoverflow.com/a/257382/627587
