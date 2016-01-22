@@ -26,12 +26,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! > in a finer grained manner than what can be achieved with the usual
     //! > `typename Enable = void` and `std::enable_if` pattern. For example,
     //! > a partially specialized tag-dispatched method will have a higher
-    //! > priority than an equivalent specialization that uses `when`.
+    //! > priority than an equivalent specialization that uses `when`. For
+    //! > more details, see the tutorial section on [tag-dispatching][1].
     //!
     //!
     //! Example
     //! -------
     //! @include example/core/when.cpp
+    //!
+    //! [1]: @ref tutorial-core-tag_dispatching
     template <bool condition>
     struct when;
 
