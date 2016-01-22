@@ -997,7 +997,7 @@ std::unique_ptr<T> make_unique(Args&&... args) {
 Here, we're capturing the `args...` variables from the enclosing scope, which
 prevents us from having to introduce the new `x...` variables and passing them
 as arguments to the branches. However, this has two problems. First, this will
-not achieve the right result, since `hana::if_` will end up returning a lambda
+not achieve the right result, since `hana::if_` will end up returning a lambda
 instead of returning the result of calling that lambda. To fix this, we can use
 `hana::eval_if` instead of `hana::if_`:
 
