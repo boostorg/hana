@@ -19,6 +19,7 @@ var NAVTREE =
       [ "Compile-time numbers", "index.html#tutorial-integral", [
         [ "Compile-time arithmetic", "index.html#tutorial-integral-arithmetic", null ],
         [ "Example: Euclidean distance", "index.html#tutorial-integral-distance", null ],
+        [ "Compile-time branching", "index.html#tutorial-integral-branching", null ],
         [ "Why stop here?", "index.html#tutorial-integral-more", null ]
       ] ],
       [ "Type computations", "index.html#tutorial-type", [
@@ -104,7 +105,7 @@ var NAVTREEINDEX =
 "fwd_2define__struct_8hpp.html#gab9efb238a82207d91643994c5295cf8c",
 "group__group-EuclideanRing.html#ga9b47b223d5b02db933b3c93b5bd1a062",
 "has__duplicates_8hpp.html",
-"structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04"
+"structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

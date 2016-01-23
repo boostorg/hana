@@ -37,8 +37,9 @@ var NAVTREEINDEX3 =
 "index.html#tutorial-installation-requirements":[0,1,0],
 "index.html#tutorial-integral":[0,6],
 "index.html#tutorial-integral-arithmetic":[0,6,0],
+"index.html#tutorial-integral-branching":[0,6,2],
 "index.html#tutorial-integral-distance":[0,6,1],
-"index.html#tutorial-integral-more":[0,6,2],
+"index.html#tutorial-integral-more":[0,6,3],
 "index.html#tutorial-introduction":[0,3],
 "index.html#tutorial-introduction-quadrants":[0,3,0],
 "index.html#tutorial-introspection":[0,8],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30":[1,1,3,0],
 "structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57":[1,1,3,2],
 "structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,1,3,5],
-"structboost_1_1hana_1_1map.html#a675bb30af155b40f72cbe8607eefbe4e":[1,1,3,8],
-"structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8":[1,1,3,7]
+"structboost_1_1hana_1_1map.html#a675bb30af155b40f72cbe8607eefbe4e":[1,1,3,8]
 };
