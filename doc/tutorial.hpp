@@ -45,8 +45,8 @@ and the standard library.
 Hana is a header-only library without external dependencies (not even the rest
 of Boost). Hence, using Hana in your own project is very easy. Basically, just
 add the `include/` directory to your compiler's header search path and you are
-done. If you want to cleanly install Hana on your system, you have a couple of
-options. On OS X, the easiest way is to use [Homebrew][]:
+done. However, if you want to cleanly install Hana on your system, you have a
+couple of options. On OS X, the easiest way is to use [Homebrew][]:
 
 @code{.sh}
 brew install --devel homebrew/devel-only/hana
@@ -54,28 +54,30 @@ brew install --devel homebrew/devel-only/hana
 
 Until the library has a stable release, Hana will only live in [homebrew-devel-only][Homebrew.devel-only].
 If you don't have Homebrew, you can download the code from the official GitHub
-[repository][Hana.repository] and then issue the following commands from the
-root of the project (requires [CMake][]):
+[repository][Hana.repository] and install the library manually by issuing the
+following commands from the root of the project (requires [CMake][]):
 
 @code{.sh}
 mkdir build && cd build
 cmake ..
-make install
+cmake --build . --target install
 @endcode
 
 This will install Hana to the default install-directory for your platform
-(`/usr/local` for Unix, `C:/Program Files` for Windows). Note that
-`make install` really does nothing more than copy the whole `include/`
-directory to the install-directory. If you want to install Hana in a
-custom location, you can use
+(`/usr/local` for Unix, `C:/Program Files` for Windows). If you want to
+install Hana in a custom location, you can use
 
 @code{.sh}
 cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 @endcode
 
 @note
-The library should also be available through the Boost distribution starting
+- Both approaches shown above will also install a `hana.pc` file for use
+with [pkg-config][].
+
+- The library should also be available through the Boost distribution starting
 with Boost 1.61.0, which will be released around Feburary 2016.
+
 
 If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
 module to setup Hana as an external CMake project. The module also allows
@@ -4093,6 +4095,7 @@ modified as little as possible to work with this reimplementation.
 [MPL11]: http://github.com/ldionne/mpl11
 [N4461]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4461.html
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
+[pkg-config]: http://www.freedesktop.org/wiki/Software/pkg-config/
 [POD]: http://en.cppreference.com/w/cpp/concept/PODType
 [SFINAE]: http://en.cppreference.com/w/cpp/language/sfinae
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf

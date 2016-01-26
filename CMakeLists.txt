@@ -178,3 +178,7 @@ add_subdirectory(test)
 ##############################################################################
 install(DIRECTORY include/boost DESTINATION include
         PATTERN ".DS_Store" EXCLUDE)
+
+# We also install an optional pkg-config file.
+configure_file(cmake/hana.pc.in hana.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hana.pc DESTINATION lib/pkgconfig)
