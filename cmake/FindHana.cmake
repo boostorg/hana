@@ -69,7 +69,7 @@ find_path(Hana_INCLUDE_DIR
 if (EXISTS "${Hana_INCLUDE_DIR}")
     foreach(level MAJOR MINOR PATCH)
         file(STRINGS
-            ${include_dir}/boost/hana/version.hpp
+            ${Hana_INCLUDE_DIR}/boost/hana/version.hpp
             Hana_VERSION_${level}
             REGEX "#define BOOST_HANA_${level}_VERSION"
         )
