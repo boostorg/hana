@@ -14,6 +14,7 @@ int main() {
     auto tuple = hana::make_tuple(<%=
         env[:range].map { |n| "hana::int_<#{n}>{}" }.join(', ')
     %>);
+    (void)tuple;
 
     <% (0...input_size).each do |n| %>
         hana::at_key(tuple, hana::int_<<%= n %>>{});

@@ -20,6 +20,7 @@ int main() {
     %>>(<%=
         env[:range].map { |n| "undefined{}" }.join(', ')
     %>);
+    (void)map;
 
     <% (0...input_size).each do |n| %>
         fusion::at_key<hana::int_<<%= n %>>>(map);

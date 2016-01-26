@@ -16,6 +16,7 @@ int main() {
     auto map = hana::make_map(<%=
         env[:range].map { |n| "light_pair<hana::int_<#{n}>, undefined>{}" }.join(', ')
     %>);
+    (void)map;
 
     <% (0...input_size).each do |n| %>
         hana::at_key(map, hana::int_<<%= n %>>{});
