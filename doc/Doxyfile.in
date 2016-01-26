@@ -5,7 +5,7 @@
 PROJECT_NAME            = "Boost.Hana"
 PROJECT_BRIEF           = "Your standard library for metaprogramming"
 PROJECT_LOGO            = @Boost.Hana_SOURCE_DIR@/doc/icons/Boost.png
-PROJECT_NUMBER          =
+PROJECT_NUMBER          = @Boost.Hana_VERSION_STRING@
 
 STRIP_FROM_PATH         = @Boost.Hana_SOURCE_DIR@/include
 BUILTIN_STL_SUPPORT     = NO # Allows us to document std:: classes ourselves

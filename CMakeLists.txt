@@ -2,13 +2,26 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+cmake_minimum_required(VERSION 3.0)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+
 ##############################################################################
 # Setup project
+#
+# We parse the canonical version number located in <boost/hana/version.hpp>.
+# This is done to allow the library to be used without requiring a proper
+# installation during which the version would be written to this header.
 ##############################################################################
-cmake_minimum_required(VERSION 3.0)
-project(Boost.Hana CXX)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-enable_testing()
+foreach(level MAJOR MINOR PATCH)
+    file(STRINGS include/boost/hana/version.hpp
+                 _define_${level}
+                 REGEX "#define BOOST_HANA_${level}_VERSION")
+    string(REGEX MATCH "([0-9]+)" _version_${level} "${_define_${level}}")
+endforeach()
+
+set(Boost.Hana_VERSION_STRING "${_version_MAJOR}.${_version_MINOR}.${_version_PATCH}")
+project(Boost.Hana VERSION ${Boost.Hana_VERSION_STRING} LANGUAGES CXX)
 
 # Perform checks to make sure we support the current compiler
 include(CheckCxxCompilerSupport)
@@ -151,6 +164,7 @@ add_custom_target(check
 ##############################################################################
 # Setup subdirectories
 ##############################################################################
+enable_testing()
 add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)
