@@ -22,6 +22,7 @@ static_assert(hana::is_embedded<short,       long>{}, "");
 static_assert(hana::is_embedded<signed char, long>{}, "");
 static_assert(hana::is_embedded<short,       int>{}, "");
 static_assert(hana::is_embedded<signed char, int>{}, "");
+static_assert(hana::is_embedded<signed char, short>{}, "");
 
 static_assert(hana::is_embedded<unsigned long,  unsigned long long>{}, "");
 static_assert(hana::is_embedded<unsigned int,   unsigned long long>{}, "");
@@ -32,5 +33,6 @@ static_assert(hana::is_embedded<unsigned short, unsigned long>{}, "");
 static_assert(hana::is_embedded<unsigned char,  unsigned long>{}, "");
 static_assert(hana::is_embedded<unsigned short, unsigned int>{}, "");
 static_assert(hana::is_embedded<unsigned char,  unsigned int>{}, "");
+static_assert(hana::is_embedded<unsigned char,  unsigned short>{}, "");
 
 int main() { }

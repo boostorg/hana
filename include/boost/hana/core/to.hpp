@@ -95,6 +95,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , signed char);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , short);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(short    , signed char);
 
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned long);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned int);
@@ -105,6 +106,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long     , unsigned char);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned short);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned short    , unsigned char);
 
     template <typename T>
     struct to_impl<T*, decltype(nullptr)> : embedding<> {
