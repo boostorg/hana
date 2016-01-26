@@ -65,6 +65,7 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp "")
     add_executable(${target}.measure EXCLUDE_FROM_ALL ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp)
     set_target_properties(${target}.measure PROPERTIES RULE_LAUNCH_COMPILE "${CMAKE_CURRENT_BINARY_DIR}/measure.rb")
+    set_property(TARGET ${target}.measure APPEND PROPERTY INCLUDE_DIRECTORIES "${directory}")
     add_custom_target(${target}.measure.run COMMAND ${target}.measure)
 
     add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}.json"
