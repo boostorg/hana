@@ -19,7 +19,7 @@ rule hana-all-tests {
 
     local result ;
 
-    result += [ run bugs/github_75/tu1.cpp bugs/github_75/tu2.cpp : : : $(toolset) : test.bugs.github_75 ] ;
+    result += [ run issues/github_75/tu1.cpp issues/github_75/tu2.cpp : : : $(toolset) : test.issues.github_75 ] ;
 
     local sources = [ glob-tree *.cpp : *github_75* ] ;
     for local source in $(sources)
