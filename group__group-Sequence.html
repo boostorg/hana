@@ -3,6 +3,7 @@ Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
+<!-- boost-no-inspect -->
 <!-- HTML header for doxygen 1.8.9.1-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -1615,7 +1616,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <p>Also note that the sort is guaranteed to be stable. Hence, if <code>x</code> comes before <code>y</code> in the original sequence and both <code>predicate(x, y)</code> and <code>predicate(y, x)</code> are false, then <code>x</code> will come before <code>y</code> in the resulting sequence.</p>
 <p>If no predicate is provided, the elements in the sequence must all be compile-time <code>Orderable</code>.</p>
 <h2>Signature </h2>
-<p>Given a <code>Sequence</code> <code>S(T)</code>, a <code>Logical</code> <code>Bool</code> and a binary predicate \( T \times T \to Bool \), <code>sort</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
+<p>Given a <code>Sequence</code> <code>S(T)</code>, a boolean <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>Bool</code> and a binary predicate \( T \times T \to Bool \), <code>sort</code> has the following signatures. For the variant with a provided predicate, </p><p class="formulaDsp">
 \[ \mathtt{sort} : S(T) \times (T \times T \to Bool) \to S(T) \]
 </p>
 <p>for the variant without a custom predicate, <code>T</code> is required to be <code>Orderable</code>. The signature is then </p><p class="formulaDsp">
@@ -1624,7 +1625,7 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The sequence to sort.</td></tr>
-    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x, y)</code> for two elements <code>x</code> and <code>y</code> of the sequence, and returning a <code>Logical</code> representing whether <code>x</code> is to be considered <em>less</em> than <code>y</code>, i.e. whether <code>x</code> should appear <em>before</em> <code>y</code> in the resulting sequence. More specifically, <code>predicate</code> must define a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a> on the elements of the sequence. In the current version of the library, also note that <code>predicate</code> must return a <code>Constant Logical</code> when called with any two elements of the sequence. When the predicate is not specified, this defaults to <code>less</code>.</td></tr>
+    <tr><td class="paramname">predicate</td><td>A function called as <code>predicate(x, y)</code> for two elements <code>x</code> and <code>y</code> of the sequence, and returning a boolean <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> representing whether <code>x</code> is to be considered <em>less</em> than <code>y</code>, i.e. whether <code>x</code> should appear <em>before</em> <code>y</code> in the resulting sequence. More specifically, <code>predicate</code> must define a <a href="http://en.wikipedia.org/wiki/Strict_weak_ordering">strict weak ordering</a> on the elements of the sequence. When the predicate is not specified, this defaults to <code>less</code>. In the current version of the library, the predicate has to return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value convertible to a <code>bool</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1682,7 +1683,8 @@ template&lt;std::size_t from, std::size_t to&gt; </div>
 <div class="line">            )</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --> 
+</div><!-- fragment --><h2>Benchmarks </h2>
+<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.sort.compile.json"> </div> 
 </div>
 </div>
 <a class="anchor" id="ga9bdde56d805517bce8e387f5bcd1887e"></a>
@@ -2376,6 +2378,7 @@ Copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
+<!-- boost-no-inspect -->
 <!-- HTML footer for doxygen 1.8.9.1-->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
