@@ -3,8 +3,10 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/type.hpp>
 
 #include <type_traits>
 namespace hana = boost::hana;
@@ -27,6 +29,20 @@ struct Default {
 
 auto operator==(Default const&, Default const&) { return hana::true_c; }
 auto operator!=(Default const&, Default const&) { return hana::false_c; }
+
+namespace boost { namespace hana {
+    template <>
+    struct hash_impl<NoDefault> {
+        static constexpr auto apply(NoDefault const&)
+        { return hana::type_c<NoDefault>; };
+    };
+
+    template <>
+    struct hash_impl<Default> {
+        static constexpr auto apply(Default const&)
+        { return hana::type_c<Default>; };
+    };
+}}
 
 int main() {
     auto map1 = hana::make_map(hana::make_pair(Default(1), Default(1)));

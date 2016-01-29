@@ -6,9 +6,9 @@
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/equal.hpp>
+#include <boost/hana/find.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/integral_constant.hpp>
-#include <boost/hana/map.hpp>
 #include <boost/hana/not_equal.hpp>
 #include <boost/hana/pair.hpp>
 #include <boost/hana/string.hpp>
@@ -51,11 +51,6 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::find(john, BOOST_HANA_STRING("foo")) == hana::nothing);
 
     BOOST_HANA_RUNTIME_CHECK(hana::to_tuple(john) == hana::make_tuple(
-        hana::make_pair(BOOST_HANA_STRING("name"), "John"),
-        hana::make_pair(BOOST_HANA_STRING("age"), 30)
-    ));
-
-    BOOST_HANA_RUNTIME_CHECK(hana::to_map(john) == hana::make_map(
         hana::make_pair(BOOST_HANA_STRING("name"), "John"),
         hana::make_pair(BOOST_HANA_STRING("age"), 30)
     ));

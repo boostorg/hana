@@ -13,47 +13,46 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/map.hpp>
 
 #include <boost/hana/all_of.hpp>
-#include <boost/hana/any_of.hpp>
-#include <boost/hana/append.hpp>
-#include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
 #include <boost/hana/concept/product.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/to.hpp>
+#include <boost/hana/core/is_a.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/has_duplicates.hpp>
-#include <boost/hana/detail/index_if.hpp>
+#include <boost/hana/detail/hash_table.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find.hpp>
-#include <boost/hana/find_if.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/fold_left.hpp>
-#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/demux.hpp>
+#include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/any_of.hpp>
 #include <boost/hana/fwd/at_key.hpp>
-#include <boost/hana/fwd/core/to.hpp>
+#include <boost/hana/fwd/erase_key.hpp>
+#include <boost/hana/fwd/is_subset.hpp>
+#include <boost/hana/fwd/keys.hpp>
 #include <boost/hana/insert.hpp>
-#include <boost/hana/is_subset.hpp>
+#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/keys.hpp>
 #include <boost/hana/length.hpp>
+#include <boost/hana/optional.hpp>
 #include <boost/hana/remove_if.hpp>
 #include <boost/hana/second.hpp>
-#include <boost/hana/transform.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -72,21 +71,24 @@ BOOST_HANA_NAMESPACE_BEGIN
     // map
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename ...Pairs>
+    template <typename HashTable, typename Storage>
     struct map
-        : detail::searchable_operators<map<Pairs...>>
-        , detail::operators::adl<map<Pairs...>>
+        : detail::searchable_operators<map<HashTable, Storage>>
+        , detail::operators::adl<map<HashTable, Storage>>
     {
-        tuple<Pairs...> storage;
-        using hana_tag = map_tag;
-        static constexpr std::size_t size = sizeof...(Pairs);
+        using hash_table_type = HashTable;
+        using storage_type = Storage;
 
-        explicit constexpr map(tuple<Pairs...> const& ps)
-            : storage(ps)
+        Storage storage;
+
+        using hana_tag = map_tag;
+
+        explicit constexpr map(Storage const& xs)
+            : storage(xs)
         { }
 
-        explicit constexpr map(tuple<Pairs...>&& ps)
-            : storage(static_cast<tuple<Pairs...>&&>(ps))
+        explicit constexpr map(Storage&& xs)
+            : storage(static_cast<Storage&&>(xs))
         { }
 
         constexpr map() = default;
@@ -94,6 +96,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr map(map&& other) = default;
     };
     //! @endcond
+
+    namespace detail {
+        template <typename Storage>
+        struct KeyAtIndex {
+            template <std::size_t i>
+            using apply = decltype(hana::first(hana::at_c<i>(std::declval<Storage>())));
+        };
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // make<map_tag>
@@ -119,13 +129,21 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map(pairs...) requires all the keys to be "
             "Comparable at compile-time");
 
+            //! @todo
+            //! This can be implemented more efficiently by doing the check
+            //! inside each bucket instead.
             static_assert(!detail::has_duplicates<decltype(hana::first(pairs))...>::value,
             "hana::make_map(pairs...) requires all the keys to be unique");
 #endif
 
-            return map<typename detail::decay<Pairs>::type...>{
+            using Storage = hana::tuple<typename detail::decay<Pairs>::type...>;
+            using HashTable = typename detail::make_hash_table<
+                detail::KeyAtIndex<Storage>::template apply, sizeof...(Pairs)
+            >::type;
+
+            return map<HashTable, Storage>(
                 hana::make_tuple(static_cast<Pairs&&>(pairs)...)
-            };
+            );
         }
     };
 
@@ -155,28 +173,46 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct insert_impl<map_tag> {
-        template <typename Xs, typename Pair, typename Indices>
-        static constexpr auto
-        insert_helper(Xs&& xs, Pair&&, hana::true_, Indices) {
-            return static_cast<Xs&&>(xs);
-        }
+        template <typename Map, typename Pair>
+        static constexpr auto helper(Map&& map, Pair&& pair, ...) {
+            using RawMap = typename std::remove_reference<Map>::type;
+            using HashTable = typename RawMap::hash_table_type;
+            using NewHashTable = typename detail::bucket_insert<
+                HashTable,
+                decltype(hana::first(pair)),
+                decltype(hana::length(map.storage))::value
+            >::type;
 
-        template <typename Xs, typename Pair, std::size_t ...n>
-        static constexpr auto
-        insert_helper(Xs&& xs, Pair&& pair, hana::false_, std::index_sequence<n...>) {
-            return hana::make_map(
-                hana::at_c<n>(static_cast<Xs&&>(xs).storage)..., static_cast<Pair&&>(pair)
+            using NewStorage = decltype(
+                hana::append(static_cast<Map&&>(map).storage, static_cast<Pair&&>(pair))
+            );
+            return hana::map<NewHashTable, NewStorage>(
+                hana::append(static_cast<Map&&>(map).storage, static_cast<Pair&&>(pair))
             );
         }
 
-        template <typename Xs, typename Pair>
-        static constexpr auto apply(Xs&& xs, Pair&& pair) {
-            constexpr bool contains = hana::value<decltype(
-                hana::contains(xs, hana::first(pair))
-            )>();
-            constexpr std::size_t size = std::remove_reference<Xs>::type::size;
-            return insert_helper(static_cast<Xs&&>(xs), static_cast<Pair&&>(pair),
-                                 hana::bool_c<contains>, std::make_index_sequence<size>{});
+        template <typename Map, typename Pair, std::size_t i>
+        static constexpr auto
+        helper(Map&& map, Pair&&,
+               hana::optional<std::integral_constant<std::size_t, i>>)
+        {
+            return static_cast<Map&&>(map);
+        }
+
+        //! @todo
+        //! Here, we insert only if the key is not already in the map.
+        //! This should be handled by `bucket_insert`, and that would also
+        //! be more efficient.
+        template <typename Map, typename Pair>
+        static constexpr auto apply(Map&& map, Pair&& pair) {
+            using RawMap = typename std::remove_reference<Map>::type;
+            using Storage = typename RawMap::storage_type;
+            using HashTable = typename RawMap::hash_table_type;
+            using Key = decltype(hana::first(pair));
+            using MaybeIndex = typename detail::find_index<
+              HashTable, Key, detail::KeyAtIndex<Storage>::template apply
+            >::type;
+            return helper(static_cast<Map&&>(map), static_cast<Pair&&>(pair), MaybeIndex{});
         }
     };
 
@@ -185,18 +221,30 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct erase_key_impl<map_tag> {
-        template <typename M, typename Key>
-        static constexpr decltype(auto) apply(M&& map, Key&& key) {
+        //! @todo
+        //! We could implement some kind of `bucket_erase` metafunction
+        //! that would be much more efficient than this.
+        template <typename Map, typename Key>
+        static constexpr auto
+        erase_key_helper(Map&& map, Key const&, hana::false_) {
+            return static_cast<Map&&>(map);
+        }
+
+        template <typename Map, typename Key>
+        static constexpr auto
+        erase_key_helper(Map&& map, Key const& key, hana::true_) {
             return hana::unpack(
-                hana::remove_if(
-                    static_cast<M&&>(map).storage,
-                    hana::compose(
-                        hana::equal.to(static_cast<Key&&>(key)),
-                        hana::first
-                    )
-                ),
+                hana::remove_if(static_cast<Map&&>(map).storage,
+                                hana::on(hana::equal.to(key), hana::first)),
                 hana::make_map
             );
+        }
+
+        template <typename Map, typename Key>
+        static constexpr auto apply(Map&& map, Key const& key) {
+            constexpr bool contains = hana::value<decltype(hana::contains(map, key))>();
+            return erase_key_helper(static_cast<Map&&>(map), key,
+                                    hana::bool_c<contains>);
         }
     };
 
@@ -230,6 +278,31 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // Searchable
     //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct find_impl<map_tag> {
+        template <typename Map>
+        static constexpr auto find_helper(Map&&, ...) {
+            return hana::nothing;
+        }
+
+        template <typename Map, std::size_t i>
+        static constexpr auto
+        find_helper(Map&& map, hana::optional<std::integral_constant<std::size_t, i>>) {
+            return hana::just(hana::second(hana::at_c<i>(static_cast<Map&&>(map).storage)));
+        }
+
+        template <typename Map, typename Key>
+        static constexpr auto apply(Map&& map, Key const&) {
+            using RawMap = typename std::remove_reference<Map>::type;
+            using Storage = typename RawMap::storage_type;
+            using HashTable = typename RawMap::hash_table_type;
+            using MaybeIndex = typename detail::find_index<
+              HashTable, Key, detail::KeyAtIndex<Storage>::template apply
+            >::type;
+            return find_helper(static_cast<Map&&>(map), MaybeIndex{});
+        }
+    };
+
     template <>
     struct find_if_impl<map_tag> {
         template <typename M, typename Pred>
@@ -271,12 +344,16 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <>
     struct at_key_impl<map_tag> {
-        template <typename Xs, typename Key>
-        static constexpr decltype(auto) apply(Xs&& xs, Key const& key) {
-            using Pack = typename detail::make_pack<Xs>::type;
-            using Pred = decltype(hana::compose(hana::equal.to(key), hana::first));
-            constexpr std::size_t index = detail::index_if<Pred, Pack>::value;
-            return hana::second(hana::at_c<index>(static_cast<Xs&&>(xs).storage));
+        template <typename Map, typename Key>
+        static constexpr decltype(auto) apply(Map&& map, Key const&) {
+            using RawMap = typename std::remove_reference<Map>::type;
+            using HashTable = typename RawMap::hash_table_type;
+            using Storage = typename RawMap::storage_type;
+            using MaybeIndex = typename detail::find_index<
+                HashTable, Key, detail::KeyAtIndex<Storage>::template apply
+            >::type;
+            constexpr std::size_t index = decltype(*MaybeIndex{}){}();
+            return hana::second(hana::at_c<index>(static_cast<Map&&>(map).storage));
         }
     };
 
