@@ -19,6 +19,9 @@
     }, {
       "name": "hana::map",
       "data": <%= time_compilation('compile.hana.map.erb.cpp', hana) %>
+    }, {
+      "name": "std::integer_sequence",
+      "data": <%= time_compilation('compile.std.integer_sequence.erb.cpp', hana) %>
     }
 
     <% if cmake_bool("@Boost_FOUND@") %>
