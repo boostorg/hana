@@ -115,7 +115,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/string/make.cpp
     template <>
     constexpr auto make<string_tag> = [](auto&& ...chars) {
-        return string<implementation-defined>{};
+        return string<implementation_defined>{};
     };
 #endif
 
@@ -132,7 +132,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/string/string_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <char ...s>
-    constexpr string<implementation-defined> string_c{};
+    constexpr string<implementation_defined> string_c{};
 #else
     template <char ...s>
     constexpr string<s...> string_c{};

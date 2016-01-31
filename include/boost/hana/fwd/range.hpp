@@ -88,7 +88,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/range/make.cpp
     template <>
     constexpr auto make<range_tag> = [](auto const& from, auto const& to) {
-        return range<implementation-defined>{implementation-defined};
+        return range<implementation_defined>{implementation_defined};
     };
 #endif
 

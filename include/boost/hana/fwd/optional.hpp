@@ -276,7 +276,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<optional_tag> = []([auto&& x]) {
-        return optional<implementation-defined>{implementation-defined};
+        return optional<implementation_defined>{forwarded(x)};
     };
 #endif
 
@@ -298,7 +298,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/optional/just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
-        return optional<implementation-defined>{implementation-defined};
+        return optional<implementation_defined>{forwarded(x)};
     };
 #else
     struct make_just_t {
@@ -317,7 +317,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/optional/nothing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr optional<implementation-defined> nothing{implementation-defined};
+    constexpr optional<implementation_defined> nothing{implementation_defined};
 #else
     template <>
     struct optional<> : detail::operators::adl<optional<>> {

@@ -162,7 +162,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/tuple/tuple_t.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...T>
-    constexpr implementation-defined tuple_t{};
+    constexpr implementation_defined tuple_t{};
 #else
     template <typename ...T>
     constexpr hana::tuple<hana::type<T>...> tuple_t{};
@@ -182,7 +182,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/tuple/tuple_c.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T, T ...v>
-    constexpr implementation-defined tuple_c{};
+    constexpr implementation_defined tuple_c{};
 #else
     template <typename T, T ...v>
     constexpr hana::tuple<hana::integral_constant<T, v>...> tuple_c{};

@@ -42,7 +42,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/struct/keys.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& object) {
-        return implementation-defined;
+        return implementation_defined;
     };
 #endif
 BOOST_HANA_NAMESPACE_END

@@ -103,7 +103,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<set_tag> = [](auto&& ...xs) {
-        return set<implementation-defined...>{forwarded(xs)...};
+        return set<implementation_defined...>{forwarded(xs)...};
     };
 #endif
 

@@ -11,7 +11,7 @@ window.onload = function() {
       .replace(/perfect-.+(?=])/g, "perfect-capture".link("index.html#tutorial-glossary-perfect_capture").italics())
       .replace(/forwarded/g, "forwarded".link("index.html#tutorial-glossary-forwarded").italics())
       .replace(/tag-dispatched/g, "tag-dispatched".link("index.html#tutorial-glossary-tag_dispatched").italics())
-      .replace(/implementation-defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
+      .replace(/implementation_defined/g, "implementation-defined".link("index.html#tutorial-glossary-implementation_defined").italics())
       .replace(/see-documentation/g, "see-documentation".italics());
   });
 

@@ -104,7 +104,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<lazy_tag> = [](auto&& x) {
-        return lazy<implementation-defined>{implementation-defined};
+        return lazy<implementation_defined>{forwarded(x)};
     };
 #endif
 

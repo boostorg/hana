@@ -63,7 +63,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! first occurence of each key is kept.
     //! @include example/map/to.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename ...Pairs>
+    template <typename implementation_defined>
     struct map {
         //! Default-construct a map. This constructor only exists when all the
         //! elements of the map are default-constructible.
@@ -100,7 +100,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<map_tag> = [](auto&& ...pairs) {
-        return map<implementation-defined...>{forwarded(pairs)...};
+        return map<implementation_defined>{forwarded(pairs)...};
     };
 #endif
 
@@ -126,7 +126,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/map/keys.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto keys = [](auto&& map) {
-        return implementation-defined;
+        return implementation_defined;
     };
 #endif
 
@@ -139,7 +139,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/map/values.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto values = [](auto&& map) -> decltype(auto) {
-        return implementation-defined;
+        return implementation_defined;
     };
 #else
     struct values_t {
