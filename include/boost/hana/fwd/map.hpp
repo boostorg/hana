@@ -65,6 +65,10 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...Pairs>
     struct map {
+        //! Default-construct a map. This constructor only exists when all the
+        //! elements of the map are default-constructible.
+        constexpr map() = default;
+
         //! Copy-construct a map from another map. This constructor only
         //! exists when all the elements of the map are copy-constructible.
         constexpr map(map const& other) = default;
