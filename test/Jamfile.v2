@@ -33,3 +33,12 @@ rule hana-all-tests {
 }
 
 test-suite hana : [ hana-all-tests ] ;
+
+# Satisfy the Boost library requirements
+test-suite minimal  : hana ;
+test-suite full     : hana ;
+test-suite extra    : hana ;
+
+explicit hana ;
+explicit minimal ;
+explicit extra ;
