@@ -305,10 +305,10 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:acd99ab02697909eba5eb76caf1ca7a8b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#acd99ab02697909eba5eb76caf1ca7a8b">make_string</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1string__tag.html">string_tag</a>&gt;</td></tr>
 <tr class="memdesc:acd99ab02697909eba5eb76caf1ca7a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1string__tag.html" title="Tag representing a compile-time string. ">string_tag</a>&gt;</code>; provided for convenience.  <a href="#acd99ab02697909eba5eb76caf1ca7a8b">More...</a><br /></td></tr>
 <tr class="separator:acd99ab02697909eba5eb76caf1ca7a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81defbe99fb0d4ad6f269e4f9c2a0722"><td class="memTemplParams" colspan="2">template&lt;char... s&gt; </td></tr>
-<tr class="memitem:a81defbe99fb0d4ad6f269e4f9c2a0722"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1string.html">string</a>&lt; implementation-defined &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722">string_c</a> {}</td></tr>
-<tr class="memdesc:a81defbe99fb0d4ad6f269e4f9c2a0722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a compile-time string from a parameter pack of characters.  <a href="#a81defbe99fb0d4ad6f269e4f9c2a0722">More...</a><br /></td></tr>
-<tr class="separator:a81defbe99fb0d4ad6f269e4f9c2a0722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a810915f5e494decfe47b047a3500c577"><td class="memTemplParams" colspan="2">template&lt;char... s&gt; </td></tr>
+<tr class="memitem:a810915f5e494decfe47b047a3500c577"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1string.html">string</a>&lt; implementation_defined &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a810915f5e494decfe47b047a3500c577">string_c</a> {}</td></tr>
+<tr class="memdesc:a810915f5e494decfe47b047a3500c577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a compile-time string from a parameter pack of characters.  <a href="#a810915f5e494decfe47b047a3500c577">More...</a><br /></td></tr>
+<tr class="separator:a810915f5e494decfe47b047a3500c577"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f15faa77e126e1c2b08a2224ceefb84"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(s)&#160;&#160;&#160;see documentation</td></tr>
 <tr class="memdesc:a7f15faa77e126e1c2b08a2224ceefb84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a compile-time string from a string literal.  <a href="#a7f15faa77e126e1c2b08a2224ceefb84">More...</a><br /></td></tr>
 <tr class="separator:a7f15faa77e126e1c2b08a2224ceefb84"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -340,7 +340,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...chars) {</div>
-<div class="line">        <span class="keywordflow">return</span> <span class="keywordtype">string</span>&lt;implementation-defined&gt;{};</div>
+<div class="line">        <span class="keywordflow">return</span> string&lt;implementation_defined&gt;{};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create a compile-time <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> from a parameter pack of <code>char</code> <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s. </p>
@@ -392,7 +392,7 @@ template&lt;char... s&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a81defbe99fb0d4ad6f269e4f9c2a0722"></a>
+<a class="anchor" id="a810915f5e494decfe47b047a3500c577"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -404,7 +404,7 @@ template&lt;char... s&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1string.html">string</a>&lt;implementation-defined&gt; string_c {}</td>
+          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1string.html">string</a>&lt;implementation_defined&gt; string_c {}</td>
         </tr>
       </table>
   </td>

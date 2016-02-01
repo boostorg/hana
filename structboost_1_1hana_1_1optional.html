@@ -202,7 +202,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 </div><!-- fragment --></li>
 <li><code>Orderable</code><br />
 Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -225,7 +225,7 @@ Optional values can be ordered by considering the value they are holding, if any
 </div><!-- fragment --></li>
 <li><code>Functor</code><br />
 An optional value can be seen as a list containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an optional value is equivalent to applying it to its value if there is one, and to <code>nothing</code> otherwise: <div class="fragment"><div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
-<div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>, f) == nothing</div>
+<div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>, f) == nothing</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">/*</span></div>
 <div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -435,9 +435,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
 <tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
 <tr class="separator:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac07e15f303806d3e639f1b7237110ba8"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt; implementation-defined &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a> {implementation-defined}</td></tr>
-<tr class="memdesc:ac07e15f303806d3e639f1b7237110ba8"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#ac07e15f303806d3e639f1b7237110ba8">More...</a><br /></td></tr>
-<tr class="separator:ac07e15f303806d3e639f1b7237110ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt; implementation_defined &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a> {implementation_defined}</td></tr>
+<tr class="memdesc:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#a22cbe904b1f0b1aeedf0c5432331d8ec">More...</a><br /></td></tr>
+<tr class="separator:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6529e11cb228e99a05e81071752807d5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a></td></tr>
 <tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function to the contents of an optional, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
 <tr class="separator:a6529e11cb228e99a05e81071752807d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -518,7 +518,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= []([<span class="keyword">auto</span>&amp;&amp; x]) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a4eb5fabd070088c2d4f84bd1c7701d29">optional</a>&lt;implementation-defined&gt;{implementation-defined};</div>
+<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation_defined&gt;{forwarded(x)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value. </p>
@@ -616,7 +616,7 @@ template&lt;typename... &gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a4eb5fabd070088c2d4f84bd1c7701d29">optional</a>&lt;implementation-defined&gt;{implementation-defined};</div>
+<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation_defined&gt;{forwarded(x)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value containing <code>x</code>. </p>
@@ -639,7 +639,7 @@ template&lt;typename... &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="ac07e15f303806d3e639f1b7237110ba8"></a>
+<a class="anchor" id="a22cbe904b1f0b1aeedf0c5432331d8ec"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -649,7 +649,7 @@ template&lt;typename... &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt;implementation-defined&gt; nothing {implementation-defined}</td>
+          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt;implementation_defined&gt; nothing {implementation_defined}</td>
         </tr>
       </table>
   </td>
@@ -759,7 +759,7 @@ template&lt;typename... &gt; </div>
 <div class="line">            <span class="keywordflow">if</span> (decltype(forwarded(f)(forwarded(x)...)) is well-formed)</div>
 <div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)...));</div>
 <div class="line">            <span class="keywordflow">else</span></div>
-<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>;</div>
+<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>;</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -859,7 +859,7 @@ template&lt;typename... &gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; m) {</div>
-<div class="line">        <span class="keywordflow">return</span> m is a <a class="code" href="structboost_1_1hana_1_1optional.html#ac07e15f303806d3e639f1b7237110ba8">nothing</a>;</div>
+<div class="line">        <span class="keywordflow">return</span> m is a <a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> is empty. </p>

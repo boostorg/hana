@@ -245,9 +245,9 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c":[1,1,2,0],
 "structboost_1_1hana_1_1map.html":[1,1,3],
 "structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac":[1,1,3,3],
+"structboost_1_1hana_1_1map.html#a11b676101f99adfaa6b626367541e238":[1,1,3,8],
 "structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132":[1,1,3,4],
 "structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30":[1,1,3,0],
 "structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57":[1,1,3,2],
-"structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,1,3,5],
-"structboost_1_1hana_1_1map.html#a675bb30af155b40f72cbe8607eefbe4e":[1,1,3,8]
+"structboost_1_1hana_1_1map.html#a5791e6dc0e27d8e3a113e4d94482550f":[1,1,3,5]
 };

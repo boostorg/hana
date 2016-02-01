@@ -14,7 +14,7 @@ var searchData=
   ['trait',['trait',['../group__group-Metafunction.html#ga6d4093318f46472e62f9539a4dc998a9',1,'boost::hana']]],
   ['transform',['transform',['../group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7',1,'boost::hana']]],
   ['true_5fc',['true_c',['../structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405',1,'boost::hana::integral_constant']]],
-  ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1tuple.html#a2362e94b752cbd15155c65ed3f9de0a0',1,'boost::hana::tuple']]],
-  ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1tuple.html#aea7b637fbc34b451bd1cef82f1b64b6a',1,'boost::hana::tuple']]],
+  ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1tuple.html#a85c2f16caa2a1e12eefd1b3f69fa658e',1,'boost::hana::tuple']]],
+  ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1tuple.html#a1997546daf58a48cc15498d338a03da3',1,'boost::hana::tuple']]],
   ['type_5fc',['type_c',['../structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628',1,'boost::hana::type']]]
 ];

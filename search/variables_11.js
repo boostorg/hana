@@ -12,7 +12,7 @@ var searchData=
   ['slice_5fc',['slice_c',['../group__group-Sequence.html#gae1f6a2a9cb70564d43c6b3c663b25dd7',1,'boost::hana']]],
   ['sort',['sort',['../group__group-Sequence.html#gac000a79eb7b9d44ecc8982c93daa40e5',1,'boost::hana']]],
   ['span',['span',['../group__group-Sequence.html#ga9bdde56d805517bce8e387f5bcd1887e',1,'boost::hana']]],
-  ['string_5fc',['string_c',['../structboost_1_1hana_1_1string.html#a81defbe99fb0d4ad6f269e4f9c2a0722',1,'boost::hana::string']]],
+  ['string_5fc',['string_c',['../structboost_1_1hana_1_1string.html#a810915f5e494decfe47b047a3500c577',1,'boost::hana::string']]],
   ['suffix',['suffix',['../group__group-MonadPlus.html#ga61dab15f6ecf379121d4096fe0c8ab13',1,'boost::hana']]],
   ['sum',['sum',['../group__group-Foldable.html#ga650def4b2e98f4273d8b9b7aa5a2fc28',1,'boost::hana']]],
   ['symmetric_5fdifference',['symmetric_difference',['../structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::set']]]
