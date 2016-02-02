@@ -1,6 +1,6 @@
 <%
   def benchmark(variant)
-    time_compilation("#{variant}.erb.cpp", (0...200).step(5))
+    time_compilation("#{variant}.erb.cpp", (0...150).step(5))
   end
 %>
 
