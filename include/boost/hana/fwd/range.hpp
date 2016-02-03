@@ -16,6 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! @ingroup group-datatypes
     //! Compile-time half-open interval of `hana::integral_constant`s.
     //!
@@ -62,7 +63,23 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! in the range `[from, to)`, but it is much more compile-time efficient.
     //! @include example/range/searchable.cpp
     template <typename T, T from, T to>
+    struct range {
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::at`
+        template <typename N>
+        constexpr decltype(auto) operator[](N&& n);
+    };
+#else
+    template <typename T, T from, T to>
     struct range;
+#endif
 
     //! Tag representing a `hana::range`.
     //! @relates hana::range

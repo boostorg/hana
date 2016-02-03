@@ -111,6 +111,38 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! corresponding element in the source tuple.
         template <typename ...Yn>
         constexpr tuple& operator=(tuple<Yn...>&& other);
+
+        //! Equivalent to `hana::chain`.
+        template <typename ...T, typename F>
+        friend constexpr auto operator|(tuple<T...>, F);
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less`
+        template <typename X, typename Y>
+        friend constexpr auto operator<(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater`
+        template <typename X, typename Y>
+        friend constexpr auto operator>(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator<=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator>=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::at`
+        template <typename N>
+        constexpr decltype(auto) operator[](N&& n);
     };
 #else
     template <typename ...Xn>

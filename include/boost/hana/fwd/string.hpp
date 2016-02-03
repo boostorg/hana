@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
     //! @ingroup group-datatypes
     //! Compile-time string.
     //!
@@ -93,7 +94,39 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! > container type like `std::string_view` would be great, but that's
     //! > a bit complicated for the time being.
     template <char ...s>
+    struct string {
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less`
+        template <typename X, typename Y>
+        friend constexpr auto operator<(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater`
+        template <typename X, typename Y>
+        friend constexpr auto operator>(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator<=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator>=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::at`
+        template <typename N>
+        constexpr decltype(auto) operator[](N&& n);
+    };
+#else
+    template <char ...s>
     struct string;
+#endif
 
     //! Tag representing a compile-time string.
     //! @relates hana::string
