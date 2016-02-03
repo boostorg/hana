@@ -51,6 +51,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @endcode
     //!
     //!
+    //! @anchor type_lvalues_and_rvalues
     //! Lvalues and rvalues
     //! -------------------
     //! When storing `type`s in heterogeneous containers, some algorithms
@@ -82,7 +83,19 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/type/comparable.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T>
-    struct type;
+    struct type {
+        //! Returns rvalue of self.
+        //! See @ref type_lvalues_and_rvalues "description".
+        constexpr auto operator+() const;
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+    };
 #else
     template <typename T>
     struct type_impl;

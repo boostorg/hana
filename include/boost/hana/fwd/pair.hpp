@@ -91,6 +91,30 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! element in the source pair.
         template <typename T, typename U>
         constexpr pair& operator=(pair<T, U>&& other);
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less`
+        template <typename X, typename Y>
+        friend constexpr auto operator<(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater`
+        template <typename X, typename Y>
+        friend constexpr auto operator>(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator<=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator>=(X&& x, Y&& y);
     };
 #else
     template <typename First, typename Second>

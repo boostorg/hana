@@ -68,7 +68,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [1]: http://ldionne.com/2015/03/16/laziness-as-a-comonad
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename ...>
-    struct lazy;
+    struct lazy {
+        //! Equivalent to `hana::chain`.
+        template <typename ...T, typename F>
+        friend constexpr auto operator|(lazy<T...>, F);
+    };
 #else
     // We do not _actually_ define the lazy<...> type. Per the documentation,
     // users can't rely on it being anything, and so they should never use

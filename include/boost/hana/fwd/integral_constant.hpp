@@ -89,7 +89,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! - Bitwise: `~`, `&`, `|`, `^`, `<<`, `>>`
     //! - Comparison: `==`, `!=`, `<`, `<=`, `>`, `>=`
     //! - %Logical: `||`, `&&`, `!`
-    //! - Member access: `*` (dereference)
     //!
     //!
     //! Construction with user-defined literals
@@ -169,6 +168,66 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr void times(F&& f) {
             f(); f(); ... f(); // n times total
         }
+
+        //! Equivalent to hana::plus
+        template <typename X, typename Y>
+        friend constexpr auto operator+(X&& x, Y&& y);
+
+        //! Equivalent to hana::minux
+        template <typename X, typename Y>
+        friend constexpr auto operator-(X&& x, Y&& y);
+
+        //! Equivalent to hana::negate
+        template <typename X>
+        friend constexpr auto operator-(X&& x);
+
+        //! Equivalent to hana::mult
+        template <typename X, typename Y>
+        friend constexpr auto operator*(X&& x, Y&& y);
+
+        //! Equivalent to hana::div
+        template <typename X, typename Y>
+        friend constexpr auto operator/(X&& x, Y&& y);
+
+        //! Equivalent to hana::mod
+        template <typename X, typename Y>
+        friend constexpr auto operator%(X&& x, Y&& y);
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::or_`
+        template <typename X, typename Y>
+        friend constexpr auto operator||(X&& x, Y&& y);
+
+        //! Equivalent to `hana::and_`
+        template <typename X, typename Y>
+        friend constexpr auto operator&&(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_`
+        template <typename X>
+        friend constexpr auto operator!(X&& x);
+
+        //! Equivalent to `hana::less`
+        template <typename X, typename Y>
+        friend constexpr auto operator<(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater`
+        template <typename X, typename Y>
+        friend constexpr auto operator>(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator<=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator>=(X&& x, Y&& y);
     };
 #else
     template <typename T, T v>

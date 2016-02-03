@@ -76,6 +76,18 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! Move-construct a map from another map. This constructor only
         //! exists when all the elements of the map are move-constructible.
         constexpr map(map&& other) = default;
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::at_key`
+        template <typename Key>
+        constexpr decltype(auto) operator[](Key&& key);
     };
 #else
     template <typename ...Pairs>

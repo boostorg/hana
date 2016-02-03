@@ -252,6 +252,34 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! @include example/optional/value_or.cpp
         template <typename U>
         constexpr decltype(auto) value_or(U&& default_);
+
+        //! Equivalent to `hana::chain`.
+        template <typename ...T, typename F>
+        friend constexpr auto operator|(optional<T...>, F);
+
+        //! Equivalent to `hana::equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator==(X&& x, Y&& y);
+
+        //! Equivalent to `hana::not_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator!=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less`
+        template <typename X, typename Y>
+        friend constexpr auto operator<(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater`
+        template <typename X, typename Y>
+        friend constexpr auto operator>(X&& x, Y&& y);
+
+        //! Equivalent to `hana::less_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator<=(X&& x, Y&& y);
+
+        //! Equivalent to `hana::greater_equal`
+        template <typename X, typename Y>
+        friend constexpr auto operator>=(X&& x, Y&& y);
     };
 #else
     template <typename ...>
