@@ -1,8 +1,6 @@
-/*
-@copyright Louis Dionne 2013-2016
-Distributed under the Boost Software License, Version 1.0.
-(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
- */
+// Copyright Louis Dionne 2013-2016
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 <% if input_size > 10 %>
     #define FUSION_MAX_LIST_SIZE <%= ((input_size + 9) / 10) * 10 %>
