@@ -49,7 +49,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!      data-dataset="benchmark.at_key.number_of_lookups.chart.json">
     //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto at_key = [](auto&& xs, auto&& key) -> decltype(auto) {
+    constexpr auto at_key = [](auto&& xs, auto const& key) -> decltype(auto) {
         return tag-dispatched;
     };
 #else
@@ -58,7 +58,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     struct at_key_t {
         template <typename Xs, typename Key>
-        constexpr decltype(auto) operator()(Xs&& xs, Key&& key) const;
+        constexpr decltype(auto) operator()(Xs&& xs, Key const& key) const;
     };
 
     constexpr at_key_t at_key{};

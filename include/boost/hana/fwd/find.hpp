@@ -41,7 +41,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/find.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto find = [](auto&& xs, auto&& key) {
+    constexpr auto find = [](auto&& xs, auto const& key) {
         return tag-dispatched;
     };
 #else
@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     struct find_t {
         template <typename Xs, typename Key>
-        constexpr auto operator()(Xs&& xs, Key&& key) const;
+        constexpr auto operator()(Xs&& xs, Key const& key) const;
     };
 
     constexpr find_t find{};

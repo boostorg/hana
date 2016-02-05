@@ -29,7 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Key>
-    constexpr decltype(auto) at_key_t::operator()(Xs&& xs, Key&& key) const {
+    constexpr decltype(auto) at_key_t::operator()(Xs&& xs, Key const& key) const {
         using S = typename hana::tag_of<Xs>::type;
         using AtKey = BOOST_HANA_DISPATCH_IF(at_key_impl<S>,
             hana::Searchable<S>::value
@@ -40,15 +40,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         "hana::at_key(xs, key) requires 'xs' to be Searchable");
     #endif
 
-        return AtKey::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
+        return AtKey::apply(static_cast<Xs&&>(xs), key);
     }
     //! @endcond
 
     template <typename S, bool condition>
     struct at_key_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Key>
-        static constexpr auto apply(Xs&& xs, Key&& key) {
-            return hana::find(static_cast<Xs&&>(xs), static_cast<Key&&>(key)).value();
+        static constexpr auto apply(Xs&& xs, Key const& key) {
+            return hana::find(static_cast<Xs&&>(xs), key).value();
         }
     };
 

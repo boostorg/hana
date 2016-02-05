@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Xs, typename Key>
-    constexpr auto find_t::operator()(Xs&& xs, Key&& key) const {
+    constexpr auto find_t::operator()(Xs&& xs, Key const& key) const {
         using S = typename hana::tag_of<Xs>::type;
         using Find = BOOST_HANA_DISPATCH_IF(find_impl<S>,
             hana::Searchable<S>::value
@@ -33,16 +33,27 @@ BOOST_HANA_NAMESPACE_BEGIN
         "hana::find(xs, key) requires 'xs' to be Searchable");
     #endif
 
-        return Find::apply(static_cast<Xs&&>(xs), static_cast<Key&&>(key));
+        return Find::apply(static_cast<Xs&&>(xs), key);
     }
     //! @endcond
+
+    namespace detail {
+        template <typename T>
+        struct equal_to {
+            T const& t;
+            template <typename U>
+            constexpr auto operator()(U const& u) const {
+                return hana::equal(t, u);
+            }
+        };
+    }
 
     template <typename S, bool condition>
     struct find_impl<S, when<condition>> : default_ {
         template <typename Xs, typename Key>
-        static constexpr auto apply(Xs&& xs, Key&& key) {
+        static constexpr auto apply(Xs&& xs, Key const& key) {
             return hana::find_if(static_cast<Xs&&>(xs),
-                    hana::equal.to(static_cast<Key&&>(key)));
+                                 detail::equal_to<Key>{key});
         }
     };
 BOOST_HANA_NAMESPACE_END
