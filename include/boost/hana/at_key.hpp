@@ -13,17 +13,23 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at_key.hpp>
 
 #include <boost/hana/accessors.hpp>
+#include <boost/hana/at.hpp>
 #include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/concept/struct.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find.hpp>
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/functional/on.hpp>
+#include <boost/hana/length.hpp>
 #include <boost/hana/optional.hpp>
 #include <boost/hana/second.hpp>
+
+#include <cstddef>
+#include <utility>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -49,6 +55,54 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename Key>
         static constexpr auto apply(Xs&& xs, Key const& key) {
             return hana::find(static_cast<Xs&&>(xs), key).value();
+        }
+    };
+
+    namespace at_key_detail {
+        template <typename T>
+        struct equal_to {
+            T const& t;
+            template <typename U>
+            constexpr auto operator()(U const& u) const {
+                return hana::equal(t, u);
+            }
+        };
+
+        //! @todo This causes an awful duplication of code with `find_if`.
+        template <typename Xs, typename Pred, std::size_t i, std::size_t N, bool Done>
+        struct advance_until;
+
+        template <typename Xs, typename Pred, std::size_t i, std::size_t N>
+        struct advance_until<Xs, Pred, i, N, false>
+            : advance_until<Xs, Pred, i + 1, N, static_cast<bool>(detail::decay<decltype(
+                std::declval<Pred>()(hana::at_c<i>(std::declval<Xs>()))
+            )>::type::value)>
+        { };
+
+        template <typename Xs, typename Pred, std::size_t N>
+        struct advance_until<Xs, Pred, N, N, false> {
+            template <typename Ys>
+            static constexpr auto apply(Ys&&) = delete;
+        };
+
+        template <typename Xs, typename Pred, std::size_t i, std::size_t N>
+        struct advance_until<Xs, Pred, i, N, true> {
+            template <typename Ys>
+            static constexpr decltype(auto) apply(Ys&& ys) {
+                return hana::at_c<i - 1>(static_cast<Ys&&>(ys));
+            }
+        };
+    }
+
+    template <typename S>
+    struct at_key_impl<S, when<hana::Sequence<S>::value>> {
+        template <typename Xs, typename Key>
+        static constexpr decltype(auto) apply(Xs&& xs, Key const&) {
+            constexpr std::size_t N = decltype(hana::length(xs))::value;
+            using Pred = at_key_detail::equal_to<Key>;
+            return at_key_detail::advance_until<Xs&&, Pred, 0, N, false>::apply(
+                static_cast<Xs&&>(xs)
+            );
         }
     };
 

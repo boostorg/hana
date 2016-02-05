@@ -20,7 +20,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Given a non-empty Iterable `xs` with a linearization of `[x1, ..., xN]`,
     //! `front(xs)` is equal to `x1`. If `xs` is empty, it is an error to
-    //! use this function.
+    //! use this function. Equivalently, `front(xs)` must be equivalent to
+    //! `at_c<0>(xs)`, and that regardless of the value category of `xs`
+    //! (`front` must respect the reference semantics of `at`).
     //!
     //!
     //! Example

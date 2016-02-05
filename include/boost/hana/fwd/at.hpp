@@ -25,6 +25,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Specifically, given an iterable `xs` with a linearization of
     //! `[x1, ..., xN]`, `at(xs, k)` is equivalent to `xk`.
     //!
+    //! If the `Iterable` actually stores the elements it contains, `at` is
+    //! required to return a lvalue reference, a lvalue reference to const
+    //! or a rvalue reference to the matching element, where the type of
+    //! reference must match that of the iterable passed to `at`. If the
+    //! `Iterable` does not store the elements it contains (i.e. it generates
+    //! them on demand), this requirement is dropped.
+    //!
     //!
     //! @param xs
     //! The iterable in which an element is retrieved. The iterable must

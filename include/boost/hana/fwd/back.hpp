@@ -19,7 +19,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-Iterable
     //!
     //! Given a non-empty and finite iterable `xs` with a linearization of
-    //! `[x1, ..., xN]`, `back(xs)` is equal to `xN`.
+    //! `[x1, ..., xN]`, `back(xs)` is equal to `xN`. Equivalently, `back(xs)`
+    //! must be equivalent to `at_c<N-1>(xs)`, and that regardless of the
+    //! value category of `xs` (`back` must respect the reference semantics
+    //! of `at`).
     //!
     //!
     //! Example

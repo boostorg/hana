@@ -18,6 +18,12 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Returns the second element of a pair.
     //! @ingroup group-Product
     //!
+    //! Note that if the `Product` actually stores the elements it contains,
+    //! `hana::second` is required to return a lvalue reference, a lvalue
+    //! reference to const or a rvalue reference to the second element, where
+    //! the type of reference must match that of the pair passed to `second`.
+    //! If the `Product` does not store the elements it contains (i.e. it
+    //! generates them on demand), this requirement is dropped.
     //!
     //! Example
     //! -------

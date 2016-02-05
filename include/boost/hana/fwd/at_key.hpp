@@ -26,6 +26,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!     at_key(xs, key) == find(xs, key).value()
     //! @endcode
     //!
+    //! If the `Searchable` actually stores the elements it contains, `at_key`
+    //! is required to return a lvalue reference, a lvalue reference to const
+    //! or a rvalue reference to the found value, where the type of reference
+    //! must match that of the structure passed to `at_key`. If the `Searchable`
+    //! does not store the elements it contains (i.e. it generates them on
+    //! demand), this requirement is dropped.
+    //!
     //!
     //! @param xs
     //! The structure to be searched.

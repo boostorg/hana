@@ -59,16 +59,32 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <>
     struct first_impl<ext::std::pair_tag> {
-        template <typename P>
-        static constexpr decltype(auto) apply(P&& p)
-        { return static_cast<P&&>(p).first; }
+        template <typename T, typename U>
+        static constexpr T const& apply(std::pair<T, U> const& p)
+        {  return p.first; }
+
+        template <typename T, typename U>
+        static constexpr T& apply(std::pair<T, U>& p)
+        {  return p.first; }
+
+        template <typename T, typename U>
+        static constexpr T&& apply(std::pair<T, U>&& p)
+        {  return static_cast<T&&>(p.first); }
     };
 
     template <>
     struct second_impl<ext::std::pair_tag> {
-        template <typename P>
-        static constexpr decltype(auto) apply(P&& p)
-        { return static_cast<P&&>(p).second; }
+        template <typename T, typename U>
+        static constexpr U const& apply(std::pair<T, U> const& p)
+        {  return p.second; }
+
+        template <typename T, typename U>
+        static constexpr U& apply(std::pair<T, U>& p)
+        {  return p.second; }
+
+        template <typename T, typename U>
+        static constexpr U&& apply(std::pair<T, U>&& p)
+        {  return static_cast<U&&>(p.second); }
     };
 BOOST_HANA_NAMESPACE_END
 
