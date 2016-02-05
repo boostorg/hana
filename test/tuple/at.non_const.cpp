@@ -78,7 +78,4 @@ int main() {
         (void)static_cast<U>(hana::at_c<1>(xs));
         (void)static_cast<V>(hana::at_c<2>(xs));
     }
-    {
-
-    }
 }
