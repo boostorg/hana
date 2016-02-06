@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::tuple&lt; T &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::at_key_detail::advance_until&lt; Xs, Pred, i, N, Done &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1tuple.html','');});
+$(document).ready(function(){initNavTree('structboost_1_1hana_1_1at__key__detail_1_1advance__until.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -122,50 +122,15 @@ $(document).ready(function(){initNavTree('structboost_1_1tuple.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">boost::tuple&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-ext.html">External adapters</a> &raquo; <a class="el" href="group__group-ext-boost.html">Other Boost adapters</a></div></div>  </div>
+<div class="title">boost::hana::at_key_detail::advance_until&lt; Xs, Pred, i, N, Done &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename... T&gt;<br />
-struct boost::tuple&lt; T &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Xs, typename Pred, std::size_t i, std::size_t N, bool Done&gt;<br />
+struct boost::hana::at_key_detail::advance_until&lt; Xs, Pred, i, N, Done &gt;</h3>
 
-<p>Adapter for <code><a class="el" href="structboost_1_1tuple.html" title="Adapter for boost::tuples. ">boost::tuple</a></code>s. </p>
-<h2>Modeled concepts </h2>
-<p>A <code><a class="el" href="structboost_1_1tuple.html" title="Adapter for boost::tuples. ">boost::tuple</a></code> is a model of the <code>Sequence</code> concept, and all the concepts it refines. That makes it essentially the same as a Hana tuple, although the complexity of some operations might differ from that of Hana's tuple.</p>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2boost_2tuple_8hpp.html">boost/hana/ext/boost/tuple.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;boost/tuple/tuple.hpp&gt;</span></div>
-<div class="line"></div>
-<div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line"><span class="keyword">struct </span>Fish { std::string name; };</div>
-<div class="line"><span class="keyword">struct </span>Cat  { std::string name; };</div>
-<div class="line"><span class="keyword">struct </span>Dog  { std::string name; };</div>
-<div class="line"></div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    <a class="code" href="structboost_1_1tuple.html">boost::tuple&lt;Fish, Cat, Dog&gt;</a> animals{{<span class="stringliteral">&quot;Nemo&quot;</span>}, {<span class="stringliteral">&quot;Garfield&quot;</span>}, {<span class="stringliteral">&quot;Snoopy&quot;</span>}};</div>
-<div class="line">    <a class="code" href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">hana::front</a>(animals).name = <span class="stringliteral">&quot;Moby Dick&quot;</span>;</div>
-<div class="line"></div>
-<div class="line">    <span class="keyword">auto</span> names = <a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">hana::transform</a>(animals, [](<span class="keyword">auto</span> a) {</div>
-<div class="line">      <span class="keywordflow">return</span> a.name;</div>
-<div class="line">    });</div>
-<div class="line"></div>
-<div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
-<div class="line">        names,</div>
-<div class="line">        boost::make_tuple(<span class="stringliteral">&quot;Moby Dick&quot;</span>, <span class="stringliteral">&quot;Garfield&quot;</span>, <span class="stringliteral">&quot;Snoopy&quot;</span>)</div>
-<div class="line">    ));</div>
-<div class="line">}</div>
-</div><!-- fragment --> </div></div><!-- contents -->
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>This causes an awful duplication of code with <code>find_if</code>. </dd></dl>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!--
 Copyright Louis Dionne 2013-2016
@@ -177,7 +142,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="structboost_1_1tuple.html">tuple</a></li>
+    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><b>at_key_detail</b></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1at__key__detail_1_1advance__until.html">advance_until</a></li>
   </ul>
 </div>
 </body>

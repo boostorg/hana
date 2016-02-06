@@ -123,6 +123,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1integral__const
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1integral__constant-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -161,7 +162,6 @@ struct boost::hana::integral_constant&lt; T, v &gt;</h3>
 <li>Bitwise: <code>~</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>, <code>&lt;&lt;</code>, <code>&gt;&gt;</code></li>
 <li>Comparison: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code></li>
 <li>Logical: <code>||</code>, <code>&amp;&amp;</code>, <code>!</code></li>
-<li>Member access: <code>*</code> (dereference)</li>
 </ul>
 <h2>Construction with user-defined literals </h2>
 <p><code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s of type <code>long long</code> can be created with the <code>_c</code> user-defined literal, which is contained in the <code>literals</code> namespace: </p><div class="fragment"><div class="line"><span class="keyword">using namespace </span>hana::literals; <span class="comment">// contains the _c suffix</span></div>
@@ -263,6 +263,84 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a1c078fd00db48686ca9e0aa17f47344e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a1c078fd00db48686ca9e0aa17f47344e">operator&quot;&quot;_c</a> ()</td></tr>
 <tr class="memdesc:a1c078fd00db48686ca9e0aa17f47344e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code> from a literal.  <a href="#a1c078fd00db48686ca9e0aa17f47344e">More...</a><br /></td></tr>
 <tr class="separator:a1c078fd00db48686ca9e0aa17f47344e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a077af435df78fdb178f98b109c8c4297"><td class="memTemplParams" colspan="2"><a class="anchor" id="a077af435df78fdb178f98b109c8c4297"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a077af435df78fdb178f98b109c8c4297"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a077af435df78fdb178f98b109c8c4297">operator+</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a077af435df78fdb178f98b109c8c4297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <a class="el" href="group__group-Monoid.html#gaeb5d4a1e967e319712f9e4791948896c" title="Associative binary operation on a Monoid. ">hana::plus</a>. <br /></td></tr>
+<tr class="separator:a077af435df78fdb178f98b109c8c4297"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51facf9760bb93d63efdca06dcf859ad"><td class="memTemplParams" colspan="2"><a class="anchor" id="a51facf9760bb93d63efdca06dcf859ad"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a51facf9760bb93d63efdca06dcf859ad"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a51facf9760bb93d63efdca06dcf859ad">operator-</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a51facf9760bb93d63efdca06dcf859ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to hana::minux. <br /></td></tr>
+<tr class="separator:a51facf9760bb93d63efdca06dcf859ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be175332d55b7bfcf1afc33856d9b7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a6be175332d55b7bfcf1afc33856d9b7d"></a>
+template&lt;typename X &gt; </td></tr>
+<tr class="memitem:a6be175332d55b7bfcf1afc33856d9b7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d">operator-</a> (X &amp;&amp;x)</td></tr>
+<tr class="memdesc:a6be175332d55b7bfcf1afc33856d9b7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <a class="el" href="group__group-Group.html#ga02e81002f40ba52eac4cf1974c7e0cdb" title="Return the inverse of an element of a group. ">hana::negate</a>. <br /></td></tr>
+<tr class="separator:a6be175332d55b7bfcf1afc33856d9b7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673f1d9212ae61e8cee093af002bc110"><td class="memTemplParams" colspan="2"><a class="anchor" id="a673f1d9212ae61e8cee093af002bc110"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a673f1d9212ae61e8cee093af002bc110"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a673f1d9212ae61e8cee093af002bc110">operator*</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a673f1d9212ae61e8cee093af002bc110"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <a class="el" href="group__group-Ring.html#ga052d31c269a6a438cc8004c9ad1efdfa" title="Associative operation of a Ring. ">hana::mult</a>. <br /></td></tr>
+<tr class="separator:a673f1d9212ae61e8cee093af002bc110"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b66ff58605e53149aad7eca0922ad7"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab8b66ff58605e53149aad7eca0922ad7"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:ab8b66ff58605e53149aad7eca0922ad7"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#ab8b66ff58605e53149aad7eca0922ad7">operator/</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:ab8b66ff58605e53149aad7eca0922ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <a class="el" href="group__group-EuclideanRing.html#ga4225a7988ce98903228913dde53762df" title="Generalized integer division. ">hana::div</a>. <br /></td></tr>
+<tr class="separator:ab8b66ff58605e53149aad7eca0922ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2fabb33632e115e96d0b7474670e6a1"><td class="memTemplParams" colspan="2"><a class="anchor" id="ad2fabb33632e115e96d0b7474670e6a1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:ad2fabb33632e115e96d0b7474670e6a1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#ad2fabb33632e115e96d0b7474670e6a1">operator%</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:ad2fabb33632e115e96d0b7474670e6a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <a class="el" href="group__group-EuclideanRing.html#ga9b47b223d5b02db933b3c93b5bd1a062" title="Generalized integer modulus.Given two elements of an EuclideanRing x and y, with y nonzero...">hana::mod</a>. <br /></td></tr>
+<tr class="separator:ad2fabb33632e115e96d0b7474670e6a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883a869b5e96e32744ebf75d63c763ae"><td class="memTemplParams" colspan="2"><a class="anchor" id="a883a869b5e96e32744ebf75d63c763ae"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a883a869b5e96e32744ebf75d63c763ae"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a883a869b5e96e32744ebf75d63c763ae">operator||</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a883a869b5e96e32744ebf75d63c763ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Logical.html#ga68c00efbeb69339bfa157a78ebdd3f87" title="Return whether any of the arguments is true-valued.or_ can be called with one argument or more...">hana::or_</a></code> <br /></td></tr>
+<tr class="separator:a883a869b5e96e32744ebf75d63c763ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47d2d5df22fc559270029d5eabaae61a"><td class="memTemplParams" colspan="2"><a class="anchor" id="a47d2d5df22fc559270029d5eabaae61a"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a47d2d5df22fc559270029d5eabaae61a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a47d2d5df22fc559270029d5eabaae61a">operator&amp;&amp;</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a47d2d5df22fc559270029d5eabaae61a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Logical.html#ga14066f5672867c123524e0e0978069eb" title="Return whether all the arguments are true-valued.and_ can be called with one argument or more...">hana::and_</a></code> <br /></td></tr>
+<tr class="separator:a47d2d5df22fc559270029d5eabaae61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d9f9e5adeb222e676ee02d6f28198ee"><td class="memTemplParams" colspan="2"><a class="anchor" id="a7d9f9e5adeb222e676ee02d6f28198ee"></a>
+template&lt;typename X &gt; </td></tr>
+<tr class="memitem:a7d9f9e5adeb222e676ee02d6f28198ee"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a7d9f9e5adeb222e676ee02d6f28198ee">operator!</a> (X &amp;&amp;x)</td></tr>
+<tr class="memdesc:a7d9f9e5adeb222e676ee02d6f28198ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Logical.html#ga4a7c9d7037601d5e553fd20777958980" title="Negates a Logical.This method returns a Logical with the same tag, but whose truth-value is negated...">hana::not_</a></code> <br /></td></tr>
+<tr class="separator:a7d9f9e5adeb222e676ee02d6f28198ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memTemplParams" colspan="2"><a class="anchor" id="ada078dcf9e68b8e9a82b33c75dde8457"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#ada078dcf9e68b8e9a82b33c75dde8457">operator&lt;</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:ada078dcf9e68b8e9a82b33c75dde8457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9" title="Returns a Logical representing whether x is less than y. ">hana::less</a></code> <br /></td></tr>
+<tr class="separator:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd11fddefddbbbb87d3b24c7117528f"><td class="memTemplParams" colspan="2"><a class="anchor" id="aedd11fddefddbbbb87d3b24c7117528f"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:aedd11fddefddbbbb87d3b24c7117528f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#aedd11fddefddbbbb87d3b24c7117528f">operator&gt;</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:aedd11fddefddbbbb87d3b24c7117528f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#gaf9a073eafebbe514fb19dff82318f198" title="Returns a Logical representing whether x is greater than y. ">hana::greater</a></code> <br /></td></tr>
+<tr class="separator:aedd11fddefddbbbb87d3b24c7117528f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53817979990da799e659b2576799a79a"><td class="memTemplParams" colspan="2"><a class="anchor" id="a53817979990da799e659b2576799a79a"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a53817979990da799e659b2576799a79a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#a53817979990da799e659b2576799a79a">operator&lt;=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a53817979990da799e659b2576799a79a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#ga9917dd82beb67151bf5657245d37b851" title="Returns a Logical representing whether x is less than or equal to y. ">hana::less_equal</a></code> <br /></td></tr>
+<tr class="separator:a53817979990da799e659b2576799a79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3f0436b623de5208767751e1e9f7e59"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa3f0436b623de5208767751e1e9f7e59"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:aa3f0436b623de5208767751e1e9f7e59"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1integral__constant.html#aa3f0436b623de5208767751e1e9f7e59">operator&gt;=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:aa3f0436b623de5208767751e1e9f7e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#ga6023631e7d0a01e16dc3fa4221fbd703" title="Returns a Logical representing whether x is greater than or equal to y. ">hana::greater_equal</a></code> <br /></td></tr>
+<tr class="separator:aa3f0436b623de5208767751e1e9f7e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>

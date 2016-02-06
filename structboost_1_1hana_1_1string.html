@@ -123,6 +123,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1string.html',''
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1string-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::string&lt; s &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -140,11 +142,9 @@ struct boost::hana::string&lt; s &gt;</h3>
 <p>For most purposes, a <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> is functionally equivalent to a tuple holding <code>Constant</code>s of underlying type <code>char</code>.</p>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two strings are equal if and only if they have the same number of characters and characters at corresponding indices are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two strings are equal if and only if they have the same number of characters and characters at corresponding indices are equal. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -164,11 +164,9 @@ Two strings are equal if and only if they have the same number of characters and
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Orderable</code><br />
-The total order implemented for <code>Orderable</code> is the usual lexicographical comparison of strings. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+The total order implemented for <code>Orderable</code> is the usual lexicographical comparison of strings. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="greater_8hpp.html">boost/hana/greater.hpp</a>&gt;</span></div>
@@ -188,11 +186,9 @@ The total order implemented for <code>Orderable</code> is the usual lexicographi
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Foldable</code><br />
-Folding a string is equivalent to folding the sequence of its characters. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding a string is equivalent to folding the sequence of its characters. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -218,11 +214,9 @@ Folding a string is equivalent to folding the sequence of its characters. <div c
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />
-Iterating over a string is equivalent to iterating over the sequence of its characters. Also note that <code>operator[]</code> can be used instead of the <code>at</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Iterating over a string is equivalent to iterating over the sequence of its characters. Also note that <code>operator[]</code> can be used instead of the <code>at</code> function. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="contains_8hpp.html">boost/hana/contains.hpp</a>&gt;</span></div>
@@ -248,11 +242,9 @@ Iterating over a string is equivalent to iterating over the sequence of its char
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Searchable</code><br />
-Searching through a string is equivalent to searching through the sequence of its characters. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Searching through a string is equivalent to searching through the sequence of its characters. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="contains_8hpp.html">boost/hana/contains.hpp</a>&gt;</span></div>
@@ -274,11 +266,9 @@ Searching through a string is equivalent to searching through the sequence of it
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion to <code>char const*</code> </h2>
-<p>A <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> can be converted to a <code>constexpr</code> null-delimited string of type <code>char const*</code> by using <code>to&lt;char const*&gt;</code>. This makes it easy to turn a compile-time string into a runtime string. However, note that this conversion is not an embedding, because <code>char const*</code> does not model the same concepts as <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> does. </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<p>A <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> can be converted to a <code>constexpr</code> null-delimited string of type <code>char const*</code> by using <code>to&lt;char const*&gt;</code>. This makes it easy to turn a compile-time string into a runtime string. However, note that this conversion is not an embedding, because <code>char const*</code> does not model the same concepts as <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> does. </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
@@ -316,6 +306,47 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:ad77f7afff008c2ce15739ad16a8bf0a8"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#ad77f7afff008c2ce15739ad16a8bf0a8">operator&quot;&quot;_s</a> ()</td></tr>
 <tr class="memdesc:ad77f7afff008c2ce15739ad16a8bf0a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a compile-time string from a string literal.  <a href="#ad77f7afff008c2ce15739ad16a8bf0a8">More...</a><br /></td></tr>
 <tr class="separator:ad77f7afff008c2ce15739ad16a8bf0a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memTemplParams" colspan="2"><a class="anchor" id="ada078dcf9e68b8e9a82b33c75dde8457"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#ada078dcf9e68b8e9a82b33c75dde8457">operator&lt;</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:ada078dcf9e68b8e9a82b33c75dde8457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#gad510011602bdb14686f1c4ec145301c9" title="Returns a Logical representing whether x is less than y. ">hana::less</a></code> <br /></td></tr>
+<tr class="separator:ada078dcf9e68b8e9a82b33c75dde8457"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedd11fddefddbbbb87d3b24c7117528f"><td class="memTemplParams" colspan="2"><a class="anchor" id="aedd11fddefddbbbb87d3b24c7117528f"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:aedd11fddefddbbbb87d3b24c7117528f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#aedd11fddefddbbbb87d3b24c7117528f">operator&gt;</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:aedd11fddefddbbbb87d3b24c7117528f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#gaf9a073eafebbe514fb19dff82318f198" title="Returns a Logical representing whether x is greater than y. ">hana::greater</a></code> <br /></td></tr>
+<tr class="separator:aedd11fddefddbbbb87d3b24c7117528f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53817979990da799e659b2576799a79a"><td class="memTemplParams" colspan="2"><a class="anchor" id="a53817979990da799e659b2576799a79a"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a53817979990da799e659b2576799a79a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a53817979990da799e659b2576799a79a">operator&lt;=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a53817979990da799e659b2576799a79a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#ga9917dd82beb67151bf5657245d37b851" title="Returns a Logical representing whether x is less than or equal to y. ">hana::less_equal</a></code> <br /></td></tr>
+<tr class="separator:a53817979990da799e659b2576799a79a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3f0436b623de5208767751e1e9f7e59"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa3f0436b623de5208767751e1e9f7e59"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:aa3f0436b623de5208767751e1e9f7e59"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#aa3f0436b623de5208767751e1e9f7e59">operator&gt;=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:aa3f0436b623de5208767751e1e9f7e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Orderable.html#ga6023631e7d0a01e16dc3fa4221fbd703" title="Returns a Logical representing whether x is greater than or equal to y. ">hana::greater_equal</a></code> <br /></td></tr>
+<tr class="separator:aa3f0436b623de5208767751e1e9f7e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a0cfdf9095dab2ff4e085b32b766e39e9"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cfdf9095dab2ff4e085b32b766e39e9"></a>
+template&lt;typename N &gt; </td></tr>
+<tr class="memitem:a0cfdf9095dab2ff4e085b32b766e39e9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1string.html#a0cfdf9095dab2ff4e085b32b766e39e9">operator[]</a> (N &amp;&amp;n)</td></tr>
+<tr class="memdesc:a0cfdf9095dab2ff4e085b32b766e39e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129" title="Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. ">hana::at</a></code> <br /></td></tr>
+<tr class="separator:a0cfdf9095dab2ff4e085b32b766e39e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a75de1ad7b14dc576a98d759dc3176ae9"></a>
@@ -346,11 +377,9 @@ template&lt;&gt; </div>
 <p>Create a compile-time <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> from a parameter pack of <code>char</code> <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s. </p>
 <p>Given zero or more <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s of underlying type <code>char</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1string__tag.html" title="Tag representing a compile-time string. ">string_tag</a>&gt;</code> creates a <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> containing those characters. This is provided mostly for consistency with the rest of the library, as <code>hana::string_c</code> is more convenient to use in most cases.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -416,11 +445,9 @@ template&lt;char... s&gt; </div>
 
 <p>Create a compile-time string from a parameter pack of characters. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</span></div>
@@ -462,11 +489,9 @@ template&lt;char... s&gt; </div>
 <p>Create a compile-time string from a string literal. </p>
 <p>This macro is a more convenient alternative to <code>string_c</code> for creating compile-time strings. However, since this macro uses a lambda internally, it can't be used in an unevaluated context.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -512,11 +537,9 @@ template&lt;typename CharT , CharT... s&gt; </div>
 <dl class="section note"><dt>Note</dt><dd>Only narrow string literals are supported right now; support for fancier types of string literals like wide or UTF-XX might be added in the future if there is a demand for it. See <a href="https://github.com/boostorg/hana/issues/80">this issue</a> if you need this.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>This user-defined literal is an extension which requires a special string literal operator that is not part of the standard yet. That operator is supported by both Clang and GCC, and several proposals were made for it to enter C++17. However, since it is not standard, it is disabled by default and defining the <code>BOOST_HANA_CONFIG_ENABLE_STRING_UDL</code> config macro is required to get this operator. Hence, if you want to stay safe, just use the <code>BOOST_HANA_STRING</code> macro instead. If you want to be fast and furious (I do), define <code>BOOST_HANA_CONFIG_ENABLE_STRING_UDL</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>

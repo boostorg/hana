@@ -216,11 +216,9 @@ Variables</h2></td></tr>
 <p>Specifically, <code>always(x)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b">always</a>(x)(y...) == x</div>
 </div><!-- fragment --><p> for any <code>y...</code>. A copy of <code>x</code> is made and it is owned by the <code>always(x)</code> function. When <code>always(x)</code> is called, it will return a reference to the <code>x</code> it owns. This reference is valid as long as <code>always(x)</code> is in scope.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="always_8hpp.html">boost/hana/functional/always.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -258,11 +256,9 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="apply_8hpp.html">boost/hana/functional/apply.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
@@ -311,11 +307,9 @@ template&lt;std::size_t n&gt; </div>
 <h3>Rationale for <code>n</code> being a non-type template parameter</h3>
 <p>I claim that the only interesting use case is with a compile-time <code>n</code>, which means that the usage would become <code>arg(int_&lt;n&gt;)(x...)</code>, which is more cumbersome to write than <code>arg&lt;n&gt;(x...)</code>. This is open for discussion. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="arg_8hpp.html">boost/hana/functional/arg.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -355,11 +349,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Given 0 or more variables, <code>capture</code> creates a closure that can be used to partially apply a function. This is very similar to <code>partial</code>, except that <code>capture</code> allows the partially applied function to be specified later. Specifically, <code>capture(vars...)</code> is a function object taking a function <code>f</code> and returning <code>f</code> partially applied to <code>vars...</code>. In other words, </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">capture</a>(vars...)(f)(args...) == f(vars..., args...)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(vars) + sizeof...(args)</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -413,11 +405,9 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(<a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g), h)(x, xs...) == <a class="code" href="group__group-functional.html#ga3b16146e53efcdf9ecbb9a7b21f8cd0b">compose</a>(f, g)(h(x), xs...)</div>
 <div class="line">                                    == f(g(h(x)), xs...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -477,11 +467,9 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment --><p>Of course, this requires <code>k</code> to be less than or equal to <code>n</code>; failure to satisfy this will trigger a static assertion. This syntax is supported because it makes curried functions usable where normal functions are expected.</p>
 <p>Another "extension" is that <code>curry&lt;0&gt;(f)</code> is supported: <code>curry&lt;0&gt;(f)</code> is a nullary function; whereas the classical definition for currying seems to leave this case undefined, as nullary functions don't make much sense in purely functional languages.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -572,11 +560,9 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">                            == f(g(h(x...)))</div>
 </div><!-- fragment --><p>and hence <code>demux</code> is associative in the binary case.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="demux_8hpp.html">boost/hana/functional/demux.hpp</a>&gt;</span></div>
@@ -638,11 +624,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -682,11 +666,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Invoke a function with its two first arguments reversed. </p>
 <p>Specifically, <code>flip(f)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(f)(x, y, z...) == f(y, x, z...)</div>
 </div><!-- fragment --><h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -725,11 +707,9 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>The identity function &ndash; returns its argument unchanged. </p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="id_8hpp.html">boost/hana/functional/id.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -777,11 +757,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>
@@ -844,11 +822,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="iterate_8hpp.html">boost/hana/functional/iterate.hpp</a>&gt;</span></div>
@@ -890,11 +866,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>lockstep(f)(g1, ..., gN)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279">lockstep</a>(f)(g1, ..., gN)(x1, ..., xN) == f(g1(x1), ..., gN(xN))</div>
 </div><!-- fragment --><p>Since each <code>g</code> is invoked on its corresponding argument in lockstep, the number of arguments must match the number of <code>g</code>s.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="lockstep_8hpp.html">boost/hana/functional/lockstep.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
@@ -945,11 +919,9 @@ template&lt;std::size_t n&gt; </div>
 <div class="line"><a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(<a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g), h)(xs...) == <a class="code" href="group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1">on</a>(f, g)(h(xs)...)</div>
 <div class="line">                       == f(g(h(xs))...)</div>
 </div><!-- fragment --> <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="first_8hpp.html">boost/hana/first.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="on_8hpp.html">boost/hana/functional/on.hpp</a>&gt;</span></div>
@@ -1008,11 +980,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Specifically, <code>overload(f1, f2, ..., fn)</code> is a function object such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139">overload</a>(f1, f2, ..., fn)(x...) == fk(x...)</div>
 </div><!-- fragment --><p>where <code>fk</code> is the function of <code>f1, ..., fn</code> that would be called if overload resolution was performed amongst that set of functions only. If more than one function <code>fk</code> would be picked by overload resolution, then the call is ambiguous.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="overload_8hpp.html">boost/hana/functional/overload.hpp</a>&gt;</span></div>
@@ -1066,11 +1036,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Given functions <code>f1, ..., fn</code>, <code>overload_linearly(f1, ..., fn)</code> is a new function that calls the first <code>fk</code> producing a valid call expression with the given arguments. Specifically, </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec">overload_linearly</a>(f1, ..., fn)(args...) == fk(args...)</div>
 </div><!-- fragment --><p>where <code>fk</code> is the <em>first</em> function such that <code>fk(args...)</code> is a valid expression.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="overload__linearly_8hpp.html">boost/hana/functional/overload_linearly.hpp</a>&gt;</span></div>
@@ -1115,11 +1083,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Given a function <code>f</code> and some arguments, <code>partial</code> returns a new function corresponding to the partially applied function <code>f</code>. This allows providing some arguments to a function and letting the rest of the arguments be provided later. Specifically, <code>partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf">partial</a>(f, x...)(y...) == f(x..., y...)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="partial_8hpp.html">boost/hana/functional/partial.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="plus_8hpp.html">boost/hana/plus.hpp</a>&gt;</span></div>
@@ -1162,11 +1128,9 @@ template&lt;std::size_t n&gt; </div>
 </ul>
 <p>More complex functionality like the ability to compose placeholders into larger function objects inline are not supported. This is on purpose; you should either use C++14 generic lambdas or a library like <a href="http://www.boost.org/doc/libs/release/libs/phoenix/doc/html/index.html">Boost.Phoenix</a> if you need bigger guns. The goal here is to save you a couple of characters in simple situations.</p>
 <h3>Example</h3>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
@@ -1210,11 +1174,9 @@ template&lt;std::size_t n&gt; </div>
 <p>Given a function <code>f</code> and some arguments, <code>reverse_partial</code> returns a new function corresponding to <code>f</code> whose last arguments are partially applied. Specifically, <code>reverse_partial(f, x...)</code> is a function such that </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8">reverse_partial</a>(f, x...)(y...) == f(y..., x...)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The arity of <code>f</code> must match the total number of arguments passed to it, i.e. <code>sizeof...(x) + sizeof...(y)</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="div_8hpp.html">boost/hana/div.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="reverse__partial_8hpp.html">boost/hana/functional/reverse_partial.hpp</a>&gt;</span></div>

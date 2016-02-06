@@ -123,6 +123,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1range.html','')
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1range-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::range&lt; T, from, to &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -139,11 +141,9 @@ struct boost::hana::range&lt; T, from, to &gt;</h3>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two ranges are equal if and only if they are both empty or they both span the same interval. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two ranges are equal if and only if they are both empty or they both span the same interval. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -163,11 +163,9 @@ Two ranges are equal if and only if they are both empty or they both span the sa
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Foldable</code><br />
-Folding a <code>range</code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding a <code>range</code> is equivalent to folding a list of the <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s in the interval it spans. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -192,11 +190,9 @@ Folding a <code>range</code> is equivalent to folding a list of the <code><a cla
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />
-Iterating over a <code>range</code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. Also note that <code>operator[]</code> can be used in place of the <code>at</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Iterating over a <code>range</code> is equivalent to iterating over a list of the values it spans. In other words, iterating over the range <code>[from, to)</code> is equivalent to iterating over a list containing <code>from, from+1, from+2, ..., to-1</code>. Also note that <code>operator[]</code> can be used in place of the <code>at</code> function. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="back_8hpp.html">boost/hana/back.hpp</a>&gt;</span></div>
@@ -220,11 +216,9 @@ Iterating over a <code>range</code> is equivalent to iterating over a list of th
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Searchable</code><br />
-Searching a <code>range</code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Searching a <code>range</code> is equivalent to searching a list of the values in the range <code>[from, to)</code>, but it is much more compile-time efficient. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -255,6 +249,27 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a899b7a0c065ff64cd747fe1671753d3f"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a899b7a0c065ff64cd747fe1671753d3f">range_c</a> = <a class="el" href="structboost_1_1hana_1_1range.html#aba8dd69deb1d810ef65ec289127bf0ab">make_range</a>(integral_c&lt;T, from&gt;, integral_c&lt;T, <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&gt;)</td></tr>
 <tr class="memdesc:a899b7a0c065ff64cd747fe1671753d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shorthand to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> with the given bounds.  <a href="#a899b7a0c065ff64cd747fe1671753d3f">More...</a><br /></td></tr>
 <tr class="separator:a899b7a0c065ff64cd747fe1671753d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a5df034200fc77683173f7cecf99f491e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a5df034200fc77683173f7cecf99f491e"></a>
+template&lt;typename N &gt; </td></tr>
+<tr class="memitem:a5df034200fc77683173f7cecf99f491e"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1range.html#a5df034200fc77683173f7cecf99f491e">operator[]</a> (N &amp;&amp;n)</td></tr>
+<tr class="memdesc:a5df034200fc77683173f7cecf99f491e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129" title="Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. ">hana::at</a></code> <br /></td></tr>
+<tr class="separator:a5df034200fc77683173f7cecf99f491e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ad5ad9a1f847daa24ef62f5d81b8eef8e"></a>
@@ -285,11 +300,9 @@ template&lt;&gt; </div>
 <p>Create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing a half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s. </p>
 <p>Given two <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s <code>from</code> and <code>to</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1range__tag.html" title="Tag representing a hana::range. ">range_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> representing the half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s <code>[from, to)</code>. <code>from</code> and <code>to</code> must form a valid interval, which means that <code>from &lt;= to</code> must be true. Otherwise, a compilation error is triggered. Also note that if <code>from</code> and <code>to</code> are <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>s with different underlying integral types, the created range contains <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s whose underlying type is their common type.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -366,11 +379,9 @@ template&lt;typename T , T from, T to&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="back_8hpp.html">boost/hana/back.hpp</a>&gt;</span></div>

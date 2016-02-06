@@ -214,11 +214,9 @@ template&lt;typename T , typename U &gt; </div>
 
 <p>Alias to <code>common&lt;T, U&gt;::type</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2common_8hpp.html">boost/hana/core/common.hpp</a>&gt;</span></div>
 <div class="line"></div>
@@ -251,11 +249,9 @@ template&lt;typename T &gt; </div>
 
 <p>Alias to <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a>&lt;T&gt;::type</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2tag__of_8hpp.html">boost/hana/core/tag_of.hpp</a>&gt;</span></div>
 <div class="line"></div>
@@ -288,11 +284,9 @@ template&lt;typename... &gt; </div>
 <p>Variant of <code>when</code> allowing specializations to be enabled only if an expression is well-formed. </p>
 <p><code>when_valid&lt;...&gt;</code> is always equivalent to <code>when&lt;true&gt;</code>. However, when used inside a partial specialization, SFINAE will cause the partial specialization to be ignored when the expression is ill-formed.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2when_8hpp.html">boost/hana/core/when.hpp</a>&gt;</span></div>
 <div class="line"></div>
@@ -332,11 +326,9 @@ template&lt;typename Tag , typename optional_T &gt; </div>
 <p>Given a tag <code>Tag</code> and a C++ type <code>T</code>, <code>is_a&lt;Tag, T&gt;</code> is a compile-time Logical representing whether the tag of <code>T</code> is exactly <code>Tag</code>. In other words, it is equivalent to </p><div class="fragment"><div class="line">std::is_same&lt;Tag, tag_of&lt;T&gt;::type&gt;</div>
 </div><!-- fragment --><p>For convenience, an alternate syntax is provided for using <code>is_a</code>. Specifically, <code>is_a&lt;Tag&gt;</code> is a function object returning whether the argument it is passed has the given tag. In other words, </p><div class="fragment"><div class="line">is_a&lt;Tag&gt;(x) == <a class="code" href="group__group-core.html#ga38cf78e1e3e262f7f1c71ddd9ca70cd9">is_a</a>&lt;Tag, decltype(x)&gt;</div>
 </div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2is__a_8hpp.html">boost/hana/core/is_a.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
@@ -376,11 +368,9 @@ template&lt;typename Tag &gt; </div>
 <p>Finally, the default implementation of <code>make</code> is equivalent to calling the constructor of the given tag with the corresponding arguments. In other words, by default, </p><div class="fragment"><div class="line">make&lt;T&gt;(args...) == T(args...)</div>
 </div><!-- fragment --><p>Note that the arguments are perfectly forwarded and the form of construction which is used is exactly as documented, i.e. <code>T(args...)</code>. However, if <code>T(args...)</code> is not a valid expression, a compilation error is triggered. This default behavior is useful because it makes foreign C++ types that have no notion of tag constructible with <code>make</code> out-of-the-box, since their tag is exactly themselves.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -445,11 +435,9 @@ template&lt;typename To &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="config_8hpp.html">boost/hana/config.hpp</a>&gt;</span></div>

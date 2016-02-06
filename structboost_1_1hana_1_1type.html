@@ -123,6 +123,8 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1type.html','');
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1type-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::type&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -140,7 +142,7 @@ struct boost::hana::type&lt; T &gt;</h3>
 <div class="line">    <span class="comment">// do something with T</span></div>
 <div class="line">}</div>
 </div><!-- fragment --></dd></dl>
-<h2>Lvalues and rvalues </h2>
+<p><a class="anchor" id="type_lvalues_and_rvalues"></a></p><h2>Lvalues and rvalues </h2>
 <p>When storing <code>type</code>s in heterogeneous containers, some algorithms will return references to those objects. Since we are primarily interested in accessing their nested <code>::type</code>, receiving a reference is undesirable; we would end up trying to fetch the nested <code>::type</code> inside a reference type, which is a compilation error: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = make_tuple(type_c&lt;int&gt;, type_c&lt;char&gt;);</div>
 <div class="line"><span class="keyword">using</span> T = decltype(ts[0_c])::type; <span class="comment">// error: &#39;ts[0_c]&#39; is a reference!</span></div>
 </div><!-- fragment --><p>For this reason, <code>type</code>s provide an overload of the unary <code>+</code> operator that can be used to turn a lvalue into a rvalue. So when using a result which might be a reference to a <code>type</code> object, one can use <code>+</code> to make sure a rvalue is obtained before fetching its nested <code>::type</code>: </p><div class="fragment"><div class="line"><span class="keyword">auto</span> ts = make_tuple(type_c&lt;int&gt;, type_c&lt;char&gt;);</div>
@@ -148,11 +150,9 @@ struct boost::hana::type&lt; T &gt;</h3>
 </div><!-- fragment --><h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two types are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two types are equal if and only if they represent the same C++ type. Hence, equality is equivalent to the <code>std::is_same</code> type trait. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -195,6 +195,26 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">is_valid</a></td></tr>
 <tr class="memdesc:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a SFINAE-friendly expression is valid.  <a href="#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b">More...</a><br /></td></tr>
 <tr class="separator:a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a2c3bef01b2e0342264c62a67cc471592"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c3bef01b2e0342264c62a67cc471592"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1type.html#a2c3bef01b2e0342264c62a67cc471592">operator+</a> () const </td></tr>
+<tr class="memdesc:a2c3bef01b2e0342264c62a67cc471592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns rvalue of self. See <a class="el" href="structboost_1_1hana_1_1type.html#type_lvalues_and_rvalues">description</a>. <br /></td></tr>
+<tr class="separator:a2c3bef01b2e0342264c62a67cc471592"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="ae35139e732c4b75e91061513cf445628"></a>
@@ -252,11 +272,9 @@ template&lt;typename T &gt; </div>
 <div class="line"><span class="keyword">auto</span> result = metafunction&lt;F&gt;(i);</div>
 </div><!-- fragment --><p>Hence, always discarding references seems to be the least painful solution.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -301,11 +319,9 @@ template&lt;&gt; </div>
 
 <p>Equivalent to <code>decltype_</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -347,11 +363,9 @@ template&lt;typename T &gt; </div>
 
 <p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1type__tag.html" title="Tag representing hana::type. ">type_tag</a>&gt;</code>, provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -400,11 +414,9 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment --><p>However, given a <code>type</code>, <code>sizeof_</code> will simply fetch the size of the C++ type represented by that object. In other words, </p><div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c">sizeof_</a>(type_c&lt;T&gt;) == size_t&lt;sizeof(T)&gt;</div>
 </div><!-- fragment --><p>The behavior of <code>sizeof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>sizeof_</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
@@ -450,11 +462,9 @@ template&lt;typename T &gt; </div>
 <div class="line"><a class="code" href="structboost_1_1hana_1_1type.html#a6fd9ac456f4b5574dcb16384dbb85736">alignof_</a>(type_c&lt;T&gt;) == size_t&lt;alignof(T)&gt;</div>
 </div><!-- fragment --><p>The behavior of <code>alignof_</code> is consistent with that of <code>decltype_</code>. In particular, see <code>decltype_</code>'s documentation to understand why references are always stripped by <code>alignof_</code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
@@ -502,11 +512,9 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment --><p>This syntax makes it easy to create functions that check the validity of a generic expression on any given argument(s).</p>
 <dl class="section warning"><dt>Warning</dt><dd>To check whether calling a nullary function <code>f</code> is valid, one should use the <code>is_valid(f)()</code> syntax. Indeed, <code>is_valid(f /* no args */)</code> will be interpreted as the currying of <code>is_valid</code> to <code>f</code> rather than the application of <code>is_valid</code> to <code>f</code> and no arguments.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not_8hpp.html">boost/hana/not.hpp</a>&gt;</span></div>

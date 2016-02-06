@@ -133,11 +133,9 @@ struct std::array&lt; T, N &gt;</h3>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
-<code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code>s are compared as per <code>std::equal</code>, except that two arrays with different sizes compare unequal instead of triggering an error and the result of the comparison is <code>constexpr</code> if both arrays are <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code>s are compared as per <code>std::equal</code>, except that two arrays with different sizes compare unequal instead of triggering an error and the result of the comparison is <code>constexpr</code> if both arrays are <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -161,11 +159,9 @@ struct std::array&lt; T, N &gt;</h3>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Orderable</code><br />
-<code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code>s are ordered with the usual lexicographical ordering, except that two arrays with different size can be ordered instead of triggering an error and the result of the comparison is <code>constexpr</code> if both arrays are <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code>s are ordered with the usual lexicographical ordering, except that two arrays with different size can be ordered instead of triggering an error and the result of the comparison is <code>constexpr</code> if both arrays are <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2array_8hpp.html">boost/hana/ext/std/array.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="less_8hpp.html">boost/hana/less.hpp</a>&gt;</span></div>
@@ -188,11 +184,9 @@ struct std::array&lt; T, N &gt;</h3>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Foldable</code><br />
-Folding an array from the left is equivalent to calling <code>std::accumulate</code> on it, except it can be <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding an array from the left is equivalent to calling <code>std::accumulate</code> on it, except it can be <code>constexpr</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2array_8hpp.html">boost/hana/ext/std/array.hpp</a>&gt;</span></div>
@@ -213,11 +207,9 @@ Folding an array from the left is equivalent to calling <code>std::accumulate</c
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />
-Iterating over a <code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code> is equivalent to iterating over it with a normal <code>for</code> loop. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Iterating over a <code><a class="el" href="structstd_1_1array.html" title="Adaptation of std::array for Hana. ">std::array</a></code> is equivalent to iterating over it with a normal <code>for</code> loop. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front_8hpp.html">boost/hana/drop_front.hpp</a>&gt;</span></div>

@@ -150,11 +150,9 @@ $(document).ready(function(){initNavTree('group__group-Iterable.html','');});
 <h2>Refined concepts </h2>
 <ol type="1">
 <li><code>Searchable</code> (free model)<br />
-Any <code>Iterable</code> gives rise to a model of <code>Searchable</code>, where the keys and the values are both the elements in the structure. Searching for a key is just doing a linear search through the elements of the structure. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Any <code>Iterable</code> gives rise to a model of <code>Searchable</code>, where the keys and the values are both the elements in the structure. Searching for a key is just doing a linear search through the elements of the structure. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="ext_2std_2integral__constant_8hpp.html">boost/hana/ext/std/integral_constant.hpp</a>&gt;</span></div>
@@ -214,7 +212,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:ga4cb99cfbef936cb267e76f66f40f529c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>at</code>; provided for convenience.  <a href="group__group-Iterable.html#ga4cb99cfbef936cb267e76f66f40f529c">More...</a><br /></td></tr>
 <tr class="separator:ga4cb99cfbef936cb267e76f66f40f529c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3f4d0035345a453284e46303862d463"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">boost::hana::back</a></td></tr>
-<tr class="memdesc:gab3f4d0035345a453284e46303862d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>.  <a href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">More...</a><br /></td></tr>
+<tr class="memdesc:gab3f4d0035345a453284e46303862d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>. Equivalently, <code>back(xs)</code> must be equivalent to <code>at_c&lt;N-1&gt;(xs)</code>, and that regardless of the value category of <code>xs</code> (<code>back</code> must respect the reference semantics of <code>at</code>).  <a href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">More...</a><br /></td></tr>
 <tr class="separator:gab3f4d0035345a453284e46303862d463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad23ce0a4906e2bb0a52f38837b134757"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Iterable.html#gad23ce0a4906e2bb0a52f38837b134757">boost::hana::drop_front</a></td></tr>
 <tr class="memdesc:gad23ce0a4906e2bb0a52f38837b134757"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop the first <code>n</code> elements of an iterable, and return the rest.Given an <code>Iterable</code> <code>xs</code> with a linearization of <code>[x1, x2, ...]</code> and a non-negative <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> <code>n</code>, <code>drop_front(xs, n)</code> is an iterable with the same tag as <code>xs</code> whose linearization is <code>[xn+1, xn+2, ...]</code>. In particular, note that this function does not mutate the original iterable in any way. If <code>n</code> is not given, it defaults to an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> with a value equal to <code>1</code>.  <a href="group__group-Iterable.html#gad23ce0a4906e2bb0a52f38837b134757">More...</a><br /></td></tr>
@@ -226,7 +224,7 @@ Variables</h2></td></tr>
 <tr class="memdesc:ga9f1d02c74a6bdc1db260e0d6a8f1ee56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Drop elements from an iterable up to, but excluding, the first element for which the <code>predicate</code> is not satisfied.Specifically, <code>drop_while</code> returns an iterable containing all the elements of the original iterable except for those in the range delimited by [<code>head</code>, <code>e</code>), where <code>head</code> is the first element and <code>e</code> is the first element for which the <code>predicate</code> is not satisfied. If the iterable is not finite, the <code>predicate</code> has to return a false- valued <code>Logical</code> at a finite index for this method to return.  <a href="group__group-Iterable.html#ga9f1d02c74a6bdc1db260e0d6a8f1ee56">More...</a><br /></td></tr>
 <tr class="separator:ga9f1d02c74a6bdc1db260e0d6a8f1ee56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8a67ea10e8082dbe6705e573fa978444"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">boost::hana::front</a></td></tr>
-<tr class="memdesc:ga8a67ea10e8082dbe6705e573fa978444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a non-empty iterable.Given a non-empty Iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function.  <a href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">More...</a><br /></td></tr>
+<tr class="memdesc:ga8a67ea10e8082dbe6705e573fa978444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the first element of a non-empty iterable.Given a non-empty Iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function. Equivalently, <code>front(xs)</code> must be equivalent to <code>at_c&lt;0&gt;(xs)</code>, and that regardless of the value category of <code>xs</code> (<code>front</code> must respect the reference semantics of <code>at</code>).  <a href="group__group-Iterable.html#ga8a67ea10e8082dbe6705e573fa978444">More...</a><br /></td></tr>
 <tr class="separator:ga8a67ea10e8082dbe6705e573fa978444"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2a05f564f8a7e4afa04fcbc07ad8f394"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Iterable.html#ga2a05f564f8a7e4afa04fcbc07ad8f394">boost::hana::is_empty</a></td></tr>
 <tr class="memdesc:ga2a05f564f8a7e4afa04fcbc07ad8f394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the iterable is empty.Given an <code>Iterable</code> <code>xs</code>, <code>is_empty</code> returns whether <code>xs</code> contains no more elements. In other words, it returns whether trying to extract the tail of <code>xs</code> would be an error. In the current version of the library, <code>is_empty</code> must return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value convertible to <code>bool</code>. This is because only compile-time <code>Iterable</code>s are supported right now.  <a href="group__group-Iterable.html#ga2a05f564f8a7e4afa04fcbc07ad8f394">More...</a><br /></td></tr>
@@ -252,6 +250,7 @@ Variables</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Returns the <code>n</code>th element of an iterable.Given an <code>Iterable</code> and an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> index, <code>at</code> returns the element located at the index in the linearization of the iterable. Specifically, given an iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>at(xs, k)</code> is equivalent to <code>xk</code>. </p>
+<p>If the <code>Iterable</code> actually stores the elements it contains, <code>at</code> is required to return a lvalue reference, a lvalue reference to const or a rvalue reference to the matching element, where the type of reference must match that of the iterable passed to <code>at</code>. If the <code>Iterable</code> does not store the elements it contains (i.e. it generates them on demand), this requirement is dropped.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The iterable in which an element is retrieved. The iterable must contain at least <code>n + 1</code> elements.</td></tr>
@@ -260,11 +259,9 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
@@ -299,16 +296,14 @@ template&lt;std::size_t n&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">hana::at</a>(forwarded(xs), hana::size_c&lt;n&gt;);</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-Iterable_html_ga8a484304380eae38f3d9663d98860129"><div class="ttname"><a href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">boost::hana::at</a></div><div class="ttdeci">constexpr auto at</div><div class="ttdoc">Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. </div><div class="ttdef"><b>Definition:</b> at.hpp:51</div></div>
+<div class="ttc" id="group__group-Iterable_html_ga8a484304380eae38f3d9663d98860129"><div class="ttname"><a href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">boost::hana::at</a></div><div class="ttdeci">constexpr auto at</div><div class="ttdoc">Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. </div><div class="ttdef"><b>Definition:</b> at.hpp:58</div></div>
 </div><!-- fragment -->
 <p>Equivalent to <code>at</code>; provided for convenience. </p>
 <dl class="section note"><dt>Note</dt><dd><code><a class="el" href="group__group-Iterable.html#ga4cb99cfbef936cb267e76f66f40f529c" title="Equivalent to at; provided for convenience. ">hana::at_c</a>&lt;n&gt;</code> is an overloaded function, not a function object. Hence, it can't be passed to higher-order algorithms. This is done for compile-time performance reasons.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at_8hpp.html">boost/hana/at.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
@@ -340,13 +335,11 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>. </p>
+<p>Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>. Equivalently, <code>back(xs)</code> must be equivalent to <code>at_c&lt;N-1&gt;(xs)</code>, and that regardless of the value category of <code>xs</code> (<code>back</code> must respect the reference semantics of <code>at</code>). </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="back_8hpp.html">boost/hana/back.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
@@ -385,11 +378,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front_8hpp.html">boost/hana/drop_front.hpp</a>&gt;</span></div>
@@ -439,11 +430,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front__exactly_8hpp.html">boost/hana/drop_front_exactly.hpp</a>&gt;</span></div>
@@ -490,11 +479,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__while_8hpp.html">boost/hana/drop_while.hpp</a>&gt;</span></div>
@@ -543,13 +530,11 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Returns the first element of a non-empty iterable.Given a non-empty Iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function. </p>
+<p>Returns the first element of a non-empty iterable.Given a non-empty Iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>front(xs)</code> is equal to <code>x1</code>. If <code>xs</code> is empty, it is an error to use this function. Equivalently, <code>front(xs)</code> must be equivalent to <code>at_c&lt;0&gt;(xs)</code>, and that regardless of the value category of <code>xs</code> (<code>front</code> must respect the reference semantics of <code>at</code>). </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="front_8hpp.html">boost/hana/front.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div>
@@ -579,11 +564,9 @@ template&lt;std::size_t n&gt; </div>
 </div><!-- fragment -->
 <p>Returns whether the iterable is empty.Given an <code>Iterable</code> <code>xs</code>, <code>is_empty</code> returns whether <code>xs</code> contains no more elements. In other words, it returns whether trying to extract the tail of <code>xs</code> would be an error. In the current version of the library, <code>is_empty</code> must return an <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> holding a value convertible to <code>bool</code>. This is because only compile-time <code>Iterable</code>s are supported right now. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="is__empty_8hpp.html">boost/hana/is_empty.hpp</a>&gt;</span></div>
@@ -632,11 +615,9 @@ template&lt;std::size_t n&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>

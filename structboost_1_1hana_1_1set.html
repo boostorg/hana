@@ -123,6 +123,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1set.html','');}
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1set-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -139,11 +140,9 @@ struct boost::hana::set&lt; Xs &gt;</h3>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two sets are equal iff they contain the same elements, regardless of the order. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two sets are equal iff they contain the same elements, regardless of the order. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -169,11 +168,9 @@ Two sets are equal iff they contain the same elements, regardless of the order. 
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li>Foldable<br />
-Folding a set is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding a set is equivalent to folding the sequence of its values. However, note that the values are not required to be in any specific order, so using the folds provided here with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -193,11 +190,9 @@ Folding a set is equivalent to folding the sequence of its values. However, note
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li>Searchable<br />
-The elements in a set act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. Also note that <code>operator[]</code> can be used instead of the <code>at_key</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+The elements in a set act as both its keys and its values. Since the elements of a set are unique, searching for an element will return either the only element which is equal to the searched value, or <code>nothing</code>. Also note that <code>operator[]</code> can be used instead of the <code>at_key</code> function. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at__key_8hpp.html">boost/hana/at_key.hpp</a>&gt;</span></div>
@@ -224,11 +219,9 @@ The elements in a set act as both its keys and its values. Since the elements of
 </ol>
 <h2>Conversion from any <code>Foldable</code> </h2>
 <p>Any <code>Foldable</code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>. The elements of the structure must all be compile-time <code>Comparable</code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code>Foldable</code> is equivalent to </p><div class="fragment"><div class="line">to&lt;set_tag&gt;(xs) == <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">fold_left</a>(xs, <a class="code" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
-</div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+</div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
@@ -286,6 +279,19 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memdesc:acd511f2c01f38405bfba0b6d5b2922e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the union of two sets.  <a href="#acd511f2c01f38405bfba0b6d5b2922e8">More...</a><br /></td></tr>
 <tr class="separator:acd511f2c01f38405bfba0b6d5b2922e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a19a57d273a4fca28cc8393ed479cc9ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19a57d273a4fca28cc8393ed479cc9ef"></a>
@@ -296,6 +302,11 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a183731b785302f44b29412812d6c4e70">set</a> (<a class="el" href="structboost_1_1hana_1_1set.html">set</a> &amp;&amp;other)=default</td></tr>
 <tr class="memdesc:a183731b785302f44b29412812d6c4e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct a set from another set. This constructor only exists when all the elements of the set are move-constructible. <br /></td></tr>
 <tr class="separator:a183731b785302f44b29412812d6c4e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memTemplParams" colspan="2"><a class="anchor" id="aceaa6f7641107c6e877144a9c09cf7f8"></a>
+template&lt;typename Key &gt; </td></tr>
+<tr class="memitem:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#aceaa6f7641107c6e877144a9c09cf7f8">operator[]</a> (Key &amp;&amp;key)</td></tr>
+<tr class="memdesc:aceaa6f7641107c6e877144a9c09cf7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Searchable.html#ga3c1826aee6c6eb577810bb99c5c3e53d" title="Returns the value associated to the given key in a structure, or fail.Given a key and a Searchable st...">hana::at_key</a></code> <br /></td></tr>
+<tr class="separator:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a718ddfe86437adbbca1e1a5db651d139"></a>
@@ -332,11 +343,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="difference_8hpp.html">boost/hana/difference.hpp</a>&gt;</span></div>
@@ -390,11 +399,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -443,11 +450,9 @@ template&lt;&gt; </div>
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>. </p>
 <p>Given zero or more values <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> returns a <code>set</code> containing those values. The values must all be compile-time <code>Comparable</code>, and no duplicate values may be provided. To create a <code>set</code> from a sequence with possible duplicates, use <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> instead.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -487,11 +492,9 @@ template&lt;typename... Xs&gt; </div>
 
 <p>Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -542,11 +545,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -606,11 +607,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -686,11 +685,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -745,11 +742,9 @@ template&lt;typename... Xs&gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>

@@ -143,7 +143,7 @@ Namespaces</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:gab3f4d0035345a453284e46303862d463"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">boost::hana::back</a></td></tr>
-<tr class="memdesc:gab3f4d0035345a453284e46303862d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>.  <a href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">More...</a><br /></td></tr>
+<tr class="memdesc:gab3f4d0035345a453284e46303862d463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the last element of a non-empty and finite iterable.Given a non-empty and finite iterable <code>xs</code> with a linearization of <code>[x1, ..., xN]</code>, <code>back(xs)</code> is equal to <code>xN</code>. Equivalently, <code>back(xs)</code> must be equivalent to <code>at_c&lt;N-1&gt;(xs)</code>, and that regardless of the value category of <code>xs</code> (<code>back</code> must respect the reference semantics of <code>at</code>).  <a href="group__group-Iterable.html#gab3f4d0035345a453284e46303862d463">More...</a><br /></td></tr>
 <tr class="separator:gab3f4d0035345a453284e46303862d463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

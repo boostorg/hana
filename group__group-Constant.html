@@ -196,11 +196,9 @@ template&lt;typename T &gt; </div>
 </div><!-- fragment --><p>This overload works by taking a <code>const&amp;</code> to its argument, and then forwarding to the first version of <code>value</code>. Since it does not use its argument, the result can still be a constant expression, even if the argument is not a constant expression.</p>
 <dl class="section note"><dt>Note</dt><dd><code>value&lt;T&gt;()</code> is tag-dispatched as <code>value_impl&lt;C&gt;::apply&lt;T&gt;()</code>, where <code>C</code> is the tag of <code>T</code>.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="value_8hpp.html">boost/hana/value.hpp</a>&gt;</span></div>
@@ -235,11 +233,9 @@ template&lt;typename T &gt; </div>
 <p>Equivalent to <code>value</code>, but can be passed to higher-order algorithms.This function object is equivalent to <code>value</code>, except it can be passed to higher order algorithms because it is a function object. <code>value</code> can't be passed to higher-order algorithms because it is implemented as an overloaded function. </p>
 <dl class="section note"><dt>Note</dt><dd>This function is a simple alias to <code>value</code>, and hence it is not tag-dispatched and can't be customized.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="transform_8hpp.html">boost/hana/transform.hpp</a>&gt;</span></div>

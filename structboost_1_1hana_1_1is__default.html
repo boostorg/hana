@@ -133,11 +133,9 @@ struct boost::hana::is_default&lt; Method, typename &gt;</h3>
 <p>Given a tag-dispatched method implementation <code>method_impl&lt;T...&gt;</code>, <code><a class="el" href="structboost_1_1hana_1_1is__default.html" title="Returns whether a tag-dispatched method implementation is a default implementation. ">is_default</a>&lt;method_impl&lt;T...&gt;&gt;</code> returns whether <code>method_impl&lt;T...&gt;</code> is a default implementation. Note that if there is no default implementation for the method, then <code><a class="el" href="structboost_1_1hana_1_1is__default.html" title="Returns whether a tag-dispatched method implementation is a default implementation. ">is_default</a></code> should not be used unless a static assertion saying that "the method is not
 implemented" is acceptable.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2default_8hpp.html">boost/hana/core/default.hpp</a>&gt;</span></div>

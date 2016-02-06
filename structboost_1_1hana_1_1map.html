@@ -123,6 +123,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1map.html','');}
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1map-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -139,11 +140,9 @@ struct boost::hana::map&lt; implementation_defined &gt;</h3>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two maps are equal iff all their keys are equal and are associated to equal values. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div>
@@ -171,11 +170,9 @@ Two maps are equal iff all their keys are equal and are associated to equal valu
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Searchable</code><br />
-A map can be searched by its keys with a predicate yielding a compile-time <code>Logical</code>. Also note that <code>operator[]</code> can be used instead of <code>at_key</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+A map can be searched by its keys with a predicate yielding a compile-time <code>Logical</code>. Also note that <code>operator[]</code> can be used instead of <code>at_key</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="at__key_8hpp.html">boost/hana/at_key.hpp</a>&gt;</span></div>
@@ -205,11 +202,9 @@ A map can be searched by its keys with a predicate yielding a compile-time <code
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Foldable</code><br />
-Folding a map is equivalent to folding a list of the key/value pairs it contains. In particular, since that list is not guaranteed to be in any specific order, folding a map with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding a map is equivalent to folding a list of the key/value pairs it contains. In particular, since that list is not guaranteed to be in any specific order, folding a map with an operation that is not both commutative and associative will yield non-deterministic behavior. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="first_8hpp.html">boost/hana/first.hpp</a>&gt;</span></div>
@@ -249,11 +244,9 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code>Foldable</code> </h2>
-<p>Any <code>Foldable</code> of <code>Product</code>s can be converted to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> with <code><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e" title="Converts an object from one data type to another. ">hana::to</a>&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">hana::map_tag</a>&gt;</code> or, equivalently, <code>hana::to_map</code>. If the <code>Foldable</code> contains duplicate keys, only the value associated to the first occurence of each key is kept. </p><div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<p>Any <code>Foldable</code> of <code>Product</code>s can be converted to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> with <code><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e" title="Converts an object from one data type to another. ">hana::to</a>&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">hana::map_tag</a>&gt;</code> or, equivalently, <code>hana::to_map</code>. If the <code>Foldable</code> contains duplicate keys, only the value associated to the first occurence of each key is kept. </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
@@ -307,6 +300,19 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a key/value pair from a map.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplParams" colspan="2"><a class="anchor" id="a27607958295e6da8a0ba602a2db468f1"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a27607958295e6da8a0ba602a2db468f1"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a27607958295e6da8a0ba602a2db468f1">operator==</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a27607958295e6da8a0ba602a2db468f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547" title="Returns a Logical representing whether x is equal to y.The equal function can be called in two differ...">hana::equal</a></code> <br /></td></tr>
+<tr class="separator:a27607958295e6da8a0ba602a2db468f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0cae3af55edb3eb05bfa184bda633f7d"></a>
+template&lt;typename X , typename Y &gt; </td></tr>
+<tr class="memitem:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a0cae3af55edb3eb05bfa184bda633f7d">operator!=</a> (X &amp;&amp;x, Y &amp;&amp;y)</td></tr>
+<tr class="memdesc:a0cae3af55edb3eb05bfa184bda633f7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd" title="Returns a Logical representing whether x is not equal to y.The not_equal function can be called in tw...">hana::not_equal</a></code> <br /></td></tr>
+<tr class="separator:a0cae3af55edb3eb05bfa184bda633f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abd092d2810258d4f3bedb85c9dd4c6fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd092d2810258d4f3bedb85c9dd4c6fd"></a>
@@ -321,6 +327,11 @@ constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href=
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ac5841d20f15b8e4013da2153348c8a7a">map</a> (<a class="el" href="structboost_1_1hana_1_1map.html">map</a> &amp;&amp;other)=default</td></tr>
 <tr class="memdesc:ac5841d20f15b8e4013da2153348c8a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct a map from another map. This constructor only exists when all the elements of the map are move-constructible. <br /></td></tr>
 <tr class="separator:ac5841d20f15b8e4013da2153348c8a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1a96658f4153ce2444ce794118132b7"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab1a96658f4153ce2444ce794118132b7"></a>
+template&lt;typename Key &gt; </td></tr>
+<tr class="memitem:ab1a96658f4153ce2444ce794118132b7"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ab1a96658f4153ce2444ce794118132b7">operator[]</a> (Key &amp;&amp;key)</td></tr>
+<tr class="memdesc:ab1a96658f4153ce2444ce794118132b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Searchable.html#ga3c1826aee6c6eb577810bb99c5c3e53d" title="Returns the value associated to the given key in a structure, or fail.Given a key and a Searchable st...">hana::at_key</a></code> <br /></td></tr>
+<tr class="separator:ab1a96658f4153ce2444ce794118132b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a409d52de54cc7e55eca1a7b5dda4ce30"></a>
@@ -351,11 +362,9 @@ template&lt;&gt; </div>
 <p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. </p>
 <p>Given zero or more <code>Product</code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -407,11 +416,9 @@ template&lt;typename implementation_defined &gt; </div>
 
 <p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2make_8hpp.html">boost/hana/core/make.hpp</a>&gt;</span></div>
@@ -490,11 +497,9 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment -->
 <p>Returns a <code>Sequence</code> of the keys of the map, in unspecified order. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="contains_8hpp.html">boost/hana/contains.hpp</a>&gt;</span></div>
@@ -550,11 +555,9 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment -->
 <p>Returns a <code>Sequence</code> of the values of the map, in unspecified order. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="contains_8hpp.html">boost/hana/contains.hpp</a>&gt;</span></div>
@@ -617,11 +620,9 @@ template&lt;typename implementation_defined &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="insert_8hpp.html">boost/hana/insert.hpp</a>&gt;</span></div>
@@ -688,11 +689,9 @@ template&lt;typename implementation_defined &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="erase__key_8hpp.html">boost/hana/erase_key.hpp</a>&gt;</span></div>

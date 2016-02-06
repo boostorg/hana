@@ -123,6 +123,7 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1lazy.html','');
 <div class="header">
   <div class="summary">
 <a href="#related">Synopsis of associated functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="structboost_1_1hana_1_1lazy-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">boost::hana::lazy&lt;... &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
@@ -138,11 +139,9 @@ struct boost::hana::lazy&lt;... &gt;</h3>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Functor</code><br />
-Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Applying a function over a lazy value with <code>transform</code> returns the result of applying the function, as a lazy value. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="eval_8hpp.html">boost/hana/eval.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
@@ -161,11 +160,9 @@ Applying a function over a lazy value with <code>transform</code> returns the re
 <li><code>Applicative</code><br />
 A normal value can be lifted into a lazy value by using <code>lift&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>. A lazy function can be lazily applied to a lazy value by using <code>ap</code>.</li>
 <li><code>Monad</code><br />
-The <code>lazy</code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+The <code>lazy</code> monad allows combining lazy computations into larger lazy computations. Note that the <code>|</code> operator can be used in place of the <code>chain</code> function. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="chain_8hpp.html">boost/hana/chain.hpp</a>&gt;</span></div>
@@ -212,11 +209,9 @@ The <code>lazy</code> monad allows combining lazy computations into larger lazy 
 <div class="line">}</div>
 </div><!-- fragment --></li>
 <li><code>Comonad</code><br />
-The <code>lazy</code> comonad allows evaluating a lazy computation to get its result and lazily applying functions taking lazy inputs to lazy values. This <a href="http://ldionne.com/2015/03/16/laziness-as-a-comonad">blog post</a> goes into more details about lazy evaluation and comonads. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+The <code>lazy</code> comonad allows evaluating a lazy computation to get its result and lazily applying functions taking lazy inputs to lazy values. This <a href="http://ldionne.com/2015/03/16/laziness-as-a-comonad">blog post</a> goes into more details about lazy evaluation and comonads. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="eval_8hpp.html">boost/hana/eval.hpp</a>&gt;</span></div>
@@ -260,6 +255,14 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a7dc86ca61b84fc42aabb525787ae61b4"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#a7dc86ca61b84fc42aabb525787ae61b4">make_lazy</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html">lazy_tag</a>&gt;</td></tr>
 <tr class="memdesc:a7dc86ca61b84fc42aabb525787ae61b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>; provided for convenience.  <a href="#a7dc86ca61b84fc42aabb525787ae61b4">More...</a><br /></td></tr>
 <tr class="separator:a7dc86ca61b84fc42aabb525787ae61b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a97b267b09ee075f1c531b849969e75e6"><td class="memTemplParams" colspan="2"><a class="anchor" id="a97b267b09ee075f1c531b849969e75e6"></a>
+template&lt;typename... T, typename F &gt; </td></tr>
+<tr class="memitem:a97b267b09ee075f1c531b849969e75e6"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1lazy.html#a97b267b09ee075f1c531b849969e75e6">operator|</a> (<a class="el" href="structboost_1_1hana_1_1lazy.html">lazy</a>&lt; T... &gt;, F)</td></tr>
+<tr class="memdesc:a97b267b09ee075f1c531b849969e75e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Monad.html#ga05fdc2f887cb9967357487a432ace98b" title="Feed a monadic value into a monadic computation.Given a monadic value and a monadic function...">hana::chain</a></code>. <br /></td></tr>
+<tr class="separator:a97b267b09ee075f1c531b849969e75e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="aae2998c08f1f80ed52a6acf57c4eec6c"></a>
@@ -289,11 +292,9 @@ template&lt;typename... &gt; </div>
 <p>Given a lazy expression <code>expr</code>, <code>eval</code> evaluates <code>expr</code> and returns the result as a normal value. However, for convenience, <code>eval</code> can also be used with nullary and unary function objects. Specifically, if <code>expr</code> is not a <code><a class="el" href="structboost_1_1hana_1_1lazy.html" title="hana::lazy implements superficial laziness via a monadic interface. ">hana::lazy</a></code>, it is called with no arguments at all and the result of that call (<code>expr()</code>) is returned. Otherwise, if <code>expr()</code> is ill-formed, then <code>expr(hana::id)</code> is returned instead. If that expression is ill-formed, then a compile-time error is triggered.</p>
 <p>The reason for allowing nullary callables in <code>eval</code> is because this allows using nullary lambdas as lazy branches to <code>eval_if</code>, which is convenient. The reason for allowing unary callables and calling them with <code><a class="el" href="group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d" title="The identity function – returns its argument unchanged. ">hana::id</a></code> is because this allows deferring the compile-time evaluation of selected expressions inside the callable. How this can be achieved is documented by <code><a class="el" href="group__group-Logical.html#gab64636f84de983575aac0208f5fa840c" title="Conditionally execute one of two branches based on a condition.Given a condition and two branches in ...">hana::eval_if</a></code>.</p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="eval_8hpp.html">boost/hana/eval.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="placeholder_8hpp.html">boost/hana/functional/placeholder.hpp</a>&gt;</span></div>
@@ -337,11 +338,9 @@ template&lt;&gt; </div>
 <dl class="section note"><dt>Note</dt><dd>It is interesting to note that <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f)(x1, ..., xN)</code> is equivalent to <div class="fragment"><div class="line"><a class="code" href="group__group-Applicative.html#ga6176a32953dbbdee96e3ab3c73e4c890">ap</a>(<a class="code" href="structboost_1_1hana_1_1lazy.html#aa968ecf473c93821f1726fd9692e97f3">make&lt;lazy_tag&gt;</a>(f), lift&lt;lazy_tag&gt;(x1), ..., lift&lt;lazy_tag&gt;(xN))</div>
 </div><!-- fragment --> which in turn is equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;(f(x1, ..., xN))</code>, except for the fact that the inner call to <code>f</code> is evaluated lazily.</dd></dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>
@@ -388,11 +387,9 @@ template&lt;typename... &gt; </div>
 
 <p>Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1lazy__tag.html" title="Tag representing hana::lazy. ">lazy_tag</a>&gt;</code>; provided for convenience. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="bool_8hpp.html">boost/hana/bool.hpp</a>&gt;</span></div>

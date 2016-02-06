@@ -134,11 +134,9 @@ struct boost::mpl::vector&lt; T &gt;</h3>
 <p>It is possible for MPL vectors to model a couple of concepts. However, because they are only able to hold types, they lack the generality required to model concepts like <code>Functor</code>, <code>Sequence</code> and other related concepts.</p>
 <ol type="1">
 <li><code>Comparable</code><br />
-Two MPL vectors are equal if and only if they contain the same number of types, and if all those types are equal. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Two MPL vectors are equal if and only if they contain the same number of types, and if all those types are equal. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -160,11 +158,9 @@ Two MPL vectors are equal if and only if they contain the same number of types, 
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Foldable</code><br />
-Folding a MPL vector is equivalent to folding it as a <code>Sequence</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Folding a MPL vector is equivalent to folding it as a <code>Sequence</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -195,11 +191,9 @@ Folding a MPL vector is equivalent to folding it as a <code>Sequence</code>. <di
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Iterable</code><br />
-Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code>Sequence</code>. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+Iterating over a MPL vector is just iterating over each of the types it contains, as if it were a <code>Sequence</code>. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="drop__front_8hpp.html">boost/hana/drop_front.hpp</a>&gt;</span></div>
@@ -232,11 +226,9 @@ Iterating over a MPL vector is just iterating over each of the types it contains
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 <li><code>Searchable</code><br />
-A MPL vector can be searched as if it were a tuple containing <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+A MPL vector can be searched as if it were a tuple containing <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
@@ -268,11 +260,9 @@ A MPL vector can be searched as if it were a tuple containing <code><a class="el
 </ol>
 <h2>Conversion from any <code>Foldable</code> </h2>
 <p>A MPL vector can be created from any <code>Foldable</code>. More precisely, for a <code>Foldable</code> <code>xs</code> whose linearization is <code>[x1, ..., xn]</code>, </p><div class="fragment"><div class="line">to&lt;ext::boost::mpl::vector_tag&gt;(xs) == mpl::vector&lt;t1, ..., tn&gt;</div>
-</div><!-- fragment --><p> where <code>tk</code> is the type of <code>xk</code>, or the type contained in <code>xk</code> if <code>xk</code> is a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>. </p><dl class="section warning"><dt>Warning</dt><dd>The limitations on the size of <code><a class="el" href="structboost_1_1mpl_1_1vector.html" title="Adapter for Boost.MPL vectors. ">mpl::vector</a></code>s are inherited by this conversion utility, and hence trying to convert a <code>Foldable</code> containing more than <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-vector-size.html">BOOST_MPL_LIMIT_VECTOR_SIZE</a> elements is an error. <div class="fragment"><div class="line"><span class="comment">/*</span></div>
-<div class="line"><span class="comment">@copyright Louis Dionne 2013-2016</span></div>
-<div class="line"><span class="comment">Distributed under the Boost Software License, Version 1.0.</span></div>
-<div class="line"><span class="comment">(See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
-<div class="line"><span class="comment"> */</span></div>
+</div><!-- fragment --><p> where <code>tk</code> is the type of <code>xk</code>, or the type contained in <code>xk</code> if <code>xk</code> is a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>. </p><dl class="section warning"><dt>Warning</dt><dd>The limitations on the size of <code><a class="el" href="structboost_1_1mpl_1_1vector.html" title="Adapter for Boost.MPL vectors. ">mpl::vector</a></code>s are inherited by this conversion utility, and hence trying to convert a <code>Foldable</code> containing more than <a href="http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/limit-vector-size.html">BOOST_MPL_LIMIT_VECTOR_SIZE</a> elements is an error. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="boost_2mpl_2vector_8hpp.html">boost/hana/ext/boost/mpl/vector.hpp</a>&gt;</span></div>
