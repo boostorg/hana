@@ -169,27 +169,27 @@ BOOST_HANA_NAMESPACE_BEGIN
             f(); f(); ... f(); // n times total
         }
 
-        //! Equivalent to hana::plus
+        //! Equivalent to `hana::plus`
         template <typename X, typename Y>
         friend constexpr auto operator+(X&& x, Y&& y);
 
-        //! Equivalent to hana::minux
+        //! Equivalent to `hana::minus`
         template <typename X, typename Y>
         friend constexpr auto operator-(X&& x, Y&& y);
 
-        //! Equivalent to hana::negate
+        //! Equivalent to `hana::negate`
         template <typename X>
         friend constexpr auto operator-(X&& x);
 
-        //! Equivalent to hana::mult
+        //! Equivalent to `hana::mult`
         template <typename X, typename Y>
         friend constexpr auto operator*(X&& x, Y&& y);
 
-        //! Equivalent to hana::div
+        //! Equivalent to `hana::div`
         template <typename X, typename Y>
         friend constexpr auto operator/(X&& x, Y&& y);
 
-        //! Equivalent to hana::mod
+        //! Equivalent to `hana::mod`
         template <typename X, typename Y>
         friend constexpr auto operator%(X&& x, Y&& y);
 
