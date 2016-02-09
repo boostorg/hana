@@ -13,7 +13,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/metafunction.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/any_of.hpp>
 #include <boost/hana/fwd/at.hpp>
+#include <boost/hana/fwd/contains.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
@@ -133,6 +135,27 @@ BOOST_HANA_NAMESPACE_BEGIN
             using Indexer = types_detail::indexer<std::make_index_sequence<sizeof...(T)>, T...>;
             return decltype(helper<n, Indexer>(Indices{})){};
         }
+    };
+
+    // Searchable
+    template <>
+    struct contains_impl<hana::experimental::types_tag> {
+        template <typename U>
+        struct is_same_as {
+            template <typename T>
+            struct apply {
+                static constexpr bool value = std::is_same<U, T>::value;
+            };
+        };
+
+        template <typename ...T, typename U>
+        static constexpr auto apply(hana::experimental::types<T...> const&, U const&)
+            -> hana::bool_<
+                detail::any_of<is_same_as<typename U::type>::template apply, T...>::value
+            >
+        { return {}; }
+
+        static constexpr hana::false_ apply(...) { return {}; }
     };
 
     // Comparable
