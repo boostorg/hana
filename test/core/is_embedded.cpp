@@ -13,16 +13,16 @@ static_assert(hana::is_embedded<double, long double>{}, "");
 static_assert(hana::is_embedded<float, long double>{}, "");
 static_assert(hana::is_embedded<float, double>{}, "");
 
-static_assert(hana::is_embedded<long,        long long>{}, "");
-static_assert(hana::is_embedded<int,         long long>{}, "");
-static_assert(hana::is_embedded<short,       long long>{}, "");
-static_assert(hana::is_embedded<signed char, long long>{}, "");
-static_assert(hana::is_embedded<int,         long>{}, "");
-static_assert(hana::is_embedded<short,       long>{}, "");
-static_assert(hana::is_embedded<signed char, long>{}, "");
-static_assert(hana::is_embedded<short,       int>{}, "");
-static_assert(hana::is_embedded<signed char, int>{}, "");
-static_assert(hana::is_embedded<signed char, short>{}, "");
+static_assert(hana::is_embedded<signed long,  signed long long>{}, "");
+static_assert(hana::is_embedded<signed int,   signed long long>{}, "");
+static_assert(hana::is_embedded<signed short, signed long long>{}, "");
+static_assert(hana::is_embedded<signed char,  signed long long>{}, "");
+static_assert(hana::is_embedded<signed int,   signed long>{}, "");
+static_assert(hana::is_embedded<signed short, signed long>{}, "");
+static_assert(hana::is_embedded<signed char,  signed long>{}, "");
+static_assert(hana::is_embedded<signed short, signed int>{}, "");
+static_assert(hana::is_embedded<signed char,  signed int>{}, "");
+static_assert(hana::is_embedded<signed char,  signed short>{}, "");
 
 static_assert(hana::is_embedded<unsigned long,  unsigned long long>{}, "");
 static_assert(hana::is_embedded<unsigned int,   unsigned long long>{}, "");

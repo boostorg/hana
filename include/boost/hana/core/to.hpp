@@ -86,16 +86,16 @@ BOOST_HANA_NAMESPACE_BEGIN
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(long double, float);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(double     , float);
 
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, long);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, short);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long long, signed char);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , int);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , short);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(long     , signed char);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , short);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(int      , signed char);
-    BOOST_HANA_DEFINE_EMBEDDING_IMPL(short    , signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long long, signed long);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long long, signed int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long long, signed short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long long, signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long     , signed int);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long     , signed short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed long     , signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed int      , signed short);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed int      , signed char);
+    BOOST_HANA_DEFINE_EMBEDDING_IMPL(signed short    , signed char);
 
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned long);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned long long, unsigned int);
