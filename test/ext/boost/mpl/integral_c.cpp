@@ -14,6 +14,7 @@
 #include <laws/constant.hpp>
 #include <laws/euclidean_ring.hpp>
 #include <laws/group.hpp>
+#include <laws/hashable.hpp>
 #include <laws/logical.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
@@ -166,6 +167,7 @@ int main() {
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     test::TestComparable<ext::boost::mpl::integral_c_tag<int>>{ints};
+    test::TestHashable<ext::boost::mpl::integral_c_tag<void>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 7
     //////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@
 #include <laws/constant.hpp>
 #include <laws/euclidean_ring.hpp>
 #include <laws/group.hpp>
+#include <laws/hashable.hpp>
 #include <laws/logical.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
@@ -161,9 +162,10 @@ int main() {
 
 #elif BOOST_HANA_TEST_PART == 5
     //////////////////////////////////////////////////////////////////////////
-    // Comparable
+    // Comparable and Hashable
     //////////////////////////////////////////////////////////////////////////
     test::TestComparable<ext::std::integral_constant_tag<int>>{ints};
+    test::TestHashable<ext::std::integral_constant_tag<void>>{ints};
 
 #elif BOOST_HANA_TEST_PART == 6
     //////////////////////////////////////////////////////////////////////////

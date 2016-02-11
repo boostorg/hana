@@ -7,6 +7,7 @@
 
 #include <laws/comparable.hpp>
 #include <laws/foldable.hpp>
+#include <laws/hashable.hpp>
 #include <laws/iterable.hpp>
 #include <laws/orderable.hpp>
 #include <laws/searchable.hpp>
@@ -14,7 +15,7 @@ namespace hana = boost::hana;
 
 
 int main() {
-    // Comparable
+    // Comparable and Hashable
     {
         auto strings = hana::make_tuple(
             BOOST_HANA_STRING(""),
@@ -27,6 +28,7 @@ int main() {
         );
 
         hana::test::TestComparable<hana::string_tag>{strings};
+        hana::test::TestHashable<hana::string_tag>{strings};
     }
 
     // Foldable and Iterable
