@@ -107,12 +107,40 @@ BOOST_HANA_NAMESPACE_BEGIN
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned short);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned int      , unsigned char);
     BOOST_HANA_DEFINE_EMBEDDING_IMPL(unsigned short    , unsigned char);
+#undef BOOST_HANA_DEFINE_EMBEDDING_IMPL
+
+    namespace detail {
+        template <typename T>
+        struct copy_char_signedness {
+            using type = typename std::conditional<std::is_signed<char>::value,
+                std::make_signed<T>, std::make_unsigned<T>
+            >::type::type;
+        };
+    }
+
+    // If `char` is signed, we define an embedding from `char` to any signed
+    // integral type. Otherwise, we define one from `char` to any unsigned
+    // integral type.
+#define BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL(TO)                           \
+    template <>                                                             \
+    struct to_impl<detail::copy_char_signedness<TO>::type, char>            \
+        : embedding<>                                                       \
+    {                                                                       \
+        static constexpr detail::copy_char_signedness<TO>::type             \
+        apply(char x)                                                       \
+        { return x; }                                                       \
+    }                                                                       \
+/**/
+    BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL(long long);
+    BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL(long);
+    BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL(int);
+    BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL(short);
+#undef BOOST_HANA_DEFINE_CHAR_EMBEDDING_IMPL
 
     template <typename T>
     struct to_impl<T*, decltype(nullptr)> : embedding<> {
         static constexpr T* apply(decltype(nullptr)) { return nullptr; }
     };
-#undef BOOST_HANA_DEFINE_EMBEDDING_IMPL
 
     //////////////////////////////////////////////////////////////////////////
     // is_convertible
