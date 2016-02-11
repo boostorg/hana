@@ -74,7 +74,7 @@ You can also get an offline version of the documentation by checking out
 the `gh-pages` branch. To avoid overwriting the current directory, you
 can clone the `gh-pages` branch into a subdirectory like `doc/html`:
 ```shell
-git clone http://github.com/boostorg/hana --branch=gh-pages doc/html
+git clone http://github.com/boostorg/hana --branch=gh-pages --depth=1 doc/html
 ```
 
 After issuing this, `doc/html` will contain exactly the same static website
