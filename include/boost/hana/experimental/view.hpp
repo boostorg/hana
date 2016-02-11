@@ -10,10 +10,13 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXPERIMENTAL_VIEW_HPP
 #define BOOST_HANA_EXPERIMENTAL_VIEW_HPP
 
+#include <boost/hana/all_of.hpp>
 #include <boost/hana/and.hpp>
 #include <boost/hana/at.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/decay.hpp>
+#include <boost/hana/detail/unpack_flatten.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/on.hpp>
@@ -158,6 +161,30 @@ namespace experimental {
     }
 
     //////////////////////////////////////////////////////////////////////////
+    // flattened_view
+    //////////////////////////////////////////////////////////////////////////
+    template <typename Sequences>
+    struct flattened_view_t {
+        detail::view_storage<Sequences> sequences_;
+        using hana_tag = view_tag;
+    };
+
+    struct make_flattened_view_t {
+        template <typename Sequences>
+        constexpr flattened_view_t<Sequences> operator()(Sequences& s) const {
+            return {s};
+        }
+    };
+    constexpr make_flattened_view_t flattened{};
+
+    namespace detail {
+        template <typename Sequences>
+        struct is_view<flattened_view_t<Sequences>> {
+            static constexpr bool value = true;
+        };
+    }
+
+    //////////////////////////////////////////////////////////////////////////
     // single_view
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
@@ -238,6 +265,13 @@ struct unpack_impl<experimental::view_tag> {
                              std::make_index_sequence<N2>{});
     }
 
+    // flattened_view
+    template <typename Sequences, typename F>
+    static constexpr decltype(auto)
+    apply(experimental::flattened_view_t<Sequences> view, F&& f) {
+        return detail::unpack_flatten(view.sequences_, static_cast<F&&>(f));
+    }
+
     // single_view
     template <typename T, typename F>
     static constexpr decltype(auto) apply(experimental::single_view_t<T> view, F&& f) {
@@ -290,6 +324,40 @@ struct at_impl<experimental::view_tag> {
         return at_joined_view<Left>(view, n, hana::bool_c<(N::value < Left)>);
     }
 
+    // flattened_view
+    struct index_pair { std::size_t sequence; std::size_t index; };
+    template <std::size_t N, std::size_t ...Lenghts>
+    struct flat_indexer {
+        constexpr index_pair operator()() const {
+            constexpr std::size_t sizes[] = {Lenghts...};
+            std::size_t current = 0;
+            std::size_t n = N;
+            while (n >= sizes[current]) {
+                n -= sizes[current];
+                ++current;
+            }
+            return index_pair{current, n};
+        }
+    };
+    template <std::size_t N>
+    struct make_flat_indexer {
+        template <typename ...S>
+        constexpr auto operator()(S const& ...s) const
+            -> flat_indexer<N, decltype(hana::length(s))::value...>
+        { return {}; }
+    };
+
+    template <typename Sequences, typename N>
+    static constexpr decltype(auto)
+    apply(experimental::flattened_view_t<Sequences> view, N const&) {
+        using Indexer = decltype(hana::unpack(view.sequences_,
+                                              make_flat_indexer<N::value>{}));
+        constexpr auto indices = Indexer{}();
+        return hana::at_c<indices.index>(
+            hana::at_c<indices.sequence>(view.sequences_)
+        );
+    }
+
     // single_view
     template <typename T, typename N>
     static constexpr decltype(auto) apply(experimental::single_view_t<T> view, N const&) {
@@ -327,6 +395,20 @@ struct length_impl<experimental::view_tag> {
         >;
     }
 
+    // flattened_view
+    struct sum_lengths {
+        template <typename ...S>
+        constexpr auto operator()(S const& ...s) const {
+            constexpr std::size_t lengths[] = {decltype(hana::length(s))::value...};
+            constexpr std::size_t sum = detail::accumulate(lengths, lengths+sizeof...(S), 0);
+            return hana::size_t<sum>{};
+        }
+    };
+    template <typename Sequences>
+    static constexpr auto apply(experimental::flattened_view_t<Sequences> view) {
+        return hana::unpack(view.sequences_, sum_lengths{});
+    }
+
     // single_view
     template <typename T>
     static constexpr auto apply(experimental::single_view_t<T>) {
@@ -359,6 +441,12 @@ struct is_empty_impl<experimental::view_tag> {
     static constexpr auto apply(experimental::joined_view_t<S1, S2> view) {
         return hana::and_(hana::is_empty(view.sequence1_),
                           hana::is_empty(view.sequence2_));
+    }
+
+    // flattened_view
+    template <typename Sequences>
+    static constexpr auto apply(experimental::flattened_view_t<Sequences> view) {
+        return hana::all_of(view.sequences_, hana::is_empty);
     }
 
     // single_view
@@ -429,9 +517,7 @@ template <>
 struct flatten_impl<experimental::view_tag> {
     template <typename View>
     static constexpr auto apply(View view) {
-        // TODO: Implement a flattened_view instead
-        return hana::fold_left(view, experimental::empty_view(),
-                                     experimental::joined);
+        return experimental::flattened(view);
     }
 };
 
