@@ -40,6 +40,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `value<T>()` is tag-dispatched as `value_impl<C>::%apply<T>()`, where
     //! `C` is the tag of `T`.
     //!
+    //! @note
+    //! `hana::value` is an overloaded function, not a function object.
+    //! Hence, it can't be passed to higher-order algorithms. If you need
+    //! an equivalent function object, use `hana::value_of` instead.
+    //!
     //!
     //! Example
     //! -------
