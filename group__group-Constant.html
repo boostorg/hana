@@ -194,7 +194,9 @@ template&lt;typename T &gt; </div>
 <div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> result = hana::value&lt;decltype(c)&gt;();</div>
 </div><!-- fragment --><p>However, for convenience, an overload of <code>value</code> is provided so that it can be called as: </p><div class="fragment"><div class="line">constexpr <span class="keyword">auto</span> result = <a class="code" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388">hana::value</a>(c);</div>
 </div><!-- fragment --><p>This overload works by taking a <code>const&amp;</code> to its argument, and then forwarding to the first version of <code>value</code>. Since it does not use its argument, the result can still be a constant expression, even if the argument is not a constant expression.</p>
-<dl class="section note"><dt>Note</dt><dd><code>value&lt;T&gt;()</code> is tag-dispatched as <code>value_impl&lt;C&gt;::apply&lt;T&gt;()</code>, where <code>C</code> is the tag of <code>T</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd><code>value&lt;T&gt;()</code> is tag-dispatched as <code>value_impl&lt;C&gt;::apply&lt;T&gt;()</code>, where <code>C</code> is the tag of <code>T</code>.</dd>
+<dd>
+<code><a class="el" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388" title="Return the compile-time value associated to a constant.This function returns the value associated to ...">hana::value</a></code> is an overloaded function, not a function object. Hence, it can't be passed to higher-order algorithms. If you need an equivalent function object, use <code><a class="el" href="group__group-Constant.html#gab46a092deeb205f2c92c335d4312a991" title="Equivalent to value, but can be passed to higher-order algorithms.This function object is equivalent ...">hana::value_of</a></code> instead.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>

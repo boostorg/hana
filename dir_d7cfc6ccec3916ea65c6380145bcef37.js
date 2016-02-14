@@ -27,6 +27,7 @@ var dir_d7cfc6ccec3916ea65c6380145bcef37 =
     [ "struct_macros.hpp", "struct__macros_8hpp.html", null ],
     [ "type_foldl1.hpp", "type__foldl1_8hpp.html", null ],
     [ "type_foldr1.hpp", "type__foldr1_8hpp.html", null ],
+    [ "unpack_flatten.hpp", "unpack__flatten_8hpp.html", null ],
     [ "void_t.hpp", "void__t_8hpp.html", null ],
     [ "wrong.hpp", "wrong_8hpp.html", [
       [ "wrong", "structboost_1_1hana_1_1detail_1_1wrong.html", null ]
