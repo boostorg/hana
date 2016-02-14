@@ -2,19 +2,6 @@
 
 > Your standard library for metaprogramming
 
-## Disclaimers
-The library was recently transferred from its original repository at
-[github.com/ldionne/hana](https://github.com/ldionne/hana) to
-[github.com/boostorg/hana](https://github.com/boostorg/hana).
-Should you notice any broken link or similar issue, please let us know by
-filing an [issue](https://github.com/boostorg/hana/issues).
-
-__This is now an official Boost library!__ The results of the formal review
-can be seen [here](http://thread.gmane.org/gmane.comp.lib.boost.devel/261740).
-However, the library is still not included in a Boost release, and API stability
-is still not assured.
-
-
 ## Overview
 <!-- Important: keep this in sync with example/overview.cpp -->
 ```cpp
