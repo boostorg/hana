@@ -13,13 +13,19 @@
     {
       "name": "hana::tuple",
       "data": <%= time_compilation('compile.hana.tuple.erb.cpp', hana) %>
-    }, {
+    }
+
+    <% if false %>
+    , {
       "name": "hana::set",
       "data": <%= time_compilation('compile.hana.set.erb.cpp', hana) %>
     }, {
       "name": "hana::map",
       "data": <%= time_compilation('compile.hana.map.erb.cpp', hana) %>
-    }, {
+    }
+    <% end %>
+
+    , {
       "name": "std::integer_sequence",
       "data": <%= time_compilation('compile.std.integer_sequence.erb.cpp', hana) %>
     }
