@@ -2,7 +2,9 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/map.hpp>
+#include <boost/hana/type.hpp>
 
 #include "../../at_key/pair.hpp"
 namespace hana = boost::hana;
@@ -10,6 +12,13 @@ namespace hana = boost::hana;
 
 template <int i>
 struct x { };
+
+namespace boost { namespace hana {
+    template <int i>
+    struct hash_impl<x<i>> {
+        static constexpr hana::type<x<i>> apply(x<i> const&) { return {}; }
+    };
+}}
 
 struct undefined { };
 

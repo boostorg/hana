@@ -22,12 +22,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/operators/orderable.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/contains.hpp>
-#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 #include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/find.hpp>
 #include <boost/hana/fwd/front.hpp>
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/less.hpp>
@@ -35,6 +36,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/type.hpp>
 
 #include <utility>
 #include <cstddef>
@@ -270,6 +272,17 @@ BOOST_HANA_NAMESPACE_BEGIN
                 hana::just(c),
                 hana::nothing
             );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Hashable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct hash_impl<string_tag> {
+        template <typename String>
+        static constexpr auto apply(String const&) {
+            return hana::type_c<String>;
         }
     };
 BOOST_HANA_NAMESPACE_END

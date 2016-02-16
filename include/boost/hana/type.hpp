@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/concept/metafunction.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/integral_constant.hpp>
 
 #include <type_traits>
@@ -206,6 +207,16 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename T>
         static constexpr auto apply(basic_type<T> const&, basic_type<T> const&)
         { return hana::true_c; }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Hashable
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct hash_impl<hana::type_tag> {
+        template <typename T>
+        static constexpr T apply(T const& t)
+        { return t; }
     };
 BOOST_HANA_NAMESPACE_END
 

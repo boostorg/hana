@@ -6,6 +6,7 @@
 #include <boost/hana/type.hpp>
 
 #include <laws/comparable.hpp>
+#include <laws/hashable.hpp>
 namespace hana = boost::hana;
 
 
@@ -23,4 +24,5 @@ int main() {
     );
 
     hana::test::TestComparable<hana::type_tag>{types};
+    hana::test::TestHashable<hana::type_tag>{types};
 }

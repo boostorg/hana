@@ -81,6 +81,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Two types are equal if and only if they represent the same C++ type.
     //! Hence, equality is equivalent to the `std::is_same` type trait.
     //! @include example/type/comparable.cpp
+    //!
+    //! 2. `Hashable`\n
+    //! The hash of a type is just that type itself. In other words, `hash`
+    //! is the identity function on `hana::type`s.
+    //! @include example/type/hashable.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename T>
     struct type {

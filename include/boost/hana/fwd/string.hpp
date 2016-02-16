@@ -73,6 +73,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! sequence of its characters.
     //! @include example/string/searchable.cpp
     //!
+    //! 6. `Hashable`\n
+    //! The hash of a compile-time string is a type uniquely representing
+    //! that string.
+    //! @include example/string/hashable.cpp
+    //!
     //!
     //! Conversion to `char const*`
     //! ---------------------------

@@ -20,11 +20,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
-    //! Basic associative container requiring unique and `Comparable` keys.
+    //! Basic associative container requiring unique and `Hashable` keys.
     //!
     //! The order of the elements of the map is unspecified. Also, all the
-    //! keys must be comparable with each other and that comparison must
-    //! yield a compile-time `Logical`.
+    //! keys must be `Hashable`, and any two keys with equal hashes must be
+    //! `Comparable` with each other at compile-time.
     //!
     //! @note
     //! The actual representation of a `hana::map` is implementation-defined.
@@ -90,7 +90,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator[](Key&& key);
     };
 #else
-    template <typename ...Pairs>
+    template <typename HashTable, typename Storage>
     struct map;
 #endif
 
