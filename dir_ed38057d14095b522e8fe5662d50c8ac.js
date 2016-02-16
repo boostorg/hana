@@ -3,6 +3,7 @@ var dir_ed38057d14095b522e8fe5662d50c8ac =
     [ "concept", "dir_9464ff4d361621afd4a03a37d1cfa8f2.html", "dir_9464ff4d361621afd4a03a37d1cfa8f2" ],
     [ "core", "dir_ca02e517e179e321318c059d1b8c5a07.html", "dir_ca02e517e179e321318c059d1b8c5a07" ],
     [ "detail", "dir_d7cfc6ccec3916ea65c6380145bcef37.html", "dir_d7cfc6ccec3916ea65c6380145bcef37" ],
+    [ "experimental", "dir_348943bc239fc181c0e560e2b552b08c.html", "dir_348943bc239fc181c0e560e2b552b08c" ],
     [ "ext", "dir_c2b50de20ecd1c561c4ee5324613a4f5.html", "dir_c2b50de20ecd1c561c4ee5324613a4f5" ],
     [ "functional", "dir_a6a9b067fdd7da0473f32fa45ab233cb.html", "dir_a6a9b067fdd7da0473f32fa45ab233cb" ],
     [ "fwd", "dir_ce67fe4fbc13624f4679528bce64e4c7.html", "dir_ce67fe4fbc13624f4679528bce64e4c7" ],

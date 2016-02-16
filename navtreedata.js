@@ -102,10 +102,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2define__struct_8hpp.html#gab9efb238a82207d91643994c5295cf8c",
-"group__group-EuclideanRing.html#ga9b47b223d5b02db933b3c93b5bd1a062",
-"has__duplicates_8hpp.html",
-"structboost_1_1hana_1_1integral__constant.html#aedd11fddefddbbbb87d3b24c7117528f"
+"fwd_2cycle_8hpp.html#gaaf46c168f721da9effcc7336a997f5d6",
+"group__group-EuclideanRing.html",
+"has__common__embedding_8hpp.html#ga9acac3c4609cff5f0957572744c61ec4",
+"structboost_1_1hana_1_1integral__constant.html#adeaf00ee03ae0daf97d60d5258bd3703"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

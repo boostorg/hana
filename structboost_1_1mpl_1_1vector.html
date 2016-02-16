@@ -275,16 +275,10 @@ A MPL vector can be searched as if it were a tuple containing <code><a class="el
 <div class="line"><span class="keyword">namespace </span>mpl = <a class="code" href="namespaceboost_1_1mpl.html">boost::mpl</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, 3.0);</div>
+<div class="line"><span class="keyword">auto</span> xs = hana::make_tuple(hana::type_c&lt;int&gt;, hana::type_c&lt;char&gt;, hana::type_c&lt;double&gt;);</div>
 <div class="line">static_assert(std::is_same&lt;</div>
 <div class="line">    decltype(hana::to&lt;hana::ext::boost::mpl::vector_tag&gt;(xs)),</div>
 <div class="line">    mpl::vector&lt;int, char, double&gt;</div>
-<div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"></div>
-<div class="line"><span class="keyword">auto</span> ys = hana::make_tuple(1, <span class="charliteral">&#39;2&#39;</span>, hana::type_c&lt;void&gt;);</div>
-<div class="line">static_assert(std::is_same&lt;</div>
-<div class="line">    decltype(hana::to&lt;hana::ext::boost::mpl::vector_tag&gt;(ys)),</div>
-<div class="line">    mpl::vector&lt;int, char, void&gt;</div>
 <div class="line">&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
