@@ -136,7 +136,7 @@ struct boost::hana::string&lt; s &gt;</h3>
 
 <p>Compile-time string. </p>
 <p>Conceptually, a <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> is like a tuple holding <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code>s of underlying type <code>char</code>. However, the interface of <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> is not as rich as that of a tuple, because a string can only hold compile-time characters as opposed to any kind of object.</p>
-<p>Compile-time strings are used for simple purposes like being keys in a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> or tagging the members of a <code>Struct</code>. However, you might find that <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> does not provide enough functionality to be used as a full-blown compile-time string implementation (e.g. regexp matching or substring finding). Indeed, providing a comprehensive string interface is a lot of job, and it is out of the scope of the library for the time being.</p>
+<p>Compile-time strings are used for simple purposes like being keys in a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> or tagging the members of a <code>Struct</code>. However, you might find that <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> does not provide enough functionality to be used as a full-blown compile-time string implementation (e.g. regexp matching or substring finding). Indeed, providing a comprehensive string interface is a lot of job, and it is out of the scope of the library for the time being.</p>
 <dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> is implementation-defined. In particular, one should not take for granted that the template parameters are <code>char</code>s. The proper way to access the contents of a <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> as character constants is to use <code><a class="el" href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170" title="Invoke a function with the elements of a Foldable as arguments.Given a function and a foldable struct...">hana::unpack</a></code> or <code><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e" title="Converts an object from one data type to another. ">hana::to</a>&lt;char const*&gt;</code>, as documented below.</dd></dl>
 <h2>Modeled concepts </h2>
 <p>For most purposes, a <code><a class="el" href="structboost_1_1hana_1_1string.html" title="Compile-time string. ">hana::string</a></code> is functionally equivalent to a tuple holding <code>Constant</code>s of underlying type <code>char</code>.</p>
@@ -263,6 +263,27 @@ Searching through a string is equivalent to searching through the sequence of it
 <div class="line">        <a class="code" href="group__group-Searchable.html#ga6b6cdd69942b0fe3bf5254247f9c861e">hana::find</a>(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcxefg&quot;</span>), hana::char_c&lt;&#39;x&#39;&gt;) == hana::just(hana::char_c&lt;&#39;x&#39;&gt;)</div>
 <div class="line">    );</div>
 <div class="line">}</div>
+</div><!-- fragment --></li>
+<li><code>Hashable</code><br />
+The hash of a compile-time string is a type uniquely representing that string. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hash_8hpp.html">boost/hana/hash.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="not__equal_8hpp.html">boost/hana/not_equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="string_8hpp.html">boost/hana/string.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// `hana::hash` returns a type uniquely representing the string. The hash is</span></div>
+<div class="line"><span class="comment">// perfect, meaning no two different strings have the same hash value.</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gae33be2e0d5e04f19082f4b7740dfc9cd">hana::not_equal</a>(</div>
+<div class="line">    <a class="code" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">hana::hash</a>(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdef&quot;</span>)),</div>
+<div class="line">    <a class="code" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">hana::hash</a>(<a class="code" href="structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84">BOOST_HANA_STRING</a>(<span class="stringliteral">&quot;abcdefg&quot;</span>))</div>
+<div class="line">));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion to <code>char const*</code> </h2>

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['other_20boost_20adapters',['Other Boost adapters',['../group__group-ext-boost.html',1,'']]],
-  ['orderable',['Orderable',['../group__group-Orderable.html',1,'']]]
+  ['metafunction',['Metafunction',['../group__group-Metafunction.html',1,'']]],
+  ['monad',['Monad',['../group__group-Monad.html',1,'']]],
+  ['monadplus',['MonadPlus',['../group__group-MonadPlus.html',1,'']]],
+  ['monoid',['Monoid',['../group__group-Monoid.html',1,'']]]
 ];

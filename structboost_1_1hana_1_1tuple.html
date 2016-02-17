@@ -136,7 +136,7 @@ struct boost::hana::tuple&lt; Xn &gt;</h3>
 
 <p>General purpose index-based heterogeneous sequence with a fixed length. </p>
 <p>The tuple is the bread and butter for static metaprogramming. Conceptually, it is like a <code><a class="el" href="structstd_1_1tuple.html" title="Adapter for std::tuples. ">std::tuple</a></code>; it is a container able of holding objects of different types and whose size is fixed at compile-time. However, Hana's tuple provides much more functionality than its <code>std</code> counterpart, and it is also much more efficient than all standard library implementations tested so far.</p>
-<p>Tuples are index-based sequences. If you need an associative sequence with a key-based access, then you should consider <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> or <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> instead.</p>
+<p>Tuples are index-based sequences. If you need an associative sequence with a key-based access, then you should consider <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> or <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> instead.</p>
 <h2>Modeled concepts </h2>
 <p><code>Sequence</code>, and all the concepts it refines</p>
 <h2>Provided operators </h2>

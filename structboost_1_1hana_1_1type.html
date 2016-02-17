@@ -167,6 +167,31 @@ Two types are equal if and only if they represent the same C++ type. Hence, equa
 <div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::type_c&lt;T&gt; != hana::type_c&lt;U&gt;);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
+</div><!-- fragment --></li>
+<li><code>Hashable</code><br />
+The hash of a type is just that type itself. In other words, <code>hash</code> is the identity function on <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code>s. <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
+<div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
+<div class="line"></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="hash_8hpp.html">boost/hana/hash.hpp</a>&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div>
+<div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// `hana::hash` is the identity on `hana::type`s.</span></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
+<div class="line">    <a class="code" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">hana::hash</a>(hana::type_c&lt;int&gt;),</div>
+<div class="line">    hana::type_c&lt;int&gt;</div>
+<div class="line">));</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>(</div>
+<div class="line">    <a class="code" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">hana::hash</a>(hana::type_c&lt;void&gt;),</div>
+<div class="line">    hana::type_c&lt;void&gt;</div>
+<div class="line">));</div>
+<div class="line"></div>
+<div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> </li>
 </ol>
 </div><table class="memberdecls">

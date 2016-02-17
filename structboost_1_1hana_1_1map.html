@@ -134,9 +134,9 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1map.html','');}
 <div class="textblock"><h3>template&lt;typename implementation_defined&gt;<br />
 struct boost::hana::map&lt; implementation_defined &gt;</h3>
 
-<p>Basic associative container requiring unique and <code>Comparable</code> keys. </p>
-<p>The order of the elements of the map is unspecified. Also, all the keys must be comparable with each other and that comparison must yield a compile-time <code>Logical</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any additional constructors or assignment operators than what is documented. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
+<p>Basic associative container requiring unique and <code>Hashable</code> keys. </p>
+<p>The order of the elements of the map is unspecified. Also, all the keys must be <code>Hashable</code>, and any two keys with equal hashes must be <code>Comparable</code> with each other at compile-time.</p>
+<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any additional constructors or assignment operators than what is documented. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> is through <code>hana::make_map</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
@@ -244,7 +244,7 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code>Foldable</code> </h2>
-<p>Any <code>Foldable</code> of <code>Product</code>s can be converted to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> with <code><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e" title="Converts an object from one data type to another. ">hana::to</a>&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">hana::map_tag</a>&gt;</code> or, equivalently, <code>hana::to_map</code>. If the <code>Foldable</code> contains duplicate keys, only the value associated to the first occurence of each key is kept. </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
+<p>Any <code>Foldable</code> of <code>Product</code>s can be converted to a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> with <code><a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e" title="Converts an object from one data type to another. ">hana::to</a>&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">hana::map_tag</a>&gt;</code> or, equivalently, <code>hana::to_map</code>. If the <code>Foldable</code> contains duplicate keys, only the value associated to the first occurence of each key is kept. </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
 <div class="line"></div>
@@ -279,7 +279,7 @@ Folding a map is equivalent to folding a list of the key/value pairs it contains
 Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#a409d52de54cc7e55eca1a7b5dda4ce30">make&lt; map_tag &gt;</a></td></tr>
-<tr class="memdesc:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>.  <a href="#a409d52de54cc7e55eca1a7b5dda4ce30">More...</a><br /></td></tr>
+<tr class="memdesc:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code>.  <a href="#a409d52de54cc7e55eca1a7b5dda4ce30">More...</a><br /></td></tr>
 <tr class="separator:a409d52de54cc7e55eca1a7b5dda4ce30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1map.html#ae73cf43ee56352e4c25984b0fe3c3d04">make_map</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a>&gt;</td></tr>
 <tr class="memdesc:ae73cf43ee56352e4c25984b0fe3c3d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code>; provided for convenience.  <a href="#ae73cf43ee56352e4c25984b0fe3c3d04">More...</a><br /></td></tr>
@@ -359,8 +359,8 @@ template&lt;&gt; </div>
 <div class="line">        <span class="keywordflow">return</span> map&lt;implementation_defined&gt;{forwarded(pairs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code>. </p>
-<p>Given zero or more <code>Product</code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
+<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code>. </p>
+<p>Given zero or more <code>Product</code>s representing key/value associations, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1map__tag.html" title="Tag representing hana::maps. ">map_tag</a>&gt;</code> returns a <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> associating these keys to these values. All the keys must be unique.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -680,7 +680,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Removes a key/value pair from a map. </p>
-<p>Returns a new <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Comparable keys. ">hana::map</a></code> containing all the elements of the original, except for the <code>(key, value)</code> pair whose <code>key</code> compares <code>equal</code> to the given key. If the map does not contain such an element, a new map equal to the original is returned.</p>
+<p>Returns a new <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code> containing all the elements of the original, except for the <code>(key, value)</code> pair whose <code>key</code> compares <code>equal</code> to the given key. If the map does not contain such an element, a new map equal to the original is returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">map</td><td>The map in which to erase a <code>key</code>.</td></tr>

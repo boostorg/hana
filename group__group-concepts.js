@@ -8,6 +8,7 @@ var group__group_concepts =
     [ "Foldable", "group__group-Foldable.html", "group__group-Foldable" ],
     [ "Functor", "group__group-Functor.html", "group__group-Functor" ],
     [ "Group", "group__group-Group.html", "group__group-Group" ],
+    [ "Hashable", "group__group-Hashable.html", "group__group-Hashable" ],
     [ "Iterable", "group__group-Iterable.html", "group__group-Iterable" ],
     [ "Logical", "group__group-Logical.html", "group__group-Logical" ],
     [ "Metafunction", "group__group-Metafunction.html", "group__group-Metafunction" ],

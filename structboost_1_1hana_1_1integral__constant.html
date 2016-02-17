@@ -175,7 +175,7 @@ struct boost::hana::integral_constant&lt; T, v &gt;</h3>
 An <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">integral_constant</a></code> is a model of the <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code> concept in the most obvious way possible. Specifically, <div class="fragment"><div class="line"><a class="code" href="group__group-Constant.html#ga1687520692a6b0c49e3a69de2980f388">integral_constant&lt;T, v&gt;::value</a> == v <span class="comment">// of type T</span></div>
 </div><!-- fragment --> The model of <code>Constant</code> follows naturally from the model of <code><a class="el" href="structboost_1_1hana_1_1IntegralConstant.html" title="The IntegralConstant concept represents compile-time integral values. ">IntegralConstant</a></code>, i.e. <div class="fragment"><div class="line">value&lt;integral_constant&lt;T, v&gt;&gt;() == v <span class="comment">// of type T</span></div>
 </div><!-- fragment --></li>
-<li><code>Comparable</code>, <code>Orderable</code>, <code>Logical</code>, <code>Monoid</code>, <code>Group</code>, <code>Ring</code>, and <code>EuclideanRing</code><br />
+<li><code>Comparable</code>, <code>Orderable</code>, <code>Logical</code>, <code>Monoid</code>, <code>Group</code>, <code>Ring</code>, and <code>EuclideanRing</code>, <code>Hashable</code><br />
 Those models are exactly those provided for <code>Constant</code>s, which are documented in their respective concepts. </li>
 </ol>
 </div><table class="memberdecls">

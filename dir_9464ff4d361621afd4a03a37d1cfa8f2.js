@@ -8,6 +8,7 @@ var dir_9464ff4d361621afd4a03a37d1cfa8f2 =
     [ "foldable.hpp", "concept_2foldable_8hpp.html", null ],
     [ "functor.hpp", "concept_2functor_8hpp.html", null ],
     [ "group.hpp", "concept_2group_8hpp.html", null ],
+    [ "hashable.hpp", "concept_2hashable_8hpp.html", null ],
     [ "integral_constant.hpp", "concept_2integral__constant_8hpp.html", null ],
     [ "iterable.hpp", "concept_2iterable_8hpp.html", null ],
     [ "logical.hpp", "concept_2logical_8hpp.html", null ],

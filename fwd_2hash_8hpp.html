@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::map_tag Struct Reference</title>
+<title>Boost.Hana: boost/hana/fwd/hash.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -103,7 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('structboost_1_1hana_1_1map__tag.html','');});
+$(document).ready(function(){initNavTree('fwd_2hash_8hpp.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -121,12 +121,36 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1map__tag.html',
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::map_tag Struct Reference</div>  </div>
+<div class="title">hash.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><p>Tag representing <code><a class="el" href="structboost_1_1hana_1_1map.html" title="Basic associative container requiring unique and Hashable keys. ">hana::map</a></code>s. </p>
+
+<p>Forward declares <code><a class="el" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5" title="Returns a hana::type representing the compile-time hash of an object.Given an arbitrary object x...">boost::hana::hash</a></code>.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceboost"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost.html">boost</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:namespaceboost_1_1hana"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost_1_1hana.html">boost::hana</a></td></tr>
+<tr class="memdesc:namespaceboost_1_1hana"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace containing everything in the library. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ga6e906f44f47b210615491385e5c8a7b5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">boost::hana::hash</a></td></tr>
+<tr class="memdesc:ga6e906f44f47b210615491385e5c8a7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> representing the compile-time hash of an object.Given an arbitrary object <code>x</code>, <code><a class="el" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5" title="Returns a hana::type representing the compile-time hash of an object.Given an arbitrary object x...">hana::hash</a></code> returns a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> representing the hash of <code>x</code>. In normal programming, hashes are usually numerical values that can be used e.g. as indices in an array as part of the implementation of a hash table. In the context of metaprogramming, we are interested in type-level hashes instead. Thus, <code><a class="el" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5" title="Returns a hana::type representing the compile-time hash of an object.Given an arbitrary object x...">hana::hash</a></code> must return a <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> object instead of an integer. This <code><a class="el" href="structboost_1_1hana_1_1type.html" title="C++ type in value-level representation. ">hana::type</a></code> must somehow summarize the object being hashed, but that summary may of course lose some information.  <a href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5">More...</a><br /></td></tr>
+<tr class="separator:ga6e906f44f47b210615491385e5c8a7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Forward declares <code><a class="el" href="group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5" title="Returns a hana::type representing the compile-time hash of an object.Given an arbitrary object x...">boost::hana::hash</a></code>. </p>
+<dl class="section copyright"><dt>Copyright</dt><dd>Louis Dionne 2016 </dd>
+<dd>
+Jason Rice 2016 Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE.md or copy at <a href="http://boost.org/LICENSE_1_0.txt">http://boost.org/LICENSE_1_0.txt</a>) </dd></dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!--
@@ -139,7 +163,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1map__tag.html">map_tag</a></li>
+    <li class="navelem"><a class="el" href="dir_8ce16d73ad66b5255099a7f1f1b191b0.html">boost</a></li><li class="navelem"><a class="el" href="dir_ed38057d14095b522e8fe5662d50c8ac.html">hana</a></li><li class="navelem"><a class="el" href="dir_ce67fe4fbc13624f4679528bce64e4c7.html">fwd</a></li><li class="navelem"><a class="el" href="fwd_2hash_8hpp.html">hash.hpp</a></li>
   </ul>
 </div>
 </body>

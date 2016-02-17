@@ -1,12 +1,20 @@
 var searchData=
 [
-  ['uint_5fc',['uint_c',['../structboost_1_1hana_1_1integral__constant.html#a79f45e3c2411db1d36127c1341673ffb',1,'boost::hana::integral_constant']]],
-  ['ullong_5fc',['ullong_c',['../structboost_1_1hana_1_1integral__constant.html#a186b6fdf81c9be08f42576cafd63b38d',1,'boost::hana::integral_constant']]],
-  ['ulong_5fc',['ulong_c',['../structboost_1_1hana_1_1integral__constant.html#a65df6bbd2d90432bdcdc709cdbca9921',1,'boost::hana::integral_constant']]],
-  ['unfold_5fleft',['unfold_left',['../group__group-Sequence.html#gaf2128be91ad6d32e45db1b8c61f79818',1,'boost::hana']]],
-  ['unfold_5fright',['unfold_right',['../group__group-Sequence.html#ga497286bf277e6f8e89ddb18661e1033e',1,'boost::hana']]],
-  ['union_5f',['union_',['../structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8',1,'boost::hana::set']]],
-  ['unique',['unique',['../group__group-Sequence.html#ga35349be79e646c4f5bdd74ec96a846ab',1,'boost::hana']]],
-  ['unpack',['unpack',['../group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170',1,'boost::hana']]],
-  ['ushort_5fc',['ushort_c',['../structboost_1_1hana_1_1integral__constant.html#ace7c983d1ffed3a1ff10b5287d2c6ddd',1,'boost::hana::integral_constant']]]
+  ['take_5fback',['take_back',['../group__group-Sequence.html#ga8d302de01b94b4b17f3bd81e09f42920',1,'boost::hana']]],
+  ['take_5ffront',['take_front',['../group__group-Sequence.html#ga5112e6070d29b4f7fde3f44825da3316',1,'boost::hana']]],
+  ['take_5ffront_5fc',['take_front_c',['../group__group-Sequence.html#ga3779f62fea92af00113a9290f1c680eb',1,'boost::hana']]],
+  ['take_5fwhile',['take_while',['../group__group-Sequence.html#ga2d4db4ec5ec5bc16fe74f57de12697fd',1,'boost::hana']]],
+  ['tap',['tap',['../group__group-Monad.html#ga5e0735de01a24f681c55aedfeb6d13bf',1,'boost::hana']]],
+  ['template_5f',['template_',['../group__group-Metafunction.html#ga246419f6c3263b648412f346106e6543',1,'boost::hana']]],
+  ['then',['then',['../group__group-Monad.html#gaaddd3789de43cf989babb10cdc0b447a',1,'boost::hana']]],
+  ['to',['to',['../group__group-core.html#gadc70755c1d059139297814fb3bfeb91e',1,'boost::hana']]],
+  ['to_5fmap',['to_map',['../structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57',1,'boost::hana::map']]],
+  ['to_5fset',['to_set',['../structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933',1,'boost::hana::set']]],
+  ['to_5ftuple',['to_tuple',['../structboost_1_1hana_1_1tuple.html#a749b564c8f115957837761d75191beac',1,'boost::hana::tuple']]],
+  ['trait',['trait',['../group__group-Metafunction.html#ga6d4093318f46472e62f9539a4dc998a9',1,'boost::hana']]],
+  ['transform',['transform',['../group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7',1,'boost::hana']]],
+  ['true_5fc',['true_c',['../structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405',1,'boost::hana::integral_constant']]],
+  ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1tuple.html#a85c2f16caa2a1e12eefd1b3f69fa658e',1,'boost::hana::tuple']]],
+  ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1tuple.html#a1997546daf58a48cc15498d338a03da3',1,'boost::hana::tuple']]],
+  ['type_5fc',['type_c',['../structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628',1,'boost::hana::type']]]
 ];

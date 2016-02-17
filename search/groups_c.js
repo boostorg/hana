@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ring',['Ring',['../group__group-Ring.html',1,'']]]
+  ['product',['Product',['../group__group-Product.html',1,'']]]
 ];
