@@ -30,13 +30,17 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     namespace experimental {
-        //! @ingroup group-datatypes
-        //! @todo
+        //! @ingroup group-experimental
+        //! Container optimized for holding types.
+        //!
+        //! It is often useful to manipulate a sequence that contains types
+        //! only, without any associated runtime value. This container allows
+        //! storing and manipulating pure types in a much more compile-time
+        //! efficient manner than using `hana::tuple`, which must assume that
+        //! its contents might have runtime values.
         template <typename ...T>
         struct types;
 
-        //! Tag representing a `hana::types` container.
-        //! @relates hana::types
         struct types_tag;
 
         //////////////////////////////////////////////////////////////////////
