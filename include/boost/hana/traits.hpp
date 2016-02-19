@@ -21,13 +21,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN namespace traits {
     namespace detail {
+        // We use this instead of hana::integral because we want to return
+        // hana::integral_constants instead of std::integral_constants.
         template <template <typename ...> class F>
         struct hana_trait {
             template <typename ...T>
-            constexpr auto operator()(T&& ...) const {
-                using Result = typename F<
-                    typename hana::detail::decltype_t<T>::type...
-                >::type;
+            constexpr auto operator()(T const& ...) const {
+                using Result = typename F<typename T::type...>::type;
                 return hana::integral_c<typename Result::value_type, Result::value>;
             }
         };
@@ -115,17 +115,15 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
     constexpr auto rank = detail::hana_trait<std::rank>{};
     constexpr struct extent_t {
         template <typename T, typename N>
-        constexpr auto operator()(T&&, N const&) const {
+        constexpr auto operator()(T const&, N const&) const {
             constexpr unsigned n = N::value;
-            using Result = std::extent<
-                typename hana::detail::decltype_t<T>::type, n
-            >;
+            using Result = typename std::extent<typename T::type, n>::type;
             return hana::integral_c<typename Result::value_type, Result::value>;
         }
 
         template <typename T>
-        constexpr auto operator()(T&& t) const
-        { return (*this)(static_cast<T&&>(t), hana::uint_c<0>); }
+        constexpr auto operator()(T const& t) const
+        { return (*this)(t, hana::uint_c<0>); }
     } extent{};
 
     // Type relationships
@@ -182,11 +180,9 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
 
     constexpr struct aligned_union_t {
         template <typename Len, typename ...T>
-        constexpr auto operator()(Len const&, T&&...) const {
+        constexpr auto operator()(Len const&, T const&...) const {
             constexpr std::size_t len = Len::value;
-            using Result = typename std::aligned_union<
-                len, typename hana::detail::decltype_t<T>::type...
-            >::type;
+            using Result = typename std::aligned_union<len, typename T::type...>::type;
             return hana::type_c<Result>;
         }
     } aligned_union{};
