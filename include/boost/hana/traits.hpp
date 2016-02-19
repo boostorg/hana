@@ -117,10 +117,10 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
         template <typename T, typename N>
         constexpr auto operator()(T&&, N const&) const {
             constexpr unsigned n = N::value;
-            constexpr auto result = std::extent<
+            using Result = std::extent<
                 typename hana::detail::decltype_t<T>::type, n
-            >::value;
-            return hana::integral_c<decltype(result), result>;
+            >;
+            return hana::integral_c<typename Result::value_type, Result::value>;
         }
 
         template <typename T>
