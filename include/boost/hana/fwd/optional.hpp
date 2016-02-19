@@ -137,7 +137,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example:
     //! @include example/optional/searchable.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename ...>
+    template <typename implementation_defined>
     struct optional {
         // 5.3.1, Constructors
 

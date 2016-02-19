@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! > Providing an underlying value of constexpr-enabled string-like
     //! > container type like `std::string_view` would be great, but that's
     //! > a bit complicated for the time being.
-    template <char ...s>
+    template <typename implementation_defined>
     struct string {
         //! Equivalent to `hana::equal`
         template <typename X, typename Y>
