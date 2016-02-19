@@ -65,10 +65,31 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
         );
     };
 
+    template <typename Indices, typename Key, template <std::size_t> class KeyAtIndex>
+    struct find_index_impl {
+        using type = decltype(hana::find_if(Indices{}, find_pred<KeyAtIndex, Key>{}));
+    };
+
+    // This is a peephole optimization for buckets that have a single entry.
+    // It provides a nice speedup in the at_key.number_of_lookups benchmark.
+    // It is perhaps possible to make this part of `find_if` itself, but we
+    // should make sure that we retain that speedup.
+    template <std::size_t i, typename Key, template <std::size_t> class KeyAtIndex>
+    struct find_index_impl<std::index_sequence<i>, Key, KeyAtIndex> {
+        using Equal = decltype(
+            hana::equal(std::declval<KeyAtIndex<i>>(),
+                        std::declval<Key>())
+        );
+        using type = typename std::conditional<Equal::value,
+            hana::optional<std::integral_constant<std::size_t, i>>,
+            hana::optional<>
+        >::type;
+    };
+
     template <typename Map, typename Key, template <std::size_t> class KeyAtIndex>
     struct find_index {
         using Indices = typename find_indices<Map, Key>::type;
-        using type = decltype(hana::find_if(Indices{}, find_pred<KeyAtIndex, Key>{}));
+        using type = typename find_index_impl<Indices, Key, KeyAtIndex>::type;
     };
     // end find_index
 
