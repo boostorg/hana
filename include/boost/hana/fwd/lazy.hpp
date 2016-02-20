@@ -92,6 +92,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! equal to `x`, and `make<lazy_tag>(f)(x1, ..., xN)` is a lazy function
     //! call that is equal to `f(x1, ..., xN)` when it is `eval`uated.
     //!
+    //! `make<lazy_tag>` supports reference wrappers. When a reference wrapper
+    //! is passed to it, the resulting `hana::lazy` will hold a reference
+    //! to the object instead of the object itself.
+    //!
     //! @note
     //! It is interesting to note that `make<lazy_tag>(f)(x1, ..., xN)` is
     //! equivalent to

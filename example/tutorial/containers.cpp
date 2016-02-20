@@ -73,17 +73,29 @@ std::string& s = xs[0_c];
 
 }{
 
+//! [reference_tuple]
+std::string hello = "Hello";
+std::vector<char> world = {'W', 'o', 'r', 'l', 'd'};
+
+hana::tuple<std::string&, std::vector<char>&> xs{hello, world};
+
+// s is a reference to `hello`
+std::string& s = xs[0_c];
+BOOST_HANA_RUNTIME_CHECK(&s == &hello);
+//! [reference_tuple]
+
+}{
+
 //! [reference_wrapper]
-std::vector<int> ints = { /* huge vector of ints */ };
-std::vector<std::string> strings = { /* huge vector of strings */ };
+std::string hello = "Hello";
+std::vector<char> world = {'W', 'o', 'r', 'l', 'd'};
 
-auto map = hana::make_map(
-  hana::make_pair(hana::type_c<int>, std::ref(ints)),
-  hana::make_pair(hana::type_c<std::string>, std::ref(strings))
-);
+auto xs = hana::make_tuple(std::ref(hello), std::ref(world));
 
-auto& v = map[hana::type_c<int>].get();
-BOOST_HANA_RUNTIME_CHECK(&v == &ints);
+std::string& hello_ref = xs[0_c];
+std::vector<char>& world_ref = xs[1_c];
+BOOST_HANA_RUNTIME_CHECK(&hello_ref == &hello);
+BOOST_HANA_RUNTIME_CHECK(&world_ref == &world);
 //! [reference_wrapper]
 
 }

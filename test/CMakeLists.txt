@@ -34,8 +34,10 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/_support)
 ##############################################################################
 if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_UNIT_TESTS
+        "detail/as_container_element/boost_ref.cpp"
+        "experimental/printable/*.cpp"
         "ext/boost/*.cpp"
-        "experimental/printable/*.cpp")
+    )
 
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"

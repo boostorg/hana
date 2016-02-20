@@ -130,6 +130,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @relates hana::pair
     //!
     //!
+    //! @note
+    //! `make<pair_tag>` supports reference wrappers. When a reference wrapper
+    //! is passed to it, the resulting `hana::pair` will hold a reference
+    //! to the object enclosed in the reference wrapper instead of the object
+    //! itself.
+    //!
+    //!
     //! Example
     //! -------
     //! @include example/pair/make.cpp

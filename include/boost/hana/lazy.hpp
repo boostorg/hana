@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/make.hpp>
-#include <boost/hana/detail/decay.hpp>
+#include <boost/hana/detail/as_container_element.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/monad.hpp>
 #include <boost/hana/functional/apply.hpp>
@@ -71,7 +71,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...Args>
         constexpr lazy_apply_t<
             std::make_index_sequence<sizeof...(Args)>,
-            X, typename detail::decay<Args>::type...
+            X, detail::as_container_element_t<Args>...
         > operator()(Args&& ...args) const& {
             return {detail::lazy_secret{},
                     hana::get_impl<0>(storage_), static_cast<Args&&>(args)...};
@@ -80,7 +80,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...Args>
         constexpr lazy_apply_t<
             std::make_index_sequence<sizeof...(Args)>,
-            X, typename detail::decay<Args>::type...
+            X, detail::as_container_element_t<Args>...
         > operator()(Args&& ...args) && {
             return {detail::lazy_secret{},
                 static_cast<X&&>(hana::get_impl<0>(storage_)),
@@ -95,7 +95,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <>
     struct make_impl<lazy_tag> {
         template <typename X>
-        static constexpr lazy_value_t<typename detail::decay<X>::type> apply(X&& x) {
+        static constexpr lazy_value_t<detail::as_container_element_t<X>> apply(X&& x) {
             return {detail::lazy_secret{}, static_cast<X&&>(x)};
         }
     };
