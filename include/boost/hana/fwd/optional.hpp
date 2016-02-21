@@ -29,24 +29,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! at compile-time.
     //!
     //! This is really an important difference between `hana::optional` and
-    //! `std::optional`. Unlike `std::optional<T>{}` and `std::optional<T>{value}`
-    //! who share the same type (`std::optional<T>`), `just(x)` and `nothing`
-    //! do not share the same type. Hence, whether a `just` or a `nothing`
-    //! will be returned from a function has to be known at compile-time for
-    //! the return type to be computable by the compiler. This makes
-    //! `hana::optional` well suited for static metaprogramming tasks,
-    //! but very poor for anything dynamic.
-    //!
-    //!
-    //! @note
-    //! The representation of `hana::optional` is implementation-defined.
-    //! In particular, one should not take for granted any particular
-    //! representation for `hana::just(...)` and `hana::nothing`, or the
-    //! presence of any constructor/assignment operator. The proper way to
-    //! create an `optional` is through `hana::just` and `hana::nothing`,
-    //! and one should use `hana::is_just` and `hana::is_nothing` to
-    //! determine the status of an `optional` instead of relying on a
-    //! particular representation.
+    //! `std::optional`. Unlike `std::optional<T>{}` and `std::optional<T>{x}`
+    //! who share the same type (`std::optional<T>`), `hana::just(x)` and
+    //! `hana::nothing` do not share the same type, since the state of the
+    //! optional has to be known at compile-time. Hence, whether a `hana::just`
+    //! or a `hana::nothing` will be returned from a function has to be known
+    //! at compile-time for the return type of that function to be computable
+    //! by the compiler. This makes `hana::optional` well suited for static
+    //! metaprogramming tasks, but very poor for anything dynamic.
     //!
     //!
     //! Interoperation with `type`s
@@ -137,7 +127,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example:
     //! @include example/optional/searchable.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename implementation_defined>
+    template <typename ...T>
     struct optional {
         // 5.3.1, Constructors
 
@@ -282,7 +272,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         friend constexpr auto operator>=(X&& x, Y&& y);
     };
 #else
-    template <typename ...>
+    template <typename ...T>
     struct optional;
 #endif
 
@@ -304,7 +294,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<optional_tag> = []([auto&& x]) {
-        return optional<implementation_defined>{forwarded(x)};
+        return optional<std::decay<decltype(x)>::type>{forwarded(x)};
     };
 #endif
 
@@ -326,7 +316,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/optional/just.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto just = [](auto&& x) {
-        return optional<implementation_defined>{forwarded(x)};
+        return optional<std::decay<decltype(x)>::type>{forwarded(x)};
     };
 #else
     struct make_just_t {
@@ -345,7 +335,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/optional/nothing.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr optional<implementation_defined> nothing{implementation_defined};
+    constexpr optional<> nothing{};
 #else
     template <>
     struct optional<> : detail::operators::adl<optional<>> {

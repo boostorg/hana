@@ -115,9 +115,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename T>
     constexpr auto make_just_t::operator()(T&& t) const {
-        return optional<typename std::decay<T>::type>(
-            static_cast<T&&>(t)
-        );
+        return hana::optional<typename std::decay<T>::type>(static_cast<T&&>(t));
     }
     //! @endcond
 
