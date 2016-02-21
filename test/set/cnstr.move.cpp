@@ -3,7 +3,9 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/set.hpp>
+#include <boost/hana/type.hpp>
 
 #include <laws/base.hpp>
 
@@ -25,6 +27,14 @@ struct move_only : hana::test::Tracked {
     template <int j>
     auto operator!=(move_only<j> const& x) const { return !(*this == x); }
 };
+
+namespace boost { namespace hana {
+    template <int i>
+    struct hash_impl<move_only<i>> {
+        static constexpr auto apply(move_only<i> const&)
+        { return hana::type_c<move_only<i>>; };
+    };
+}}
 
 int main() {
     {
@@ -75,6 +85,14 @@ struct non_tracked_move_only {
     auto operator!=(non_tracked_move_only<j> const& x) const
     { return !(*this == x); }
 };
+
+namespace boost { namespace hana {
+    template <int i>
+    struct hash_impl<non_tracked_move_only<i>> {
+        static constexpr auto apply(non_tracked_move_only<i> const&)
+        { return hana::type_c<non_tracked_move_only<i>>; };
+    };
+}}
 
 constexpr bool in_constexpr_context() {
     auto t0 = hana::make_set(non_tracked_move_only<2>{}, non_tracked_move_only<3>{});

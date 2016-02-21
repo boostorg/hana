@@ -4,7 +4,9 @@
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/detail/wrong.hpp>
+#include <boost/hana/fwd/hash.hpp>
 #include <boost/hana/set.hpp>
+#include <boost/hana/type.hpp>
 
 #include <utility>
 namespace hana = boost::hana;
@@ -34,6 +36,14 @@ constexpr auto operator==(Trap<i> const&, Trap<j> const&)
 template <int i, int j>
 constexpr auto operator!=(Trap<i> const&, Trap<j> const&)
 { return hana::bool_c<i != j>; }
+
+namespace boost { namespace hana {
+    template <int i>
+    struct hash_impl<Trap<i>> {
+        static constexpr auto apply(Trap<i> const&)
+        { return hana::type_c<Trap<i>>; };
+    };
+}}
 
 int main() {
     {
