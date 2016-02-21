@@ -20,7 +20,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
-    //! Basic associative container requiring unique and `Hashable` keys.
+    //! Basic associative container requiring unique, `Comparable` and
+    //! `Hashable` keys.
     //!
     //! The order of the elements of the map is unspecified. Also, all the
     //! keys must be `Hashable`, and any two keys with equal hashes must be

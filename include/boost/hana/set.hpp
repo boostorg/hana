@@ -16,10 +16,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
+#include <boost/hana/concept/hashable.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/contains.hpp>
-#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/has_duplicates.hpp>
@@ -96,6 +97,9 @@ BOOST_HANA_NAMESPACE_BEGIN
 #if defined(BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
             static_assert(detail::fast_and<hana::Comparable<Xs>::value...>::value,
             "hana::make_set(xs...) requires all the 'xs' to be Comparable");
+
+            static_assert(detail::fast_and<hana::Hashable<Xs>::value...>::value,
+            "hana::make_set(xs...) requires all the 'xs' to be Hashable");
 
             static_assert(detail::fast_and<
                 Constant<decltype(hana::equal(xs, xs))>::value...

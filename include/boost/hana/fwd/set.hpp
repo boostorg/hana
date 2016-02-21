@@ -18,10 +18,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @ingroup group-datatypes
-    //! Basic unordered container requiring compile-time `Comparable` elements.
+    //! Basic unordered container requiring unique, `Comparable` and
+    //! `Hashable` keys.
     //!
-    //! A set is an unordered container that can hold heterogeneous objects.
-    //! As usual, a set requires (and ensures) that no duplicates are present.
+    //! A set is an unordered container that can hold heterogeneous keys.
+    //! A set requires (and ensures) that no duplicates are present when
+    //! inserting new keys.
     //!
     //! @note
     //! The actual representation of a `hana::set` is implementation-defined.
@@ -68,7 +70,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! __Example__
     //! @include example/set/to.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename ...Xs>
+    template <typename implementation_defined>
     struct set {
         //! Copy-construct a set from another set. This constructor only
         //! exists when all the elements of the set are copy-constructible.
@@ -115,7 +117,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <>
     constexpr auto make<set_tag> = [](auto&& ...xs) {
-        return set<implementation_defined...>{forwarded(xs)...};
+        return set<implementation_defined>{forwarded(xs)...};
     };
 #endif
 
