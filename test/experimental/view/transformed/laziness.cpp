@@ -5,7 +5,7 @@
 #include <boost/hana/experimental/view.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
@@ -14,7 +14,7 @@ struct undefined { };
 
 int main() {
     // Make sure we do not evaluate the function unless required
-    auto storage = hana::test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
+    auto storage = ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
     auto transformed = hana::experimental::transformed(storage, undefined{});
     (void)transformed;
 }

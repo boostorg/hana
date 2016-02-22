@@ -8,7 +8,7 @@
 #include <boost/hana/unpack.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
@@ -17,7 +17,7 @@ int main() {
     auto f = hana::test::_injection<0>{};
     auto g = hana::test::_injection<1>{};
     auto check = [=](auto ...x) {
-        auto storage = hana::test::seq(x...);
+        auto storage = ::seq(x...);
         auto transformed = hana::experimental::transformed(storage, f);
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(

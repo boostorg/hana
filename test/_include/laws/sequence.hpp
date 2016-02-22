@@ -20,12 +20,8 @@
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
-
-#include <test/equivalence_class.hpp>
-#include <test/identity.hpp>
-#include <test/minimal_product.hpp>
-#include <test/numeric.hpp>
-#include <test/seq.hpp>
+#include <support/minimal_product.hpp>
+#include <support/seq.hpp>
 
 #include <type_traits>
 #include <vector>
@@ -79,7 +75,7 @@ namespace boost { namespace hana { namespace test {
 
         TestSequence() {
             constexpr auto list = make<S>; (void)list;
-            constexpr auto foldable = seq; (void)foldable;
+            constexpr auto foldable = ::seq; (void)foldable;
 
 #if !defined(BOOST_HANA_TEST_SEQUENCE_PART) || BOOST_HANA_TEST_SEQUENCE_PART == 1
             //////////////////////////////////////////////////////////////////

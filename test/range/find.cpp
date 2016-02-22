@@ -10,9 +10,8 @@
 #include <boost/hana/optional.hpp>
 #include <boost/hana/range.hpp>
 
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
 namespace hana = boost::hana;
-using hana::test::cnumeric;
 
 
 int main() {

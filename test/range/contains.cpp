@@ -9,9 +9,8 @@
 #include <boost/hana/not.hpp>
 #include <boost/hana/range.hpp>
 
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
 namespace hana = boost::hana;
-using hana::test::cnumeric;
 
 
 int main() {
@@ -47,11 +46,11 @@ int main() {
 
     BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::contains(
         hana::make_range(hana::int_c<-10>, hana::int_c<0>),
-        cnumeric<int, 3>)
-    ));
+        cnumeric<int, 3>
+    )));
 
     BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::contains(
         hana::make_range(hana::int_c<0>, hana::int_c<10>),
-        cnumeric<int, 15>)
-    ));
+        cnumeric<int, 15>
+    )));
 }

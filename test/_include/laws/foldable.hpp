@@ -18,7 +18,7 @@
 #include <boost/hana/lazy.hpp>
 
 #include <laws/base.hpp>
-#include <test/identity.hpp>
+#include <support/identity.hpp>
 
 #include <vector>
 
@@ -251,8 +251,8 @@ namespace boost { namespace hana { namespace test {
             // monadic_fold_left (with initial state)
             //////////////////////////////////////////////////////////////////
             {
-                using M = test::Identity;
-                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                using M = ::Identity;
+                auto f = hana::demux(::identity)(test::_injection<0>{});
                 auto s = x<999>{};
                 auto fp = hana::curry<2>(hana::flip(f));
                 constexpr auto mfold = monadic_fold_left<M>;
@@ -292,8 +292,8 @@ namespace boost { namespace hana { namespace test {
             // monadic_fold_left (without initial state)
             //////////////////////////////////////////////////////////////////
             {
-                using M = test::Identity;
-                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                using M = ::Identity;
+                auto f = hana::demux(::identity)(test::_injection<0>{});
                 auto fp = hana::curry<2>(hana::flip(f));
                 constexpr auto mfold = monadic_fold_left<M>;
 
@@ -327,8 +327,8 @@ namespace boost { namespace hana { namespace test {
             // monadic_fold_right (with initial state)
             //////////////////////////////////////////////////////////////////
             {
-                using M = test::Identity;
-                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                using M = ::Identity;
+                auto f = hana::demux(::identity)(test::_injection<0>{});
                 auto s = x<999>{};
                 auto fp = hana::curry<2>(f);
                 // flipping `chain` makes the right associativity easier to see
@@ -370,8 +370,8 @@ namespace boost { namespace hana { namespace test {
             // monadic_fold_right (without initial state)
             //////////////////////////////////////////////////////////////////
             {
-                using M = test::Identity;
-                auto f = hana::demux(test::identity)(test::_injection<0>{});
+                using M = ::Identity;
+                auto f = hana::demux(::identity)(test::_injection<0>{});
                 auto fp = hana::curry<2>(f);
                 // flipping `chain` makes the right associativity easier to see
                 auto chain = hana::flip(hana::chain);

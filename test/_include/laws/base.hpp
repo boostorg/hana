@@ -5,23 +5,29 @@
 #ifndef BOOST_HANA_TEST_LAWS_BASE_HPP
 #define BOOST_HANA_TEST_LAWS_BASE_HPP
 
+// Hack to make sure tests that include this are not missing includes, since
+// the include scheme changed at some point and it caused major breakage.
 #include <boost/hana.hpp>
 
-#include <boost/hana/assert.hpp>
+#include <boost/hana/and.hpp>
 #include <boost/hana/bool.hpp>
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/constant.hpp>
-#include <boost/hana/concept/foldable.hpp>
-#include <boost/hana/concept/integral_constant.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/orderable.hpp>
+#include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/wrong.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/eval_if.hpp>
+#include <boost/hana/for_each.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/infix.hpp>
+#include <boost/hana/functional/partial.hpp>
+#include <boost/hana/fwd/concept/integral_constant.hpp>
+#include <boost/hana/fwd/core/to.hpp>
+#include <boost/hana/fwd/less.hpp>
+#include <boost/hana/not.hpp>
+#include <boost/hana/or.hpp>
 #include <boost/hana/tuple.hpp>
 
 #include <support/tracked.hpp>
 
-#include <iostream>
 #include <type_traits>
 #include <utility>
 
@@ -149,8 +155,6 @@ namespace boost { namespace hana {
             }
         };
     } // end namespace test
-
-    using test::Tracked;
 
     template <>
     struct equal_impl<test::InjectionResult, test::InjectionResult> {

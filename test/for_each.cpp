@@ -5,7 +5,7 @@
 #include <boost/hana/assert.hpp>
 #include <boost/hana/for_each.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 #include <laws/base.hpp>
 
 #include <vector>
@@ -18,7 +18,7 @@ struct constexpr_function {
     constexpr void operator()(T) const { }
 };
 
-constexpr auto list = hana::test::seq;
+constexpr auto list = ::seq;
 
 int main() {
     // Make sure the function is applied in left-to-right order.

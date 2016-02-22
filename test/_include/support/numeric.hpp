@@ -2,55 +2,58 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_HANA_TEST_TEST_NUMERIC_HPP
-#define BOOST_HANA_TEST_TEST_NUMERIC_HPP
+#ifndef TEST_SUPPORT_NUMERIC_HPP
+#define TEST_SUPPORT_NUMERIC_HPP
 
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/eval.hpp>
+#include <boost/hana/fwd/div.hpp>
+#include <boost/hana/fwd/equal.hpp>
+#include <boost/hana/fwd/eval_if.hpp>
+#include <boost/hana/fwd/less.hpp>
+#include <boost/hana/fwd/minus.hpp>
+#include <boost/hana/fwd/mod.hpp>
+#include <boost/hana/fwd/mult.hpp>
+#include <boost/hana/fwd/negate.hpp>
+#include <boost/hana/fwd/not.hpp>
+#include <boost/hana/fwd/one.hpp>
+#include <boost/hana/fwd/plus.hpp>
+#include <boost/hana/fwd/while.hpp>
+#include <boost/hana/fwd/zero.hpp>
 
-// instances
-#include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/concept/euclidean_ring.hpp>
-#include <boost/hana/concept/group.hpp>
-#include <boost/hana/concept/logical.hpp>
-#include <boost/hana/concept/monoid.hpp>
-#include <boost/hana/concept/orderable.hpp>
-#include <boost/hana/concept/ring.hpp>
+
+struct numeric_type {
+    constexpr explicit numeric_type(int v) : value(v) { }
+    int value;
+    constexpr operator int() const { return value; }
+};
+
+using Numeric = boost::hana::tag_of_t<numeric_type>;
+
+struct numeric_t {
+    constexpr numeric_type operator()(int x) const {
+        return numeric_type{x};
+    }
+};
+constexpr numeric_t numeric{};
 
 
 namespace boost { namespace hana {
-    namespace test {
-        struct numeric_type {
-            constexpr explicit numeric_type(int v) : value(v) { }
-            int value;
-            constexpr operator int() const { return value; }
-        };
-
-        using Numeric = tag_of_t<numeric_type>;
-
-        struct numeric_t {
-            constexpr numeric_type operator()(int x) const {
-                return numeric_type{x};
-            }
-        };
-        constexpr numeric_t numeric{};
-    }
-
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct equal_impl<test::Numeric, test::Numeric> {
+    struct equal_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value == y.value); }
+        { return numeric(x.value == y.value); }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct less_impl<test::Numeric, test::Numeric> {
+    struct less_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y) {
             // Workaround a _weird_ GCC bug:
@@ -58,7 +61,7 @@ namespace boost { namespace hana {
             //      bool cmp = (x.value < y.value);
             //                    ^
             int xv = x.value, yv = y.value;
-            return test::numeric(xv < yv);
+            return numeric(xv < yv);
         }
     };
 
@@ -66,7 +69,7 @@ namespace boost { namespace hana {
     // Logical
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct eval_if_impl<test::Numeric> {
+    struct eval_if_impl<Numeric> {
         template <typename C, typename T, typename E>
         static constexpr auto apply(C const& c, T&& t, E&& e) {
             return c.value ? hana::eval(static_cast<T&&>(t))
@@ -75,20 +78,20 @@ namespace boost { namespace hana {
     };
 
     template <>
-    struct not_impl<test::Numeric> {
+    struct not_impl<Numeric> {
         template <typename X>
         static constexpr auto apply(X x)
-        { return test::numeric(!x.value); }
+        { return numeric(!x.value); }
     };
 
     template <>
-    struct while_impl<test::Numeric> {
+    struct while_impl<Numeric> {
         template <typename Pred, typename State, typename F>
         static constexpr auto apply(Pred pred, State state, F f)
             -> decltype(true ? f(state) : state)
         {
             if (pred(state))
-                return while_(pred, f(state), f);
+                return hana::while_(pred, f(state), f);
             else
                 return state;
         }
@@ -98,16 +101,16 @@ namespace boost { namespace hana {
     // Monoid
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct plus_impl<test::Numeric, test::Numeric> {
+    struct plus_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value + y.value); }
+        { return numeric(x.value + y.value); }
     };
 
     template <>
-    struct zero_impl<test::Numeric> {
+    struct zero_impl<Numeric> {
         static constexpr auto apply()
-        { return test::numeric(0); }
+        { return numeric(0); }
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -121,17 +124,17 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
 #if defined(BOOST_HANA_TEST_GROUP_NEGATE_MCD)
     template <>
-    struct negate_impl<test::Numeric> {
+    struct negate_impl<Numeric> {
         template <typename X>
         static constexpr auto apply(X x)
-        { return test::numeric(-x.value); }
+        { return numeric(-x.value); }
     };
 #else
     template <>
-    struct minus_impl<test::Numeric, test::Numeric> {
+    struct minus_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value - y.value); }
+        { return numeric(x.value - y.value); }
     };
 #endif
 
@@ -139,34 +142,34 @@ namespace boost { namespace hana {
     // Ring
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct mult_impl<test::Numeric, test::Numeric> {
+    struct mult_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value * y.value); }
+        { return numeric(x.value * y.value); }
     };
 
     template <>
-    struct one_impl<test::Numeric> {
+    struct one_impl<Numeric> {
         static constexpr auto apply()
-        { return test::numeric(1); }
+        { return numeric(1); }
     };
 
     //////////////////////////////////////////////////////////////////////////
     // EuclideanRing
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct div_impl<test::Numeric, test::Numeric> {
+    struct div_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value / y.value); }
+        { return numeric(x.value / y.value); }
     };
 
     template <>
-    struct mod_impl<test::Numeric, test::Numeric> {
+    struct mod_impl<Numeric, Numeric> {
         template <typename X, typename Y>
         static constexpr auto apply(X x, Y y)
-        { return test::numeric(x.value % y.value); }
+        { return numeric(x.value % y.value); }
     };
 }} // end namespace boost::hana
 
-#endif //! BOOST_HANA_TEST_TEST_NUMERIC_HPP
+#endif //! TEST_SUPPORT_NUMERIC_HPP

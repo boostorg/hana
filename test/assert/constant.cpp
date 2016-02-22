@@ -4,15 +4,15 @@
 
 #include <boost/hana/assert.hpp>
 
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
 namespace hana = boost::hana;
 
 
 template <bool value>
-auto constant_bool() { return hana::test::make_cnumeric<bool, value>(); }
+auto constant_bool() { return make_cnumeric<bool, value>(); }
 
 template <bool value>
-constexpr auto constexpr_constant_bool() { return hana::test::make_cnumeric<bool, value>(); }
+constexpr auto constexpr_constant_bool() { return make_cnumeric<bool, value>(); }
 
 
 // Make sure it works at global scope

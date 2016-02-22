@@ -16,7 +16,7 @@
 #include <boost/hana/concept/searchable.hpp>
 
 #include <laws/base.hpp>
-#include <test/numeric.hpp>
+#include <support/numeric.hpp>
 
 
 namespace boost { namespace hana { namespace test {

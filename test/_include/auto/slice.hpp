@@ -14,7 +14,7 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 
 #include <cstddef>
 
@@ -22,7 +22,7 @@
 TestCase test_slice{[]{
     namespace hana = boost::hana;
     using hana::test::ct_eq;
-    constexpr auto foldable = hana::test::seq;
+    constexpr auto foldable = ::seq;
 
     struct undefined { };
 

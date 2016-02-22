@@ -7,14 +7,14 @@
 #include <boost/hana/is_empty.hpp>
 #include <boost/hana/not.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 
 
 struct undefined { };
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
 
     {
         auto xs = container();

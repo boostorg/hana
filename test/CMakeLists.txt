@@ -26,7 +26,7 @@ endfunction()
 ##############################################################################
 # Include additional support directories
 ##############################################################################
-include_directories(${CMAKE_CURRENT_LIST_DIR}/_support)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/_include)
 
 
 ##############################################################################

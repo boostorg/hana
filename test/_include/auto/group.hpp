@@ -11,7 +11,7 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/equivalence_class.hpp>
+#include <support/equivalence_class.hpp>
 
 
 TestCase test_group{[]{
@@ -86,8 +86,8 @@ TestCase test_group{[]{
 
     // Test with a custom predicate
     {
-        auto a = [](auto z) { return hana::test::tag(ct_eq<999>{}, z); };
-        auto b = [](auto z) { return hana::test::tag(ct_eq<888>{}, z); };
+        auto a = [](auto z) { return ::equivalence_class(ct_eq<999>{}, z); };
+        auto b = [](auto z) { return ::equivalence_class(ct_eq<888>{}, z); };
 
         auto pred = [](auto x, auto y) {
             return hana::equal(x.unwrap, y.unwrap);

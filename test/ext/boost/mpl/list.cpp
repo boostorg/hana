@@ -12,7 +12,7 @@
 #include <laws/foldable.hpp>
 #include <laws/iterable.hpp>
 #include <laws/searchable.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/list.hpp>
@@ -89,7 +89,7 @@ int main() {
     // Conversion from any `Foldable` containing `type`s
     //////////////////////////////////////////////////////////////////////////
     {
-        auto foldable = test::seq;
+        auto foldable = ::seq;
         auto to_list = to<ext::boost::mpl::list_tag>;
         BOOST_HANA_CONSTANT_CHECK(equal(
             to_list(foldable()),

@@ -10,13 +10,13 @@
 #include <boost/hana/tuple.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
 
     {
         auto storage = container(ct_eq<0>{});

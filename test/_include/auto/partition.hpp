@@ -12,7 +12,7 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
+#include <support/minimal_product.hpp>
 
 
 TestCase test_partition{[]{
@@ -21,7 +21,7 @@ TestCase test_partition{[]{
 
     struct undefined { };
 
-    auto pair = hana::test::minimal_product;
+    auto pair = ::minimal_product;
     auto pred = hana::in ^ MAKE_TUPLE(ct_eq<-1>{}, ct_eq<-2>{}, ct_eq<-3>{}, ct_eq<-4>{}, ct_eq<-5>{});
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(

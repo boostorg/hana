@@ -4,8 +4,6 @@
 
 #include <boost/hana.hpp>
 
-#include <test/identity.hpp>
-
 #include <boost/hana/assert.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/functional/compose.hpp>
@@ -15,18 +13,18 @@
 #include <laws/base.hpp>
 #include <laws/functor.hpp>
 #include <laws/monad.hpp>
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
+#include <support/identity.hpp>
 using namespace boost::hana;
 
 
 int main() {
     using test::ct_eq;
-    using test::cnumeric;
     test::_injection<0> f{};
 
     // Functor
     {
-        auto functor = test::identity;
+        auto functor = ::identity;
         // adjust_if
         {
             BOOST_HANA_CONSTANT_CHECK(equal(
@@ -72,8 +70,8 @@ int main() {
 
     // Applicative
     {
-        auto a = test::identity;
-        using A = test::Identity;
+        auto a = ::identity;
+        using A = ::Identity;
 
         // ap
         {
@@ -109,8 +107,8 @@ int main() {
 
     // Monad
     {
-        auto monad = test::identity;
-        using M = test::Identity;
+        auto monad = ::identity;
+        using M = ::Identity;
         auto f = compose(monad, test::_injection<0>{});
 
         // chain

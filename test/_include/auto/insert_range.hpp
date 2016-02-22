@@ -12,14 +12,14 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 
 
 TestCase test_insert_range{[]{
     namespace hana = boost::hana;
     using hana::test::ct_eq;
 
-    auto foldable = hana::test::seq;
+    auto foldable = ::seq;
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::insert_range(

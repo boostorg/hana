@@ -4,7 +4,7 @@
 
 #include <boost/hana/assert.hpp>
 
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
 namespace hana = boost::hana;
 
 
@@ -15,7 +15,7 @@ template <bool value, typename ...>
 bool runtime_bool() { return value; }
 
 template <bool value, typename ...>
-auto constant_bool() { return hana::test::make_cnumeric<bool, value>(); }
+auto constant_bool() { return make_cnumeric<bool, value>(); }
 
 int main() {
     BOOST_HANA_CONSTANT_ASSERT(constant_bool<true, void>());

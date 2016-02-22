@@ -4,8 +4,6 @@
 
 #include <boost/hana.hpp>
 
-#include <test/numeric.hpp>
-
 #include <boost/hana/assert.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -16,7 +14,8 @@
 #include <laws/logical.hpp>
 #include <laws/monoid.hpp>
 #include <laws/orderable.hpp>
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
+#include <support/numeric.hpp>
 
 #include <cstdlib>
 #include <vector>
@@ -34,8 +33,8 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         test::_injection<0> f{};
-        auto x = test::numeric(1);
-        auto y = test::numeric(2);
+        auto x = numeric(1);
+        auto y = numeric(2);
 
         // equal
         {
@@ -67,7 +66,7 @@ int main() {
     // Orderable
     //////////////////////////////////////////////////////////////////////////
     {
-        auto ord = test::numeric;
+        auto ord = numeric;
 
         // test::_injection is also monotonic
         test::_injection<0> f{};
@@ -157,15 +156,15 @@ int main() {
         // zero
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                zero<test::Numeric>(), test::numeric(0)
+                zero<Numeric>(), numeric(0)
             ));
         }
 
         // plus
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                plus(test::numeric(x), test::numeric(y)),
-                test::numeric(x + y)
+                plus(numeric(x), numeric(y)),
+                numeric(x + y)
             ));
         }
     }
@@ -179,16 +178,16 @@ int main() {
         // minus
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                minus(test::numeric(x), test::numeric(y)),
-                test::numeric(x - y)
+                minus(numeric(x), numeric(y)),
+                numeric(x - y)
             ));
         }
 
         // negate
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                negate(test::numeric(x)),
-                test::numeric(-x)
+                negate(numeric(x)),
+                numeric(-x)
             ));
         }
     }
@@ -202,39 +201,39 @@ int main() {
         // one
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                one<test::Numeric>(),
-                test::numeric(1)
+                one<Numeric>(),
+                numeric(1)
             ));
         }
 
         // mult
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                mult(test::numeric(x), test::numeric(y)),
-                test::numeric(x * y)
+                mult(numeric(x), numeric(y)),
+                numeric(x * y)
             ));
         }
 
         // power
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), zero<test::CNumeric<int>>()),
-                one<test::Numeric>()
+                power(numeric(x), zero<CNumeric<int>>()),
+                one<Numeric>()
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), one<test::CNumeric<int>>()),
-                test::numeric(x)
+                power(numeric(x), one<CNumeric<int>>()),
+                numeric(x)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), test::cnumeric<int, 2>),
-                mult(test::numeric(x), test::numeric(x))
+                power(numeric(x), cnumeric<int, 2>),
+                mult(numeric(x), numeric(x))
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                power(test::numeric(x), test::cnumeric<int, 3>),
-                mult(mult(test::numeric(x), test::numeric(x)), test::numeric(x))
+                power(numeric(x), cnumeric<int, 3>),
+                mult(mult(numeric(x), numeric(x)), numeric(x))
             ));
         }
     }
@@ -249,26 +248,26 @@ int main() {
         {
             using boost::hana::div; // hide ::div
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                div(test::numeric(x), test::numeric(y)),
-                test::numeric(x / y)
+                div(numeric(x), numeric(y)),
+                numeric(x / y)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                div(test::numeric(x), test::numeric(z)),
-                 test::numeric(x/ z)
+                div(numeric(x), numeric(z)),
+                 numeric(x/ z)
             ));
         }
 
         // mod
         {
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                mod(test::numeric(x), test::numeric(y)),
-                test::numeric(x % y)
+                mod(numeric(x), numeric(y)),
+                numeric(x % y)
             ));
 
             BOOST_HANA_CONSTEXPR_CHECK(equal(
-                mod(test::numeric(x), test::numeric(z)),
-                test::numeric(x % z)
+                mod(numeric(x), numeric(z)),
+                numeric(x % z)
             ));
         }
     }
@@ -277,8 +276,8 @@ int main() {
     // Logical
     //////////////////////////////////////////////////////////////////////////
     {
-        auto logical = test::numeric;
-        auto comparable = test::numeric;
+        auto logical = numeric;
+        auto comparable = numeric;
 
         // not_
         {

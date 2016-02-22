@@ -16,7 +16,7 @@
 #include <boost/hana/unfold_right.hpp>
 
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
+#include <support/minimal_product.hpp>
 #include "test_case.hpp"
 
 
@@ -28,7 +28,7 @@ TestCase test_unfold_left{[]{
         return [=](auto x) {
             return hana::if_(hana::equal(stop, x),
                 hana::nothing,
-                hana::just(hana::test::minimal_product(x + hana::int_c<1>, f(x)))
+                hana::just(::minimal_product(x + hana::int_c<1>, f(x)))
             );
         };
     };
@@ -64,7 +64,7 @@ TestCase test_unfold_right{[]{
         return [=](auto x) {
             return hana::if_(hana::equal(stop, x),
                 hana::nothing,
-                hana::just(hana::test::minimal_product(f(x), x + hana::int_c<1>))
+                hana::just(::minimal_product(f(x), x + hana::int_c<1>))
             );
         };
     };
@@ -97,7 +97,7 @@ TestCase test_unfold_undo{[]{
     using hana::test::ct_eq;
 
     auto z = ct_eq<999>{};
-    auto f = hana::test::minimal_product;
+    auto f = ::minimal_product;
     auto g = [=](auto k) {
         return hana::if_(hana::equal(k, z),
             hana::nothing,
@@ -112,11 +112,11 @@ TestCase test_unfold_undo{[]{
     ));
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         g(f(ct_eq<0>{}, z)),
-        hana::just(hana::test::minimal_product(ct_eq<0>{}, z))
+        hana::just(::minimal_product(ct_eq<0>{}, z))
     ));
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         g(f(z, ct_eq<0>{})),
-        hana::just(hana::test::minimal_product(z, ct_eq<0>{}))
+        hana::just(::minimal_product(z, ct_eq<0>{}))
     ));
 
     // Make sure the reversing works

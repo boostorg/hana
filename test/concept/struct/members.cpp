@@ -9,7 +9,7 @@
 
 #include "minimal_struct.hpp"
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
@@ -25,22 +25,22 @@ struct MoveOnly {
 int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::members(obj()),
-        hana::test::seq()
+        ::seq()
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::members(obj(ct_eq<0>{})),
-        hana::test::seq(ct_eq<0>{})
+        ::seq(ct_eq<0>{})
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::members(obj(ct_eq<0>{}, ct_eq<1>{})),
-        hana::test::seq(ct_eq<0>{}, ct_eq<1>{})
+        ::seq(ct_eq<0>{}, ct_eq<1>{})
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::members(obj(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})),
-        hana::test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
     ));
 
     // make sure it works with move only types

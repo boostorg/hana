@@ -4,7 +4,7 @@
 
 #include <boost/hana.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/functional/always.hpp>
@@ -30,25 +30,25 @@ int main() {
     using test::ct_ord;
 
     auto eqs = make<tuple_tag>(
-          test::seq()
-        , test::seq(ct_eq<0>{})
-        , test::seq(ct_eq<0>{}, ct_eq<1>{})
-        , test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
-        , test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+          ::seq()
+        , ::seq(ct_eq<0>{})
+        , ::seq(ct_eq<0>{}, ct_eq<1>{})
+        , ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+        , ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
     );
     (void)eqs;
 
     auto nested_eqs = make<tuple_tag>(
-          test::seq()
-        , test::seq(
-            test::seq(ct_eq<0>{}))
-        , test::seq(
-            test::seq(ct_eq<0>{}),
-            test::seq(ct_eq<1>{}, ct_eq<2>{}))
-        , test::seq(
-            test::seq(ct_eq<0>{}),
-            test::seq(ct_eq<1>{}, ct_eq<2>{}),
-            test::seq(ct_eq<3>{}, ct_eq<4>{}))
+          ::seq()
+        , ::seq(
+            ::seq(ct_eq<0>{}))
+        , ::seq(
+            ::seq(ct_eq<0>{}),
+            ::seq(ct_eq<1>{}, ct_eq<2>{}))
+        , ::seq(
+            ::seq(ct_eq<0>{}),
+            ::seq(ct_eq<1>{}, ct_eq<2>{}),
+            ::seq(ct_eq<3>{}, ct_eq<4>{}))
     );
     (void)nested_eqs;
 
@@ -62,11 +62,11 @@ int main() {
     (void)predicates;
 
     auto ords = make<tuple_tag>(
-          test::seq()
-        , test::seq(ct_ord<0>{})
-        , test::seq(ct_ord<0>{}, ct_ord<1>{})
-        , test::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{})
-        , test::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, ct_ord<3>{})
+          ::seq()
+        , ::seq(ct_ord<0>{})
+        , ::seq(ct_ord<0>{}, ct_ord<1>{})
+        , ::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{})
+        , ::seq(ct_ord<0>{}, ct_ord<1>{}, ct_ord<2>{}, ct_ord<3>{})
     );
     (void)ords;
 
@@ -74,21 +74,21 @@ int main() {
     // Comparable, Orderable
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_ORDERABLE
-    test::TestComparable<test::Seq>{eqs};
-    test::TestOrderable<test::Seq>{ords};
+    test::TestComparable<::Seq>{eqs};
+    test::TestOrderable<::Seq>{ords};
 #endif
 
 #ifdef BOOST_HANA_TEST_ITERABLE
     //////////////////////////////////////////////////////////////////////////
     // Foldable
     //////////////////////////////////////////////////////////////////////////
-    test::TestFoldable<test::Seq>{eqs};
+    test::TestFoldable<::Seq>{eqs};
 
     //////////////////////////////////////////////////////////////////////////
     // Iterable
     //////////////////////////////////////////////////////////////////////////
     {
-        test::TestIterable<test::Seq>{eqs};
+        test::TestIterable<::Seq>{eqs};
     }
 #endif
 
@@ -97,17 +97,17 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_SEARCHABLE
     {
-        test::TestSearchable<test::Seq>{eqs, eq_keys};
+        test::TestSearchable<::Seq>{eqs, eq_keys};
 
         auto bools = make<tuple_tag>(
-              test::seq(true_c)
-            , test::seq(false_c)
-            , test::seq(true_c, true_c)
-            , test::seq(true_c, false_c)
-            , test::seq(false_c, true_c)
-            , test::seq(false_c, false_c)
+              ::seq(true_c)
+            , ::seq(false_c)
+            , ::seq(true_c, true_c)
+            , ::seq(true_c, false_c)
+            , ::seq(false_c, true_c)
+            , ::seq(false_c, false_c)
         );
-        test::TestSearchable<test::Seq>{bools, make<tuple_tag>(true_c, false_c)};
+        test::TestSearchable<::Seq>{bools, make<tuple_tag>(true_c, false_c)};
     }
 #endif
 
@@ -115,22 +115,22 @@ int main() {
     // Functor, Applicative, Monad
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_MONAD
-    test::TestFunctor<test::Seq>{eqs, eq_keys};
-    test::TestApplicative<test::Seq>{eqs};
-    test::TestMonad<test::Seq>{eqs, nested_eqs};
+    test::TestFunctor<::Seq>{eqs, eq_keys};
+    test::TestApplicative<::Seq>{eqs};
+    test::TestMonad<::Seq>{eqs, nested_eqs};
 #endif
 
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_MONAD_PLUS
-    test::TestMonadPlus<test::Seq>{eqs, predicates, eq_keys};
+    test::TestMonadPlus<::Seq>{eqs, predicates, eq_keys};
 #endif
 
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
 #ifdef BOOST_HANA_TEST_SEQUENCE
-    test::TestSequence<test::Seq>{};
+    test::TestSequence<::Seq>{};
 #endif
 }

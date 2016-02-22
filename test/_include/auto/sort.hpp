@@ -15,7 +15,7 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/equivalence_class.hpp>
+#include <support/equivalence_class.hpp>
 
 
 TestCase test_sort{[]{
@@ -56,8 +56,8 @@ TestCase test_sort{[]{
         auto pred = [](auto x, auto y) {
             return hana::less(x.unwrap, y.unwrap);
         };
-        auto a = [](auto z) { return hana::test::tag(ct_eq<999>{}, z); };
-        auto b = [](auto z) { return hana::test::tag(ct_eq<888>{}, z); };
+        auto a = [](auto z) { return ::equivalence_class(ct_eq<999>{}, z); };
+        auto b = [](auto z) { return ::equivalence_class(ct_eq<888>{}, z); };
 
         auto check = [=](auto ...sorted) {
             auto perms = hana::transform(

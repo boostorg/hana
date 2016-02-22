@@ -10,8 +10,8 @@
 #include <boost/hana/permutations.hpp>
 
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
-#include <test/seq.hpp>
+#include <support/minimal_product.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 
 
@@ -22,11 +22,11 @@ template <int i>
 auto val() { return hana::test::ct_eq<-i>{}; }
 
 template <int i, int j>
-auto p() { return hana::test::minimal_product(key<i>(), val<j>()); }
+auto p() { return ::minimal_product(key<i>(), val<j>()); }
 
 int main() {
-    constexpr auto foldable = hana::test::seq;
-    constexpr auto sequence = hana::test::seq;
+    constexpr auto foldable = ::seq;
+    constexpr auto sequence = ::seq;
 
     // Foldable -> Map
     {
@@ -71,7 +71,7 @@ int main() {
         auto check = [=](auto ...xs) {
             BOOST_HANA_CONSTANT_CHECK(hana::contains(
                 hana::permutations(sequence(xs...)),
-                hana::to<hana::test::Seq>(hana::make_map(xs...))
+                hana::to<::Seq>(hana::make_map(xs...))
             ));
         };
 

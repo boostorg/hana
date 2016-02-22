@@ -8,13 +8,13 @@
 #include <boost/hana/transform.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
     auto f = hana::test::_injection<0>{};
     auto g = hana::test::_injection<1>{};
 

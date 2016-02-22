@@ -9,13 +9,13 @@
 #include <boost/hana/integral_constant.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
     auto f = hana::test::_injection<0>{};
 
     {

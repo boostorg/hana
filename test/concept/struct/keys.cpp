@@ -10,7 +10,7 @@
 
 #include "minimal_struct.hpp"
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
@@ -21,26 +21,26 @@ struct undefined { };
 int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::keys(obj()),
-        hana::test::seq()
+        ::seq()
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::keys(obj(undefined<0>{})),
-        hana::test::seq(hana::int_c<0>)
+        ::seq(hana::int_c<0>)
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::keys(obj(undefined<0>{}, undefined<1>{})),
-        hana::test::seq(hana::int_c<0>, hana::int_c<1>)
+        ::seq(hana::int_c<0>, hana::int_c<1>)
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{})),
-        hana::test::seq(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>)
+        ::seq(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>)
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::keys(obj(undefined<0>{}, undefined<1>{}, undefined<2>{}, undefined<3>{})),
-        hana::test::seq(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>, hana::int_c<3>)
+        ::seq(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>, hana::int_c<3>)
     ));
 }

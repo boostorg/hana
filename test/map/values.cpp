@@ -9,8 +9,8 @@
 #include <boost/hana/permutations.hpp>
 
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
-#include <test/seq.hpp>
+#include <support/minimal_product.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 
 
@@ -21,10 +21,10 @@ template <int i>
 auto val() { return hana::test::ct_eq<-i>{}; }
 
 template <int i, int j>
-auto p() { return hana::test::minimal_product(key<i>(), val<j>()); }
+auto p() { return ::minimal_product(key<i>(), val<j>()); }
 
 int main() {
-    constexpr auto list = hana::test::seq;
+    constexpr auto list = ::seq;
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::values(hana::make_map()),

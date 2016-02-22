@@ -10,15 +10,15 @@
 #include <boost/hana/set.hpp>
 
 #include <laws/base.hpp>
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
 
 int main() {
-    auto sequence = hana::test::seq;
-    auto foldable = hana::test::seq;
-    using S = hana::test::Seq;
+    auto sequence = ::seq;
+    auto foldable = ::seq;
+    using S = ::Seq;
 
     // Set -> Sequence
     {

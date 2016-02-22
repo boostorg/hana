@@ -8,14 +8,14 @@
 #include <boost/hana/not.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 
 
 template <int> struct undefined { };
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
 
     {
         auto storage = container();

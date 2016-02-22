@@ -11,7 +11,7 @@
 
 #include "test_case.hpp"
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
+#include <support/minimal_product.hpp>
 
 
 TestCase test_span{[]{
@@ -19,7 +19,7 @@ TestCase test_span{[]{
     using hana::test::ct_eq;
 
     auto z = ct_eq<999>{};
-    auto pair = hana::test::minimal_product;
+    auto pair = ::minimal_product;
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::span(MAKE_TUPLE(), hana::equal.to(z)),

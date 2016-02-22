@@ -8,12 +8,12 @@
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/not.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 namespace hana = boost::hana;
 
 
 int main() {
-    auto container = hana::test::seq;
+    auto container = ::seq;
 
     auto xs = container(0, '1', 2.2);
     auto tr = hana::experimental::transformed(xs, hana::id);

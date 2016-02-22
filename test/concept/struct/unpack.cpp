@@ -10,13 +10,13 @@
 
 #include "minimal_struct.hpp"
 #include <laws/base.hpp>
-#include <test/minimal_product.hpp>
+#include <support/minimal_product.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
 
 int main() {
-    constexpr auto pair = hana::test::minimal_product;
+    constexpr auto pair = ::minimal_product;
     hana::test::_injection<0> f{};
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(

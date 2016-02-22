@@ -7,7 +7,7 @@
 #include <boost/hana/bool.hpp>
 #include <boost/hana/tuple.hpp>
 
-#include <test/seq.hpp>
+#include <support/seq.hpp>
 
 #include <laws/base.hpp>
 #include <laws/searchable.hpp>
@@ -22,25 +22,25 @@ int main() {
     //////////////////////////////////////////////////////////////////////////
     {
         auto eqs = make<tuple_tag>(
-              test::seq()
-            , test::seq(ct_eq<0>{})
-            , test::seq(ct_eq<0>{}, ct_eq<1>{})
-            , test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
-            , test::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
+              ::seq()
+            , ::seq(ct_eq<0>{})
+            , ::seq(ct_eq<0>{}, ct_eq<1>{})
+            , ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{})
+            , ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{})
         );
 
         auto eq_keys = make<tuple_tag>(ct_eq<0>{}, ct_eq<3>{}, ct_eq<10>{});
 
-        test::TestSearchable<test::Seq>{eqs, eq_keys};
+        test::TestSearchable<::Seq>{eqs, eq_keys};
 
         auto bools = make<tuple_tag>(
-              test::seq(true_c)
-            , test::seq(false_c)
-            , test::seq(true_c, true_c)
-            , test::seq(true_c, false_c)
-            , test::seq(false_c, true_c)
-            , test::seq(false_c, false_c)
+              ::seq(true_c)
+            , ::seq(false_c)
+            , ::seq(true_c, true_c)
+            , ::seq(true_c, false_c)
+            , ::seq(false_c, true_c)
+            , ::seq(false_c, false_c)
         );
-        test::TestSearchable<test::Seq>{bools, make<tuple_tag>(true_c, false_c)};
+        test::TestSearchable<::Seq>{bools, make<tuple_tag>(true_c, false_c)};
     }
 }

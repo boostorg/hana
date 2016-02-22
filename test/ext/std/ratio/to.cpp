@@ -8,7 +8,7 @@
 #include <boost/hana/ext/std/ratio.hpp>
 
 #include <laws/base.hpp>
-#include <test/cnumeric.hpp>
+#include <support/cnumeric.hpp>
 
 #include <ratio>
 #include <utility>
@@ -19,17 +19,17 @@ int main() {
     // Conversion from a Constant to a std::ratio
     {
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::to<hana::ext::std::ratio_tag>(hana::test::cnumeric<int, 0>),
+            hana::to<hana::ext::std::ratio_tag>(cnumeric<int, 0>),
             std::ratio<0>{}
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::to<hana::ext::std::ratio_tag>(hana::test::cnumeric<int, 1>),
+            hana::to<hana::ext::std::ratio_tag>(cnumeric<int, 1>),
             std::ratio<1>{}
         ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
-            hana::to<hana::ext::std::ratio_tag>(hana::test::cnumeric<int, 3>),
+            hana::to<hana::ext::std::ratio_tag>(cnumeric<int, 3>),
             std::ratio<3>{}
         ));
     }
