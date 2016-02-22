@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::optional&lt; implementation_defined &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::optional&lt; T &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -127,17 +127,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1optional.html',
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1optional-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::optional&lt; implementation_defined &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::optional&lt; T &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename implementation_defined&gt;<br />
-struct boost::hana::optional&lt; implementation_defined &gt;</h3>
+<div class="textblock"><h3>template&lt;typename... T&gt;<br />
+struct boost::hana::optional&lt; T &gt;</h3>
 
 <p>Optional value whose optional-ness is known at compile-time. </p>
 <p>An <code>optional</code> either contains a value (represented as <code>just(x)</code>), or it is empty (represented as <code>nothing</code>). In essence, <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is pretty much like a <code>boost::optional</code> or the upcoming <code>std::optional</code>, except for the fact that whether a <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is empty or not is known at compile-time. This can be particularly useful for returning from a function that might fail, but whose reason for failing is not important. Of course, whether the function will fail has to be known at compile-time.</p>
-<p>This is really an important difference between <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> and <code>std::optional</code>. Unlike <code>std::optional&lt;T&gt;{}</code> and <code>std::optional&lt;T&gt;{value}</code> who share the same type (<code>std::optional&lt;T&gt;</code>), <code>just(x)</code> and <code>nothing</code> do not share the same type. Hence, whether a <code>just</code> or a <code>nothing</code> will be returned from a function has to be known at compile-time for the return type to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> well suited for static metaprogramming tasks, but very poor for anything dynamic.</p>
-<dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> is implementation-defined. In particular, one should not take for granted any particular representation for <code>hana::just(...)</code> and <code>hana::nothing</code>, or the presence of any constructor/assignment operator. The proper way to create an <code>optional</code> is through <code>hana::just</code> and <code>hana::nothing</code>, and one should use <code>hana::is_just</code> and <code>hana::is_nothing</code> to determine the status of an <code>optional</code> instead of relying on a particular representation.</dd></dl>
+<p>This is really an important difference between <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> and <code>std::optional</code>. Unlike <code>std::optional&lt;T&gt;{}</code> and <code>std::optional&lt;T&gt;{x}</code> who share the same type (<code>std::optional&lt;T&gt;</code>), <code>hana::just(x)</code> and <code>hana::nothing</code> do not share the same type, since the state of the optional has to be known at compile-time. Hence, whether a <code>hana::just</code> or a <code>hana::nothing</code> will be returned from a function has to be known at compile-time for the return type of that function to be computable by the compiler. This makes <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> well suited for static metaprogramming tasks, but very poor for anything dynamic.</p>
 <h2>Interoperation with <code>type</code>s </h2>
 <p>When a <code>just</code> contains an object of type <code>T</code> which is a <code>type</code>, it has a nested <code>::type</code> alias equivalent to <code>T::type</code>. <code>nothing</code>, however, never has a nested <code>::type</code> alias. If <code>t</code> is a <code>type</code>, this allows <code>decltype(just(t))</code> to be seen as a nullary metafunction equivalent to <code>decltype(t)</code>. Along with the <code>sfinae</code> function, this allows <code><a class="el" href="structboost_1_1hana_1_1optional.html" title="Optional value whose optional-ness is known at compile-time. ">hana::optional</a></code> to interact seamlessly with SFINAE-friendly metafunctions. Example: </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
@@ -199,7 +198,7 @@ Two <code>optional</code>s are equal if and only if they are both empty or they 
 </div><!-- fragment --></li>
 <li><code>Orderable</code><br />
 Optional values can be ordered by considering the value they are holding, if any. To handle the case of an empty optional value, we arbitrarily set <code>nothing</code> as being less than any other <code>just</code>. Hence, <div class="fragment"><div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x) &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(y) if and only if x &lt; y</div>
-<div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
+<div class="line"><a class="code" href="structboost_1_1hana_1_1optional.html#a0c315287473aa87fe5ccd9d8a1c10186">nothing</a> &lt; <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(anything)</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -220,7 +219,7 @@ Optional values can be ordered by considering the value they are holding, if any
 </div><!-- fragment --></li>
 <li><code>Functor</code><br />
 An optional value can be seen as a list containing either one element (<code>just(x)</code>) or no elements at all (<code>nothing</code>). As such, mapping a function over an optional value is equivalent to applying it to its value if there is one, and to <code>nothing</code> otherwise: <div class="fragment"><div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(x), f) == <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(f(x))</div>
-<div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>, f) == nothing</div>
+<div class="line"><a class="code" href="group__group-Functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7">transform</a>(<a class="code" href="structboost_1_1hana_1_1optional.html#a0c315287473aa87fe5ccd9d8a1c10186">nothing</a>, f) == nothing</div>
 </div><!-- fragment --> Example: <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -416,9 +415,9 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a></td></tr>
 <tr class="memdesc:a8ad818d6df7379b0adefa45d2ac844d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an optional value containing <code>x</code>.  <a href="#a8ad818d6df7379b0adefa45d2ac844d0">More...</a><br /></td></tr>
 <tr class="separator:a8ad818d6df7379b0adefa45d2ac844d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt; implementation_defined &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a> {implementation_defined}</td></tr>
-<tr class="memdesc:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#a22cbe904b1f0b1aeedf0c5432331d8ec">More...</a><br /></td></tr>
-<tr class="separator:a22cbe904b1f0b1aeedf0c5432331d8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c315287473aa87fe5ccd9d8a1c10186"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a0c315287473aa87fe5ccd9d8a1c10186">nothing</a> {}</td></tr>
+<tr class="memdesc:a0c315287473aa87fe5ccd9d8a1c10186"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty optional value.  <a href="#a0c315287473aa87fe5ccd9d8a1c10186">More...</a><br /></td></tr>
+<tr class="separator:a0c315287473aa87fe5ccd9d8a1c10186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6529e11cb228e99a05e81071752807d5"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a6529e11cb228e99a05e81071752807d5">maybe</a></td></tr>
 <tr class="memdesc:a6529e11cb228e99a05e81071752807d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a function to the contents of an optional, with a fallback result.  <a href="#a6529e11cb228e99a05e81071752807d5">More...</a><br /></td></tr>
 <tr class="separator:a6529e11cb228e99a05e81071752807d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -472,54 +471,54 @@ template&lt;typename X , typename Y &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2d2fb4fd00782e4b6a8f7e41646ff5ae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d2fb4fd00782e4b6a8f7e41646ff5ae"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a2d2fb4fd00782e4b6a8f7e41646ff5ae">optional</a> ()=default</td></tr>
-<tr class="memdesc:a2d2fb4fd00782e4b6a8f7e41646ff5ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default-construct an <code>optional</code>. Only exists if the optional contains a value, and if that value is DefaultConstructible. <br /></td></tr>
-<tr class="separator:a2d2fb4fd00782e4b6a8f7e41646ff5ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35677a2cff8feda875b7fac7969d17a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35677a2cff8feda875b7fac7969d17a7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a35677a2cff8feda875b7fac7969d17a7">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
-<tr class="memdesc:a35677a2cff8feda875b7fac7969d17a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct an <code>optional</code>. An empty optional may only be copy-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is CopyConstructible. <br /></td></tr>
-<tr class="separator:a35677a2cff8feda875b7fac7969d17a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bf0dc008212927b569245bd44f581d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bf0dc008212927b569245bd44f581d9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a8bf0dc008212927b569245bd44f581d9">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
-<tr class="memdesc:a8bf0dc008212927b569245bd44f581d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct an <code>optional</code>. An empty optional may only be move-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is MoveConstructible. <br /></td></tr>
-<tr class="separator:a8bf0dc008212927b569245bd44f581d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02177955029e1773f8b8303a7f26e099"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02177955029e1773f8b8303a7f26e099"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a02177955029e1773f8b8303a7f26e099">optional</a> (T const &amp;t)</td></tr>
-<tr class="memdesc:a02177955029e1773f8b8303a7f26e099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is copy-constructed. <br /></td></tr>
-<tr class="separator:a02177955029e1773f8b8303a7f26e099"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a628f0a4629d7328a1e45b2ecb1a3082c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a628f0a4629d7328a1e45b2ecb1a3082c"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a628f0a4629d7328a1e45b2ecb1a3082c">optional</a> (T &amp;&amp;t)</td></tr>
-<tr class="memdesc:a628f0a4629d7328a1e45b2ecb1a3082c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is move-constructed. <br /></td></tr>
-<tr class="separator:a628f0a4629d7328a1e45b2ecb1a3082c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c3ae82cfe99f4d559313404888c8c4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c3ae82cfe99f4d559313404888c8c4d"></a>
-constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a4c3ae82cfe99f4d559313404888c8c4d">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
-<tr class="memdesc:a4c3ae82cfe99f4d559313404888c8c4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assign an <code>optional</code>. An empty optional may only be copy-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is CopyAssignable. <br /></td></tr>
-<tr class="separator:a4c3ae82cfe99f4d559313404888c8c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d617d94ff541c2e2cf29dee028a55b9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d617d94ff541c2e2cf29dee028a55b9"></a>
-constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a2d617d94ff541c2e2cf29dee028a55b9">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
-<tr class="memdesc:a2d617d94ff541c2e2cf29dee028a55b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. An empty optional may only be move-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is MoveAssignable. <br /></td></tr>
-<tr class="separator:a2d617d94ff541c2e2cf29dee028a55b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc2939dff4dfe9bab39090d7bd01841a"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#abc2939dff4dfe9bab39090d7bd01841a">operator-&gt;</a> ()</td></tr>
-<tr class="memdesc:abc2939dff4dfe9bab39090d7bd01841a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#abc2939dff4dfe9bab39090d7bd01841a">More...</a><br /></td></tr>
-<tr class="separator:abc2939dff4dfe9bab39090d7bd01841a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1572b017d8fef0e48ee940017167e03"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03">value</a> ()</td></tr>
-<tr class="memdesc:ab1572b017d8fef0e48ee940017167e03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of an <code>optional</code>, or fail at compile-time.  <a href="#ab1572b017d8fef0e48ee940017167e03">More...</a><br /></td></tr>
-<tr class="separator:ab1572b017d8fef0e48ee940017167e03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b706ddf98202fd117ab6a7f33bcb6ef"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a4b706ddf98202fd117ab6a7f33bcb6ef">operator*</a> ()</td></tr>
-<tr class="memdesc:a4b706ddf98202fd117ab6a7f33bcb6ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience.  <a href="#a4b706ddf98202fd117ab6a7f33bcb6ef">More...</a><br /></td></tr>
-<tr class="separator:a4b706ddf98202fd117ab6a7f33bcb6ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63a9e69e21f1ce94f997c83fbd60feee"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
-<tr class="memitem:a63a9e69e21f1ce94f997c83fbd60feee"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a63a9e69e21f1ce94f997c83fbd60feee">value_or</a> (U &amp;&amp;<a class="el" href="structboost_1_1hana_1_1default__.html">default_</a>)</td></tr>
-<tr class="memdesc:a63a9e69e21f1ce94f997c83fbd60feee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contents of an <code>optional</code>, with a fallback result.  <a href="#a63a9e69e21f1ce94f997c83fbd60feee">More...</a><br /></td></tr>
-<tr class="separator:a63a9e69e21f1ce94f997c83fbd60feee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefbd278cf7bb9e921707d6d827014bcb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefbd278cf7bb9e921707d6d827014bcb"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#aefbd278cf7bb9e921707d6d827014bcb">optional</a> ()=default</td></tr>
+<tr class="memdesc:aefbd278cf7bb9e921707d6d827014bcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default-construct an <code>optional</code>. Only exists if the optional contains a value, and if that value is DefaultConstructible. <br /></td></tr>
+<tr class="separator:aefbd278cf7bb9e921707d6d827014bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9074406adb54a6a848ba482895c51d1f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9074406adb54a6a848ba482895c51d1f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a9074406adb54a6a848ba482895c51d1f">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
+<tr class="memdesc:a9074406adb54a6a848ba482895c51d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct an <code>optional</code>. An empty optional may only be copy-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is CopyConstructible. <br /></td></tr>
+<tr class="separator:a9074406adb54a6a848ba482895c51d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46a23f0ada20175c4c9a58af3d15753"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac46a23f0ada20175c4c9a58af3d15753"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#ac46a23f0ada20175c4c9a58af3d15753">optional</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:ac46a23f0ada20175c4c9a58af3d15753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct an <code>optional</code>. An empty optional may only be move-constructed from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-constructed from another <code>optional</code> with a value. Furthermore, this constructor only exists if the value held in the <code>optional</code> is MoveConstructible. <br /></td></tr>
+<tr class="separator:ac46a23f0ada20175c4c9a58af3d15753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b04ee87c0ac58621edf3ad5476a2949"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b04ee87c0ac58621edf3ad5476a2949"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a2b04ee87c0ac58621edf3ad5476a2949">optional</a> (T const &amp;t)</td></tr>
+<tr class="memdesc:a2b04ee87c0ac58621edf3ad5476a2949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is copy-constructed. <br /></td></tr>
+<tr class="separator:a2b04ee87c0ac58621edf3ad5476a2949"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf824827b5d6f8c87d23b9526b9f35d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf824827b5d6f8c87d23b9526b9f35d2"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#adf824827b5d6f8c87d23b9526b9f35d2">optional</a> (T &amp;&amp;t)</td></tr>
+<tr class="memdesc:adf824827b5d6f8c87d23b9526b9f35d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code>optional</code> holding a value of type <code>T</code> from another object of type <code>T</code>. The value is move-constructed. <br /></td></tr>
+<tr class="separator:adf824827b5d6f8c87d23b9526b9f35d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abefc885243f38c66c52fdada3588f951"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abefc885243f38c66c52fdada3588f951"></a>
+constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#abefc885243f38c66c52fdada3588f951">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> const &amp;)=default</td></tr>
+<tr class="memdesc:abefc885243f38c66c52fdada3588f951"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-assign an <code>optional</code>. An empty optional may only be copy-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be copy-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is CopyAssignable. <br /></td></tr>
+<tr class="separator:abefc885243f38c66c52fdada3588f951"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52057c5da4b9aee49ee15a167459fc9a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52057c5da4b9aee49ee15a167459fc9a"></a>
+constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a52057c5da4b9aee49ee15a167459fc9a">operator=</a> (<a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> &amp;&amp;)=default</td></tr>
+<tr class="memdesc:a52057c5da4b9aee49ee15a167459fc9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-assign an <code>optional</code>. An empty optional may only be move-assigned from another empty <code>optional</code>, and an <code>optional</code> with a value may only be move-assigned from another <code>optional</code> with a value. Furthermore, this assignment operator only exists if the value held in the <code>optional</code> is MoveAssignable. <br /></td></tr>
+<tr class="separator:a52057c5da4b9aee49ee15a167459fc9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eeef1512294d408857805eb3a790230"><td class="memItemLeft" align="right" valign="top">constexpr T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a6eeef1512294d408857805eb3a790230">operator-&gt;</a> ()</td></tr>
+<tr class="memdesc:a6eeef1512294d408857805eb3a790230"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a pointer to the contained value, or a <code>nullptr</code> if the <code>optional</code> is empty.  <a href="#a6eeef1512294d408857805eb3a790230">More...</a><br /></td></tr>
+<tr class="separator:a6eeef1512294d408857805eb3a790230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdcf71b43d4e27d5efbf0ad875d0be58"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58">value</a> ()</td></tr>
+<tr class="memdesc:acdcf71b43d4e27d5efbf0ad875d0be58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the content of an <code>optional</code>, or fail at compile-time.  <a href="#acdcf71b43d4e27d5efbf0ad875d0be58">More...</a><br /></td></tr>
+<tr class="separator:acdcf71b43d4e27d5efbf0ad875d0be58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3132b919ab7710d79155674272961d4b"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a3132b919ab7710d79155674272961d4b">operator*</a> ()</td></tr>
+<tr class="memdesc:a3132b919ab7710d79155674272961d4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience.  <a href="#a3132b919ab7710d79155674272961d4b">More...</a><br /></td></tr>
+<tr class="separator:a3132b919ab7710d79155674272961d4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f511267d94c178e4ef955da60f0888d"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a1f511267d94c178e4ef955da60f0888d"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1optional.html#a1f511267d94c178e4ef955da60f0888d">value_or</a> (U &amp;&amp;<a class="el" href="structboost_1_1hana_1_1default__.html">default_</a>)</td></tr>
+<tr class="memdesc:a1f511267d94c178e4ef955da60f0888d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contents of an <code>optional</code>, with a fallback result.  <a href="#a1f511267d94c178e4ef955da60f0888d">More...</a><br /></td></tr>
+<tr class="separator:a1f511267d94c178e4ef955da60f0888d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a76a84854b3051af000e698157d63a6a8"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <div class="memtemplate">
 template&lt;&gt; </div>
 <table class="mlabels">
@@ -537,7 +536,7 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= []([<span class="keyword">auto</span>&amp;&amp; x]) {</div>
-<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation_defined&gt;{forwarded(x)};</div>
+<div class="line">        <span class="keywordflow">return</span> optional&lt;std::decay&lt;decltype(x)&gt;::type&gt;{forwarded(x)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value. </p>
@@ -570,7 +569,7 @@ template&lt;&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -615,7 +614,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -631,7 +630,7 @@ template&lt;typename implementation_defined &gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) {</div>
-<div class="line">        <span class="keywordflow">return</span> optional&lt;implementation_defined&gt;{forwarded(x)};</div>
+<div class="line">        <span class="keywordflow">return</span> optional&lt;std::decay&lt;decltype(x)&gt;::type&gt;{forwarded(x)};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Create an optional value containing <code>x</code>. </p>
@@ -652,17 +651,17 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="a22cbe904b1f0b1aeedf0c5432331d8ec"></a>
+<a class="anchor" id="a0c315287473aa87fe5ccd9d8a1c10186"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a>&lt;implementation_defined&gt; nothing {implementation_defined}</td>
+          <td class="memname">constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">optional</a> nothing {}</td>
         </tr>
       </table>
   </td>
@@ -694,7 +693,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -748,7 +747,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -768,7 +767,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="line">            <span class="keywordflow">if</span> (decltype(forwarded(f)(forwarded(x)...)) is well-formed)</div>
 <div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0">just</a>(forwarded(f)(forwarded(x)...));</div>
 <div class="line">            <span class="keywordflow">else</span></div>
-<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>;</div>
+<div class="line">                <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1optional.html#a0c315287473aa87fe5ccd9d8a1c10186">nothing</a>;</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
@@ -804,7 +803,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -848,7 +847,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -864,7 +863,7 @@ template&lt;typename implementation_defined &gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; m) {</div>
-<div class="line">        <span class="keywordflow">return</span> m is a <a class="code" href="structboost_1_1hana_1_1optional.html#a22cbe904b1f0b1aeedf0c5432331d8ec">nothing</a>;</div>
+<div class="line">        <span class="keywordflow">return</span> m is a <a class="code" href="structboost_1_1hana_1_1optional.html#a0c315287473aa87fe5ccd9d8a1c10186">nothing</a>;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Return whether an <code>optional</code> is empty. </p>
@@ -889,14 +888,14 @@ template&lt;typename implementation_defined &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="abc2939dff4dfe9bab39090d7bd01841a"></a>
+<a class="anchor" id="a6eeef1512294d408857805eb3a790230"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">constexpr T* <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; implementation_defined &gt;::operator-&gt; </td>
+          <td class="memname">constexpr T* <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; T &gt;::operator-&gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -921,7 +920,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;<a class="code" href="group__group-Foldable.html#ga8ec3ac9a6f5014db943f61ebc9e1e36e">size</a>() == 4);</div>
 <div class="line"></div>
@@ -930,14 +929,14 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="ab1572b017d8fef0e48ee940017167e03"></a>
+<a class="anchor" id="acdcf71b43d4e27d5efbf0ad875d0be58"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; implementation_defined &gt;::value </td>
+          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; T &gt;::value </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -963,7 +962,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;<a class="code" href="group__group-Foldable.html#ga8ec3ac9a6f5014db943f61ebc9e1e36e">size</a>() == 4);</div>
 <div class="line"></div>
@@ -972,14 +971,14 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="a4b706ddf98202fd117ab6a7f33bcb6ef"></a>
+<a class="anchor" id="a3132b919ab7710d79155674272961d4b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; implementation_defined &gt;::operator* </td>
+          <td class="memname">constexpr T&amp; <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; T &gt;::operator* </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -987,7 +986,7 @@ template&lt;typename implementation_defined &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience. </p>
+<p>Equivalent to <code><a class="el" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58" title="Extract the content of an optional, or fail at compile-time. ">value()</a></code>, provided for convenience. </p>
 <dl class="section note"><dt>Note</dt><dd>Overloads of this method are provided for the cases where <code>*this</code> is a reference, a rvalue-reference and their <code>const</code> counterparts.</dd></dl>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
@@ -1004,7 +1003,7 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="line"></div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
-<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#ab1572b017d8fef0e48ee940017167e03">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">    static_assert(hana::just(<span class="charliteral">&#39;x&#39;</span>).<a class="code" href="structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58">value</a>() == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(*hana::just(hana::type_c&lt;int&gt;) == hana::type_c&lt;int&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(hana::just(std::string{<span class="stringliteral">&quot;abcd&quot;</span>})-&gt;<a class="code" href="group__group-Foldable.html#ga8ec3ac9a6f5014db943f61ebc9e1e36e">size</a>() == 4);</div>
 <div class="line"></div>
@@ -1013,16 +1012,16 @@ template&lt;typename implementation_defined &gt; </div>
 </div><!-- fragment --> 
 </div>
 </div>
-<a class="anchor" id="a63a9e69e21f1ce94f997c83fbd60feee"></a>
+<a class="anchor" id="a1f511267d94c178e4ef955da60f0888d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
+template&lt;typename... T&gt; </div>
 <div class="memtemplate">
 template&lt;typename U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">decltype(auto) constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; implementation_defined &gt;::value_or </td>
+          <td class="memname">decltype(auto) constexpr <a class="el" href="structboost_1_1hana_1_1optional.html">boost::hana::optional</a>&lt; T &gt;::value_or </td>
           <td>(</td>
           <td class="paramtype">U &amp;&amp;&#160;</td>
           <td class="paramname"><em>default_</em></td><td>)</td>
@@ -1050,8 +1049,8 @@ template&lt;typename U &gt; </div>
 <div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div>
 <div class="line"></div>
 <div class="line"></div>
-<div class="line">static_assert(hana::just(1).<a class="code" href="structboost_1_1hana_1_1optional.html#a63a9e69e21f1ce94f997c83fbd60feee">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line">static_assert(hana::nothing.<a class="code" href="structboost_1_1hana_1_1optional.html#a63a9e69e21f1ce94f997c83fbd60feee">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::just(1).<a class="code" href="structboost_1_1hana_1_1optional.html#a1f511267d94c178e4ef955da60f0888d">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line">static_assert(hana::nothing.<a class="code" href="structboost_1_1hana_1_1optional.html#a1f511267d94c178e4ef955da60f0888d">value_or</a>(<span class="charliteral">&#39;x&#39;</span>) == <span class="charliteral">&#39;x&#39;</span>, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
 </div><!-- fragment --> 

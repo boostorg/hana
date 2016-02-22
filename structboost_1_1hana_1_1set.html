@@ -11,7 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>Boost.Hana: boost::hana::set&lt; Xs &gt; Struct Template Reference</title>
+<title>Boost.Hana: boost::hana::set&lt; implementation_defined &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -127,16 +127,16 @@ $(document).ready(function(){initNavTree('structboost_1_1hana_1_1set.html','');}
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="structboost_1_1hana_1_1set-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">boost::hana::set&lt; Xs &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
+<div class="title">boost::hana::set&lt; implementation_defined &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__group-datatypes.html">Data types</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Description</h2>
-<div class="textblock"><h3>template&lt;typename... Xs&gt;<br />
-struct boost::hana::set&lt; Xs &gt;</h3>
+<div class="textblock"><h3>template&lt;typename implementation_defined&gt;<br />
+struct boost::hana::set&lt; implementation_defined &gt;</h3>
 
-<p>Basic unordered container requiring compile-time <code>Comparable</code> elements. </p>
-<p>A set is an unordered container that can hold heterogeneous objects. As usual, a set requires (and ensures) that no duplicates are present.</p>
-<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any additional constructors or assignment operators than what is documented. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> is through <code>hana::make_set</code>.</dd></dl>
+<p>Basic unordered container requiring unique, <code>Comparable</code> and <code>Hashable</code> keys. </p>
+<p>A set is an unordered container that can hold heterogeneous keys. A set requires (and ensures) that no duplicates are present when inserting new keys.</p>
+<dl class="section note"><dt>Note</dt><dd>The actual representation of a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code> is implementation-defined. In particular, one should not take for granted the order of the template parameters and the presence of any additional constructors or assignment operators than what is documented. The canonical way of creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code> is through <code>hana::make_set</code>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
@@ -218,7 +218,7 @@ The elements in a set act as both its keys and its values. Since the elements of
 </div><!-- fragment --></li>
 </ol>
 <h2>Conversion from any <code>Foldable</code> </h2>
-<p>Any <code>Foldable</code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>. The elements of the structure must all be compile-time <code>Comparable</code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code>Foldable</code> is equivalent to </p><div class="fragment"><div class="line">to&lt;set_tag&gt;(xs) == <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">fold_left</a>(xs, <a class="code" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
+<p>Any <code>Foldable</code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>. The elements of the structure must all be compile-time <code>Comparable</code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code>Foldable</code> is equivalent to </p><div class="fragment"><div class="line">to&lt;set_tag&gt;(xs) == <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">fold_left</a>(xs, <a class="code" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div>
 </div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
 <div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div>
 <div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div>
@@ -258,16 +258,16 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="separator:a3b3430482d4e88052e621f63a234f3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#aa337857e80b8a8c91880b0184aaf7534">make&lt; set_tag &gt;</a></td></tr>
-<tr class="memdesc:aa337857e80b8a8c91880b0184aaf7534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#aa337857e80b8a8c91880b0184aaf7534">More...</a><br /></td></tr>
+<tr class="memdesc:aa337857e80b8a8c91880b0184aaf7534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>.  <a href="#aa337857e80b8a8c91880b0184aaf7534">More...</a><br /></td></tr>
 <tr class="separator:aa337857e80b8a8c91880b0184aaf7534"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a> = <a class="el" href="group__group-core.html#ga1d92480f0af1029878e773dafa3e2f60">make</a>&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td></tr>
 <tr class="memdesc:af38c23fb98d8eec68c1491a8bca9ce43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience.  <a href="#af38c23fb98d8eec68c1491a8bca9ce43">More...</a><br /></td></tr>
 <tr class="separator:af38c23fb98d8eec68c1491a8bca9ce43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a></td></tr>
-<tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
+<tr class="memdesc:a5791e6dc0e27d8e3a113e4d94482550f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>.  <a href="#a5791e6dc0e27d8e3a113e4d94482550f">More...</a><br /></td></tr>
 <tr class="separator:a5791e6dc0e27d8e3a113e4d94482550f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
-<tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
+<tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accbea694d32b341e860dac724c0c6933"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933">to_set</a> = <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td></tr>
 <tr class="memdesc:accbea694d32b341e860dac724c0c6933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience.  <a href="#accbea694d32b341e860dac724c0c6933">More...</a><br /></td></tr>
@@ -294,26 +294,26 @@ template&lt;typename X , typename Y &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a19a57d273a4fca28cc8393ed479cc9ef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19a57d273a4fca28cc8393ed479cc9ef"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a19a57d273a4fca28cc8393ed479cc9ef">set</a> (<a class="el" href="structboost_1_1hana_1_1set.html">set</a> const &amp;other)=default</td></tr>
-<tr class="memdesc:a19a57d273a4fca28cc8393ed479cc9ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct a set from another set. This constructor only exists when all the elements of the set are copy-constructible. <br /></td></tr>
-<tr class="separator:a19a57d273a4fca28cc8393ed479cc9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a183731b785302f44b29412812d6c4e70"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a183731b785302f44b29412812d6c4e70"></a>
-constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a183731b785302f44b29412812d6c4e70">set</a> (<a class="el" href="structboost_1_1hana_1_1set.html">set</a> &amp;&amp;other)=default</td></tr>
-<tr class="memdesc:a183731b785302f44b29412812d6c4e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct a set from another set. This constructor only exists when all the elements of the set are move-constructible. <br /></td></tr>
-<tr class="separator:a183731b785302f44b29412812d6c4e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memTemplParams" colspan="2"><a class="anchor" id="aceaa6f7641107c6e877144a9c09cf7f8"></a>
+<tr class="memitem:a937a7d47238690b571e7dd524278f6d5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a937a7d47238690b571e7dd524278f6d5"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a937a7d47238690b571e7dd524278f6d5">set</a> (<a class="el" href="structboost_1_1hana_1_1set.html">set</a> const &amp;other)=default</td></tr>
+<tr class="memdesc:a937a7d47238690b571e7dd524278f6d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy-construct a set from another set. This constructor only exists when all the elements of the set are copy-constructible. <br /></td></tr>
+<tr class="separator:a937a7d47238690b571e7dd524278f6d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5b7025edfb0c6c28f31d84598e130f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac5b7025edfb0c6c28f31d84598e130f0"></a>
+constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#ac5b7025edfb0c6c28f31d84598e130f0">set</a> (<a class="el" href="structboost_1_1hana_1_1set.html">set</a> &amp;&amp;other)=default</td></tr>
+<tr class="memdesc:ac5b7025edfb0c6c28f31d84598e130f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move-construct a set from another set. This constructor only exists when all the elements of the set are move-constructible. <br /></td></tr>
+<tr class="separator:ac5b7025edfb0c6c28f31d84598e130f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f6165e7a2db4218c67d80929c457d2"><td class="memTemplParams" colspan="2"><a class="anchor" id="a00f6165e7a2db4218c67d80929c457d2"></a>
 template&lt;typename Key &gt; </td></tr>
-<tr class="memitem:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#aceaa6f7641107c6e877144a9c09cf7f8">operator[]</a> (Key &amp;&amp;key)</td></tr>
-<tr class="memdesc:aceaa6f7641107c6e877144a9c09cf7f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Searchable.html#ga3c1826aee6c6eb577810bb99c5c3e53d" title="Returns the value associated to the given key in a structure, or fail.Given a key and a Searchable st...">hana::at_key</a></code> <br /></td></tr>
-<tr class="separator:aceaa6f7641107c6e877144a9c09cf7f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00f6165e7a2db4218c67d80929c457d2"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a00f6165e7a2db4218c67d80929c457d2">operator[]</a> (Key &amp;&amp;key)</td></tr>
+<tr class="memdesc:a00f6165e7a2db4218c67d80929c457d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code><a class="el" href="group__group-Searchable.html#ga3c1826aee6c6eb577810bb99c5c3e53d" title="Returns the value associated to the given key in a structure, or fail.Given a key and a Searchable st...">hana::at_key</a></code> <br /></td></tr>
+<tr class="separator:a00f6165e7a2db4218c67d80929c457d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
 <a class="anchor" id="a718ddfe86437adbbca1e1a5db651d139"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -371,7 +371,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -426,7 +426,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <div class="memtemplate">
 template&lt;&gt; </div>
 <table class="mlabels">
@@ -444,10 +444,10 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; ...xs) {</div>
-<div class="line">        <span class="keywordflow">return</span> <a class="code" href="structboost_1_1hana_1_1set.html#a19a57d273a4fca28cc8393ed479cc9ef">set</a>&lt;implementation_defined...&gt;{forwarded(xs)...};</div>
+<div class="line">        <span class="keywordflow">return</span> set&lt;implementation_defined&gt;{forwarded(xs)...};</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>. </p>
+<p>Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>. </p>
 <p>Given zero or more values <code>xs...</code>, <code>make&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> returns a <code>set</code> containing those values. The values must all be compile-time <code>Comparable</code>, and no duplicate values may be provided. To create a <code>set</code> from a sequence with possible duplicates, use <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code> instead.</p>
 <h2>Example </h2>
 <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div>
@@ -474,7 +474,7 @@ template&lt;&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -516,7 +516,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -531,11 +531,11 @@ template&lt;typename... Xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1set.html#a19a57d273a4fca28cc8393ed479cc9ef">set</a>, <span class="keyword">auto</span>&amp;&amp; element) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1set.html#a937a7d47238690b571e7dd524278f6d5">set</a>, <span class="keyword">auto</span>&amp;&amp; element) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>. </p>
+<p>Insert an element in a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>. </p>
 <p>If the set already contains an element that compares equal, then nothing is done and the set is returned as is.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -578,7 +578,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -593,11 +593,11 @@ template&lt;typename... Xs&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1set.html#a19a57d273a4fca28cc8393ed479cc9ef">set</a>, <span class="keyword">auto</span>&amp;&amp; element) {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; <a class="code" href="structboost_1_1hana_1_1set.html#a937a7d47238690b571e7dd524278f6d5">set</a>, <span class="keyword">auto</span>&amp;&amp; element) {</div>
 <div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div>
 <div class="line">    }</div>
 </div><!-- fragment -->
-<p>Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring compile-time Comparable elements. ">hana::set</a></code>. </p>
+<p>Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>. </p>
 <p>Returns a new set containing all the elements of the original, except the one comparing <code>equal</code> to the given element. If the set does not contain such an element, a new set equal to the original set is returned.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -633,7 +633,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -657,7 +657,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -714,7 +714,7 @@ template&lt;typename... Xs&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename... Xs&gt; </div>
+template&lt;typename implementation_defined &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
