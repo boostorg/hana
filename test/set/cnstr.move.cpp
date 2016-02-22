@@ -7,34 +7,25 @@
 #include <boost/hana/set.hpp>
 #include <boost/hana/type.hpp>
 
-#include <laws/base.hpp>
+#include <support/constexpr_move_only.hpp>
+#include <support/tracked_move_only.hpp>
 
 #include <utility>
 namespace hana = boost::hana;
 
 
-template <int i>
-struct move_only : hana::test::Tracked {
-    move_only() : hana::test::Tracked(i) { }
-    move_only(move_only const&) = delete;
-    move_only& operator=(move_only const&) = delete;
-    move_only(move_only&& x)
-        : hana::test::Tracked(std::move(x))
-    { }
+constexpr bool in_constexpr_context() {
+    auto t0 = hana::make_set(ConstexprMoveOnly<2>{}, ConstexprMoveOnly<3>{});
+    auto t_implicit = std::move(t0);
+    auto t_explicit(std::move(t_implicit));
 
-    template <int j>
-    auto operator==(move_only<j> const&) const { return hana::bool_c<i == j>; }
-    template <int j>
-    auto operator!=(move_only<j> const& x) const { return !(*this == x); }
-};
+    (void)t_implicit;
+    (void)t_explicit;
+    return true;
+}
 
-namespace boost { namespace hana {
-    template <int i>
-    struct hash_impl<move_only<i>> {
-        static constexpr auto apply(move_only<i> const&)
-        { return hana::type_c<move_only<i>>; };
-    };
-}}
+static_assert(in_constexpr_context(), "");
+
 
 int main() {
     {
@@ -46,7 +37,7 @@ int main() {
         (void)t_implicit;
     }
     {
-        auto t0 = hana::make_set(move_only<1>{});
+        auto t0 = hana::make_set(TrackedMoveOnly<1>{});
         auto t_implicit = std::move(t0);
         auto t_explicit(std::move(t_implicit));
 
@@ -54,7 +45,7 @@ int main() {
         (void)t_explicit;
     }
     {
-        auto t0 = hana::make_set(move_only<1>{}, move_only<2>{});
+        auto t0 = hana::make_set(TrackedMoveOnly<1>{}, TrackedMoveOnly<2>{});
         auto t_implicit = std::move(t0);
         auto t_explicit(std::move(t_implicit));
 
@@ -62,7 +53,7 @@ int main() {
         (void)t_explicit;
     }
     {
-        auto t0 = hana::make_set(move_only<1>{}, move_only<2>{}, move_only<3>{});
+        auto t0 = hana::make_set(TrackedMoveOnly<1>{}, TrackedMoveOnly<2>{}, TrackedMoveOnly<3>{});
         auto t_implicit = std::move(t0);
         auto t_explicit(std::move(t_implicit));
 
@@ -70,38 +61,3 @@ int main() {
         (void)t_explicit;
     }
 }
-
-template <int i>
-struct non_tracked_move_only {
-    constexpr non_tracked_move_only() { }
-    constexpr non_tracked_move_only(non_tracked_move_only const&) = delete;
-    constexpr non_tracked_move_only& operator=(non_tracked_move_only const&) = delete;
-    constexpr non_tracked_move_only(non_tracked_move_only&&) { }
-
-    template <int j>
-    auto operator==(non_tracked_move_only<j> const&) const
-    { return hana::bool_c<i == j>; }
-    template <int j>
-    auto operator!=(non_tracked_move_only<j> const& x) const
-    { return !(*this == x); }
-};
-
-namespace boost { namespace hana {
-    template <int i>
-    struct hash_impl<non_tracked_move_only<i>> {
-        static constexpr auto apply(non_tracked_move_only<i> const&)
-        { return hana::type_c<non_tracked_move_only<i>>; };
-    };
-}}
-
-constexpr bool in_constexpr_context() {
-    auto t0 = hana::make_set(non_tracked_move_only<2>{}, non_tracked_move_only<3>{});
-    auto t_implicit = std::move(t0);
-    auto t_explicit(std::move(t_implicit));
-
-    (void)t_implicit;
-    (void)t_explicit;
-    return true;
-}
-
-static_assert(in_constexpr_context(), "");
