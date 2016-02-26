@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/map.hpp>
 
 #include <boost/hana/all_of.hpp>
+#include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
 #include <boost/hana/concept/constant.hpp>
@@ -48,7 +49,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 #include <boost/hana/remove_if.hpp>
 #include <boost/hana/second.hpp>
-#include <boost/hana/tuple.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
 
@@ -101,7 +101,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Storage>
         struct KeyAtIndex {
             template <std::size_t i>
-            using apply = decltype(hana::first(hana::at_c<i>(std::declval<Storage>())));
+            using apply = decltype(hana::first(hana::get_impl<i>(std::declval<Storage>())));
         };
     }
 
@@ -136,13 +136,13 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map(pairs...) requires all the keys to be unique");
 #endif
 
-            using Storage = hana::tuple<typename detail::decay<Pairs>::type...>;
+            using Storage = hana::basic_tuple<typename detail::decay<Pairs>::type...>;
             using HashTable = typename detail::make_hash_table<
                 detail::KeyAtIndex<Storage>::template apply, sizeof...(Pairs)
             >::type;
 
             return map<HashTable, Storage>(
-                hana::make_tuple(static_cast<Pairs&&>(pairs)...)
+                hana::make_basic_tuple(static_cast<Pairs&&>(pairs)...)
             );
         }
     };
