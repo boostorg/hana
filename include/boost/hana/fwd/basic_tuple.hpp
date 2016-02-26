@@ -25,9 +25,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Modeled concepts
     //! ----------------
-    //! For now, `basic_tuple` only models the `Foldable` concept. More will
-    //! be added in the future, and `basic_tuple` will eventually model
-    //! everything that `hana::tuple` models.
+    //! For now, `basic_tuple` only models the `Foldable` and `Functor`
+    //! concepts. More will be added in the future, and `basic_tuple` will
+    //! eventually model everything that `hana::tuple` models.
     template <typename ...Xs>
     struct basic_tuple;
 

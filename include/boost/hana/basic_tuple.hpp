@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
+#include <boost/hana/fwd/transform.hpp>
 #include <boost/hana/fwd/unpack.hpp>
 
 #if 0 //! @todo Until we strip down headers, this includes too much
@@ -205,6 +206,36 @@ BOOST_HANA_NAMESPACE_BEGIN
         apply(detail::basic_tuple_impl<std::index_sequence<i...>, Xn...>&& xs, F&& f) {
             return static_cast<F&&>(f)(
                 get_impl<i>(static_cast<detail::elt<i, Xn>&&>(xs))...
+            );
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // transform
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct transform_impl<basic_tuple_tag> {
+        template <std::size_t ...i, typename ...Xn, typename F>
+        static constexpr auto
+        apply(detail::basic_tuple_impl<std::index_sequence<i...>, Xn...> const& xs, F const& f) {
+            return hana::make_basic_tuple(
+                f(get_impl<i>(static_cast<detail::elt<i, Xn> const&>(xs)))...
+            );
+        }
+
+        template <std::size_t ...i, typename ...Xn, typename F>
+        static constexpr auto
+        apply(detail::basic_tuple_impl<std::index_sequence<i...>, Xn...>& xs, F const& f) {
+            return hana::make_basic_tuple(
+                f(get_impl<i>(static_cast<detail::elt<i, Xn>&>(xs)))...
+            );
+        }
+
+        template <std::size_t ...i, typename ...Xn, typename F>
+        static constexpr auto
+        apply(detail::basic_tuple_impl<std::index_sequence<i...>, Xn...>&& xs, F const& f) {
+            return hana::make_basic_tuple(
+                f(get_impl<i>(static_cast<detail::elt<i, Xn>&&>(xs)))...
             );
         }
     };
