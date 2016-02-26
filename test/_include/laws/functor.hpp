@@ -99,49 +99,7 @@ namespace boost { namespace hana { namespace test {
         {
             using test::ct_eq;
             using test::cx_eq;
-            _injection<0> f{};
             constexpr auto list = make<S>;
-
-            //////////////////////////////////////////////////////////////////
-            // transform
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::transform(list(), undefined{}),
-                list()
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::transform(list(ct_eq<1>{}), f),
-                list(f(ct_eq<1>{}))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::transform(list(ct_eq<1>{}, ct_eq<2>{}), f),
-                list(f(ct_eq<1>{}), f(ct_eq<2>{}))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::transform(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), f),
-                list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}))
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(hana::equal(
-                hana::transform(list(ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), f),
-                list(f(ct_eq<1>{}), f(ct_eq<2>{}), f(ct_eq<3>{}), f(ct_eq<4>{}))
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
-                hana::transform(list(cx_eq<1>{}), f),
-                list(f(cx_eq<1>{}))
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
-                hana::transform(list(cx_eq<1>{}, cx_eq<2>{}), f),
-                list(f(cx_eq<1>{}), f(cx_eq<2>{}))
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
-                hana::transform(list(cx_eq<1>{}, cx_eq<2>{}, cx_eq<3>{}), f),
-                list(f(cx_eq<1>{}), f(cx_eq<2>{}), f(cx_eq<3>{}))
-            ));
 
             //////////////////////////////////////////////////////////////////
             // replace_if
