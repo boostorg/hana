@@ -179,6 +179,15 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 Please see [LICENSE.md](LICENSE.md).
 
 
+## Releasing
+This section acts as a reminder of the few simple steps required to release a
+new version of the library. This is only relevant to Hana's developers. To
+release a new version of the library, create an annotated tag using `git tag -a`.
+Then, push the tag and create a new GitHub release pointing to that tag.
+Once that is done, bump the version number in `include/boost/hana/version.hpp`
+so that it matches the next planned release.
+
+
 <!-- Links -->
 [badge.Appveyor]: https://ci.appveyor.com/api/projects/status/github/boostorg/hana?svg=true&branch=master
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
