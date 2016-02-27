@@ -75,44 +75,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
             Xn data_;
         };
-
-        //////////////////////////////////////////////////////////////////////
-        // basic_tuple_impl<n, Xn>
-        //////////////////////////////////////////////////////////////////////
-        template <typename Indices, typename ...Xn>
-        struct basic_tuple_impl;
-
-        template <std::size_t ...n, typename ...Xn>
-        struct basic_tuple_impl<std::index_sequence<n...>, Xn...>
-            : detail::elt<n, Xn>...
-        {
-            constexpr basic_tuple_impl() = default;
-
-            template <typename ...Yn>
-            explicit constexpr basic_tuple_impl(Yn&& ...yn)
-                : detail::elt<n, Xn>(static_cast<Yn&&>(yn))...
-            { }
-        };
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    // basic_tuple
-    //////////////////////////////////////////////////////////////////////////
-    //! @cond
-    template <typename ...Xn>
-    struct basic_tuple final
-        : detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>
-    {
-        using detail::basic_tuple_impl<
-            std::make_index_sequence<sizeof...(Xn)>, Xn...
-        >::basic_tuple_impl;
-    };
-    //! @endcond
-
-    template <typename ...Xn>
-    struct tag_of<basic_tuple<Xn...>> {
-        using type = basic_tuple_tag;
-    };
 
     //////////////////////////////////////////////////////////////////////////
     // get_impl
@@ -141,6 +104,65 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n, typename Xn>
     constexpr Xn&& get_impl(detail::elt<n, Xn, false>&& xn)
     { return static_cast<Xn&&>(xn.data_); }
+
+    namespace detail {
+        //////////////////////////////////////////////////////////////////////
+        // basic_tuple_impl<n, Xn>
+        //////////////////////////////////////////////////////////////////////
+        struct from_other { };
+
+        template <typename Indices, typename ...Xn>
+        struct basic_tuple_impl;
+
+        template <std::size_t ...n, typename ...Xn>
+        struct basic_tuple_impl<std::index_sequence<n...>, Xn...>
+            : detail::elt<n, Xn>...
+        {
+            constexpr basic_tuple_impl() = default;
+
+            template <typename Other>
+            explicit constexpr basic_tuple_impl(detail::from_other, Other&& other)
+                : detail::elt<n, Xn>(get_impl<n>(static_cast<Other&&>(other)))...
+            { }
+
+            template <typename ...Yn>
+            explicit constexpr basic_tuple_impl(Yn&& ...yn)
+                : detail::elt<n, Xn>(static_cast<Yn&&>(yn))...
+            { }
+        };
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    // basic_tuple
+    //////////////////////////////////////////////////////////////////////////
+    //! @cond
+    template <typename ...Xn>
+    struct basic_tuple final
+        : detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>
+    {
+        using Base = detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>;
+
+        constexpr basic_tuple() = default;
+
+        // copy constructor
+        template <typename Other, typename = typename std::enable_if<
+            std::is_same<typename std::decay<Other>::type, basic_tuple>::value
+        >::type>
+        constexpr basic_tuple(Other&& other)
+            : Base(detail::from_other{}, static_cast<Other&&>(other))
+        { }
+
+        template <typename ...Yn>
+        explicit constexpr basic_tuple(Yn&& ...yn)
+            : Base(static_cast<Yn&&>(yn)...)
+        { }
+    };
+    //! @endcond
+
+    template <typename ...Xn>
+    struct tag_of<basic_tuple<Xn...>> {
+        using type = basic_tuple_tag;
+    };
 
 
     //////////////////////////////////////////////////////////////////////////
