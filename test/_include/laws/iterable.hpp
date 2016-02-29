@@ -145,67 +145,6 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
-            // at
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(x<0>{}), size_c<0>),
-                x<0>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(x<0>{}, invalid<>{}), size_c<0>),
-                x<0>{}
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(invalid<>{}, x<1>{}), size_c<1>),
-                x<1>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(invalid<0>{}, x<1>{}, invalid<2>{}), size_c<1>),
-                x<1>{}
-            ));
-
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(invalid<0>{}, invalid<1>{}, x<2>{}), size_c<2>),
-                x<2>{}
-            ));
-            BOOST_HANA_CONSTANT_CHECK(equal(
-                at(list(invalid<0>{}, invalid<1>{}, x<2>{}, invalid<3>{}), size_c<2>),
-                x<2>{}
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1), size_c<0>),
-                1
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1, '2'), size_c<0>),
-                1
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1, '2', 3.3), size_c<0>),
-                1
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1, '2'), size_c<1>),
-                '2'
-            ));
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1, '2', 3.3), size_c<1>),
-                '2'
-            ));
-
-            BOOST_HANA_CONSTEXPR_CHECK(equal(
-                at(list(1, '2', 3.3), size_c<2>),
-                3.3
-            ));
-
-            // make sure we can use non-pods on both sides
-            at(list(Tracked{0}, x<1>{}, Tracked{1}), size_c<1>);
-
-
-            //////////////////////////////////////////////////////////////////
             // back
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
