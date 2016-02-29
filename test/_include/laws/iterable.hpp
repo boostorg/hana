@@ -145,17 +145,6 @@ namespace boost { namespace hana { namespace test {
             ));
 
             //////////////////////////////////////////////////////////////////
-            // is_empty
-            //////////////////////////////////////////////////////////////////
-            BOOST_HANA_CONSTANT_CHECK(is_empty(list()));
-            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(invalid<>{}))));
-            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(invalid<0>{}, invalid<1>{}))));
-
-            int i = 0; // non-constexpr
-            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i))));
-            BOOST_HANA_CONSTANT_CHECK(not_(is_empty(list(i, i))));
-
-            //////////////////////////////////////////////////////////////////
             // at
             //////////////////////////////////////////////////////////////////
             BOOST_HANA_CONSTANT_CHECK(equal(
