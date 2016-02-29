@@ -2437,6 +2437,14 @@ not meant to be used as an interpreter for some meta language. However, by
 using cutting edge and intensely benchmarked techniques, Hana is able to
 minimize the strain on the compiler.
 
+@note
+While Hana has better compile-times than pre-C++11 metaprogramming libraries,
+modern libraries supporting only type-level computations (such as [Brigand][])
+can provide better compile-times, at the cost of generality. Indeed, Hana's
+ability to manipulate runtime values comes at a compile-time cost, no matter
+how hard we try to mitigate it. If you want to use Hana for intensive type-level
+computations, you should benchmark and see whether it suits you.
+
 Before we dive, let me make a quick note on the methodology used to measure
 compile-time performance in Hana. Previous metaprogramming libraries measured
 the compile-time complexity of their meta-algorithms and meta-sequences by
@@ -4064,6 +4072,7 @@ modified as little as possible to work with this reimplementation.
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
+[Brigand]: https://github.com/edouarda/brigand
 [C++14.auto_rt]: http://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
 [C++14.glambda]: http://en.wikipedia.org/wiki/C%2B%2B14#Generic_lambdas
