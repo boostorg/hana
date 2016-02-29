@@ -7,8 +7,6 @@
 
 #include <boost/hana/basic_tuple.hpp>
 
-#include "../_comparable.hpp"
-
 
 #define MAKE_TUPLE(...) ::boost::hana::make_basic_tuple(__VA_ARGS__)
 #define TUPLE_TYPE(...) ::boost::hana::basic_tuple<__VA_ARGS__>
