@@ -133,7 +133,10 @@ BOOST_HANA_NAMESPACE_BEGIN
             //! This can be implemented more efficiently by doing the check
             //! inside each bucket instead.
             static_assert(!detail::has_duplicates<decltype(hana::first(pairs))...>::value,
-            "hana::make_map(pairs...) requires all the keys to be unique");
+            "hana::make_map({keys, values}...) requires all the keys to be unique");
+
+            static_assert(!detail::has_duplicates<decltype(hana::hash(hana::first(pairs)))...>::value,
+            "hana::make_map({keys, values}...) requires all the keys to have different hashes");
 #endif
 
             using Storage = hana::basic_tuple<typename detail::decay<Pairs>::type...>;

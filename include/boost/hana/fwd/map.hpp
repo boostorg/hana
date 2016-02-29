@@ -104,7 +104,15 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Given zero or more `Product`s representing key/value associations,
     //! `make<map_tag>` returns a `hana::map` associating these keys to these
-    //! values. All the keys must be unique.
+    //! values.
+    //!
+    //! `make<map_tag>` requires all the keys to be unique and to have
+    //! different hashes. If you need to create a map with duplicate keys
+    //! or with keys whose hashes might collide, use `hana::to_map` or
+    //! insert `(key, value)` pairs to an empty map successively. However,
+    //! be aware that doing so will be much more compile-time intensive than
+    //! using `make<map_tag>`, because the uniqueness of keys will have to be
+    //! enforced.
     //!
     //!
     //! Example

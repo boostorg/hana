@@ -128,20 +128,17 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     // make_hash_table:
     //  Creates a `hash_table` type able of holding the given number of
     //  elements. The type of the key associated to any given index must
-    //  be retrievable using the `KeyAtIndex` alias.
-    template <template <std::size_t> class KeyAtIndex, std::size_t N>
-    struct make_hash_table {
-        template <typename Map, typename Index>
-        struct do_insert {
-            using Key = KeyAtIndex<Index::value>;
-            using type = typename bucket_insert<Map, Key, Index::value>::type;
-        };
+    //  be retrievable using the `KeyAtIndex` alias. All the keys must
+    //  be distinct and have different hashes too.
+    template <template <std::size_t> class KeyAtIndex, std::size_t N,
+              typename Indices = std::make_index_sequence<N>>
+    struct make_hash_table;
 
-        using type = typename decltype(hana::fold_left(
-            hana::range_c<std::size_t, 0, N>,
-            hana::type<hash_table<>>{},
-            hana::metafunction<do_insert>
-        ))::type;
+    template <template <std::size_t> class KeyAtIndex, std::size_t N, std::size_t ...i>
+    struct make_hash_table<KeyAtIndex, N, std::index_sequence<i...>> {
+        using type = hash_table<
+            bucket<typename decltype(hana::hash(std::declval<KeyAtIndex<i>>()))::type, i>...
+        >;
     };
 } BOOST_HANA_NAMESPACE_END
 

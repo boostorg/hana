@@ -4,12 +4,14 @@
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/at_key.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/hash.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/pair.hpp>
+#include <boost/hana/tuple.hpp>
 namespace hana = boost::hana;
 
 
@@ -49,7 +51,6 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    // note that unsigned and signed are not comparable with each other
     constexpr auto key1 = A{};
     constexpr auto key2 = B{};
 
@@ -61,10 +62,10 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::equal(hana::hash(key1), hana::hash(key2)));
 
     {
-        auto map = hana::make_map(
+        auto map = hana::to_map(hana::make_tuple(
             hana::make_pair(key1, key1),
             hana::make_pair(key2, key2)
-        );
+        ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at_key(map, key1),
@@ -78,10 +79,10 @@ int main() {
     }
 
     {
-        auto map = hana::make_map(
+        auto map = hana::to_map(hana::make_tuple(
             hana::make_pair(key2, key2),
             hana::make_pair(key1, key1)
-        );
+        ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at_key(map, key1),
@@ -95,11 +96,11 @@ int main() {
     }
 
     {
-        auto map = hana::make_map(
+        auto map = hana::to_map(hana::make_tuple(
             hana::make_pair(key1, key1),
             hana::make_pair(hana::int_c<56>, hana::int_c<56>),
             hana::make_pair(key2, key2)
-        );
+        ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at_key(map, key1),
@@ -118,12 +119,12 @@ int main() {
     }
 
     {
-        auto map = hana::make_map(
+        auto map = hana::to_map(hana::make_tuple(
             hana::make_pair(key1, key1),
             hana::make_pair(hana::int_c<56>, hana::int_c<56>),
             hana::make_pair(key2, key2),
             hana::make_pair(hana::int_c<42>, hana::int_c<42>)
-        );
+        ));
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at_key(map, key1),
