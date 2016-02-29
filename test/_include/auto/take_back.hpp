@@ -72,11 +72,10 @@ TestCase test_take_back{[]{
 
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::take_back(MAKE_TUPLE(
-            ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{},  ct_eq<4>{},  ct_eq<5>{},  ct_eq<6>{},
-            ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}, ct_eq<10>{}, ct_eq<11>{}, ct_eq<12>{}, ct_eq<13>{}),
-            hana::size_c<10>),
-        MAKE_TUPLE(ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{},
-                   ct_eq<10>{}, ct_eq<11>{}, ct_eq<12>{}, ct_eq<13>{})
+            ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{},
+            ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{}),
+            hana::size_c<5>),
+        MAKE_TUPLE(ct_eq<5>{}, ct_eq<6>{}, ct_eq<7>{}, ct_eq<8>{}, ct_eq<9>{})
     ));
 }};
 
