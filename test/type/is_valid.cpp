@@ -18,6 +18,7 @@ struct undefined { };
 struct static_nested_member { static const int member = 1; };
 struct static_nested_member_array { static int member[3]; };
 struct nested_template_struct { template <typename ...> struct nested; };
+struct nested_template_alias { template <typename ...> using nested = void; };
 
 int main() {
     // Check for a non-static member
@@ -94,7 +95,7 @@ int main() {
         }
 
         { // template alias
-        struct yes { template <typename ...> using nested = void; };
+        using yes = nested_template_alias;
         struct no { };
 
         auto from_type = hana::is_valid([](auto t) -> decltype(hana::template_<
