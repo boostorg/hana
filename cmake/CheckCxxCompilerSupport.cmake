@@ -54,15 +54,17 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
         ")
     endif()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    message(WARNING "
-    ### You appear to be using GCC ${CMAKE_CXX_COMPILER_VERSION}, which is known
-    ### to be unable to compile Hana. Support for GCC is on
-    ### its way, but it's not there yet. Consider switching
-    ### to Clang >= 3.5.0. If Clang is already installed on
-    ### your system, you can tell CMake about it with
+    if (${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS "6.0.0")
+        message(WARNING "
+    ### You appear to be using GCC ${CMAKE_CXX_COMPILER_VERSION}, which is known to be
+    ### unable to compile Hana. Only GCC >= 6.0.0 is supported.
+    ### Consider using a more recent GCC or switching to Clang.
+    ### If a more recent compiler is already installed on your
+    ### system, you can tell CMake to use it with
     ###
-    ###     cmake .. -DCMAKE_CXX_COMPILER=/path/to/clang
-    ")
+    ###     cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
+        ")
+    endif()
 elseif (MSVC)
     message(WARNING "
     ### Using the native Microsoft compiler (MSVC) is not supported for lack
