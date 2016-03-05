@@ -8,6 +8,12 @@ add_dependencies(check experimental)
 
 # Add all the experimental targets
 file(GLOB_RECURSE BOOST_HANA_EXPERIMENTAL_SOURCES "*.cpp")
+
+# GCC fails to link strong_datatypes.cpp due to https://gcc.gnu.org/bugzilla/show_bug.cgi?id=70095
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    list(APPEND EXCLUDED_EXPERIMENTAL "strong_datatypes.cpp")
+endif()
+
 file(GLOB_RECURSE EXCLUDED_EXPERIMENTAL ${EXCLUDED_EXPERIMENTAL})
 list(REMOVE_ITEM BOOST_HANA_EXPERIMENTAL_SOURCES "" ${EXCLUDED_EXPERIMENTAL})
 
