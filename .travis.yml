@@ -187,10 +187,6 @@ matrix:
     - osx_image: xcode7.2b1
 
 
-before_install:
-  - set -e # Fail the whole script whenever any command fails
-
-
 install:
   ############################################################################
   # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
@@ -313,11 +309,10 @@ script:
   - |
     if [[ "${CHECK_FORMATTING}" == "true" ]]; then
       # Find non-ASCII characters in headers
-      set +e
-      pcregrep --color='auto' -n "[\x80-\xFF]" $(find include doc -name \*\.hpp) \
-                                               $(find test example experimental -name \*\.cpp)
+      hpps=$(find include doc -name \*\.hpp)
+      cpps=$(find test example experimental -name \*\.cpp)
+      pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
       if [[ $? -ne 1 ]]; then exit 1; fi
-      set -e
 
       # F001: Source files should not use the '\r' (CR) character
       # L001: No trailing whitespace at the end of lines
@@ -331,7 +326,7 @@ script:
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
-      (cd build && make doc)
+      (cd build && make doc) || exit 1
 
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
         # Suppress output to avoid leaking the token when the command fails
@@ -366,7 +361,7 @@ script:
   - |
     if [[ "${BENCHMARKS}" == "true" ]]; then
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
-        (cd build && make benchmarks)
+        (cd build && make benchmarks) || exit 1
         compiler_slug=$(cd build && make travis_compiler_slug | grep 'travis_compiler_slug:' | cut -d ' ' -f 2)
         config_slug=$(cd build && make travis_config_slug | grep 'travis_config_slug:' | cut -d ' ' -f 2)
 
