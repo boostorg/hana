@@ -83,7 +83,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/scan_right.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto scan_right = [](auto&& xs[, auto&& state], auto&& f) {
+    constexpr auto scan_right = [](auto&& xs[, auto&& state], auto const& f) {
         return tag-dispatched;
     };
 #else
@@ -92,10 +92,10 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     struct scan_right_t {
         template <typename Xs, typename State, typename F>
-        constexpr auto operator()(Xs&& xs, State&& state, F&& f) const;
+        constexpr auto operator()(Xs&& xs, State&& state, F const& f) const;
 
         template <typename Xs, typename F>
-        constexpr auto operator()(Xs&& xs, F&& f) const;
+        constexpr auto operator()(Xs&& xs, F const& f) const;
     };
 
     constexpr scan_right_t scan_right{};

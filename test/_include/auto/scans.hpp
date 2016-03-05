@@ -51,6 +51,16 @@ TestCase test_scan_left{[]{
             f(f(f(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{})
         )
     ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_left(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), f),
+        MAKE_TUPLE(
+            ct_eq<0>{},
+            f(ct_eq<0>{}, ct_eq<1>{}),
+            f(f(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}),
+            f(f(f(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{}),
+            f(f(f(f(ct_eq<0>{}, ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{}), ct_eq<4>{})
+        )
+    ));
 
     // With initial state
     auto s = ct_eq<999>{};
@@ -73,6 +83,27 @@ TestCase test_scan_left{[]{
             f(s, ct_eq<0>{}),
             f(f(s, ct_eq<0>{}), ct_eq<1>{}),
             f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{})
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_left(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), s, f),
+        MAKE_TUPLE(
+            s,
+            f(s, ct_eq<0>{}),
+            f(f(s, ct_eq<0>{}), ct_eq<1>{}),
+            f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{}),
+            f(f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{})
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_left(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), s, f),
+        MAKE_TUPLE(
+            s,
+            f(s, ct_eq<0>{}),
+            f(f(s, ct_eq<0>{}), ct_eq<1>{}),
+            f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{}),
+            f(f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{}),
+            f(f(f(f(f(s, ct_eq<0>{}), ct_eq<1>{}), ct_eq<2>{}), ct_eq<3>{}), ct_eq<4>{})
         )
     ));
 }};
@@ -98,15 +129,34 @@ TestCase test_scan_right{[]{
         hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}), f),
         MAKE_TUPLE(
             f(ct_eq<0>{}, ct_eq<1>{}),
-            ct_eq<1>{}
+                          ct_eq<1>{}
         )
     ));
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), f),
         MAKE_TUPLE(
             f(ct_eq<0>{}, f(ct_eq<1>{}, ct_eq<2>{})),
-            f(ct_eq<1>{}, ct_eq<2>{}),
-            ct_eq<2>{}
+                          f(ct_eq<1>{}, ct_eq<2>{}),
+                                        ct_eq<2>{}
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), f),
+        MAKE_TUPLE(
+            f(ct_eq<0>{}, f(ct_eq<1>{}, f(ct_eq<2>{}, ct_eq<3>{}))),
+                          f(ct_eq<1>{}, f(ct_eq<2>{}, ct_eq<3>{})),
+                                        f(ct_eq<2>{}, ct_eq<3>{}),
+                                                      ct_eq<3>{}
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), f),
+        MAKE_TUPLE(
+            f(ct_eq<0>{}, f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, ct_eq<4>{})))),
+                          f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, ct_eq<4>{}))),
+                                        f(ct_eq<2>{}, f(ct_eq<3>{}, ct_eq<4>{})),
+                                                      f(ct_eq<3>{}, ct_eq<4>{}),
+                                                                    ct_eq<4>{}
         )
     ));
 
@@ -127,17 +177,38 @@ TestCase test_scan_right{[]{
         hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}), s, f),
         MAKE_TUPLE(
             f(ct_eq<0>{}, f(ct_eq<1>{}, s)),
-            f(ct_eq<1>{}, s),
-            s
+                          f(ct_eq<1>{}, s),
+                                        s
         )
     ));
     BOOST_HANA_CONSTANT_CHECK(hana::equal(
         hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}), s, f),
         MAKE_TUPLE(
             f(ct_eq<0>{}, f(ct_eq<1>{}, f(ct_eq<2>{}, s))),
-            f(ct_eq<1>{}, f(ct_eq<2>{}, s)),
-            f(ct_eq<2>{}, s),
-            s
+                          f(ct_eq<1>{}, f(ct_eq<2>{}, s)),
+                                        f(ct_eq<2>{}, s),
+                                                      s
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}), s, f),
+        MAKE_TUPLE(
+            f(ct_eq<0>{}, f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, s)))),
+                          f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, s))),
+                                        f(ct_eq<2>{}, f(ct_eq<3>{}, s)),
+                                                      f(ct_eq<3>{}, s),
+                                                                    s
+        )
+    ));
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::scan_right(MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{}), s, f),
+        MAKE_TUPLE(
+            f(ct_eq<0>{}, f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, f(ct_eq<4>{}, s))))),
+                          f(ct_eq<1>{}, f(ct_eq<2>{}, f(ct_eq<3>{}, f(ct_eq<4>{}, s)))),
+                                        f(ct_eq<2>{}, f(ct_eq<3>{}, f(ct_eq<4>{}, s))),
+                                                      f(ct_eq<3>{}, f(ct_eq<4>{}, s)),
+                                                                    f(ct_eq<4>{}, s),
+                                                                                  s
         )
     ));
 }};
