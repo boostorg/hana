@@ -33,14 +33,19 @@ constexpr obj_t obj{};
 namespace boost { namespace hana {
     template <int N>
     struct accessors_impl<minimal_struct_tag<N>> {
+        template <typename K>
+        struct get_member {
+            template <typename Struct>
+            constexpr decltype(auto) operator()(Struct&& s) const {
+                return hana::at_c<K::value>(static_cast<Struct&&>(s).members);
+            }
+        };
+
         static auto apply() {
             return hana::unpack(hana::range_c<int, 0, N>, [](auto ...k) {
-                return hana::make_tuple(hana::make_pair(k,
-                    [=](auto&& strct) -> decltype(auto) {
-                        using Strct = decltype(strct);
-                        return hana::at(static_cast<Strct&&>(strct).members, k);
-                    }
-                )...);
+                return hana::make_tuple(
+                    hana::make_pair(k, get_member<decltype(k)>{})...
+                );
             });
         }
     };
