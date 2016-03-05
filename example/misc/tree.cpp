@@ -125,15 +125,15 @@ namespace boost { namespace hana {
 }}
 
 int main() {
-    constexpr auto tree = make_node(1, make_forest(
+    auto tree = make_node(1, make_forest(
         make_node(2, make_forest()),
         make_node(3, make_forest()),
         make_node(4, make_forest())
     ));
 
-    BOOST_HANA_CONSTEXPR_CHECK(hana::sum<>(tree) == 10);
+    BOOST_HANA_RUNTIME_CHECK(hana::sum<>(tree) == 10);
 
-    BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+    BOOST_HANA_RUNTIME_CHECK(hana::equal(
         hana::transform(tree, [](int i) { return i + 1; }),
         make_node(2, make_forest(
             make_node(3, make_forest()),
