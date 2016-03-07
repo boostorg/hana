@@ -13,19 +13,19 @@ namespace hana = boost::hana;
 
 int main() {
     {
-        auto set = hana::make_set(hana::int_c<1>, hana::char_c<'x'>);
+        auto set = hana::make_set(hana::int_c<1>, hana::integral_c<signed char, 'x'>);
 
         BOOST_HANA_CONSTANT_CHECK(hana::contains(set, hana::int_c<1>));
-        BOOST_HANA_CONSTANT_CHECK(hana::contains(set, hana::char_c<'x'>));
+        BOOST_HANA_CONSTANT_CHECK(hana::contains(set, hana::integral_c<signed char, 'x'>));
     }
 
     {
         auto map = hana::make_map(
             hana::make_pair(hana::int_c<1>, 1),
-            hana::make_pair(hana::char_c<'x'>, 'x')
+            hana::make_pair(hana::integral_c<signed char, 'x'>, 'x')
         );
 
         BOOST_HANA_CONSTANT_CHECK(hana::contains(map, hana::int_c<1>));
-        BOOST_HANA_CONSTANT_CHECK(hana::contains(map, hana::char_c<'x'>));
+        BOOST_HANA_CONSTANT_CHECK(hana::contains(map, hana::integral_c<signed char, 'x'>));
     }
 }
