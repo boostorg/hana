@@ -89,6 +89,10 @@ matrix:
       env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
       osx_image: xcode7.1
 
+    # Xcode 7.2
+    - os: osx
+      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      osx_image: xcode7.2
 
     ##########################################################################
     # Build with variations in the configuration
@@ -175,16 +179,16 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
       addons: *clang37
 
-    # Xcode 7.2 beta 1
+    # Xcode 7.3 (still beta as of March 2016)
     - os: osx
       env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
-      osx_image: xcode7.2b1
+      osx_image: xcode7.3
 
 
   allow_failures:
     - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=trunk
     - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default
-    - osx_image: xcode7.2b1
+    - osx_image: xcode7.3
 
 
 install:
