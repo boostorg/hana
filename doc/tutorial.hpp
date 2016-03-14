@@ -3788,7 +3788,7 @@ struct have_common_embedding {
 
 
 
-@section tutorial-appendix-constexpr Apendix I: Advanced constexpr
+@section tutorial-appendix-constexpr Appendix I: Advanced constexpr
 
 ------------------------------------------------------------------------------
 In C++, the border between compile-time and runtime is hazy, a fact that is
@@ -4043,7 +4043,7 @@ non-`constexpr` variable to do the copying, and that could hide side-effects.
 
 
 
-@section tutorial-appendix-MPL Apendix II: A minimal MPL
+@section tutorial-appendix-MPL Appendix II: A minimal MPL
 
 ------------------------------------------------------------------------------
 This section presents a mini reimplementation of the MPL library. The goal is
