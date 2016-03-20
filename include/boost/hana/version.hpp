@@ -1,6 +1,6 @@
 /*!
 @file
-Defines the macros for tracking the version of the library.
+Defines macros for tracking the version of the library.
 
 @copyright Louis Dionne 2013-2016
 Distributed under the Boost Software License, Version 1.0.
