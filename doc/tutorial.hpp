@@ -46,16 +46,12 @@ Hana is a header-only library without external dependencies (not even the rest
 of Boost). Hence, using Hana in your own project is very easy. Basically, just
 add the `include/` directory to your compiler's header search path and you are
 done. However, if you want to cleanly install Hana on your system, you have a
-couple of options. On OS X, the easiest way is to use [Homebrew][]:
-
-@code{.sh}
-brew install --devel homebrew/devel-only/hana
-@endcode
-
-Until the library has a stable release, Hana will only live in [homebrew-devel-only][Homebrew.devel-only].
-If you don't have Homebrew, you can download the code from the official GitHub
-[repository][Hana.repository] and install the library manually by issuing the
-following commands from the root of the project (requires [CMake][]):
+couple of options. First, you can install Boost 1.61.0 or later, since Hana is
+included in Boost starting with that release. If you do not want to install all
+of Boost, it is also possible to install Hana only. To do so, you can download
+the code from the official GitHub [repository][Hana.repository] and install the
+library manually by issuing the following commands from the root of the project
+(requires [CMake][]):
 
 @code{.sh}
 mkdir build && cd build
@@ -72,12 +68,12 @@ cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 @endcode
 
 @note
-- Both approaches shown above will also install a `hana.pc` file for use
+- The manual installation will also install a `hana.pc` file for use
 with [pkg-config][].
 
-- The library should also be available through the Boost distribution starting
-with Boost 1.61.0, which will be released around Feburary 2016.
-
+- Do not install Hana as shown above if you already have an installation of
+Boost, because the new installation will overwrite the one that comes with
+Boost.
 
 If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
 module to setup Hana as an external CMake project. The module also allows
@@ -4096,7 +4092,6 @@ modified as little as possible to work with this reimplementation.
 [Hana.repository]: https://github.com/boostorg/hana
 [Hana.StackOverflow]: http://stackoverflow.com/questions/tagged/boost-hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
-[Homebrew.devel-only]: https://github.com/Homebrew/homebrew-devel-only
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
