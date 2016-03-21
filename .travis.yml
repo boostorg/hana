@@ -228,7 +228,7 @@ install:
     if [[ "${TRAVIS_OS_NAME}" == "linux" && "${STDLIB}" != "libstdc++" ]]; then
       if   [[ "${COMPILER}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2"
       elif [[ "${COMPILER}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
-      elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.0";
+      elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
       elif [[ "${COMPILER}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.0";
       else                                            LLVM_VERSION="trunk"; fi
 
