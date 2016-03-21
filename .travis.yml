@@ -154,11 +154,6 @@ matrix:
     ##########################################################################
     # Benchmarks
     ##########################################################################
-    - env: BENCHMARKS=true COMPILER=clang++-3.5 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-      addons: *clang35
-
-    # Clang 3.5 does not support debug info for `auto`, so we don't benchmark in 'Debug' mode.
-
     - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
       addons: *clang36
 
