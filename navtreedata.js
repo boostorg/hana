@@ -84,12 +84,12 @@ var NAVTREE =
         [ "Why not provide zip_longest?", "index.html#tutorial-rationales-zip_longest", null ],
         [ "Why aren't concepts constexpr functions?", "index.html#tutorial-rationales-concepts", null ]
       ] ],
-      [ "Apendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
+      [ "Appendix I: Advanced constexpr", "index.html#tutorial-appendix-constexpr", [
         [ "Constexpr stripping", "index.html#tutorial-appendix-constexpr-stripping", null ],
         [ "Constexpr preservation", "index.html#tutorial-tutorial-appendix-constexpr-preservation", null ],
         [ "Side effects", "index.html#tutorial-appendix-constexpr-effects", null ]
       ] ],
-      [ "Apendix II: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
+      [ "Appendix II: A minimal MPL", "index.html#tutorial-appendix-MPL", null ]
     ] ],
     [ "Reference documentation", "modules.html", "modules" ],
     [ "Alphabetical index", "functions.html", null ],

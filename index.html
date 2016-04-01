@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">0.8.0</span>
+   &#160;<span id="projectnumber">1.0.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -208,12 +208,12 @@ $(document).ready(function(){initNavTree('index.html','');});
 <li class="level2"><a href="#tutorial-rationales-concepts">Why aren&#39;t concepts constexpr functions?</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-appendix-constexpr">Apendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
+<li class="level1"><a href="#tutorial-appendix-constexpr">Appendix I: Advanced constexpr</a><ul><li class="level2"><a href="#tutorial-appendix-constexpr-stripping">Constexpr stripping</a></li>
 <li class="level2"><a href="#tutorial-tutorial-appendix-constexpr-preservation">Constexpr preservation</a></li>
 <li class="level2"><a href="#tutorial-appendix-constexpr-effects">Side effects</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#tutorial-appendix-MPL">Apendix II: A minimal MPL</a></li>
+<li class="level1"><a href="#tutorial-appendix-MPL">Appendix II: A minimal MPL</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="tutorial-description"></a>
@@ -223,17 +223,15 @@ Description</h1>
 <h1><a class="anchor" id="tutorial-installation"></a>
 Prerequisites and installation</h1>
 <hr/>
-<p> Hana is a header-only library without external dependencies (not even the rest of Boost). Hence, using Hana in your own project is very easy. Basically, just add the <code>include/</code> directory to your compiler's header search path and you are done. However, if you want to cleanly install Hana on your system, you have a couple of options. On OS X, the easiest way is to use <a href="http://brew.sh">Homebrew</a>:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;brew install --devel homebrew/devel-only/hana</div>
-</div><!-- fragment --><p>Until the library has a stable release, Hana will only live in <a href="https://github.com/Homebrew/homebrew-devel-only">homebrew-devel-only</a>. If you don't have Homebrew, you can download the code from the official GitHub <a href="https://github.com/boostorg/hana">repository</a> and install the library manually by issuing the following commands from the root of the project (requires <a href="http://www.cmake.org">CMake</a>):</p>
+<p> Hana is a header-only library without external dependencies (not even the rest of Boost). Hence, using Hana in your own project is very easy. Basically, just add the <code>include/</code> directory to your compiler's header search path and you are done. However, if you want to cleanly install Hana on your system, you have a couple of options. First, you can install Boost 1.61.0 or later, since Hana is included in Boost starting with that release. If you do not want to install all of Boost, it is also possible to install Hana only. To do so, you can download the code from the official GitHub <a href="https://github.com/boostorg/hana">repository</a> and install the library manually by issuing the following commands from the root of the project (requires <a href="http://www.cmake.org">CMake</a>):</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build &amp;&amp; cd build</div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cmake ..</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake --build . --target install</div>
 </div><!-- fragment --><p>This will install Hana to the default install-directory for your platform (<code>/usr/local</code> for Unix, <code>C:/Program Files</code> for Windows). If you want to install Hana in a custom location, you can use</p>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd><ul>
-<li>Both approaches shown above will also install a <code>hana.pc</code> file for use with <a href="http://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>.</li>
-<li>The library should also be available through the Boost distribution starting with Boost 1.61.0, which will be released around Feburary 2016.</li>
+<li>The manual installation will also install a <code>hana.pc</code> file for use with <a href="http://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a>.</li>
+<li>Do not install Hana as shown above if you already have an installation of Boost, because the new installation will overwrite the one that comes with Boost.</li>
 </ul>
 </dd></dl>
 <p>If you use CMake in a project, you can use the provided <a href="https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake">FindHana.cmake</a> module to setup Hana as an external CMake project. The module also allows installing Hana locally to that project, without needing to install Hana on the system per the above instructions. Finally, if you want to contribute to Hana, you can see how to best setup your environment for development in the <a href="https://goo.gl/RPd0sV">README</a>.</p>
@@ -2243,7 +2241,7 @@ Why aren't concepts constexpr functions?</h2>
 <div class="line">  <span class="comment">// whether T and U both model Concept, and share a common type that also models Concept</span></div>
 <div class="line">};</div>
 </div><!-- fragment --><h1><a class="anchor" id="tutorial-appendix-constexpr"></a>
-Apendix I: Advanced constexpr</h1>
+Appendix I: Advanced constexpr</h1>
 <hr/>
 <p> In C++, the border between compile-time and runtime is hazy, a fact that is even more true with the introduction of <a href="http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions">generalized constant expressions</a> in C++14. However, being able to manipulate heterogeneous objects is all about understanding that border and then crossing it at one's will. The goal of this section is to set things straight with <code>constexpr</code>; to understand which problems it can solve and which ones it can't. This section covers advanced concepts about to constant expressions; only readers with a good understanding of <code>constexpr</code> should attempt to read this.</p>
 <h2><a class="anchor" id="tutorial-appendix-constexpr-stripping"></a>
@@ -2336,7 +2334,7 @@ Side effects</h2>
 <div class="line">                    ^</div>
 </div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>Explain how side-effects may not appear inside constant expressions, even if the expression they yield are not accessed.</dd></dl>
 <h1><a class="anchor" id="tutorial-appendix-MPL"></a>
-Apendix II: A minimal MPL</h1>
+Appendix II: A minimal MPL</h1>
 <hr/>
 <p> This section presents a mini reimplementation of the MPL library. The goal is to be as backward compatible as possible with the MPL, while still using Hana under the hood. Only the "Algorithms" part of the MPL is implemented as a case study, but it should be possible to implement many (but not all) metafunctions of the MPL.</p>
 <p>Scroll down to the <code>main</code> function to see the tests. The tests are exactly the examples in the MPL documentation that were copy/pasted and then modified as little as possible to work with this reimplementation.</p>
