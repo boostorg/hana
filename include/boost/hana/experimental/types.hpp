@@ -78,7 +78,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             !hana::Metafunction<F>::value
         >::type>
         static constexpr auto apply(hana::experimental::types<T...> const&, F&& f)
-            -> hana::experimental::types<typename decltype(f(hana::type<T>{}))::type...>
+            -> hana::experimental::types<typename decltype(+f(hana::type<T>{}))::type...>
         { return {}; }
 
         template <typename ...T, typename F, typename = typename std::enable_if<
