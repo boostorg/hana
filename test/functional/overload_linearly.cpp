@@ -102,4 +102,21 @@ int main() {
             test::ct_eq<2>{}
         ));
     }
+
+    // 1 function (github issue #280)
+    {
+        auto f = overload_linearly(
+            [](A) { return test::ct_eq<0>{}; }
+        );
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            f(A{}),
+            test::ct_eq<0>{}
+        ));
+
+        BOOST_HANA_CONSTANT_CHECK(equal(
+            f(AA{}),
+            f(A{})
+        ));
+    }
 }
