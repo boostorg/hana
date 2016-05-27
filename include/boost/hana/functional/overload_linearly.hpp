@@ -96,6 +96,11 @@ BOOST_HANA_NAMESPACE_BEGIN
             return (*this)(static_cast<F&&>(f),
                     (*this)(static_cast<G&&>(g), static_cast<H&&>(h)...));
         }
+
+        template <typename F>
+        constexpr decltype(auto) operator()(F&& f) const {
+            return static_cast<F&&>(f);
+        }
     };
 
     constexpr make_overload_linearly_t overload_linearly{};
