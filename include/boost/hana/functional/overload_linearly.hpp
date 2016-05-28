@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_OVERLOAD_LINEARLY_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -98,7 +99,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
 
         template <typename F>
-        constexpr decltype(auto) operator()(F&& f) const {
+        constexpr typename detail::decay<F>::type operator()(F&& f) const {
             return static_cast<F&&>(f);
         }
     };
