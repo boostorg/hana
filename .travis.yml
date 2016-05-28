@@ -77,9 +77,9 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
 
     # Xcode 6.3
-    - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
-      osx_image: beta-xcode6.3
+    # - os: osx
+    #   env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+    #   osx_image: beta-xcode6.3
 
     # Xcode 6.4
     - os: osx
