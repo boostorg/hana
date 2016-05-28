@@ -54,12 +54,9 @@ install:
   - cmake --version
 
   ############################################################################
-  # Install a pre-built Clang-cl
+  # Setup the path to Clang-cl
   ############################################################################
-  - set LLVM_URL="https://www.dropbox.com/s/caol8ihddfwqs31/LLVM-3.7.0-win64.zip?dl=1"
-  - appveyor DownloadFile %LLVM_URL% -FileName llvm.zip
-  - 7z x llvm.zip -oC:\projects\deps\llvm > nul
-  - set PATH=C:\projects\deps\llvm\bin;%PATH%
+  - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
 
 
