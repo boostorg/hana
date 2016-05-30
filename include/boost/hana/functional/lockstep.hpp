@@ -12,9 +12,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
@@ -51,7 +51,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_pre_lockstep_t {
         struct secret { };
         template <typename F>
-        constexpr pre_lockstep_t<typename std::decay<F>::type> operator()(F&& f) const {
+        constexpr pre_lockstep_t<typename detail::decay<F>::type> operator()(F&& f) const {
             return {static_cast<F&&>(f)};
         }
     };
@@ -93,14 +93,14 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename ...G>
         constexpr lockstep_t<std::make_index_sequence<sizeof...(G)>, F,
-                             typename std::decay<G>::type...>
+                             typename detail::decay<G>::type...>
         operator()(G&& ...g) const& {
             return {make_pre_lockstep_t::secret{}, this->f, static_cast<G&&>(g)...};
         }
 
         template <typename ...G>
         constexpr lockstep_t<std::make_index_sequence<sizeof...(G)>, F,
-                             typename std::decay<G>::type...>
+                             typename detail::decay<G>::type...>
         operator()(G&& ...g) && {
             return {make_pre_lockstep_t::secret{}, static_cast<F&&>(this->f),
                                                    static_cast<G&&>(g)...};

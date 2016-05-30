@@ -150,7 +150,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         // copy constructor
         template <typename Other, typename = typename std::enable_if<
-            std::is_same<typename std::decay<Other>::type, basic_tuple>::value
+            std::is_same<typename detail::decay<Other>::type, basic_tuple>::value
         >::type>
         constexpr basic_tuple(Other&& other)
             : Base(detail::from_other{}, static_cast<Other&&>(other))

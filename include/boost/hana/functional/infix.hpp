@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_INFIX_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/functional/reverse_partial.hpp>
 
@@ -102,7 +103,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <bool left, bool right>
         struct make_infix {
             template <typename F>
-            constexpr infix_t<left, right, typename std::decay<F>::type>
+            constexpr infix_t<left, right, typename detail::decay<F>::type>
             operator()(F&& f) const { return {static_cast<F&&>(f)}; }
         };
 

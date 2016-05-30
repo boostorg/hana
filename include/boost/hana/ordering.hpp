@@ -13,9 +13,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/ordering.hpp>
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/less.hpp>
-
-#include <type_traits>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -37,7 +36,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename F>
     constexpr auto ordering_t::operator()(F&& f) const {
-        return detail::less_by<typename std::decay<F>::type>{static_cast<F&&>(f)};
+        return detail::less_by<typename detail::decay<F>::type>{static_cast<F&&>(f)};
     }
     //! @endcond
 BOOST_HANA_NAMESPACE_END

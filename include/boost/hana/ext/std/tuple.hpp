@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/bool.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -83,7 +84,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct lift_impl<ext::std::tuple_tag> {
         template <typename X>
         static constexpr auto apply(X&& x) {
-            return std::tuple<typename std::decay<X>::type>{
+            return std::tuple<typename detail::decay<X>::type>{
                                                 static_cast<X&&>(x)};
         }
     };

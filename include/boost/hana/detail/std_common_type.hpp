@@ -11,8 +11,8 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_DETAIL_STD_COMMON_TYPE_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 
-#include <type_traits>
 #include <utility>
 
 
@@ -27,7 +27,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     struct std_common_type<T, U, decltype((void)(
         true ? std::declval<T>() : std::declval<U>()
     ))> {
-        using type = typename std::decay<
+        using type = typename detail::decay<
             decltype(true ? std::declval<T>() : std::declval<U>())
         >::type;
     };

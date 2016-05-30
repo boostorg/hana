@@ -13,7 +13,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 
-#include <type_traits>
 #include <utility>
 
 
@@ -86,8 +85,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_overload_linearly_t {
         template <typename F, typename G>
         constexpr overload_linearly_t<
-            typename std::decay<F>::type,
-            typename std::decay<G>::type
+            typename detail::decay<F>::type,
+            typename detail::decay<G>::type
         > operator()(F&& f, G&& g) const {
             return {static_cast<F&&>(f), static_cast<G&&>(g)};
         }

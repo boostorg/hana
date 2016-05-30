@@ -11,6 +11,7 @@ Distributed under the Boost Software License, Version 1.0.
 #define BOOST_HANA_FUNCTIONAL_CURRY_HPP
 
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/partial.hpp>
 
@@ -103,7 +104,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n>
     struct make_curry_t {
         template <typename F>
-        constexpr curry_t<n, typename std::decay<F>::type>
+        constexpr curry_t<n, typename detail::decay<F>::type>
         operator()(F&& f) const { return {static_cast<F&&>(f)}; }
     };
 
