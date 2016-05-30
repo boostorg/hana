@@ -106,7 +106,7 @@ namespace experimental {
     };
 
     template <typename Sequence, typename F>
-    constexpr transformed_view_t<Sequence, typename std::decay<F>::type>
+    constexpr transformed_view_t<Sequence, typename hana::detail::decay<F>::type>
     transformed(Sequence& sequence, F&& f) {
         return {sequence, static_cast<F&&>(f)};
     }

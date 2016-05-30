@@ -86,8 +86,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct make_overload_linearly_t {
         template <typename F, typename G>
         constexpr overload_linearly_t<
-            typename std::decay<F>::type,
-            typename std::decay<G>::type
+            typename detail::decay<F>::type,
+            typename detail::decay<G>::type
         > operator()(F&& f, G&& g) const {
             return {static_cast<F&&>(f), static_cast<G&&>(g)};
         }

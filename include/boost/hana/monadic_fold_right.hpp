@@ -17,6 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/monad.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/partial.hpp>
@@ -110,7 +111,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename M, typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
             struct end { };
-            using G = detail::monadic_foldr1_helper<end, M, typename std::decay<F>::type>;
+            using G = detail::monadic_foldr1_helper<end, M, typename detail::decay<F>::type>;
             decltype(auto) result = hana::monadic_fold_right<M>(
                 static_cast<Xs&&>(xs),
                 end{},
