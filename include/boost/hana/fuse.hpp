@@ -12,8 +12,8 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/fuse.hpp>
 
-#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/config.hpp>
+#include <boost/hana/detail/decay.hpp>
 #include <boost/hana/unpack.hpp>
 
 #include <type_traits>
