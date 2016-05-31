@@ -15,7 +15,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/decay.hpp>
 
 #include <cstddef>
-#include <type_traits>
 #include <utility>
 
 
