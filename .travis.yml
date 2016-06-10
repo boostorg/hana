@@ -29,17 +29,9 @@ addons:
   apt:
     packages:
       - valgrind
-      - clang-3.6
-      - clang-3.7
-      - clang-3.8
       - g++-5
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise-3.5
-      - llvm-toolchain-precise-3.6
-      - llvm-toolchain-precise-3.7
-      - llvm-toolchain-precise-3.8
-      - llvm-toolchain-precise
 
 
 matrix:
@@ -51,7 +43,7 @@ matrix:
     # Check for code formatting errors
     ##########################################################################
     - os: osx
-      env: CHECK_FORMATTING=true COMPILER=clang++
+      env: CHECK_FORMATTING=true
       osx_image: xcode7
 
     ##########################################################################
@@ -60,21 +52,18 @@ matrix:
     # Note that we only use the memory checker on the main configuration to
     # speed up Travis builds.
     ##########################################################################
-    # Clang 3.5 (installed here instead of above, because it is incompatible with other Clangs)
-    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
-      addons: &clang35
-        apt:
-          packages: ["clang-3.5", "valgrind"]
-          sources: *sources
+    # Clang 3.5
+    # TODO: Find out why this fails to compile the test suite.
+    # - env: UNIT_TESTS=true LLVM_VERSION=3.5.2 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
 
     # Clang 3.6
-    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
 
     # Clang 3.7
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
 
     # Clang 3.8
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    - env: UNIT_TESTS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
 
     # Xcode 6.3
     # - os: osx
@@ -83,97 +72,93 @@ matrix:
 
     # Xcode 6.4
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode6.4
 
     # Xcode 7
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7
 
     # Xcode 7.1
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.1
 
     # Xcode 7.2
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.2
 
     ##########################################################################
     # Build with variations in the configuration
     ##########################################################################
     # Without concept checks
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
 
     # With debug mode
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_DEBUG_MODE=ON"
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_DEBUG_MODE=ON"
 
     # Without exceptions
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
 
     # Build with libstdc++ instead of libc++
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default STDLIB=libstdc++
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default STDLIB=libstdc++
 
     # With Boost 1.59
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=1.59.0
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.59.0
 
     # Without Boost (make sure we don't depend on it)
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8
+    - env: UNIT_TESTS=true LLVM_VERSION=default
 
     # With Boost.Build instead of CMake (on Linux)
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default BOOST_BUILD=true
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default BOOST_BUILD=true
 
     # With Boost.Build instead of CMake (on OS X)
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default BOOST_BUILD=true
+      env: UNIT_TESTS=true BOOST_VERSION=default BOOST_BUILD=true
       osx_image: xcode7
 
 
     ##########################################################################
     # Generate the documentation
     ##########################################################################
-    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=default
-    - env: DOCUMENTATION=true COMPILER=clang++-3.7 BOOST_VERSION=default BOOST_BUILD=true
+    - env: DOCUMENTATION=true LLVM_VERSION=default BOOST_VERSION=default
+    - env: DOCUMENTATION=true LLVM_VERSION=default BOOST_VERSION=default BOOST_BUILD=true
 
 
     ##########################################################################
     # Benchmarks
     ##########################################################################
-    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-    - env: BENCHMARKS=true COMPILER=clang++-3.6 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
+    - env: BENCHMARKS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-    - env: BENCHMARKS=true COMPILER=clang++-3.7 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
+    - env: BENCHMARKS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
 
-    - env: BENCHMARKS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-    - env: BENCHMARKS=true COMPILER=clang++-3.8 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
+    - env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+    - env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
 
 
     ##########################################################################
     # Jobs that are allowed to fail
     ##########################################################################
     # Clang trunk
-    # TODO: Update to actual Clang trunk when whitelisted in Travis
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default
-      addons:
-        apt:
-          packages: ["clang-3.8"]
-          sources: *sources
+    # TODO: Find a way to download pre-built Clang trunk and enable this
+    # - env: UNIT_TESTS=true LLVM_VERSION=trunk BOOST_VERSION=default
 
     # Boost trunk
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=trunk
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
 
     # Xcode 7.3 (still beta as of March 2016)
     - os: osx
-      env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
+      env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.3
 
 
   allow_failures:
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=trunk
+    # - env: UNIT_TESTS=true LLVM_VERSION=trunk BOOST_VERSION=default
+    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
     - osx_image: xcode7.3
 
 
@@ -185,9 +170,14 @@ install:
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
   ############################################################################
+  # Setup default versions
+  ############################################################################
+  - if [[ "${LLVM_VERSION}" == "default" ]]; then LLVM_VERSION=3.8.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.60.0; fi
+
+  ############################################################################
   # Install Boost headers
   ############################################################################
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION="1.60.0"; fi
   - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
   - if [[ "${BOOST_VERSION}" == "1.60.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.gz"; fi
   - if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
@@ -223,16 +213,20 @@ install:
     fi
 
   ############################################################################
+  # Install Clang
+  ############################################################################
+  - |
+    if [[ "${LLVM_VERSION}" != "" ]]; then
+      CLANG_URL="http://llvm.org/releases/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-14.04.tar.xz"
+      mkdir clang && travis_retry wget --quiet -O - ${CLANG_URL} | tar --strip-components=1 -xJ -C clang
+      export PATH="${DEPS_DIR}/clang/bin:${PATH}"
+    fi
+
+  ############################################################################
   # Install libc++ and libc++abi (on Linux only; Xcode uses libc++ by default)
   ############################################################################
   - |
-    if [[ "${TRAVIS_OS_NAME}" == "linux" && "${STDLIB}" != "libstdc++" ]]; then
-      if   [[ "${COMPILER}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2"
-      elif [[ "${COMPILER}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
-      elif [[ "${COMPILER}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
-      elif [[ "${COMPILER}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.0";
-      else                                            LLVM_VERSION="trunk"; fi
-
+    if [[ "${LLVM_VERSION}" != "" && "${STDLIB}" != "libstdc++" ]]; then
       if [[ "${LLVM_VERSION}" != "trunk" ]]; then
         LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
         LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
@@ -290,7 +284,7 @@ before_script:
   # Go back to the root of the project and setup the build directory
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
-  - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=${COMPILER} -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS})
+  - (mkdir build && cd build && cmake .. -DCMAKE_CXX_COMPILER=${CXX} -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS})
 
 
 script:
@@ -388,7 +382,7 @@ script:
   - |
     if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
       touch Jamroot
-      echo "using clang : : ${COMPILER} ;" > project-config.jam
+      echo "using clang : : ${CXX} ;" > project-config.jam
       if [[ "${LDFLAGS}" == "" ]]; then
         (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${DEPS_DIR}/boost")
       else
