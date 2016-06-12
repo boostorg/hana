@@ -49,22 +49,3 @@ foreach(_file IN LISTS EXAMPLES)
     boost_hana_add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     add_dependencies(examples ${_target})
 endforeach()
-
-
-##############################################################################
-# Setup the `wandbox` target, which uploads the whole library along with the
-# example/wandbox.cpp example to http://melpon.org/wandbox, and prints a
-# permlink to it.
-##############################################################################
-find_package(PythonInterp 2.7)
-if (PYTHONINTERP_FOUND)
-    add_custom_target(wandbox COMMAND
-        ${PYTHON_EXECUTABLE} ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
-                             ${Boost.Hana_SOURCE_DIR}/include
-                             ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp
-        SOURCES ${Boost.Hana_SOURCE_DIR}/cmake/wandbox.py
-                ${Boost.Hana_SOURCE_DIR}/example/wandbox.cpp)
-else()
-    message(WARNING "A suitable version of the Python interpreter could not "
-                    "be found; the 'wandbox' target will not be available.")
-endif()
