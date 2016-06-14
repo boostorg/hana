@@ -64,8 +64,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <std::size_t ...n, typename F, typename ...X>
     struct partial_t<std::index_sequence<n...>, F, X...> {
-        // Not needed in theory; workaround for a bug in libstdc++'s tuple,
-        // which instantiates the default constructor of elements too eagerly.
         partial_t() = default;
 
         template <typename ...T>

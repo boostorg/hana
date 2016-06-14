@@ -62,6 +62,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <std::size_t ...n, typename F, typename ...X>
     struct reverse_partial_t<std::index_sequence<n...>, F, X...> {
+        reverse_partial_t() = default;
+
         template <typename ...T>
         constexpr reverse_partial_t(make_reverse_partial_t::secret, T&& ...t)
             : storage_{static_cast<T&&>(t)...}
