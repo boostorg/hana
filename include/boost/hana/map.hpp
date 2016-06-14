@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/map.hpp>
 
 #include <boost/hana/all_of.hpp>
+#include <boost/hana/at_key.hpp>
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
