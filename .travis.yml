@@ -27,7 +27,7 @@ addons:
   apt:
     packages:
       - valgrind
-      - g++-5
+      - g++-6
     sources: &sources
       - ubuntu-toolchain-r-test
 
@@ -68,6 +68,11 @@ matrix:
     - os: linux
       env: UNIT_TESTS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
       compiler: clang
+
+    # GCC 6
+    - os: linux
+      env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      compiler: gcc
 
     # Xcode 6.3
     # - os: osx
@@ -110,11 +115,6 @@ matrix:
     # Without exceptions
     - os: linux
       env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
-      compiler: clang
-
-    # Build with libstdc++ instead of libc++
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default STDLIB=libstdc++
       compiler: clang
 
     # With Boost 1.59
@@ -208,10 +208,12 @@ install:
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
   ############################################################################
-  # Setup default versions
+  # Setup default versions and override compiler if needed
   ############################################################################
   - if [[ "${LLVM_VERSION}" == "default" ]]; then LLVM_VERSION=3.8.0; fi
   - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.60.0; fi
+
+  - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
 
   ############################################################################
   # Install Boost headers
@@ -264,7 +266,7 @@ install:
   # Install libc++ and libc++abi (on Linux only; Xcode uses libc++ by default)
   ############################################################################
   - |
-    if [[ "${LLVM_VERSION}" != "" && "${STDLIB}" != "libstdc++" ]]; then
+    if [[ "${LLVM_VERSION}" != "" ]]; then
       if [[ "${LLVM_VERSION}" != "trunk" ]]; then
         LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
         LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
