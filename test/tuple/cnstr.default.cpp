@@ -110,17 +110,20 @@ int main() {
             hana::tuple<IllFormedDefault> t1(v);
             hana::tuple<IllFormedDefault> t2{v};
             hana::tuple<IllFormedDefault> t3 = {v};
+            (void)t1;(void)t2;(void)t3; // remove spurious unused variable warning on GCC
         }
         {
             hana::tuple<NoDefault> t1(0);
             hana::tuple<NoDefault> t2{0};
             hana::tuple<NoDefault> t3 = {0};
+            (void)t1;(void)t2;(void)t3; // remove spurious unused variable warning on GCC
         }
         {
             NoDefault v(0);
             hana::tuple<NoDefault> t1(v);
             hana::tuple<NoDefault> t2{v};
             hana::tuple<NoDefault> t3 = {v};
+            (void)t1;(void)t2;(void)t3; // remove spurious unused variable warning on GCC
         }
     }
 
