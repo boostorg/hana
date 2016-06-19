@@ -99,6 +99,11 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.2
 
+    # Xcode 7.3
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: xcode7.3
+
     ##########################################################################
     # Build with variations in the configuration
     ##########################################################################
@@ -188,16 +193,10 @@ matrix:
       env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
       compiler: clang
 
-    # Xcode 7.3 (still beta as of March 2016)
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode7.3
-
 
   allow_failures:
     # - env: UNIT_TESTS=true LLVM_VERSION=trunk BOOST_VERSION=default
     - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
-    - osx_image: xcode7.3
 
 
 install:
