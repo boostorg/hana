@@ -44,7 +44,7 @@ namespace boost { namespace hana {
             static_assert(i > 0, "can't use for_each_n with i < 0");
 
             template <typename Xs, typename F>
-            constexpr auto operator()(Xs xs, F f) const {
+            constexpr auto operator()(Xs const& xs, F const& f) const {
                 hana::for_each(xs,
                     hana::compose(
                         hana::partial(for_each_n_t<i - 1>{}, xs),
@@ -57,7 +57,7 @@ namespace boost { namespace hana {
         template <>
         struct for_each_n_t<1> {
             template <typename Xs, typename F>
-            constexpr auto operator()(Xs xs, F f) const {
+            constexpr auto operator()(Xs const& xs, F const& f) const {
                 hana::for_each(xs, f);
             }
         };
