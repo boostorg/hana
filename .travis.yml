@@ -75,9 +75,9 @@ matrix:
       compiler: gcc
 
     # Xcode 6.3
-    # - os: osx
-    #   env: UNIT_TESTS=true COMPILER=clang++ BOOST_VERSION=default
-    #   osx_image: beta-xcode6.3
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: beta-xcode6.3
 
     # Xcode 6.4
     - os: osx
