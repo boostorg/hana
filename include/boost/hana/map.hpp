@@ -355,6 +355,8 @@ BOOST_HANA_NAMESPACE_BEGIN
             using MaybeIndex = typename detail::find_index<
                 HashTable, Key, detail::KeyAtIndex<Storage>::template apply
             >::type;
+            static_assert(!decltype(hana::is_nothing(MaybeIndex{}))::value,
+                "hana::at_key(map, key) requires the 'key' to be present in the 'map'");
             constexpr std::size_t index = decltype(*MaybeIndex{}){}();
             return hana::second(hana::at_c<index>(static_cast<Map&&>(map).storage));
         }
