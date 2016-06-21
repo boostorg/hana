@@ -37,6 +37,8 @@ cache:
     - ${TRAVIS_BUILD_DIR}/deps/llvm-3.6.2
     - ${TRAVIS_BUILD_DIR}/deps/llvm-3.7.1
     - ${TRAVIS_BUILD_DIR}/deps/llvm-3.8.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.59.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.60.0
 
 
 matrix:
@@ -224,18 +226,21 @@ install:
   ############################################################################
   # Install Boost headers
   ############################################################################
-  - if [[ "${BOOST_VERSION}" == "1.59.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.59.0/boost_1_59_0.tar.gz"; fi
-  - if [[ "${BOOST_VERSION}" == "1.60.0" ]]; then BOOST_URL="http://sourceforge.net/projects/boost/files/boost/1.60.0/boost_1_60_0.tar.gz"; fi
-  - if [[ "${BOOST_URL}" != "" ]]; then mkdir boost && travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C boost; fi
-
+  - BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
   - |
-    if [[ "${BOOST_VERSION}" == "trunk" ]]; then
-      BOOST_URL="http://github.com/boostorg/boost.git"
-      travis_retry git clone --depth 1 --recursive --quiet ${BOOST_URL}
-      (cd boost && ./bootstrap.sh && ./b2 headers)
-    fi
+    if [[ "${BOOST_VERSION}" != "" ]]; then
+      if [[ "${BOOST_VERSION}" == "trunk" ]]; then
+        BOOST_URL="http://github.com/boostorg/boost.git"
+        travis_retry git clone --depth 1 --recursive --quiet ${BOOST_URL} ${BOOST_DIR}
+        (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers)
+      elif [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
+        BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//./_}.tar.gz"
+        mkdir -p ${BOOST_DIR}
+        travis_retry wget --quiet -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}
+      fi
 
-  - if [[ -d ${DEPS_DIR}/boost ]]; then CMAKE_OPTIONS+=" -DBOOST_ROOT=${DEPS_DIR}/boost"; fi
+      CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
+    fi
 
   ############################################################################
   # Install a recent CMake
@@ -254,7 +259,7 @@ install:
   ############################################################################
   - |
     if [[ "${BOOST_BUILD}" == "true" ]]; then
-      (cd boost/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
+      (cd ${BOOST_DIR}/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
       export PATH=${DEPS_DIR}/b2/bin:${PATH}
     fi
 
