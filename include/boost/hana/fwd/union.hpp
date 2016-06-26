@@ -33,14 +33,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/union.cpp
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.union.compile.json">
-    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto union_ = [](auto&& xs, auto&& ys) {
         return tag-dispatched;

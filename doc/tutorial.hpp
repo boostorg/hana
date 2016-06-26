@@ -2521,11 +2521,11 @@ will be much faster that way.
 
 You can also see that creating sequences has a non-negligible cost. Actually,
 this is really the most expensive part of doing heterogeneous computations,
-as you will see in the following charts. When you look at the charts here and
-elsewhere in the library, keep in mind the cost of merely creating the sequences.
-Also note that only the most important algorithms will be presented here, but
-micro benchmarks for compile-time performance are scattered in the reference
-documentation. Also, the benchmarks we present compare several different
+as you will see in the following charts. Hence, when you look at the charts
+below, keep in mind the cost of merely creating the sequences. Also note that
+only the most important algorithms will be presented here, but the [Metabench][]
+project provides micro benchmarks for compile-time performance for almost all
+of Hana's algorithms. Also, the benchmarks we present compare several different
 libraries. However, since Hana and Fusion can work with values and not only
 types, comparing their algorithms with type-only libraries like MPL is not
 really fair. Indeed, Hana and Fusion algorithms are more powerful since they
@@ -2609,9 +2609,9 @@ into account the free lunch given to use by C++14.
 
 As you can see, Hana performs better than Fusion, and as well as MPL, yet
 Hana's `find_if` can be used with values too, unlike MPL's. This concludes
-the section on compile-time performance, but there are micro benchmarks of
-compile-time performance scattered around the documentation if you want to
-see the compile-time behavior of a particular algorithm.
+the section on compile-time performance. In case you want to see the
+performance of an algorithm that we have not presented here, the [Metabench][]
+project provides compile-time benchmarks for most of Hana's algorithms.
 
 
 @subsection tutorial-performance-runtime Runtime performance
@@ -4094,6 +4094,7 @@ modified as little as possible to work with this reimplementation.
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
+[Metabench]: https://ldionne.github.io/metabench
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
 [MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html

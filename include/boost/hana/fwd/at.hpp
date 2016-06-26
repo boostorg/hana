@@ -46,14 +46,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/at.cpp
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.at.compile.json">
-    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto at = [](auto&& xs, auto const& n) -> decltype(auto) {
         return tag-dispatched;

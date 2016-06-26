@@ -61,14 +61,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/partition.cpp
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.partition.compile.json">
-    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto partition = [](auto&& xs, auto&& predicate) {
         return tag-dispatched;

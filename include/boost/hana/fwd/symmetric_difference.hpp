@@ -34,14 +34,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/symmetric_difference.cpp
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.symmetric_difference.compile.json">
-    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto symmetric_difference = [](auto&& xs, auto&& ys) {
         return tag-dispatched;

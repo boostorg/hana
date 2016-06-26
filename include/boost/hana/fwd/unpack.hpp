@@ -43,14 +43,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/unpack.cpp
     //!
     //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.unpack.compile.json">
-    //! </div>
-    //!
-    //!
     //! Rationale: `unpack`'s name and parameter order
     //! ----------------------------------------------
     //! It has been suggested a couple of times that `unpack` be called

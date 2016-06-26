@@ -30,14 +30,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/is_disjoint.cpp
-    //!
-    //!
-    //! Benchmarks
-    //! ----------
-    //! <div class="benchmark-chart"
-    //!      style="min-width: 310px; height: 400px; margin: 0 auto"
-    //!      data-dataset="benchmark.is_disjoint.compile.json">
-    //! </div>
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto is_disjoint = [](auto const& xs, auto const& ys) {
         return tag-dispatched;
