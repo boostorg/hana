@@ -165,24 +165,7 @@ matrix:
     # Benchmarks
     ##########################################################################
     - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-      compiler: clang
-    - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
-      compiler: clang
-
-    - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-      compiler: clang
-    - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
-      compiler: clang
-
-    - os: linux
       env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-      compiler: clang
-    - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Debug"
       compiler: clang
 
 
