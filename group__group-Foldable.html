@@ -338,8 +338,7 @@ Variables</h2></td></tr>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Foldable.html#ga39d71be65d5b98e7d035a3e5c607e1b4">hana::count_if</a>(types, <a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(hana::type_c&lt;char&gt;)) == hana::size_c&lt;2&gt;);</div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Foldable.html#ga39d71be65d5b98e7d035a3e5c607e1b4">hana::count_if</a>(types, <a class="code" href="group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547">hana::equal</a>.<a class="code" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>(hana::type_c&lt;void&gt;)) == hana::size_c&lt;0&gt;);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.count_if.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="gaa0fde17f3b947a0678a1c0c01232f2cc"></a>
@@ -473,8 +472,7 @@ Variables</h2></td></tr>
 <div class="line">        <span class="stringliteral">&quot;f(f(f(f(1, 2), 3), 4), 5)&quot;</span></div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_left.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga77d43badebd59b046cf93598733649b4"></a>
@@ -552,8 +550,7 @@ Variables</h2></td></tr>
 <div class="line">        <span class="stringliteral">&quot;f(1, f(2, f(3, f(4, 5))))&quot;</span></div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.fold_right.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga2af382f7e644ce3707710bbad313e9c2"></a>
@@ -619,7 +616,7 @@ Variables</h2></td></tr>
 <div class="line">            <span class="keywordflow">return</span> <a class="code" href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170">unpack</a>(forwarded(xs), forwarded(f));</div>
 <div class="line">        };</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-Foldable_html_ga7b0c23944364ce61136e10b978ae2170"><div class="ttname"><a href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170">boost::hana::unpack</a></div><div class="ttdeci">constexpr auto unpack</div><div class="ttdoc">Invoke a function with the elements of a Foldable as arguments.Given a function and a foldable struct...</div><div class="ttdef"><b>Definition:</b> unpack.hpp:87</div></div>
+<div class="ttc" id="group__group-Foldable_html_ga7b0c23944364ce61136e10b978ae2170"><div class="ttname"><a href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170">boost::hana::unpack</a></div><div class="ttdeci">constexpr auto unpack</div><div class="ttdoc">Invoke a function with the elements of a Foldable as arguments.Given a function and a foldable struct...</div><div class="ttdef"><b>Definition:</b> unpack.hpp:79</div></div>
 <div class="ttc" id="group__group-functional_html_ga41ada6b336e9d5bcb101ff0c737acbd0"><div class="ttname"><a href="group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0">boost::hana::capture</a></div><div class="ttdeci">constexpr auto capture</div><div class="ttdoc">Create a function capturing the given variables. </div><div class="ttdef"><b>Definition:</b> capture.hpp:45</div></div>
 </div><!-- fragment -->
 <p>Transform a function taking multiple arguments into a function that can be called with a compile-time <code>Foldable</code>. </p>
@@ -1157,8 +1154,7 @@ See the documentation for <code>sum</code> to understand why the Ring must somet
 <div class="line">        hana::product&lt;unsigned long&gt;(hana::make_tuple(2ul, 3ul)) == 6ul</div>
 <div class="line">    );</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.product.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga947602718a53bd7fcd5c20477694cdcd"></a>
@@ -1175,7 +1171,7 @@ See the documentation for <code>sum</code> to understand why the Ring must somet
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs[, <span class="keyword">auto</span>&amp;&amp; state], <span class="keyword">auto</span>&amp;&amp; f) -&gt; decltype(<span class="keyword">auto</span>) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__group-Foldable.html#ga77d43badebd59b046cf93598733649b4">fold_right</a>(forwarded(xs), forwarded(state), <a class="code" href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">flip</a>(forwarded(f)));</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-Foldable_html_ga77d43badebd59b046cf93598733649b4"><div class="ttname"><a href="group__group-Foldable.html#ga77d43badebd59b046cf93598733649b4">boost::hana::fold_right</a></div><div class="ttdeci">constexpr auto fold_right</div><div class="ttdoc">Right-fold of a structure using a binary operation and an optional initial reduction state...</div><div class="ttdef"><b>Definition:</b> fold_right.hpp:81</div></div>
+<div class="ttc" id="group__group-Foldable_html_ga77d43badebd59b046cf93598733649b4"><div class="ttname"><a href="group__group-Foldable.html#ga77d43badebd59b046cf93598733649b4">boost::hana::fold_right</a></div><div class="ttdeci">constexpr auto fold_right</div><div class="ttdoc">Right-fold of a structure using a binary operation and an optional initial reduction state...</div><div class="ttdef"><b>Definition:</b> fold_right.hpp:73</div></div>
 <div class="ttc" id="group__group-functional_html_ga004f884cdbb85c2efe3383c1db450094"><div class="ttname"><a href="group__group-functional.html#ga004f884cdbb85c2efe3383c1db450094">boost::hana::flip</a></div><div class="ttdeci">constexpr auto flip</div><div class="ttdoc">Invoke a function with its two first arguments reversed. </div><div class="ttdef"><b>Definition:</b> flip.hpp:31</div></div>
 </div><!-- fragment -->
 <p>Equivalent to <code>reverse_fold</code> in Boost.Fusion and Boost.MPL.This method has the same semantics as <code>reverse_fold</code> in Boost.Fusion and Boost.MPL, with the extension that an initial state is not required. This method is equivalent to <code>fold_right</code>, except that the accumulating function must take its arguments in reverse order, to match the order used in Fusion. In other words,. </p>
@@ -1363,8 +1359,7 @@ See the documentation for <code>sum</code> to understand why the Ring must somet
 <div class="line"></div>
 <div class="line">    <a class="code" href="group__group-assertions.html#ga5150cd7df438a22056a39529d21562d2">BOOST_HANA_CONSTEXPR_CHECK</a>(<a class="code" href="group__group-Foldable.html#ga7b0c23944364ce61136e10b978ae2170">hana::unpack</a>(hana::make_tuple(1, 2, 3), add) == 6);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.unpack.compile.json"> </div><h2>Rationale: <code>unpack</code>'s name and parameter order </h2>
+</div><!-- fragment --><h2>Rationale: <code>unpack</code>'s name and parameter order </h2>
 <p>It has been suggested a couple of times that <code>unpack</code> be called <code>apply</code> instead, and that the parameter order be reversed to match that of the <a href="http://en.cppreference.com/w/cpp/experimental/apply">proposed std::apply function</a>. However, the name <code>apply</code> is already used to denote normal function application, an use which is consistent with the Boost MPL library and with the rest of the world, especially the functional programming community. Furthermore, the author of this library considers the proposed <code>std::apply</code> to have both an unfortunate name and an unfortunate parameter order. Indeed, taking the function as the first argument means that using <code>std::apply</code> with a lambda function looks like </p><div class="fragment"><div class="line"><a class="code" href="group__group-functional.html#ga30027c383676084be151ef3c6cf2829f">std::apply</a>([](<span class="keyword">auto</span> ...args) {</div>
 <div class="line">    use(args...);</div>
 <div class="line">}, tuple);</div>

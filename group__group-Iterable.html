@@ -280,8 +280,7 @@ Variables</h2></td></tr>
 <div class="line">static_assert(<a class="code" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">hana::at</a>(xs, hana::size_c&lt;2&gt;) == 2.0, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"></div>
 <div class="line"><span class="keywordtype">int</span> main() { }</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.at.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga4cb99cfbef936cb267e76f66f40f529c"></a>
@@ -300,7 +299,7 @@ template&lt;std::size_t n&gt; </div>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs) {</div>
 <div class="line">        <span class="keywordflow">return</span> <a class="code" href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">hana::at</a>(forwarded(xs), hana::size_c&lt;n&gt;);</div>
 <div class="line">    }</div>
-<div class="ttc" id="group__group-Iterable_html_ga8a484304380eae38f3d9663d98860129"><div class="ttname"><a href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">boost::hana::at</a></div><div class="ttdeci">constexpr auto at</div><div class="ttdoc">Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. </div><div class="ttdef"><b>Definition:</b> at.hpp:58</div></div>
+<div class="ttc" id="group__group-Iterable_html_ga8a484304380eae38f3d9663d98860129"><div class="ttname"><a href="group__group-Iterable.html#ga8a484304380eae38f3d9663d98860129">boost::hana::at</a></div><div class="ttdeci">constexpr auto at</div><div class="ttdoc">Returns the nth element of an iterable.Given an Iterable and an IntegralConstant index, at returns the element located at the index in the linearization of the iterable. Specifically, given an iterable xs with a linearization of [x1, ..., xN], at(xs, k) is equivalent to xk. </div><div class="ttdef"><b>Definition:</b> at.hpp:50</div></div>
 </div><!-- fragment -->
 <p>Equivalent to <code>at</code>; provided for convenience. </p>
 <dl class="section note"><dt>Note</dt><dd><code><a class="el" href="group__group-Iterable.html#ga4cb99cfbef936cb267e76f66f40f529c" title="Equivalent to at; provided for convenience. ">hana::at_c</a>&lt;n&gt;</code> is an overloaded function, not a function object. Hence, it can't be passed to higher-order algorithms. This is done for compile-time performance reasons.</dd></dl>
@@ -658,8 +657,7 @@ template&lt;std::size_t n&gt; </div>
 <div class="line">        );</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2>Benchmarks </h2>
-<div class="benchmark-chart" style="min-width: 310px; height: 400px; margin: 0 auto" data-dataset="benchmark.lexicographical_compare.compile.json"> </div> 
+</div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
