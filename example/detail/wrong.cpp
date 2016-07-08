@@ -12,7 +12,7 @@ struct base_template {
     // static_assert(false, "...");
 
     // So instead we write this:
-    static_assert(hana::detail::wrong<base_template<T, U>>{},
+    static_assert(hana::detail::wrong<base_template<T, U>>::value,
     "base_template does not have a valid default definition");
 };
 

@@ -33,7 +33,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
 
     template <typename T, typename U>
     struct EqualityComparable<T, U, typename std::enable_if<
-        !std::is_same<T, U>{}, detail::void_t<
+        !std::is_same<T, U>::value, detail::void_t<
             decltype(static_cast<T&&>(*(T*)0) == static_cast<U&&>(*(U*)0) ? 0:0),
             decltype(static_cast<U&&>(*(U*)0) == static_cast<T&&>(*(T*)0) ? 0:0),
             decltype(static_cast<T&&>(*(T*)0) != static_cast<U&&>(*(U*)0) ? 0:0),

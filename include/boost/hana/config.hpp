@@ -71,7 +71,11 @@ Distributed under the Boost Software License, Version 1.0.
 // Check the compiler for general C++14 capabilities
 //////////////////////////////////////////////////////////////////////////////
 #if (__cplusplus < 201400)
-#   warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
+#   if defined(_MSC_VER)
+#       pragma message("Warning: Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'.")
+#   else
+#       warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
+#   endif
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
