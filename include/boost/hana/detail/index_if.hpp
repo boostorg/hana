@@ -46,6 +46,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename Pred, typename Ts, typename = when<true>>
     struct index_if;
 
+    //! @cond
     template <typename Pred, typename T, typename ...Ts>
     struct index_if<Pred, pack<T, Ts...>, when<static_cast<bool>(decltype(
         std::declval<Pred>()(std::declval<T>())
@@ -64,6 +65,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     struct index_if<Pred, pack<>> {
         static constexpr std::size_t value = 0;
     };
+    //! @endcond
 } BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_INDEX_IF_HPP

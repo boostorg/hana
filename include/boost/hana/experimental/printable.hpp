@@ -107,6 +107,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     };
 
     // model for OutputStreamable types
+    //! @cond
     template <typename S>
     struct print_impl<S, hana::when_valid<decltype(
         std::declval<std::ostringstream&>() << std::declval<S const&>()
@@ -118,6 +119,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
             return os.str();
         }
     };
+    //! @endcond
 
     // model for hana::optional
     template <>

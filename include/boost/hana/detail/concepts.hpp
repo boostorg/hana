@@ -18,6 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+    //! @cond
     //////////////////////////////////////////////////////////////////////////
     // EqualityComparable
     //////////////////////////////////////////////////////////////////////////
@@ -71,6 +72,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
             LessThanComparable<typename detail::std_common_type<T, U>::type>::value
         >
     { };
+    //! @endcond
 } BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_CONCEPTS_HPP
