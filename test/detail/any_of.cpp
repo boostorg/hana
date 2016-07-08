@@ -35,7 +35,7 @@ static_assert(hana::detail::any_of<is_even, hana::int_<1>, hana::int_<8>, hana::
 // Make sure we short-circuit properly
 template <typename ...Dummy>
 struct fail {
-    static_assert(hana::detail::wrong<Dummy...>{},
+    static_assert(hana::detail::wrong<Dummy...>::value,
         "this must never be instantiated");
 };
 static_assert(hana::detail::any_of<is_even, hana::int_<1>, hana::int_<2>, fail<>>::value, "");

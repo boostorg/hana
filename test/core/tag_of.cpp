@@ -11,20 +11,20 @@ namespace hana = boost::hana;
 
 template <typename T, typename ExpectedDatatype>
 struct test {
-    static_assert(std::is_same<hana::tag_of_t<T>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T volatile>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const volatile>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::tag_of_t<T>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T volatile>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const volatile>, ExpectedDatatype>::value, "");
 
-    static_assert(std::is_same<hana::tag_of_t<T&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T volatile&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const volatile&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::tag_of_t<T&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T volatile&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const volatile&>, ExpectedDatatype>::value, "");
 
-    static_assert(std::is_same<hana::tag_of_t<T&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T volatile&&>, ExpectedDatatype>{}, "");
-    static_assert(std::is_same<hana::tag_of_t<T const volatile&&>, ExpectedDatatype>{}, "");
+    static_assert(std::is_same<hana::tag_of_t<T&&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const&&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T volatile&&>, ExpectedDatatype>::value, "");
+    static_assert(std::is_same<hana::tag_of_t<T const volatile&&>, ExpectedDatatype>::value, "");
 };
 
 struct NestedDatatype;
