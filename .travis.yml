@@ -221,7 +221,7 @@ install:
   - if [[ -d ${DEPS_DIR}/boost ]]; then CMAKE_OPTIONS+=" -DBOOST_ROOT=${DEPS_DIR}/boost"; fi
 
   ############################################################################
-  # Install a recent CMake
+  # Install a recent CMake (unless already installed on OS X)
   ############################################################################
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
@@ -229,7 +229,7 @@ install:
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
-      brew install cmake
+      if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
     fi
 
   ############################################################################
