@@ -40,14 +40,14 @@ constexpr auto format(Tokens ...tokens_) {
     auto tokens = hana::make_tuple(tokens_...);
 
     // If you don't care about constexpr-ness of `format`, you can use
-    // this lambda instead of `compose(partial(...), decltype_)`:
+    // this lambda instead of `compose(partial(...), typeid_)`:
     //
     // [](auto token) {
-    //     return formats[decltype_(token)];
+    //     return formats[typeid_(token)];
     // }
     auto format_string_tokens = hana::adjust_if(tokens,
         hana::compose(hana::not_, hana::is_a<hana::string_tag>),
-        hana::compose(hana::partial(hana::at_key, formats), hana::decltype_)
+        hana::compose(hana::partial(hana::at_key, formats), hana::typeid_)
     );
 
     auto format_string = hana::fold_left(format_string_tokens, hana::string_c<>, concat_strings{});

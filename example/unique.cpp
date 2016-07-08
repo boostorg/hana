@@ -25,14 +25,14 @@ int main() {
     auto objects = hana::make_tuple(1, 2, "abc"s, 'd', "efg"s, "hij"s, 3.4f);
     BOOST_HANA_RUNTIME_CHECK(
         hana::unique(objects, [](auto const& t, auto const& u) {
-            return hana::decltype_(t) == hana::decltype_(u);
+            return hana::typeid_(t) == hana::typeid_(u);
         })
         == hana::make_tuple(1, "abc"s, 'd', "efg"s, 3.4f)
     );
 
     // unique.by is syntactic sugar
     BOOST_HANA_RUNTIME_CHECK(
-        hana::unique.by(hana::comparing(hana::decltype_), objects) ==
+        hana::unique.by(hana::comparing(hana::typeid_), objects) ==
             hana::make_tuple(1, "abc"s, 'd', "efg"s, 3.4f)
     );
 }

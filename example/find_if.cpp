@@ -17,8 +17,8 @@ namespace hana = boost::hana;
 
 
 // First get the type of the object, and then call the trait on it.
-constexpr auto is_integral = hana::compose(hana::trait<std::is_integral>, hana::decltype_);
-constexpr auto is_class = hana::compose(hana::trait<std::is_class>, hana::decltype_);
+constexpr auto is_integral = hana::compose(hana::trait<std::is_integral>, hana::typeid_);
+constexpr auto is_class = hana::compose(hana::trait<std::is_class>, hana::typeid_);
 
 static_assert(
     hana::find_if(hana::make_tuple(1.0, 2, '3'), is_integral) == hana::just(2)

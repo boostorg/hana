@@ -121,6 +121,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `decltype` keyword, lifted to Hana.
     //! @relates hana::type
     //!
+    //! @deprecated
+    //! The semantics of `decltype_` are can be confusing, and `hana::typeid_`
+    //! should be preferred instead. `decltype_` may be removed in the next
+    //! major version of the library.
+    //!
     //! `decltype_` is somewhat equivalent to `decltype` in that it returns
     //! the type of an object, except it returns it as a `hana::type` which
     //! is a first-class citizen of Hana instead of a raw C++ type.
@@ -181,6 +186,49 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     constexpr decltype_t decltype_{};
+#endif
+
+    //! Returns a `hana::type` representing the type of a given object.
+    //! @relates hana::type
+    //!
+    //! `hana::typeid_` is somewhat similar to `typeid` in that it returns
+    //! something that represents the type of an object. However, what
+    //! `typeid` returns represent the _runtime_ type of the object, while
+    //! `hana::typeid_` returns the _static_ type of the object. Specifically,
+    //! given an object `x`, `typeid_` satisfies
+    //! @code
+    //!   typeid_(x) == type_c<decltype(x) with ref and cv-qualifiers stripped>
+    //! @endcode
+    //!
+    //! As you can see, `typeid_` strips any reference and cv-qualifier from
+    //! the object's actual type. The reason for doing so is that it faithfully
+    //! models how the language's `typeid` behaves with respect to reference
+    //! and cv-qualifiers, and it also turns out to be the desirable behavior
+    //! most of the time. Also, when given a `hana::type`, `typeid_` is just
+    //! the identity function. Hence, for any C++ type `T`,
+    //! @code
+    //!   typeid_(type_c<T>) == type_c<T>
+    //! @endcode
+    //!
+    //! In conjunction with the way `metafunction` & al. are specified, this
+    //! behavior makes it easier to interact with both types and values at
+    //! the same time. However, it does make it impossible to create a `type`
+    //! containing another `type` using `typeid_`. This use case is assumed
+    //! to be rare and a hand-coded function can be used if this is needed.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/type/typeid.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto typeid_ = see documentation;
+#else
+    struct typeid_t {
+        template <typename T>
+        constexpr auto operator()(T&&) const;
+    };
+
+    constexpr typeid_t typeid_{};
 #endif
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED

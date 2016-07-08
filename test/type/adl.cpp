@@ -19,6 +19,6 @@ int main() {
     adl_pattern(hana::type_c<invalid<>>);
 
     // ADL instantiates the types recursively, make sure that works too
-    adl(hana::decltype_(hana::type_c<invalid<>>));
-    adl_pattern(hana::decltype_(hana::type_c<invalid<>>));
+    adl(hana::typeid_(hana::type_c<invalid<>>));
+    adl_pattern(hana::typeid_(hana::type_c<invalid<>>));
 }

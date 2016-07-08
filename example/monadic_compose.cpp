@@ -17,7 +17,7 @@ namespace hana = boost::hana;
 int main() {
     BOOST_HANA_CONSTEXPR_LAMBDA auto block = [](auto ...types) {
         return [=](auto x) {
-            return hana::if_(hana::contains(hana::make_tuple(types...), hana::decltype_(x)),
+            return hana::if_(hana::contains(hana::make_tuple(types...), hana::typeid_(x)),
                 hana::nothing,
                 hana::just(x)
             );

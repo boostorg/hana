@@ -22,7 +22,7 @@ int main() {
 auto tuple = hana::make_tuple(1, 'x', 3.4f);
 
 auto result = hana::find_if(tuple, [](auto const& x) {
-  return hana::traits::is_integral(hana::decltype_(x));
+  return hana::traits::is_integral(hana::typeid_(x));
 });
 //! [hana]
 (void)result;
@@ -30,7 +30,7 @@ auto result = hana::find_if(tuple, [](auto const& x) {
 #if 0
 //! [hana-explicit]
 some_type result = hana::find_if(tuple, [](auto const& x) {
-  return hana::traits::is_integral(hana::decltype_(x));
+  return hana::traits::is_integral(hana::typeid_(x));
 });
 //! [hana-explicit]
 #endif

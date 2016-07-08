@@ -70,13 +70,35 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
+    // typeid_
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename T, typename = type_tag>
+        struct typeid_t {
+            using type = typename std::remove_cv<
+                typename std::remove_reference<T>::type
+            >::type;
+        };
+
+        template <typename T>
+        struct typeid_t<T, typename hana::tag_of<T>::type> {
+            using type = typename std::remove_reference<T>::type::type;
+        };
+    }
+    //! @cond
+    template <typename T>
+    constexpr auto typeid_t::operator()(T&&) const
+    { return hana::type_c<typename detail::typeid_t<T>::type>; }
+    //! @endcond
+
+    //////////////////////////////////////////////////////////////////////////
     // make<type_tag>
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct make_impl<type_tag> {
         template <typename T>
         static constexpr auto apply(T&& t)
-        { return hana::decltype_(static_cast<T&&>(t)); }
+        { return hana::typeid_(static_cast<T&&>(t)); }
     };
 
     //////////////////////////////////////////////////////////////////////////
