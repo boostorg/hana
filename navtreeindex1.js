@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"fwd_2count__if_8hpp.html":[3,0,0,6,26],
 "fwd_2count__if_8hpp.html#ga39d71be65d5b98e7d035a3e5c607e1b4":[3,0,0,6,26,0],
 "fwd_2cycle_8hpp.html":[3,0,0,6,27],
 "fwd_2cycle_8hpp.html#gaaf46c168f721da9effcc7336a997f5d6":[3,0,0,6,27,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "group__group-Comonad.html#ga307479a91a21b7ab06a2bc746b003dcc":[1,0,1,2],
 "group__group-Comonad.html#gaf44692351fd9fe4e76815dfef6ff4478":[1,0,1,1],
 "group__group-Comparable.html":[1,0,2],
-"group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc":[1,0,2,0],
-"group__group-Comparable.html#gacaf1ebea6b3ab96ac9dcb82f0e64e547":[1,0,2,1]
+"group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc":[1,0,2,0]
 };

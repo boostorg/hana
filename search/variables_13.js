@@ -16,5 +16,6 @@ var searchData=
   ['true_5fc',['true_c',['../structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405',1,'boost::hana::integral_constant']]],
   ['tuple_5fc',['tuple_c',['../structboost_1_1hana_1_1tuple.html#a85c2f16caa2a1e12eefd1b3f69fa658e',1,'boost::hana::tuple']]],
   ['tuple_5ft',['tuple_t',['../structboost_1_1hana_1_1tuple.html#a1997546daf58a48cc15498d338a03da3',1,'boost::hana::tuple']]],
-  ['type_5fc',['type_c',['../structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628',1,'boost::hana::type']]]
+  ['type_5fc',['type_c',['../structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628',1,'boost::hana::type']]],
+  ['typeid_5f',['typeid_',['../structboost_1_1hana_1_1type.html#a0ade557ac4240552c92bf47c7e04dfd4',1,'boost::hana::type']]]
 ];

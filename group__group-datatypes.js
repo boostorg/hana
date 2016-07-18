@@ -178,6 +178,7 @@ var group__group_datatypes =
     [ "type", "structboost_1_1hana_1_1type.html", [
       [ "type_c", "structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628", null ],
       [ "decltype_", "structboost_1_1hana_1_1type.html#a7d68ff2275cbb295556d83598f04e39a", null ],
+      [ "typeid_", "structboost_1_1hana_1_1type.html#a0ade557ac4240552c92bf47c7e04dfd4", null ],
       [ "make< type_tag >", "structboost_1_1hana_1_1type.html#a66f97c1903dcb6f227b29f3e35e68a56", null ],
       [ "make_type", "structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c", null ],
       [ "sizeof_", "structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c", null ],
