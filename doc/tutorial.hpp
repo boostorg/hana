@@ -80,7 +80,7 @@ module to setup Hana as an external CMake project. The module also allows
 installing Hana locally to that project, without needing to install Hana on
 the system per the above instructions. Finally, if you want to contribute to
 Hana, you can see how to best setup your environment for development in the
-[README][Hana.readme].
+[README][Hana.hacking].
 
 @subsection tutorial-installation-requirements Compiler requirements
 
@@ -4085,10 +4085,10 @@ modified as little as possible to work with this reimplementation.
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.chat]: https://gitter.im/boostorg/hana
-[Hana.contributing]: https://goo.gl/N8DuJW <!-- Original GitHub link can't be resolved by Doxygen -->
+[Hana.contributing]: https://github.com/boostorg/hana/blob/master/CONTRIBUTING.md#how-to-contribute
 [Hana.findmodule]: https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake
+[Hana.hacking]: https://github.com/boostorg/hana/blob/master/README.md#hacking-on-hana
 [Hana.issues]: https://github.com/boostorg/hana/issues
-[Hana.readme]: https://goo.gl/RPd0sV <!-- Original GitHub link can't be resolved by Doxygen -->
 [Hana.repository]: https://github.com/boostorg/hana
 [Hana.StackOverflow]: http://stackoverflow.com/questions/tagged/boost-hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
