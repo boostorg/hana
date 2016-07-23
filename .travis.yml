@@ -334,7 +334,7 @@ script:
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
-      (cd build && make doc) || exit 1
+      (cd build && ! make doc 2>&1 | grep -E "warning|error") || exit 1
 
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
         # Suppress output to avoid leaking the token when the command fails

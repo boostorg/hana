@@ -16,7 +16,7 @@ set(HANA_SEARCHENGINE      YES)
 configure_file(Doxyfile.in documentation.doxygen @ONLY)
 add_custom_target(doc
     COMMAND ${CMAKE_COMMAND} -E remove_directory html
-    COMMAND ! ${DOXYGEN_EXECUTABLE} documentation.doxygen 2>&1 | grep -E "warning|error"
+    COMMAND ${DOXYGEN_EXECUTABLE} documentation.doxygen
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM
 )
@@ -27,7 +27,7 @@ set(HANA_GENERATE_TREEVIEW NO)
 set(HANA_SEARCHENGINE      NO)
 configure_file(Doxyfile.in docset.doxygen @ONLY)
 add_custom_target(docset
-    COMMAND ! ${DOXYGEN_EXECUTABLE} docset.doxygen 2>&1 | grep -E "warning|error"
+    COMMAND ${DOXYGEN_EXECUTABLE} docset.doxygen
     COMMAND ${CMAKE_COMMAND} -E chdir _docset make
     COMMAND ${CMAKE_COMMAND} -E remove_directory boost.hana.docset
     COMMAND ${CMAKE_COMMAND} -E copy_directory _docset/boost.hana.docset boost.hana.docset
