@@ -16,7 +16,7 @@ namespace hana = boost::hana;
 // Oh, and we also make sure they can be used in a constexpr context.
 constexpr bool constexpr_context() {
     int x = 0, y = 1;
-    hana::detail::swap(x, y);
+    hana::detail::constexpr_swap(x, y);
 
     int array[6] = {1, 2, 3, 4, 5, 6};
     int* first = array;
