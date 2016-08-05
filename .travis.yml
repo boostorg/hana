@@ -113,6 +113,11 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.3
 
+    # Xcode 8
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: xcode8
+
     ##########################################################################
     # Build with variations in the configuration
     ##########################################################################
