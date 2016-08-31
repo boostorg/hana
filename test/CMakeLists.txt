@@ -24,12 +24,6 @@ endfunction()
 
 
 ##############################################################################
-# Include additional support directories
-##############################################################################
-include_directories(${CMAKE_CURRENT_LIST_DIR}/_include)
-
-
-##############################################################################
 # Caveats: Take note of public headers and tests that are not supported.
 ##############################################################################
 if (NOT Boost_FOUND)
@@ -107,28 +101,7 @@ list(REMOVE_ITEM UNIT_TESTS ${EXCLUDED_UNIT_TESTS})
 
 foreach(_file IN LISTS UNIT_TESTS)
     boost_hana_target_name_for(_target "${_file}")
-    file(STRINGS "${_file}" _subparts REGEX "BOOST_HANA_TEST_PART == ([0-9]+)")
-
-    # If the file contains the special BOOST_HANA_TEST_PART marker, we split
-    # it into several subparts. This is done to avoid long compile-times and
-    # other inconveniences.
-    if (_subparts)
-        string(REGEX MATCHALL "BOOST_HANA_TEST_PART == ([0-9]+)" _subparts "${_subparts}")
-        string(REGEX REPLACE "BOOST_HANA_TEST_PART == ([0-9]+)" "\\1" _subparts "${_subparts}")
-        list(REMOVE_DUPLICATES _subparts)
-        add_custom_target(${_target})
-
-        foreach(n IN LISTS _subparts)
-            add_executable("${_target}.part${n}" EXCLUDE_FROM_ALL "${_file}")
-            set_target_properties("${_target}.part${n}" PROPERTIES
-                COMPILE_DEFINITIONS "BOOST_HANA_TEST_PART=${n}")
-            add_dependencies(${_target} "${_target}.part${n}")
-
-            boost_hana_add_unit_test("${_target}.part${n}"
-                ${CMAKE_CURRENT_BINARY_DIR}/${_target}.part${n})
-        endforeach()
-    else()
-        add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-        boost_hana_add_unit_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
-    endif()
+    add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    target_include_directories(${_target} PRIVATE _include)
+    boost_hana_add_unit_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
 endforeach()
