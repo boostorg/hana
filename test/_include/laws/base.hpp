@@ -296,7 +296,7 @@ namespace boost { namespace hana {
         (policy & test::Policy::Constant) &&
         hana::IntegralConstant<C>::value
     >>
-        : embedding<is_embedded<typename C::value_type, int>{}>
+        : embedding<is_embedded<typename C::value_type, int>::value>
     {
         template <typename N>
         static constexpr auto apply(N const&) {
