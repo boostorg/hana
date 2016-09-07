@@ -1876,7 +1876,7 @@ The `quote` and the `to_json` overloads are pretty self-explanatory. The
 `intersperse` function takes a sequence and a separator, and returns a new
 sequence with the separator in between each pair of elements of the original
 sequence. In other words, we take a sequence of the form `[x1, ..., xn]` and
-turn it into a sequence of the form `[x1, seq, x2, sep, ..., sep, xn]`.
+turn it into a sequence of the form `[x1, sep, x2, sep, ..., sep, xn]`.
 Finally, we fold the resulting sequence with the `_ + _` function object,
 which is equivalent to `std::plus<>{}`. Since our sequence contains
 `std::string`s (we assume it does), this has the effect of concatenating
