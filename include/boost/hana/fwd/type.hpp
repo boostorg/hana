@@ -122,7 +122,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @relates hana::type
     //!
     //! @deprecated
-    //! The semantics of `decltype_` are can be confusing, and `hana::typeid_`
+    //! The semantics of `decltype_` can be confusing, and `hana::typeid_`
     //! should be preferred instead. `decltype_` may be removed in the next
     //! major version of the library.
     //!
