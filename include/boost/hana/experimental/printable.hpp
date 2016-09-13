@@ -41,6 +41,9 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
+    template <typename T>
+    struct Printable;
+
     //! @cond
     template <typename T, typename = void>
     struct print_impl : print_impl<T, hana::when<true>> { };
@@ -70,7 +73,16 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     struct print_t {
         template <typename T>
         std::string operator()(T const& t) const {
-            using Print = print_impl<typename hana::tag_of<T>::type>;
+            using Tag = typename hana::tag_of<T>::type;
+            using Print = BOOST_HANA_DISPATCH_IF(print_impl<Tag>,
+                hana::experimental::Printable<Tag>::value
+            );
+
+        #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+            static_assert(hana::experimental::Printable<Tag>::value,
+            "hana::experimental::print(t) requires 't' to be Printable");
+        #endif
+
             return Print::apply(t);
         }
     };
