@@ -6,6 +6,7 @@
 #include <boost/hana/equal.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/not.hpp>
+#include <boost/hana/not_equal.hpp>
 
 #include <laws/base.hpp>
 #include <support/minimal_product.hpp>

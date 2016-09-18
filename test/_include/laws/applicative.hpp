@@ -5,16 +5,24 @@
 #ifndef BOOST_HANA_TEST_LAWS_APPLICATIVE_HPP
 #define BOOST_HANA_TEST_LAWS_APPLICATIVE_HPP
 
-#include <boost/hana/concept/applicative.hpp>
+#include <boost/hana/ap.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/concept/applicative.hpp>
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/for_each.hpp>
 #include <boost/hana/functional/capture.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/curry.hpp>
 #include <boost/hana/functional/id.hpp>
 #include <boost/hana/functional/placeholder.hpp>
+#include <boost/hana/integral_constant.hpp>
+#include <boost/hana/lift.hpp>
+#include <boost/hana/take_front.hpp>
+#include <boost/hana/transform.hpp>
 
 #include <laws/base.hpp>
 

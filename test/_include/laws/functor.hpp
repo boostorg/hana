@@ -5,13 +5,26 @@
 #ifndef BOOST_HANA_TEST_LAWS_FUNCTOR_HPP
 #define BOOST_HANA_TEST_LAWS_FUNCTOR_HPP
 
+#include <boost/hana/adjust.hpp>
+#include <boost/hana/adjust_if.hpp>
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
-#include <boost/hana/core/when.hpp>
-#include <boost/hana/functional/capture.hpp>
 #include <boost/hana/concept/functor.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/make.hpp>
+#include <boost/hana/core/when.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/eval_if.hpp>
+#include <boost/hana/fill.hpp>
+#include <boost/hana/for_each.hpp>
+#include <boost/hana/functional/always.hpp>
+#include <boost/hana/functional/capture.hpp>
+#include <boost/hana/functional/compose.hpp>
 #include <boost/hana/lazy.hpp>
+#include <boost/hana/replace.hpp>
+#include <boost/hana/replace_if.hpp>
+#include <boost/hana/transform.hpp>
 
 #include <laws/base.hpp>
 

@@ -7,11 +7,20 @@
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/bool.hpp>
+#include <boost/hana/chain.hpp>
 #include <boost/hana/concept/comparable.hpp>
+#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/core/make.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/equal.hpp>
+#include <boost/hana/flatten.hpp>
+#include <boost/hana/for_each.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/id.hpp>
-#include <boost/hana/concept/monad.hpp>
+#include <boost/hana/lift.hpp>
+#include <boost/hana/monadic_compose.hpp>
+#include <boost/hana/transform.hpp>
 
 #include <laws/base.hpp>
 
@@ -155,7 +164,7 @@ namespace boost { namespace hana { namespace test {
             ));
 
             // just make sure we don't double move; this happened in hana::tuple
-            flatten(list(list(Tracked{1}, Tracked{2})));
+            hana::flatten(list(list(Tracked{1}, Tracked{2})));
 
             //////////////////////////////////////////////////////////////////
             // chain

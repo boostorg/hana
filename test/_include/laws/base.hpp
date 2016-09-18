@@ -5,10 +5,6 @@
 #ifndef BOOST_HANA_TEST_LAWS_BASE_HPP
 #define BOOST_HANA_TEST_LAWS_BASE_HPP
 
-// Hack to make sure tests that include this are not missing includes, since
-// the include scheme changed at some point and it caused major breakage.
-#include <boost/hana.hpp>
-
 #include <boost/hana/and.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/core/when.hpp>

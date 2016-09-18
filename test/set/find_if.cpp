@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/at_key.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/find_if.hpp>
 #include <boost/hana/optional.hpp>

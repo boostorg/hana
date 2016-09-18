@@ -7,6 +7,8 @@
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/equal.hpp>
+#include <boost/hana/zip.hpp>
+#include <boost/hana/zip_shortest.hpp>
 #include <boost/hana/zip_shortest_with.hpp>
 #include <boost/hana/zip_with.hpp>
 

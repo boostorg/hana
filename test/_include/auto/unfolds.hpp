@@ -12,6 +12,7 @@
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
+#include <boost/hana/plus.hpp>
 #include <boost/hana/unfold_left.hpp>
 #include <boost/hana/unfold_right.hpp>
 
