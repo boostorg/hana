@@ -8,6 +8,7 @@
 #include <boost/hana/optional.hpp>
 
 #include <laws/base.hpp>
+#include <support/tracked.hpp>
 namespace hana = boost::hana;
 using hana::test::ct_eq;
 
@@ -65,6 +66,6 @@ int main() {
     ));
 
     // using `sfinae` with a non-pod argument used to fail
-    hana::sfinae(undefined{})(hana::test::Tracked{1});
-    hana::sfinae([t = hana::test::Tracked{1}](auto) { return 1; })(hana::test::Tracked{1});
+    hana::sfinae(undefined{})(Tracked{1});
+    hana::sfinae([t = Tracked{1}](auto) { return 1; })(Tracked{1});
 }

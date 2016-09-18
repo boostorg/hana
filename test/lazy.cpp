@@ -17,6 +17,7 @@
 #include <laws/comonad.hpp>
 #include <laws/functor.hpp>
 #include <laws/monad.hpp>
+#include <support/tracked.hpp>
 
 #include <array>
 #include <iostream>
@@ -129,7 +130,7 @@ int main() {
         // Make sure this does not move from a destroyed object, as that
         // used to be the case.
         {
-            auto x = flatten(make_lazy(make_lazy(test::Tracked{1})));
+            auto x = flatten(make_lazy(make_lazy(Tracked{1})));
             auto z = eval(x); (void)z;
         }
 

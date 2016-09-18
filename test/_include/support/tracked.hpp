@@ -117,12 +117,4 @@ struct Tracked {
     }
 };
 
-// For backwards compatibility with some old tests.
-namespace boost { namespace hana {
-    using ::Tracked;
-    namespace test {
-        using ::Tracked;
-    }
-}}
-
 #endif // !TEST_SUPPORT_TRACKED_HPP

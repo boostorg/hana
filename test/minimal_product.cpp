@@ -12,6 +12,7 @@
 #include <laws/orderable.hpp>
 #include <laws/product.hpp>
 #include <support/minimal_product.hpp>
+#include <support/tracked.hpp>
 
 #include <utility>
 namespace hana = boost::hana;

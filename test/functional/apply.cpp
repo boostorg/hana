@@ -7,6 +7,7 @@
 #include <boost/hana/functional/apply.hpp>
 
 #include <laws/base.hpp>
+#include <support/tracked.hpp>
 
 #include <type_traits>
 #include <utility>
@@ -14,8 +15,8 @@ namespace hana = boost::hana;
 
 
 template <int i = 0>
-struct nonpod : hana::test::Tracked {
-    nonpod() : hana::test::Tracked{i} { }
+struct nonpod : Tracked {
+    nonpod() : Tracked{i} { }
 };
 
 struct NonCopyable {

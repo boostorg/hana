@@ -4,7 +4,7 @@
 
 #include <boost/hana/functional/always.hpp>
 
-#include <laws/base.hpp>
+#include <support/tracked.hpp>
 
 #include <utility>
 namespace hana = boost::hana;
@@ -16,6 +16,6 @@ decltype(auto) call_always(T&& x) {
 }
 
 int main() {
-    auto copy = call_always(hana::test::Tracked{1});
+    auto copy = call_always(Tracked{1});
     (void)copy;
 }
