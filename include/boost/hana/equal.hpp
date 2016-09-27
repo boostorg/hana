@@ -63,7 +63,11 @@ BOOST_HANA_NAMESPACE_BEGIN
             "types that can't be safely embedded into a common type, because "
             "those are most likely programming errors. If this is really what "
             "you want, you can manually convert both objects to a common "
-            "Comparable type before performing the comparison.");
+            "Comparable type before performing the comparison. If you think "
+            "you have made your types Comparable but you see this, perhaps you "
+            "forgot to define some of the necessary methods for an automatic "
+            "model of Comparable to kick in. A possible culprit is defining "
+            "'operator==' but not 'operator!='.");
 
             return hana::false_c;
         }
