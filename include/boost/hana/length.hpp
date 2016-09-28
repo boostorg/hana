@@ -40,8 +40,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         struct argn {
             template <typename ...Xs>
-            constexpr auto operator()(Xs const& ...) const
-            { return hana::size_c<sizeof...(Xs)>; }
+            constexpr hana::size_t<sizeof...(Xs)> operator()(Xs const& ...) const
+            { return {}; }
         };
     }
 

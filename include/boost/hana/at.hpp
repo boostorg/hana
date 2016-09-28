@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <std::size_t n, typename Xs>
     constexpr decltype(auto) at_c(Xs&& xs) {
-        return hana::at(static_cast<Xs&&>(xs), hana::size_c<n>);
+        return hana::at(static_cast<Xs&&>(xs), hana::size_t<n>{});
     }
 BOOST_HANA_NAMESPACE_END
 

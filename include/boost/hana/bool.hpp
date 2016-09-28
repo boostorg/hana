@@ -192,8 +192,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     namespace literals {
         template <char ...c>
-        constexpr auto operator"" _c()
-        { return llong_c<ic_detail::parse<sizeof...(c)>({c...})>; }
+        constexpr hana::llong<ic_detail::parse<sizeof...(c)>({c...})>
+        operator"" _c() { return {}; }
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -221,8 +221,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
-            return eval_if_impl::apply(hana::bool_c<static_cast<bool>(Cond::value)>,
-                    static_cast<Then&&>(t), static_cast<Else&&>(e));
+            constexpr bool cond = static_cast<bool>(Cond::value);
+            return eval_if_impl::apply(hana::bool_<cond>{},
+                                       static_cast<Then&&>(t),
+                                       static_cast<Else&&>(e));
         }
 
         template <typename Then, typename Else>
@@ -241,8 +243,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Cond, typename Then, typename Else>
         static constexpr decltype(auto)
         apply(Cond const&, Then&& t, Else&& e) {
-            return if_impl::apply(hana::bool_c<static_cast<bool>(Cond::value)>,
-                    static_cast<Then&&>(t), static_cast<Else&&>(e));
+            constexpr bool cond = static_cast<bool>(Cond::value);
+            return if_impl::apply(hana::bool_<cond>{},
+                                  static_cast<Then&&>(t),
+                                  static_cast<Else&&>(e));
         }
 
         //! @todo We could return `Then` instead of `auto` to sometimes save

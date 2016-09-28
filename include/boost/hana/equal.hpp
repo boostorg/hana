@@ -109,7 +109,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(X const&, Y const&) {
             constexpr auto eq = hana::equal(hana::value<X>(), hana::value<Y>());
             constexpr bool truth_value = hana::if_(eq, true, false);
-            return hana::bool_c<truth_value>;
+            return hana::bool_<truth_value>{};
         }
     };
 
@@ -139,7 +139,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             template <std::size_t i>
             constexpr auto apply(hana::false_, hana::true_) const {
                 return compare_finite_sequences::apply<i+1>(
-                    hana::bool_c<i+1 == Length>,
+                    hana::bool_<i+1 == Length>{},
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),
                               hana::true_c, hana::false_c)
                 );
@@ -156,7 +156,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             template <std::size_t i>
             constexpr bool apply(hana::false_, bool b) const {
                 return b && compare_finite_sequences::apply<i+1>(
-                    hana::bool_c<i+1 == Length>,
+                    hana::bool_<i+1 == Length>{},
                     hana::if_(hana::equal(hana::at_c<i>(xs), hana::at_c<i>(ys)),
                               hana::true_c, hana::false_c)
                 );
@@ -171,8 +171,8 @@ BOOST_HANA_NAMESPACE_BEGIN
             constexpr std::size_t xs_size = decltype(hana::length(xs))::value;
             constexpr std::size_t ys_size = decltype(hana::length(ys))::value;
             detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
-            return comp.template apply<0>(hana::bool_c<xs_size == 0>,
-                                          hana::bool_c<xs_size == ys_size>);
+            return comp.template apply<0>(hana::bool_<xs_size == 0>{},
+                                          hana::bool_<xs_size == ys_size>{});
         }
     };
 

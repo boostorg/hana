@@ -43,7 +43,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename Xs>
     constexpr auto drop_front_t::operator()(Xs&& xs) const {
-        return (*this)(static_cast<Xs&&>(xs), hana::size_c<1>);
+        return (*this)(static_cast<Xs&&>(xs), hana::size_t<1>{});
     }
     //! @endcond
 

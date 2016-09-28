@@ -259,8 +259,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <>
     struct is_empty_impl<basic_tuple_tag> {
         template <typename ...Xs>
-        static constexpr auto apply(basic_tuple<Xs...> const&)
-        { return hana::bool_c<sizeof...(Xs) == 0>; }
+        static constexpr hana::bool_<sizeof...(Xs) == 0>
+        apply(basic_tuple<Xs...> const&)
+        { return {}; }
     };
 
     //////////////////////////////////////////////////////////////////////////

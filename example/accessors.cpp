@@ -4,6 +4,7 @@
 
 #include <boost/hana/accessors.hpp>
 #include <boost/hana/assert.hpp>
+#include <boost/hana/at.hpp>
 #include <boost/hana/define_struct.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/first.hpp>
