@@ -18,7 +18,7 @@ int main() {
     auto g = hana::test::_injection<1>{};
     auto check = [=](auto ...x) {
         auto storage = ::seq(x...);
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
 
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::unpack(transformed, g),

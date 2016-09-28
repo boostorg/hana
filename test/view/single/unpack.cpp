@@ -16,7 +16,7 @@ int main() {
     auto f = hana::test::_injection<0>{};
 
     {
-        auto single = hana::experimental::single_view(ct_eq<0>{});
+        auto single = hana::detail::single_view(ct_eq<0>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::unpack(single, f),
             f(ct_eq<0>{})

@@ -19,31 +19,31 @@ int main() {
 
     {
         auto storage = container();
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int>);
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(sliced));
     }{
         auto storage = container(undefined<0>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int>);
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(sliced));
     }{
         auto storage = container(undefined<0>{}, undefined<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int>);
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(sliced));
     }
 
     {
         auto storage = container(undefined<0>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(sliced)));
     }{
         auto storage = container(undefined<0>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(sliced)));
     }
 
     {
         auto storage = container(undefined<0>{}, undefined<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0, 1>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0, 1>);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(sliced)));
     }
 }

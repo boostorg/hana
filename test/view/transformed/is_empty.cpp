@@ -18,19 +18,19 @@ int main() {
 
     {
         auto xs = container();
-        auto tr = hana::experimental::transformed(xs, undefined{});
+        auto tr = hana::detail::transformed(xs, undefined{});
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(tr));
     }
 
     {
         auto xs = container(undefined{});
-        auto tr = hana::experimental::transformed(xs, undefined{});
+        auto tr = hana::detail::transformed(xs, undefined{});
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(tr)));
     }
 
     {
         auto xs = container(undefined{}, undefined{});
-        auto tr = hana::experimental::transformed(xs, undefined{});
+        auto tr = hana::detail::transformed(xs, undefined{});
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(tr)));
     }
 }

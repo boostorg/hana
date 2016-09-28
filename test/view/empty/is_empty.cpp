@@ -10,7 +10,7 @@ namespace hana = boost::hana;
 
 int main() {
     {
-        auto empty = hana::experimental::empty_view();
+        auto empty = hana::detail::empty_view();
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(empty));
     }
 }

@@ -20,7 +20,7 @@ int main() {
 
     {
         auto storage = container();
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(view),
             hana::size_c<0>
@@ -29,7 +29,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(view),
             hana::size_c<1>
@@ -38,7 +38,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(view),
             hana::size_c<2>
@@ -47,7 +47,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(view),
             hana::size_c<3>
@@ -56,7 +56,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(view),
             hana::size_c<4>

@@ -22,8 +22,8 @@ int main() {
     {
         auto storage = container();
         auto functions = container();
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container()
@@ -31,8 +31,8 @@ int main() {
     }{
         auto storage = container(ct_eq<0>{});
         auto functions = container();
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container()
@@ -40,8 +40,8 @@ int main() {
     }{
         auto storage = container();
         auto functions = container(ct_eq<0>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container()
@@ -51,8 +51,8 @@ int main() {
     {
         auto storage = container(ct_eq<0>{});
         auto functions = container(_injection<0>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})))
@@ -60,8 +60,8 @@ int main() {
     }{
         auto storage = container(ct_eq<0>{});
         auto functions = container(_injection<0>{}, _injection<1>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})),
@@ -70,8 +70,8 @@ int main() {
     }{
         auto storage = container(ct_eq<0>{});
         auto functions = container(_injection<0>{}, _injection<1>{}, _injection<2>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})),
@@ -83,8 +83,8 @@ int main() {
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
         auto functions = container(_injection<0>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})),
@@ -93,8 +93,8 @@ int main() {
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
         auto functions = container(_injection<0>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})),
@@ -106,8 +106,8 @@ int main() {
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
         auto functions = container(_injection<0>{}, _injection<1>{});
-        auto transformed_storage = hana::experimental::transformed(storage, f);
-        auto transformed_functions = hana::experimental::transformed(functions, hana::id);
+        auto transformed_storage = hana::detail::transformed(storage, f);
+        auto transformed_functions = hana::detail::transformed(functions, hana::id);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::ap(transformed_functions, transformed_storage),
             container(_injection<0>{}(f(ct_eq<0>{})),

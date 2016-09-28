@@ -20,35 +20,35 @@ int main() {
 
     {
         auto storage = container();
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::transform(transformed, g),
             container()
         ));
     }{
         auto storage = container(ct_eq<0>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::transform(transformed, g),
             container(g(f(ct_eq<0>{})))
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::transform(transformed, g),
             container(g(f(ct_eq<0>{})), g(f(ct_eq<1>{})))
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::transform(transformed, g),
             container(g(f(ct_eq<0>{})), g(f(ct_eq<1>{})), g(f(ct_eq<2>{})))
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::transform(transformed, g),
             container(g(f(ct_eq<0>{})), g(f(ct_eq<1>{})), g(f(ct_eq<2>{})), g(f(ct_eq<3>{})))

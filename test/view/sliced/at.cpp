@@ -20,7 +20,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<0>{}
@@ -29,21 +29,21 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<0>{}
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 1>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 1>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<1>{}
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0, 1>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0, 1>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<0>{}
@@ -54,7 +54,7 @@ int main() {
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 1, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 1, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<1>{}
@@ -65,7 +65,7 @@ int main() {
         ));
     }{
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 0, 0>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 0, 0>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<0>{}
@@ -78,7 +78,7 @@ int main() {
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{}, ct_eq<3>{});
-        auto sliced = hana::experimental::sliced(storage, hana::tuple_c<int, 1, 3>);
+        auto sliced = hana::detail::sliced(storage, hana::tuple_c<int, 1, 3>);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(sliced, hana::size_c<0>),
             ct_eq<1>{}

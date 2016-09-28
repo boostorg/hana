@@ -13,7 +13,7 @@ template <int> struct undefined { };
 
 int main() {
     {
-        auto single = hana::experimental::single_view(undefined<0>{});
+        auto single = hana::detail::single_view(undefined<0>{});
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(single)));
     }
 }
