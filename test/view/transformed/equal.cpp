@@ -16,7 +16,7 @@ int main() {
     auto container = ::seq;
 
     auto xs = container(0, '1', 2.2);
-    auto tr = hana::experimental::transformed(xs, hana::id);
+    auto tr = hana::detail::transformed(xs, hana::id);
 
     BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::equal(
         tr,

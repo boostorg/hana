@@ -20,7 +20,7 @@ int main() {
     {
         auto storage1 = container(ct_eq<0>{});
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}
@@ -28,7 +28,7 @@ int main() {
     }{
         auto storage1 = container();
         auto storage2 = container(ct_eq<0>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}
@@ -38,7 +38,7 @@ int main() {
     {
         auto storage1 = container(ct_eq<0>{}, ct_eq<1>{});
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}
@@ -50,7 +50,7 @@ int main() {
     }{
         auto storage1 = container(ct_eq<0>{});
         auto storage2 = container(ct_eq<1>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}
@@ -62,7 +62,7 @@ int main() {
     }{
         auto storage1 = container();
         auto storage2 = container(ct_eq<0>{}, ct_eq<1>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}
@@ -76,7 +76,7 @@ int main() {
     {
         auto storage1 = container(ct_eq<0>{}, ct_eq<1>{});
         auto storage2 = container(ct_eq<2>{}, ct_eq<3>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(joined, hana::size_c<0>),
             ct_eq<0>{}

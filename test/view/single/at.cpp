@@ -15,7 +15,7 @@ using hana::test::ct_eq;
 
 int main() {
     {
-        auto single = hana::experimental::single_view(ct_eq<0>{});
+        auto single = hana::detail::single_view(ct_eq<0>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(single, hana::size_c<0>),
             ct_eq<0>{}

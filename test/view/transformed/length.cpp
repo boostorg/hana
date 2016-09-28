@@ -19,28 +19,28 @@ int main() {
 
     {
         auto storage = container();
-        auto transformed = hana::experimental::transformed(storage, undefined<99>{});
+        auto transformed = hana::detail::transformed(storage, undefined<99>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(transformed),
             hana::size_c<0>
         ));
     }{
         auto storage = container(undefined<0>{});
-        auto transformed = hana::experimental::transformed(storage, undefined<99>{});
+        auto transformed = hana::detail::transformed(storage, undefined<99>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(transformed),
             hana::size_c<1>
         ));
     }{
         auto storage = container(undefined<0>{}, undefined<1>{});
-        auto transformed = hana::experimental::transformed(storage, undefined<99>{});
+        auto transformed = hana::detail::transformed(storage, undefined<99>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(transformed),
             hana::size_c<2>
         ));
     }{
         auto storage = container(undefined<0>{}, undefined<1>{}, undefined<2>{});
-        auto transformed = hana::experimental::transformed(storage, undefined<99>{});
+        auto transformed = hana::detail::transformed(storage, undefined<99>{});
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(transformed),
             hana::size_c<3>

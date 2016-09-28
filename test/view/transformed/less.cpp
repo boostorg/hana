@@ -19,14 +19,14 @@ int main() {
 
     {
         auto storage = container();
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::less(
             transformed,
             container()
         )));
     }{
         auto storage = container(ct_ord<0>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::less(
             container(),
             transformed
@@ -41,7 +41,7 @@ int main() {
         )));
     }{
         auto storage = container(ct_ord<0>{}, ct_ord<1>{});
-        auto transformed = hana::experimental::transformed(storage, f);
+        auto transformed = hana::detail::transformed(storage, f);
         BOOST_HANA_CONSTANT_CHECK(hana::less(
             container(),
             transformed

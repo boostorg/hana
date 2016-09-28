@@ -15,6 +15,6 @@ struct undefined { };
 int main() {
     // Make sure we do not evaluate the function unless required
     auto storage = ::seq(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
-    auto transformed = hana::experimental::transformed(storage, undefined{});
+    auto transformed = hana::detail::transformed(storage, undefined{});
     (void)transformed;
 }

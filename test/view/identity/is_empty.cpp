@@ -19,25 +19,25 @@ int main() {
 
     {
         auto storage = container();
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(view));
     }
 
     {
         auto storage = container(ct_eq<0>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(view)));
     }
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(view)));
     }
 
     {
         auto storage = container(ct_eq<0>{}, ct_eq<1>{}, ct_eq<2>{});
-        auto view = hana::experimental::identity_view(storage);
+        auto view = hana::detail::identity_view(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(view)));
     }
 }

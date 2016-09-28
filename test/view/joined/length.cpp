@@ -20,7 +20,7 @@ int main() {
     {
         auto storage1 = container();
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<0>
@@ -30,7 +30,7 @@ int main() {
     {
         auto storage1 = container(undefined<0>{});
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<1>
@@ -40,7 +40,7 @@ int main() {
     {
         auto storage1 = container();
         auto storage2 = container(undefined<0>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<1>
@@ -50,7 +50,7 @@ int main() {
     {
         auto storage1 = container(undefined<0>{});
         auto storage2 = container(undefined<1>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<2>
@@ -60,7 +60,7 @@ int main() {
     {
         auto storage1 = container(undefined<0>{});
         auto storage2 = container(undefined<1>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<2>
@@ -70,7 +70,7 @@ int main() {
     {
         auto storage1 = container(undefined<0>{}, undefined<1>{});
         auto storage2 = container(undefined<2>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<3>
@@ -80,7 +80,7 @@ int main() {
     {
         auto storage1 = container(undefined<0>{}, undefined<1>{}, undefined<2>{});
         auto storage2 = container(undefined<3>{}, undefined<4>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(joined),
             hana::size_c<5>

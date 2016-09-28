@@ -15,7 +15,7 @@ int main() {
     auto f = hana::test::_injection<0>{};
 
     {
-        auto empty = hana::experimental::empty_view();
+        auto empty = hana::detail::empty_view();
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::unpack(empty, f),
             f()

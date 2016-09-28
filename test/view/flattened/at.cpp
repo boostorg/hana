@@ -21,7 +21,7 @@ int main() {
         auto storage1 = container(ct_eq<0>{});
         auto storage2 = container();
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -30,7 +30,7 @@ int main() {
         auto storage1 = container();
         auto storage2 = container(ct_eq<0>{});
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -41,7 +41,7 @@ int main() {
         auto storage1 = container(ct_eq<0>{}, ct_eq<1>{});
         auto storage2 = container();
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -54,7 +54,7 @@ int main() {
         auto storage1 = container(ct_eq<0>{});
         auto storage2 = container(ct_eq<1>{});
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -67,7 +67,7 @@ int main() {
         auto storage1 = container();
         auto storage2 = container(ct_eq<0>{}, ct_eq<1>{});
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -82,7 +82,7 @@ int main() {
         auto storage1 = container(ct_eq<0>{}, ct_eq<1>{});
         auto storage2 = container(ct_eq<2>{}, ct_eq<3>{});
         auto storage = container(storage1, storage2);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -106,7 +106,7 @@ int main() {
         auto storage2 = container(ct_eq<2>{}, ct_eq<3>{});
         auto storage3 = container(ct_eq<4>{}, ct_eq<5>{}, ct_eq<6>{});
         auto storage = container(storage1, storage2, storage3);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}
@@ -143,7 +143,7 @@ int main() {
         auto storage3 = container(ct_eq<2>{}, ct_eq<3>{}, ct_eq<4>{});
         auto storage4 = container();
         auto storage = container(storage1, storage2, storage3, storage4);
-        auto flat = hana::experimental::flattened(storage);
+        auto flat = hana::detail::flattened(storage);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(flat, hana::size_c<0>),
             ct_eq<0>{}

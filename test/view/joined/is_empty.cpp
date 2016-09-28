@@ -19,25 +19,25 @@ int main() {
     {
         auto storage1 = container();
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::is_empty(joined));
     }
     {
         auto storage1 = container(undefined<0>{});
         auto storage2 = container();
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(joined)));
     }
     {
         auto storage1 = container(undefined<0>{});
         auto storage2 = container(undefined<1>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(joined)));
     }
     {
         auto storage1 = container();
         auto storage2 = container(undefined<0>{});
-        auto joined = hana::experimental::joined(storage1, storage2);
+        auto joined = hana::detail::joined(storage1, storage2);
         BOOST_HANA_CONSTANT_CHECK(hana::not_(hana::is_empty(joined)));
     }
 }

@@ -12,7 +12,7 @@ namespace hana = boost::hana;
 
 int main() {
     {
-        auto empty = hana::experimental::empty_view();
+        auto empty = hana::detail::empty_view();
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(empty),
             hana::size_c<0>
