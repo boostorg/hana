@@ -139,8 +139,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return c_string<c...>; }
     };
 
+    //! @cond
     template <char ...c>
     constexpr char const to_impl<char const*, string_tag>::c_string[sizeof...(c) + 1];
+    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
