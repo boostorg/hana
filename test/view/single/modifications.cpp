@@ -9,8 +9,10 @@ namespace hana = boost::hana;
 
 
 int main() {
-    auto view = hana::detail::single_view(3);
+    int x = 3;
+    auto view = hana::detail::single_view(x);
     hana::at_c<0>(view) = 93;
 
     BOOST_HANA_RUNTIME_CHECK(hana::at_c<0>(view) == 93);
+    BOOST_HANA_RUNTIME_CHECK(x == 93);
 }

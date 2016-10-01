@@ -150,14 +150,13 @@ BOOST_HANA_NAMESPACE_BEGIN
         //////////////////////////////////////////////////////////////////////
         template <typename T>
         struct single_view_t {
-            T value_;
+            T& value_;
             using hana_tag = view_tag;
         };
 
         template <typename T>
-        constexpr single_view_t<typename hana::detail::decay<T>::type>
-        single_view(T&& t)
-        { return {static_cast<T&&>(t)}; }
+        constexpr single_view_t<T> single_view(T& t)
+        { return {t}; }
 
         template <typename T>
         struct is_view<single_view_t<T>> {
@@ -349,14 +348,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         // single_view
         template <typename T, typename N>
-        static constexpr T& apply(detail::single_view_t<T>& view, N const&) {
-            static_assert(N::value == 0,
-            "trying to fetch an out-of-bounds element in a hana::single_view");
-            return view.value_;
-        }
-
-        template <typename T, typename N>
-        static constexpr T const& apply(detail::single_view_t<T> const& view, N const&) {
+        static constexpr decltype(auto) apply(detail::single_view_t<T> view, N const&) {
             static_assert(N::value == 0,
             "trying to fetch an out-of-bounds element in a hana::single_view");
             return view.value_;

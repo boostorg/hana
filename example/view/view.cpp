@@ -33,4 +33,9 @@ int main() {
     // The work is done here, when accessing the elements of the view.
     BOOST_HANA_RUNTIME_CHECK(hana::at_c<0>(mammals).name == "Garfield");
     BOOST_HANA_RUNTIME_CHECK(hana::at_c<1>(mammals).name == "Snoopy");
+
+    // Views have reference semantics, so we can use them to modify the
+    // original containers (unless the view applies a transformation).
+    hana::at_c<1>(mammals).name = "Beethoven";
+    BOOST_HANA_RUNTIME_CHECK(hana::at_c<2>(animals).name == "Beethoven");
 }
