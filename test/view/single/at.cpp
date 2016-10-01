@@ -15,10 +15,11 @@ using hana::test::ct_eq;
 
 int main() {
     {
-        auto single = hana::detail::single_view(ct_eq<0>{});
+        ct_eq<0> x{};
+        auto single = hana::detail::single_view(x);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::at(single, hana::size_c<0>),
-            ct_eq<0>{}
+            x
         ));
     }
 }

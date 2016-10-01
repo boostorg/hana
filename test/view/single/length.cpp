@@ -14,7 +14,8 @@ template <int> struct undefined { };
 
 int main() {
     {
-        auto single = hana::detail::single_view(undefined<0>{});
+        undefined<0> x{};
+        auto single = hana::detail::single_view(x);
         BOOST_HANA_CONSTANT_CHECK(hana::equal(
             hana::length(single),
             hana::size_c<1>
