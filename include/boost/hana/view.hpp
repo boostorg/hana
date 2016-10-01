@@ -349,7 +349,14 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         // single_view
         template <typename T, typename N>
-        static constexpr decltype(auto) apply(detail::single_view_t<T> view, N const&) {
+        static constexpr T& apply(detail::single_view_t<T>& view, N const&) {
+            static_assert(N::value == 0,
+            "trying to fetch an out-of-bounds element in a hana::single_view");
+            return view.value_;
+        }
+
+        template <typename T, typename N>
+        static constexpr T const& apply(detail::single_view_t<T> const& view, N const&) {
             static_assert(N::value == 0,
             "trying to fetch an out-of-bounds element in a hana::single_view");
             return view.value_;
