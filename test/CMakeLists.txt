@@ -50,6 +50,13 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
 endif()
 
+# The experimental::type_name test is only supported on Clang
+if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    list(APPEND EXCLUDED_PUBLIC_HEADERS
+        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/type_name.hpp")
+    list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
+endif()
+
 # On Windows, Clang-cl emulates a MSVC bug that causes EBO not to be applied
 # properly. We disable the tests that check for EBO.
 if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")

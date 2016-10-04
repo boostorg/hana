@@ -10,6 +10,7 @@ Distributed under the Boost Software License, Version 1.0.
 #ifndef BOOST_HANA_EXPERIMENTAL_TYPE_NAME_HPP
 #define BOOST_HANA_EXPERIMENTAL_TYPE_NAME_HPP
 
+#include <boost/hana/config.hpp>
 #include <boost/hana/string.hpp>
 
 #include <cstddef>
@@ -32,16 +33,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
             constexpr std::size_t total_size = sizeof(__PRETTY_FUNCTION__) - 1;
             constexpr std::size_t prefix_size = sizeof("boost::hana::experimental::detail::cstring boost::hana::experimental::detail::type_name_impl2() [T = ") - 1;
             constexpr std::size_t suffix_size = sizeof("]") - 1;
-        #elif defined(__GNUC__) && !defined(__clang__)
-            constexpr char const* pretty_function = __PRETTY_FUNCTION__;
-            constexpr std::size_t total_size = sizeof(__PRETTY_FUNCTION__) - 1;
-            constexpr std::size_t prefix_size = sizeof("constexpr boost::hana::experimental::detail::cstring boost::hana::experimental::detail::type_name_impl2() [with T = ") - 1;
-            constexpr std::size_t suffix_size = sizeof("]") - 1;
-        #elif defined(_MSC_VER)
-            constexpr char const* pretty_function = __FUNCSIG__;
-            constexpr std::size_t total_size = sizeof(__FUNCSIG__) - 1;
-            constexpr std::size_t prefix_size = sizeof("struct boost::hana::experimental::detail::cstring __cdecl boost::hana::experimental::detail::type_name_impl2<") - 1;
-            constexpr std::size_t suffix_size = sizeof(">(void)") - 1;
         #else
             #error "No support for this compiler."
         #endif
@@ -60,7 +51,9 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
     //! Returns a `hana::string` representing the name of the given type, at
     //! compile-time.
     //!
-    //! Original idea taken from https://github.com/Manu343726/ctti.
+    //! This only works on Clang (and apparently MSVC, but Hana does not work
+    //! there as of writing this). Original idea taken from
+    //! https://github.com/Manu343726/ctti.
     template <typename T>
     auto type_name() {
         constexpr auto name = detail::type_name_impl2<T>();
