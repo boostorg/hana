@@ -5,12 +5,12 @@
 #ifndef TEST_SUPPORT_TRACKED_HPP
 #define TEST_SUPPORT_TRACKED_HPP
 
-// Define this to 1 if you want Tracked objects to print information to stderr.
-#define TRACKED_PRINT_STUFF 0
+// Define this if you want Tracked objects to print information to stderr.
+// #define TRACKED_PRINT_STUFF
 
 #include <boost/hana/assert.hpp>
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
 #   include <iostream>
 #endif
 
@@ -24,7 +24,7 @@ struct Tracked {
     State state;
 
     explicit Tracked(int k) : value{k}, state{State::CONSTRUCTED} {
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "constructing " << *this << '\n';
 #endif
     }
@@ -36,7 +36,7 @@ struct Tracked {
         BOOST_HANA_RUNTIME_CHECK(t.state != State::DESTROYED &&
             "copying a destroyed object");
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "copying " << *this << '\n';
 #endif
     }
@@ -48,7 +48,7 @@ struct Tracked {
         BOOST_HANA_RUNTIME_CHECK(t.state != State::DESTROYED &&
             "moving from a destroyed object");
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "moving " << t << '\n';
 #endif
         t.state = State::MOVED_FROM;
@@ -64,7 +64,7 @@ struct Tracked {
         BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
             "assigning a destroyed object");
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "assigning " << other << " to " << *this << '\n';
 #endif
         this->value = other.value;
@@ -81,7 +81,7 @@ struct Tracked {
         BOOST_HANA_RUNTIME_CHECK(other.state != State::DESTROYED &&
             "assigning a destroyed object");
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "assigning " << other << " to " << *this << '\n';
 #endif
         this->value = other.value;
@@ -93,7 +93,7 @@ struct Tracked {
         BOOST_HANA_RUNTIME_CHECK(state != State::DESTROYED &&
             "double-destroying an object");
 
-#if TRACKED_PRINT_STUFF
+#ifdef TRACKED_PRINT_STUFF
         std::cerr << "destructing " << *this << '\n';
 #endif
         state = State::DESTROYED;
