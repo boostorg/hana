@@ -27,7 +27,7 @@ struct seq_type {
 
 struct seq_t {
     template <typename ...Xs>
-    constexpr decltype(auto) operator()(Xs ...xs) const {
+    constexpr auto operator()(Xs&& ...xs) const {
         auto storage = boost::hana::make_tuple(xs...);
         return seq_type<decltype(storage)>(storage);
     }
