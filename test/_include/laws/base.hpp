@@ -254,29 +254,27 @@ namespace boost { namespace hana {
         };
 
         template <int i>
-        using eq = integer<i, Policy::Comparable | Policy::Runtime>;
+        struct eq : integer<i, Policy::Comparable | Policy::Runtime> { };
 
         template <int i>
-        using ct_eq = integer<i, Policy::Comparable | Policy::Constant>;
+        struct ct_eq : integer<i, Policy::Comparable | Policy::Constant> { };
 
         template <int i>
-        using cx_eq = integer<i, Policy::Comparable | Policy::Constexpr>;
+        struct cx_eq : integer<i, Policy::Comparable | Policy::Constexpr> { };
 
         template <int i>
-        using ord = integer<i, Policy::Orderable | Policy::Runtime>;
+        struct ord : integer<i, Policy::Orderable | Policy::Runtime> { };
 
         template <int i>
-        using ct_ord = integer<i, Policy::Orderable | Policy::Constant>;
+        struct ct_ord : integer<i, Policy::Orderable | Policy::Constant> { };
 
         template <int i>
-        using cx_ord = integer<i, Policy::Orderable | Policy::Constexpr>;
+        struct cx_ord : integer<i, Policy::Orderable | Policy::Constexpr> { };
 
         template <int i>
-        using _constant = integer<i,
-              Policy::Constant
-            | Policy::Comparable
-            | Policy::Orderable
-        >;
+        struct _constant
+            : integer<i, Policy::Constant | Policy::Comparable | Policy::Orderable>
+        { };
     }
 
     //////////////////////////////////////////////////////////////////////////
