@@ -51,7 +51,7 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
 endif()
 
 # The experimental::type_name test is only supported on Clang
-if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+if (NOT ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?Clang")
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/type_name.hpp")
     list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
