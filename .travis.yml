@@ -116,6 +116,11 @@ matrix:
       env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       compiler: clang
 
+    # Without exceptions on OS X
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
+      osx_image: xcode8
+
     # With Boost 1.59
     - os: linux
       env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.59.0
