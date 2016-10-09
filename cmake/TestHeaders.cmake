@@ -57,6 +57,10 @@
 #           boost/hana/pair.hpp
 #           ...
 #
+#   LINK_LIBRARIES
+#       An optional list of targets created with `add_library` to link every
+#       header with.
+#
 # This CMake module creates the following targets:
 #
 #   test.headers
@@ -91,6 +95,9 @@ int main() { }
         EXCLUDE_FROM_ALL
         "${CMAKE_CURRENT_BINARY_DIR}/headers/${directory}/${filename}.cpp"
     )
+    if (LINK_LIBRARIES)
+        target_link_libraries(test.header.${target} ${LINK_LIBRARIES})
+    endif()
 
     add_dependencies(test.headers test.header.${target})
 endforeach()

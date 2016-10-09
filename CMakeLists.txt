@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
@@ -25,6 +25,13 @@ project(Boost.Hana VERSION ${Boost.Hana_VERSION_STRING} LANGUAGES CXX)
 
 # Perform checks to make sure we support the current compiler
 include(CheckCxxCompilerSupport)
+
+
+##############################################################################
+# Setup the 'hana' header-only library target.
+##############################################################################
+add_library(hana INTERFACE)
+target_include_directories(hana INTERFACE include)
 
 
 ##############################################################################

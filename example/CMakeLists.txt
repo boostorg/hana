@@ -2,17 +2,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-##############################################################################
-# Setup custom functions and master targets for the examples
-##############################################################################
 add_custom_target(examples COMMENT "Build all the examples.")
 add_dependencies(check examples)
-
-# Several examples have unused parameters because the name of the parameters
-# are useful for illustration, even if the implementation is not actually
-# presented. We don't want to generate warnings for that or need to comment
-# out all unused parameter names.
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter)
 
 
 ##############################################################################
@@ -43,9 +34,16 @@ file(GLOB_RECURSE EXAMPLES "*.cpp")
 file(GLOB_RECURSE EXCLUDED_EXAMPLES ${EXCLUDED_EXAMPLES})
 list(REMOVE_ITEM EXAMPLES "" ${EXCLUDED_EXAMPLES})
 
+# Several examples have unused parameters because the name of the parameters
+# are useful for illustration, even if the implementation is not actually
+# presented. We don't want to generate warnings for that or need to comment
+# out all unused parameter names.
+boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter)
+
 foreach(_file IN LISTS EXAMPLES)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    target_link_libraries(${_target} hana)
     boost_hana_add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     add_dependencies(examples ${_target})
 endforeach()

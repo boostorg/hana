@@ -2,25 +2,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-##############################################################################
-# Setup custom functions and master targets for the unit tests
-##############################################################################
 add_custom_target(tests COMMENT "Build all the unit tests.")
 add_dependencies(check tests)
-
-add_custom_target(tests.quick COMMENT "Build a subset of all the unit tests to finish faster.")
-
-#   boost_hana_add_unit_test(<name> ...)
-#
-# Equivalent to `boost_hana_add_test`, except the test is also added as a
-# dependency of the `tests` target.
-function(boost_hana_add_unit_test name)
-    boost_hana_add_test(${ARGV})
-    add_dependencies(tests ${name})
-    if (NOT "${name}" MATCHES "\\.ext\\.|_mcd|\\.auto\\.")
-        add_dependencies(tests.quick ${name})
-    endif()
-endfunction()
 
 
 ##############################################################################
@@ -88,8 +71,8 @@ file(GLOB_RECURSE EXCLUDED_PUBLIC_HEADERS
 )
 
 list(REMOVE_ITEM PUBLIC_HEADERS ${EXCLUDED_PUBLIC_HEADERS})
+set(LINK_LIBRARIES hana)
 include(TestHeaders)
-add_dependencies(tests.quick test.headers)
 add_dependencies(tests test.headers)
 
 
@@ -100,7 +83,9 @@ add_dependencies(tests test.headers)
 list(APPEND EXCLUDED_UNIT_TESTS "issues/github_75/*.cpp")
 boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/issues/github_75")
 add_executable(${github_75} EXCLUDE_FROM_ALL "issues/github_75/tu1.cpp" "issues/github_75/tu2.cpp")
-boost_hana_add_unit_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
+target_link_libraries(${github_75} hana)
+boost_hana_add_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
+add_dependencies(tests ${github_75})
 
 
 ##############################################################################
@@ -113,6 +98,8 @@ list(REMOVE_ITEM UNIT_TESTS ${EXCLUDED_UNIT_TESTS})
 foreach(_file IN LISTS UNIT_TESTS)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
+    target_link_libraries(${_target} hana)
     target_include_directories(${_target} PRIVATE _include)
-    boost_hana_add_unit_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    boost_hana_add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    add_dependencies(tests ${_target})
 endforeach()
