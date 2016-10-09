@@ -1,5 +1,6 @@
 var NAVTREEINDEX4 =
 {
+"structboost_1_1hana_1_1integral__constant.html#aa7bf152c582934a70baa1d6c2bc758ba":[1,1,1,10],
 "structboost_1_1hana_1_1integral__constant.html#aaf48189e927611ea460974ba01beb2c7":[1,1,1,18],
 "structboost_1_1hana_1_1integral__constant.html#ab4891bf3aec7c15fa2d91c8fbacf4563":[1,1,1,6],
 "structboost_1_1hana_1_1integral__constant.html#ab7e3b17ac89121823916ebd7c6f96235":[1,1,1,22],

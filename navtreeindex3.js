@@ -1,5 +1,6 @@
 var NAVTREEINDEX3 =
 {
+"group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139":[1,2,14],
 "group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec":[1,2,15],
 "group__group-functional.html#gad1b8669c022d8675d68e5974451073d1":[1,2,11],
 "group__group-functional.html#gaef38cf34324c8edbd3597ae71811d00d":[1,2,9],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a8e52c0f4a65a852dc88f97259a05ff17":[1,1,1,13],
 "structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405":[1,1,1,15],
 "structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3":[1,1,1,14],
-"structboost_1_1hana_1_1integral__constant.html#aa3f0436b623de5208767751e1e9f7e59":[1,1,1,41],
-"structboost_1_1hana_1_1integral__constant.html#aa7bf152c582934a70baa1d6c2bc758ba":[1,1,1,10]
+"structboost_1_1hana_1_1integral__constant.html#aa3f0436b623de5208767751e1e9f7e59":[1,1,1,41]
 };
