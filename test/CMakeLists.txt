@@ -15,11 +15,11 @@ if (NOT Boost_FOUND)
         "experimental/printable/*.cpp")
 
     list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost/*.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/boost.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/printable.hpp")
+        "boost/hana/ext/boost/.+.hpp"
+        "boost/hana/ext/boost.hpp"
+        "boost/hana/fwd/ext/boost/.+.hpp"
+        "boost/hana/fwd/ext/boost.hpp"
+        "boost/hana/experimental/printable.hpp")
 endif()
 
 # The std::tuple adapter is not supported with Clang < 3.7.0
@@ -29,8 +29,8 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
     list(APPEND EXCLUDED_UNIT_TESTS "ext/std/tuple.cpp")
 
     list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/fwd/ext/std/tuple.hpp"
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
+        "boost/hana/fwd/ext/std/tuple.hpp"
+        "boost/hana/ext/std/tuple.hpp")
 endif()
 
 # The experimental::type_name test is only supported on Clang > 3.5 and
@@ -40,7 +40,7 @@ if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
             NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
     list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/type_name.hpp")
+        "boost/hana/experimental/type_name.hpp")
     list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
 endif()
 
@@ -63,17 +63,18 @@ file(GLOB_RECURSE PUBLIC_HEADERS
     "${Boost.Hana_SOURCE_DIR}/include/*.hpp"
 )
 
-file(GLOB_RECURSE EXCLUDED_PUBLIC_HEADERS
-    RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
-    ${EXCLUDED_PUBLIC_HEADERS}
-    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/detail/*.hpp"
-    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/fusion/detail/*.hpp"
-)
-
-list(REMOVE_ITEM PUBLIC_HEADERS ${EXCLUDED_PUBLIC_HEADERS})
-set(LINK_LIBRARIES hana)
-include(TestHeaders)
+add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
 add_dependencies(tests test.headers)
+include(TestHeaders)
+generate_standalone_header_tests(
+    HEADERS ${PUBLIC_HEADERS}
+    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
+            "boost/hana/detail/.+.hpp"
+            "boost/hana/ext/boost/fusion/detail/.+.hpp"
+    LINK_LIBRARIES hana
+    MASTER_TARGET test.headers
+    EXCLUDE_FROM_ALL
+)
 
 
 ##############################################################################
