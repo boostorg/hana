@@ -50,8 +50,12 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/std/tuple.hpp")
 endif()
 
-# The experimental::type_name test is only supported on Clang
-if (NOT ${CMAKE_CXX_COMPILER_ID} MATCHES "(Apple)?Clang")
+# The experimental::type_name test is only supported on Clang > 3.5 and
+# AppleClang >= 7.0
+if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
+          ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER 3.5)
+        OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
+            NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/type_name.hpp")
     list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
