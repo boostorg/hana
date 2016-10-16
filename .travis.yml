@@ -40,6 +40,8 @@ cache:
     - ${TRAVIS_BUILD_DIR}/deps/llvm-3.9.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.59.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.60.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.61.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.62.0
 
 
 matrix:
@@ -132,6 +134,16 @@ matrix:
       env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.59.0
       compiler: clang
 
+    # With Boost 1.60
+    - os: linux
+      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.60.0
+      compiler: clang
+
+    # With Boost 1.61
+    - os: linux
+      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.61.0
+      compiler: clang
+
     # Without Boost (make sure we don't depend on it)
     - os: linux
       env: UNIT_TESTS=true LLVM_VERSION=default
@@ -198,7 +210,7 @@ install:
   # Setup default versions and override compiler if needed
   ############################################################################
   - if [[ "${LLVM_VERSION}" == "default" ]]; then LLVM_VERSION=3.9.0; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.60.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.62.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
 
