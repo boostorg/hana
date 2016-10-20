@@ -5,6 +5,7 @@
 #include <boost/hana/ext/boost/tuple.hpp>
 
 #include <boost/hana/bool.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/functional/always.hpp>
 #include <boost/hana/tuple.hpp>
 
@@ -12,30 +13,30 @@
 #include <laws/monad_plus.hpp>
 
 #include <boost/tuple/tuple.hpp>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 template <int i>
-using eq = test::ct_eq<i>;
+using eq = hana::test::ct_eq<i>;
 
 int main() {
     //////////////////////////////////////////////////////////////////////////
     // Setup for the laws below
     //////////////////////////////////////////////////////////////////////////
-    auto eq_tuples = make<tuple_tag>(
+    auto eq_tuples = hana::make_tuple(
           ::boost::make_tuple(eq<0>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{})
         , ::boost::make_tuple(eq<0>{}, eq<1>{}, eq<2>{})
     );
 
-    auto eq_values = make<tuple_tag>(eq<0>{}, eq<1>{}, eq<2>{});
-    auto predicates = make<tuple_tag>(
-        equal.to(eq<0>{}), equal.to(eq<1>{}), equal.to(eq<2>{}),
-        always(false_c), always(true_c)
+    auto eq_values = hana::make_tuple(eq<0>{}, eq<1>{}, eq<2>{});
+    auto predicates = hana::make_tuple(
+        hana::equal.to(eq<0>{}), hana::equal.to(eq<1>{}), hana::equal.to(eq<2>{}),
+        hana::always(hana::false_c), hana::always(hana::true_c)
     );
 
     //////////////////////////////////////////////////////////////////////////
     // MonadPlus
     //////////////////////////////////////////////////////////////////////////
-    test::TestMonadPlus<ext::boost::tuple_tag>{eq_tuples, predicates, eq_values};
+    hana::test::TestMonadPlus<hana::ext::boost::tuple_tag>{eq_tuples, predicates, eq_values};
 }

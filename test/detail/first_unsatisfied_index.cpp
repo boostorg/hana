@@ -8,8 +8,8 @@
 #include <laws/base.hpp>
 
 #include <type_traits>
-using namespace boost::hana;
-using test::ct_eq;
+namespace hana = boost::hana;
+using hana::test::ct_eq;
 
 
 struct poison {
@@ -20,10 +20,10 @@ struct poison {
 int main() {
     auto predicate = [](auto x) {
         static_assert(!std::is_same<poison, decltype(x)>::value, "");
-        return not_equal(x, ct_eq<9>{});
+        return hana::not_equal(x, ct_eq<9>{});
     };
 
-    using Find = detail::first_unsatisfied_index<decltype(predicate)>;
+    using Find = hana::detail::first_unsatisfied_index<decltype(predicate)>;
 
     static_assert(decltype(Find{}())::value == 0, "");
 

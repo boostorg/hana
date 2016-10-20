@@ -8,14 +8,14 @@
 #include <boost/hana/lift.hpp>
 
 #include <tuple>
-using namespace boost::hana;
+namespace hana = boost::hana;
 
 
 int main() {
     // Make sure we workaround the bug at:
     // http://llvm.org/bugs/show_bug.cgi?id=19616
-    BOOST_HANA_CONSTEXPR_CHECK(equal(
-        lift<ext::std::tuple_tag>(std::make_tuple(1)),
+    BOOST_HANA_CONSTEXPR_CHECK(hana::equal(
+        hana::lift<hana::ext::std::tuple_tag>(std::make_tuple(1)),
         std::make_tuple(std::make_tuple(1))
     ));
 }
