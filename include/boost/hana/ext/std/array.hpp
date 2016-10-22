@@ -93,7 +93,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t n = N::value;
-            return static_cast<Xs&&>(xs)[n];
+            return std::get<n>(static_cast<Xs&&>(xs));
         }
     };
 
