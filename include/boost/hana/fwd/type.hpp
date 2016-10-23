@@ -396,7 +396,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
-    constexpr auto template_ = [](basic_type<T>-or-T ...) {
+    constexpr auto template_ = [](basic_type<T>...) {
         return hana::type_c<F<T...>>;
     };
 #else
@@ -423,7 +423,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/type/metafunction.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
-    constexpr auto metafunction = [](basic_type<T>-or-T ...) {
+    constexpr auto metafunction = [](basic_type<T>...) {
         return hana::type_c<typename F<T...>::type>;
     };
 #else
@@ -450,7 +450,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/type/metafunction_class.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <typename F>
-    constexpr auto metafunction_class = [](basic_type<T>-or-T ...) {
+    constexpr auto metafunction_class = [](basic_type<T>...) {
         return hana::type_c<typename F::template apply<T...>::type>;
     };
 #else
@@ -495,7 +495,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/type/integral.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     constexpr auto integral = [](auto f) {
-        return [](basic_type<T>-or-T ...) {
+        return [](basic_type<T>...) {
             return decltype(f)::apply<T...>::type{};
         };
     };
