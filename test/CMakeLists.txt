@@ -33,10 +33,10 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
         "boost/hana/ext/std/tuple.hpp")
 endif()
 
-# The experimental::type_name test is only supported on Clang > 3.5 and
+# The experimental::type_name test is only supported on Clang >= 3.6 and
 # AppleClang >= 7.0
 if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-          ${CMAKE_CXX_COMPILER_VERSION} VERSION_GREATER 3.5)
+          NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.6)
         OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
             NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
     list(APPEND EXCLUDED_PUBLIC_HEADERS
